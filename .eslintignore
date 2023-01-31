@@ -1,0 +1,4 @@
+# node_modules are ignored by default
+# https://eslint.org/docs/latest/user-guide/configuring/ignoring-code#the-eslintignore-file
+
+/build

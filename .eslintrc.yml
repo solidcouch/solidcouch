@@ -1,0 +1,14 @@
+extends:
+  - eslint:recommended
+  - react-app
+  - react-app/jest
+  - plugin:prettier/recommended
+rules:
+  'prettier/prettier': warn
+  'no-console': warn
+  'import/no-default-export': error
+  # check for unused arguments (overriding extended rule)
+  '@typescript-eslint/no-unused-vars':
+    - warn
+    - args: after-used
+      ignoreRestSiblings: false
