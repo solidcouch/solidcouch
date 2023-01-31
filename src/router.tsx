@@ -1,11 +1,11 @@
+import { AuthenticatedOutlet } from 'pages/AuthenticatedOutlet'
 import { Home } from 'pages/Home'
-import { Layout } from 'pages/Layout'
 import { createBrowserRouter } from 'react-router-dom'
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <AuthenticatedOutlet />,
     children: [
       {
         index: true,

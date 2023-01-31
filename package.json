@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@inrupt/solid-client-authn-browser": "^1.13.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -12,6 +13,7 @@
     "@types/react-dom": "^18.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.8.0",
     "react-scripts": "5.0.1",
     "source-map-explorer": "^2.5.3",
@@ -41,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-modal": "^3.13.1",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.3",
