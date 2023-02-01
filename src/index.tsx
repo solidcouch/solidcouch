@@ -1,7 +1,9 @@
 import './index.scss'
 // this line intentionally left blank to load css reset stylesheets first
+import { store } from 'app/store'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { router } from 'router'
 import { reportWebVitals } from './reportWebVitals'
@@ -9,7 +11,9 @@ import { reportWebVitals } from './reportWebVitals'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>,
 )
 
