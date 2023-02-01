@@ -18,6 +18,9 @@ export const slice = createSlice({
       state.isLoggedIn = action.payload.isLoggedIn
       state.webId = action.payload.webId
     },
+    signout: state => {
+      state.isLoggedIn = false
+    },
   },
 })
 
