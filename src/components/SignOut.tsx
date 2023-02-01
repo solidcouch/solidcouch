@@ -9,5 +9,5 @@ export const SignOut = () => {
     dispatch(authSlice.actions.signout())
   }
 
-  return <button onClick={handleSignout}>Sign out</button>
+  return <button onClick={handleSignout}>sign out</button>
 }

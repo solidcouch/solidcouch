@@ -1,6 +1,8 @@
 import { login } from '@inrupt/solid-client-authn-browser'
+import { Button } from 'components'
 import { useState } from 'react'
 import Modal from 'react-modal'
+import styles from './SignIn.module.scss'
 
 Modal.setAppElement('#root')
 
@@ -23,19 +25,25 @@ export const SignIn = () => {
 
   return (
     <>
-      <button onClick={() => setModalOpen(true)}>Sign in</button>
+      <Button primary onClick={() => setModalOpen(true)}>
+        Sign in
+      </Button>
       <Modal
         isOpen={modalOpen}
         shouldCloseOnEsc
         shouldCloseOnOverlayClick
         onRequestClose={() => setModalOpen(false)}
       >
-        <div>
-          Select your preferred pod provider
+        <div className={styles.providers}>
+          Select your Solid Pod provider
           {oidcIssuers.map(({ name, url }) => (
-            <button key={url} onClick={() => handleSelectProvider(url)}>
+            <Button
+              secondary
+              key={url}
+              onClick={() => handleSelectProvider(url)}
+            >
               {name}
-            </button>
+            </Button>
           ))}
         </div>
       </Modal>

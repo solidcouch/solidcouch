@@ -3,7 +3,7 @@ import {
   handleIncomingRedirect,
 } from '@inrupt/solid-client-authn-browser'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { SignIn } from 'components/SignIn'
+import { SignIn } from 'components/SignIn/SignIn'
 import { actions, selectAuth } from 'features/auth/authSlice'
 import { FoafProfileFactory } from 'ldo/foafProfile.ldoFactory'
 import { useEffect } from 'react'

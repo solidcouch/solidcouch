@@ -1,0 +1,19 @@
+@import '@szhsin/react-menu/dist/index.css';
+@import '@szhsin/react-menu/dist/transitions/slide.css';
+
+.szh-menu {
+  .szh-menu__item {
+    padding: 0;
+    a,
+    button,
+    span {
+      padding: 0.375rem 1.5rem;
+      border-radius: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      text-align: center;
+    }
+  }
+}
