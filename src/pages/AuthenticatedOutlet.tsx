@@ -1,15 +1,14 @@
-import {
-  handleIncomingRedirect,
-  ISessionInfo,
-} from '@inrupt/solid-client-authn-browser'
+import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { SignIn } from 'components/SignIn'
-import { useEffect, useState } from 'react'
+import { actions, selectAuth } from 'features/auth/authSlice'
+import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Layout } from './Layout'
 
 export const AuthenticatedOutlet = () => {
-  const [session, setSession] = useState<ISessionInfo>()
-  const [loading, setLoading] = useState(true)
+  const dispatch = useAppDispatch()
+  const auth = useAppSelector(selectAuth)
 
   useEffect(() => {
     ;(async () => {
@@ -17,23 +16,22 @@ export const AuthenticatedOutlet = () => {
         restorePreviousSession: true,
       })
 
-      setSession(session)
-      if (session) setLoading(false)
+      if (session) dispatch(actions.signin(session))
     })()
-  }, [])
+  }, [dispatch])
 
-  if (loading) {
-    return <>Loading...</>
-  } else if (session?.isLoggedIn) {
-    return (
-      <Layout>
-        <Outlet />
-      </Layout>
-    )
-  } else
+  if (auth.isLoggedIn === undefined) return <>Loading...</>
+
+  if (auth.isLoggedIn === false)
     return (
       <Layout>
         <SignIn />
       </Layout>
     )
+
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  )
 }
