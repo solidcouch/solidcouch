@@ -1,0 +1,27 @@
+.button {
+  padding: 0.25rem 0.5rem;
+
+  &.primary {
+    background-color: black;
+    color: white;
+
+    &:hover {
+      background-color: lighten(black, 20);
+    }
+  }
+
+  &.secondary {
+    border: 2px solid black;
+    color: black;
+
+    &:hover {
+      background-color: darken(white, 10);
+    }
+  }
+
+  &.tertiary {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: black;
+  }
+}

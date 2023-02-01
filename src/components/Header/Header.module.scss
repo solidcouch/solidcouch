@@ -1,0 +1,45 @@
+.header {
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+
+    // logo
+    // when we hover the logo, open eyes
+    .logo,
+    .logoOpen {
+      height: 1.5rem;
+    }
+
+    .logoOpen {
+      display: none;
+    }
+
+    &:hover {
+      .logo {
+        display: none;
+      }
+
+      .logoOpen {
+        display: initial;
+      }
+    }
+  }
+
+  .spacer {
+    flex: auto;
+  }
+
+  .photo {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 2rem;
+    display: inline-block;
+  }
+}
