@@ -23,7 +23,7 @@ export const SignIn = () => {
 
   return (
     <>
-      <button onClick={() => setModalOpen(true)}>sign in</button>
+      <button onClick={() => setModalOpen(true)}>Sign in</button>
       <Modal
         isOpen={modalOpen}
         shouldCloseOnEsc

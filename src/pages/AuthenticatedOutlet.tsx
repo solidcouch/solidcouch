@@ -1,9 +1,14 @@
-import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser'
+import {
+  fetch,
+  handleIncomingRedirect,
+} from '@inrupt/solid-client-authn-browser'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { SignIn } from 'components/SignIn'
 import { actions, selectAuth } from 'features/auth/authSlice'
+import { FoafProfileFactory } from 'ldo/foafProfile.ldoFactory'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
+import { ldo2json } from 'utils/ldo'
 import { Layout } from './Layout'
 
 export const AuthenticatedOutlet = () => {
@@ -17,6 +22,17 @@ export const AuthenticatedOutlet = () => {
       })
 
       if (session) dispatch(actions.signin(session))
+
+      if (session?.isLoggedIn && session.webId) {
+        const rawProfile = await (await fetch(session.webId)).text()
+        const profile = await FoafProfileFactory.parse(
+          session.webId,
+          rawProfile,
+          { baseIRI: session.webId },
+        )
+
+        dispatch(actions.setUser(ldo2json(profile)))
+      }
     })()
   }, [dispatch])
 
