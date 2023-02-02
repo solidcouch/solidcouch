@@ -1,0 +1,40 @@
+// inspired by https://stackoverflow.com/a/24979148
+@use 'styles/media';
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0 35px;
+
+  @include media.for-tablet-portrait-up {
+    margin: 0 70px;
+  }
+
+  & > .row {
+    // border: 1px dotted grey; // for debugging
+    &.header {
+      flex: 0 1 auto;
+      /* The above is shorthand for:
+      flex-grow: 0,
+      flex-shrink: 1,
+      flex-basis: auto
+      */
+    }
+
+    &.content {
+      flex: 1 1 auto;
+    }
+
+    &.footer {
+      // flex: 0 1 40px; // this is how to make a component of fixed height
+      flex: 0 1 auto;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.container {
+  height: calc(100% - 4rem);
+}
+
+.navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: stretch;
+  height: 4rem;
+  & > a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    text-align: center;
+
+    &:hover {
+      background-color: darken($color: white, $amount: 20);
+    }
+
+    &.active {
+      color: white;
+      background-color: black;
+    }
+  }
+}

@@ -35,7 +35,10 @@ export const Header = () => {
           }
         >
           <MenuItem>
-            <span>{auth.profile?.name ?? 'profile'}</span>
+            <Link to="profile">{auth.profile?.name ?? 'profile'}</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="messages">messages</Link>
           </MenuItem>
           <MenuDivider />
           <MenuItem>
