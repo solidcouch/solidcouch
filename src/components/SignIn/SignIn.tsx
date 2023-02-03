@@ -1,6 +1,8 @@
 import { login } from '@inrupt/solid-client-authn-browser'
 import { Button } from 'components'
+import { OidcIssuerFactory } from 'ldo/oidc.ldoFactory'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
 import styles from './SignIn.module.scss'
 
@@ -11,17 +13,45 @@ const oidcIssuers = [
   { name: 'solidweb.me', url: 'https://solidweb.me' },
 ]
 
+const guessIssuer = async (webIdOrIssuer: string): Promise<string> => {
+  let issuer: string
+  try {
+    // first we assume that the provider is
+    const raw = await (await fetch(webIdOrIssuer)).text()
+    const profile = await OidcIssuerFactory.parse(webIdOrIssuer, raw)
+    issuer = profile.oidcIssuer[0]['@id']
+  } catch {
+    issuer = webIdOrIssuer
+  }
+
+  return issuer
+}
+
 export const SignIn = () => {
   const [modalOpen, setModalOpen] = useState(false)
 
+  const { register, handleSubmit } = useForm<{ webIdOrIssuer: string }>()
+
   // sign in on selecting a provider
-  const handleSelectProvider = (oidcIssuer: string) => {
-    login({
+  const handleSelectIssuer = async (oidcIssuer: string) => {
+    await login({
       oidcIssuer,
       redirectUrl: window.location.href,
       clientName: 'sleepy.bike',
     })
   }
+
+  const handleFormSubmit = handleSubmit(async ({ webIdOrIssuer }) => {
+    const issuer = await guessIssuer(webIdOrIssuer)
+
+    try {
+      await handleSelectIssuer(issuer)
+    } catch (e) {
+      alert(
+        "We didn't succeed with redirecting to the issuer. Have you provided correct webId or OIDCIssuer?",
+      )
+    }
+  })
 
   return (
     <>
@@ -35,16 +65,23 @@ export const SignIn = () => {
         onRequestClose={() => setModalOpen(false)}
       >
         <div className={styles.providers}>
-          Select your Solid Pod provider
+          Select your Solid identity provider
           {oidcIssuers.map(({ name, url }) => (
-            <Button
-              secondary
-              key={url}
-              onClick={() => handleSelectProvider(url)}
-            >
+            <Button secondary key={url} onClick={() => handleSelectIssuer(url)}>
               {name}
             </Button>
           ))}
+          or write your own Solid identity provider, or your webId
+          <form className={styles.webIdForm} onSubmit={handleFormSubmit}>
+            <input
+              type="url"
+              placeholder="Your webId or provider"
+              {...register('webIdOrIssuer', { required: 'required' })}
+            />
+            <Button primary type="submit">
+              Continue
+            </Button>
+          </form>
         </div>
       </Modal>
     </>
