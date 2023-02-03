@@ -1,4 +1,6 @@
+import { fetch, getDefaultSession } from '@inrupt/solid-client-authn-browser'
 import { App } from 'App'
+import { FoafProfileFactory } from 'ldo/foafProfile.ldoFactory'
 import { About } from 'pages/About'
 import { AuthenticatedOutlet } from 'pages/AuthenticatedOutlet'
 import { Home } from 'pages/Home'
@@ -16,6 +18,7 @@ import { SearchHosts } from 'pages/SearchHosts'
 import { TravelOutlet } from 'pages/TravelOutlet'
 import { TravelRedirect } from 'pages/TravelRedirect'
 import { createBrowserRouter } from 'react-router-dom'
+import { ldo2json } from 'utils/ldo'
 
 export const router = createBrowserRouter([
   {
@@ -27,7 +30,25 @@ export const router = createBrowserRouter([
         element: <AuthenticatedOutlet />,
         children: [
           { index: true, element: <Home /> },
-          { path: 'profile', element: <Profile /> },
+          {
+            path: 'profile',
+            element: <Profile />,
+            loader: async () => {
+              const webId = getDefaultSession().info.webId
+
+              if (webId) {
+                const rawProfile = await (await fetch(webId)).text()
+                const profile = await FoafProfileFactory.parse(
+                  webId,
+                  rawProfile,
+                  { baseIRI: webId },
+                )
+
+                return ldo2json(profile)
+              }
+              return null
+            },
+          },
           { path: 'messages', element: <Messages /> },
           {
             path: 'host',
