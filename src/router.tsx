@@ -1,4 +1,4 @@
-import { fetch, getDefaultSession } from '@inrupt/solid-client-authn-browser'
+import { getDefaultSession } from '@inrupt/solid-client-authn-browser'
 import { App } from 'App'
 import { FoafProfileFactory } from 'ldo/foafProfile.ldoFactory'
 import { About } from 'pages/About'
@@ -18,6 +18,7 @@ import { SearchHosts } from 'pages/SearchHosts'
 import { TravelOutlet } from 'pages/TravelOutlet'
 import { TravelRedirect } from 'pages/TravelRedirect'
 import { createBrowserRouter } from 'react-router-dom'
+import { fetchWithRedirect } from 'utils/helpers'
 import { ldo2json } from 'utils/ldo'
 
 export const router = createBrowserRouter([
@@ -37,7 +38,7 @@ export const router = createBrowserRouter([
               const webId = getDefaultSession().info.webId
 
               if (webId) {
-                const rawProfile = await (await fetch(webId)).text()
+                const rawProfile = await (await fetchWithRedirect(webId)).text()
                 const profile = await FoafProfileFactory.parse(
                   webId,
                   rawProfile,
@@ -46,6 +47,7 @@ export const router = createBrowserRouter([
 
                 return ldo2json(profile)
               }
+
               return null
             },
           },
