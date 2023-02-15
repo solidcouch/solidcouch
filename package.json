@@ -1,6 +1,7 @@
 {
   "name": "sleepy.bike",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@inrupt/solid-client-authn-browser": "^1.13.0",
