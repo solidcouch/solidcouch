@@ -1,6 +1,7 @@
 import { App } from 'App'
 import { About } from 'pages/About'
 import { AuthenticatedOutlet } from 'pages/AuthenticatedOutlet'
+import { EditProfile } from 'pages/EditProfile'
 import { Home } from 'pages/Home'
 import { HostOutlet } from 'pages/HostOutlet'
 import { HostRedirect } from 'pages/HostRedirect'
@@ -12,6 +13,7 @@ import { MyOffers } from 'pages/MyOffers'
 import { MyTravelPlans } from 'pages/MyTravelPlans'
 import { NotFound } from 'pages/NotFound'
 import { Profile } from 'pages/Profile'
+import { ProfileOutlet } from 'pages/ProfileOutlet'
 import { SearchHosts } from 'pages/SearchHosts'
 import { TravelOutlet } from 'pages/TravelOutlet'
 import { TravelRedirect } from 'pages/TravelRedirect'
@@ -27,7 +29,14 @@ export const router = createBrowserRouter([
         element: <AuthenticatedOutlet />,
         children: [
           { index: true, element: <Home /> },
-          { path: 'profile', element: <Profile /> },
+          {
+            path: 'profile',
+            element: <ProfileOutlet />,
+            children: [
+              { index: true, element: <Profile /> },
+              { path: 'edit', element: <EditProfile /> },
+            ],
+          },
           { path: 'messages', element: <Messages /> },
           {
             path: 'host',

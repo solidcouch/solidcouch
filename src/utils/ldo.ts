@@ -16,5 +16,5 @@ const getCircularReplacer = () => {
   }
 }
 
-export const ldo2json = <T>(ldo: LinkedDataObject<T>) =>
+export const ldo2json = <T>(ldo: LinkedDataObject<T>): T =>
   JSON.parse(JSON.stringify(ldo, getCircularReplacer()))

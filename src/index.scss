@@ -33,4 +33,10 @@ code {
   height: 100%;
 }
 
-@import 'styles/menu.scss';
+// by default, show svg inline (icons)
+svg {
+  display: initial;
+}
+
+@import 'styles/form';
+@import 'styles/menu';
