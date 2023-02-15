@@ -1,6 +1,7 @@
 {
   "name": "sleepy.bike",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@changey/react-leaflet-markercluster": "^4.0.0-rc1",
