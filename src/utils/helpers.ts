@@ -7,3 +7,13 @@ export const fetchWithRedirect: typeof fetch = async (url, init) => {
   // hopefully a cors-compatible solid pod
   return await fetch(response.url, init)
 }
+
+export const file2base64 = async (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      resolve(reader.result as string)
+    }
+    reader.onerror = e => reject(e)
+  })

@@ -1,0 +1,21 @@
+input:not([type]),
+input[type='text'],
+input[type='password'],
+input[type='number'],
+input[type='date'],
+input[type='time'],
+input[type='email'],
+input[type='tel'],
+input[type='url'],
+input[type='datetime-local'],
+textarea,
+select {
+  border: 2px solid black;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+
+  &::placeholder {
+    color: rgb(166, 166, 166);
+    font-size: 0.875rem;
+  }
+}
