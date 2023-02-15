@@ -1,8 +1,7 @@
-import { getDefaultSession } from '@inrupt/solid-client-authn-browser'
 import { App } from 'App'
-import { FoafProfileFactory } from 'ldo/foafProfile.ldoFactory'
 import { About } from 'pages/About'
 import { AuthenticatedOutlet } from 'pages/AuthenticatedOutlet'
+import { EditProfile } from 'pages/EditProfile'
 import { Home } from 'pages/Home'
 import { HostOutlet } from 'pages/HostOutlet'
 import { HostRedirect } from 'pages/HostRedirect'
@@ -14,12 +13,11 @@ import { MyOffers } from 'pages/MyOffers'
 import { MyTravelPlans } from 'pages/MyTravelPlans'
 import { NotFound } from 'pages/NotFound'
 import { Profile } from 'pages/Profile'
+import { ProfileOutlet } from 'pages/ProfileOutlet'
 import { SearchHosts } from 'pages/SearchHosts'
 import { TravelOutlet } from 'pages/TravelOutlet'
 import { TravelRedirect } from 'pages/TravelRedirect'
 import { createBrowserRouter } from 'react-router-dom'
-import { fetchWithRedirect } from 'utils/helpers'
-import { ldo2json } from 'utils/ldo'
 
 export const router = createBrowserRouter([
   {
@@ -33,23 +31,11 @@ export const router = createBrowserRouter([
           { index: true, element: <Home /> },
           {
             path: 'profile',
-            element: <Profile />,
-            loader: async () => {
-              const webId = getDefaultSession().info.webId
-
-              if (webId) {
-                const rawProfile = await (await fetchWithRedirect(webId)).text()
-                const profile = await FoafProfileFactory.parse(
-                  webId,
-                  rawProfile,
-                  { baseIRI: webId },
-                )
-
-                return ldo2json(profile)
-              }
-
-              return null
-            },
+            element: <ProfileOutlet />,
+            children: [
+              { index: true, element: <Profile /> },
+              { path: 'edit', element: <EditProfile /> },
+            ],
           },
           { path: 'messages', element: <Messages /> },
           {
