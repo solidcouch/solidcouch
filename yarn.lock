@@ -6402,7 +6402,7 @@ ldo-cli@^2.0.0:
     prettier "^2.7.1"
     shexj2typeandcontext "^2.0.0"
 
-ldo@0.0.12:
+ldo@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/ldo/-/ldo-0.0.12.tgz#cb266706f567f0fade5d218d2376f422eb50f0bb"
   integrity sha512-2DfsvXKp0hWwNwNDD7ajlcm44DgWuHUBaI0194Kpdt8Hd00Y2KNszECRkDoW3TCmngj9dgCZiQoxS3cFFKmQ6g==
@@ -7735,7 +7735,12 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@^2.7.1, prettier@^2.8.3:
+prettier@^2.7.1:
+  version "2.8.4"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.4.tgz#34dd2595629bfbb79d344ac4a91ff948694463c3"
+  integrity sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==
+
+prettier@^2.8.3:
   version "2.8.3"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.3.tgz#ab697b1d3dd46fb4626fbe2f543afe0cc98d8632"
   integrity sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==
@@ -7898,6 +7903,11 @@ raw-body@2.5.1:
     http-errors "2.0.0"
     iconv-lite "0.4.24"
     unpipe "1.0.0"
+
+rdf-namespaces@^1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/rdf-namespaces/-/rdf-namespaces-1.9.2.tgz#73eafe3ec96ebe9658c8932f55ed4334a1f3fe5c"
+  integrity sha512-Gf/sZLUo758fDLnqZs0laG0IbOm06yq1fVrCnFhOEcGyTKt9hh7lcs+7L0DAQquacwARqfsJIOcJDsfdZRU/Wg==
 
 react-app-polyfill@^3.0.0:
   version "3.0.0"

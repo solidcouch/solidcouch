@@ -1,0 +1,15 @@
+PREFIX acl: <http://www.w3.org/ns/auth/acl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX ex: <https://example.com/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ex:Authorization EXTRA a {
+  a [ acl:Authorization ] ;
+  acl:accessTo IRI+ ;
+  acl:default IRI? ;
+  acl:agent IRI* ;
+  acl:agentClass IRI* ;
+  acl:agentGroup IRI* ;
+  acl:mode IRI+ ;
+  acl:origin IRI*;
+}

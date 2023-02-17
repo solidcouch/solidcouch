@@ -5,26 +5,43 @@ import { FoafProfileFactory } from 'ldo/foafProfile.ldoFactory'
 import { FoafProfile } from 'ldo/foafProfile.typings'
 import { OidcIssuerFactory } from 'ldo/oidc.ldoFactory'
 import { OidcIssuer } from 'ldo/oidc.typings'
+import { TypeRegistrationFactory } from 'ldo/publicTypeIndex.ldoFactory'
+import { TypeRegistration } from 'ldo/publicTypeIndex.typings'
+import { SolidProfileFactory } from 'ldo/solidProfile.ldoFactory'
+import { SolidProfile } from 'ldo/solidProfile.typings'
+import { AuthorizationFactory } from 'ldo/wac.ldoFactory'
+import { Authorization } from 'ldo/wac.typings'
 import { merge } from 'lodash'
 import { ldo2json } from 'utils/ldo'
 
 const ldoBaseQuery =
   <T extends Record<string, any>>(): BaseQueryFn<
-    { url: string; factory: LdoFactory<T>; data?: Partial<T> },
+    {
+      url: string
+      document: string
+      factory: LdoFactory<T>
+      data?: Partial<T>
+    },
     T,
     unknown
   > =>
-  async ({ url, factory, data }) => {
-    let raw = ''
-    let documentUrl = url
+  async ({ url, document, factory, data }) => {
+    let documentUrl = document ?? url
+    let response: Response
+
     try {
-      raw = await (await fetch(url)).text()
+      response = await fetch(documentUrl)
     } catch (error) {
-      const response = await globalThis.fetch(url, { method: 'GET' })
-      documentUrl = response.url
-      raw = await (await fetch(documentUrl)).text()
+      const redirect = await globalThis.fetch(documentUrl, { method: 'GET' })
+      documentUrl = redirect.url
+      response = await fetch(documentUrl)
     }
-    const ldo = await factory.parse(url, raw, { baseIRI: documentUrl })
+
+    const ldo = response.ok
+      ? await factory.parse(url, await response.text(), {
+          baseIRI: documentUrl,
+        })
+      : factory.new(url)
 
     // if data are present, perform update
     if (data) {
@@ -56,16 +73,51 @@ export const api = createApi({
     readOidcIssuer: builder.query<OidcIssuer, string>({
       query: (url: string) => ({ url, factory: OidcIssuerFactory }),
     }),
+    readSolidProfile: builder.query<SolidProfile, string>({
+      query: (webId: string) => ({ url: webId, factory: SolidProfileFactory }),
+    }),
     updateUser: builder.mutation<
       unknown,
-      { id: string; data: Partial<FoafProfile> }
+      { id: string; document?: string; data: Partial<FoafProfile> }
     >({
-      query: ({ id, data }) => ({
+      query: ({ id, document, data }) => ({
         url: id,
+        document,
         factory: FoafProfileFactory,
         data,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Profile', id }],
+    }),
+    saveAccess: builder.mutation<unknown, { url: string; data: Authorization }>(
+      {
+        query: ({ url, data }) => ({
+          url: url + '.acl',
+          data,
+          factory: AuthorizationFactory,
+        }),
+      },
+    ),
+    saveIndex: builder.mutation<
+      unknown,
+      { index: string; id: string; type: string; location: string }
+    >({
+      query: ({ index, id, type, location }) => {
+        const isForContainer = location.charAt(location.length - 1)
+        const document = index
+        const url = document + id
+        const data: TypeRegistration = {
+          '@id': id,
+          type: { '@id': 'TypeRegistration' },
+          forClass: [{ '@id': type }],
+          [isForContainer ? 'instanceContainer' : 'instance']: [
+            { '@id': location },
+          ],
+        }
+
+        const factory = TypeRegistrationFactory
+
+        return { url, document, data, factory }
+      },
     }),
     // provide url of container and solid pod will assign a random filename
     createFile: builder.mutation<string | null, { url: string; data: File }>({

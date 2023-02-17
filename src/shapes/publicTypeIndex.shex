@@ -1,0 +1,17 @@
+PREFIX ex: <https://example.com/>
+PREFIX solid: <http://www.w3.org/ns/solid/terms#>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX sioc: <http://rdfs.org/sioc/ns#>
+
+ex:PublicTypeIndex EXTRA a {
+  a [ solid:TypeIndex ] ;
+  a [ solid:ListedDocument ] ;
+}
+
+ex:TypeRegistration EXTRA a {
+  a [ solid:TypeRegistration ] ;
+  solid:forClass IRI+ ;
+  solid:instance IRI* ;
+  solid:instanceContainer IRI* ;
+}

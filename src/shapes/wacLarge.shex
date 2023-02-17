@@ -1,0 +1,47 @@
+PREFIX wac: <http://www.w3.org/ns/auth/acl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX ex: <https://example.com/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ex:Authorization EXTRA a {
+  a wac:Authorization ;
+  wac:accessTo IRI+ ;
+  wac:default IRI? ;
+  wac:agent (@ex:AgentClass OR @ex:Agent)+;
+  wac:mode (wac:Read OR wac:Write OR wac:Append OR wac:Control)+ ;
+  wac:origin (@ex:Origin OR wac:AnyOrigin)? ;
+  wac:referrer (@ex:Referrer OR wac:AnyReferrer)? ;
+  wac:accessToClass IRI? ;
+  wac:defaultForNew IRI? ;
+  wac:delegate IRI? ;
+  wac:inherited IRI? ;
+  wac:app IRI? ;
+  wac:trustedApp IRI? ;
+  wac:applyToPublic xsd:boolean? ;
+  wac:applyTo IRI? ;
+  wac:defaultForNew xsd:boolean? ;
+}
+
+ex:AgentClass EXTRA a {
+  a wac:AgentClass ;
+  wac:agentClass IRI+ ;
+}
+
+ex:Agent EXTRA a {
+  a wac:Agent ;
+  foaf:name xsd:string? ;
+  wac:agentClass IRI? ;
+  wac:agentGroup IRI? ;
+  wac:agentAny IRI? ;
+  wac:agentAll IRI? ;
+  wac:agentNone IRI? ;
+}
+
+ex:Origin {
+  a wac:Origin ;
+  wac:originUrl xsd:anyURI+;
+}
+
+ex:Referrer {
+  a wac:Referrer ; wac:referrerUrl xsd:anyURI+
+}

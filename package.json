@@ -14,8 +14,9 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "classnames": "^2.3.2",
-    "ldo": "0.0.12",
+    "ldo": "^0.0.12",
     "lodash": "^4.17.21",
+    "rdf-namespaces": "^1.9.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.0",
@@ -38,7 +39,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md,css,scss}\" package.json",
-    "build:ldo": "ldo build --input src/shapes --output src/ldo"
+    "build:ldo": "ldo build --input src/shapes --output src/ldo",
+    "postbuild:ldo": "yarn format"
   },
   "browserslist": {
     "production": [
