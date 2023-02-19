@@ -1,18 +1,19 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { useAppSelector } from 'app/hooks'
 import { api } from 'app/services/api'
-import { selectAuth } from 'features/auth/authSlice'
+import { Loading } from 'components/Loading/Loading'
+import { useAuth } from 'hooks/useAuth'
 import { Outlet } from 'react-router-dom'
 
 export const ProfileOutlet = () => {
-  const auth = useAppSelector(selectAuth)
+  const auth = useAuth()
+
   const {
     data: profile,
     isLoading,
     isError,
   } = api.endpoints.readUser.useQuery(auth.webId ?? skipToken)
 
-  if (isLoading) return <>Loading user</>
+  if (isLoading) return <Loading>Loading user</Loading>
   if (isError) return <>Something went wrong...</>
 
   return <Outlet context={profile} />

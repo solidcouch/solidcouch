@@ -1,7 +1,8 @@
 import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser'
-import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { useAppDispatch } from 'app/hooks'
 import { Header as PageHeader } from 'components'
-import { actions, selectAuth } from 'features/auth/authSlice'
+import { actions } from 'features/auth/authSlice'
+import { useAuth } from 'hooks/useAuth'
 import { usePreviousUriAfterSolidRedirect } from 'hooks/usePreviousUriAfterSolidRedirect'
 import { Content, Header, Layout } from 'layouts/Layout'
 import { useEffect } from 'react'
@@ -13,7 +14,7 @@ export const App = () => {
   usePreviousUriAfterSolidRedirect()
 
   const dispatch = useAppDispatch()
-  const auth = useAppSelector(selectAuth)
+  const auth = useAuth()
 
   useEffect(() => {
     ;(async () => {

@@ -1,0 +1,29 @@
+PREFIX ex: <https://example.com/>
+PREFIX srs: <https://shaperepo.com/schemas/solidProfile#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schem: <http://schema.org/>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX acl: <http://www.w3.org/ns/auth/acl#>
+PREFIX cert:  <http://www.w3.org/ns/auth/cert#>
+PREFIX ldp: <http://www.w3.org/ns/ldp#>
+PREFIX pim: <http://www.w3.org/ns/pim/space#>
+PREFIX solid: <http://www.w3.org/ns/solid/terms#>
+
+ex:SolidProfile EXTRA a {
+  a [ foaf:Person ]
+    // rdfs:comment  "Defines the node as a Person (from foaf)" ;
+  ldp:inbox IRI
+    // rdfs:comment  "The user's LDP inbox to which apps can post notifications" ;
+  pim:preferencesFile IRI ?
+    // rdfs:comment  "The user's preferences" ;
+  pim:storage IRI *
+    // rdfs:comment  "The location of a Solid storage server related to this WebId" ;
+  solid:account IRI ?
+    // rdfs:comment  "The user's account" ;
+  solid:privateTypeIndex IRI *
+    // rdfs:comment  "A registry of all types used on the user's Pod (for private access only)" ;
+  solid:publicTypeIndex IRI *
+    // rdfs:comment  "A registry of all types used on the user's Pod (for public access)" ;
+}
