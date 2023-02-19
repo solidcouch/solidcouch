@@ -32,6 +32,13 @@ export const publicTypeIndexSchema: Schema = {
                 values: ['http://www.w3.org/ns/solid/terms#ListedDocument'],
               },
             },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://purl.org/dc/terms/references',
+              valueExpr: 'https://example.com/TypeRegistration',
+              min: 0,
+              max: -1,
+            },
           ],
         },
         extra: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],

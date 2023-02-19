@@ -20,6 +20,7 @@ export interface PublicTypeIndex {
         '@id': 'ListedDocument'
       }
   )[]
+  references?: TypeRegistration[]
 }
 
 /**

@@ -12,6 +12,11 @@ export const publicTypeIndexContext: ContextDefinition = {
   },
   TypeIndex: 'http://www.w3.org/ns/solid/terms#TypeIndex',
   ListedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',
+  references: {
+    '@id': 'http://purl.org/dc/terms/references',
+    '@type': '@id',
+    '@container': '@set',
+  },
   TypeRegistration: 'http://www.w3.org/ns/solid/terms#TypeRegistration',
   forClass: {
     '@id': 'http://www.w3.org/ns/solid/terms#forClass',

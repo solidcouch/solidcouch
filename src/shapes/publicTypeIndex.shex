@@ -3,10 +3,12 @@ PREFIX solid: <http://www.w3.org/ns/solid/terms#>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX sioc: <http://rdfs.org/sioc/ns#>
+PREFIX purl: <http://purl.org/dc/terms/>
 
 ex:PublicTypeIndex EXTRA a {
   a [ solid:TypeIndex ] ;
   a [ solid:ListedDocument ] ;
+  purl:references @ex:TypeRegistration* ;
 }
 
 ex:TypeRegistration EXTRA a {
