@@ -23,7 +23,7 @@ export const rdf2n3 = (raw: string, baseIRI?: string): Promise<N3.Quad[]> => {
   return new Promise((resolve, reject) => {
     const quads: N3.Quad[] = []
     const parser = new N3.Parser({ baseIRI })
-    parser.parse(raw, (error, quad, prefixes) => {
+    parser.parse(raw, (error, quad) => {
       if (error) return reject(error)
       if (quad) quads.push(quad)
       else return resolve(quads)

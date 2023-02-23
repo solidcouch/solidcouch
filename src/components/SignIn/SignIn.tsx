@@ -1,7 +1,6 @@
 import { login } from '@inrupt/solid-client-authn-browser'
 import { api } from 'app/services/api'
 import { Button } from 'components'
-import { OidcIssuerFactory } from 'ldo/oidc.ldoFactory'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
@@ -13,20 +12,6 @@ const oidcIssuers = [
   { name: 'solidcommunity.net', url: 'https://solidcommunity.net' },
   { name: 'solidweb.me', url: 'https://solidweb.me' },
 ]
-
-const guessIssuer = async (webIdOrIssuer: string): Promise<string> => {
-  let issuer: string
-  try {
-    // first we assume that the provider is
-    const raw = await (await fetch(webIdOrIssuer)).text()
-    const profile = await OidcIssuerFactory.parse(webIdOrIssuer, raw)
-    issuer = profile.oidcIssuer[0]['@id']
-  } catch {
-    issuer = webIdOrIssuer
-  }
-
-  return issuer
-}
 
 const useGuessIssuer = () => {
   const [readOidcIssuer] = api.endpoints.readOidcIssuer.useLazyQuery()

@@ -7919,7 +7919,7 @@ rdf-js@^4.0.2:
   dependencies:
     "@rdfjs/types" "*"
 
-rdf-namespaces@^1.9.2:
+rdf-namespaces@1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/rdf-namespaces/-/rdf-namespaces-1.9.2.tgz#73eafe3ec96ebe9658c8932f55ed4334a1f3fe5c"
   integrity sha512-Gf/sZLUo758fDLnqZs0laG0IbOm06yq1fVrCnFhOEcGyTKt9hh7lcs+7L0DAQquacwARqfsJIOcJDsfdZRU/Wg==
