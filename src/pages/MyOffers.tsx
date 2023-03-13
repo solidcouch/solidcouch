@@ -2,7 +2,7 @@ import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
 import { Button, Loading } from 'components'
 import { Accommodation } from 'components/Accommodation/Accommodation'
-import { OfferForm } from 'components/OfferForm/OfferForm'
+import { AccommodationForm } from 'components/AccommodationForm/AccommodationForm'
 import { useAuth } from 'hooks/useAuth'
 import { usePersonalHospexDocuments } from 'hooks/usePersonalHospexDocuments'
 import { useState } from 'react'
@@ -40,7 +40,10 @@ export const MyOffers = () => {
       ))}
       <pre>{JSON.stringify(accommodations, null, 2)}</pre>
       {showNew ? (
-        <OfferForm onSubmit={console.log} onCancel={() => setShowNew(false)} />
+        <AccommodationForm
+          onSubmit={console.log}
+          onCancel={() => setShowNew(false)}
+        />
       ) : (
         <Button primary onClick={() => setShowNew(true)}>
           Add Accommodation
