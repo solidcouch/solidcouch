@@ -84,6 +84,10 @@ const ldoBaseQuery =
         }
       })
 
+      console.log(ldo)
+
+      console.log(Object.getPrototypeOf(Object.getPrototypeOf(ldo)))
+
       await fetch(documentUrl, {
         method: 'PATCH',
         body: await ldo.$toSparqlUpdate(),
