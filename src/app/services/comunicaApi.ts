@@ -251,17 +251,17 @@ export const saveAccommodation = async ({
 
   // TODO this query currently deletes descriptions in all languages
   // it also assumes a specific format of locationUri, which might be wrong
-  // const newAccommodationQuery = query`DELETE {
-  //   <${auri}> <${dct.description}> ?description.
-  //   <${locationUri}> <${geo}lat> ?latitude;
-  //   <${geo}long> ?longitude.
-  // } INSERT {${insertions}} WHERE {
-  //   <${auri}> <${dct.description}> ?description.
-  //   <${locationUri}> <${geo}lat> ?latitude;
-  //   <${geo}long> ?longitude.
-  //   #FILTER(isLiteral(?description) && langMatches(lang(?description), "en"))
-  // }; INSERT DATA {${insertions}}`
-  const newAccommodationQuery = query`INSERT DATA {${insertions}}`
+  const newAccommodationQuery = query`DELETE {
+    <${auri}> <${dct.description}> ?description.
+    ?location ?predicate ?object.
+  } INSERT {${insertions}} WHERE {
+    <${auri}> <${dct.description}> ?description.
+    <${auri}> <${geo}location> ?location.
+    ?location ?predicate ?object.
+    #FILTER(isLiteral(?description) && langMatches(lang(?description), "en"))
+  }; INSERT DATA {${insertions}}`
+
+  // const newAccommodationQuery = query`INSERT DATA {${insertions}}`
 
   await myEngine.queryVoid(newAccommodationQuery, {
     sources: [data.id],

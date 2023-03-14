@@ -5,13 +5,15 @@ import { Accommodation as AccommodationView } from 'components/Accommodation/Acc
 import { AccommodationForm } from 'components/AccommodationForm/AccommodationForm'
 import { useAuth } from 'hooks/useAuth'
 import { usePersonalHospexDocuments } from 'hooks/usePersonalHospexDocuments'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Accommodation, URI } from 'types'
 import { getContainer } from 'utils/helpers'
 
 export const MyOffers = () => {
   const [showNew, setShowNew] = useState(false)
   const auth = useAuth()
+
+  const [editing, setEditing] = useState<URI>()
 
   const { data: personalHospexDocuments } = usePersonalHospexDocuments(
     auth.webId,
@@ -37,12 +39,15 @@ export const MyOffers = () => {
 
   if (!accommodations) return <Loading>Loading...</Loading>
 
-  const handleCreate = async (accommodation: Accommodation) => {
+  const handleSave = async (accommodation: Accommodation) => {
     if (!(auth.webId && personalHospexDocuments?.[0]))
       throw new Error('missing variables')
 
-    const storage = getContainer(personalHospexDocuments[0])
-    const id = storage + (await crypto.randomUUID()) + '#accommodation'
+    const id =
+      accommodation.id ??
+      getContainer(personalHospexDocuments[0]) +
+        (await crypto.randomUUID()) +
+        '#accommodation'
 
     await saveAccommodation({
       webId: auth.webId,
@@ -50,22 +55,43 @@ export const MyOffers = () => {
       accommodation: { ...accommodation, id },
     })
 
-    setShowNew(false)
+    setEditing(undefined)
   }
 
   return (
     <div style={{ position: 'relative', zIndex: 0 /* make sure that  */ }}>
-      {accommodations.map(accommodation => (
-        <AccommodationView key={accommodation.id} {...accommodation} />
-      ))}
-      {/* <pre>{JSON.stringify(accommodations, null, 2)}</pre> */}
-      {showNew ? (
+      {accommodations.map(accommodation =>
+        editing === accommodation.id ? (
+          <AccommodationForm
+            key={accommodation.id}
+            onSubmit={handleSave}
+            onCancel={() => {
+              setEditing(undefined)
+            }}
+            initialData={accommodation}
+          />
+        ) : (
+          <Fragment key={accommodation.id}>
+            <AccommodationView {...accommodation} />
+            <Button
+              secondary
+              onClick={() => {
+                setEditing(accommodation.id)
+              }}
+            >
+              Edit
+            </Button>
+          </Fragment>
+        ),
+      )}
+      <pre>{JSON.stringify(accommodations, null, 2)}</pre>
+      {editing === 'new' ? (
         <AccommodationForm
-          onSubmit={handleCreate}
-          onCancel={() => setShowNew(false)}
+          onSubmit={handleSave}
+          onCancel={() => setEditing(undefined)}
         />
       ) : (
-        <Button primary onClick={() => setShowNew(true)}>
+        <Button primary onClick={() => setEditing('new')}>
           Add Accommodation
         </Button>
       )}
