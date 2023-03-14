@@ -1,4 +1,5 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
+import { URI } from 'types'
 
 export const fetchWithRedirect: typeof fetch = async (url, init) => {
   // first try to find final redirect
@@ -17,3 +18,9 @@ export const file2base64 = async (file: File): Promise<string> =>
     }
     reader.onerror = e => reject(e)
   })
+
+export const getContainer = (uri: URI): URI => {
+  const fragments = uri.split('/')
+  fragments[fragments.length - 1] = ''
+  return fragments.join('/')
+}

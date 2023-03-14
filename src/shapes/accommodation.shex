@@ -1,0 +1,25 @@
+PREFIX ex: <https://example.com/>
+PREFIX hospex: <http://w3id.org/hospex/ns#>
+PREFIX schema: <https://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+
+ex:Accommodation EXTRA a {
+  a [hospex:Accommodation] ;
+  a [schema:Accommodation] ;
+  rdfs:comment rdf:langString*
+    // rdfs:comment "Text about the accommodation" ;
+  wgs84:location @ex:Point
+    // rdfs:comment "Location of the accommodation" ;
+  hospex:offeredBy IRI ;
+}
+
+ex:Point EXTRA a {
+  a [wgs84:Point] ;
+  wgs84:lat xsd:decimal
+    // rdfs:comment "Latitude of the location in WGS84" ;
+  wgs84:long xsd:decimal
+    // rdfs:comment "Longitude of the location in WGS84" ;
+}

@@ -13,6 +13,6 @@ ex:FoafProfile EXTRA a {
     // rdfs:comment  "Photo link but in string form" ;
   vcard:hasPhoto IRI ?
     // rdfs:comment  "A link to the person's photo" ;
-  foaf:knows @ex:FoafProfile *
+  foaf:knows @ex:FoafProfile * 
     // rdfs:comment  "A list of WebIds for all the people this user knows." ;
 }
