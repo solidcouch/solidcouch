@@ -79,35 +79,37 @@ export const MyOffers = () => {
 
   return (
     <div className={styles.container}>
-      {accommodations.map(accommodation =>
-        editing === accommodation.id ? (
-          <AccommodationForm
-            key={accommodation.id}
-            onSubmit={handleSave}
-            onCancel={() => {
-              setEditing(undefined)
-            }}
-            initialData={accommodation}
-          />
-        ) : (
-          <div key={accommodation.id}>
-            <AccommodationView {...accommodation} />
-            <div>
-              <Button
-                secondary
-                onClick={() => {
-                  setEditing(accommodation.id)
-                }}
-              >
-                Edit
-              </Button>
-              <Button danger onClick={() => handleDelete(accommodation.id)}>
-                Delete
-              </Button>
-            </div>
-          </div>
-        ),
-      )}
+      <ul style={{ display: 'contents' }}>
+        {accommodations.map(accommodation =>
+          editing === accommodation.id ? (
+            <AccommodationForm
+              key={accommodation.id}
+              onSubmit={handleSave}
+              onCancel={() => {
+                setEditing(undefined)
+              }}
+              initialData={accommodation}
+            />
+          ) : (
+            <li key={accommodation.id} className={styles.accommodation}>
+              <AccommodationView {...accommodation} />
+              <div className={styles.actions}>
+                <Button
+                  secondary
+                  onClick={() => {
+                    setEditing(accommodation.id)
+                  }}
+                >
+                  Edit
+                </Button>
+                <Button danger onClick={() => handleDelete(accommodation.id)}>
+                  Delete
+                </Button>
+              </div>
+            </li>
+          ),
+        )}
+      </ul>
       {/* <pre>{JSON.stringify(accommodations, null, 2)}</pre> */}
       {editing === 'new' ? (
         <AccommodationForm
@@ -115,7 +117,11 @@ export const MyOffers = () => {
           onCancel={() => setEditing(undefined)}
         />
       ) : (
-        <Button primary onClick={() => setEditing('new')}>
+        <Button
+          primary
+          onClick={() => setEditing('new')}
+          className={styles.addAccommodationButton}
+        >
           Add Accommodation
         </Button>
       )}

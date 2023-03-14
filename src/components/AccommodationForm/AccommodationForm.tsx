@@ -1,6 +1,7 @@
 import { Button } from 'components/Button/Button'
 import { SelectLocation } from 'components/SelectLocation'
 import { merge } from 'lodash'
+import styles from 'pages/MyOffers.module.scss'
 import { Controller, useForm } from 'react-hook-form'
 import { Accommodation } from 'types'
 
@@ -22,7 +23,11 @@ export const AccommodationForm = ({
   })
 
   return (
-    <form onSubmit={handleFormSubmit} onReset={onCancel}>
+    <form
+      onSubmit={handleFormSubmit}
+      onReset={onCancel}
+      className={styles.accommodation}
+    >
       <Controller
         control={control}
         name="location"
@@ -30,14 +35,14 @@ export const AccommodationForm = ({
           <SelectLocation value={field.value} onChange={field.onChange} />
         )}
       />
-      <textarea {...register('description')} />
+      <textarea {...register('description')} style={{ width: '100%' }} />
 
-      <div>
-        <Button type="submit" primary>
-          Submit
-        </Button>
+      <div className={styles.actions}>
         <Button type="reset" secondary>
           Cancel
+        </Button>
+        <Button type="submit" primary>
+          Submit
         </Button>
       </div>
     </form>

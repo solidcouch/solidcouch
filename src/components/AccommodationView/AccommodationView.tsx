@@ -24,7 +24,7 @@ export const AccommodationView = (accommodation: Accommodation) => {
   )
 
   return (
-    <div>
+    <div className={styles.container}>
       <MapContainer
         className={styles.mapContainer}
         attributionControl={false}
@@ -39,7 +39,7 @@ export const AccommodationView = (accommodation: Accommodation) => {
         <CenterNewLocation location={location} />
       </MapContainer>
 
-      <div>
+      <div className={styles.description}>
         {accommodation.description}{' '}
         <a href={accommodation.id} target="_blank" rel="noopener noreferrer">
           <FaExternalLinkAlt />
