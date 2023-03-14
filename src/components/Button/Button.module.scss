@@ -30,4 +30,14 @@
     text-decoration-thickness: 2px;
     text-decoration-color: black;
   }
+
+  &.danger {
+    border: 2px solid red;
+    background-color: red;
+
+    &:hover {
+      border: 2px solid darken(red, 10);
+      background-color: darken(red, 10);
+    }
+  }
 }

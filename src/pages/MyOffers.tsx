@@ -5,15 +5,15 @@ import { Accommodation as AccommodationView } from 'components/Accommodation/Acc
 import { AccommodationForm } from 'components/AccommodationForm/AccommodationForm'
 import { useAuth } from 'hooks/useAuth'
 import { usePersonalHospexDocuments } from 'hooks/usePersonalHospexDocuments'
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 import { Accommodation, URI } from 'types'
 import { getContainer } from 'utils/helpers'
+import styles from './MyOffers.module.scss'
 
 export const MyOffers = () => {
-  const [showNew, setShowNew] = useState(false)
   const auth = useAuth()
 
-  const [editing, setEditing] = useState<URI>()
+  const [editing, setEditing] = useState<URI | 'new'>()
 
   const { data: personalHospexDocuments } = usePersonalHospexDocuments(
     auth.webId,
@@ -34,6 +34,8 @@ export const MyOffers = () => {
 
   const [saveAccommodation] =
     comunicaApi.endpoints.createAccommodation.useMutation()
+  const [deleteAccommodation] =
+    comunicaApi.endpoints.deleteAccommodation.useMutation()
 
   if (typeof auth.webId !== 'string') return null
 
@@ -58,8 +60,25 @@ export const MyOffers = () => {
     setEditing(undefined)
   }
 
+  const handleDelete = async (id: URI) => {
+    if (!(auth.webId && personalHospexDocuments?.[0]))
+      throw new Error('missing variables')
+
+    const isConfirmed = globalThis.confirm(
+      'Do you really want to delete the accommodation?',
+    )
+
+    if (isConfirmed) {
+      await deleteAccommodation({
+        id,
+        webId: auth.webId,
+        personalHospexDocument: personalHospexDocuments[0],
+      })
+    }
+  }
+
   return (
-    <div style={{ position: 'relative', zIndex: 0 /* make sure that  */ }}>
+    <div className={styles.container}>
       {accommodations.map(accommodation =>
         editing === accommodation.id ? (
           <AccommodationForm
@@ -71,20 +90,25 @@ export const MyOffers = () => {
             initialData={accommodation}
           />
         ) : (
-          <Fragment key={accommodation.id}>
+          <div key={accommodation.id}>
             <AccommodationView {...accommodation} />
-            <Button
-              secondary
-              onClick={() => {
-                setEditing(accommodation.id)
-              }}
-            >
-              Edit
-            </Button>
-          </Fragment>
+            <div>
+              <Button
+                secondary
+                onClick={() => {
+                  setEditing(accommodation.id)
+                }}
+              >
+                Edit
+              </Button>
+              <Button danger onClick={() => handleDelete(accommodation.id)}>
+                Delete
+              </Button>
+            </div>
+          </div>
         ),
       )}
-      <pre>{JSON.stringify(accommodations, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(accommodations, null, 2)}</pre> */}
       {editing === 'new' ? (
         <AccommodationForm
           onSubmit={handleSave}

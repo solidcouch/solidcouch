@@ -7,12 +7,17 @@ import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import type { Accommodation as AccommodationType } from 'types'
 import styles from './Accommodation.module.scss'
 
+import icon2 from 'leaflet/dist/images/marker-icon-2x.png'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
 // @ts-ignore
 delete L.Icon.Default.prototype._getIconUrl
-L.Icon.Default.mergeOptions({ iconUrl: icon, shadowUrl: iconShadow })
+L.Icon.Default.mergeOptions({
+  iconUrl: icon,
+  iconRetinaUrl: icon2,
+  shadowUrl: iconShadow,
+})
 
 const CenterNewLocation = ({ location }: { location: LatLngTuple }) => {
   const map = useMap()

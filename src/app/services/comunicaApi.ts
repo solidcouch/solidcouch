@@ -104,7 +104,7 @@ export const comunicaApi = createApi({
       ],
     }),
     createAccommodation: builder.mutation<
-      void,
+      null,
       {
         webId: URI
         accommodation: Accommodation
@@ -118,10 +118,29 @@ export const comunicaApi = createApi({
           data: accommodation,
         })
 
-        return { data: undefined }
+        return { data: null }
       },
       invalidatesTags: (res, err, arg) => [
         { type: 'Accommodation', id: `LIST_OF_${arg.webId}` },
+        { type: 'Accommodation', id: arg.accommodation.id },
+      ],
+    }),
+    deleteAccommodation: builder.mutation<
+      null,
+      { webId: URI; id: URI; personalHospexDocument: URI }
+    >({
+      queryFn: async ({ webId, id, personalHospexDocument }) => {
+        await deleteAccommodation({
+          webId,
+          personalHospexDocument,
+          id,
+        })
+
+        return { data: null }
+      },
+      invalidatesTags: (res, err, arg) => [
+        { type: 'Accommodation', id: `LIST_OF_${arg.webId}` },
+        { type: 'Accommodation', id: arg.id },
       ],
     }),
   }),
@@ -282,12 +301,6 @@ export const saveAccommodation = async ({
     },
   )
 
-  await fetch(data.id, {
-    method: 'PATCH',
-    body: newAccommodationQuery,
-    headers: { 'content-type': 'application/sparql-update' },
-  })
-
   await myEngine.invalidateHttpCache()
 }
 
@@ -306,4 +319,52 @@ const query = (
   }
 
   return output
+}
+
+export const deleteAccommodation = async ({
+  id,
+  webId,
+  personalHospexDocument,
+}: {
+  id: URI
+  webId: URI
+  personalHospexDocument: URI
+}) => {
+  console.log(id, webId, personalHospexDocument)
+
+  // delete data from accommodation
+  const deleteAccommodationQuery = query`DELETE {
+    <${id}> ?predicate ?object.
+    <${id}> <${geo}location> ?location.
+    ?location ?lpredicate ?lobject.
+  } WHERE {
+    <${id}> ?predicate ?object.
+    <${id}> <${geo}location> ?location.
+    ?location ?lpredicate ?lobject.
+  }`
+
+  const deletePersonalProfileReferenceQuery = query`DELETE DATA {
+    <${webId}> <${hospex}offers> <${id}>.
+  }`
+
+  // delete the accommodation
+  await myEngine.queryVoid(deleteAccommodationQuery, {
+    sources: [id],
+    lenient: true,
+    destination: { type: 'patchSparqlUpdate', value: id },
+    fetch,
+  })
+
+  // delete mention of the accommodation from personalHospexDocument
+  await myEngine.queryVoid(deletePersonalProfileReferenceQuery, {
+    sources: [personalHospexDocument],
+    lenient: true,
+    destination: { type: 'patchSparqlUpdate', value: personalHospexDocument },
+    fetch,
+  })
+
+  // delete file if empty
+  const file = await (await fetch(id)).text()
+  if (!file.trim()) await fetch(id, { method: 'DELETE' })
+  await myEngine.invalidateHttpCache()
 }
