@@ -16,8 +16,8 @@ L.Icon.Default.mergeOptions({ iconUrl: icon, shadowUrl: iconShadow })
 
 export const Accommodation = (accommodation: AccommodationType) => {
   const location: LatLngTuple = useMemo(
-    () => [accommodation.location.latitude, accommodation.location.longitude],
-    [accommodation.location.latitude, accommodation.location.longitude],
+    () => [accommodation.location.lat, accommodation.location.long],
+    [accommodation.location.lat, accommodation.location.long],
   )
   return (
     <div>
@@ -30,7 +30,7 @@ export const Accommodation = (accommodation: AccommodationType) => {
         doubleClickZoom="center"
         touchZoom="center"
       >
-        <TileLayer url="http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png" />
+        <TileLayer url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png" />
         <Marker position={location} />
       </MapContainer>
 

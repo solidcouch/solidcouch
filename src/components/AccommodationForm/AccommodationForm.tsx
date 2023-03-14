@@ -1,8 +1,8 @@
 import { Button } from 'components/Button/Button'
 import { SelectLocation } from 'components/SelectLocation'
-import { Accommodation } from 'ldo/accommodation.typings'
 import { merge } from 'lodash'
 import { Controller, useForm } from 'react-hook-form'
+import { Accommodation } from 'types'
 
 export const AccommodationForm = ({
   initialData,
@@ -30,7 +30,8 @@ export const AccommodationForm = ({
           <SelectLocation value={field.value} onChange={field.onChange} />
         )}
       />
-      <textarea {...register('comment')} />
+      <textarea {...register('description')} />
+
       <div>
         <Button type="submit" primary>
           Submit

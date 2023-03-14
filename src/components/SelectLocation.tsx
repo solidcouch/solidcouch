@@ -1,7 +1,7 @@
-import { Point } from 'ldo/accommodation.typings'
 import { LatLngTuple } from 'leaflet'
 import React, { useMemo } from 'react'
 import { MapContainer, Marker, TileLayer, useMapEvent } from 'react-leaflet'
+import { Location } from 'types'
 import styles from './Accommodation/Accommodation.module.scss'
 
 const normalizeLng = (lng: number) => (((lng % 360) - 180 * 3) % 360) + 180
@@ -12,7 +12,6 @@ const LocationDrag = ({
   onDrag: (location: LatLngTuple) => void
 }) => {
   const map = useMapEvent('drag', () => {
-    console.log('******')
     const { lat, lng } = map.getCenter()
     onDrag([lat, normalizeLng(lng)])
     map.setView([lat, normalizeLng(lng)])
@@ -22,8 +21,8 @@ const LocationDrag = ({
 }
 
 export const SelectLocation: React.FC<{
-  value: Pick<Point, 'lat' | 'long'>
-  onChange: (location: Pick<Point, 'lat' | 'long'>) => void
+  value: Location
+  onChange: (location: Location) => void
   className?: string
 }> = ({ value, onChange }) => {
   const location = useMemo(

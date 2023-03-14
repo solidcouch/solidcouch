@@ -4,7 +4,6 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { accommodationContext } from 'ldo/accommodation.context'
-import type { Accommodation as AccommodationLDO } from 'ldo/accommodation.typings'
 import { DataFactory, Quad, Triple, Writer } from 'n3'
 import { dct, rdf, schema_https } from 'rdf-namespaces'
 import { Accommodation, URI } from 'types'
@@ -52,6 +51,7 @@ const comunicaBaseQuery =
 export const comunicaApi = createApi({
   reducerPath: 'comunicaApi',
   baseQuery: comunicaBaseQuery(),
+  tagTypes: ['Accommodation'],
   endpoints: builder => ({
     readAccommodations: builder.query<
       Accommodation[],
@@ -90,11 +90,39 @@ export const comunicaApi = createApi({
             id: accommodation,
             description,
             location: {
-              latitude: Number(latitude),
-              longitude: Number(longitude),
+              lat: Number(latitude),
+              long: Number(longitude),
             },
           }),
         ),
+      providesTags: (result, error, arg) => [
+        ...(result?.map(accommodation => ({
+          type: 'Accommodation' as const,
+          id: accommodation.id,
+        })) ?? []),
+        { type: 'Accommodation', id: `LIST_OF_${arg.webId}` },
+      ],
+    }),
+    createAccommodation: builder.mutation<
+      void,
+      {
+        webId: URI
+        accommodation: Accommodation
+        personalHospexDocument: URI
+      }
+    >({
+      queryFn: async ({ webId, accommodation, personalHospexDocument }) => {
+        await saveAccommodation({
+          webId,
+          personalHospexDocument,
+          data: accommodation,
+        })
+
+        return { data: undefined }
+      },
+      invalidatesTags: (res, err, arg) => [
+        { type: 'Accommodation', id: `LIST_OF_${arg.webId}` },
+      ],
     }),
   }),
 })
@@ -172,23 +200,21 @@ export const readAccommodation = async () => {
 export const saveAccommodation = async ({
   webId,
   personalHospexDocument,
-  uri,
   data,
 }: {
   webId: URI
   personalHospexDocument: URI
-  uri: URI
-  data: Required<Pick<AccommodationLDO, 'location' | 'comment'>>
+  data: Accommodation
 }) => {
   // save accommodation
   const insertions: Quad[] = []
   // const deletions: Quad[] = []
 
-  const lu = new URL(uri)
+  const lu = new URL(data.id)
   lu.hash = 'location'
   const locationUri = lu.toString()
 
-  const au = new URL(uri)
+  const au = new URL(data.id)
   au.hash = 'accommodation'
   const auri = au.toString()
 
@@ -206,7 +232,7 @@ export const saveAccommodation = async ({
     quad(
       namedNode(auri),
       namedNode(dct.description),
-      literal(data.comment[0], 'en'),
+      literal(data.description, 'en'),
     ),
     quad(namedNode(auri), namedNode(geo + 'location'), namedNode(locationUri)),
     quad(namedNode(locationUri), namedNode(rdf.type), namedNode(geo + 'Point')),
@@ -238,9 +264,9 @@ export const saveAccommodation = async ({
   const newAccommodationQuery = query`INSERT DATA {${insertions}}`
 
   await myEngine.queryVoid(newAccommodationQuery, {
-    sources: [uri],
+    sources: [data.id],
     lenient: true,
-    destination: { type: 'patchSparqlUpdate', value: uri },
+    destination: { type: 'patchSparqlUpdate', value: data.id },
     fetch,
   })
 
@@ -256,11 +282,13 @@ export const saveAccommodation = async ({
     },
   )
 
-  await fetch(uri, {
+  await fetch(data.id, {
     method: 'PATCH',
     body: newAccommodationQuery,
     headers: { 'content-type': 'application/sparql-update' },
   })
+
+  await myEngine.invalidateHttpCache()
 }
 
 const query = (
