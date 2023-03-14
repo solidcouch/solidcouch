@@ -17,4 +17,9 @@ export type Person = {
   id: URI
 }
 
-export type Community = { id: URI }
+export type Community = {
+  id: URI
+  group: URI
+  name: string
+  description: string
+}
