@@ -1,6 +1,7 @@
 import './index.scss'
 // this line intentionally left blank to load css reset stylesheets first
 import { store } from 'app/store'
+import 'config'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'

@@ -1,12 +1,12 @@
-import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
 import { QueryEngine } from '@comunica/query-sparql-link-traversal'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
-import { accommodationContext } from 'ldo/accommodation.context'
 import { DataFactory, Quad, Triple, Writer } from 'n3'
 import { dct, rdf, schema_https } from 'rdf-namespaces'
 import { Accommodation, URI } from 'types'
+// import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
+// import { accommodationContext } from 'ldo/accommodation.context'
 
 const geo = 'http://www.w3.org/2003/01/geo/wgs84_pos#'
 const hospex = 'http://w3id.org/hospex/ns#'
@@ -14,7 +14,7 @@ const hospex = 'http://w3id.org/hospex/ns#'
 const { namedNode, literal, quad } = DataFactory
 
 const myEngine = new QueryEngine()
-const gql = ([s]: TemplateStringsArray) => s
+// const gql = ([s]: TemplateStringsArray) => s
 
 const comunicaBaseQuery =
   (
@@ -146,84 +146,86 @@ export const comunicaApi = createApi({
   }),
 })
 
-export const readAccommodations = async ({
-  webId,
-  personalHospexDocuments,
-  language = 'en',
-}: {
-  webId: URI
-  personalHospexDocuments: [URI, ...URI[]]
-  language?: string
-}) => {
-  const result = await myEngine.queryBindings(
-    `
-    SELECT ?accommodation ?description ?latitude ?longitude WHERE {
-      <${webId}> <${hospex}offers> ?accommodation.
-      ?accommodation
-        <${dct.description}> ?description;
-        <${geo}location> ?location.
-      ?location a <${geo}Point>;
-        <${geo}lat> ?latitude;
-        <${geo}long> ?longitude.
+// export const readAccommodations = async ({
+//   webId,
+//   personalHospexDocuments,
+//   language = 'en',
+// }: {
+//   webId: URI
+//   personalHospexDocuments: [URI, ...URI[]]
+//   language?: string
+// }) => {
+//   const result = await myEngine.queryBindings(
+//     `
+//     SELECT ?accommodation ?description ?latitude ?longitude WHERE {
+//       <${webId}> <${hospex}offers> ?accommodation.
+//       ?accommodation
+//         <${dct.description}> ?description;
+//         <${geo}location> ?location.
+//       ?location a <${geo}Point>;
+//         <${geo}lat> ?latitude;
+//         <${geo}long> ?longitude.
 
-      FILTER(LANG(?description) = "${language}")
-    }
-  `,
-    { sources: [...personalHospexDocuments], fetch, lenient: true },
-  )
+//       FILTER(LANG(?description) = "${language}")
+//     }
+//   `,
+//     { sources: [...personalHospexDocuments], fetch, lenient: true },
+//   )
 
-  result.on('data', bindings => console.log(bindings))
-  return await result.toArray()
-}
+//   // result.on('data', bindings => console.log(bindings))
+//   return await result.toArray()
+// }
 
-export const readAccommodation = async () => {
-  myEngine.invalidateHttpCache()
-  const result = await myEngine.query(
-    gql`
-      {
-        id
-        ... on Accommodation {
-          comment
-          location(type: Point) @single {
-            lat @single
-            long @single
-          }
-        }
-      }
-    `,
-    {
-      sources: ['https://mrkvon.inrupt.net/public/hospex.ttl'],
-      queryFormat: {
-        language: 'graphql',
-        version: '1.0',
-      },
-      '@context': {
-        ...accommodationContext,
-        type: rdf.type,
-        Accommodation: 'https://hospex.example.com/terms/0.1#Accommodation',
-      },
-      sparqlJsonToTreeConverter: () => {},
-      asdf: '',
-    },
-  )
+// export const readAccommodation = async () => {
+//   myEngine.invalidateHttpCache()
+//   const result = await myEngine.query(
+//     gql`
+//       {
+//         id
+//         ... on Accommodation {
+//           comment
+//           location(type: Point) @single {
+//             lat @single
+//             long @single
+//           }
+//         }
+//       }
+//     `,
+//     {
+//       sources: ['https://mrkvon.inrupt.net/public/hospex.ttl'],
+//       queryFormat: {
+//         language: 'graphql',
+//         version: '1.0',
+//       },
+//       '@context': {
+//         ...accommodationContext,
+//         type: rdf.type,
+//         Accommodation: 'https://hospex.example.com/terms/0.1#Accommodation',
+//       },
+//       sparqlJsonToTreeConverter: () => {},
+//       asdf: '',
+//     },
+//   )
 
-  const data = await bindingsStreamToGraphQl(
-    (await result.execute()) as any,
-    result.context,
-    { materializeRdfJsTerms: false },
-  )
+//   const data = await bindingsStreamToGraphQl(
+//     (await result.execute()) as any,
+//     result.context,
+//     { materializeRdfJsTerms: false },
+//   )
 
-  return data
-}
+//   return data
+// }
 
 export const saveAccommodation = async ({
   webId,
   personalHospexDocument,
   data,
+  language = 'en',
 }: {
   webId: URI
   personalHospexDocument: URI
   data: Accommodation
+  language?: string
 }) => {
   // save accommodation
   const insertions: Quad[] = []
@@ -251,7 +253,7 @@ export const saveAccommodation = async ({
     quad(
       namedNode(auri),
       namedNode(dct.description),
-      literal(data.description, 'en'),
+      literal(data.description, language),
     ),
     quad(namedNode(auri), namedNode(geo + 'location'), namedNode(locationUri)),
     quad(namedNode(locationUri), namedNode(rdf.type), namedNode(geo + 'Point')),
@@ -277,6 +279,7 @@ export const saveAccommodation = async ({
     <${auri}> <${dct.description}> ?description.
     <${auri}> <${geo}location> ?location.
     ?location ?predicate ?object.
+    #FILTER(LANG(?description) = "${language}") #look closer at this
     #FILTER(isLiteral(?description) && langMatches(lang(?description), "en"))
   }; INSERT DATA {${insertions}}`
 
@@ -330,8 +333,6 @@ export const deleteAccommodation = async ({
   webId: URI
   personalHospexDocument: URI
 }) => {
-  console.log(id, webId, personalHospexDocument)
-
   // delete data from accommodation
   const deleteAccommodationQuery = query`DELETE {
     <${id}> ?predicate ?object.
@@ -366,5 +367,6 @@ export const deleteAccommodation = async ({
   // delete file if empty
   const file = await (await fetch(id)).text()
   if (!file.trim()) await fetch(id, { method: 'DELETE' })
+
   await myEngine.invalidateHttpCache()
 }

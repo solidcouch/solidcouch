@@ -1,8 +1,9 @@
+import { tileServer } from 'config'
 import { LatLngTuple } from 'leaflet'
 import React, { useMemo } from 'react'
 import { MapContainer, Marker, TileLayer, useMapEvent } from 'react-leaflet'
 import { Location } from 'types'
-import styles from './Accommodation/Accommodation.module.scss'
+import styles from './AccommodationView/AccommodationView.module.scss'
 
 const normalizeLng = (lng: number) => (((lng % 360) - 180 * 3) % 360) + 180
 
@@ -41,7 +42,7 @@ export const SelectLocation: React.FC<{
       className={styles.mapContainer}
     >
       <LocationDrag onDrag={([lat, long]) => onChange({ lat, long })} />
-      <TileLayer url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png" />
+      <TileLayer url={tileServer} />
       <Marker position={location} />
     </MapContainer>
   )

@@ -1,23 +1,11 @@
+import { tileServer } from 'config'
 import 'leaflet'
-import * as L from 'leaflet'
 import { LatLngTuple } from 'leaflet'
 import { useEffect, useMemo } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
-import type { Accommodation as AccommodationType } from 'types'
-import styles from './Accommodation.module.scss'
-
-import icon2 from 'leaflet/dist/images/marker-icon-2x.png'
-import icon from 'leaflet/dist/images/marker-icon.png'
-import iconShadow from 'leaflet/dist/images/marker-shadow.png'
-
-// @ts-ignore
-delete L.Icon.Default.prototype._getIconUrl
-L.Icon.Default.mergeOptions({
-  iconUrl: icon,
-  iconRetinaUrl: icon2,
-  shadowUrl: iconShadow,
-})
+import type { Accommodation } from 'types'
+import styles from './AccommodationView.module.scss'
 
 const CenterNewLocation = ({ location }: { location: LatLngTuple }) => {
   const map = useMap()
@@ -29,7 +17,7 @@ const CenterNewLocation = ({ location }: { location: LatLngTuple }) => {
   return null
 }
 
-export const Accommodation = (accommodation: AccommodationType) => {
+export const AccommodationView = (accommodation: Accommodation) => {
   const location: LatLngTuple = useMemo(
     () => [accommodation.location.lat, accommodation.location.long],
     [accommodation.location.lat, accommodation.location.long],
@@ -46,7 +34,7 @@ export const Accommodation = (accommodation: AccommodationType) => {
         doubleClickZoom="center"
         touchZoom="center"
       >
-        <TileLayer url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png" />
+        <TileLayer url={tileServer} />
         <Marker position={location} />
         <CenterNewLocation location={location} />
       </MapContainer>
