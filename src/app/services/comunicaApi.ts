@@ -3,8 +3,8 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { DataFactory, Quad, Triple, Writer } from 'n3'
-import { dct, rdf, schema_https } from 'rdf-namespaces'
-import { Accommodation, URI } from 'types'
+import { acl, dct, rdf, schema_https, sioc, vcard } from 'rdf-namespaces'
+import { Accommodation, Community, URI } from 'types'
 // import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
 // import { accommodationContext } from 'ldo/accommodation.context'
 
@@ -51,7 +51,7 @@ const comunicaBaseQuery =
 export const comunicaApi = createApi({
   reducerPath: 'comunicaApi',
   baseQuery: comunicaBaseQuery(),
-  tagTypes: ['Accommodation'],
+  tagTypes: ['Accommodation', 'Community'],
   endpoints: builder => ({
     readAccommodations: builder.query<
       Accommodation[],
@@ -143,6 +143,62 @@ export const comunicaApi = createApi({
         { type: 'Accommodation', id: arg.id },
       ],
     }),
+    readCommunity: builder.query<
+      Community,
+      { communityId: string; language?: string }
+    >({
+      query: ({ communityId, language = 'en' }) => ({
+        query: query`
+          SELECT <${communityId}> as ?id ?name ?description ?group WHERE {
+            <${communityId}>
+                <${rdf.type}> <${sioc.Community}>;
+                <${sioc.name}> ?name;
+                <${sioc.about}> ?description;
+                <${sioc.has_usergroup}> ?group.
+
+            FILTER(LANG(?description) = "${language}")
+            FILTER(LANG(?name) = "${language}")
+          }
+        `,
+        sources: [communityId],
+      }),
+      transformResponse: ([community]: Community[]) => community,
+    }),
+    isMemberOf: builder.query<
+      boolean,
+      { webId: URI; communityId: URI; personalHospexDocuments: URI[] }
+    >({
+      query: ({ webId, communityId, personalHospexDocuments }) => ({
+        query: query`SELECT ?group WHERE {
+          <${webId}> <${sioc.member_of}> <${communityId}>.
+          <${communityId}> <${sioc.has_usergroup}> ?group.
+          ?group <${vcard.hasMember}> <${webId}>.
+        }`,
+        sources: [communityId, ...personalHospexDocuments],
+      }),
+      transformResponse: (matchedDocuments: unknown[]) =>
+        matchedDocuments.length > 0,
+      providesTags: (res, err, args) => [
+        { type: 'Community', id: 'IS_MEMBER_OF_' + args.communityId },
+      ],
+    }),
+    joinCommunity: builder.mutation<
+      null,
+      {
+        webId: URI
+        communityId: URI
+        personalHospexDocument: URI
+        storage: URI
+      }
+    >({
+      queryFn: async props => {
+        await joinCommunity(props)
+        return { data: null }
+      },
+      invalidatesTags: (res, err, args) => [
+        { type: 'Community', id: 'IS_MEMBER_OF_' + args.communityId },
+      ],
+    }),
   }),
 })
 
@@ -216,7 +272,7 @@ export const comunicaApi = createApi({
 //   return data
 // }
 
-export const saveAccommodation = async ({
+const saveAccommodation = async ({
   webId,
   personalHospexDocument,
   data,
@@ -324,7 +380,7 @@ const query = (
   return output
 }
 
-export const deleteAccommodation = async ({
+const deleteAccommodation = async ({
   id,
   webId,
   personalHospexDocument,
@@ -367,6 +423,76 @@ export const deleteAccommodation = async ({
   // delete file if empty
   const file = await (await fetch(id)).text()
   if (!file.trim()) await fetch(id, { method: 'DELETE' })
+
+  await myEngine.invalidateHttpCache()
+}
+
+const joinCommunity = async ({
+  communityId,
+  webId,
+  personalHospexDocument,
+  storage,
+}: {
+  webId: URI
+  communityId: URI
+  personalHospexDocument: URI
+  storage: URI
+}) => {
+  // get community group
+  const communityQuery = query`
+    SELECT ?group WHERE {
+        <${communityId}>
+            <${rdf.type}> <${sioc.Community}>;
+            <${sioc.has_usergroup}> ?group.
+    }
+  `
+  const bindingsStream = await myEngine.queryBindings(communityQuery, {
+    sources: [communityId],
+    fetch,
+  })
+  const response = await bindingsStream.toArray()
+  const groupId = response[0].get('group')?.value
+  if (!groupId) throw new Error("Community doesn't advertise group to join")
+
+  // add webId to group
+  const addWebIdQuery = query`INSERT DATA {
+    <${groupId}> <${vcard.hasMember}> <${webId}>.
+  }`
+  await myEngine.queryVoid(addWebIdQuery, {
+    sources: [groupId],
+    lenient: true,
+    destination: { type: 'patchSparqlUpdate', value: groupId },
+    fetch,
+  })
+
+  // add community to personal hospex documents (sioc:member_of, vcard:memberOf)
+  const addToPersonalHospexDocument = query`INSERT DATA {
+    <${webId}>
+        <${sioc.member_of}> <${communityId}>;
+        <${hospex}storage> <${storage}>.
+  }`
+  await myEngine.queryVoid(addToPersonalHospexDocument, {
+    sources: [personalHospexDocument],
+    lenient: true,
+    destination: { type: 'patchSparqlUpdate', value: personalHospexDocument },
+    fetch,
+  })
+
+  // update storage permissions so everybody from the group can read the stuff
+  const addGroupPermissions = query`INSERT DATA {
+    <${storage}.acl#Read>
+        <${rdf.type}> <${acl.Authorization}>;
+        <${acl.accessTo}> <${storage}>;
+        <${acl.default__workaround}> <${storage}>;
+        <${acl.mode}> <${acl.Read}>;
+        <${acl.agentGroup}> <${groupId}>.
+  }`
+  await myEngine.queryVoid(addGroupPermissions, {
+    sources: [storage + '.acl'],
+    lenient: true,
+    destination: { type: 'patchSparqlUpdate', value: storage + '.acl' },
+    fetch,
+  })
 
   await myEngine.invalidateHttpCache()
 }
