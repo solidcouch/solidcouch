@@ -163,7 +163,7 @@ export const api = createApi({
       { index: string; id: string; type: string; location: string }
     >({
       query: ({ index, id, type, location }) => {
-        const isForContainer = location.charAt(location.length - 1)
+        const isForContainer = location.charAt(location.length - 1) === '/'
         const data: PublicTypeIndex = {
           type: [{ '@id': 'TypeIndex' }, { '@id': 'ListedDocument' }],
           references: [

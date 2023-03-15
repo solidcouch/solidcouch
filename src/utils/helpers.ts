@@ -24,3 +24,17 @@ export const getContainer = (uri: URI): URI => {
   fragments[fragments.length - 1] = ''
   return fragments.join('/')
 }
+
+export const fullFetch: typeof fetch = async (url, init) => {
+  try {
+    return await fetch(url, init)
+  } catch (error) {
+    return await fetchWithRedirect(url, init)
+  }
+}
+
+export const removeHashFromURI = (uri: string): string => {
+  const url = new URL(uri)
+  url.hash = ''
+  return url.toString()
+}

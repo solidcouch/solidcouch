@@ -1,10 +1,13 @@
-import { QueryEngine } from '@comunica/query-sparql-link-traversal'
+import { QueryEngine } from '@comunica/query-sparql'
+import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link-traversal'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { DataFactory, Quad, Triple, Writer } from 'n3'
-import { acl, dct, rdf, schema_https, sioc, vcard } from 'rdf-namespaces'
+import { acl, dct, rdf, schema_https, sioc, solid, vcard } from 'rdf-namespaces'
 import { Accommodation, Community, URI } from 'types'
+import type { Assign } from 'utility-types'
+import { fullFetch, removeHashFromURI } from 'utils/helpers'
 // import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
 // import { accommodationContext } from 'ldo/accommodation.context'
 
@@ -13,7 +16,9 @@ const hospex = 'http://w3id.org/hospex/ns#'
 
 const { namedNode, literal, quad } = DataFactory
 
-const myEngine = new QueryEngine()
+const myEngine = new TraversalQueryEngine()
+
+const limitedEngine = new QueryEngine()
 // const gql = ([s]: TemplateStringsArray) => s
 
 const comunicaBaseQuery =
@@ -28,23 +33,38 @@ const comunicaBaseQuery =
     if (invalidate) {
       if (Array.isArray(invalidate))
         await Promise.all(
-          invalidate.map(url => myEngine.invalidateHttpCache(url)),
+          invalidate.map(url =>
+            myEngine.invalidateHttpCache(removeHashFromURI(url)),
+          ),
         )
       else await myEngine.invalidateHttpCache()
     }
 
-    const bindingsStream = await myEngine.queryBindings(query, {
-      sources: [...baseSources, ...sources] as [string, ...string[]],
-      fetch,
-    })
-    return {
-      data: (await bindingsStream.toArray()).map(binding => {
-        const keys = Array.from(binding.keys()).map(({ value }) => value)
+    const sourcesCleaned = [...baseSources, ...sources].map(uri =>
+      removeHashFromURI(uri),
+    ) as [string, ...string[]]
 
-        return Object.fromEntries(
-          keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-        )
-      }),
+    // invalidate all sources, otherwise our query may get stuck
+    for (const uri of sourcesCleaned) {
+      await myEngine.invalidateHttpCache(uri)
+    }
+
+    const bindingsStream = await myEngine.queryBindings(query, {
+      sources: [...baseSources, ...sources],
+      lenient: true,
+      fetch: fullFetch,
+    })
+
+    const data = (await bindingsStream.toArray()).map(binding => {
+      const keys = Array.from(binding.keys()).map(({ value }) => value)
+
+      return Object.fromEntries(
+        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
+      )
+    })
+
+    return {
+      data,
     }
   }
 
@@ -122,6 +142,7 @@ export const comunicaApi = createApi({
       },
       invalidatesTags: (res, err, arg) => [
         { type: 'Accommodation', id: `LIST_OF_${arg.webId}` },
+        { type: 'Accommodation', id: 'LIST_OF_ALL' },
         { type: 'Accommodation', id: arg.accommodation.id },
       ],
     }),
@@ -141,6 +162,7 @@ export const comunicaApi = createApi({
       invalidatesTags: (res, err, arg) => [
         { type: 'Accommodation', id: `LIST_OF_${arg.webId}` },
         { type: 'Accommodation', id: arg.id },
+        { type: 'Accommodation', id: 'LIST_OF_ALL' },
       ],
     }),
     readCommunity: builder.query<
@@ -175,6 +197,7 @@ export const comunicaApi = createApi({
           ?group <${vcard.hasMember}> <${webId}>.
         }`,
         sources: [communityId, ...personalHospexDocuments],
+        invalidate: true,
       }),
       transformResponse: (matchedDocuments: unknown[]) =>
         matchedDocuments.length > 0,
@@ -199,9 +222,111 @@ export const comunicaApi = createApi({
         { type: 'Community', id: 'IS_MEMBER_OF_' + args.communityId },
       ],
     }),
+    readOffers: builder.query<
+      Assign<Accommodation, { person: { webId: URI } }>[],
+      { communityId: URI }
+    >({
+      query: ({ communityId }) => ({
+        query: query`
+          SELECT DISTINCT ?person ?lat ?long ?accommodation ?description WHERE {
+            <${communityId}> <${sioc.has_usergroup}> ?group.
+            ?group <${vcard.hasMember}> ?member.
+            ?member <${solid.publicTypeIndex}> ?index.
+            ?index
+              <${rdf.type}> <${solid.TypeIndex}>;
+              <${dct.references}> ?typeRegistration.
+            ?typeRegistration
+              <${rdf.type}> <${solid.TypeRegistration}>;
+              <${solid.forClass}> <${hospex}PersonalHospexDocument>;
+              <${solid.instance}> ?hospexDocument.
+            ?person <${hospex}offers> ?accommodation.
+            ?accommodation <${dct.description}> ?description;
+              <${geo}location> ?location.
+            ?location
+              <${geo}lat> ?lat;
+              <${geo}long> ?long.
+
+            FILTER(?member = ?person)
+          }
+      `,
+        sources: [communityId],
+      }),
+      transformResponse: (
+        dataArray: {
+          person: URI
+          lat: number
+          long: number
+          accommodation: URI
+          description: string
+        }[],
+      ) =>
+        dataArray.map(({ person, lat, long, accommodation, description }) => ({
+          id: accommodation,
+          description,
+          location: { lat, long },
+          person: { webId: person },
+        })),
+      providesTags: () => [{ type: 'Accommodation', id: 'LIST_OF_ALL' }],
+    }),
   }),
 })
 
+export const readOffers = async ({ communityId }: { communityId: string }) => {
+  await myEngine
+    .invalidateHttpCache
+    //'https://mrkvon.solidcommunity.net/profile/card#me',
+    ()
+  const q = query`
+          SELECT DISTINCT ?person ?lat ?long ?accommodation ?description WHERE {
+            <${communityId}> <${sioc.has_usergroup}> ?group.
+            ?group <${vcard.hasMember}> ?member.
+            ?member <${solid.publicTypeIndex}> ?index.
+            ?index
+                <${rdf.type}> <${solid.TypeIndex}>;
+                <${dct.references}> ?typeRegistration.
+            ?typeRegistration
+                <${rdf.type}> <${solid.TypeRegistration}>;
+                <${solid.forClass}> <${hospex}PersonalHospexDocument>;
+                <${solid.instance}> ?hospexDocument.
+            ?person <${hospex}offers> ?accommodation.
+             ?accommodation <${dct.description}> ?description;
+                 <${geo}location> ?location.
+             ?location
+                 <${geo}lat> ?lat;
+                <${geo}long> ?long.
+
+            FILTER(?member = ?person)
+          }
+        `
+
+  const bindingsStream = await myEngine.queryBindings(q, {
+    sources: [communityId],
+
+    lenient: true,
+    fetch: fullFetch,
+  })
+  // bindingsStream.on('data', bindings => console.log(bindings))
+
+  const data = (await bindingsStream.toArray()).map(binding => {
+    const keys = Array.from(binding.keys()).map(({ value }) => value)
+
+    return Object.fromEntries(
+      keys.map(key => [key, binding.get(key as string)?.value ?? null]),
+    )
+  })
+  return data
+
+  // return {
+  //   data: (await bindingsStream.toArray()).map(binding => {
+  //     const keys = Array.from(binding.keys()).map(({ value }) => value)
+
+  //     return Object.fromEntries(
+  //       keys.map(key => [key, binding.get(key as string)?.value ?? null]),
+  //     )
+  //   }),
+  // }
+  // sources: [communityId]
+}
 // export const readAccommodations = async ({
 //   webId,
 //   personalHospexDocuments,
@@ -341,7 +466,7 @@ const saveAccommodation = async ({
 
   // const newAccommodationQuery = query`INSERT DATA {${insertions}}`
 
-  await myEngine.queryVoid(newAccommodationQuery, {
+  await limitedEngine.queryVoid(newAccommodationQuery, {
     sources: [data.id],
     lenient: true,
     destination: { type: 'patchSparqlUpdate', value: data.id },
@@ -405,17 +530,15 @@ const deleteAccommodation = async ({
   }`
 
   // delete the accommodation
-  await myEngine.queryVoid(deleteAccommodationQuery, {
+  await limitedEngine.queryVoid(deleteAccommodationQuery, {
     sources: [id],
-    lenient: true,
     destination: { type: 'patchSparqlUpdate', value: id },
     fetch,
   })
 
   // delete mention of the accommodation from personalHospexDocument
-  await myEngine.queryVoid(deletePersonalProfileReferenceQuery, {
+  await limitedEngine.queryVoid(deletePersonalProfileReferenceQuery, {
     sources: [personalHospexDocument],
-    lenient: true,
     destination: { type: 'patchSparqlUpdate', value: personalHospexDocument },
     fetch,
   })
@@ -424,7 +547,12 @@ const deleteAccommodation = async ({
   const file = await (await fetch(id)).text()
   if (!file.trim()) await fetch(id, { method: 'DELETE' })
 
-  await myEngine.invalidateHttpCache()
+  await Promise.all(
+    [id, personalHospexDocument].map(uri =>
+      myEngine.invalidateHttpCache(removeHashFromURI(uri)),
+    ),
+  )
+  // await myEngine.invalidateHttpCache()
 }
 
 const joinCommunity = async ({
