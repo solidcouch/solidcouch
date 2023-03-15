@@ -32,3 +32,9 @@ export const fullFetch: typeof fetch = async (url, init) => {
     return await fetchWithRedirect(url, init)
   }
 }
+
+export const removeHashFromURI = (uri: string): string => {
+  const url = new URL(uri)
+  url.hash = ''
+  return url.toString()
+}
