@@ -1,4 +1,5 @@
-import { QueryEngine } from '@comunica/query-sparql-link-traversal'
+import { QueryEngine } from '@comunica/query-sparql'
+import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link-traversal'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
@@ -15,7 +16,9 @@ const hospex = 'http://w3id.org/hospex/ns#'
 
 const { namedNode, literal, quad } = DataFactory
 
-const myEngine = new QueryEngine()
+const myEngine = new TraversalQueryEngine()
+
+const limitedEngine = new QueryEngine()
 // const gql = ([s]: TemplateStringsArray) => s
 
 const comunicaBaseQuery =
@@ -47,7 +50,7 @@ const comunicaBaseQuery =
     }
 
     const bindingsStream = await myEngine.queryBindings(query, {
-      sources: sourcesCleaned,
+      sources: [...baseSources, ...sources],
       lenient: true,
       fetch: fullFetch,
     })
@@ -139,6 +142,7 @@ export const comunicaApi = createApi({
       },
       invalidatesTags: (res, err, arg) => [
         { type: 'Accommodation', id: `LIST_OF_${arg.webId}` },
+        { type: 'Accommodation', id: 'LIST_OF_ALL' },
         { type: 'Accommodation', id: arg.accommodation.id },
       ],
     }),
@@ -158,6 +162,7 @@ export const comunicaApi = createApi({
       invalidatesTags: (res, err, arg) => [
         { type: 'Accommodation', id: `LIST_OF_${arg.webId}` },
         { type: 'Accommodation', id: arg.id },
+        { type: 'Accommodation', id: 'LIST_OF_ALL' },
       ],
     }),
     readCommunity: builder.query<
@@ -261,6 +266,7 @@ export const comunicaApi = createApi({
           location: { lat, long },
           person: { webId: person },
         })),
+      providesTags: () => [{ type: 'Accommodation', id: 'LIST_OF_ALL' }],
     }),
   }),
 })
@@ -295,6 +301,7 @@ export const readOffers = async ({ communityId }: { communityId: string }) => {
 
   const bindingsStream = await myEngine.queryBindings(q, {
     sources: [communityId],
+
     lenient: true,
     fetch: fullFetch,
   })
@@ -459,7 +466,7 @@ const saveAccommodation = async ({
 
   // const newAccommodationQuery = query`INSERT DATA {${insertions}}`
 
-  await myEngine.queryVoid(newAccommodationQuery, {
+  await limitedEngine.queryVoid(newAccommodationQuery, {
     sources: [data.id],
     lenient: true,
     destination: { type: 'patchSparqlUpdate', value: data.id },
@@ -523,17 +530,15 @@ const deleteAccommodation = async ({
   }`
 
   // delete the accommodation
-  await myEngine.queryVoid(deleteAccommodationQuery, {
+  await limitedEngine.queryVoid(deleteAccommodationQuery, {
     sources: [id],
-    lenient: true,
     destination: { type: 'patchSparqlUpdate', value: id },
     fetch,
   })
 
   // delete mention of the accommodation from personalHospexDocument
-  await myEngine.queryVoid(deletePersonalProfileReferenceQuery, {
+  await limitedEngine.queryVoid(deletePersonalProfileReferenceQuery, {
     sources: [personalHospexDocument],
-    lenient: true,
     destination: { type: 'patchSparqlUpdate', value: personalHospexDocument },
     fetch,
   })
@@ -542,7 +547,12 @@ const deleteAccommodation = async ({
   const file = await (await fetch(id)).text()
   if (!file.trim()) await fetch(id, { method: 'DELETE' })
 
-  await myEngine.invalidateHttpCache()
+  await Promise.all(
+    [id, personalHospexDocument].map(uri =>
+      myEngine.invalidateHttpCache(removeHashFromURI(uri)),
+    ),
+  )
+  // await myEngine.invalidateHttpCache()
 }
 
 const joinCommunity = async ({
