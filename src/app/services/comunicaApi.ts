@@ -3,8 +3,9 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { DataFactory, Quad, Triple, Writer } from 'n3'
-import { acl, dct, rdf, schema_https, sioc, vcard } from 'rdf-namespaces'
+import { acl, dct, rdf, schema_https, sioc, solid, vcard } from 'rdf-namespaces'
 import { Accommodation, Community, URI } from 'types'
+import { fullFetch } from 'utils/helpers'
 // import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
 // import { accommodationContext } from 'ldo/accommodation.context'
 
@@ -35,7 +36,8 @@ const comunicaBaseQuery =
 
     const bindingsStream = await myEngine.queryBindings(query, {
       sources: [...baseSources, ...sources] as [string, ...string[]],
-      fetch,
+      lenient: true,
+      fetch: fullFetch,
     })
     return {
       data: (await bindingsStream.toArray()).map(binding => {
@@ -175,6 +177,7 @@ export const comunicaApi = createApi({
           ?group <${vcard.hasMember}> <${webId}>.
         }`,
         sources: [communityId, ...personalHospexDocuments],
+        invalidate: true,
       }),
       transformResponse: (matchedDocuments: unknown[]) =>
         matchedDocuments.length > 0,
@@ -202,6 +205,58 @@ export const comunicaApi = createApi({
   }),
 })
 
+export const readOffers = async ({ communityId }: { communityId: string }) => {
+  await myEngine.invalidateHttpCache()
+  const q = query`
+          SELECT DISTINCT ?person ?lat ?long ?accommodation ?description WHERE {
+            <${communityId}> <${sioc.has_usergroup}> ?group.
+            ?group <${vcard.hasMember}> ?member.
+            ?member <${solid.publicTypeIndex}> ?index.
+            ?index
+                <${rdf.type}> <${solid.TypeIndex}>;
+                <${dct.references}> ?typeRegistration.
+            ?typeRegistration
+                <${rdf.type}> <${solid.TypeRegistration}>;
+                <${solid.forClass}> <${hospex}PersonalHospexDocument>;
+                <${solid.instance}> ?hospexDocument.
+            ?person <${hospex}offers> ?accommodation.
+             ?accommodation <${dct.description}> ?description;
+                 <${geo}location> ?location.
+             ?location
+                 <${geo}lat> ?lat;
+                <${geo}long> ?long.
+
+            FILTER(?member = ?person)
+          }
+        `
+
+  const bindingsStream = await myEngine.queryBindings(q, {
+    sources: [communityId],
+    lenient: true,
+    fetch: fullFetch,
+  })
+  bindingsStream.on('data', bindings => console.log(bindings))
+
+  const data = (await bindingsStream.toArray()).map(binding => {
+    const keys = Array.from(binding.keys()).map(({ value }) => value)
+
+    return Object.fromEntries(
+      keys.map(key => [key, binding.get(key as string)?.value ?? null]),
+    )
+  })
+  console.log(data)
+
+  // return {
+  //   data: (await bindingsStream.toArray()).map(binding => {
+  //     const keys = Array.from(binding.keys()).map(({ value }) => value)
+
+  //     return Object.fromEntries(
+  //       keys.map(key => [key, binding.get(key as string)?.value ?? null]),
+  //     )
+  //   }),
+  // }
+  // sources: [communityId]
+}
 // export const readAccommodations = async ({
 //   webId,
 //   personalHospexDocuments,
