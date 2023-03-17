@@ -4,7 +4,7 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { merge } from 'lodash'
-import { DataFactory, Quad, Triple, Writer } from 'n3'
+import { DataFactory, Parser, Quad, Triple, Writer } from 'n3'
 import {
   acl,
   dct,
@@ -22,6 +22,7 @@ import { fullFetch, removeHashFromURI } from 'utils/helpers'
 
 const geo = 'http://www.w3.org/2003/01/geo/wgs84_pos#'
 const hospex = 'http://w3id.org/hospex/ns#'
+const xsd = 'http://www.w3.org/TR/xmlschema11-2/#'
 
 const { namedNode, literal, quad } = DataFactory
 
@@ -607,12 +608,12 @@ const saveAccommodation = async (
     quad(
       namedNode(locationUri),
       namedNode(geo + 'lat'),
-      literal(data.location.lat),
+      literal(data.location.lat, namedNode(xsd + 'decimal')),
     ),
     quad(
       namedNode(locationUri),
       namedNode(geo + 'long'),
-      literal(data.location.long),
+      literal(data.location.long, namedNode(xsd + 'decimal')),
     ),
     quad(namedNode(auri), namedNode(hospex + 'offeredBy'), namedNode(webId)),
   )
@@ -690,9 +691,9 @@ const deleteAccommodation = async ({
   personalHospexDocument: URI
 }) => {
   // delete data from accommodation
-  const deleteAccommodationQuery = query`DELETE {
+  const deleteAccommodationQuery = query`
+  DELETE {
     <${id}> ?predicate ?object.
-    <${id}> <${geo}location> ?location.
     ?location ?lpredicate ?lobject.
   } WHERE {
     <${id}> ?predicate ?object.
@@ -720,8 +721,11 @@ const deleteAccommodation = async ({
 
   // delete file if empty
   const file = await (await fetch(id)).text()
-  if (!file.trim()) await fetch(id, { method: 'DELETE' })
+  const parser = new Parser()
+  const quads = parser.parse(file)
+  if (quads.length === 0) await fetch(id, { method: 'DELETE' })
 
+  // invalidate cache for updated documents
   await Promise.all(
     [id, personalHospexDocument].map(uri =>
       myEngine.invalidateHttpCache(removeHashFromURI(uri)),
