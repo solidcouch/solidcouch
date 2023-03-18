@@ -3,16 +3,26 @@ import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
-import { DataFactory, Quad, Triple, Writer } from 'n3'
-import { acl, dct, rdf, schema_https, sioc, solid, vcard } from 'rdf-namespaces'
-import { Accommodation, Community, URI } from 'types'
-import type { Assign } from 'utility-types'
+import { merge } from 'lodash'
+import { DataFactory, Parser, Quad, Triple, Writer } from 'n3'
+import {
+  acl,
+  dct,
+  foaf,
+  rdf,
+  schema_https,
+  sioc,
+  solid,
+  vcard,
+} from 'rdf-namespaces'
+import { Accommodation, Community, Person, URI } from 'types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
 // import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
 // import { accommodationContext } from 'ldo/accommodation.context'
 
 const geo = 'http://www.w3.org/2003/01/geo/wgs84_pos#'
 const hospex = 'http://w3id.org/hospex/ns#'
+const xsd = 'http://www.w3.org/TR/xmlschema11-2/#'
 
 const { namedNode, literal, quad } = DataFactory
 
@@ -83,9 +93,10 @@ export const comunicaApi = createApi({
     >({
       query: ({ webId, personalHospexDocuments, language = 'en' }) => ({
         query: query`
-          SELECT ?accommodation ?description ?latitude ?longitude WHERE {
+          SELECT ?accommodation ?description ?latitude ?longitude ?host WHERE {
             <${webId}> <${hospex}offers> ?accommodation.
             ?accommodation
+              <${hospex}offeredBy> ?host;
               <${dct.description}> ?description;
               <${geo}location> ?location.
             ?location a <${geo}Point>;
@@ -103,16 +114,18 @@ export const comunicaApi = createApi({
           description: string
           latitude: number
           longitude: number
+          host: URI
         }[],
       ) =>
         accommodations.map(
-          ({ accommodation, description, latitude, longitude }) => ({
+          ({ accommodation, description, latitude, longitude, host }) => ({
             id: accommodation,
             description,
             location: {
               lat: Number(latitude),
               long: Number(longitude),
             },
+            offeredBy: host,
           }),
         ),
       providesTags: (result, error, arg) => [
@@ -146,6 +159,32 @@ export const comunicaApi = createApi({
         { type: 'Accommodation', id: arg.accommodation.id },
       ],
     }),
+    updateAccommodation: builder.mutation<
+      null,
+      {
+        webId: URI
+        accommodation: Accommodation
+        personalHospexDocument: URI
+      }
+    >({
+      queryFn: async ({ webId, accommodation, personalHospexDocument }) => {
+        await saveAccommodation(
+          {
+            webId,
+            personalHospexDocument,
+            data: accommodation,
+          },
+          true,
+        )
+
+        return { data: null }
+      },
+      invalidatesTags: (res, err, arg) => [
+        { type: 'Accommodation', id: `LIST_OF_${arg.webId}` },
+        { type: 'Accommodation', id: 'LIST_OF_ALL' },
+        { type: 'Accommodation', id: arg.accommodation.id },
+      ],
+    }),
     deleteAccommodation: builder.mutation<
       null,
       { webId: URI; id: URI; personalHospexDocument: URI }
@@ -163,6 +202,43 @@ export const comunicaApi = createApi({
         { type: 'Accommodation', id: `LIST_OF_${arg.webId}` },
         { type: 'Accommodation', id: arg.id },
         { type: 'Accommodation', id: 'LIST_OF_ALL' },
+      ],
+    }),
+    readAccommodation: builder.query<Accommodation, { accommodationId: URI }>({
+      query: ({ accommodationId }) => ({
+        query: `SELECT (<${accommodationId}> as ?id) ?lat ?long ?description ?offeredBy WHERE {
+          <${accommodationId}>
+            <${hospex}offeredBy> ?offeredBy;
+            <${dct.description}> ?description;
+            <${geo}location> ?location.
+          ?location a <${geo}Point>;
+            <${geo}lat> ?lat;
+            <${geo}long> ?long.
+        }`,
+        sources: [accommodationId],
+      }),
+      transformResponse: ([accommodation]: {
+        id: URI
+        description: string
+        lat: number
+        long: number
+        offeredBy: URI
+      }[]) => {
+        if (!accommodation) throw new Error('Accommodation not found')
+
+        const { id, description, lat, long, offeredBy } = accommodation
+        return {
+          id,
+          description,
+          location: {
+            lat: Number(lat),
+            long: Number(long),
+          },
+          offeredBy,
+        }
+      },
+      providesTags: (result, error, arg) => [
+        { type: 'Accommodation', id: arg.accommodationId },
       ],
     }),
     readCommunity: builder.query<
@@ -222,10 +298,16 @@ export const comunicaApi = createApi({
         { type: 'Community', id: 'IS_MEMBER_OF_' + args.communityId },
       ],
     }),
-    readOffers: builder.query<
-      Assign<Accommodation, { person: { webId: URI } }>[],
-      { communityId: URI }
-    >({
+    readPerson: builder.query<Person, { webId: URI }>({
+      queryFn: async ({ webId }) => {
+        const person = await readPerson(webId)
+        if (!person) return { error: 'Not found' }
+        return {
+          data: person,
+        }
+      },
+    }),
+    readOffers: builder.query<Accommodation[], { communityId: URI }>({
       query: ({ communityId }) => ({
         query: query`
           SELECT DISTINCT ?person ?lat ?long ?accommodation ?description WHERE {
@@ -264,7 +346,7 @@ export const comunicaApi = createApi({
           id: accommodation,
           description,
           location: { lat, long },
-          person: { webId: person },
+          offeredBy: person,
         })),
       providesTags: () => [{ type: 'Accommodation', id: 'LIST_OF_ALL' }],
     }),
@@ -277,27 +359,26 @@ export const readOffers = async ({ communityId }: { communityId: string }) => {
     //'https://mrkvon.solidcommunity.net/profile/card#me',
     ()
   const q = query`
-          SELECT DISTINCT ?person ?lat ?long ?accommodation ?description WHERE {
-            <${communityId}> <${sioc.has_usergroup}> ?group.
-            ?group <${vcard.hasMember}> ?member.
-            ?member <${solid.publicTypeIndex}> ?index.
-            ?index
-                <${rdf.type}> <${solid.TypeIndex}>;
-                <${dct.references}> ?typeRegistration.
-            ?typeRegistration
-                <${rdf.type}> <${solid.TypeRegistration}>;
-                <${solid.forClass}> <${hospex}PersonalHospexDocument>;
-                <${solid.instance}> ?hospexDocument.
-            ?person <${hospex}offers> ?accommodation.
-             ?accommodation <${dct.description}> ?description;
-                 <${geo}location> ?location.
-             ?location
-                 <${geo}lat> ?lat;
-                <${geo}long> ?long.
+    SELECT DISTINCT ?person ?lat ?long ?accommodation ?description WHERE {
+      <${communityId}> <${sioc.has_usergroup}> ?group.
+      ?group <${vcard.hasMember}> ?member.
+      ?member <${solid.publicTypeIndex}> ?index.
+      ?index
+          <${rdf.type}> <${solid.TypeIndex}>;
+          <${dct.references}> ?typeRegistration.
+      ?typeRegistration
+          <${rdf.type}> <${solid.TypeRegistration}>;
+          <${solid.forClass}> <${hospex}PersonalHospexDocument>;
+          <${solid.instance}> ?hospexDocument.
+      ?person <${hospex}offers> ?accommodation.
+        ?accommodation <${dct.description}> ?description;
+            <${geo}location> ?location.
+        ?location
+            <${geo}lat> ?lat;
+          <${geo}long> ?long.
 
-            FILTER(?member = ?person)
-          }
-        `
+      FILTER(?member = ?person)
+    }`
 
   const bindingsStream = await myEngine.queryBindings(q, {
     sources: [communityId],
@@ -327,6 +408,89 @@ export const readOffers = async ({ communityId }: { communityId: string }) => {
   // }
   // sources: [communityId]
 }
+
+const readPerson = async (webId: URI): Promise<Person> => {
+  // read common profile
+  const profileQuery = query`
+    SELECT ?name ?about ?photo WHERE {
+      <${webId}> <${foaf.name}> ?name;
+      OPTIONAL { <${webId}> <${vcard.note}> ?about. }
+      OPTIONAL { <${webId}> <${vcard.hasPhoto}> ?photo. }
+    }`
+
+  const genericProfileStream = await limitedEngine.queryBindings(profileQuery, {
+    sources: [webId],
+    fetch: fullFetch,
+  })
+  const [genericProfile] = (await genericProfileStream.toArray())
+    .map(binding => {
+      const keys = Array.from(binding.keys()).map(({ value }) => value)
+
+      return Object.fromEntries(
+        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
+      )
+    })
+    .map(({ name, about, photo }) => ({
+      id: webId,
+      name: name ?? '',
+      photo: photo ?? undefined,
+      about: about ?? undefined,
+    }))
+
+  // then find hospex document
+  const hospexDocumentQuery = query`
+    SELECT ?hospexDocument WHERE {
+      <${webId}> <${solid.publicTypeIndex}> ?index.
+      ?index
+        <${rdf.type}> <${solid.TypeIndex}>;
+        <${dct.references}> ?typeRegistration.
+      ?typeRegistration
+        <${rdf.type}> <${solid.TypeRegistration}>;
+        <${solid.forClass}> <${hospex}PersonalHospexDocument>;
+        <${solid.instance}> ?hospexDocument.
+    }`
+
+  const documentStream = await myEngine.queryBindings(hospexDocumentQuery, {
+    sources: [webId],
+    fetch: fullFetch,
+    lenient: true,
+  })
+  const documents = (await documentStream.toArray())
+    .map(binding => {
+      const keys = Array.from(binding.keys()).map(({ value }) => value)
+
+      return Object.fromEntries(
+        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
+      )
+    })
+    .map(({ hospexDocument }) => hospexDocument as URI)
+
+  if (documents.length < 1) return genericProfile
+
+  // then read hospex profile
+  const hospexProfileStream = await limitedEngine.queryBindings(profileQuery, {
+    sources: documents as [URI, ...URI[]],
+    fetch: fullFetch,
+  })
+
+  const [hospexProfile] = (await hospexProfileStream.toArray())
+    .map(binding => {
+      const keys = Array.from(binding.keys()).map(({ value }) => value)
+
+      return Object.fromEntries(
+        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
+      )
+    })
+    .map(({ name, about, photo }) => ({
+      id: webId,
+      name: name ?? undefined, // do not overwrite main profile name
+      photo: photo ?? undefined,
+      about: about ?? undefined,
+    }))
+
+  return merge(genericProfile, hospexProfile)
+}
+
 // export const readAccommodations = async ({
 //   webId,
 //   personalHospexDocuments,
@@ -397,17 +561,20 @@ export const readOffers = async ({ communityId }: { communityId: string }) => {
 //   return data
 // }
 
-const saveAccommodation = async ({
-  webId,
-  personalHospexDocument,
-  data,
-  language = 'en',
-}: {
-  webId: URI
-  personalHospexDocument: URI
-  data: Accommodation
-  language?: string
-}) => {
+const saveAccommodation = async (
+  {
+    webId,
+    personalHospexDocument,
+    data,
+    language = 'en',
+  }: {
+    webId: URI
+    personalHospexDocument: URI
+    data: Accommodation
+    language?: string
+  },
+  update?: boolean,
+) => {
   // save accommodation
   const insertions: Quad[] = []
   // const deletions: Quad[] = []
@@ -441,19 +608,19 @@ const saveAccommodation = async ({
     quad(
       namedNode(locationUri),
       namedNode(geo + 'lat'),
-      literal(data.location.lat),
+      literal(data.location.lat, namedNode(xsd + 'decimal')),
     ),
     quad(
       namedNode(locationUri),
       namedNode(geo + 'long'),
-      literal(data.location.long),
+      literal(data.location.long, namedNode(xsd + 'decimal')),
     ),
     quad(namedNode(auri), namedNode(hospex + 'offeredBy'), namedNode(webId)),
   )
 
-  // TODO this query currently deletes descriptions in all languages
-  // it also assumes a specific format of locationUri, which might be wrong
-  const newAccommodationQuery = query`DELETE {
+  if (update) {
+    // TODO this query currently deletes descriptions in all languages
+    const updateAccommodationQuery = query`DELETE {
     <${auri}> <${dct.description}> ?description.
     ?location ?predicate ?object.
   } INSERT {${insertions}} WHERE {
@@ -462,28 +629,37 @@ const saveAccommodation = async ({
     ?location ?predicate ?object.
     #FILTER(LANG(?description) = "${language}") #look closer at this
     #FILTER(isLiteral(?description) && langMatches(lang(?description), "en"))
-  }; INSERT DATA {${insertions}}`
+  }`
 
-  // const newAccommodationQuery = query`INSERT DATA {${insertions}}`
-
-  await limitedEngine.queryVoid(newAccommodationQuery, {
-    sources: [data.id],
-    lenient: true,
-    destination: { type: 'patchSparqlUpdate', value: data.id },
-    fetch,
-  })
-
-  // save user offers accommodation
-  await myEngine.queryVoid(
-    query`INSERT DATA {${[
-      quad(namedNode(webId), namedNode(hospex + 'offers'), namedNode(auri)),
-    ]}}`,
-    {
-      sources: [personalHospexDocument],
-      destination: { type: 'patchSparqlUpdate', value: personalHospexDocument },
+    await limitedEngine.queryVoid(updateAccommodationQuery, {
+      sources: [data.id],
+      destination: { type: 'patchSparqlUpdate', value: data.id },
       fetch,
-    },
-  )
+    })
+  } else {
+    // insert data in case it's a new accommodation
+    const insertAccommodationQuery = query`INSERT DATA {${insertions}}`
+    await limitedEngine.queryVoid(insertAccommodationQuery, {
+      sources: [data.id],
+      destination: { type: 'patchSparqlUpdate', value: data.id },
+      fetch,
+    })
+
+    // save user offers accommodation
+    await myEngine.queryVoid(
+      query`INSERT DATA {${[
+        quad(namedNode(webId), namedNode(hospex + 'offers'), namedNode(auri)),
+      ]}}`,
+      {
+        sources: [personalHospexDocument],
+        destination: {
+          type: 'patchSparqlUpdate',
+          value: personalHospexDocument,
+        },
+        fetch,
+      },
+    )
+  }
 
   await myEngine.invalidateHttpCache()
 }
@@ -515,9 +691,9 @@ const deleteAccommodation = async ({
   personalHospexDocument: URI
 }) => {
   // delete data from accommodation
-  const deleteAccommodationQuery = query`DELETE {
+  const deleteAccommodationQuery = query`
+  DELETE {
     <${id}> ?predicate ?object.
-    <${id}> <${geo}location> ?location.
     ?location ?lpredicate ?lobject.
   } WHERE {
     <${id}> ?predicate ?object.
@@ -545,8 +721,11 @@ const deleteAccommodation = async ({
 
   // delete file if empty
   const file = await (await fetch(id)).text()
-  if (!file.trim()) await fetch(id, { method: 'DELETE' })
+  const parser = new Parser()
+  const quads = parser.parse(file)
+  if (quads.length === 0) await fetch(id, { method: 'DELETE' })
 
+  // invalidate cache for updated documents
   await Promise.all(
     [id, personalHospexDocument].map(uri =>
       myEngine.invalidateHttpCache(removeHashFromURI(uri)),

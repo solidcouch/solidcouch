@@ -4,10 +4,10 @@ import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
 import { useAppSelector } from 'app/hooks'
 import { api } from 'app/services/api'
+import { Avatar } from 'components/Avatar/Avatar'
 import { selectAuth } from 'features/auth/authSlice'
 import { ReactComponent as LogoOpen } from 'logo-open.svg'
 import { ReactComponent as Logo } from 'logo.svg'
-import { FaUserCircle } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { SignOut } from '../SignOut'
 import styles from './Header.module.scss'
@@ -31,11 +31,7 @@ export const Header = () => {
         <Menu
           menuButton={
             <MenuButton>
-              {photo ? (
-                <img className={styles.photo} src={photo} alt="" />
-              ) : (
-                <FaUserCircle className={styles.photo} size={32} />
-              )}
+              <Avatar photo={photo} />
             </MenuButton>
           }
         >

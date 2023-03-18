@@ -9,12 +9,7 @@ export interface Accommodation {
   id: URI
   description: string
   location: Location
-}
-
-// WIP types
-
-export type Person = {
-  id: URI
+  offeredBy: URI
 }
 
 export type Community = {
@@ -22,4 +17,12 @@ export type Community = {
   group: URI
   name: string
   description: string
+}
+
+// WIP types
+export type Person = {
+  id: URI
+  photo?: URI
+  name: string
+  about?: string
 }

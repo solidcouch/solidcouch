@@ -32,8 +32,10 @@ export const MyOffers = () => {
         : skipToken,
     )
 
-  const [saveAccommodation] =
+  const [createAccommodation] =
     comunicaApi.endpoints.createAccommodation.useMutation()
+  const [updateAccommodation] =
+    comunicaApi.endpoints.updateAccommodation.useMutation()
   const [deleteAccommodation] =
     comunicaApi.endpoints.deleteAccommodation.useMutation()
 
@@ -41,20 +43,32 @@ export const MyOffers = () => {
 
   if (!accommodations) return <Loading>Loading...</Loading>
 
-  const handleSave = async (accommodation: Accommodation) => {
+  const handleCreate = async (accommodation: Omit<Accommodation, 'id'>) => {
     if (!(auth.webId && personalHospexDocuments?.[0]))
       throw new Error('missing variables')
 
     const id =
-      accommodation.id ??
       getContainer(personalHospexDocuments[0]) +
-        (await crypto.randomUUID()) +
-        '#accommodation'
+      (await crypto.randomUUID()) +
+      '#accommodation'
 
-    await saveAccommodation({
+    await createAccommodation({
       webId: auth.webId,
       personalHospexDocument: personalHospexDocuments[0],
       accommodation: { ...accommodation, id },
+    })
+
+    setEditing(undefined)
+  }
+
+  const handleUpdate = async (accommodation: Accommodation) => {
+    if (!(auth.webId && personalHospexDocuments?.[0]))
+      throw new Error('missing variables')
+
+    await updateAccommodation({
+      webId: auth.webId,
+      personalHospexDocument: personalHospexDocuments[0],
+      accommodation,
     })
 
     setEditing(undefined)
@@ -84,7 +98,7 @@ export const MyOffers = () => {
           editing === accommodation.id ? (
             <AccommodationForm
               key={accommodation.id}
-              onSubmit={handleSave}
+              onSubmit={handleUpdate}
               onCancel={() => {
                 setEditing(undefined)
               }}
@@ -113,7 +127,7 @@ export const MyOffers = () => {
       {/* <pre>{JSON.stringify(accommodations, null, 2)}</pre> */}
       {editing === 'new' ? (
         <AccommodationForm
-          onSubmit={handleSave}
+          onSubmit={handleCreate}
           onCancel={() => setEditing(undefined)}
         />
       ) : (
