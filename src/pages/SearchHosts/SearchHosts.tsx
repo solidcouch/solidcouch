@@ -1,5 +1,6 @@
+import MarkerClusterGroup from '@changey/react-leaflet-markercluster'
 import { comunicaApi } from 'app/services/comunicaApi'
-import { communityId, tileServer } from 'config'
+import { communityId, defaultIcon, highlightedIcon, tileServer } from 'config'
 import { FaTimes } from 'react-icons/fa'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { useSearchParams } from 'react-router-dom'
@@ -42,25 +43,30 @@ export const SearchHosts = () => {
           attributionControl={false}
           zoom={1}
           center={[0, 0]}
-          scrollWheelZoom="center"
-          doubleClickZoom="center"
-          touchZoom="center"
         >
           <TileLayer url={tileServer} />
-
-          {offers
-            ? offers.map(offer => (
-                <Marker
-                  key={offer.id}
-                  position={[offer.location.lat, offer.location.long]}
-                  eventHandlers={{
-                    click: () => {
-                      handleMarkerClick(offer.id)
-                    },
-                  }}
-                />
-              ))
-            : null}
+          <MarkerClusterGroup maxClusterRadius={20}>
+            {offers
+              ? offers.map(offer => {
+                  return (
+                    <Marker
+                      key={offer.id}
+                      position={[offer.location.lat, offer.location.long]}
+                      eventHandlers={{
+                        click: () => {
+                          handleMarkerClick(offer.id)
+                        },
+                      }}
+                      icon={
+                        offer.id === selectedAccommodationId
+                          ? highlightedIcon
+                          : defaultIcon
+                      }
+                    />
+                  )
+                })
+              : null}
+          </MarkerClusterGroup>
         </MapContainer>
       </div>
     </>

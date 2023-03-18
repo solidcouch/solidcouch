@@ -1,3 +1,5 @@
+@use 'styles/media';
+
 .container {
   // position: fixed;
   display: flex;
@@ -10,6 +12,11 @@
   height: 100%;
   margin-left: -35px;
   margin-right: -35px;
+
+  @include media.for-tablet-portrait-up {
+    margin-left: -70px;
+    margin-right: -70px;
+  }
 }
 
 .offerOverlay {
@@ -31,8 +38,7 @@
 }
 
 .mapContainer {
-  // width: 100%;
+  width: 100%;
   height: 100%;
   z-index: 0;
-  width: 100vw;
 }

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@changey/react-leaflet-markercluster": "^4.0.0-rc1",
     "@comunica/actor-query-result-serialize-tree": "^2.6.7",
     "@comunica/query-sparql": "^2.6.7",
     "@comunica/query-sparql-link-traversal": "^0.1.0",
