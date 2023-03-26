@@ -15,8 +15,9 @@ import {
   solid,
   vcard,
 } from 'rdf-namespaces'
-import { Accommodation, Community, Person, URI } from 'types'
+import { Accommodation, Community, Message, Person, Thread, URI } from 'types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
+import { createMessage, readMessages, readThreads } from './messages'
 // import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
 // import { accommodationContext } from 'ldo/accommodation.context'
 
@@ -350,14 +351,30 @@ export const comunicaApi = createApi({
         })),
       providesTags: () => [{ type: 'Accommodation', id: 'LIST_OF_ALL' }],
     }),
+    readThreads: builder.query<Thread[], void>({
+      queryFn: async () => {
+        return { data: await readThreads() }
+      },
+    }),
+    readMessages: builder.query<Message[], { userId: URI }>({
+      queryFn: async props => {
+        return { data: await readMessages(props) }
+      },
+    }),
+    createMessage: builder.mutation<
+      unknown,
+      { senderId: URI; receiverId: URI; message: string }
+    >({
+      queryFn: async props => {
+        await createMessage(props)
+        return { data: null }
+      },
+    }),
   }),
 })
 
 export const readOffers = async ({ communityId }: { communityId: string }) => {
-  await myEngine
-    .invalidateHttpCache
-    //'https://mrkvon.solidcommunity.net/profile/card#me',
-    ()
+  await myEngine.invalidateHttpCache()
   const q = query`
     SELECT DISTINCT ?person ?lat ?long ?accommodation ?description WHERE {
       <${communityId}> <${sioc.has_usergroup}> ?group.

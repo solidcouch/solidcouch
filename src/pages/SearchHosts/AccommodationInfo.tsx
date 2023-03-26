@@ -1,7 +1,10 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
+import { ButtonLink } from 'components'
 import { Avatar } from 'components/Avatar/Avatar'
+import { useAuth } from 'hooks/useAuth'
 import { FaExternalLinkAlt } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 import { URI } from 'types'
 import styles from './AccommodationInfo.module.scss'
 
@@ -10,6 +13,8 @@ export const AccommodationInfo = ({
 }: {
   accommodationId: URI
 }) => {
+  const { webId } = useAuth()
+
   const { data: accommodation, ...accommodationStatus } =
     comunicaApi.endpoints.readAccommodation.useQuery(
       accommodationId ? { accommodationId: accommodationId } : skipToken,
@@ -28,6 +33,9 @@ export const AccommodationInfo = ({
   const isPersonLoaded =
     person && personStatus.isSuccess && !personStatus.isFetching
 
+  const isOther =
+    webId && accommodation?.offeredBy && webId !== accommodation.offeredBy
+
   return (
     <div className={styles.container}>
       {isAccommodationLoaded ? (
@@ -35,7 +43,9 @@ export const AccommodationInfo = ({
           {isAccommodationLoaded && isPersonLoaded ? (
             <div className={styles.person}>
               <Avatar {...person} size={1.5} square />
-              <span className={styles.name}>{person.name}</span>
+              <Link to={`/profile/${encodeURIComponent(person.id)}`}>
+                <span className={styles.name}>{person.name}</span>
+              </Link>
               <a href={person.id} target="_blank" rel="noopener noreferrer">
                 <FaExternalLinkAlt />
               </a>
@@ -56,7 +66,15 @@ export const AccommodationInfo = ({
         </>
       ) : (
         'loading info...'
-      )}{' '}
+      )}
+      {isOther ? (
+        <ButtonLink
+          primary
+          to={`/messages/${encodeURIComponent(accommodation.offeredBy)}`}
+        >
+          Write a message
+        </ButtonLink>
+      ) : null}
     </div>
   )
 }

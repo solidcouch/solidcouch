@@ -26,3 +26,16 @@ export type Person = {
   name: string
   about?: string
 }
+
+export type Message = {
+  id: URI
+  message: string
+  createdAt: number // timestamp
+  from: Person
+  to: Person
+}
+
+export type Thread = {
+  userId: Person // the other person
+  messages: Message[] // last one or more messages
+}
