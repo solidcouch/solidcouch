@@ -17,6 +17,7 @@ import {
 } from 'rdf-namespaces'
 import { Accommodation, Community, Message, Person, Thread, URI } from 'types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
+import { bindings2data } from './helpers'
 import { createMessage, readMessages, readThreads } from './messages'
 // import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
 // import { accommodationContext } from 'ldo/accommodation.context'
@@ -66,13 +67,7 @@ const comunicaBaseQuery =
       fetch: fullFetch,
     })
 
-    const data = (await bindingsStream.toArray()).map(binding => {
-      const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-      return Object.fromEntries(
-        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-      )
-    })
+    const data = await bindings2data(bindingsStream)
 
     return {
       data,
@@ -405,13 +400,7 @@ export const readOffers = async ({ communityId }: { communityId: string }) => {
   })
   // bindingsStream.on('data', bindings => console.log(bindings))
 
-  const data = (await bindingsStream.toArray()).map(binding => {
-    const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-    return Object.fromEntries(
-      keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-    )
-  })
+  const data = await bindings2data(bindingsStream)
   return data
 
   // return {
@@ -439,20 +428,14 @@ const readPerson = async (webId: URI): Promise<Person> => {
     sources: [webId],
     fetch: fullFetch,
   })
-  const [genericProfile] = (await genericProfileStream.toArray())
-    .map(binding => {
-      const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-      return Object.fromEntries(
-        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-      )
-    })
-    .map(({ name, about, photo }) => ({
+  const [genericProfile] = (await bindings2data(genericProfileStream)).map(
+    ({ name, about, photo }) => ({
       id: webId,
       name: name ?? '',
       photo: photo ?? undefined,
       about: about ?? undefined,
-    }))
+    }),
+  )
 
   // then find hospex document
   const hospexDocumentQuery = query`
@@ -472,15 +455,9 @@ const readPerson = async (webId: URI): Promise<Person> => {
     fetch: fullFetch,
     lenient: true,
   })
-  const documents = (await documentStream.toArray())
-    .map(binding => {
-      const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-      return Object.fromEntries(
-        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-      )
-    })
-    .map(({ hospexDocument }) => hospexDocument as URI)
+  const documents = (await bindings2data(documentStream)).map(
+    ({ hospexDocument }) => hospexDocument as URI,
+  )
 
   if (documents.length < 1) return genericProfile
 
@@ -490,20 +467,14 @@ const readPerson = async (webId: URI): Promise<Person> => {
     fetch: fullFetch,
   })
 
-  const [hospexProfile] = (await hospexProfileStream.toArray())
-    .map(binding => {
-      const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-      return Object.fromEntries(
-        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-      )
-    })
-    .map(({ name, about, photo }) => ({
+  const [hospexProfile] = (await bindings2data(hospexProfileStream)).map(
+    ({ name, about, photo }) => ({
       id: webId,
       name: name ?? undefined, // do not overwrite main profile name
       photo: photo ?? undefined,
       about: about ?? undefined,
-    }))
+    }),
+  )
 
   return merge(genericProfile, hospexProfile)
 }

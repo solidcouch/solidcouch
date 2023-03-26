@@ -33,13 +33,7 @@ export const readThreads = async ({ me }: { me: URI }): Promise<Thread[]> => {
     fetch: fullFetch,
   })
 
-  const data = (await bindingsStream.toArray()).map(binding => {
-    const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-    return Object.fromEntries(
-      keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-    )
-  })
+  const data = await bindings2data(bindingsStream)
 
   const chats = data.map(({ chat, otherChat }) =>
     [chat, otherChat].filter(c => Boolean(c)),
@@ -104,20 +98,14 @@ const readChatFromFolder = async (folder: URI): Promise<Message[]> => {
     fetch: fullFetch,
   })
 
-  const data = (await bindingsStream.toArray()).map(binding => {
-    const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-    return Object.fromEntries(
-      keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-    )
-  })
+  const data = await bindings2data(bindingsStream)
 
   const messages = data.map(({ message, createdAt, content, author }) => ({
     id: message as string,
     message: content as string,
     createdAt: new Date(createdAt ?? '').getTime(),
     from: author as string,
-    to: 'https://example.com',
+    to: 'https://example.com', // this may be meaningless, or rather derived from the context of message's thread
   }))
 
   return messages
@@ -130,9 +118,63 @@ export const readMessages = async ({
   userId: URI
   me: URI
 }): Promise<Message[]> => {
-  // read type indexes and find long chats
+  // find chats where the other user participates
 
-  return []
+  const readChatsWithUserQuery = query`SELECT DISTINCT ?chat WHERE {
+    <${me}> <${solid.privateTypeIndex}> ?index.
+    ?registration
+        <${solid.forClass}> <http://www.w3.org/ns/pim/meeting#LongChat>;
+        <${solid.instance}> ?chat.
+    ?chat <http://www.w3.org/2005/01/wf/flow#participation> ?participation.
+    ?participation <http://www.w3.org/2005/01/wf/flow#participant> <${userId}>.
+  }`
+  const bindingsStream = await traversalEngine.queryBindings(
+    readChatsWithUserQuery,
+    {
+      sources: [me],
+      lenient: true,
+      fetch: fullFetch,
+    },
+  )
+
+  const data = await bindings2data(bindingsStream)
+
+  // get all referenced chats
+  const chats = await Promise.all(
+    data.map(d => getReferencedChats(d.chat ?? '')),
+  )
+
+  const folders = chats.flat().map(chat => getContainer(chat))
+
+  const messages = (
+    await Promise.all(folders.map(folder => readChatFromFolder(folder)))
+  )
+    .flat()
+    .sort(
+      (msga, msgb) =>
+        new Date(msga.createdAt).getTime() - new Date(msgb.createdAt).getTime(),
+    )
+
+  return messages
+}
+
+const getReferencedChats = async (chat: URI): Promise<URI[]> => {
+  const readChatsWithUserQuery = query`SELECT ?chat WHERE {
+    <${chat}> <http://www.w3.org/2005/01/wf/flow#participation> ?participation.
+    ?participation <${dct.references}> ?chat.
+  }`
+  const bindingsStream = await traversalEngine.queryBindings(
+    readChatsWithUserQuery,
+    {
+      sources: [chat],
+      lenient: true,
+      fetch: fullFetch,
+    },
+  )
+
+  const data = await bindings2data(bindingsStream)
+
+  return [chat, ...data.map(d => d.chat as URI)]
 }
 
 export const createMessage = async ({

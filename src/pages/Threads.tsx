@@ -11,8 +11,6 @@ export const Threads = () => {
     auth.webId ? { me: auth.webId } : skipToken,
   )
 
-  console.log(threads, error)
-
   if (error) return <>{JSON.stringify(error, null, 2)}</>
   if (!threads) return <Loading>Loading...</Loading>
 

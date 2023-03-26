@@ -1,9 +1,11 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
-import { Button } from 'components'
+import classNames from 'classnames'
+import { Button, Loading } from 'components'
 import { useAuth } from 'hooks/useAuth'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
+import styles from './Messages.module.scss'
 
 export const Messages = () => {
   const personId = useParams().id as string
@@ -21,7 +23,6 @@ export const Messages = () => {
   const { register, handleSubmit } = useForm<{ message: string }>()
 
   const handleFormSubmit = handleSubmit(async data => {
-    console.log(data)
     if (!auth.webId) throw new Error('No authenticated user available')
     await createMessage({
       senderId: auth.webId,
@@ -33,9 +34,29 @@ export const Messages = () => {
   return (
     <div>
       Messages with {person?.name}
-      {messages?.map(({ message, from, to, createdAt }) => (
-        <div>{message}</div>
-      ))}
+      <div className={styles.messages}>
+        {messages?.map(({ id, message, from, createdAt }) => (
+          <div
+            key={id}
+            className={classNames(
+              styles.message,
+              from === auth.webId && styles.fromMe,
+            )}
+          >
+            {message}{' '}
+            <span
+              className={styles.time}
+              title={new Date(createdAt).toLocaleString()}
+            >
+              {new Date(createdAt).toLocaleTimeString()}
+            </span>
+          </div>
+        )) ?? (
+          <div>
+            <Loading>Loading previous messages</Loading>
+          </div>
+        )}
+      </div>
       <form onSubmit={handleFormSubmit}>
         <textarea {...register('message', { required: true })} />
         <Button primary type="submit">

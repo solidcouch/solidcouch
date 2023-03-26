@@ -1,0 +1,22 @@
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+
+  .message {
+    border-radius: 2rem;
+    background-color: lightgray;
+    padding: 0.5rem 1rem;
+
+    &.fromMe {
+      background-color: black;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .time {
+      font-size: small;
+    }
+  }
+}
