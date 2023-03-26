@@ -1,3 +1,4 @@
+import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
 import { Button } from 'components'
 import { useAuth } from 'hooks/useAuth'
@@ -6,14 +7,14 @@ import { useParams } from 'react-router-dom'
 
 export const Messages = () => {
   const personId = useParams().id as string
+  const auth = useAuth()
+
   const { data: person } = comunicaApi.endpoints.readPerson.useQuery({
     webId: personId,
   })
-  const { data: messages } = comunicaApi.endpoints.readMessages.useQuery({
-    userId: personId,
-  })
-
-  const auth = useAuth()
+  const { data: messages } = comunicaApi.endpoints.readMessages.useQuery(
+    auth.webId ? { userId: personId, me: auth.webId } : skipToken,
+  )
 
   const [createMessage] = comunicaApi.endpoints.createMessage.useMutation()
 

@@ -351,12 +351,12 @@ export const comunicaApi = createApi({
         })),
       providesTags: () => [{ type: 'Accommodation', id: 'LIST_OF_ALL' }],
     }),
-    readThreads: builder.query<Thread[], void>({
-      queryFn: async () => {
-        return { data: await readThreads() }
+    readThreads: builder.query<Thread[], { me: URI }>({
+      queryFn: async props => {
+        return { data: await readThreads(props) }
       },
     }),
-    readMessages: builder.query<Message[], { userId: URI }>({
+    readMessages: builder.query<Message[], { userId: URI; me: URI }>({
       queryFn: async props => {
         return { data: await readMessages(props) }
       },
@@ -681,7 +681,7 @@ const saveAccommodation = async (
   await myEngine.invalidateHttpCache()
 }
 
-const query = (
+export const query = (
   strings: TemplateStringsArray,
   ...rest: (Triple[] | string)[]
 ) => {

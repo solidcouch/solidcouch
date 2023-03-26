@@ -31,11 +31,11 @@ export type Message = {
   id: URI
   message: string
   createdAt: number // timestamp
-  from: Person
-  to: Person
+  from: URI
+  to: URI
 }
 
 export type Thread = {
-  userId: Person // the other person
+  participants: URI[] //
   messages: Message[] // last one or more messages
 }
