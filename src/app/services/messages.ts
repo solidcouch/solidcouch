@@ -3,9 +3,24 @@ import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { mergeWith } from 'lodash'
 import { DataFactory, Quad } from 'n3'
-import { as, dct, foaf, ldp, rdf, sioc, solid, wf } from 'rdf-namespaces'
 import { Message, Thread, URI } from 'types'
 import { fullFetch, getContainer } from 'utils/helpers'
+import {
+  acl,
+  as,
+  cal,
+  dct,
+  foaf,
+  hospex,
+  ldp,
+  meeting,
+  rdf,
+  sioc,
+  solid,
+  ui,
+  wf,
+  xsd,
+} from 'utils/rdf-namespaces'
 import * as uuid from 'uuid'
 import { query } from './comunicaApi'
 import { bindings2data } from './helpers'
@@ -25,10 +40,10 @@ export const readThreads = async ({ me }: { me: URI }): Promise<Thread[]> => {
   const readIndexesQuery = query`SELECT * WHERE {
     <${me}> <${solid.privateTypeIndex}> ?index.
     ?registration
-        <${solid.forClass}> <http://www.w3.org/ns/pim/meeting#LongChat>;
+        <${solid.forClass}> <${meeting.LongChat}>;
         <${solid.instance}> ?chat.
     OPTIONAL {
-    ?chat <http://www.w3.org/2005/01/wf/flow#participation> ?participation.
+    ?chat <${wf.participation}> ?participation.
     ?participation <${dct.references}> ?otherChat.
     }
   }`
@@ -72,8 +87,8 @@ export const readThreads = async ({ me }: { me: URI }): Promise<Thread[]> => {
 
 const readChatParticipants = async (chat: URI): Promise<URI[]> => {
   const readIndexesQuery = query`SELECT DISTINCT ?participant WHERE {
-    <${chat}> <http://www.w3.org/2005/01/wf/flow#participation> ?participation.
-    ?participation <http://www.w3.org/2005/01/wf/flow#participant> ?participant.
+    <${chat}> <${wf.participation}> ?participation.
+    ?participation <${wf.participant}> ?participant.
   }`
   const bindingsStream = await traversalEngine.queryBindings(readIndexesQuery, {
     sources: [chat],
@@ -127,10 +142,10 @@ export const readMessages = async ({
   const readChatsWithUserQuery = query`SELECT DISTINCT ?chat WHERE {
     <${me}> <${solid.privateTypeIndex}> ?index.
     ?registration
-        <${solid.forClass}> <http://www.w3.org/ns/pim/meeting#LongChat>;
+        <${solid.forClass}> <${meeting.LongChat}>;
         <${solid.instance}> ?chat.
-    ?chat <http://www.w3.org/2005/01/wf/flow#participation> ?participation.
-    ?participation <http://www.w3.org/2005/01/wf/flow#participant> <${userId}>.
+    ?chat <${wf.participation}> ?participation.
+    ?participation <${wf.participant}> <${userId}>.
   }`
   const bindingsStream = await traversalEngine.queryBindings(
     readChatsWithUserQuery,
@@ -175,11 +190,11 @@ const getChat = async ({
   const readChatsWithUserQuery = query`SELECT DISTINCT ?chat ?participant WHERE {
     <${me}> <${solid.privateTypeIndex}> ?index.
     ?registration
-        <${solid.forClass}> <http://www.w3.org/ns/pim/meeting#LongChat>;
+        <${solid.forClass}> <${meeting.LongChat}>;
         <${solid.instance}> ?chat.
-    ?chat <http://www.w3.org/2005/01/wf/flow#participation> ?participation, ?p.
-    ?participation <http://www.w3.org/2005/01/wf/flow#participant> <${other}>.
-    ?p <http://www.w3.org/2005/01/wf/flow#participant> ?participant.
+    ?chat <${wf.participation}> ?participation, ?p.
+    ?participation <${wf.participant}> <${other}>.
+    ?p <${wf.participant}> ?participant.
   }`
   const bindingsStream = await traversalEngine.queryBindings(
     readChatsWithUserQuery,
@@ -216,7 +231,7 @@ const getChat = async ({
 
 const getReferencedChats = async (chat: URI): Promise<URI[]> => {
   const readChatsWithUserQuery = query`SELECT ?chat WHERE {
-    <${chat}> <http://www.w3.org/2005/01/wf/flow#participation> ?participation.
+    <${chat}> <${wf.participation}> ?participation.
     ?participation <${dct.references}> ?chat.
   }`
   const bindingsStream = await traversalEngine.queryBindings(
@@ -233,6 +248,164 @@ const getReferencedChats = async (chat: URI): Promise<URI[]> => {
   return [chat, ...data.map(d => d.chat as URI)]
 }
 
+const getHospexContainer = async (webId: URI) => {
+  await traversalEngine.invalidateHttpCache()
+  const hospexDocumentQuery = query`
+    SELECT ?hospexDocument WHERE {
+      <${webId}> <${solid.publicTypeIndex}> ?index.
+      ?index
+        <${rdf.type}> <${solid.TypeIndex}>;
+        <${dct.references}> ?typeRegistration.
+      ?typeRegistration
+        <${rdf.type}> <${solid.TypeRegistration}>;
+        <${solid.forClass}> <${hospex.PersonalHospexDocument}>;
+        <${solid.instance}> ?hospexDocument.
+    }`
+
+  const documentStream = await traversalEngine.queryBindings(
+    hospexDocumentQuery,
+    { sources: [webId], fetch: fullFetch, lenient: true },
+  )
+  const documents = (await bindings2data(documentStream)).map(
+    ({ hospexDocument }) => hospexDocument as URI,
+  )
+
+  if (documents.length !== 1)
+    throw new Error(
+      'hospex document not setup or we have multiple hospex documents TODO distinguish correct hospex document for this community',
+    )
+
+  const hospexContainer = getContainer(documents[0])
+  return hospexContainer
+}
+
+const createChat = async ({
+  me,
+  other,
+  otherChat,
+}: {
+  me: URI
+  other: URI
+  otherChat?: URI
+}) => {
+  const storage = await getHospexContainer(me)
+  // create index.ttl on my pod and fill it with info
+  const chatContainer = `${storage}messages/${uuid.v4()}/`
+  const chatFile = chatContainer + 'index.ttl'
+  const chat = chatFile + '#this'
+
+  const dateLiteral = literal(new Date().toISOString(), namedNode(xsd.dateTime))
+
+  const chatNode = namedNode(chat)
+  const myParticipationNode = namedNode(`${chatFile}#${uuid.v4()}`)
+  const otherParticipationNode = namedNode(`${chatFile}#${uuid.v4()}`)
+  const quads = [
+    quad(chatNode, namedNode(rdf.type), namedNode(meeting.LongChat)),
+    quad(chatNode, namedNode(dct.creator), namedNode(me)),
+    quad(chatNode, namedNode(dct.created), dateLiteral),
+    quad(chatNode, namedNode(dct.title), literal('Hospex chat channel')),
+    quad(
+      chatNode,
+      namedNode(ui.sharedPreferences),
+      namedNode(chatFile + '#SharedPreferences'),
+    ),
+    quad(chatNode, namedNode(wf.participation), myParticipationNode),
+    quad(chatNode, namedNode(wf.participation), otherParticipationNode),
+    quad(myParticipationNode, namedNode(wf.participant), namedNode(me)),
+    quad(myParticipationNode, namedNode(cal.dtstart), dateLiteral),
+    quad(otherParticipationNode, namedNode(wf.participant), namedNode(other)),
+    quad(otherParticipationNode, namedNode(cal.dtstart), dateLiteral),
+  ]
+
+  if (otherChat) {
+    quads.push(
+      quad(
+        otherParticipationNode,
+        namedNode(dct.references),
+        namedNode(otherChat),
+      ),
+    )
+  }
+
+  // we'll put it to our hospex container
+  await simpleEngine.queryVoid(query`INSERT DATA {${quads}}`, {
+    sources: [chatFile],
+    destination: { type: 'patchSparqlUpdate', value: chatFile },
+    fetch,
+  })
+
+  // set up correct access to chat folder
+  const accessFile = chatContainer + '.acl'
+  const ownerNode = namedNode(accessFile + '#ControlReadWrite')
+  const readerNode = namedNode(accessFile + '#Read')
+
+  const accessQuads = [
+    // owner
+    quad(ownerNode, namedNode(rdf.type), namedNode(acl.Authorization)),
+    quad(ownerNode, namedNode(acl.agent), namedNode(me)),
+    quad(ownerNode, namedNode(acl.accessTo), namedNode(chatContainer)),
+    quad(
+      ownerNode,
+      namedNode(acl.default__workaround),
+      namedNode(chatContainer),
+    ),
+    quad(ownerNode, namedNode(acl.mode), namedNode(acl.Control)),
+    quad(ownerNode, namedNode(acl.mode), namedNode(acl.Read)),
+    quad(ownerNode, namedNode(acl.mode), namedNode(acl.Write)),
+    // reader
+    quad(readerNode, namedNode(rdf.type), namedNode(acl.Authorization)),
+    quad(readerNode, namedNode(acl.agent), namedNode(other)),
+    quad(readerNode, namedNode(acl.accessTo), namedNode(chatContainer)),
+    quad(
+      readerNode,
+      namedNode(acl.default__workaround),
+      namedNode(chatContainer),
+    ),
+    quad(readerNode, namedNode(acl.mode), namedNode(acl.Read)),
+  ]
+  await simpleEngine.queryVoid(query`INSERT DATA {${accessQuads}}`, {
+    sources: [accessFile],
+    destination: { type: 'patchSparqlUpdate', value: accessFile },
+    fetch,
+  })
+
+  // save reference to index.ttl#this in my privateTypeIndex
+  const readPrivateIndexQuery = query`SELECT ?index WHERE {
+    <${me}> <${solid.privateTypeIndex}> ?index.
+  }`
+
+  const bindings = await simpleEngine.queryBindings(readPrivateIndexQuery, {
+    sources: [me],
+    fetch: fullFetch,
+  })
+  const privateIndex = (await bindings2data(bindings))[0]?.index
+
+  if (!privateIndex) throw new Error('Private type index not found')
+
+  const registrationNode = namedNode(privateIndex + '#' + uuid.v4())
+  const indexQuads = [
+    quad(namedNode(privateIndex), namedNode(dct.references), registrationNode),
+    quad(
+      registrationNode,
+      namedNode(rdf.type),
+      namedNode(solid.TypeRegistration),
+    ),
+    quad(
+      registrationNode,
+      namedNode(solid.forClass),
+      namedNode(meeting + 'LongChat'),
+    ),
+    quad(registrationNode, namedNode(solid.instance), namedNode(chat)),
+  ]
+  await simpleEngine.queryVoid(query`INSERT DATA {${indexQuads}}`, {
+    sources: [privateIndex],
+    destination: { type: 'patchSparqlUpdate', value: privateIndex },
+    fetch,
+  })
+
+  return chat
+}
+
 export const createMessage = async ({
   senderId, // is it really necessary?
   receiverId,
@@ -242,12 +415,15 @@ export const createMessage = async ({
   receiverId: URI
   message: string
 }) => {
-  const xsd = 'http://www.w3.org/2001/XMLSchema#'
-
   // save message to my own pod
-  const chat = await getChat({ me: senderId, other: receiverId })
+  let chat = await getChat({ me: senderId, other: receiverId })
 
-  if (!chat) throw new Error('Implement creating a new chat')
+  if (!chat) {
+    chat = await createChat({
+      me: senderId,
+      other: receiverId,
+    })
+  }
 
   const container = getContainer(chat)
 
@@ -262,10 +438,7 @@ export const createMessage = async ({
 
   const insertions: Quad[] = []
 
-  const dateLiteral = literal(
-    new Date().toISOString(),
-    namedNode(xsd + 'dateTime'),
-  )
+  const dateLiteral = literal(new Date().toISOString(), namedNode(xsd.dateTime))
 
   insertions.push(
     quad(msgNode, namedNode(foaf.maker), namedNode(senderId)),
@@ -276,16 +449,6 @@ export const createMessage = async ({
   )
 
   const newMessageQuery = query`INSERT DATA { ${insertions} }`
-
-  /*
-  console.log(newMessageQuery)
-
-  await simpleEngine.queryVoid(newMessageQuery, {
-    sources: [chatFile],
-    destination: { value: chatFile },
-    fetch,
-  })
-  */
 
   await fetch(chatFile, {
     method: 'PATCH',
