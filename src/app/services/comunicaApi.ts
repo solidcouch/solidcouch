@@ -77,7 +77,7 @@ const comunicaBaseQuery =
 export const comunicaApi = createApi({
   reducerPath: 'comunicaApi',
   baseQuery: comunicaBaseQuery(),
-  tagTypes: ['Accommodation', 'Community'],
+  tagTypes: ['Accommodation', 'Community', 'MessageThread'],
   endpoints: builder => ({
     readAccommodations: builder.query<
       Accommodation[],
@@ -350,11 +350,15 @@ export const comunicaApi = createApi({
       queryFn: async props => {
         return { data: await readThreads(props) }
       },
+      providesTags: () => [{ type: 'MessageThread', id: 'LIST' }],
     }),
     readMessages: builder.query<Message[], { userId: URI; me: URI }>({
       queryFn: async props => {
         return { data: await readMessages(props) }
       },
+      providesTags: (res, err, args) => [
+        { type: 'MessageThread', id: args.userId },
+      ],
     }),
     createMessage: builder.mutation<
       unknown,
@@ -364,6 +368,10 @@ export const comunicaApi = createApi({
         await createMessage(props)
         return { data: null }
       },
+      invalidatesTags: (res, err, args) => [
+        { type: 'MessageThread', id: 'LIST' },
+        { type: 'MessageThread', id: args.receiverId },
+      ],
     }),
   }),
 })

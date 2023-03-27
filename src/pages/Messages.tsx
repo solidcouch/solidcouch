@@ -3,6 +3,7 @@ import { comunicaApi } from 'app/services/comunicaApi'
 import classNames from 'classnames'
 import { Button, Loading } from 'components'
 import { useAuth } from 'hooks/useAuth'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import styles from './Messages.module.scss'
@@ -10,6 +11,8 @@ import styles from './Messages.module.scss'
 export const Messages = () => {
   const personId = useParams().id as string
   const auth = useAuth()
+
+  const [isSaving, setIsSaving] = useState(false)
 
   const { data: person } = comunicaApi.endpoints.readPerson.useQuery({
     webId: personId,
@@ -20,15 +23,18 @@ export const Messages = () => {
 
   const [createMessage] = comunicaApi.endpoints.createMessage.useMutation()
 
-  const { register, handleSubmit } = useForm<{ message: string }>()
+  const { register, handleSubmit, reset } = useForm<{ message: string }>()
 
   const handleFormSubmit = handleSubmit(async data => {
     if (!auth.webId) throw new Error('No authenticated user available')
+    setIsSaving(true)
     await createMessage({
       senderId: auth.webId,
       receiverId: personId,
       message: data.message,
     })
+    reset({ message: '' })
+    setIsSaving(false)
   })
 
   return (
@@ -49,6 +55,9 @@ export const Messages = () => {
               title={new Date(createdAt).toLocaleString()}
             >
               {new Date(createdAt).toLocaleTimeString()}
+              {/* On click of the date, we could show info about the message
+              including external link to the particular message
+              */}
             </span>
           </div>
         )) ?? (
@@ -58,10 +67,12 @@ export const Messages = () => {
         )}
       </div>
       <form onSubmit={handleFormSubmit}>
-        <textarea {...register('message', { required: true })} />
-        <Button primary type="submit">
-          Send
-        </Button>
+        <fieldset disabled={isSaving}>
+          <textarea {...register('message', { required: true })} />
+          <Button primary type="submit" disabled={isSaving}>
+            Send
+          </Button>
+        </fieldset>
       </form>
     </div>
   )
