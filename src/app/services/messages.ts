@@ -9,6 +9,7 @@ import {
   acl,
   as,
   cal,
+  dc,
   dct,
   foaf,
   hospex,
@@ -398,8 +399,19 @@ const createChat = async ({
   const quads = [
     quad(chatNode, namedNode(rdf.type), namedNode(meeting.LongChat)),
     quad(chatNode, namedNode(dct.creator), namedNode(me)),
+    quad(
+      chatNode,
+      namedNode(dc.creator.replace('creator', 'author')), // for compatibility with pod-chat.com
+      namedNode(me),
+    ),
     quad(chatNode, namedNode(dct.created), dateLiteral),
+    quad(
+      chatNode,
+      namedNode(dc.creator.replace('creator', 'created')), // for compatibility with pod-chat.com
+      dateLiteral,
+    ),
     quad(chatNode, namedNode(dct.title), literal('Hospex chat channel')),
+    quad(chatNode, namedNode(dc.title), literal('Hospex chat channel')), // for compatibility with pod-chat.com
     quad(
       chatNode,
       namedNode(ui.sharedPreferences),

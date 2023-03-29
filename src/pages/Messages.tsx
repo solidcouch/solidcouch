@@ -43,9 +43,7 @@ export const Messages = () => {
         for (const message of messages) {
           if (
             message.notification && // there is a notification to process
-            !(
-              (message.id in notificationStatuses) // notification isn't being processed, yet
-            )
+            !(message.id in notificationStatuses) // notification isn't being processed, yet
           ) {
             setNotificationStatuses(statuses => ({
               ...statuses,
