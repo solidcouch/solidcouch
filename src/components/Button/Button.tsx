@@ -1,5 +1,6 @@
 import classNames from 'classnames'
-import { ButtonHTMLAttributes } from 'react'
+import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react'
+import { FaExternalLinkAlt } from 'react-icons/fa'
 import { Link, LinkProps } from 'react-router-dom'
 import styles from './Button.module.scss'
 
@@ -58,3 +59,14 @@ export const ButtonLink = ({
     />
   )
 }
+
+/**
+ * External link as icon, with target blank
+ */
+export const ExternalIconLink = (
+  props: AnchorHTMLAttributes<HTMLAnchorElement>,
+) => (
+  <a target="_blank" rel="noopener noreferrer" {...props}>
+    <FaExternalLinkAlt />
+  </a>
+)

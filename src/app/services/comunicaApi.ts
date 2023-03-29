@@ -21,7 +21,13 @@ import {
   xsd,
 } from 'utils/rdf-namespaces'
 import { bindings2data } from './helpers'
-import { createMessage, readMessages, readThreads } from './messages'
+import {
+  createMessage,
+  processNotification,
+  readMessages,
+  readMessagesFromInbox,
+  readThreads,
+} from './messages'
 // import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
 // import { accommodationContext } from 'ldo/accommodation.context'
 
@@ -76,7 +82,12 @@ const comunicaBaseQuery =
 export const comunicaApi = createApi({
   reducerPath: 'comunicaApi',
   baseQuery: comunicaBaseQuery(),
-  tagTypes: ['Accommodation', 'Community', 'MessageThread'],
+  tagTypes: [
+    'Accommodation',
+    'Community',
+    'MessageThread',
+    'MessageNotification',
+  ],
   endpoints: builder => ({
     readAccommodations: builder.query<
       Accommodation[],
@@ -359,6 +370,12 @@ export const comunicaApi = createApi({
         { type: 'MessageThread', id: args.userId },
       ],
     }),
+    readMessagesFromInbox: builder.query<unknown[], { me: URI }>({
+      queryFn: async ({ me }) => ({
+        data: await readMessagesFromInbox(me),
+      }),
+      providesTags: () => [{ type: 'MessageNotification', id: 'LIST' }],
+    }),
     createMessage: builder.mutation<
       unknown,
       { senderId: URI; receiverId: URI; message: string }
@@ -370,6 +387,20 @@ export const comunicaApi = createApi({
       invalidatesTags: (res, err, args) => [
         { type: 'MessageThread', id: 'LIST' },
         { type: 'MessageThread', id: args.receiverId },
+      ],
+    }),
+    processNotification: builder.mutation<
+      unknown,
+      { id: URI; me: URI; other: URI }
+    >({
+      queryFn: async props => {
+        await processNotification(props)
+        return { data: null }
+      },
+      invalidatesTags: (res, err, args) => [
+        { type: 'MessageThread', id: 'LIST' },
+        { type: 'MessageThread', id: args.other },
+        { type: 'MessageNotification', id: 'LIST' },
       ],
     }),
   }),

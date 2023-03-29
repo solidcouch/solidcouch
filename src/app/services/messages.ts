@@ -1,7 +1,7 @@
 import { QueryEngine } from '@comunica/query-sparql'
 import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link-traversal'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { mergeWith } from 'lodash'
+import { mergeWith, uniq } from 'lodash'
 import { DataFactory, Quad } from 'n3'
 import { Message, Thread, URI } from 'types'
 import { fullFetch, getContainer } from 'utils/helpers'
@@ -79,10 +79,47 @@ export const readThreads = async ({ me }: { me: URI }): Promise<Thread[]> => {
     data.map(d => readChatParticipants(d.chat as string)),
   )
 
-  return threads.map((thread, i) => ({
+  const output: Thread[] = threads.map((thread, i) => ({
     participants: participants[i],
     messages: thread,
   }))
+
+  /****** read messages from inbox */
+  const inboxMessages = await readMessagesFromInbox(me)
+
+  // add each inbox message to the thread it belongs to
+  inboxMessages.forEach(im => {
+    // try to find proper thread
+    const thread = output.find(t => t.participants.includes(im.actor))
+
+    if (thread) {
+      thread.messages.push(im.message)
+      thread.messages.sort(
+        (msga, msgb) =>
+          new Date(msga.createdAt).getTime() -
+          new Date(msgb.createdAt).getTime(),
+      )
+
+      if (!thread.status) {
+        thread.status = 'unread'
+      }
+    }
+
+    // if not found, add to the end
+    else {
+      output.push({
+        messages: [im.message],
+        // TODO actor in inbox can be easily faked
+        // we may want to take this from im.message.from
+        // and actually, we want to verify the message
+        // actor should match message.from should match chat participant, and chats should also match
+        participants: [im.actor],
+        status: 'new',
+      })
+    }
+  })
+
+  return output
 }
 
 const readChatParticipants = async (chat: URI): Promise<URI[]> => {
@@ -138,30 +175,33 @@ export const readMessages = async ({
   userId: URI
   me: URI
 }): Promise<Message[]> => {
-  // find chats where the other user participates
-  const readChatsWithUserQuery = query`SELECT DISTINCT ?chat WHERE {
-    <${me}> <${solid.privateTypeIndex}> ?index.
-    ?registration
-        <${solid.forClass}> <${meeting.LongChat}>;
-        <${solid.instance}> ?chat.
-    ?chat <${wf.participation}> ?participation.
-    ?participation <${wf.participant}> <${userId}>.
-  }`
-  const bindingsStream = await traversalEngine.queryBindings(
-    readChatsWithUserQuery,
-    {
-      sources: [me],
-      lenient: true,
-      fetch: fullFetch,
-    },
-  )
+  await invalidateCache()
+  // // find chats where the other user participates
+  // const readChatsWithUserQuery = query`SELECT DISTINCT ?chat WHERE {
+  //   <${me}> <${solid.privateTypeIndex}> ?index.
+  //   ?registration
+  //       <${solid.forClass}> <${meeting.LongChat}>;
+  //       <${solid.instance}> ?chat.
+  //   ?chat <${wf.participation}> ?participation.
+  //   ?participation <${wf.participant}> <${userId}>.
+  // }`
 
-  const data = await bindings2data(bindingsStream)
+  // const te = new TraversalQueryEngine()
+  // await invalidateCache()
+  // await te.invalidateHttpCache()
+  // console.log(staticLog, readChatsWithUserQuery)
+  // const bindingsStream = await te.queryBindings(readChatsWithUserQuery, {
+  //   sources: [me],
+  //   lenient: true,
+  //   fetch: fullFetch,
+  // })
+  // const data = await bindings2data(bindingsStream)
+  // console.log(staticLog, data, '..**..**..')
+
+  const myChat = await getChat({ me, other: userId })
 
   // get all referenced chats
-  const chats = await Promise.all(
-    data.map(d => getReferencedChats(d.chat ?? '')),
-  )
+  const chats = myChat ? await getReferencedChats(myChat) : []
 
   const folders = chats.flat().map(chat => getContainer(chat))
 
@@ -174,7 +214,58 @@ export const readMessages = async ({
         new Date(msga.createdAt).getTime() - new Date(msgb.createdAt).getTime(),
     )
 
+  const messagesFromInbox = (await readMessagesFromInbox(me)).filter(
+    n => n.message.from === userId,
+  )
+
+  messagesFromInbox.forEach(im => {
+    // if message is there, update status of the message
+    const msg = messages.find(m => m.id === im.message.id)
+    if (msg) {
+      msg.status = 'unread'
+      msg.notification = im.notification
+    }
+    // otherwise add it to the array of messages
+    else {
+      messages.push({
+        ...im.message,
+        status: 'unread',
+        notification: im.notification,
+      })
+      messages.sort(
+        (msga, msgb) =>
+          new Date(msga.createdAt).getTime() -
+          new Date(msgb.createdAt).getTime(),
+      )
+    }
+  })
+
   return messages
+}
+
+const getTypeIndices = async (
+  webId: URI,
+): Promise<{
+  publicIndices: URI[]
+  privateIndices: URI[]
+}> => {
+  const readChatsWithUserQuery = query`SELECT DISTINCT ?public ?private WHERE {
+    <${webId}> <${solid.privateTypeIndex}> ?private;
+               <${solid.publicTypeIndex}> ?public.
+  }`
+  const bindingsStream = await simpleEngine.queryBindings(
+    readChatsWithUserQuery,
+    {
+      sources: [webId],
+      lenient: true,
+      fetch: fullFetch,
+    },
+  )
+  const data = await bindings2data(bindingsStream)
+  const publicIndices = uniq(data.map(d => d.public as URI))
+  const privateIndices = uniq(data.map(d => d.private as URI))
+
+  return { publicIndices, privateIndices }
 }
 
 /**
@@ -187,8 +278,12 @@ const getChat = async ({
   me: URI
   other: URI
 }): Promise<URI | undefined> => {
+  await invalidateCache()
+  const traversalEngine = new TraversalQueryEngine()
+
+  const { privateIndices } = await getTypeIndices(me)
+
   const readChatsWithUserQuery = query`SELECT DISTINCT ?chat ?participant WHERE {
-    <${me}> <${solid.privateTypeIndex}> ?index.
     ?registration
         <${solid.forClass}> <${meeting.LongChat}>;
         <${solid.instance}> ?chat.
@@ -199,7 +294,7 @@ const getChat = async ({
   const bindingsStream = await traversalEngine.queryBindings(
     readChatsWithUserQuery,
     {
-      sources: [me],
+      sources: privateIndices,
       lenient: true,
       fetch: fullFetch,
     },
@@ -230,6 +325,7 @@ const getChat = async ({
 }
 
 const getReferencedChats = async (chat: URI): Promise<URI[]> => {
+  await invalidateCache()
   const readChatsWithUserQuery = query`SELECT ?chat WHERE {
     <${chat}> <${wf.participation}> ?participation.
     ?participation <${dct.references}> ?chat.
@@ -393,7 +489,7 @@ const createChat = async ({
     quad(
       registrationNode,
       namedNode(solid.forClass),
-      namedNode(meeting + 'LongChat'),
+      namedNode(meeting.LongChat),
     ),
     quad(registrationNode, namedNode(solid.instance), namedNode(chat)),
   ]
@@ -498,3 +594,155 @@ const getInbox = async (webId: URI): Promise<URI> => {
 
   return data[0].inbox as string
 }
+
+export const readMessagesFromInbox = async (webId: URI) => {
+  await invalidateCache()
+  const readInboxQuery = query`SELECT * WHERE {
+    <${webId}> <${ldp.inbox}> ?inbox.
+    ?inbox <${ldp.contains}> ?notification.
+    ?notification
+        <${as.context}> <https://www.pod-chat.com/LongChatMessage>;
+        <${as.object}> ?message;
+        <${as.target}> ?chat;
+        <${as.actor}> ?actor.
+  }`
+  const bindingsStream = await traversalEngine.queryBindings(readInboxQuery, {
+    sources: [webId],
+    lenient: true,
+    fetch: fullFetch,
+  })
+  const data = await bindings2data(bindingsStream)
+  const messages = await Promise.all(
+    data.map(({ message }) => readMessage(message as URI)),
+  )
+
+  return data.map((d, i) => ({
+    chat: d.chat as URI,
+    actor: d.actor as URI,
+    notification: d.notification as URI,
+    message: messages[i],
+  }))
+}
+
+const readMessage = async (messageId: URI): Promise<Message> => {
+  const readInboxQuery = query`SELECT ?author ?content ?createdAt WHERE {
+    <${messageId}>
+        <${dct.created}> ?createdAt;
+        <${sioc.content}> ?content;
+        <${foaf.maker}> ?author.
+  }`
+  const bindingsStream = await simpleEngine.queryBindings(readInboxQuery, {
+    sources: [messageId],
+    lenient: true,
+    fetch: fullFetch,
+  })
+
+  const data = await bindings2data(bindingsStream)
+
+  if (data.length < 1) throw new Error('Message not found')
+  const { createdAt, content, author } = data[0]
+  return {
+    id: messageId,
+    message: content as string,
+    from: author as URI,
+    to: '',
+    createdAt: new Date(createdAt as string).getTime(),
+  }
+}
+
+/**
+ *
+ * TODO Right now this method will behave unexpectedly for group chats
+ * check our assumptions!
+ */
+export const processNotification = async ({
+  id,
+  me,
+  other,
+}: {
+  id: URI
+  me: URI
+  other: URI
+}) => {
+  await invalidateCache()
+
+  const simpleEngine = new QueryEngine()
+
+  const readNotificationQuery = query`SELECT * WHERE {
+    ?notification
+        <${as.context}> <https://www.pod-chat.com/LongChatMessage>;
+        <${as.object}> ?message;
+        <${as.target}> ?chat;
+        <${as.actor}> ?actor.
+  }`
+  const bs = await simpleEngine.queryBindings(readNotificationQuery, {
+    sources: [id],
+    fetch,
+  })
+  const data = await bindings2data(bs)
+
+  if (data.length === 0) throw new Error('Notification not found')
+
+  const otherChat = data[0].chat as URI
+
+  if (data[0].actor !== other)
+    throw new Error('The notification actor does not fit the other person')
+
+  // TODO verify the other chat and message - that they have correct participants and authors
+
+  // see if my chat exists
+  const chat = await getChat({ me, other })
+
+  // if my chat doesn't exist
+  if (!chat) {
+    // create it
+    // TODO we should verify and confirm this kind of action first
+    // because malevolent user can do bad stuff here
+    await createChat({ me, other, otherChat })
+  }
+  // if my chat exists
+  else {
+    // see if my chat contains the other chat
+    const referenced = (await getReferencedChats(chat)).filter(c => c !== chat)
+
+    // if my chat exists, but doesn't contain the other chat, add the other chat
+    if (referenced.length === 0) {
+      const saveChatReferenceQuery = query`INSERT {
+        ?participation <${dct.references}> <${otherChat}>.
+      } WHERE {
+        <${chat}> <${wf.participation}> ?participation.
+        ?participation <${wf.participant}> <${other}>.
+      }`
+
+      await simpleEngine.queryVoid(saveChatReferenceQuery, {
+        sources: [chat],
+        destination: { type: 'patchSparqlUpdate', value: chat },
+        fetch,
+      })
+    }
+  }
+  // verify that my chat exists and it contains the other chat
+  await invalidateCache()
+  const chatVerification = await getChat({ me, other })
+  if (!chatVerification) throw new Error('chat still does not exist!')
+  const chats = await getReferencedChats(chatVerification)
+  const ok =
+    chats.length === 2 &&
+    chats.includes(chatVerification) &&
+    chats.includes(otherChat)
+
+  if (!ok)
+    throw new Error(
+      'chat still does not reference the other chat, or it references other chats',
+    )
+  // at the end, remove the notification
+  await fetch(id, { method: 'DELETE' })
+  // and invalidate query engines
+  await invalidateCache()
+}
+
+const invalidateCache = () =>
+  Promise.all([
+    simpleEngine.invalidateHttpCache(),
+    traversalEngine.invalidateHttpCache(),
+  ])

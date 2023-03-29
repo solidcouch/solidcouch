@@ -2,10 +2,12 @@ import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
 import classNames from 'classnames'
 import { Button, Loading } from 'components'
+import { ExternalIconLink } from 'components/Button/Button'
 import { useAuth } from 'hooks/useAuth'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
+import { URI } from 'types'
 import styles from './Messages.module.scss'
 
 export const Messages = () => {
@@ -22,6 +24,60 @@ export const Messages = () => {
   )
 
   const [createMessage] = comunicaApi.endpoints.createMessage.useMutation()
+  const [processNotification] =
+    comunicaApi.endpoints.processNotification.useMutation()
+
+  // keep status of notification processing in a dict
+  // key will be message uri
+  const [notificationStatuses, setNotificationStatuses] = useState<{
+    [key: URI]: 'processing' | 'processed' | 'errored'
+  }>({})
+
+  // process notifications of unread messages
+  // and the ref to hack out of double running in strict mode
+  const isFirstRun = useRef(false)
+  useEffect(() => {
+    ;(async () => {
+      if (messages && auth.webId && !isFirstRun.current) {
+        isFirstRun.current = true
+        for (const message of messages) {
+          if (
+            message.notification && // there is a notification to process
+            !(
+              (message.id in notificationStatuses) // notification isn't being processed, yet
+            )
+          ) {
+            setNotificationStatuses(statuses => ({
+              ...statuses,
+              [message.id]: 'processing',
+            }))
+            try {
+              await processNotification({
+                id: message.notification,
+                me: auth.webId,
+                other: personId,
+              }).unwrap()
+              setNotificationStatuses(statuses => ({
+                ...statuses,
+                [message.id]: 'processed',
+              }))
+            } catch (err) {
+              setNotificationStatuses(statuses => ({
+                ...statuses,
+                [message.id]: 'errored',
+              }))
+            }
+          }
+        }
+      }
+    })()
+  }, [
+    auth.webId,
+    messages,
+    notificationStatuses,
+    personId,
+    processNotification,
+  ])
 
   const { register, handleSubmit, reset } = useForm<{ message: string }>()
 
@@ -32,21 +88,22 @@ export const Messages = () => {
       senderId: auth.webId,
       receiverId: personId,
       message: data.message,
-    })
+    }).unwrap()
     reset({ message: '' })
     setIsSaving(false)
   })
 
   return (
     <div>
-      Messages with {person?.name}
+      Messages with {person?.name} <ExternalIconLink href={personId} />
       <div className={styles.messages}>
-        {messages?.map(({ id, message, from, createdAt }) => (
+        {messages?.map(({ id, message, from, createdAt, status }) => (
           <div
             key={id}
             className={classNames(
               styles.message,
               from === auth.webId && styles.fromMe,
+              status === 'unread' && styles.unread,
             )}
           >
             {message}{' '}

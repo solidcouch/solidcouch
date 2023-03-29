@@ -18,7 +18,10 @@ export const Threads = () => {
     <div>
       <h1>All messages</h1>
       {threads.map(thread => (
-        <div>
+        <div
+          key={thread.participants.join()}
+          style={thread.status ? { fontWeight: 'bold' } : undefined}
+        >
           <Link
             to={`/messages/${encodeURIComponent(
               thread.participants.find(p => p !== auth.webId) ?? '',

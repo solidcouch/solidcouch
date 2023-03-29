@@ -5,6 +5,7 @@ import {
   Reducer,
 } from '@reduxjs/toolkit'
 import * as authSlice from 'features/auth/authSlice'
+import { rtkQueryErrorLogger } from './rtkQueryErrorLogger'
 import { api } from './services/api'
 import { comunicaApi } from './services/comunicaApi'
 
@@ -30,6 +31,7 @@ export const store = configureStore({
   // https://redux-toolkit.js.org/rtk-query/overview#configure-the-store
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
+      .concat(rtkQueryErrorLogger)
       .concat(api.middleware)
       .concat(comunicaApi.middleware),
 })

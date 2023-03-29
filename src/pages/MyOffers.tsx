@@ -56,7 +56,7 @@ export const MyOffers = () => {
       webId: auth.webId,
       personalHospexDocument: personalHospexDocuments[0],
       accommodation: { ...accommodation, id },
-    })
+    }).unwrap()
 
     setEditing(undefined)
   }
@@ -69,7 +69,7 @@ export const MyOffers = () => {
       webId: auth.webId,
       personalHospexDocument: personalHospexDocuments[0],
       accommodation,
-    })
+    }).unwrap()
 
     setEditing(undefined)
   }
@@ -87,7 +87,7 @@ export const MyOffers = () => {
         id,
         webId: auth.webId,
         personalHospexDocument: personalHospexDocuments[0],
-      })
+      }).unwrap()
     }
   }
 

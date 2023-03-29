@@ -15,6 +15,10 @@
       align-self: flex-end;
     }
 
+    &.unread {
+      font-weight: bold;
+    }
+
     .time {
       font-size: small;
     }

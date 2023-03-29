@@ -30,7 +30,7 @@ export const useSetupHospex = () => {
       id: auth.webId,
       document: sleepyBikeFolder + 'card',
       data: {},
-    })
+    }).unwrap()
 
     // try to change sleepy-bike folder permissions
     await saveAccess({
@@ -41,7 +41,7 @@ export const useSetupHospex = () => {
         accessTo: [{ '@id': sleepyBikeFolder }],
         mode: [{ '@id': acl.Read }],
       },
-    })
+    }).unwrap()
     await saveAccess({
       url: sleepyBikeFolder,
       data: {
@@ -56,7 +56,7 @@ export const useSetupHospex = () => {
         ],
         agent: [{ '@id': auth.webId }],
       },
-    })
+    }).unwrap()
     // update public type index
     let publicTypeIndex = solidProfile.publicTypeIndex?.[0]['@id']
 
@@ -77,7 +77,7 @@ export const useSetupHospex = () => {
           ],
           agent: [{ '@id': auth.webId }],
         },
-      })
+      }).unwrap()
 
       await saveAccess({
         url: newIndex,
@@ -88,12 +88,12 @@ export const useSetupHospex = () => {
           mode: [{ '@id': acl.Read }],
           agentClass: [{ '@id': foaf.Agent }],
         },
-      })
+      }).unwrap()
 
       await saveSolidProfile({
         id: auth.webId,
         data: { publicTypeIndex: [{ '@id': newIndex }] },
-      })
+      }).unwrap()
 
       publicTypeIndex = newIndex
     }
@@ -104,7 +104,7 @@ export const useSetupHospex = () => {
       id: publicTypeIndex + '#hospex',
       type: 'http://w3id.org/hospex/ns#PersonalHospexDocument',
       location: sleepyBikeFolder + 'card',
-    })
+    }).unwrap()
   }
 
   return setupHospex
