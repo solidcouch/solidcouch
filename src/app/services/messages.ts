@@ -38,8 +38,8 @@ export const readThreads = async ({ me }: { me: URI }): Promise<Thread[]> => {
   // for some reason, this query gets stuck when we try to include participants
   // (?participation wf:participant ?participant.)
   // so we have to fetch participants separately
+  const { privateIndices } = await getTypeIndices(me)
   const readIndexesQuery = query`SELECT * WHERE {
-    <${me}> <${solid.privateTypeIndex}> ?index.
     ?registration
         <${solid.forClass}> <${meeting.LongChat}>;
         <${solid.instance}> ?chat.
@@ -49,7 +49,7 @@ export const readThreads = async ({ me }: { me: URI }): Promise<Thread[]> => {
     }
   }`
   const bindingsStream = await traversalEngine.queryBindings(readIndexesQuery, {
-    sources: [me],
+    sources: privateIndices,
     lenient: true,
     fetch: fullFetch,
   })

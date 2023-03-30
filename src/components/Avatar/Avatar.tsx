@@ -7,18 +7,23 @@ export const Avatar = ({
   photo,
   size = 1,
   square,
+  className,
 }: {
   photo?: URI
   size?: number
   square?: boolean
+  className?: string
 }) =>
   photo ? (
     <img
-      className={classNames(styles.photo, square && styles.square)}
+      className={classNames(styles.photo, square && styles.square, className)}
       src={photo}
       alt=""
       style={{ width: `${size * 2}rem`, height: `${size * 2}rem` }}
     />
   ) : (
-    <FaUserCircle className={styles.photo} size={size * 32} />
+    <FaUserCircle
+      className={classNames(styles.photo, className)}
+      size={size * 32}
+    />
   )
