@@ -15,6 +15,7 @@ import { NotFound } from 'pages/NotFound'
 import { Profile } from 'pages/Profile'
 import { ProfileOutlet } from 'pages/ProfileOutlet'
 import { SearchHosts } from 'pages/SearchHosts'
+import { Threads } from 'pages/Threads'
 import { TravelOutlet } from 'pages/TravelOutlet'
 import { TravelRedirect } from 'pages/TravelRedirect'
 import { createBrowserRouter } from 'react-router-dom'
@@ -37,7 +38,13 @@ export const router = createBrowserRouter([
               { path: 'edit', element: <EditProfile /> },
             ],
           },
-          { path: 'messages', element: <Messages /> },
+          {
+            path: 'messages',
+            children: [
+              { index: true, element: <Threads /> },
+              { path: ':id', element: <Messages /> },
+            ],
+          },
           {
             path: 'host',
             element: <HostOutlet />,

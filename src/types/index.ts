@@ -26,3 +26,19 @@ export type Person = {
   name: string
   about?: string
 }
+
+export type Message = {
+  id: URI
+  message: string
+  createdAt: number // timestamp
+  from: URI
+  to: URI
+  status?: 'unread'
+  notification?: URI
+}
+
+export type Thread = {
+  participants: URI[] //
+  messages: Message[] // last one or more messages
+  status?: 'unread' | 'new'
+}

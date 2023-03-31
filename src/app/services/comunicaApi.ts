@@ -5,24 +5,31 @@ import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { merge } from 'lodash'
 import { DataFactory, Parser, Quad, Triple, Writer } from 'n3'
+import { Accommodation, Community, Message, Person, Thread, URI } from 'types'
+import { fullFetch, removeHashFromURI } from 'utils/helpers'
 import {
   acl,
   dct,
   foaf,
+  geo,
+  hospex,
   rdf,
   schema_https,
   sioc,
   solid,
   vcard,
-} from 'rdf-namespaces'
-import { Accommodation, Community, Person, URI } from 'types'
-import { fullFetch, removeHashFromURI } from 'utils/helpers'
+  xsd,
+} from 'utils/rdf-namespaces'
+import { bindings2data } from './helpers'
+import {
+  createMessage,
+  processNotification,
+  readMessages,
+  readMessagesFromInbox,
+  readThreads,
+} from './messages'
 // import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
 // import { accommodationContext } from 'ldo/accommodation.context'
-
-const geo = 'http://www.w3.org/2003/01/geo/wgs84_pos#'
-const hospex = 'http://w3id.org/hospex/ns#'
-const xsd = 'http://www.w3.org/TR/xmlschema11-2/#'
 
 const { namedNode, literal, quad } = DataFactory
 
@@ -65,13 +72,7 @@ const comunicaBaseQuery =
       fetch: fullFetch,
     })
 
-    const data = (await bindingsStream.toArray()).map(binding => {
-      const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-      return Object.fromEntries(
-        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-      )
-    })
+    const data = await bindings2data(bindingsStream)
 
     return {
       data,
@@ -81,7 +82,12 @@ const comunicaBaseQuery =
 export const comunicaApi = createApi({
   reducerPath: 'comunicaApi',
   baseQuery: comunicaBaseQuery(),
-  tagTypes: ['Accommodation', 'Community'],
+  tagTypes: [
+    'Accommodation',
+    'Community',
+    'MessageThread',
+    'MessageNotification',
+  ],
   endpoints: builder => ({
     readAccommodations: builder.query<
       Accommodation[],
@@ -94,14 +100,14 @@ export const comunicaApi = createApi({
       query: ({ webId, personalHospexDocuments, language = 'en' }) => ({
         query: query`
           SELECT ?accommodation ?description ?latitude ?longitude ?host WHERE {
-            <${webId}> <${hospex}offers> ?accommodation.
+            <${webId}> <${hospex.offers}> ?accommodation.
             ?accommodation
-              <${hospex}offeredBy> ?host;
+              <${hospex.offeredBy}> ?host;
               <${dct.description}> ?description;
-              <${geo}location> ?location.
-            ?location a <${geo}Point>;
-              <${geo}lat> ?latitude;
-              <${geo}long> ?longitude.
+              <${geo.location}> ?location.
+            ?location a <${geo.Point}>;
+              <${geo.lat}> ?latitude;
+              <${geo.long}> ?longitude.
 
             FILTER(LANG(?description) = "${language}")
           }
@@ -208,12 +214,12 @@ export const comunicaApi = createApi({
       query: ({ accommodationId }) => ({
         query: `SELECT (<${accommodationId}> as ?id) ?lat ?long ?description ?offeredBy WHERE {
           <${accommodationId}>
-            <${hospex}offeredBy> ?offeredBy;
+            <${hospex.offeredBy}> ?offeredBy;
             <${dct.description}> ?description;
-            <${geo}location> ?location.
-          ?location a <${geo}Point>;
-            <${geo}lat> ?lat;
-            <${geo}long> ?long.
+            <${geo.location}> ?location.
+          ?location a <${geo.Point}>;
+            <${geo.lat}> ?lat;
+            <${geo.long}> ?long.
         }`,
         sources: [accommodationId],
       }),
@@ -319,14 +325,14 @@ export const comunicaApi = createApi({
               <${dct.references}> ?typeRegistration.
             ?typeRegistration
               <${rdf.type}> <${solid.TypeRegistration}>;
-              <${solid.forClass}> <${hospex}PersonalHospexDocument>;
+              <${solid.forClass}> <${hospex.PersonalHospexDocument}>;
               <${solid.instance}> ?hospexDocument.
-            ?person <${hospex}offers> ?accommodation.
+            ?person <${hospex.offers}> ?accommodation.
             ?accommodation <${dct.description}> ?description;
-              <${geo}location> ?location.
+              <${geo.location}> ?location.
             ?location
-              <${geo}lat> ?lat;
-              <${geo}long> ?long.
+              <${geo.lat}> ?lat;
+              <${geo.long}> ?long.
 
             FILTER(?member = ?person)
           }
@@ -350,14 +356,58 @@ export const comunicaApi = createApi({
         })),
       providesTags: () => [{ type: 'Accommodation', id: 'LIST_OF_ALL' }],
     }),
+    readThreads: builder.query<Thread[], { me: URI }>({
+      queryFn: async props => {
+        return { data: await readThreads(props) }
+      },
+      providesTags: () => [{ type: 'MessageThread', id: 'LIST' }],
+    }),
+    readMessages: builder.query<Message[], { userId: URI; me: URI }>({
+      queryFn: async props => {
+        return { data: await readMessages(props) }
+      },
+      providesTags: (res, err, args) => [
+        { type: 'MessageThread', id: args.userId },
+      ],
+    }),
+    readMessagesFromInbox: builder.query<unknown[], { me: URI }>({
+      queryFn: async ({ me }) => ({
+        data: await readMessagesFromInbox(me),
+      }),
+      providesTags: () => [{ type: 'MessageNotification', id: 'LIST' }],
+    }),
+    createMessage: builder.mutation<
+      unknown,
+      { senderId: URI; receiverId: URI; message: string }
+    >({
+      queryFn: async props => {
+        await createMessage(props)
+        return { data: null }
+      },
+      invalidatesTags: (res, err, args) => [
+        { type: 'MessageThread', id: 'LIST' },
+        { type: 'MessageThread', id: args.receiverId },
+      ],
+    }),
+    processNotification: builder.mutation<
+      unknown,
+      { id: URI; me: URI; other: URI }
+    >({
+      queryFn: async props => {
+        await processNotification(props)
+        return { data: null }
+      },
+      invalidatesTags: (res, err, args) => [
+        { type: 'MessageThread', id: 'LIST' },
+        { type: 'MessageThread', id: args.other },
+        { type: 'MessageNotification', id: 'LIST' },
+      ],
+    }),
   }),
 })
 
 export const readOffers = async ({ communityId }: { communityId: string }) => {
-  await myEngine
-    .invalidateHttpCache
-    //'https://mrkvon.solidcommunity.net/profile/card#me',
-    ()
+  await myEngine.invalidateHttpCache()
   const q = query`
     SELECT DISTINCT ?person ?lat ?long ?accommodation ?description WHERE {
       <${communityId}> <${sioc.has_usergroup}> ?group.
@@ -368,14 +418,14 @@ export const readOffers = async ({ communityId }: { communityId: string }) => {
           <${dct.references}> ?typeRegistration.
       ?typeRegistration
           <${rdf.type}> <${solid.TypeRegistration}>;
-          <${solid.forClass}> <${hospex}PersonalHospexDocument>;
+          <${solid.forClass}> <${hospex.PersonalHospexDocument}>;
           <${solid.instance}> ?hospexDocument.
-      ?person <${hospex}offers> ?accommodation.
+      ?person <${hospex.offers}> ?accommodation.
         ?accommodation <${dct.description}> ?description;
-            <${geo}location> ?location.
+            <${geo.location}> ?location.
         ?location
-            <${geo}lat> ?lat;
-          <${geo}long> ?long.
+            <${geo.lat}> ?lat;
+          <${geo.long}> ?long.
 
       FILTER(?member = ?person)
     }`
@@ -388,25 +438,8 @@ export const readOffers = async ({ communityId }: { communityId: string }) => {
   })
   // bindingsStream.on('data', bindings => console.log(bindings))
 
-  const data = (await bindingsStream.toArray()).map(binding => {
-    const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-    return Object.fromEntries(
-      keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-    )
-  })
+  const data = await bindings2data(bindingsStream)
   return data
-
-  // return {
-  //   data: (await bindingsStream.toArray()).map(binding => {
-  //     const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-  //     return Object.fromEntries(
-  //       keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-  //     )
-  //   }),
-  // }
-  // sources: [communityId]
 }
 
 const readPerson = async (webId: URI): Promise<Person> => {
@@ -422,20 +455,14 @@ const readPerson = async (webId: URI): Promise<Person> => {
     sources: [webId],
     fetch: fullFetch,
   })
-  const [genericProfile] = (await genericProfileStream.toArray())
-    .map(binding => {
-      const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-      return Object.fromEntries(
-        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-      )
-    })
-    .map(({ name, about, photo }) => ({
+  const [genericProfile] = (await bindings2data(genericProfileStream)).map(
+    ({ name, about, photo }) => ({
       id: webId,
       name: name ?? '',
       photo: photo ?? undefined,
       about: about ?? undefined,
-    }))
+    }),
+  )
 
   // then find hospex document
   const hospexDocumentQuery = query`
@@ -446,7 +473,7 @@ const readPerson = async (webId: URI): Promise<Person> => {
         <${dct.references}> ?typeRegistration.
       ?typeRegistration
         <${rdf.type}> <${solid.TypeRegistration}>;
-        <${solid.forClass}> <${hospex}PersonalHospexDocument>;
+        <${solid.forClass}> <${hospex.PersonalHospexDocument}>;
         <${solid.instance}> ?hospexDocument.
     }`
 
@@ -455,15 +482,9 @@ const readPerson = async (webId: URI): Promise<Person> => {
     fetch: fullFetch,
     lenient: true,
   })
-  const documents = (await documentStream.toArray())
-    .map(binding => {
-      const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-      return Object.fromEntries(
-        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-      )
-    })
-    .map(({ hospexDocument }) => hospexDocument as URI)
+  const documents = (await bindings2data(documentStream)).map(
+    ({ hospexDocument }) => hospexDocument as URI,
+  )
 
   if (documents.length < 1) return genericProfile
 
@@ -473,20 +494,14 @@ const readPerson = async (webId: URI): Promise<Person> => {
     fetch: fullFetch,
   })
 
-  const [hospexProfile] = (await hospexProfileStream.toArray())
-    .map(binding => {
-      const keys = Array.from(binding.keys()).map(({ value }) => value)
-
-      return Object.fromEntries(
-        keys.map(key => [key, binding.get(key as string)?.value ?? null]),
-      )
-    })
-    .map(({ name, about, photo }) => ({
+  const [hospexProfile] = (await bindings2data(hospexProfileStream)).map(
+    ({ name, about, photo }) => ({
       id: webId,
       name: name ?? undefined, // do not overwrite main profile name
       photo: photo ?? undefined,
       about: about ?? undefined,
-    }))
+    }),
+  )
 
   return merge(genericProfile, hospexProfile)
 }
@@ -506,10 +521,10 @@ const readPerson = async (webId: URI): Promise<Person> => {
 //       <${webId}> <${hospex}offers> ?accommodation.
 //       ?accommodation
 //         <${dct.description}> ?description;
-//         <${geo}location> ?location.
-//       ?location a <${geo}Point>;
-//         <${geo}lat> ?latitude;
-//         <${geo}long> ?longitude.
+//         <${geo.location}> ?location.
+//       ?location a <${geo.Point}>;
+//         <${geo.lat}> ?latitude;
+//         <${geo.long}> ?longitude.
 
 //       FILTER(LANG(?description) = "${language}")
 //     }
@@ -588,11 +603,7 @@ const saveAccommodation = async (
   const auri = au.toString()
 
   insertions.push(
-    quad(
-      namedNode(auri),
-      namedNode(rdf.type),
-      namedNode(hospex + 'Accommodation'),
-    ),
+    quad(namedNode(auri), namedNode(rdf.type), namedNode(hospex.Accommodation)),
     quad(
       namedNode(auri),
       namedNode(rdf.type),
@@ -603,19 +614,19 @@ const saveAccommodation = async (
       namedNode(dct.description),
       literal(data.description, language),
     ),
-    quad(namedNode(auri), namedNode(geo + 'location'), namedNode(locationUri)),
-    quad(namedNode(locationUri), namedNode(rdf.type), namedNode(geo + 'Point')),
+    quad(namedNode(auri), namedNode(geo.location), namedNode(locationUri)),
+    quad(namedNode(locationUri), namedNode(rdf.type), namedNode(geo.Point)),
     quad(
       namedNode(locationUri),
-      namedNode(geo + 'lat'),
-      literal(data.location.lat, namedNode(xsd + 'decimal')),
+      namedNode(geo.lat),
+      literal(data.location.lat, namedNode(xsd.decimal)),
     ),
     quad(
       namedNode(locationUri),
-      namedNode(geo + 'long'),
-      literal(data.location.long, namedNode(xsd + 'decimal')),
+      namedNode(geo.long),
+      literal(data.location.long, namedNode(xsd.decimal)),
     ),
-    quad(namedNode(auri), namedNode(hospex + 'offeredBy'), namedNode(webId)),
+    quad(namedNode(auri), namedNode(hospex.offeredBy), namedNode(webId)),
   )
 
   if (update) {
@@ -625,7 +636,7 @@ const saveAccommodation = async (
     ?location ?predicate ?object.
   } INSERT {${insertions}} WHERE {
     <${auri}> <${dct.description}> ?description.
-    <${auri}> <${geo}location> ?location.
+    <${auri}> <${geo.location}> ?location.
     ?location ?predicate ?object.
     #FILTER(LANG(?description) = "${language}") #look closer at this
     #FILTER(isLiteral(?description) && langMatches(lang(?description), "en"))
@@ -648,7 +659,7 @@ const saveAccommodation = async (
     // save user offers accommodation
     await myEngine.queryVoid(
       query`INSERT DATA {${[
-        quad(namedNode(webId), namedNode(hospex + 'offers'), namedNode(auri)),
+        quad(namedNode(webId), namedNode(hospex.offers), namedNode(auri)),
       ]}}`,
       {
         sources: [personalHospexDocument],
@@ -664,7 +675,7 @@ const saveAccommodation = async (
   await myEngine.invalidateHttpCache()
 }
 
-const query = (
+export const query = (
   strings: TemplateStringsArray,
   ...rest: (Triple[] | string)[]
 ) => {
@@ -697,12 +708,12 @@ const deleteAccommodation = async ({
     ?location ?lpredicate ?lobject.
   } WHERE {
     <${id}> ?predicate ?object.
-    <${id}> <${geo}location> ?location.
+    <${id}> <${geo.location}> ?location.
     ?location ?lpredicate ?lobject.
   }`
 
   const deletePersonalProfileReferenceQuery = query`DELETE DATA {
-    <${webId}> <${hospex}offers> <${id}>.
+    <${webId}> <${hospex.offers}> <${id}>.
   }`
 
   // delete the accommodation
@@ -776,7 +787,7 @@ const joinCommunity = async ({
   const addToPersonalHospexDocument = query`INSERT DATA {
     <${webId}>
         <${sioc.member_of}> <${communityId}>;
-        <${hospex}storage> <${storage}>.
+        <${hospex.storage}> <${storage}>.
   }`
   await myEngine.queryVoid(addToPersonalHospexDocument, {
     sources: [personalHospexDocument],

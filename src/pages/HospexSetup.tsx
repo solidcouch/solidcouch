@@ -25,7 +25,7 @@ export const HospexSetup = ({
   const handleClickSetup = async () => {
     setIsSaving(true)
     if (setup) await setupHospex()
-    if (join && joinData) await joinCommunity(joinData)
+    if (join && joinData) await joinCommunity(joinData).unwrap()
     setIsSaving(false)
   }
 

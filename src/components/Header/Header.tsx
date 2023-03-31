@@ -4,6 +4,7 @@ import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
 import { useAppSelector } from 'app/hooks'
 import { api } from 'app/services/api'
+import { comunicaApi } from 'app/services/comunicaApi'
 import { Avatar } from 'components/Avatar/Avatar'
 import { selectAuth } from 'features/auth/authSlice'
 import { ReactComponent as LogoOpen } from 'logo-open.svg'
@@ -18,6 +19,11 @@ export const Header = () => {
     auth.webId ?? skipToken,
   )
   const photo = profile?.hasPhoto?.['@id'] || profile?.img
+
+  const { data: newMessages } =
+    comunicaApi.endpoints.readMessagesFromInbox.useQuery(
+      auth.webId ? { me: auth.webId } : skipToken,
+    )
 
   return (
     <nav className={styles.header}>
@@ -39,7 +45,10 @@ export const Header = () => {
             <Link to="profile">{profile?.name ?? 'profile'}</Link>
           </MenuItem>
           <MenuItem>
-            <Link to="messages">messages</Link>
+            <Link to="messages">
+              messages
+              {newMessages?.length ? ` (${newMessages.length} new)` : null}
+            </Link>
           </MenuItem>
           <MenuDivider />
           <MenuItem>

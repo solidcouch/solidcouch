@@ -1,0 +1,30 @@
+.threadList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .thread {
+    border: 2px solid black;
+    height: 4rem;
+    overflow: hidden;
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+
+    &.unread {
+      .content {
+        font-weight: bold;
+      }
+    }
+
+    .avatar {
+      align-self: center;
+      flex-shrink: 0;
+    }
+
+    .content {
+      margin-top: 0.1rem;
+      font-size: 0.9rem;
+    }
+  }
+}

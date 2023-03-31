@@ -1,0 +1,44 @@
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+
+  .message {
+    border-radius: 2rem;
+    background-color: lightgray;
+    padding: 0.5rem 1rem;
+
+    &.fromMe {
+      background-color: black;
+      color: white;
+      align-self: flex-end;
+    }
+
+    &.unread {
+      font-weight: bold;
+    }
+
+    .time {
+      font-size: small;
+    }
+  }
+}
+
+// TODO layout is horrible and the form hides bottom message
+// but there is no sense in fixing it if we don't have a design
+.messageForm {
+  background-color: white;
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: stretch;
+
+  fieldset {
+    display: contents;
+  }
+
+  textarea {
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+}

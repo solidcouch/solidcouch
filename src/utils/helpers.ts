@@ -33,8 +33,17 @@ export const fullFetch: typeof fetch = async (url, init) => {
   }
 }
 
-export const removeHashFromURI = (uri: string): string => {
+export const removeHashFromURI = (uri: URI): URI => {
   const url = new URL(uri)
   url.hash = ''
+  return url.toString()
+}
+
+/**
+ * Convert (http) uri to uri with https://
+ */
+export const https = (uri: URI): URI => {
+  const url = new URL(uri)
+  url.protocol = 'https'
   return url.toString()
 }
