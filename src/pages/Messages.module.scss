@@ -24,3 +24,21 @@
     }
   }
 }
+
+// TODO layout is horrible and the form hides bottom message
+// but there is no sense in fixing it if we don't have a design
+.messageForm {
+  background-color: white;
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: stretch;
+
+  fieldset {
+    display: contents;
+  }
+
+  textarea {
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+}

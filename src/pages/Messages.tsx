@@ -121,7 +121,7 @@ export const Messages = () => {
           </div>
         )}
       </div>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit} className={styles.messageForm}>
         <fieldset disabled={isSaving}>
           <textarea {...register('message', { required: true })} />
           <Button primary type="submit" disabled={isSaving}>
