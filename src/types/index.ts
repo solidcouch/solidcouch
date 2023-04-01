@@ -42,3 +42,8 @@ export type Thread = {
   messages: Message[] // last one or more messages
   status?: 'unread' | 'new'
 }
+
+export type Contact = {
+  webId: URI
+  status: 'confirmed' | 'request_sent' | 'request_received'
+}

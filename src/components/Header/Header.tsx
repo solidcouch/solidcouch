@@ -50,6 +50,14 @@ export const Header = () => {
               {newMessages?.length ? ` (${newMessages.length} new)` : null}
             </Link>
           </MenuItem>
+          {auth.webId && (
+            <MenuItem>
+              <Link to={`profile/${encodeURIComponent(auth.webId)}/contacts`}>
+                contacts
+                {newMessages?.length ? ` (${newMessages.length} new)` : null}
+              </Link>
+            </MenuItem>
+          )}
           <MenuDivider />
           <MenuItem>
             <SignOut />

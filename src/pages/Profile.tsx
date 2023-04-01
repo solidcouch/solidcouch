@@ -1,4 +1,5 @@
 import { ButtonLink } from 'components'
+import { useAuth } from 'hooks/useAuth'
 import type { FoafProfile } from 'ldo/foafProfile.typings'
 import { FaExternalLinkAlt, FaPencilAlt } from 'react-icons/fa'
 import { useOutletContext } from 'react-router-dom'
@@ -6,6 +7,7 @@ import styles from './Profile.module.scss'
 
 export const Profile = () => {
   const profile = useOutletContext<FoafProfile>()
+  const auth = useAuth()
 
   return (
     <div className={styles.container}>
@@ -20,8 +22,13 @@ export const Profile = () => {
           <FaExternalLinkAlt />
         </a>
       </header>
-      <ButtonLink secondary to="edit">
-        <FaPencilAlt /> edit profile
+      {profile['@id'] === auth.webId && (
+        <ButtonLink secondary to="/profile/edit">
+          <FaPencilAlt /> edit profile
+        </ButtonLink>
+      )}
+      <ButtonLink tertiary to="contacts">
+        contacts
       </ButtonLink>
     </div>
   )

@@ -5,7 +5,15 @@ import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { merge } from 'lodash'
 import { DataFactory, Parser, Quad, Triple, Writer } from 'n3'
-import { Accommodation, Community, Message, Person, Thread, URI } from 'types'
+import {
+  Accommodation,
+  Community,
+  Contact,
+  Message,
+  Person,
+  Thread,
+  URI,
+} from 'types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
 import {
   acl,
@@ -20,6 +28,7 @@ import {
   vcard,
   xsd,
 } from 'utils/rdf-namespaces'
+import { readContacts } from './contacts'
 import { bindings2data } from './helpers'
 import {
   createMessage,
@@ -402,6 +411,11 @@ export const comunicaApi = createApi({
         { type: 'MessageThread', id: args.other },
         { type: 'MessageNotification', id: 'LIST' },
       ],
+    }),
+    readContacts: builder.query<Contact[], URI>({
+      queryFn: async props => {
+        return { data: await readContacts(props) }
+      },
     }),
   }),
 })
