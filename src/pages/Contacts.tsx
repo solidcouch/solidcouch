@@ -1,10 +1,11 @@
 import { comunicaApi } from 'app/services/comunicaApi'
-import { Button, Loading } from 'components'
+import { Loading } from 'components'
 import { PersonBadge } from 'components/PersonBadge/PersonBadge'
 import { useAuth } from 'hooks/useAuth'
 import { Link, useParams } from 'react-router-dom'
 import * as types from 'types'
 import styles from './Contacts.module.scss'
+import { ProcessContactInvitation } from './Profile/ManageContact'
 
 export const Contacts = () => {
   const personId = useParams().id as string
@@ -37,11 +38,6 @@ export const Contacts = () => {
   )
 }
 
-/**
- *
- * @param contact - the con
- * @returns
- */
 const Contact = ({ contact }: { contact: types.Contact }) => {
   return (
     <div className={styles.contact}>
@@ -54,9 +50,10 @@ const Contact = ({ contact }: { contact: types.Contact }) => {
       )}
       {contact.status === 'request_received' && (
         <>
+          <ProcessContactInvitation contact={contact}>
+            process
+          </ProcessContactInvitation>
           <span className={styles.status}>pending</span>
-          <Button primary>Accept</Button>
-          <Button secondary>Ignore</Button>
         </>
       )}
     </div>

@@ -3,6 +3,7 @@ import { useAuth } from 'hooks/useAuth'
 import type { FoafProfile } from 'ldo/foafProfile.typings'
 import { FaExternalLinkAlt, FaPencilAlt } from 'react-icons/fa'
 import { useOutletContext } from 'react-router-dom'
+import { ManageContact } from './ManageContact'
 import styles from './Profile.module.scss'
 
 export const Profile = () => {
@@ -30,6 +31,9 @@ export const Profile = () => {
       <ButtonLink tertiary to="contacts">
         contacts
       </ButtonLink>
+      {auth.webId && profile['@id'] && auth.webId !== profile['@id'] && (
+        <ManageContact webId={profile['@id']} />
+      )}
     </div>
   )
 }

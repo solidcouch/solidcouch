@@ -590,7 +590,7 @@ export const createMessage = async ({
   await traversalEngine.invalidateHttpCache()
 }
 
-const getInbox = async (webId: URI): Promise<URI> => {
+export const getInbox = async (webId: URI): Promise<URI> => {
   const readInboxQuery = query`SELECT ?inbox WHERE {
     <${webId}> <${ldp.inbox}> ?inbox.
   }`

@@ -15,6 +15,10 @@
 - [ ] email notifications
 - [ ] design, UX
 
+### Contacts
+
+- [ ] Give the contact a personal access to my hospex stuff
+
 ## Milestones
 
 - [ ] save separate hospex profile

@@ -27,12 +27,11 @@ export const hospex = {
 }
 
 export const as = {
-  Add: https(ns.as.Add),
-  actor: https(ns.as.actor),
-  context: https(ns.as.context),
-  object: https(ns.as.object),
-  target: https(ns.as.target),
-  updated: https(ns.as.updated),
+  ...(Object.fromEntries(
+    Object.entries(ns.as).map(([key, value]) => [key, https(value)]),
+  ) as typeof ns.as),
+  // subject is missing in rdf-namespaces, but exists in as
+  subject: https(ns.as.object.replace('object', 'subject')),
 }
 
 export const wf = {

@@ -43,7 +43,13 @@ export type Thread = {
   status?: 'unread' | 'new'
 }
 
-export type Contact = {
+export type Contact =
+  | { webId: URI; status: 'confirmed' | 'request_sent' }
+  | ContactInvitation
+
+export type ContactInvitation = {
   webId: URI
-  status: 'confirmed' | 'request_sent' | 'request_received'
+  status: 'request_received'
+  invitation: string // only valid for request_received
+  notification: URI
 }
