@@ -47,7 +47,7 @@ export const ProcessContactInvitation = ({
       me: auth.webId,
       other: contact.webId,
       notification: contact.notification,
-    })
+    }).unwrap()
     setModalOpen(false)
   }
   const handleIgnore = async () => {
@@ -55,7 +55,7 @@ export const ProcessContactInvitation = ({
     await ignoreContact({
       me: auth.webId,
       notification: contact.notification,
-    })
+    }).unwrap()
     setModalOpen(false)
   }
 

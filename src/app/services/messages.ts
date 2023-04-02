@@ -345,7 +345,8 @@ const getReferencedChats = async (chat: URI): Promise<URI[]> => {
   return [chat, ...data.map(d => d.chat as URI)]
 }
 
-const getHospexContainer = async (webId: URI) => {
+export const getHospexContainer = async (webId: URI) => {
+  const traversalEngine = new TraversalQueryEngine()
   await traversalEngine.invalidateHttpCache()
   const hospexDocumentQuery = query`
     SELECT ?hospexDocument WHERE {

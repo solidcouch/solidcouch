@@ -29,7 +29,11 @@ export const Contacts = () => {
               personId === auth.webId || contact.status === 'confirmed',
           )
           .map(contact => (
-            <li key={contact.webId}>
+            <li
+              key={
+                'notification' in contact ? contact.notification : contact.webId
+              }
+            >
               <Contact contact={contact} />
             </li>
           ))}

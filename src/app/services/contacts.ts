@@ -4,10 +4,10 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import { DataFactory } from 'n3'
 import { Contact, URI } from 'types'
 import { fullFetch } from 'utils/helpers'
-import { as, foaf, ldp, rdf, xsd } from 'utils/rdf-namespaces'
+import { acl, as, foaf, ldp, rdf, xsd } from 'utils/rdf-namespaces'
 import { query } from './comunicaApi'
 import { bindings2data } from './helpers'
-import { getInbox } from './messages'
+import { getHospexContainer, getInbox } from './messages'
 
 const { namedNode, literal, quad, blankNode } = DataFactory
 const traversalEngine = new TraversalQueryEngine()
@@ -136,6 +136,7 @@ export const createContact = async ({
   })
 
   await traversalEngine.invalidateHttpCache()
+  await grantHospexAccess({ me, accessFor: other })
 }
 
 export const confirmContact = async ({
@@ -160,6 +161,7 @@ export const confirmContact = async ({
 
   await fetch(notification, { method: 'DELETE' })
   await traversalEngine.invalidateHttpCache()
+  await grantHospexAccess({ me, accessFor: other })
 }
 
 export const ignoreContact = async ({
@@ -169,4 +171,46 @@ export const ignoreContact = async ({
 }) => {
   await fetch(notification, { method: 'DELETE' })
   await traversalEngine.invalidateHttpCache()
+}
+
+/**
+ * Grant hospex folder access to a user
+ */
+export const grantHospexAccess = async ({
+  me,
+  accessFor,
+}: {
+  me: URI
+  accessFor: URI
+}) => {
+  // get my hospex container
+  const hospexContainer = await getHospexContainer(me)
+  const hospexAcl = hospexContainer + '.acl'
+
+  // give the other user access to my hospex container
+  const personAccessQuery = query`
+  INSERT {
+    ?authorization <${acl.agent}> <${accessFor}>.
+  } WHERE {
+    ?authorization
+        <${rdf.type}> <${acl.Authorization}>;
+        <${acl.accessTo}> <${hospexContainer}>;
+        <${acl.mode}> <${acl.Read}>.
+    FILTER NOT EXISTS {
+      ?authorization <${acl.mode}> <${acl.Control}>.
+    }
+    FILTER NOT EXISTS {
+      ?authorization <${acl.mode}> <${acl.Write}>.
+    }
+    FILTER NOT EXISTS {
+      ?authorization <${acl.mode}> <${acl.Append}>.
+    }
+  }
+  `
+  const simpleEngine = new QueryEngine()
+  await simpleEngine.queryVoid(personAccessQuery, {
+    sources: [hospexAcl],
+    destination: { type: 'patchSparqlUpdate', value: hospexAcl },
+    fetch,
+  })
 }
