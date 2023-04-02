@@ -42,3 +42,14 @@ export type Thread = {
   messages: Message[] // last one or more messages
   status?: 'unread' | 'new'
 }
+
+export type Contact =
+  | { webId: URI; status: 'confirmed' | 'request_sent' }
+  | ContactInvitation
+
+export type ContactInvitation = {
+  webId: URI
+  status: 'request_received'
+  invitation: string // only valid for request_received
+  notification: URI
+}

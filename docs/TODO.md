@@ -1,12 +1,23 @@
 # TODO
 
+## Tasks and features
+
 - [ ] translations
 - [ ] show loading indicators
 - [ ] better accommodation search algorithm (show found accommodations sooner)
 - [ ] fix wasteful queries
-- [ ] show new messages without reload (solid notifications, web sockets, or long polling)
 - [ ] save about me in multiple languages
 - [ ] testing
+
+### Messages
+
+- [ ] show new messages without reload (solid notifications, web sockets, or long polling)
+- [ ] email notifications
+- [ ] design, UX
+
+### Contacts
+
+- [ ] Give the contact a personal access to my hospex stuff
 
 ## Milestones
 
@@ -18,3 +29,4 @@
 ## Post-release features (non-essential)
 
 - upload travel plans and invite travellers
+- references

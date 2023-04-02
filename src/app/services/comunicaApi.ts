@@ -5,7 +5,15 @@ import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { merge } from 'lodash'
 import { DataFactory, Parser, Quad, Triple, Writer } from 'n3'
-import { Accommodation, Community, Message, Person, Thread, URI } from 'types'
+import {
+  Accommodation,
+  Community,
+  Contact,
+  Message,
+  Person,
+  Thread,
+  URI,
+} from 'types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
 import {
   acl,
@@ -20,6 +28,12 @@ import {
   vcard,
   xsd,
 } from 'utils/rdf-namespaces'
+import {
+  confirmContact,
+  createContact,
+  ignoreContact,
+  readContacts,
+} from './contacts'
 import { bindings2data } from './helpers'
 import {
   createMessage,
@@ -85,6 +99,7 @@ export const comunicaApi = createApi({
   tagTypes: [
     'Accommodation',
     'Community',
+    'ContactList',
     'MessageThread',
     'MessageNotification',
   ],
@@ -403,44 +418,47 @@ export const comunicaApi = createApi({
         { type: 'MessageNotification', id: 'LIST' },
       ],
     }),
+    readContacts: builder.query<Contact[], URI>({
+      queryFn: async props => {
+        return { data: await readContacts(props) }
+      },
+      providesTags: (res, err, args) => [{ type: 'ContactList', id: args }],
+    }),
+    createContact: builder.mutation<
+      unknown,
+      { me: URI; other: URI; invitation: string }
+    >({
+      queryFn: async props => {
+        await createContact(props)
+        return { data: null }
+      },
+      invalidatesTags: (res, err, args) => [
+        { type: 'ContactList', id: args.me },
+      ],
+    }),
+    confirmContact: builder.mutation<
+      unknown,
+      { me: URI; other: URI; notification: URI }
+    >({
+      queryFn: async props => {
+        await confirmContact(props)
+        return { data: null }
+      },
+      invalidatesTags: (res, err, args) => [
+        { type: 'ContactList', id: args.me },
+      ],
+    }),
+    ignoreContact: builder.mutation<unknown, { me: URI; notification: URI }>({
+      queryFn: async props => {
+        await ignoreContact(props)
+        return { data: null }
+      },
+      invalidatesTags: (res, err, args) => [
+        { type: 'ContactList', id: args.me },
+      ],
+    }),
   }),
 })
-
-export const readOffers = async ({ communityId }: { communityId: string }) => {
-  await myEngine.invalidateHttpCache()
-  const q = query`
-    SELECT DISTINCT ?person ?lat ?long ?accommodation ?description WHERE {
-      <${communityId}> <${sioc.has_usergroup}> ?group.
-      ?group <${vcard.hasMember}> ?member.
-      ?member <${solid.publicTypeIndex}> ?index.
-      ?index
-          <${rdf.type}> <${solid.TypeIndex}>;
-          <${dct.references}> ?typeRegistration.
-      ?typeRegistration
-          <${rdf.type}> <${solid.TypeRegistration}>;
-          <${solid.forClass}> <${hospex.PersonalHospexDocument}>;
-          <${solid.instance}> ?hospexDocument.
-      ?person <${hospex.offers}> ?accommodation.
-        ?accommodation <${dct.description}> ?description;
-            <${geo.location}> ?location.
-        ?location
-            <${geo.lat}> ?lat;
-          <${geo.long}> ?long.
-
-      FILTER(?member = ?person)
-    }`
-
-  const bindingsStream = await myEngine.queryBindings(q, {
-    sources: [communityId],
-
-    lenient: true,
-    fetch: fullFetch,
-  })
-  // bindingsStream.on('data', bindings => console.log(bindings))
-
-  const data = await bindings2data(bindingsStream)
-  return data
-}
 
 const readPerson = async (webId: URI): Promise<Person> => {
   // read common profile

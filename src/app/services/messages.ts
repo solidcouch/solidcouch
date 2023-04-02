@@ -345,7 +345,8 @@ const getReferencedChats = async (chat: URI): Promise<URI[]> => {
   return [chat, ...data.map(d => d.chat as URI)]
 }
 
-const getHospexContainer = async (webId: URI) => {
+export const getHospexContainer = async (webId: URI) => {
+  const traversalEngine = new TraversalQueryEngine()
   await traversalEngine.invalidateHttpCache()
   const hospexDocumentQuery = query`
     SELECT ?hospexDocument WHERE {
@@ -590,7 +591,7 @@ export const createMessage = async ({
   await traversalEngine.invalidateHttpCache()
 }
 
-const getInbox = async (webId: URI): Promise<URI> => {
+export const getInbox = async (webId: URI): Promise<URI> => {
   const readInboxQuery = query`SELECT ?inbox WHERE {
     <${webId}> <${ldp.inbox}> ?inbox.
   }`

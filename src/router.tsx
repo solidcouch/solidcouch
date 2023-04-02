@@ -1,6 +1,7 @@
 import { App } from 'App'
 import { About } from 'pages/About'
 import { AuthenticatedOutlet } from 'pages/AuthenticatedOutlet'
+import { Contacts } from 'pages/Contacts'
 import { EditProfile } from 'pages/EditProfile'
 import { Home } from 'pages/Home'
 import { HostOutlet } from 'pages/HostOutlet'
@@ -14,6 +15,7 @@ import { MyTravelPlans } from 'pages/MyTravelPlans'
 import { NotFound } from 'pages/NotFound'
 import { Profile } from 'pages/Profile'
 import { ProfileOutlet } from 'pages/ProfileOutlet'
+import { ProfileRedirect } from 'pages/ProfileRedirect'
 import { SearchHosts } from 'pages/SearchHosts'
 import { Threads } from 'pages/Threads'
 import { TravelOutlet } from 'pages/TravelOutlet'
@@ -34,8 +36,10 @@ export const router = createBrowserRouter([
             path: 'profile',
             element: <ProfileOutlet />,
             children: [
-              { index: true, element: <Profile /> },
+              { index: true, element: <ProfileRedirect /> },
               { path: 'edit', element: <EditProfile /> },
+              { path: ':id', element: <Profile /> },
+              { path: ':id/contacts', element: <Contacts /> },
             ],
           },
           {

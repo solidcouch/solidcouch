@@ -1,0 +1,19 @@
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 2px solid black;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  justify-content: space-between;
+
+  .status {
+    font-style: italic;
+  }
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
