@@ -8,11 +8,13 @@ import * as authSlice from 'features/auth/authSlice'
 import { rtkQueryErrorLogger } from './rtkQueryErrorLogger'
 import { api } from './services/api'
 import { comunicaApi } from './services/comunicaApi'
+import { interestApi } from './services/interestApi'
 
 const appReducer = combineReducers({
   auth: authSlice.reducer,
   [api.reducerPath]: api.reducer,
   [comunicaApi.reducerPath]: comunicaApi.reducer,
+  [interestApi.reducerPath]: interestApi.reducer,
 })
 
 // clear redux state when signing out
@@ -33,7 +35,8 @@ export const store = configureStore({
     getDefaultMiddleware()
       .concat(rtkQueryErrorLogger)
       .concat(api.middleware)
-      .concat(comunicaApi.middleware),
+      .concat(comunicaApi.middleware)
+      .concat(interestApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store

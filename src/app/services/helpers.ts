@@ -1,4 +1,5 @@
 import { BindingsStream } from '@comunica/types'
+import { Triple, Writer } from 'n3'
 
 export const bindings2data = async (bindingsStream: BindingsStream) => {
   const data = (await bindingsStream.toArray()).map(binding => {
@@ -10,4 +11,21 @@ export const bindings2data = async (bindingsStream: BindingsStream) => {
   })
 
   return data
+}
+
+export const query = (
+  strings: TemplateStringsArray,
+  ...rest: (Triple[] | string)[]
+) => {
+  const writer = new Writer()
+  const texts = [...strings]
+
+  let output = texts.shift() ?? ''
+
+  for (const quads of rest) {
+    output += typeof quads === 'string' ? quads : writer.quadsToString(quads)
+    output += texts.shift() as string
+  }
+
+  return output
 }

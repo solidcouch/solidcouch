@@ -1,5 +1,5 @@
-import { QueryEngine } from '@comunica/query-sparql'
-import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link-traversal'
+import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link-traversal/lib/index-browser'
+import { QueryEngine } from '@comunica/query-sparql/lib/index-browser'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { mergeWith, uniq } from 'lodash'
 import { DataFactory, Quad } from 'n3'
@@ -12,7 +12,6 @@ import {
   dc,
   dct,
   foaf,
-  hospex,
   ldp,
   meeting,
   rdf,
@@ -23,8 +22,8 @@ import {
   xsd,
 } from 'utils/rdf-namespaces'
 import * as uuid from 'uuid'
-import { query } from './comunicaApi'
-import { bindings2data } from './helpers'
+import { getHospexContainer } from './generic'
+import { bindings2data, query } from './helpers'
 
 const traversalEngine = new TraversalQueryEngine()
 const simpleEngine = new QueryEngine()
@@ -343,38 +342,6 @@ const getReferencedChats = async (chat: URI): Promise<URI[]> => {
   const data = await bindings2data(bindingsStream)
 
   return [chat, ...data.map(d => d.chat as URI)]
-}
-
-export const getHospexContainer = async (webId: URI) => {
-  const traversalEngine = new TraversalQueryEngine()
-  await traversalEngine.invalidateHttpCache()
-  const hospexDocumentQuery = query`
-    SELECT ?hospexDocument WHERE {
-      <${webId}> <${solid.publicTypeIndex}> ?index.
-      ?index
-        <${rdf.type}> <${solid.TypeIndex}>;
-        <${dct.references}> ?typeRegistration.
-      ?typeRegistration
-        <${rdf.type}> <${solid.TypeRegistration}>;
-        <${solid.forClass}> <${hospex.PersonalHospexDocument}>;
-        <${solid.instance}> ?hospexDocument.
-    }`
-
-  const documentStream = await traversalEngine.queryBindings(
-    hospexDocumentQuery,
-    { sources: [webId], fetch: fullFetch, lenient: true },
-  )
-  const documents = (await bindings2data(documentStream)).map(
-    ({ hospexDocument }) => hospexDocument as URI,
-  )
-
-  if (documents.length !== 1)
-    throw new Error(
-      'hospex document not setup or we have multiple hospex documents TODO distinguish correct hospex document for this community',
-    )
-
-  const hospexContainer = getContainer(documents[0])
-  return hospexContainer
 }
 
 const createChat = async ({

@@ -1,4 +1,6 @@
-import { ButtonLink } from 'components'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
+import { comunicaApi } from 'app/services/comunicaApi'
+import { ButtonLink, Interests, Loading } from 'components'
 import { useAuth } from 'hooks/useAuth'
 import type { FoafProfile } from 'ldo/foafProfile.typings'
 import { FaExternalLinkAlt, FaPencilAlt } from 'react-icons/fa'
@@ -9,6 +11,13 @@ import styles from './Profile.module.scss'
 export const Profile = () => {
   const profile = useOutletContext<FoafProfile>()
   const auth = useAuth()
+
+  const { data: interests } = comunicaApi.endpoints.readInterests.useQuery(
+    profile['@id'] ? { person: profile['@id'] } : skipToken,
+  )
+  const { data: myInterests } = comunicaApi.endpoints.readInterests.useQuery(
+    auth.webId ? { person: auth.webId } : skipToken,
+  )
 
   return (
     <div className={styles.container}>
@@ -34,6 +43,13 @@ export const Profile = () => {
       {auth.webId && profile['@id'] && auth.webId !== profile['@id'] && (
         <ManageContact webId={profile['@id']} />
       )}
+      <section>
+        {interests ? (
+          <Interests ids={interests} highlighted={myInterests ?? []} />
+        ) : (
+          <Loading>loading interests...</Loading>
+        )}
+      </section>
     </div>
   )
 }

@@ -1,13 +1,13 @@
-import { QueryEngine } from '@comunica/query-sparql'
-import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link-traversal'
+import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link-traversal/lib/index-browser'
+import { QueryEngine } from '@comunica/query-sparql/lib/index-browser'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { DataFactory } from 'n3'
 import { Contact, URI } from 'types'
 import { fullFetch } from 'utils/helpers'
 import { acl, as, foaf, ldp, rdf, xsd } from 'utils/rdf-namespaces'
-import { query } from './comunicaApi'
-import { bindings2data } from './helpers'
-import { getHospexContainer, getInbox } from './messages'
+import { getHospexContainer } from './generic'
+import { bindings2data, query } from './helpers'
+import { getInbox } from './messages'
 
 const { namedNode, literal, quad, blankNode } = DataFactory
 const traversalEngine = new TraversalQueryEngine()

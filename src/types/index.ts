@@ -53,3 +53,12 @@ export type ContactInvitation = {
   invitation: string // only valid for request_received
   notification: URI
 }
+
+export type Interest = {
+  id: URI
+  label: string
+  description: string
+  aliases: string[]
+  image?: URI
+  officialWebsite?: URI
+}
