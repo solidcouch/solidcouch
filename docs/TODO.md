@@ -8,6 +8,7 @@
 - [ ] fix wasteful queries
 - [ ] save about me in multiple languages
 - [ ] testing
+- [ ] fix compatibility issues among different Solid servers
 
 ### Messages
 
@@ -17,13 +18,14 @@
 
 ### Contacts
 
-- [ ] Give the contact a personal access to my hospex stuff
+- [ ] email notifications
+- [ ] design, UX
 
 ## Milestones
 
 - [ ] save separate hospex profile
-- [ ] making contacts
-- [ ] adding interests to profile
+- [x] making contacts
+- [x] adding interests to profile
 - [ ] email notifications, especially about received messages
 
 ## Post-release features (non-essential)

@@ -1,0 +1,16 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  .item {
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 100rem;
+    padding: 0rem 0.5rem;
+
+    &.highlighted {
+      font-weight: bold;
+    }
+  }
+}

@@ -1,10 +1,10 @@
-import { QueryEngine } from '@comunica/query-sparql'
-import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link-traversal'
+import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link-traversal/lib/index-browser'
+import { QueryEngine } from '@comunica/query-sparql/lib/index-browser'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { merge } from 'lodash'
-import { DataFactory, Parser, Quad, Triple, Writer } from 'n3'
+import { DataFactory, Parser, Quad } from 'n3'
 import {
   Accommodation,
   Community,
@@ -34,7 +34,14 @@ import {
   ignoreContact,
   readContacts,
 } from './contacts'
-import { bindings2data } from './helpers'
+import { getHospexDocuments } from './generic'
+import { bindings2data, query } from './helpers'
+import {
+  addInterest,
+  readInterests,
+  readInterestsWithDocuments,
+  removeInterest,
+} from './interests'
 import {
   createMessage,
   processNotification,
@@ -100,6 +107,7 @@ export const comunicaApi = createApi({
     'Accommodation',
     'Community',
     'ContactList',
+    'Interest',
     'MessageThread',
     'MessageNotification',
   ],
@@ -457,6 +465,55 @@ export const comunicaApi = createApi({
         { type: 'ContactList', id: args.me },
       ],
     }),
+
+    /**
+     * Interests of a person
+     */
+    readInterests: builder.query<URI[], { person: URI }>({
+      queryFn: async props => ({
+        data: await readInterests(props),
+      }),
+      providesTags: (res, err, args) => [
+        { type: 'Interest', id: `LIST_OF_${args.person}` },
+      ],
+    }),
+    /**
+     * Interests of a person
+     */
+    readInterestsWithDocuments: builder.query<
+      { id: URI; document: URI }[],
+      { person: URI }
+    >({
+      queryFn: async props => ({
+        data: await readInterestsWithDocuments(props),
+      }),
+      providesTags: (res, err, args) => [
+        { type: 'Interest', id: `LIST_WITH_DOCUMENTS_OF_${args.person}` },
+      ],
+    }),
+    addInterest: builder.mutation<unknown, { person: URI; id: URI }>({
+      queryFn: async props => {
+        await addInterest(props)
+        return { data: null }
+      },
+      invalidatesTags: (res, err, args) => [
+        { type: 'Interest', id: `LIST_OF_${args.person}` },
+        { type: 'Interest', id: `LIST_WITH_DOCUMENTS_OF_${args.person}` },
+      ],
+    }),
+    removeInterest: builder.mutation<
+      unknown,
+      { id: URI; person: URI; document: URI }
+    >({
+      queryFn: async props => {
+        await removeInterest(props)
+        return { data: null }
+      },
+      invalidatesTags: (res, err, args) => [
+        { type: 'Interest', id: `LIST_OF_${args.person}` },
+        { type: 'Interest', id: `LIST_WITH_DOCUMENTS_OF_${args.person}` },
+      ],
+    }),
   }),
 })
 
@@ -483,27 +540,7 @@ const readPerson = async (webId: URI): Promise<Person> => {
   )
 
   // then find hospex document
-  const hospexDocumentQuery = query`
-    SELECT ?hospexDocument WHERE {
-      <${webId}> <${solid.publicTypeIndex}> ?index.
-      ?index
-        <${rdf.type}> <${solid.TypeIndex}>;
-        <${dct.references}> ?typeRegistration.
-      ?typeRegistration
-        <${rdf.type}> <${solid.TypeRegistration}>;
-        <${solid.forClass}> <${hospex.PersonalHospexDocument}>;
-        <${solid.instance}> ?hospexDocument.
-    }`
-
-  const documentStream = await myEngine.queryBindings(hospexDocumentQuery, {
-    sources: [webId],
-    fetch: fullFetch,
-    lenient: true,
-  })
-  const documents = (await bindings2data(documentStream)).map(
-    ({ hospexDocument }) => hospexDocument as URI,
-  )
-
+  const documents = await getHospexDocuments({ webId })
   if (documents.length < 1) return genericProfile
 
   // then read hospex profile
@@ -691,23 +728,6 @@ const saveAccommodation = async (
   }
 
   await myEngine.invalidateHttpCache()
-}
-
-export const query = (
-  strings: TemplateStringsArray,
-  ...rest: (Triple[] | string)[]
-) => {
-  const writer = new Writer()
-  const texts = [...strings]
-
-  let output = texts.shift() ?? ''
-
-  for (const quads of rest) {
-    output += typeof quads === 'string' ? quads : writer.quadsToString(quads)
-    output += texts.shift() as string
-  }
-
-  return output
 }
 
 const deleteAccommodation = async ({

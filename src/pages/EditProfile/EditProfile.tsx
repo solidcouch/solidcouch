@@ -7,7 +7,9 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaCamera } from 'react-icons/fa'
 import { useNavigate, useOutletContext } from 'react-router-dom'
+import { URI } from 'types'
 import { file2base64 } from 'utils/helpers'
+import { EditInterests } from './EditInterests'
 import styles from './EditProfile.module.scss'
 
 export const EditProfile = () => {
@@ -67,22 +69,29 @@ export const EditProfile = () => {
   const currentPhoto = selectedPhoto || profile.hasPhoto?.['@id']
 
   return (
-    <form onSubmit={handleFormSubmit} className={styles.container}>
-      <label htmlFor="name">Name</label>
-      <input id="name" type="text" {...register('name')} placeholder="Name" />
-      <label htmlFor="photo">Photo</label>
-      <label
-        tabIndex={0}
-        htmlFor="photo"
-        className={styles.uploadButton}
-        style={
-          currentPhoto ? { backgroundImage: `url(${currentPhoto})` } : undefined
-        }
-      >
-        <FaCamera />
-      </label>
-      <input id="photo" type="file" {...register('photo')} accept="image/*" />
-      <Button primary>Save changes</Button>
-    </form>
+    <div className={styles.container}>
+      <form onSubmit={handleFormSubmit}>
+        <label htmlFor="name">Name</label>
+        <input id="name" type="text" {...register('name')} placeholder="Name" />
+        <label htmlFor="photo">Photo</label>
+        <label
+          tabIndex={0}
+          htmlFor="photo"
+          className={styles.uploadButton}
+          style={
+            currentPhoto
+              ? { backgroundImage: `url(${currentPhoto})` }
+              : undefined
+          }
+        >
+          <FaCamera />
+        </label>
+        <input id="photo" type="file" {...register('photo')} accept="image/*" />
+        <Button primary>Save changes</Button>
+      </form>
+
+      <label>Interests</label>
+      <EditInterests webId={profile['@id'] as URI} />
+    </div>
   )
 }

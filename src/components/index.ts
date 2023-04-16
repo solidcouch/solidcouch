@@ -1,4 +1,5 @@
 export { Avatar } from './Avatar/Avatar'
 export { Button, ButtonLink } from './Button/Button'
 export { Header } from './Header/Header'
+export { Interests } from './Interests/Interests'
 export { Loading } from './Loading/Loading'
