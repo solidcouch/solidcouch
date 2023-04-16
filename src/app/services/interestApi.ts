@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Interest } from 'types'
+import { Interest, URI } from 'types'
 
 export const interestApi = createApi({
   reducerPath: 'interestapi',
@@ -8,11 +8,14 @@ export const interestApi = createApi({
   }),
   tagTypes: ['Interest'],
   endpoints: build => ({
-    searchInterests: build.query<Interest[], string>({
-      query: query => ({
+    searchInterests: build.query<
+      Interest[],
+      { query: string; language?: string }
+    >({
+      query: ({ query, language = 'en' }) => ({
         url: `api.php?action=wbsearchentities&search=${encodeURIComponent(
           query,
-        )}&language=en&limit=20&continue=0&format=json&uselang=en&type=item&origin=*`,
+        )}&language=${language}&limit=20&continue=0&format=json&uselang=${language}&type=item&origin=*`,
       }),
       // Pick out data and prevent nested properties in a hook or selector
       transformResponse: (response: {
@@ -25,22 +28,25 @@ export const interestApi = createApi({
         }[]
       }) =>
         response.search.map(({ concepturi, ...rest }) => ({
-          id: concepturi,
           ...rest,
+          id: concepturi,
         })),
       //*/
       providesTags: (result, error, query) => [
         { type: 'Interest', id: 'QUERY_STRING_' + query },
       ],
     }),
-    readInterest: build.query<Interest | undefined, string>({
-      query: uri => {
+    readInterest: build.query<
+      Interest | undefined,
+      { id: URI; language?: string }
+    >({
+      query: ({ id: uri, language = 'en' }) => {
         const id = uri.match(wikidataRegex)?.[2] ?? ''
         return {
-          url: `api.php?action=wbgetentities&ids=${id}&languages=en&format=json&origin=*`,
+          url: `api.php?action=wbgetentities&ids=${id}&languages=${language}&format=json&origin=*`,
         }
       },
-      transformResponse: (response: GetEntitiesResponse, meta, id) => {
+      transformResponse: (response: GetEntitiesResponse, meta, { id }) => {
         if (!response || !response.entities) return undefined
 
         const entity = Object.values(response.entities)[0]
@@ -80,7 +86,7 @@ export const interestApi = createApi({
           image: logoImage || image,
         }
       },
-      providesTags: (result, error, uri) => [{ type: 'Interest', id: uri }],
+      providesTags: (result, error, { id }) => [{ type: 'Interest', id }],
     }),
   }),
 })

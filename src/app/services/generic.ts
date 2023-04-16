@@ -3,7 +3,7 @@ import * as config from 'config'
 import n3 from 'n3'
 import { URI } from 'types'
 import { fullFetch, getContainer } from 'utils/helpers'
-import { dct, hospex, rdf, rdfs, sioc, solid } from 'utils/rdf-namespaces'
+import { hospex, rdf, rdfs, sioc, solid } from 'utils/rdf-namespaces'
 import { bindings2data, query } from './helpers'
 
 export const getHospexDocuments = async ({
@@ -34,9 +34,6 @@ export const getHospexDocuments = async ({
 
   const hospexDocumentQuery = `
     SELECT ?hospexDocument WHERE {
-      #<${indexes[0]}>
-      #  <${rdf.type}> <${solid.TypeIndex}>;
-      #  <${dct.references}> ?typeRegistration.
       ?typeRegistration
         <${rdf.type}> <${solid.TypeRegistration}>;
         <${solid.forClass}> <${hospex.PersonalHospexDocument}>;
@@ -54,11 +51,10 @@ export const getHospexDocuments = async ({
   const communityDocuments: URI[] = []
 
   for (const document of documents) {
-    const simpleEngine = new QueryEngine()
     const memberOfQuery = query`
       SELECT * WHERE { <${webId}> <${sioc.member_of}> <${communityId}>. }
     `
-    const bindingsStream = await simpleEngine.queryBindings(memberOfQuery, {
+    const bindingsStream = await engine.queryBindings(memberOfQuery, {
       sources: [document],
       fetch: fullFetch,
     })

@@ -28,7 +28,7 @@ export const Interests = ({
 }
 
 const Interest = ({ id, highlighted }: { id: URI; highlighted?: boolean }) => {
-  const { data } = interestApi.endpoints.readInterest.useQuery(id)
+  const { data } = interestApi.endpoints.readInterest.useQuery({ id })
 
   const temporaryData = {
     id,

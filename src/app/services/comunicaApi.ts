@@ -39,8 +39,8 @@ import { bindings2data, query } from './helpers'
 import {
   addInterest,
   readInterests,
+  readInterestsWithDocuments,
   removeInterest,
-  searchWikidata,
 } from './interests'
 import {
   createMessage,
@@ -477,31 +477,42 @@ export const comunicaApi = createApi({
         { type: 'Interest', id: `LIST_OF_${args.person}` },
       ],
     }),
-    addInterest: builder.mutation<unknown, { person: URI; interest: URI }>({
+    /**
+     * Interests of a person
+     */
+    readInterestsWithDocuments: builder.query<
+      { id: URI; document: URI }[],
+      { person: URI }
+    >({
+      queryFn: async props => ({
+        data: await readInterestsWithDocuments(props),
+      }),
+      providesTags: (res, err, args) => [
+        { type: 'Interest', id: `LIST_WITH_DOCUMENTS_OF_${args.person}` },
+      ],
+    }),
+    addInterest: builder.mutation<unknown, { person: URI; id: URI }>({
       queryFn: async props => {
         await addInterest(props)
         return { data: null }
       },
       invalidatesTags: (res, err, args) => [
         { type: 'Interest', id: `LIST_OF_${args.person}` },
+        { type: 'Interest', id: `LIST_WITH_DOCUMENTS_OF_${args.person}` },
       ],
     }),
-    removeInterest: builder.mutation<unknown, { person: URI; interest: URI }>({
+    removeInterest: builder.mutation<
+      unknown,
+      { id: URI; person: URI; document: URI }
+    >({
       queryFn: async props => {
         await removeInterest(props)
         return { data: null }
       },
       invalidatesTags: (res, err, args) => [
         { type: 'Interest', id: `LIST_OF_${args.person}` },
+        { type: 'Interest', id: `LIST_WITH_DOCUMENTS_OF_${args.person}` },
       ],
-    }),
-    searchWikidata: builder.query<
-      { id: URI; label: string; description: string }[],
-      { query: string; language?: string }
-    >({
-      queryFn: async props => {
-        return { data: await searchWikidata(props.query, props.language) }
-      },
     }),
   }),
 })
