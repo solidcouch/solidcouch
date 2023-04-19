@@ -32,6 +32,7 @@ export const Profile = () => {
           <FaExternalLinkAlt />
         </a>
       </header>
+      <section className={styles.about}>{profile.about}</section>
       {isMe && (
         <ButtonLink secondary to="/profile/edit">
           <FaPencilAlt /> edit profile

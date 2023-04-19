@@ -3,6 +3,7 @@ import { api } from 'app/services/api'
 import { comunicaApi } from 'app/services/comunicaApi'
 import { Button, Loading } from 'components'
 import { useAuth } from 'hooks/useAuth'
+import { useProfile } from 'hooks/useProfile'
 import { omit } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -17,10 +18,8 @@ export const EditProfile = () => {
   const auth = useAuth()
   const navigate = useNavigate()
 
-  const { data: hospexProfile } =
-    comunicaApi.endpoints.readHospexProfile.useQuery(
-      auth.webId ? { id: auth.webId } : skipToken,
-    )
+  const profile = useProfile(auth.webId)
+
   const [saveHospexProfile] =
     comunicaApi.endpoints.saveHospexProfile.useMutation()
 
@@ -36,14 +35,11 @@ export const EditProfile = () => {
 
   if (!auth.webId) throw new Error('Not signed in (should not happen)')
 
-  if (!hospexProfile) return <Loading>Fetching profile</Loading>
+  if (!profile) return <Loading>Fetching profile</Loading>
 
   return (
     <div className={styles.container}>
-      <EditProfileForm
-        initialData={hospexProfile}
-        onSubmit={handleSaveProfile}
-      />
+      <EditProfileForm initialData={profile} onSubmit={handleSaveProfile} />
       <label>Interests</label>
       <EditInterests webId={auth.webId} />
     </div>
@@ -61,9 +57,13 @@ const EditProfileForm = ({
   initialData: Partial<Pick<Person, 'name' | 'photo' | 'about'>>
   onSubmit: (data: PersonPayload) => unknown
 }) => {
-  const { register, handleSubmit, watch } = useForm<PersonPayload>({
+  const { register, handleSubmit, watch, reset } = useForm<PersonPayload>({
     defaultValues: omit(initialData, 'photo'),
   })
+
+  useEffect(() => {
+    reset(omit(initialData, 'photo'))
+  }, [initialData, reset])
 
   const { data: photo } = api.endpoints.readImage.useQuery(
     initialData.photo || skipToken,

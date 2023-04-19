@@ -8,8 +8,10 @@ import { useMemo } from 'react'
 import { Person, URI } from 'types'
 
 export const useProfile = (id: URI | undefined) => {
-  const { data: profile } = api.endpoints.readUser.useQuery(id ?? skipToken)
-  const { data: hospexProfile } =
+  const { data: profile, ...profileStatus } = api.endpoints.readUser.useQuery(
+    id ?? skipToken,
+  )
+  const { data: hospexProfile, ...hospexProfileStatus } =
     comunicaApi.endpoints.readHospexProfile.useQuery(
       id ? { id, language: 'en' } : skipToken,
     )
@@ -31,4 +33,11 @@ export const useProfile = (id: URI | undefined) => {
   }, [hospexProfile, id, profile])
 
   return combinedProfile
+
+  // return [
+  //   combinedProfile,
+  //   mergeWith({}, profileStatus, hospexProfileStatus, (obj, src) => {
+  //     if (!src) return obj
+  //   }),
+  // ]
 }
