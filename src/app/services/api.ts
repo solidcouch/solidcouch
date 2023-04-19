@@ -16,7 +16,9 @@ import { AuthorizationFactory } from 'ldo/wac.ldoFactory'
 import { Authorization } from 'ldo/wac.typings'
 import { has, matches, merge, mergeWith, pick } from 'lodash'
 import { rdf, solid } from 'rdf-namespaces'
+import { URI } from 'types'
 import { ldo2json, rdf2n3 } from 'utils/ldo'
+import { createFile, deleteFile, readImage } from './generic'
 
 const ldoBaseQuery =
   <T extends Record<string, any>>(): BaseQueryFn<
@@ -185,20 +187,19 @@ export const api = createApi({
       ],
     }),
     // provide url of container and solid pod will assign a random filename
-    createFile: builder.mutation<string | null, { url: string; data: File }>({
+    createFile: builder.mutation<string | null, { url: URI; data: File }>({
       queryFn: async ({ url, data }) => {
-        const response = await fetch(url, { method: 'POST', body: data })
-
-        const location = response.headers.get('location')
-
-        return { data: location }
+        return { data: await createFile(url, data) }
       },
     }),
-    deleteFile: builder.mutation<void, string>({
+    deleteFile: builder.mutation<void, URI>({
       queryFn: async url => {
-        await fetch(url, { method: 'DELETE' })
+        await deleteFile(url)
         return { data: undefined }
       },
+    }),
+    readImage: builder.query<string, URI>({
+      queryFn: async url => ({ data: await readImage(url) }),
     }),
   }),
 })

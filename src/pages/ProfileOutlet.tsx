@@ -4,6 +4,9 @@ import { Loading } from 'components/Loading/Loading'
 import { useAuth } from 'hooks/useAuth'
 import { Outlet, useParams } from 'react-router-dom'
 
+/**
+ * This is currently deprecated
+ */
 export const ProfileOutlet = () => {
   const auth = useAuth()
   const personId = useParams().id as string

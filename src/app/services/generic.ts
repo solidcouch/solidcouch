@@ -1,4 +1,5 @@
 import { QueryEngine } from '@comunica/query-sparql/lib/index-browser'
+import { fetch } from '@inrupt/solid-client-authn-browser'
 import * as config from 'config'
 import n3 from 'n3'
 import { URI } from 'types'
@@ -118,4 +119,49 @@ export const getProfileDocuments = async ({ webId }: { webId: URI }) => {
     extended: await getExtendedProfileDocuments(webId),
     hospex: await getHospexDocuments({ webId, sources: [webId, ...extended] }),
   }
+}
+
+/**
+ * Save a file in a Solid pod
+ *
+ * @param url - container url - a new random name will be given to the new file
+ * @param data - file to save
+ * @returns url of the newly created file
+ */
+export const createFile = async (url: URI, data: File): Promise<URI> => {
+  const response = await fetch(url, { method: 'POST', body: data })
+
+  // return location of the new file
+  const location = response.headers.get('location')
+
+  if (!location)
+    throw new Error('Location not available (this should not happen)')
+
+  return location
+}
+
+/**
+ * Delete file from a Solid pod
+ *
+ * @param url
+ */
+export const deleteFile = async (url: URI) => {
+  await fetch(url, { method: 'DELETE' })
+}
+
+/**
+ * Read authenticated image
+ *
+ * Returns fetched image url (local cache version, not base64)
+ */
+export const readImage = async (url: URI): Promise<string> => {
+  const response = await fetch(url)
+  if (!response.ok)
+    throw new Error(
+      `${response.status} ${response.statusText}: ${await response.text()}`,
+    )
+  const blob = await response.blob()
+  // create link to locally cached version of the image
+  const src = URL.createObjectURL(blob)
+  return src
 }

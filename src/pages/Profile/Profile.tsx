@@ -1,38 +1,38 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
 import { ButtonLink, Interests, Loading } from 'components'
+import { ProtectedImg } from 'components/ProtectedImg'
 import { useAuth } from 'hooks/useAuth'
-import type { FoafProfile } from 'ldo/foafProfile.typings'
+import { useProfile } from 'hooks/useProfile'
 import { FaExternalLinkAlt, FaPencilAlt } from 'react-icons/fa'
-import { useOutletContext } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { ManageContact } from './ManageContact'
 import styles from './Profile.module.scss'
 
 export const Profile = () => {
-  const profile = useOutletContext<FoafProfile>()
+  const personId = useParams().id as string
   const auth = useAuth()
+  const profile = useProfile(personId)
 
-  const { data: interests } = comunicaApi.endpoints.readInterests.useQuery(
-    profile['@id'] ? { person: profile['@id'] } : skipToken,
-  )
+  const isMe = personId && auth.webId ? personId === auth.webId : undefined
+
+  const { data: interests } = comunicaApi.endpoints.readInterests.useQuery({
+    person: personId,
+  })
   const { data: myInterests } = comunicaApi.endpoints.readInterests.useQuery(
     auth.webId ? { person: auth.webId } : skipToken,
   )
 
   return (
     <div className={styles.container}>
-      <img
-        className={styles.photo}
-        src={profile.hasPhoto?.['@id'] ?? profile.img}
-        alt=""
-      />
+      <ProtectedImg className={styles.photo} src={profile.photo} alt="" />
       <header className={styles.name}>
         {profile.name}{' '}
-        <a href={profile['@id']} target="_blank" rel="noopener noreferrer">
+        <a href={personId} target="_blank" rel="noopener noreferrer">
           <FaExternalLinkAlt />
         </a>
       </header>
-      {profile['@id'] === auth.webId && (
+      {isMe && (
         <ButtonLink secondary to="/profile/edit">
           <FaPencilAlt /> edit profile
         </ButtonLink>
@@ -40,9 +40,7 @@ export const Profile = () => {
       <ButtonLink tertiary to="contacts">
         contacts
       </ButtonLink>
-      {auth.webId && profile['@id'] && auth.webId !== profile['@id'] && (
-        <ManageContact webId={profile['@id']} />
-      )}
+      {isMe === false && <ManageContact webId={personId} />}
       <section>
         {interests ? (
           <Interests ids={interests} highlighted={myInterests ?? []} />

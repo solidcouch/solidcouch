@@ -1,10 +1,12 @@
+import { skipToken } from '@reduxjs/toolkit/dist/query/react'
+import { api } from 'app/services/api'
 import classNames from 'classnames'
 import { FaUserCircle } from 'react-icons/fa'
 import { URI } from 'types'
 import styles from './Avatar.module.scss'
 
 export const Avatar = ({
-  photo,
+  photo: photoUri,
   size = 1,
   square,
   className,
@@ -13,8 +15,13 @@ export const Avatar = ({
   size?: number
   square?: boolean
   className?: string
-}) =>
-  photo ? (
+}) => {
+  // fetch protected photo
+  const { data: photo } = api.endpoints.readImage.useQuery(
+    photoUri || skipToken,
+  )
+
+  return photo ? (
     <img
       className={classNames(styles.photo, square && styles.square, className)}
       src={photo}
@@ -27,3 +34,4 @@ export const Avatar = ({
       size={size * 32}
     />
   )
+}

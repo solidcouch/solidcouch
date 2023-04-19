@@ -14,6 +14,7 @@ import {
   Thread,
   URI,
 } from 'types'
+import { Overwrite } from 'utility-types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
 import {
   acl,
@@ -49,6 +50,7 @@ import {
   readMessagesFromInbox,
   readThreads,
 } from './messages'
+import { readHospexProfile, saveHospexProfile } from './person'
 // import { bindingsStreamToGraphQl } from '@comunica/actor-query-result-serialize-tree'
 // import { accommodationContext } from 'ldo/accommodation.context'
 
@@ -110,6 +112,7 @@ export const comunicaApi = createApi({
     'Interest',
     'MessageThread',
     'MessageNotification',
+    'Profile',
   ],
   endpoints: builder => ({
     readAccommodations: builder.query<
@@ -512,6 +515,24 @@ export const comunicaApi = createApi({
       invalidatesTags: (res, err, args) => [
         { type: 'Interest', id: `LIST_OF_${args.person}` },
         { type: 'Interest', id: `LIST_WITH_DOCUMENTS_OF_${args.person}` },
+      ],
+    }),
+    readHospexProfile: builder.query<Person, { id: URI; language?: string }>({
+      queryFn: async props => ({
+        data: await readHospexProfile(props),
+      }),
+      providesTags: (res, err, args) => [{ type: 'Profile', id: args.id }],
+    }),
+    saveHospexProfile: builder.mutation<
+      unknown,
+      { data: Overwrite<Person, { photo?: File }>; language?: string }
+    >({
+      queryFn: async props => {
+        await saveHospexProfile(props.data, props.language)
+        return { data: null }
+      },
+      invalidatesTags: (res, err, args) => [
+        { type: 'Profile', id: args.data.id },
       ],
     }),
   }),
