@@ -3,10 +3,10 @@ import { Menu, MenuButton, MenuDivider, MenuItem } from '@szhsin/react-menu'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
 import { useAppSelector } from 'app/hooks'
-import { api } from 'app/services/api'
 import { comunicaApi } from 'app/services/comunicaApi'
 import { Avatar } from 'components/Avatar/Avatar'
 import { selectAuth } from 'features/auth/authSlice'
+import { useProfile } from 'hooks/useProfile'
 import { ReactComponent as LogoOpen } from 'logo-open.svg'
 import { ReactComponent as Logo } from 'logo.svg'
 import { Link } from 'react-router-dom'
@@ -15,10 +15,8 @@ import styles from './Header.module.scss'
 
 export const Header = () => {
   const auth = useAppSelector(selectAuth)
-  const { data: profile } = api.endpoints.readUser.useQuery(
-    auth.webId ?? skipToken,
-  )
-  const photo = profile?.hasPhoto?.['@id'] || profile?.img
+
+  const profile = useProfile(auth.webId)
 
   const { data: newMessages } =
     comunicaApi.endpoints.readMessagesFromInbox.useQuery(
@@ -37,7 +35,7 @@ export const Header = () => {
         <Menu
           menuButton={
             <MenuButton>
-              <Avatar photo={photo} />
+              <Avatar photo={profile.photo} />
             </MenuButton>
           }
         >

@@ -3,6 +3,7 @@ import { comunicaApi } from 'app/services/comunicaApi'
 import { ButtonLink } from 'components'
 import { Avatar } from 'components/Avatar/Avatar'
 import { useAuth } from 'hooks/useAuth'
+import { useProfile } from 'hooks/useProfile'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { URI } from 'types'
@@ -20,10 +21,7 @@ export const AccommodationInfo = ({
       accommodationId ? { accommodationId: accommodationId } : skipToken,
     )
 
-  const { data: person, ...personStatus } =
-    comunicaApi.endpoints.readPerson.useQuery(
-      accommodation?.offeredBy ? { webId: accommodation.offeredBy } : skipToken,
-    )
+  const person = useProfile(accommodation?.offeredBy)
 
   const isAccommodationLoaded =
     accommodation &&
@@ -31,7 +29,7 @@ export const AccommodationInfo = ({
     !accommodationStatus.isFetching
 
   const isPersonLoaded =
-    person && personStatus.isSuccess && !personStatus.isFetching
+    person && isAccommodationLoaded && person.id === accommodation?.offeredBy
 
   const isOther =
     webId && accommodation?.offeredBy && webId !== accommodation.offeredBy

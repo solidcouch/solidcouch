@@ -23,7 +23,7 @@
 
 ## Milestones
 
-- [ ] save separate hospex profile
+- [x] save separate hospex profile
 - [x] making contacts
 - [x] adding interests to profile
 - [ ] email notifications, especially about received messages
