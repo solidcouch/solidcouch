@@ -1,5 +1,5 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { api } from 'app/services/api'
+import { ldoApi } from 'app/services/ldoApi'
 import { Avatar } from 'components/Avatar/Avatar'
 import { URI } from 'types'
 
@@ -10,7 +10,9 @@ export const PersonMini = ({
   webId: URI
   className?: string
 }) => {
-  const { data: person } = api.endpoints.readUser.useQuery(webId || skipToken)
+  const { data: person } = ldoApi.endpoints.readUser.useQuery(
+    webId || skipToken,
+  )
   return (
     <Avatar
       photo={person?.hasPhoto?.['@id'] ?? person?.img}

@@ -1,16 +1,15 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
-import { api } from 'app/services/api'
 import { comunicaApi } from 'app/services/comunicaApi'
+import { ldoApi } from 'app/services/ldoApi'
 import mergeWith from 'lodash/mergeWith'
 import { useMemo } from 'react'
 import { Person, URI } from 'types'
 
 export const useProfile = (id: URI | undefined) => {
-  const { data: profile, ...profileStatus } = api.endpoints.readUser.useQuery(
-    id ?? skipToken,
-  )
+  const { data: profile, ...profileStatus } =
+    ldoApi.endpoints.readUser.useQuery(id ?? skipToken)
   const { data: hospexProfile, ...hospexProfileStatus } =
     comunicaApi.endpoints.readHospexProfile.useQuery(
       id ? { id, language: 'en' } : skipToken,

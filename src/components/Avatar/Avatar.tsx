@@ -1,5 +1,5 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query/react'
-import { api } from 'app/services/api'
+import { ldoApi } from 'app/services/ldoApi'
 import classNames from 'classnames'
 import { FaUserCircle } from 'react-icons/fa'
 import { URI } from 'types'
@@ -17,7 +17,7 @@ export const Avatar = ({
   className?: string
 }) => {
   // fetch protected photo
-  const { data: photo } = api.endpoints.readImage.useQuery(
+  const { data: photo } = ldoApi.endpoints.readImage.useQuery(
     photoUri || skipToken,
   )
 

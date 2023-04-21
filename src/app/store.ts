@@ -6,13 +6,13 @@ import {
 } from '@reduxjs/toolkit'
 import * as authSlice from 'features/auth/authSlice'
 import { rtkQueryErrorLogger } from './rtkQueryErrorLogger'
-import { api } from './services/api'
 import { comunicaApi } from './services/comunicaApi'
 import { interestApi } from './services/interestApi'
+import { ldoApi } from './services/ldoApi'
 
 const appReducer = combineReducers({
   auth: authSlice.reducer,
-  [api.reducerPath]: api.reducer,
+  [ldoApi.reducerPath]: ldoApi.reducer,
   [comunicaApi.reducerPath]: comunicaApi.reducer,
   [interestApi.reducerPath]: interestApi.reducer,
 })
@@ -34,7 +34,7 @@ export const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
       .concat(rtkQueryErrorLogger)
-      .concat(api.middleware)
+      .concat(ldoApi.middleware)
       .concat(comunicaApi.middleware)
       .concat(interestApi.middleware),
 })

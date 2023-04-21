@@ -1,4 +1,3 @@
-import { LinkedDataObject } from 'ldo'
 import N3 from 'n3'
 
 // stringifying objects with circular reference, according to MDN:
@@ -16,7 +15,7 @@ const getCircularReplacer = () => {
   }
 }
 
-export const ldo2json = <T>(ldo: LinkedDataObject<T>): T =>
+export const ldo2json = <T>(ldo: T): T =>
   JSON.parse(JSON.stringify(ldo, getCircularReplacer()))
 
 export const rdf2n3 = (raw: string, baseIRI?: string): Promise<N3.Quad[]> => {

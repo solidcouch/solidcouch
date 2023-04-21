@@ -1,6 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { api } from 'app/services/api'
 import { comunicaApi } from 'app/services/comunicaApi'
+import { ldoApi } from 'app/services/ldoApi'
 import { Button, Loading } from 'components'
 import { useAuth } from 'hooks/useAuth'
 import { useProfile } from 'hooks/useProfile'
@@ -65,7 +65,7 @@ const EditProfileForm = ({
     reset(omit(initialData, 'photo'))
   }, [initialData, reset])
 
-  const { data: photo } = api.endpoints.readImage.useQuery(
+  const { data: photo } = ldoApi.endpoints.readImage.useQuery(
     initialData.photo || skipToken,
   )
 

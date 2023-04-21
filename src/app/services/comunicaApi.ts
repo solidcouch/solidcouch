@@ -339,6 +339,19 @@ export const comunicaApi = createApi({
         }
       },
     }),
+    readCommunityMembers: builder.query<URI[], { communityId: URI }>({
+      query: ({ communityId }) => ({
+        query: query`
+          SELECT DISTINCT ?person WHERE {
+            <${communityId}> <${sioc.has_usergroup}> ?group.
+            ?group <${vcard.hasMember}> ?person.
+          }
+      `,
+        sources: [communityId],
+      }),
+      transformResponse: (dataArray: { person: URI }[]) =>
+        dataArray.map(({ person }) => person),
+    }),
     readOffers: builder.query<Accommodation[], { communityId: URI }>({
       query: ({ communityId }) => ({
         query: query`
