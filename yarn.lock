@@ -9104,14 +9104,14 @@ jsonld-context-parser@^2.0.0, jsonld-context-parser@^2.0.2, jsonld-context-parse
     http-link-header "^1.0.2"
     relative-to-absolute-iri "^1.0.5"
 
-jsonld-dataset-proxy@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/jsonld-dataset-proxy/-/jsonld-dataset-proxy-0.0.8.tgz#1dacc721e4cb07891941f27027ee5efdba4d25b5"
-  integrity sha512-VtzQT4tXiKsHTaWU5mRGPOmcVtAvWmlL1Y/sg/vZAs6OrxzeGlCM1q8wZW4VVbDI7gj6Pu0Qcn4K/YE6iKon9w==
+jsonld-dataset-proxy@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/jsonld-dataset-proxy/-/jsonld-dataset-proxy-1.2.1.tgz#43826e3a2457d2b1369f80665bd9a5ff0fda13fe"
+  integrity sha512-YSxkJ88zk7/ASv+gyI7CT7BGofJFDQTqXXEHTF0obZghFmA34z4hf/HB4+xrZTRKFLcdBqAaRzc6GdL8tWifBw==
   dependencies:
     "@rdfjs/data-model" "^1.2.0"
     jsonld2graphobject "^0.0.4"
-    o-dataset-pack "^0.2.11"
+    o-dataset-pack "^0.2.14"
 
 jsonld-streaming-parser@^3.0.1:
   version "3.2.0"
@@ -9205,10 +9205,10 @@ language-tags@=1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
-ldo-cli@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ldo-cli/-/ldo-cli-2.0.0.tgz#715ed47308cc61f4277fcf186a0ea64f641035e4"
-  integrity sha512-U0Kt8Jj01PuFkFEIleUxJ1+XYXCwt7U/nSjsKBwi+V0ta+ooCA+vZj5Arj7FWdUgyHfIleGYafQVrPmXxEvC0A==
+ldo-cli@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/ldo-cli/-/ldo-cli-3.0.1.tgz#ede92547373b1d174dee32197e8f51257bf36382"
+  integrity sha512-i6FDeTrfzY024WVsFlS3lT7L8XAH5maZXVoS9+PcOIunMVXDLV+zs+kAIAHot8mDiH+usWw8FlfQ1s5R312lZQ==
   dependencies:
     "@shexjs/parser" "^1.0.0-alpha.24"
     child-process-promise "^2.2.1"
@@ -9218,14 +9218,14 @@ ldo-cli@^2.0.0:
     prettier "^2.7.1"
     shexj2typeandcontext "^2.0.0"
 
-ldo@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/ldo/-/ldo-0.0.12.tgz#cb266706f567f0fade5d218d2376f422eb50f0bb"
-  integrity sha512-2DfsvXKp0hWwNwNDD7ajlcm44DgWuHUBaI0194Kpdt8Hd00Y2KNszECRkDoW3TCmngj9dgCZiQoxS3cFFKmQ6g==
+ldo@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ldo/-/ldo-1.0.3.tgz#37fdf60403b74358363ae2cc5de788d1b3363c83"
+  integrity sha512-pW0rKzA/uEKHLO/hq3x1+35EcAygGFsPlMBN3wZJQJVP4L5nV2Psx9VLqgl/cv8kmTFeuPmh4i5u1CogGwyaAw==
   dependencies:
     "@rdfjs/data-model" "^1.2.0"
     buffer "^6.0.3"
-    jsonld-dataset-proxy "^0.0.8"
+    jsonld-dataset-proxy "^1.2.1"
     n3 "^1.16.2"
     o-dataset-pack "^0.2.11"
     readable-stream "^4.3.0"
@@ -9722,6 +9722,17 @@ o-dataset-pack@^0.2.11:
   version "0.2.13"
   resolved "https://registry.yarnpkg.com/o-dataset-pack/-/o-dataset-pack-0.2.13.tgz#7bcfb485c5663d2ac4f2676ba2e1750b33756920"
   integrity sha512-K9KINoQTCKj8SYE+t5U+kYrXkvgT7TYwTNuIzXvjbhc6C39Ex2kwH9ebrHLSaAUPag97vHpQwKDaw+u1PUB1jA==
+  dependencies:
+    "@rdfjs/data-model" "^1.2.0"
+    "@rdfjs/dataset" "^1.1.0"
+    buffer "^6.0.3"
+    n3 "^1.10.0"
+    readable-stream "^4.2.0"
+
+o-dataset-pack@^0.2.14:
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/o-dataset-pack/-/o-dataset-pack-0.2.14.tgz#ffaeba7f49978135b152ea850eea5c7a0dd7c165"
+  integrity sha512-ZKxhxZ0yRYKhEJbXmQ6uRG41v/wpZVEU4mF612UJHQXWWrMjgnZhCe6oYjlNEBnbZdlNpeT7Nh331Db12bn6Uw==
   dependencies:
     "@rdfjs/data-model" "^1.2.0"
     "@rdfjs/dataset" "^1.1.0"

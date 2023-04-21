@@ -1,5 +1,6 @@
 import { ldoApi } from 'app/services/ldoApi'
 import { acl, foaf } from 'rdf-namespaces'
+import { hospex } from 'utils/rdf-namespaces'
 import { useAuth } from './useAuth'
 
 export const useSetupHospex = () => {
@@ -102,7 +103,7 @@ export const useSetupHospex = () => {
     await saveTypeRegistration({
       index: publicTypeIndex,
       id: publicTypeIndex + '#hospex',
-      type: 'http://w3id.org/hospex/ns#PersonalHospexDocument',
+      type: hospex.PersonalHospexDocument,
       location: sleepyBikeFolder + 'card',
     }).unwrap()
   }

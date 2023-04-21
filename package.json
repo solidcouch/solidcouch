@@ -18,7 +18,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "classnames": "^2.3.2",
-    "ldo": "^0.0.12",
+    "ldo": "^1.0.3",
     "leaflet": "^1.9.3",
     "lodash": "^4.17.21",
     "n3": "^1.16.3",
@@ -74,7 +74,7 @@
     "@types/shexj": "^2.1.4",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "ldo-cli": "^2.0.0",
+    "ldo-cli": "^3.0.1",
     "prettier": "^2.8.3",
     "sass": "^1.57.1",
     "utility-types": "^3.10.0"

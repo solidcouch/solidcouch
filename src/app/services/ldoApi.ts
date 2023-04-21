@@ -1,23 +1,32 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { BaseQueryFn, createApi } from '@reduxjs/toolkit/query/react'
-import { LdoFactory } from 'ldo'
-import { FoafProfileFactory } from 'ldo/foafProfile.ldoFactory'
+import {
+  commitTransaction,
+  createLdoDataset,
+  parseRdf,
+  ShapeType,
+  startTransaction,
+  toSparqlUpdate,
+} from 'ldo'
+import { FoafProfileShapeType } from 'ldo/foafProfile.shapeTypes'
 import { FoafProfile } from 'ldo/foafProfile.typings'
-import { OidcIssuerFactory } from 'ldo/oidc.ldoFactory'
+import { OidcIssuerShapeType } from 'ldo/oidc.shapeTypes'
 import { OidcIssuer } from 'ldo/oidc.typings'
 import {
-  PublicTypeIndexFactory,
-  TypeRegistrationFactory,
-} from 'ldo/publicTypeIndex.ldoFactory'
+  PublicTypeIndexShapeType,
+  TypeRegistrationShapeType,
+} from 'ldo/publicTypeIndex.shapeTypes'
 import { PublicTypeIndex, TypeRegistration } from 'ldo/publicTypeIndex.typings'
-import { SolidProfileFactory } from 'ldo/solidProfile.ldoFactory'
+import { SolidProfileShapeType } from 'ldo/solidProfile.shapeTypes'
 import { SolidProfile } from 'ldo/solidProfile.typings'
-import { AuthorizationFactory } from 'ldo/wac.ldoFactory'
+import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
 import { Authorization } from 'ldo/wac.typings'
-import { has, matches, merge, mergeWith, pick } from 'lodash'
-import { rdf, solid } from 'rdf-namespaces'
+import { has, matches, merge, pick } from 'lodash'
+import mergeWith from 'lodash/mergeWith'
+import { solid } from 'rdf-namespaces'
 import { URI } from 'types'
-import { ldo2json, rdf2n3 } from 'utils/ldo'
+import { ldo2json } from 'utils/ldo'
+import { rdf } from 'utils/rdf-namespaces'
 import { createFile, deleteFile, readImage } from './generic'
 
 const ldoBaseQuery =
@@ -26,13 +35,13 @@ const ldoBaseQuery =
       url: string // url of the searched object
       type?: string // type of the searched objects
       document: string
-      factory: LdoFactory<T>
+      shapeType: ShapeType<T>
       data?: Partial<T>
     },
     T | T[],
     unknown
   > =>
-  async ({ url, document, factory, data, type }) => {
+  async ({ url, document, shapeType, data, type }) => {
     let documentUrl = document ?? url
     let response: Response
 
@@ -44,57 +53,51 @@ const ldoBaseQuery =
       response = await fetch(documentUrl)
     }
 
-    if (type && response.ok) {
-      const raw = await response.text()
+    const body = await response.text()
 
-      const quads = await rdf2n3(raw, documentUrl)
-      const ids = quads
-        .filter(q => q.predicate.value === rdf.type && q.object.value === type)
-        .map(q => q.subject.id)
+    const ldoDataset = response.ok
+      ? await parseRdf(body, { baseIRI: documentUrl })
+      : createLdoDataset()
 
-      const responseDatas = await Promise.all(
-        ids.map(id => factory.parse(id, raw, { baseIRI: documentUrl })),
-      )
+    if (type) {
+      const ldos = ldoDataset.usingType(shapeType).matchSubject(rdf.type, type)
+      return { data: ldo2json(ldos) }
+    } else {
+      const ldo = ldoDataset.usingType(shapeType).fromSubject(url)
 
-      return { data: responseDatas.map(ldo => ldo2json(ldo)) }
-    }
+      if (data) {
+        startTransaction(ldo)
 
-    const ldo = response.ok
-      ? await factory.parse(url, await response.text(), {
-          baseIRI: documentUrl,
+        mergeWith(ldo, data, (obj, src) => {
+          if (Array.isArray(obj)) {
+            src.forEach((el: any) => {
+              const elIndex = has(el, '@id')
+                ? obj.findIndex(matches(pick(el, '@id')))
+                : -1
+
+              if (elIndex >= 0) {
+                merge(obj[elIndex], el)
+                // fix issue with merging types (nested ldo objects don't assign type with _.merge
+                if (has(el, 'type')) {
+                  obj[elIndex].type = el.type
+                }
+              } else obj.push(el)
+            })
+            return obj
+          }
         })
-      : factory.new(url)
 
-    // if data are present, perform update
-    if (data) {
-      mergeWith(ldo, data, (obj, src) => {
-        if (Array.isArray(obj)) {
-          src.forEach((el: any) => {
-            const elIndex = has(el, '@id')
-              ? obj.findIndex(matches(pick(el, '@id')))
-              : -1
+        commitTransaction(ldo)
 
-            if (elIndex >= 0) {
-              merge(obj[elIndex], el)
-              // fix issue with merging types (nested ldo objects don't assign type with _.merge
-              if (has(el, 'type')) {
-                obj[elIndex].type = el.type
-              }
-            } else obj.push(el)
-          })
-          return obj
-        }
-      })
+        await fetch(documentUrl, {
+          method: 'PATCH',
+          body: await toSparqlUpdate(ldo),
+          headers: { 'content-type': 'application/sparql-update' },
+        })
+      }
 
-      await fetch(documentUrl, {
-        method: 'PATCH',
-        body: await ldo.$toSparqlUpdate(),
-        headers: { 'content-type': 'application/sparql-update' },
-      })
+      return { data: await ldo2json(ldo) }
     }
-
-    const responseData = ldo2json(ldo)
-    return { data: responseData }
   }
 
 export const ldoApi = createApi({
@@ -103,7 +106,7 @@ export const ldoApi = createApi({
   tagTypes: ['Profile', 'TypeRegistration', 'SolidProfile'],
   endpoints: builder => ({
     readUser: builder.query<FoafProfile, string>({
-      query: (url: string) => ({ url, factory: FoafProfileFactory }),
+      query: (url: string) => ({ url, shapeType: FoafProfileShapeType }),
       providesTags: (result, error, url) => [{ type: 'Profile', id: url }],
     }),
     updateUser: builder.mutation<
@@ -113,7 +116,7 @@ export const ldoApi = createApi({
       query: ({ id, document, data }) => ({
         url: id,
         document,
-        factory: FoafProfileFactory,
+        shapeType: FoafProfileShapeType,
         data,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Profile', id }],
@@ -122,10 +125,13 @@ export const ldoApi = createApi({
       queryFn: async url => ({ data: (await globalThis.fetch(url)).url }),
     }),
     readOidcIssuer: builder.query<OidcIssuer, string>({
-      query: (url: string) => ({ url, factory: OidcIssuerFactory }),
+      query: (url: string) => ({ url, shapeType: OidcIssuerShapeType }),
     }),
     readSolidProfile: builder.query<SolidProfile, string>({
-      query: (webId: string) => ({ url: webId, factory: SolidProfileFactory }),
+      query: (webId: string) => ({
+        url: webId,
+        shapeType: SolidProfileShapeType,
+      }),
       providesTags: (result, error, url) => [{ type: 'SolidProfile', id: url }],
     }),
     saveSolidProfile: builder.mutation<
@@ -134,7 +140,7 @@ export const ldoApi = createApi({
     >({
       query: ({ id, data }) => ({
         url: id,
-        factory: SolidProfileFactory,
+        shapeType: SolidProfileShapeType,
         data,
       }),
       invalidatesTags: (result, error, { id }) => [
@@ -146,7 +152,7 @@ export const ldoApi = createApi({
         query: ({ url, data }) => ({
           url: url + '.acl',
           data,
-          factory: AuthorizationFactory,
+          shapeType: AuthorizationShapeType,
         }),
       },
     ),
@@ -154,7 +160,7 @@ export const ldoApi = createApi({
       query: url => ({
         document: url,
         type: solid.TypeRegistration,
-        factory: TypeRegistrationFactory,
+        shapeType: TypeRegistrationShapeType,
       }),
       providesTags: (result, error, arg) => [
         { type: 'TypeRegistration', id: arg },
@@ -180,7 +186,7 @@ export const ldoApi = createApi({
           ],
         }
 
-        return { url: index, data, factory: PublicTypeIndexFactory }
+        return { url: index, data, shapeType: PublicTypeIndexShapeType }
       },
       invalidatesTags: (result, error, arg) => [
         { type: 'TypeRegistration', id: arg.index },
