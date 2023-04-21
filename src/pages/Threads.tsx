@@ -1,6 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { api } from 'app/services/api'
 import { comunicaApi } from 'app/services/comunicaApi'
+import { ldoApi } from 'app/services/ldoApi'
 import classNames from 'classnames'
 import { Loading } from 'components'
 import { PersonMini } from 'components/PersonMini/PersonMini'
@@ -41,7 +41,9 @@ export const Threads = () => {
 const Thread = ({ thread }: { thread: ThreadType }) => {
   const auth = useAuth()
   const other = thread.participants.find(p => p !== auth.webId)
-  const { data: person } = api.endpoints.readUser.useQuery(other || skipToken)
+  const { data: person } = ldoApi.endpoints.readUser.useQuery(
+    other || skipToken,
+  )
   const lastMessage = thread.messages[thread.messages.length - 1]
   return (
     <div className={classNames(styles.thread, thread.status && styles.unread)}>

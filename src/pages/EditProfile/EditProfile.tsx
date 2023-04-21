@@ -1,5 +1,5 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { api } from 'app/services/api'
+import { ldoApi } from 'app/services/ldoApi'
 import { Button } from 'components'
 import { FoafProfile } from 'ldo/foafProfile.typings'
 import { pick } from 'lodash'
@@ -16,12 +16,12 @@ export const EditProfile = () => {
   const navigate = useNavigate()
   const profile = useOutletContext<FoafProfile>()
 
-  const [updateUser] = api.endpoints.updateUser.useMutation()
-  const [createFile] = api.endpoints.createFile.useMutation()
-  const { data: documentUrl } = api.endpoints.readDocumentUrl.useQuery(
+  const [updateUser] = ldoApi.endpoints.updateUser.useMutation()
+  const [createFile] = ldoApi.endpoints.createFile.useMutation()
+  const { data: documentUrl } = ldoApi.endpoints.readDocumentUrl.useQuery(
     profile['@id'] ?? skipToken,
   )
-  const [deleteFile] = api.endpoints.deleteFile.useMutation()
+  const [deleteFile] = ldoApi.endpoints.deleteFile.useMutation()
 
   const { register, handleSubmit, watch } = useForm<
     Pick<FoafProfile, 'name' | 'img' | 'hasPhoto'> & {

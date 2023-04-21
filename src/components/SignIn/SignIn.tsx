@@ -1,5 +1,5 @@
 import { login } from '@inrupt/solid-client-authn-browser'
-import { api } from 'app/services/api'
+import { ldoApi } from 'app/services/ldoApi'
 import { Button } from 'components'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -14,7 +14,7 @@ const oidcIssuers = [
 ]
 
 const useGuessIssuer = () => {
-  const [readOidcIssuer] = api.endpoints.readOidcIssuer.useLazyQuery()
+  const [readOidcIssuer] = ldoApi.endpoints.readOidcIssuer.useLazyQuery()
 
   return async (webIdOrIssuer: string): Promise<string> => {
     let issuer: string

@@ -1,14 +1,14 @@
-import { api } from 'app/services/api'
+import { ldoApi } from 'app/services/ldoApi'
 import { acl, foaf } from 'rdf-namespaces'
 import { useAuth } from './useAuth'
 
 export const useSetupHospex = () => {
-  const [readSolidProfile] = api.endpoints.readSolidProfile.useLazyQuery()
-  const [updateUser] = api.endpoints.updateUser.useMutation()
-  const [saveAccess] = api.endpoints.saveAccess.useMutation()
+  const [readSolidProfile] = ldoApi.endpoints.readSolidProfile.useLazyQuery()
+  const [updateUser] = ldoApi.endpoints.updateUser.useMutation()
+  const [saveAccess] = ldoApi.endpoints.saveAccess.useMutation()
   const [saveTypeRegistration] =
-    api.endpoints.saveTypeRegistration.useMutation()
-  const [saveSolidProfile] = api.endpoints.saveSolidProfile.useMutation()
+    ldoApi.endpoints.saveTypeRegistration.useMutation()
+  const [saveSolidProfile] = ldoApi.endpoints.saveSolidProfile.useMutation()
   const auth = useAuth()
 
   // TODO add options so users can have a choice

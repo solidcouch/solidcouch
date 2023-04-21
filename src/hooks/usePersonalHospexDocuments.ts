@@ -1,12 +1,12 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { api } from 'app/services/api'
+import { ldoApi } from 'app/services/ldoApi'
 import { useMemo } from 'react'
 
 export const usePersonalHospexDocuments = (webId?: string) => {
   const { data: solidProfile, ...solidProfileStatus } =
-    api.endpoints.readSolidProfile.useQuery(webId ?? skipToken)
+    ldoApi.endpoints.readSolidProfile.useQuery(webId ?? skipToken)
   const { data: registrations, ...registrationsStatus } =
-    api.endpoints.readTypeRegistrations.useQuery(
+    ldoApi.endpoints.readTypeRegistrations.useQuery(
       solidProfile?.publicTypeIndex?.[0]['@id'] ?? skipToken,
     )
 
