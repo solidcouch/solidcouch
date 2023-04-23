@@ -25,7 +25,6 @@ import {
   rdf,
   schema_https,
   sioc,
-  solid,
   vcard,
   xsd,
 } from 'utils/rdf-namespaces'
@@ -351,49 +350,6 @@ export const comunicaApi = createApi({
       }),
       transformResponse: (dataArray: { person: URI }[]) =>
         dataArray.map(({ person }) => person),
-    }),
-    readOffers: builder.query<Accommodation[], { communityId: URI }>({
-      query: ({ communityId }) => ({
-        query: query`
-          SELECT DISTINCT ?person ?lat ?long ?accommodation ?description WHERE {
-            <${communityId}> <${sioc.has_usergroup}> ?group.
-            ?group <${vcard.hasMember}> ?member.
-            ?member <${solid.publicTypeIndex}> ?index.
-            ?index
-              <${rdf.type}> <${solid.TypeIndex}>;
-              <${dct.references}> ?typeRegistration.
-            ?typeRegistration
-              <${rdf.type}> <${solid.TypeRegistration}>;
-              <${solid.forClass}> <${hospex.PersonalHospexDocument}>;
-              <${solid.instance}> ?hospexDocument.
-            ?person <${hospex.offers}> ?accommodation.
-            ?accommodation <${dct.description}> ?description;
-              <${geo.location}> ?location.
-            ?location
-              <${geo.lat}> ?lat;
-              <${geo.long}> ?long.
-
-            FILTER(?member = ?person)
-          }
-      `,
-        sources: [communityId],
-      }),
-      transformResponse: (
-        dataArray: {
-          person: URI
-          lat: number
-          long: number
-          accommodation: URI
-          description: string
-        }[],
-      ) =>
-        dataArray.map(({ person, lat, long, accommodation, description }) => ({
-          id: accommodation,
-          description,
-          location: { lat, long },
-          offeredBy: person,
-        })),
-      providesTags: () => [{ type: 'Accommodation', id: 'LIST_OF_ALL' }],
     }),
     readThreads: builder.query<Thread[], { me: URI }>({
       queryFn: async props => {
