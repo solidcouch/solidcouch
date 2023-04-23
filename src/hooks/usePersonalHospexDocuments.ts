@@ -16,7 +16,7 @@ export const usePersonalHospexDocuments = (webId?: string) => {
         ?.filter(reg =>
           reg.forClass.find(
             c =>
-              c['@id'] === 'http://w3id.org/hospex/ns#PersonalHospexDocument',
+              c?.['@id'] === 'http://w3id.org/hospex/ns#PersonalHospexDocument',
           ),
         )
         .map(

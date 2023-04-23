@@ -23,7 +23,7 @@ export interface Accommodation {
   /**
    * Text about the accommodation
    */
-  comment?: string[]
+  description?: string[]
   /**
    * Location of the accommodation
    */

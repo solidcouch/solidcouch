@@ -1,4 +1,9 @@
-import { useQueries, useQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { URI } from 'types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
@@ -38,3 +43,63 @@ const fetchTurtle = async (uri: URI) =>
     if (res.ok) return res.text()
     else throw new Error(`Fetching ${uri} not successful`)
   })
+
+export const useCreateSolidDocument = () => {
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: async ({ uri, data }: { uri: URI; data: string }) => {
+      const response = await fullFetch(uri, {
+        method: 'PUT',
+        body: data,
+        headers: { 'content-type': 'text/turtle' },
+      })
+
+      const location = response.headers.get('location')
+      return location as string
+    },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries([
+        'solidDocument',
+        removeHashFromURI(variables.uri),
+      ])
+    },
+  })
+
+  return mutation
+}
+
+export const useUpdateSolidDocument = () => {
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: async ({ uri, patch }: { uri: URI; patch: string }) => {
+      await fullFetch(uri, {
+        method: 'PATCH',
+        body: patch,
+        headers: { 'content-type': 'text/n3' },
+      })
+    },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries([
+        'solidDocument',
+        removeHashFromURI(variables.uri),
+      ])
+    },
+  })
+  return mutation
+}
+
+export const useDeleteSolidDocument = () => {
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: async ({ uri }: { uri: URI }) => {
+      await fullFetch(uri, { method: 'DELETE' })
+    },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries([
+        'solidDocument',
+        removeHashFromURI(variables.uri),
+      ])
+    },
+  })
+  return mutation
+}
