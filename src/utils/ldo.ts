@@ -1,4 +1,9 @@
+import { Dataset } from '@rdfjs/types'
+import { transactionChanges } from 'ldo'
+import { datasetToString } from 'ldo/dist/datasetConverters'
+import { LdoBase } from 'ldo/dist/util'
 import N3 from 'n3'
+import { solid } from 'utils/rdf-namespaces'
 
 // stringifying objects with circular reference, according to MDN:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cyclic_object_value#circular_references
@@ -28,4 +33,21 @@ export const rdf2n3 = (raw: string, baseIRI?: string): Promise<N3.Quad[]> => {
       else return resolve(quads)
     })
   })
+}
+
+export async function toN3Patch(ldo: LdoBase): Promise<string> {
+  const changes = transactionChanges(ldo)
+  const patch = `
+      _:patch a <${solid.InsertDeletePatch}>;
+        <${solid.inserts}> { ${
+    changes.added
+      ? await datasetToString(changes.added as Dataset, { format: 'N3' })
+      : ''
+  } };
+        <${solid.deletes}> { ${
+    changes.removed
+      ? await datasetToString(changes.removed as Dataset, { format: 'N3' })
+      : ''
+  } }.`
+  return patch
 }

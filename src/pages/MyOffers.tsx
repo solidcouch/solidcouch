@@ -1,8 +1,10 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { comunicaApi } from 'app/services/comunicaApi'
 import { Button, Loading } from 'components'
 import { AccommodationForm } from 'components/AccommodationForm/AccommodationForm'
 import { AccommodationView } from 'components/AccommodationView/AccommodationView'
+import { useCreateAccommodation } from 'hooks/data/useCreateAccommodation'
+import { useDeleteAccommodation } from 'hooks/data/useDeleteAccommodation'
+import { useReadAccommodations } from 'hooks/data/useReadAccommodations'
+import { useUpdateAccommodation } from 'hooks/data/useUpdateAccommodation'
 import { useAuth } from 'hooks/useAuth'
 import { usePersonalHospexDocuments } from 'hooks/usePersonalHospexDocuments'
 import { useState } from 'react'
@@ -19,25 +21,18 @@ export const MyOffers = () => {
     auth.webId,
   )
 
-  const { data: accommodations } =
-    comunicaApi.endpoints.readAccommodations.useQuery(
-      auth.webId &&
-        personalHospexDocuments &&
-        personalHospexDocuments.length > 0
-        ? {
-            webId: auth.webId,
-            personalHospexDocuments: personalHospexDocuments as [URI, ...URI[]],
-            language: 'en',
-          }
-        : skipToken,
-    )
+  const accommodations = useReadAccommodations(auth.webId ?? '')
 
-  const [createAccommodation] =
-    comunicaApi.endpoints.createAccommodation.useMutation()
-  const [updateAccommodation] =
-    comunicaApi.endpoints.updateAccommodation.useMutation()
-  const [deleteAccommodation] =
-    comunicaApi.endpoints.deleteAccommodation.useMutation()
+  const createAccommodation = useCreateAccommodation()
+  const updateAccommodation = useUpdateAccommodation()
+  const deleteAccommodation = useDeleteAccommodation()
+
+  // const [createAccommodation] =
+  //   comunicaApi.endpoints.createAccommodation.useMutation()
+  // const [updateAccommodation] =
+  //   comunicaApi.endpoints.updateAccommodation.useMutation()
+  // const [deleteAccommodation] =
+  //   comunicaApi.endpoints.deleteAccommodation.useMutation()
 
   if (typeof auth.webId !== 'string') return null
 
@@ -52,24 +47,24 @@ export const MyOffers = () => {
       (await crypto.randomUUID()) +
       '#accommodation'
 
-    await createAccommodation({
-      webId: auth.webId,
-      personalHospexDocument: personalHospexDocuments[0],
-      accommodation: { ...accommodation, id },
-    }).unwrap()
+    // await createAccommodation({
+    //   webId: auth.webId,
+    //   personalHospexDocument: personalHospexDocuments[0],
+    //   accommodation: { ...accommodation, id },
+    // }).unwrap()
+    await createAccommodation(
+      auth.webId,
+      { ...accommodation, id },
+      personalHospexDocuments[0],
+    )
 
     setEditing(undefined)
   }
 
   const handleUpdate = async (accommodation: Accommodation) => {
-    if (!(auth.webId && personalHospexDocuments?.[0]))
-      throw new Error('missing variables')
+    if (!auth.webId) throw new Error('missing variables')
 
-    await updateAccommodation({
-      webId: auth.webId,
-      personalHospexDocument: personalHospexDocuments[0],
-      accommodation,
-    }).unwrap()
+    await updateAccommodation(auth.webId, accommodation)
 
     setEditing(undefined)
   }
@@ -83,11 +78,7 @@ export const MyOffers = () => {
     )
 
     if (isConfirmed) {
-      await deleteAccommodation({
-        id,
-        webId: auth.webId,
-        personalHospexDocument: personalHospexDocuments[0],
-      }).unwrap()
+      await deleteAccommodation(id, personalHospexDocuments[0])
     }
   }
 

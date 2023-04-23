@@ -12,8 +12,8 @@ export const accommodationContext: ContextDefinition = {
   },
   Accommodation: 'http://w3id.org/hospex/ns#Accommodation',
   Accommodation2: 'https://schema.org/Accommodation',
-  comment: {
-    '@id': 'http://www.w3.org/2000/01/rdf-schema#comment',
+  description: {
+    '@id': 'http://purl.org/dc/terms/description',
     '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
     '@container': '@set',
   },

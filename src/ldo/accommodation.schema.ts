@@ -34,7 +34,7 @@ export const accommodationSchema: Schema = {
             },
             {
               type: 'TripleConstraint',
-              predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+              predicate: 'http://purl.org/dc/terms/description',
               valueExpr: {
                 type: 'NodeConstraint',
                 datatype:

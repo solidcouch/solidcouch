@@ -1,4 +1,4 @@
-import { parseRdf } from 'ldo'
+import { languagesOf, parseRdf } from 'ldo'
 import { AccommodationShapeType } from 'ldo/accommodation.shapeTypes'
 import { HospexCommunityShapeType } from 'ldo/hospexCommunity.shapeTypes'
 import { HospexGroupShapeType } from 'ldo/hospexGroup.shapeTypes'
@@ -29,9 +29,11 @@ export const getAccommodation = async (
 
   if (isNaN(lat) || isNaN(long)) return undefined
 
+  const descriptionLanguages = languagesOf(accommodationData, 'description')
+
   return {
     id: accommodationData['@id'] as string,
-    description: accommodationData.comment?.[0] ?? '',
+    description: descriptionLanguages.en?.values().next().value ?? '',
     location: { lat, long },
     offeredBy: accommodationData.offeredBy?.['@id'],
   }
