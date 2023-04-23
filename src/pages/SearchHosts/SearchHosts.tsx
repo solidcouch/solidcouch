@@ -1,6 +1,7 @@
 import MarkerClusterGroup from '@changey/react-leaflet-markercluster'
-import { comunicaApi } from 'app/services/comunicaApi'
-import { communityId, defaultIcon, highlightedIcon, tileServer } from 'config'
+// import { comunicaApi } from 'app/services/comunicaApi'
+import { defaultIcon, highlightedIcon, tileServer } from 'config'
+import { useSearchAccommodations } from 'hooks/useSearchAccommodations'
 import { FaTimes } from 'react-icons/fa'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { useSearchParams } from 'react-router-dom'
@@ -9,9 +10,11 @@ import { AccommodationInfo } from './AccommodationInfo'
 import styles from './SearchHosts.module.scss'
 
 export const SearchHosts = () => {
-  const { data: offers } = comunicaApi.endpoints.readOffers.useQuery({
-    communityId,
-  })
+  // const { data: offers } = comunicaApi.endpoints.readOffers.useQuery({
+  //   communityId,
+  // })
+
+  const offers = useSearchAccommodations()
 
   const [searchParams, setSearchParams] = useSearchParams()
 

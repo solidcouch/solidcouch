@@ -1,5 +1,6 @@
 import './index.scss'
 // this line intentionally left blank to load css reset stylesheets first
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { store } from 'app/store'
 import 'config'
 import React from 'react'
@@ -9,11 +10,15 @@ import { RouterProvider } from 'react-router-dom'
 import { router } from 'router'
 import { reportWebVitals } from './reportWebVitals'
 
+const queryClient = new QueryClient()
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </Provider>
   </React.StrictMode>,
 )

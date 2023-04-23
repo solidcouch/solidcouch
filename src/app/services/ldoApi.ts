@@ -101,7 +101,7 @@ const ldoBaseQuery =
   }
 
 export const ldoApi = createApi({
-  reducerPath: 'api',
+  reducerPath: 'ldoApi',
   baseQuery: ldoBaseQuery(),
   tagTypes: ['Profile', 'TypeRegistration', 'SolidProfile'],
   endpoints: builder => ({

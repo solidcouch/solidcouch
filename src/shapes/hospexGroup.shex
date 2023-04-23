@@ -1,0 +1,12 @@
+PREFIX ex: <https://example.com/>
+PREFIX hospex: <http://w3id.org/hospex/ns#>
+PREFIX sioc: <http://rdfs.org/sioc/ns#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+
+ex:HospexGroup EXTRA a {
+  a [vcard:Group] ;
+  a [sioc:Usergroup] ;
+  sioc:usergroup_of IRI ;
+  vcard:hasMember IRI * ;
+}
