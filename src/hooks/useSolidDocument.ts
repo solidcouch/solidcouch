@@ -36,5 +36,5 @@ export const useSolidDocuments = (uris: URI[]) => {
 const fetchTurtle = async (uri: URI) =>
   await fullFetch(uri).then(res => {
     if (res.ok) return res.text()
-    else throw new Error('not successful')
+    else throw new Error(`Fetching ${uri} not successful`)
   })

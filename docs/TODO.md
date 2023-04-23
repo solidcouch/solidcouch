@@ -4,7 +4,8 @@
 
 - [ ] translations
 - [ ] show loading indicators
-- [ ] better accommodation search algorithm (show found accommodations sooner)
+- [ ] show errors
+- [x] better accommodation search algorithm (show found accommodations sooner)
 - [ ] fix wasteful queries
 - [ ] save about me in multiple languages
 - [ ] testing

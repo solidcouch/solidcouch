@@ -10,15 +10,10 @@ import { AccommodationInfo } from './AccommodationInfo'
 import styles from './SearchHosts.module.scss'
 
 export const SearchHosts = () => {
-  // const { data: offers } = comunicaApi.endpoints.readOffers.useQuery({
-  //   communityId,
-  // })
+  const [searchParams, setSearchParams] = useSearchParams()
+  const selectedAccommodationId = searchParams.get('hosting')
 
   const offers = useSearchAccommodations()
-
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  const selectedAccommodationId = searchParams.get('hosting')
 
   const handleMarkerClick = (accommodationId: URI) => {
     setSearchParams({ hosting: accommodationId })
