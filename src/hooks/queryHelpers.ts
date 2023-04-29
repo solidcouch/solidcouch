@@ -26,9 +26,9 @@ export const useParse = <T, U = T[]>(
   ids: URI[],
   docs: (string | undefined)[],
   parse: (id: URI, doc: string | undefined) => Promise<T>,
-  transform: (a: T[]) => U = a => a as U,
+  transform: (a: T[], ids?: URI[]) => U = a => a as U,
 ) => {
-  const [results, setResults] = useState<U>(transform([]))
+  const [results, setResults] = useState<U>(transform([], []))
 
   useEffect(() => {
     ;(async () => {
@@ -37,10 +37,34 @@ export const useParse = <T, U = T[]>(
           async props => await parse(props[0] as URI, props[1]),
         ),
       )
-      const newResults = transform(res)
+      const newResults = transform(res, ids)
       setResults(state => (isEqual(state, newResults) ? state : newResults))
     })()
   }, [docs, ids, parse, transform])
+
+  return results
+}
+
+export const useParseWithParam = <T, P, U = T[]>(
+  ids: URI[],
+  params: P[],
+  docs: (string | undefined)[],
+  parse: (id: URI, param: P, doc: string | undefined) => Promise<T>,
+  transform: (a: T[], params: P[], ids?: URI[]) => U = a => a as U,
+) => {
+  const [results, setResults] = useState<U>(transform([], []))
+
+  useEffect(() => {
+    ;(async () => {
+      const res = await Promise.all(
+        zip(ids, params, docs).map(
+          async props => await parse(props[0] as URI, props[1] as P, props[2]),
+        ),
+      )
+      const newResults = transform(res, params, ids)
+      setResults(state => (isEqual(state, newResults) ? state : newResults))
+    })()
+  }, [docs, ids, params, parse, transform])
 
   return results
 }

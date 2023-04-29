@@ -13,7 +13,7 @@ import { Accommodation, URI } from 'types'
  * Read accommodations of a person
  */
 export const useReadAccommodations = (personId: URI): Accommodation[] => {
-  // read profile and find type index of each member
+  // read profile and find type index of person
   const personIdParam = useMemo(() => [personId], [personId])
   const profileDocResults = useSolidDocuments(personIdParam)
   const profileDocs = useResults(profileDocResults)

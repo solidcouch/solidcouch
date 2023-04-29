@@ -32,12 +32,12 @@ export type Message = {
   message: string
   createdAt: number // timestamp
   from: URI
-  to: URI
   status?: 'unread'
   notification?: URI
 }
 
 export type Thread = {
+  id: URI
   participants: URI[] //
   messages: Message[] // last one or more messages
   status?: 'unread' | 'new'
