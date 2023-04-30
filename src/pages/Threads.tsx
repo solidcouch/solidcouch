@@ -16,7 +16,7 @@ export const Threads = () => {
   //   auth.webId ? { me: auth.webId } : skipToken,
   // )
 
-  const threads = useReadThreads(auth.webId ?? '')
+  const { data: threads } = useReadThreads(auth.webId ?? '')
 
   // if (error) return <>{JSON.stringify(error, null, 2)}</>
   if (!threads) return <Loading>Loading...</Loading>

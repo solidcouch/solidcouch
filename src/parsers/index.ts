@@ -1,17 +1,19 @@
 import { languagesOf, parseRdf } from 'ldo'
 import { AccommodationShapeType } from 'ldo/accommodation.shapeTypes'
+import { ActivityShapeType } from 'ldo/activity.shapeTypes'
 import { ContainerShapeType } from 'ldo/container.shapeTypes'
 import { HospexCommunityShapeType } from 'ldo/hospexCommunity.shapeTypes'
 import { HospexGroupShapeType } from 'ldo/hospexGroup.shapeTypes'
 import { HospexProfileShapeType } from 'ldo/hospexProfile.shapeTypes'
 import {
   ChatMessageListShapeShapeType,
+  ChatMessageShapeShapeType,
   ChatShapeShapeType,
 } from 'ldo/longChat.shapeTypes'
 import { TypeRegistrationShapeType } from 'ldo/publicTypeIndex.shapeTypes'
 import { SolidProfileShapeType } from 'ldo/solidProfile.shapeTypes'
 import { Accommodation, Message, URI } from 'types'
-import { hospex, meeting, sioc, solid } from 'utils/rdf-namespaces'
+import { as, hospex, meeting, rdf, sioc, solid, wf } from 'utils/rdf-namespaces'
 
 /**
  * Read accommodation from accommodation document
@@ -161,6 +163,16 @@ export const getTypeIndexes = async (
   }
 }
 
+export const getInbox = async (
+  id: URI,
+  doc: string = '',
+): Promise<URI | undefined> => {
+  const ldoDataset = await parseRdf(doc, { baseIRI: id })
+  const group = ldoDataset.usingType(SolidProfileShapeType).fromSubject(id)
+
+  return group.inbox?.['@id']
+}
+
 /**
  * Read lists of usergroups of a community
  * @param communityId
@@ -223,7 +235,52 @@ export const getMessagesFromDocument = async (
   return (chat.message ?? []).map(msg => ({
     id: msg['@id'] ?? '',
     message: msg.content,
+    chat: chatId,
     createdAt: new Date(msg.created2).getTime(),
     from: msg.maker['@id'],
   }))
+}
+
+/**
+ *
+ * @param id - message id
+ * @param doc - message document
+ */
+export const getMessage = async (
+  id: URI,
+  doc: string = '',
+): Promise<Message | undefined> => {
+  const ldoDataset = await parseRdf(doc, { baseIRI: id })
+  const message = ldoDataset
+    .usingType(ChatMessageShapeShapeType)
+    .fromSubject(id)
+  const chat = ldoDataset
+    .usingType(ChatMessageListShapeShapeType)
+    .matchSubject(wf.message, id)
+  if (!message.maker) return undefined
+  return {
+    id,
+    message: message.content,
+    from: message.maker['@id'],
+    createdAt: new Date(message.created2).getTime(),
+    chat: chat[0]['@id'] as URI,
+  }
+}
+
+export const getMessageNotifications = async (id: URI, doc: string = '') => {
+  const ldoDataset = await parseRdf(doc, { baseIRI: id })
+  const activities = ldoDataset
+    .usingType(ActivityShapeType)
+    .matchSubject(rdf.type, as.Add)
+    .filter(
+      activity =>
+        activity.context['@id'] === 'https://www.pod-chat.com/LongChatMessage',
+    )
+    .map(activity => ({
+      id: activity['@id'] as URI,
+      chat: activity.target['@id'],
+      message: activity.object['@id'],
+      actor: activity.actor['@id'],
+    }))
+  return activities
 }

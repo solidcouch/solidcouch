@@ -1,9 +1,12 @@
 import { useParse, useParseWithParam, useResults } from 'hooks/queryHelpers'
 import { useSolidDocuments } from 'hooks/useSolidDocument'
-import { zip } from 'lodash'
+import { cloneDeep, zip } from 'lodash'
 import {
   getChatsFromTypeIndex,
   getContains,
+  getInbox,
+  getMessage,
+  getMessageNotifications,
   getMessagesFromDocument,
   getRelatedChats,
   getTypeIndexes,
@@ -12,7 +15,9 @@ import { useCallback, useMemo } from 'react'
 import { Message, Thread, URI } from 'types'
 import { getContainer } from 'utils/helpers'
 
-export const useReadThreads = (webId: URI) => {
+const flat = <T>(a: T[][]) => a.flat()
+
+export const useReadThreadsOnly = (webId: URI) => {
   // read my profile and type indexes, especially private
   // read profile and find type index of each member
   // TODO also check useReadAccommodations to DRY this
@@ -34,7 +39,7 @@ export const useReadThreads = (webId: URI) => {
     typeIndexes,
     typeIndexDocs,
     getChatsFromTypeIndex,
-    useCallback((a: URI[][]) => a.flat(), []),
+    flat,
   )
 
   // fetch LongChat index.ttl
@@ -56,6 +61,7 @@ export const useReadThreads = (webId: URI) => {
     return collectedChats.map(c => [c.chat, ...c.relatedChats]).flat()
   }, [collectedChats])
 
+  // TODO optimize: fetch only newest chat files
   const { data: files } = useChatFiles(allChats)
   const allFiles = useMemo(() => Object.values(files).flat(), [files])
   const allFileChats = useMemo(
@@ -95,9 +101,11 @@ export const useReadThreads = (webId: URI) => {
       collectedChats
         .map(cc => ({
           id: cc.chat,
+          related: cc.relatedChats,
           participants: cc.participants,
           messages: [cc.chat, ...cc.relatedChats]
             .flatMap(chat => messagesDict[chat])
+            .filter(a => a)
             .sort((a, b) => a.createdAt - b.createdAt),
         }))
         .sort(
@@ -108,10 +116,106 @@ export const useReadThreads = (webId: URI) => {
     [collectedChats, messagesDict],
   )
 
-  return threads
+  return { data: threads }
 }
 
-export const useReadMessagesFromInbox = () => {}
+export const useReadMessagesFromInbox = (webId: URI) => {
+  // read my profile and type indexes, especially private
+  // read profile and find type index of each member
+  // TODO also check useReadAccommodations to DRY this
+  const personIdParam = useMemo(() => [webId], [webId])
+  // TODO also fetch extended profile documents
+  const profileDocResults = useSolidDocuments(personIdParam)
+  const profileDocs = useResults(profileDocResults)
+  const inboxes = useParse(
+    personIdParam,
+    profileDocs,
+    getInbox,
+    useCallback(
+      (inboxes: (URI | undefined)[]) => inboxes.filter(i => i) as URI[],
+      [],
+    ),
+  )
+
+  // now, fetch all inbox items
+  const inboxDocResults = useSolidDocuments(inboxes)
+  const inboxDocs = useResults(inboxDocResults)
+  const itemInfos = useParse(inboxes, inboxDocs, getContains)
+  const items = itemInfos.flatMap(ii => ii.contains)
+
+  // now read the inbox items
+  const itemDocResults = useSolidDocuments(items)
+  const itemDocs = useResults(itemDocResults)
+  const messageNotifications = useParse(
+    items,
+    itemDocs,
+    getMessageNotifications,
+    flat,
+  )
+
+  const messageIds = useMemo(
+    () => messageNotifications.map(mn => mn.message),
+    [messageNotifications],
+  )
+  const messageDocResults = useSolidDocuments(messageIds)
+  const messageDocs = useResults(messageDocResults)
+  const messages = useParse(
+    messageIds,
+    messageDocs,
+    getMessage,
+    useCallback(
+      (messages: (Message | undefined)[]): Message[] => {
+        return messages
+          .map((msg, i) => [msg, i] as const)
+          .filter(([msg]) => msg)
+          .map(([msg, i]) => ({
+            ...(msg as Message),
+            status: 'unread',
+            notification: messageNotifications[i].id,
+          }))
+      },
+      [messageNotifications],
+    ),
+  )
+  return useMemo(() => ({ data: messages }), [messages])
+}
+
+export const useReadThreads = (webId: URI) => {
+  const { data: threads } = useReadThreadsOnly(webId)
+  const { data: inboxMessages } = useReadMessagesFromInbox(webId)
+  const combinedThreads: Thread[] = useMemo(() => {
+    const combined = cloneDeep(threads)
+    inboxMessages.forEach(imsg => {
+      // find thread
+      const thread = combined.find(t => t.related.includes(imsg.chat))
+      if (thread) {
+        thread.status = 'unread'
+        const msgIndex = thread.messages.findIndex(msg => msg.id === imsg.id)
+        if (msgIndex > -1) {
+          thread.messages[msgIndex] = imsg
+        } else {
+          thread.messages.push(imsg)
+          thread.messages.sort((a, b) => a.createdAt - b.createdAt)
+        }
+      } else {
+        combined.push({
+          id: imsg.chat,
+          related: [imsg.chat],
+          messages: [imsg],
+          participants: [imsg.from],
+          status: 'new',
+        })
+        combined.sort(
+          (a, b) =>
+            ([...b.messages].pop()?.createdAt ?? 0) -
+            ([...a.messages].pop()?.createdAt ?? 0),
+        )
+      }
+    })
+    return combined
+  }, [inboxMessages, threads])
+  return { data: combinedThreads }
+}
 
 const combineIndexes = (indexes: { public: URI[]; private: URI[] }[]) =>
   indexes.flatMap(i => [...i.private, ...i.public])
