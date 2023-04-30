@@ -1,0 +1,55 @@
+PREFIX srs: <https://shaperepo.com/schemas/longChat#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX mee: <http://www.w3.org/ns/pim/meeting#>
+PREFIX purl: <http://purl.org/dc/elements/1.1/>
+PREFIX flow: <http://www.w3.org/2005/01/wf/flow#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ns: <http://rdfs.org/sioc/ns#>
+PREFIX terms: <http://purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX ic: <http://www.w3.org/2002/12/cal/ical#>
+PREFIX ui: <http://www.w3.org/ns/ui#>
+
+srs:ChatShape EXTRA a {
+  a [ mee:LongChat ]
+    // rdfs:comment  "Defines the type of the chat as a LongChat" ;
+  purl:author IRI
+    // rdfs:comment  "The WebId of the entity that created this chat" ;
+  purl:created xsd:dateTime
+    // rdfs:comment  "The date and time the chat was created" ;
+  purl:title xsd:string
+    // rdfs:comment  "The title of the chat" ;
+  flow:participation @srs:ChatParticipationShape *
+    // rdfs:comment  "A list of people participating in this chat" ;
+  ui:sharedPreferences IRI ?
+    // rdfs:comment  "Chat preferences" 
+}
+
+srs:ChatParticipationShape {
+  ic:dtstart xsd:dateTime
+    // rdfs:comment  "The date and time this individual began participating in the chat." ;
+  flow:participant IRI
+    // rdfs:comment  "The WebId of the participant" ;
+  ui:backgroundColor xsd:string ?
+    // rdfs:comment  "The background color of the participant's chat bubbles" ;
+
+  # The following term is added for compatibility with pod-chat
+  # and other chats in which each party owns the chat they authored
+  # It's not provided by shaperepo.com, but added afterwards
+  terms:references IRI ?
+    // rdfs:comment "Part of this chat belonging to this participant"
+}
+
+srs:ChatMessageListShape {
+  flow:message @srs:ChatMessageShape *
+    // rdfs:comment  "A list of messages in the chat" ;
+}
+
+srs:ChatMessageShape {
+  terms:created xsd:dateTime
+    // rdfs:comment  "The date and time this message was posted." ;
+  ns:content xsd:string
+    // rdfs:comment  "The text content of the message" ;
+  foaf:maker IRI
+    // rdfs:comment  "The WebId of the person who sent the message."
+}

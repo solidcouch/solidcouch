@@ -38,6 +38,11 @@ export const Profile = () => {
           <FaPencilAlt /> edit profile
         </ButtonLink>
       )}
+      {isMe === false && (
+        <ButtonLink secondary to={`/messages/${encodeURIComponent(personId)}`}>
+          Write a message
+        </ButtonLink>
+      )}
       <ButtonLink tertiary to="contacts">
         contacts
       </ButtonLink>

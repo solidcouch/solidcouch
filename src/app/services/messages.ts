@@ -80,6 +80,8 @@ export const readThreads = async ({ me }: { me: URI }): Promise<Thread[]> => {
   )
 
   const output: Thread[] = threads.map((thread, i) => ({
+    id: '',
+    related: [],
     participants: participants[i],
     messages: thread,
   }))
@@ -108,6 +110,8 @@ export const readThreads = async ({ me }: { me: URI }): Promise<Thread[]> => {
     // if not found, add to the end
     else {
       output.push({
+        id: '',
+        related: [],
         messages: [im.message],
         // TODO actor in inbox can be easily faked
         // we may want to take this from im.message.from
@@ -162,7 +166,7 @@ const readChatFromFolder = async (folder: URI): Promise<Message[]> => {
     message: content as string,
     createdAt: new Date(createdAt ?? '').getTime(),
     from: author as string,
-    to: 'https://example.com', // this may be meaningless, or rather derived from the context of message's thread
+    chat: '',
   }))
 
   return messages
@@ -625,8 +629,8 @@ const readMessage = async (messageId: URI): Promise<Message> => {
     id: messageId,
     message: content as string,
     from: author as URI,
-    to: '',
     createdAt: new Date(createdAt as string).getTime(),
+    chat: '',
   }
 }
 

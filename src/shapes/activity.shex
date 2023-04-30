@@ -1,0 +1,12 @@
+PREFIX ex: <https://example.com/>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ex:Activity EXTRA a {
+  a [as:Add] ;
+  as:actor IRI ;
+  as:context IRI ;
+  as:object IRI ;
+  as:target IRI ;
+  as:updated xsd:dateTime
+}
