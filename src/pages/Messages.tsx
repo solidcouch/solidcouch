@@ -1,8 +1,8 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
 import classNames from 'classnames'
 import { Button, Loading } from 'components'
 import { PersonBadge } from 'components/PersonBadge/PersonBadge'
+import { useMessages } from 'hooks/data/useRdfQuery'
 import { useAuth } from 'hooks/useAuth'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -16,9 +16,11 @@ export const Messages = () => {
 
   const [isSaving, setIsSaving] = useState(false)
 
-  const { data: messages } = comunicaApi.endpoints.readMessages.useQuery(
-    auth.webId ? { userId: personId, me: auth.webId } : skipToken,
-  )
+  // const { data: messages } = comunicaApi.endpoints.readMessages.useQuery(
+  //   auth.webId ? { userId: personId, me: auth.webId } : skipToken,
+  // )
+
+  const [messages] = useMessages({ me: auth.webId ?? '', userId: personId })
 
   const [createMessage] = comunicaApi.endpoints.createMessage.useMutation()
   const [processNotification] =
