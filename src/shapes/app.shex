@@ -45,15 +45,15 @@ ex:PublicTypeIndex EXTRA a {
 ex:PrivateTypeIndex EXTRA a {
   a [ solid:TypeIndex ] ;
   a [ solid:UnlistedDocument ] ;
-  dct:references @ex:TypeRegistration* ;
+  dct:references @ex:TypeRegistration * ;
 }
 
 ex:TypeRegistration EXTRA a {
   a [ solid:TypeRegistration ] ;
-  solid:forClass IRI+ ;
-  solid:instance IRI* ;
+  solid:forClass IRI + ;
+  solid:instance IRI * ;
   solid:instance @ex:ChatShape * ;
-  solid:instanceContainer IRI* ;
+  solid:instanceContainer IRI * ;
 }
 
 ex:ChatShape EXTRA a {

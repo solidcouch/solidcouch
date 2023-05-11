@@ -2,7 +2,7 @@ import { comunicaApi } from 'app/services/comunicaApi'
 import classNames from 'classnames'
 import { Button, Loading } from 'components'
 import { PersonBadge } from 'components/PersonBadge/PersonBadge'
-import { useMessages } from 'hooks/data/useRdfQuery'
+import { useReadMessages } from 'hooks/data/useReadMessages'
 import { useAuth } from 'hooks/useAuth'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -16,11 +16,10 @@ export const Messages = () => {
 
   const [isSaving, setIsSaving] = useState(false)
 
-  // const { data: messages } = comunicaApi.endpoints.readMessages.useQuery(
-  //   auth.webId ? { userId: personId, me: auth.webId } : skipToken,
-  // )
-
-  const [messages] = useMessages({ me: auth.webId ?? '', userId: personId })
+  const [messages, fetchingStatus] = useReadMessages({
+    me: auth.webId ?? '',
+    userId: personId,
+  })
 
   const [createMessage] = comunicaApi.endpoints.createMessage.useMutation()
   const [processNotification] =
@@ -92,6 +91,7 @@ export const Messages = () => {
 
   return (
     <div>
+      <pre>{fetchingStatus.isLoading && 'Loading'}</pre>
       Messages with <PersonBadge webId={personId} link />
       <div className={styles.messages}>
         {messages?.map(({ id, message, from, createdAt, status }) => (
