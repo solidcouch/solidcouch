@@ -2,7 +2,7 @@ import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
 import classNames from 'classnames'
 import { Button, Loading } from 'components'
-import { ExternalIconLink } from 'components/Button/Button'
+import { PersonBadge } from 'components/PersonBadge/PersonBadge'
 import { useAuth } from 'hooks/useAuth'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -16,9 +16,6 @@ export const Messages = () => {
 
   const [isSaving, setIsSaving] = useState(false)
 
-  const { data: person } = comunicaApi.endpoints.readPerson.useQuery({
-    webId: personId,
-  })
   const { data: messages } = comunicaApi.endpoints.readMessages.useQuery(
     auth.webId ? { userId: personId, me: auth.webId } : skipToken,
   )
@@ -93,7 +90,7 @@ export const Messages = () => {
 
   return (
     <div>
-      Messages with {person?.name} <ExternalIconLink href={personId} />
+      Messages with <PersonBadge webId={personId} link />
       <div className={styles.messages}>
         {messages?.map(({ id, message, from, createdAt, status }) => (
           <div
