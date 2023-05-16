@@ -166,7 +166,9 @@ const getPartialResults = <Params extends { [key: string]: URI | string }>(
       else if (from.startsWith('?')) {
         const fromName = from.slice(1)
         partialResults[fromName] = partialResults[fromName]
-          .filter(ldo => ldo[predicate].some((p: any) => p?.['@id'] === to))
+          .filter(ldo =>
+            [ldo[predicate]].flat().some((p: any) => p?.['@id'] === to),
+          )
           .filter(a => Boolean(a))
       } else {
         throw new Error(`unexpected constant "${from}" in query path subject`)

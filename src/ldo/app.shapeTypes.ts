@@ -12,6 +12,8 @@ import {
   ChatMessageShape,
   Container,
   Resource,
+  Inbox,
+  MessageActivity,
 } from './app.typings'
 
 /**
@@ -108,5 +110,23 @@ export const ContainerShapeType: ShapeType<Container> = {
 export const ResourceShapeType: ShapeType<Resource> = {
   schema: appSchema,
   shape: 'https://example.com/Resource',
+  context: appContext,
+}
+
+/**
+ * Inbox ShapeType
+ */
+export const InboxShapeType: ShapeType<Inbox> = {
+  schema: appSchema,
+  shape: 'https://example.com/Inbox',
+  context: appContext,
+}
+
+/**
+ * MessageActivity ShapeType
+ */
+export const MessageActivityShapeType: ShapeType<MessageActivity> = {
+  schema: appSchema,
+  shape: 'https://example.com/MessageActivity',
   context: appContext,
 }

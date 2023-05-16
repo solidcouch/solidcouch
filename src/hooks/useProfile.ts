@@ -8,9 +8,8 @@ import { useMemo } from 'react'
 import { Person, URI } from 'types'
 
 export const useProfile = (id: URI | undefined) => {
-  const { data: profile, ...profileStatus } =
-    ldoApi.endpoints.readUser.useQuery(id ?? skipToken)
-  const { data: hospexProfile, ...hospexProfileStatus } =
+  const { data: profile } = ldoApi.endpoints.readUser.useQuery(id ?? skipToken)
+  const { data: hospexProfile } =
     comunicaApi.endpoints.readHospexProfile.useQuery(
       id ? { id, language: 'en' } : skipToken,
     )

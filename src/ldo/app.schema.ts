@@ -36,10 +36,7 @@ export const appSchema: Schema = {
             {
               type: 'TripleConstraint',
               predicate: 'http://www.w3.org/ns/ldp#inbox',
-              valueExpr: {
-                type: 'NodeConstraint',
-                nodeKind: 'iri',
-              },
+              valueExpr: 'https://example.com/Inbox',
               annotations: [
                 {
                   type: 'Annotation',
@@ -675,6 +672,119 @@ export const appSchema: Schema = {
               valueExpr: {
                 type: 'NodeConstraint',
                 datatype: 'http://www.w3.org/2001/XMLSchema#decimal',
+              },
+            },
+          ],
+        },
+        extra: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
+      },
+    },
+    {
+      id: 'https://example.com/Inbox',
+      type: 'ShapeDecl',
+      shapeExpr: {
+        type: 'Shape',
+        expression: {
+          type: 'EachOf',
+          expressions: [
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['http://www.w3.org/ns/ldp#Container'],
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['http://www.w3.org/ns/ldp#BasicContainer'],
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/ns/ldp#contains',
+              valueExpr: 'https://example.com/MessageActivity',
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://purl.org/dc/terms/modified',
+              valueExpr: {
+                type: 'NodeConstraint',
+                datatype: 'http://www.w3.org/2001/XMLSchema#dateTime',
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/ns/posix/stat#mtime',
+              valueExpr: {
+                type: 'NodeConstraint',
+                datatype: 'http://www.w3.org/2001/XMLSchema#decimal',
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/ns/posix/stat#size',
+              valueExpr: {
+                type: 'NodeConstraint',
+                datatype: 'http://www.w3.org/2001/XMLSchema#decimal',
+              },
+            },
+          ],
+        },
+        extra: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
+      },
+    },
+    {
+      id: 'https://example.com/MessageActivity',
+      type: 'ShapeDecl',
+      shapeExpr: {
+        type: 'Shape',
+        expression: {
+          type: 'EachOf',
+          expressions: [
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['https://www.w3.org/ns/activitystreams#Add'],
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#actor',
+              valueExpr: {
+                type: 'NodeConstraint',
+                nodeKind: 'iri',
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#context',
+              valueExpr: {
+                type: 'NodeConstraint',
+                nodeKind: 'iri',
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#object',
+              valueExpr: 'https://example.com/ChatMessageShape',
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#target',
+              valueExpr: 'https://example.com/ChatShape',
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#updated',
+              valueExpr: {
+                type: 'NodeConstraint',
+                datatype: 'http://www.w3.org/2001/XMLSchema#dateTime',
               },
             },
           ],

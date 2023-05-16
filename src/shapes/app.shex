@@ -1,3 +1,4 @@
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX ex: <https://example.com/>
@@ -22,7 +23,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 ex:SolidProfile EXTRA a {
   a [ foaf:Person ]
     // rdfs:comment  "Defines the node as a Person (from foaf)" ;
-  ldp:inbox IRI
+  ldp:inbox @ex:Inbox
     // rdfs:comment  "The user's LDP inbox to which apps can post notifications" ;
   pim:preferencesFile IRI ?
     // rdfs:comment  "The user's preferences" ;
@@ -116,4 +117,22 @@ ex:Resource EXTRA a {
   dct:modified xsd:dateTime ;
   stat:mtime xsd:decimal ;
   stat:size xsd:decimal
+}
+
+ex:Inbox EXTRA a {
+  a [ ldp:Container ] ;
+  a [ ldp:BasicContainer ] ;
+  ldp:contains @ex:MessageActivity ;
+  dct:modified xsd:dateTime ;
+  stat:mtime xsd:decimal ;
+  stat:size xsd:decimal
+}
+
+ex:MessageActivity EXTRA a {
+  a [as:Add] ;
+  as:actor IRI ;
+  as:context IRI ;
+  as:object @ex:ChatMessageShape ;
+  as:target @ex:ChatShape ;
+  as:updated xsd:dateTime
 }

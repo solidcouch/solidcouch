@@ -21,9 +21,7 @@ export interface SolidProfile {
   /**
    * The user's LDP inbox to which apps can post notifications
    */
-  inbox: {
-    '@id': string
-  }
+  inbox: Inbox
   /**
    * The user's preferences
    */
@@ -130,7 +128,7 @@ export interface ChatShape {
   /**
    * The date and time the chat was created
    */
-  created: string
+  created2: string
   /**
    * The title of the chat
    */
@@ -195,7 +193,7 @@ export interface ChatMessageShape {
   /**
    * The date and time this message was posted.
    */
-  created2: string
+  created: string
   /**
    * The text content of the message
    */
@@ -240,4 +238,44 @@ export interface Resource {
   modified: string
   mtime: number
   size: number
+}
+
+/**
+ * Inbox Type
+ */
+export interface Inbox {
+  '@id'?: string
+  '@context'?: ContextDefinition
+  type: (
+    | {
+        '@id': 'Container'
+      }
+    | {
+        '@id': 'BasicContainer'
+      }
+  )[]
+  contains: MessageActivity
+  modified: string
+  mtime: number
+  size: number
+}
+
+/**
+ * MessageActivity Type
+ */
+export interface MessageActivity {
+  '@id'?: string
+  '@context'?: ContextDefinition
+  type: {
+    '@id': 'Add'
+  }
+  actor: {
+    '@id': string
+  }
+  context: {
+    '@id': string
+  }
+  object: ChatMessageShape
+  target: ChatShape
+  updated: string
 }

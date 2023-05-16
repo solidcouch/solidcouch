@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { Message, URI } from 'types'
 import { getContainer } from 'utils/helpers'
 import { useRdfQuery } from './useRdfQuery'
+import { useReadMessagesFromInbox } from './useReadThreads'
 
 const messagesQuery = [
   ['?me', (a: string) => a, '?profile', SolidProfileShapeType],
@@ -13,6 +14,7 @@ const messagesQuery = [
   ['?privateTypeIndex', 'references', '?typeRegistration'],
   ['?typeRegistration', 'forClass', 'LongChat'],
   ['?typeRegistration', 'instance', '?chat'],
+  // keep only chat that is with userId person, and only them
   [
     '?chat',
     (ldo: ChatShape, params: { userId: URI }) =>
@@ -45,7 +47,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
           ({
             id: message['@id'],
             message: message.content,
-            createdAt: new Date(message.created2).getTime(),
+            createdAt: new Date(message.created).getTime(),
             from: message.maker['@id'],
             chat: chat['@id'],
             test: (chat as ChatShape).participation?.map(
@@ -56,8 +58,32 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
     ) ?? []
   ).filter(a => Boolean(a)) as Message[]
 
-  return [
-    messages.sort((a, b) => (a?.createdAt ?? 0) - (b?.createdAt ?? 0)),
-    queryStatus,
-  ] as const
+  const { data: allMessagesFromInbox } = useReadMessagesFromInbox(me)
+
+  const messagesFromInbox = useMemo(
+    () => allMessagesFromInbox.filter(msg => msg.from === userId),
+    [allMessagesFromInbox, userId],
+  )
+
+  // combine messages from inbox with messages, and sort them
+  const combinedMessages = useMemo(() => {
+    let combined = [...messages]
+
+    messagesFromInbox.forEach(inboxMessage => {
+      // if message is there, update status of the message
+      const msgIndex = messages.findIndex(
+        message => message.id === inboxMessage.id,
+      )
+      if (msgIndex > -1) {
+        combined[msgIndex] = inboxMessage
+      }
+      // otherwise add it to the array of messages
+      else {
+        combined.push(inboxMessage)
+      }
+    })
+    return combined.sort((a, b) => (a?.createdAt ?? 0) - (b?.createdAt ?? 0))
+  }, [messages, messagesFromInbox])
+
+  return [combinedMessages, queryStatus] as const
 }

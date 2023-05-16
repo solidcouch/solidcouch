@@ -15,48 +15,48 @@ export const appContext: ContextDefinition = {
     '@id': 'http://www.w3.org/ns/ldp#inbox',
     '@type': '@id',
   },
-  preferencesFile: {
-    '@id': 'http://www.w3.org/ns/pim/space#preferencesFile',
-    '@type': '@id',
-  },
-  storage: {
-    '@id': 'http://www.w3.org/ns/pim/space#storage',
+  Container: 'http://www.w3.org/ns/ldp#Container',
+  BasicContainer: 'http://www.w3.org/ns/ldp#BasicContainer',
+  contains: {
+    '@id': 'http://www.w3.org/ns/ldp#contains',
     '@type': '@id',
     '@container': '@set',
   },
-  account: {
-    '@id': 'http://www.w3.org/ns/solid/terms#account',
+  Add: 'https://www.w3.org/ns/activitystreams#Add',
+  actor: {
+    '@id': 'https://www.w3.org/ns/activitystreams#actor',
     '@type': '@id',
   },
-  privateTypeIndex: {
-    '@id': 'http://www.w3.org/ns/solid/terms#privateTypeIndex',
+  context: {
+    '@id': 'https://www.w3.org/ns/activitystreams#context',
     '@type': '@id',
-    '@container': '@set',
   },
-  TypeIndex: 'http://www.w3.org/ns/solid/terms#TypeIndex',
-  UnlistedDocument: 'http://www.w3.org/ns/solid/terms#UnlistedDocument',
-  references: {
-    '@id': 'http://purl.org/dc/terms/references',
+  object: {
+    '@id': 'https://www.w3.org/ns/activitystreams#object',
     '@type': '@id',
-    '@container': '@set',
   },
-  TypeRegistration: 'http://www.w3.org/ns/solid/terms#TypeRegistration',
-  forClass: {
-    '@id': 'http://www.w3.org/ns/solid/terms#forClass',
-    '@type': '@id',
-    '@container': '@set',
+  created: {
+    '@id': 'http://purl.org/dc/terms/created',
+    '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
   },
-  instance: {
-    '@id': 'http://www.w3.org/ns/solid/terms#instance',
+  content: {
+    '@id': 'http://rdfs.org/sioc/ns#content',
+    '@type': 'http://www.w3.org/2001/XMLSchema#string',
+  },
+  maker: {
+    '@id': 'http://xmlns.com/foaf/0.1/maker',
     '@type': '@id',
-    '@container': '@set',
+  },
+  target: {
+    '@id': 'https://www.w3.org/ns/activitystreams#target',
+    '@type': '@id',
   },
   LongChat: 'http://www.w3.org/ns/pim/meeting#LongChat',
   author: {
     '@id': 'http://purl.org/dc/elements/1.1/author',
     '@type': '@id',
   },
-  created: {
+  created2: {
     '@id': 'http://purl.org/dc/elements/1.1/created',
     '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
   },
@@ -81,6 +81,11 @@ export const appContext: ContextDefinition = {
     '@id': 'http://www.w3.org/ns/ui#backgroundColor',
     '@type': 'http://www.w3.org/2001/XMLSchema#string',
   },
+  references: {
+    '@id': 'http://purl.org/dc/terms/references',
+    '@type': '@id',
+    '@container': '@set',
+  },
   sharedPreferences: {
     '@id': 'http://www.w3.org/ns/ui#sharedPreferences',
     '@type': '@id',
@@ -90,37 +95,10 @@ export const appContext: ContextDefinition = {
     '@type': '@id',
     '@container': '@set',
   },
-  created2: {
-    '@id': 'http://purl.org/dc/terms/created',
+  updated: {
+    '@id': 'https://www.w3.org/ns/activitystreams#updated',
     '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
   },
-  content: {
-    '@id': 'http://rdfs.org/sioc/ns#content',
-    '@type': 'http://www.w3.org/2001/XMLSchema#string',
-  },
-  maker: {
-    '@id': 'http://xmlns.com/foaf/0.1/maker',
-    '@type': '@id',
-  },
-  instanceContainer: {
-    '@id': 'http://www.w3.org/ns/solid/terms#instanceContainer',
-    '@type': '@id',
-    '@container': '@set',
-  },
-  publicTypeIndex: {
-    '@id': 'http://www.w3.org/ns/solid/terms#publicTypeIndex',
-    '@type': '@id',
-    '@container': '@set',
-  },
-  ListedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',
-  Container: 'http://www.w3.org/ns/ldp#Container',
-  BasicContainer: 'http://www.w3.org/ns/ldp#BasicContainer',
-  contains: {
-    '@id': 'http://www.w3.org/ns/ldp#contains',
-    '@type': '@id',
-    '@container': '@set',
-  },
-  Resource: 'http://www.w3.org/ns/ldp#Resource',
   modified: {
     '@id': 'http://purl.org/dc/terms/modified',
     '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
@@ -136,4 +114,47 @@ export const appContext: ContextDefinition = {
     '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
     '@container': '@set',
   },
+  preferencesFile: {
+    '@id': 'http://www.w3.org/ns/pim/space#preferencesFile',
+    '@type': '@id',
+  },
+  storage: {
+    '@id': 'http://www.w3.org/ns/pim/space#storage',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  account: {
+    '@id': 'http://www.w3.org/ns/solid/terms#account',
+    '@type': '@id',
+  },
+  privateTypeIndex: {
+    '@id': 'http://www.w3.org/ns/solid/terms#privateTypeIndex',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  TypeIndex: 'http://www.w3.org/ns/solid/terms#TypeIndex',
+  UnlistedDocument: 'http://www.w3.org/ns/solid/terms#UnlistedDocument',
+  TypeRegistration: 'http://www.w3.org/ns/solid/terms#TypeRegistration',
+  forClass: {
+    '@id': 'http://www.w3.org/ns/solid/terms#forClass',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  instance: {
+    '@id': 'http://www.w3.org/ns/solid/terms#instance',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  instanceContainer: {
+    '@id': 'http://www.w3.org/ns/solid/terms#instanceContainer',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  publicTypeIndex: {
+    '@id': 'http://www.w3.org/ns/solid/terms#publicTypeIndex',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  ListedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',
+  Resource: 'http://www.w3.org/ns/ldp#Resource',
 }
