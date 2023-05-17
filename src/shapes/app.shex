@@ -1,0 +1,138 @@
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX ex: <https://example.com/>
+PREFIX flow: <http://www.w3.org/2005/01/wf/flow#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX ic: <http://www.w3.org/2002/12/cal/ical#>
+PREFIX ldp: <http://www.w3.org/ns/ldp#>
+PREFIX mee: <http://www.w3.org/ns/pim/meeting#>
+PREFIX pim: <http://www.w3.org/ns/pim/space#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schem: <http://schema.org/>
+PREFIX sioc: <http://rdfs.org/sioc/ns#>
+PREFIX solid: <http://www.w3.org/ns/solid/terms#>
+PREFIX stat: <http://www.w3.org/ns/posix/stat#>
+PREFIX ttl: <http://www.w3.org/ns/iana/media-types/text/turtle#>
+PREFIX ui: <http://www.w3.org/ns/ui#>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+
+
+ex:SolidProfile EXTRA a {
+  a [ foaf:Person ]
+    // rdfs:comment  "Defines the node as a Person (from foaf)" ;
+  ldp:inbox @ex:Inbox
+    // rdfs:comment  "The user's LDP inbox to which apps can post notifications" ;
+  pim:preferencesFile IRI ?
+    // rdfs:comment  "The user's preferences" ;
+  pim:storage IRI *
+    // rdfs:comment  "The location of a Solid storage server related to this WebId" ;
+  solid:account IRI ?
+    // rdfs:comment  "The user's account" ;
+  solid:privateTypeIndex @ex:PrivateTypeIndex *
+    // rdfs:comment  "A registry of all types used on the user's Pod (for private access only)" ;
+  solid:publicTypeIndex @ex:PublicTypeIndex *
+    // rdfs:comment  "A registry of all types used on the user's Pod (for public access)" ;
+}
+
+ex:PublicTypeIndex EXTRA a {
+  a [ solid:TypeIndex ] ;
+  a [ solid:ListedDocument ] ;
+  dct:references @ex:TypeRegistration* ;
+}
+
+ex:PrivateTypeIndex EXTRA a {
+  a [ solid:TypeIndex ] ;
+  a [ solid:UnlistedDocument ] ;
+  dct:references @ex:TypeRegistration * ;
+}
+
+ex:TypeRegistration EXTRA a {
+  a [ solid:TypeRegistration ] ;
+  solid:forClass IRI + ;
+  solid:instance IRI * ;
+  solid:instance @ex:ChatShape * ;
+  solid:instanceContainer IRI * ;
+}
+
+ex:ChatShape EXTRA a {
+  a [ mee:LongChat ]
+    // rdfs:comment  "Defines the type of the chat as a LongChat" ;
+  dc:author IRI
+    // rdfs:comment  "The WebId of the entity that created this chat" ;
+  dc:created xsd:dateTime
+    // rdfs:comment  "The date and time the chat was created" ;
+  dc:title xsd:string
+    // rdfs:comment  "The title of the chat" ;
+  flow:participation @ex:ChatParticipationShape *
+    // rdfs:comment  "A list of people participating in this chat" ;
+  ui:sharedPreferences IRI ?
+    // rdfs:comment  "Chat preferences" ;
+  flow:message @ex:ChatMessageShape *
+}
+
+ex:ChatParticipationShape {
+  ic:dtstart xsd:dateTime
+    // rdfs:comment  "The date and time this individual began participating in the chat." ;
+  flow:participant IRI
+    // rdfs:comment  "The WebId of the participant" ;
+  ui:backgroundColor xsd:string ?
+    // rdfs:comment  "The background color of the participant's chat bubbles" ;
+
+  # The following term is added for compatibility with pod-chat
+  # and other chats in which each party owns the chat they authored
+  # It's not provided by shaperepo.com, but added afterwards
+  dct:references @ex:ChatShape *
+    // rdfs:comment "Part of this chat belonging to this participant"
+}
+
+ex:ChatMessageListShape {
+  flow:message @ex:ChatMessageShape *
+    // rdfs:comment  "A list of messages in the chat" ;
+}
+
+ex:ChatMessageShape {
+  dct:created xsd:dateTime
+    // rdfs:comment  "The date and time this message was posted." ;
+  sioc:content xsd:string
+    // rdfs:comment  "The text content of the message" ;
+  foaf:maker IRI
+    // rdfs:comment  "The WebId of the person who sent the message."
+}
+
+ex:Container  EXTRA a {
+  a [ ldp:Container ] ;
+  a [ ldp:BasicContainer ] ;
+  ldp:contains @ex:Resource * ;
+  ldp:contains @ex:Container * ;
+  dct:modified xsd:dateTime ;
+  stat:mtime xsd:decimal ;
+  stat:size xsd:decimal
+}
+
+ex:Resource EXTRA a {
+  a [ ldp:Resource ] ;
+  dct:modified xsd:dateTime ;
+  stat:mtime xsd:decimal ;
+  stat:size xsd:decimal
+}
+
+ex:Inbox EXTRA a {
+  a [ ldp:Container ] ;
+  a [ ldp:BasicContainer ] ;
+  ldp:contains @ex:MessageActivity ;
+  dct:modified xsd:dateTime ;
+  stat:mtime xsd:decimal ;
+  stat:size xsd:decimal
+}
+
+ex:MessageActivity EXTRA a {
+  a [as:Add] ;
+  as:actor IRI ;
+  as:context IRI ;
+  as:object @ex:ChatMessageShape ;
+  as:target @ex:ChatShape ;
+  as:updated xsd:dateTime
+}

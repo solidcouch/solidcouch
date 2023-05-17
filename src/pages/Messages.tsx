@@ -1,9 +1,10 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
 import classNames from 'classnames'
 import { Button, Loading } from 'components'
 import { PersonBadge } from 'components/PersonBadge/PersonBadge'
+import { useReadMessages } from 'hooks/data/useReadMessages'
 import { useAuth } from 'hooks/useAuth'
+import { produce } from 'immer'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
@@ -16,9 +17,10 @@ export const Messages = () => {
 
   const [isSaving, setIsSaving] = useState(false)
 
-  const { data: messages } = comunicaApi.endpoints.readMessages.useQuery(
-    auth.webId ? { userId: personId, me: auth.webId } : skipToken,
-  )
+  const [messages, fetchingStatus] = useReadMessages({
+    me: auth.webId ?? '',
+    userId: personId,
+  })
 
   const [createMessage] = comunicaApi.endpoints.createMessage.useMutation()
   const [processNotification] =
@@ -31,36 +33,41 @@ export const Messages = () => {
   }>({})
 
   // process notifications of unread messages
-  // and the ref to hack out of double running in strict mode
-  const isFirstRun = useRef(false)
+  // and the ref to hack out of double processing of notifications that goes on for some reason
+  const notificationsInProcess = useRef<Set<URI>>(new Set())
+
   useEffect(() => {
     ;(async () => {
-      if (messages && auth.webId && !isFirstRun.current) {
-        isFirstRun.current = true
+      if (messages && auth.webId) {
         for (const message of messages) {
           if (
             message.notification && // there is a notification to process
-            !(message.id in notificationStatuses) // notification isn't being processed, yet
+            !(message.id in notificationStatuses) && // notification isn't being processed, yet
+            !notificationsInProcess.current.has(message.id)
           ) {
-            setNotificationStatuses(statuses => ({
-              ...statuses,
-              [message.id]: 'processing',
-            }))
+            notificationsInProcess.current.add(message.id)
+            setNotificationStatuses(
+              produce(draft => {
+                draft[message.id] = 'processing'
+              }),
+            )
             try {
               await processNotification({
                 id: message.notification,
                 me: auth.webId,
                 other: personId,
               }).unwrap()
-              setNotificationStatuses(statuses => ({
-                ...statuses,
-                [message.id]: 'processed',
-              }))
+              setNotificationStatuses(
+                produce(draft => {
+                  draft[message.id] = 'processed'
+                }),
+              )
             } catch (err) {
-              setNotificationStatuses(statuses => ({
-                ...statuses,
-                [message.id]: 'errored',
-              }))
+              setNotificationStatuses(
+                produce(draft => {
+                  draft[message.id] = 'errored'
+                }),
+              )
             }
           }
         }
@@ -90,6 +97,7 @@ export const Messages = () => {
 
   return (
     <div>
+      <pre>{fetchingStatus.isLoading && 'Loading'}</pre>
       Messages with <PersonBadge webId={personId} link />
       <div className={styles.messages}>
         {messages?.map(({ id, message, from, createdAt, status }) => (
