@@ -55,7 +55,8 @@
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md,css,scss}\" package.json",
     "build:ldo": "ldo build --input src/shapes --output src/ldo",
-    "postbuild:ldo": "yarn format"
+    "postbuild:ldo": "yarn format",
+    "cy:dev": "concurrently --kill-others \"BROWSER=none yarn start\" \"community-solid-server -p 4000\" \"cypress open\""
   },
   "browserslist": {
     "production": [
@@ -70,17 +71,21 @@
     ]
   },
   "devDependencies": {
+    "@solid/community-server": "^6.0.0",
     "@types/jsonld": "^1.5.8",
     "@types/leaflet": "^1.9.1",
     "@types/lodash": "^4.14.191",
     "@types/n3": "^1.10.4",
     "@types/react-modal": "^3.13.1",
     "@types/shexj": "^2.1.4",
+    "concurrently": "^8.0.1",
+    "cypress": "^12.12.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "ldo-cli": "^3.0.1",
     "prettier": "^2.8.3",
     "sass": "^1.57.1",
+    "start-server-and-test": "^2.0.0",
     "utility-types": "^3.10.0"
   }
 }

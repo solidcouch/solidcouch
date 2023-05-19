@@ -1,7 +1,6 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { BaseQueryFn, createApi } from '@reduxjs/toolkit/query/react'
 import {
-  commitTransaction,
   createLdoDataset,
   parseRdf,
   ShapeType,
@@ -87,7 +86,7 @@ const ldoBaseQuery =
           }
         })
 
-        commitTransaction(ldo)
+        // commitTransaction(ldo)
 
         await fetch(documentUrl, {
           method: 'PATCH',
