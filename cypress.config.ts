@@ -8,4 +8,7 @@ export default defineConfig({
       // implement node event listeners here
     },
   },
+  env: {
+    cssUrl: 'http://localhost:4000',
+  },
 })
