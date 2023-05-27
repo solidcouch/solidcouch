@@ -5422,13 +5422,13 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@inrupt/oidc-client-ext@^1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@inrupt/oidc-client-ext/-/oidc-client-ext-1.13.0.tgz#14129647e59375ed880cb0f624c6ff727c386385"
-  integrity sha512-0ZMdpPinTQ3Y/xw/neRgwpl8hbWyx8uxpi/9WRtlHEUFuEvTVHjOdZ49t3wePtcnF2iz3spNNNLQeA3THsvM7w==
+"@inrupt/oidc-client-ext@^1.16.0":
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/@inrupt/oidc-client-ext/-/oidc-client-ext-1.16.0.tgz#f9289cfa6caa1cd5578da5521873cea3fa1b8b66"
+  integrity sha512-09fJEX64GFq6eWY5xSFsKWo9Uz2v14s2L2It49/KnzAe7O9hc8XXelNndLPxrrOOzuf38YHv4W1irFJPy4PPMw==
   dependencies:
     "@inrupt/oidc-client" "^1.11.6"
-    "@inrupt/solid-client-authn-core" "^1.13.0"
+    "@inrupt/solid-client-authn-core" "^1.16.0"
     jose "^4.10.0"
     uuid "^9.0.0"
 
@@ -5443,31 +5443,40 @@
     crypto-js "^4.0.0"
     serialize-javascript "^4.0.0"
 
-"@inrupt/solid-client-authn-browser@^1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-browser/-/solid-client-authn-browser-1.13.0.tgz#36a3f755a1f0b76284452bd285c3332091cd4a5a"
-  integrity sha512-2ju6YfdSzxUeup75kCLj6+NRZFSA5YgWk7nlUb6yhBcObWeEZ4W5S1B9qDiJcylp7OeTIfv92REOS+pRJq3fZQ==
+"@inrupt/solid-client-authn-browser@^1.16.0":
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-browser/-/solid-client-authn-browser-1.16.0.tgz#4338025f1161974d5fae313ee4f2ab6d0eea21f5"
+  integrity sha512-6Wq/e8C5RapSFTRhs7TKThwhLaQ2DdMqmAiqaNlP7XpTWKRv87Chc2sX0msPjzmM+L/Tde2+71lX1o0x6sQbKA==
   dependencies:
-    "@inrupt/oidc-client-ext" "^1.13.0"
-    "@inrupt/solid-client-authn-core" "^1.13.0"
+    "@inrupt/oidc-client-ext" "^1.16.0"
+    "@inrupt/solid-client-authn-core" "^1.16.0"
+    "@inrupt/universal-fetch" "^1.0.1"
     "@types/lodash.clonedeep" "^4.5.6"
-    "@types/node" "^18.0.3"
-    "@types/uuid" "^8.3.0"
+    "@types/node" "^20.1.0"
+    "@types/uuid" "^9.0.1"
     events "^3.3.0"
     jose "^4.3.7"
     lodash.clonedeep "^4.5.0"
     uuid "^9.0.0"
 
-"@inrupt/solid-client-authn-core@^1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-core/-/solid-client-authn-core-1.13.0.tgz#45eca33eaea5af27b06e6cd9a4a0946051851385"
-  integrity sha512-4C9C9MwZee5m0mAKGDE9t8sjkTuWTuiYpK2mwWUXsRYOSX46nF/wxOBJ6M88YSYqg0dCBPvxDU0Bd6KT7b0+Hg==
+"@inrupt/solid-client-authn-core@^1.16.0":
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-core/-/solid-client-authn-core-1.16.0.tgz#ca92e80e8e9cf7fe6984434252d2ba0912df4b16"
+  integrity sha512-lp4p21Ob0SJwPW2mJcUkM6YBp/zj9MM+RlHRM1uUdpPgvybGDLEIgJfKjkjku0RqFFJwCSP/KtbdCgnNFk5KXw==
   dependencies:
-    cross-fetch "^3.1.5"
+    "@inrupt/universal-fetch" "^1.0.1"
     events "^3.3.0"
     jose "^4.10.0"
     lodash.clonedeep "^4.5.0"
     uuid "^9.0.0"
+
+"@inrupt/universal-fetch@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@inrupt/universal-fetch/-/universal-fetch-1.0.1.tgz#37924564aaaca586913cab68728fb94c0a504928"
+  integrity sha512-oqbG7jS1fa6hVkjSir+u5Ab3eSbyxFyOjsgjDICL27mAd5z8oImTSETnY2hYbkRaJQYKMBOXhtm7L5/+EbeVJg==
+  dependencies:
+    node-fetch "^2.6.7"
+    undici "^5.19.1"
 
 "@ioredis/commands@^1.1.1":
   version "1.2.0"
@@ -6729,7 +6738,7 @@
     "@types/node" "*"
     rdf-js "^4.0.2"
 
-"@types/node@*", "@types/node@^18.0.0", "@types/node@^18.0.3":
+"@types/node@*", "@types/node@^18.0.0":
   version "18.11.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
   integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
@@ -6748,6 +6757,11 @@
   version "16.18.11"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.11.tgz#cbb15c12ca7c16c85a72b6bdc4d4b01151bb3cae"
   integrity sha512-3oJbGBUWuS6ahSnEq1eN2XrCyf4YsWI8OyCvo7c64zQJNplk3mO84t53o8lfTk+2ji59g5ycfc6qQ3fdHliHuA==
+
+"@types/node@^20.1.0":
+  version "20.2.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.2.5.tgz#26d295f3570323b2837d322180dfbf1ba156fefb"
+  integrity sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==
 
 "@types/nodemailer@^6.4.7":
   version "6.4.7"
@@ -6985,7 +6999,7 @@
   resolved "https://registry.yarnpkg.com/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz#b6725d5f4af24ace33b36fafd295136e75509f43"
   integrity sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==
 
-"@types/uuid@^8.0.0", "@types/uuid@^8.3.0":
+"@types/uuid@^8.0.0":
   version "8.3.4"
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
   integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
@@ -16264,6 +16278,13 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
+
+undici@^5.19.1:
+  version "5.22.1"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-5.22.1.tgz#877d512effef2ac8be65e695f3586922e1a57d7b"
+  integrity sha512-Ji2IJhFXZY0x/0tVBXeQwgPlLWw13GVzpsWPQ3rV50IFMMof2I55PZZxtm4P6iNq+L5znYN9nSTAq0ZyE6lSJw==
+  dependencies:
+    busboy "^1.6.0"
 
 undici@^5.21.2:
   version "5.22.0"
