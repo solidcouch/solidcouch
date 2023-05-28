@@ -43,7 +43,9 @@
 // ***********************************************
 
 import * as uuid from 'uuid'
+import { uiLogin } from './authentication'
 import { getAuthenticatedRequest, UserConfig } from './css-authentication'
+import { CommunityConfig, setupCommunity, setupPod } from './setup'
 
 declare global {
   namespace Cypress {
@@ -63,6 +65,13 @@ declare global {
         user: UserConfig,
         ...args: Parameters<typeof cy.request>
       ): Chainable<any>
+      login(user: UserConfig): void
+      setupCommunity(config: { community: string }): Chainable<CommunityConfig>
+      setupPod(
+        user: UserConfig,
+        community: CommunityConfig,
+        options?: unknown,
+      ): void
     }
   }
 }
@@ -159,6 +168,12 @@ Cypress.Commands.add(
     return getAuthenticatedRequest(user).then(request => request(...args))
   },
 )
+
+Cypress.Commands.add('login', uiLogin)
+
+Cypress.Commands.add('setupCommunity', setupCommunity)
+
+Cypress.Commands.add('setupPod', setupPod)
 
 /**
 Some code is copied from solidcryptpad repository
