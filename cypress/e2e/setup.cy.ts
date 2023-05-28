@@ -46,7 +46,23 @@ describe('Setup Solid pod', () => {
   })
 
   context('personal hospex document for this community does not exist', () => {
-    it('should create personal hospex document for this community')
+    beforeEach(() => {
+      cy.get<UserConfig>('@user1').then(user => {
+        cy.get<CommunityConfig>('@community').then(community => {
+          cy.setupPod(user, community, { skip: ['personalHospexDocument'] })
+          cy.setStorage(user)
+        })
+      })
+    })
+    it('should create personal hospex document for this community', () => {
+      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      // TODO why does it take two clicks to set up?
+      // it seems like the first time only an empty document gets created
+      cy.contains('button', 'Continue!').click()
+      cy.wait(5000)
+      cy.contains('button', 'Continue!').click()
+      cy.contains('a', 'travel', { timeout: 10000 })
+    })
   })
 
   context('everything is missing', () => {

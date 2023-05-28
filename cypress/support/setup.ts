@@ -1,4 +1,4 @@
-import { dct, solid, vcard } from 'rdf-namespaces'
+import { dct, solid, space, vcard } from 'rdf-namespaces'
 import { UserConfig } from './css-authentication'
 
 export type CommunityConfig = { community: string; group: string }
@@ -119,131 +119,156 @@ export const setupCommunity = ({
 export const setupPod = (
   user: UserConfig,
   community: CommunityConfig,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  options?: unknown,
+  options?: {
+    skip: (
+      | 'personalHospexDocument'
+      | 'publicTypeIndex'
+      | 'privateTypeIndex'
+      | 'joinCommunity'
+    )[]
+  },
 ) => {
   const publicTypeIndexUri = `${user.podUrl}settings/publicTypeIndex.ttl`
   const privateTypeIndexUri = `${user.podUrl}settings/privateTypeIndex.ttl`
   const hospexContainer = `${user.podUrl}hospex/test-community/`
   const hospexDocument = hospexContainer + 'card'
   // create public type index
-  cy.authenticatedRequest(user, {
-    url: publicTypeIndexUri,
-    method: 'PUT',
-    headers: { 'content-type': 'text/turtle' },
-    body: `
-    @prefix solid: <http://www.w3.org/ns/solid/terms#>.
-    <> a solid:ListedDocument, solid:TypeIndex.`,
-  })
-  cy.authenticatedRequest(user, {
-    url: publicTypeIndexUri + '.acl',
-    method: 'PUT',
-    headers: { 'content-type': 'text/turtle' },
-    body: `
-    @prefix acl: <http://www.w3.org/ns/auth/acl#>.
-    @prefix foaf: <http://xmlns.com/foaf/0.1/>.
+  if (!options?.skip.includes('publicTypeIndex')) {
+    cy.authenticatedRequest(user, {
+      url: publicTypeIndexUri,
+      method: 'PUT',
+      headers: { 'content-type': 'text/turtle' },
+      body: `
+      @prefix solid: <http://www.w3.org/ns/solid/terms#>.
+      <> a solid:ListedDocument, solid:TypeIndex.`,
+    })
+    cy.authenticatedRequest(user, {
+      url: publicTypeIndexUri + '.acl',
+      method: 'PUT',
+      headers: { 'content-type': 'text/turtle' },
+      body: `
+      @prefix acl: <http://www.w3.org/ns/auth/acl#>.
+      @prefix foaf: <http://xmlns.com/foaf/0.1/>.
 
-    <#owner> a acl:Authorization;
-      acl:agent <${user.webId}>;
-      acl:accessTo <./publicTypeIndex.ttl>;
-      acl:mode acl:Read, acl:Write, acl:Control.
+      <#owner> a acl:Authorization;
+        acl:agent <${user.webId}>;
+        acl:accessTo <./publicTypeIndex.ttl>;
+        acl:mode acl:Read, acl:Write, acl:Control.
 
-    <#public> a acl:Authorization;
-      acl:agentClass foaf:Agent;
-      acl:accessTo <./publicTypeIndex.ttl>;
-      acl:mode acl:Read.
-    `,
-  })
-  cy.authenticatedRequest(user, {
-    url: user.webId,
-    method: 'PATCH',
-    headers: { 'content-type': 'text/n3' },
-    body: `
-    _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
-      <${user.webId}> <${solid.publicTypeIndex}> <${publicTypeIndexUri}>.
-    }.`,
-  })
+      <#public> a acl:Authorization;
+        acl:agentClass foaf:Agent;
+        acl:accessTo <./publicTypeIndex.ttl>;
+        acl:mode acl:Read.
+      `,
+    })
+    cy.authenticatedRequest(user, {
+      url: user.webId,
+      method: 'PATCH',
+      headers: { 'content-type': 'text/n3' },
+      body: `
+      _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+        <${user.webId}> <${solid.publicTypeIndex}> <${publicTypeIndexUri}>.
+      }.`,
+    })
+  }
   // create private type index
-  cy.authenticatedRequest(user, {
-    url: privateTypeIndexUri,
-    method: 'PUT',
-    headers: { 'content-type': 'text/turtle' },
-    body: `
-    @prefix solid: <http://www.w3.org/ns/solid/terms#>.
-    <> a solid:UnlistedDocument, solid:TypeIndex.`,
-  })
-  cy.authenticatedRequest(user, {
-    url: privateTypeIndexUri + '.acl',
-    method: 'PUT',
-    headers: { 'content-type': 'text/turtle' },
-    body: `
-    @prefix acl: <http://www.w3.org/ns/auth/acl#>.
-    <#owner> a acl:Authorization;
-      acl:agent <${user.webId}>;
-      acl:accessTo <./privateTypeIndex.ttl>;
-      acl:mode acl:Read, acl:Write, acl:Control.`,
-  })
-  cy.authenticatedRequest(user, {
-    url: user.webId,
-    method: 'PATCH',
-    headers: { 'content-type': 'text/n3' },
-    body: `
-    _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
-      <${user.webId}> <${solid.privateTypeIndex}> <${privateTypeIndexUri}>.
-    }.`,
-  })
+  if (!options?.skip.includes('privateTypeIndex')) {
+    cy.authenticatedRequest(user, {
+      url: privateTypeIndexUri,
+      method: 'PUT',
+      headers: { 'content-type': 'text/turtle' },
+      body: `
+      @prefix solid: <http://www.w3.org/ns/solid/terms#>.
+      <> a solid:UnlistedDocument, solid:TypeIndex.`,
+    })
+    cy.authenticatedRequest(user, {
+      url: privateTypeIndexUri + '.acl',
+      method: 'PUT',
+      headers: { 'content-type': 'text/turtle' },
+      body: `
+      @prefix acl: <http://www.w3.org/ns/auth/acl#>.
+      <#owner> a acl:Authorization;
+        acl:agent <${user.webId}>;
+        acl:accessTo <./privateTypeIndex.ttl>;
+        acl:mode acl:Read, acl:Write, acl:Control.`,
+    })
+    cy.authenticatedRequest(user, {
+      url: user.webId,
+      method: 'PATCH',
+      headers: { 'content-type': 'text/n3' },
+      body: `
+      _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+        <${user.webId}> <${solid.privateTypeIndex}> <${privateTypeIndexUri}>.
+      }.`,
+    })
+  }
   // create hospex document
-  const communityUri = Cypress.env('COMMUNITY')
-  cy.authenticatedRequest(user, {
-    url: hospexDocument,
-    method: 'PUT',
-    headers: { 'content-type': 'text/turtle' },
-    body: `
-    @prefix sioc: <http://rdfs.org/sioc/ns#>.
-    @prefix hospex: <http://w3id.org/hospex/ns#>.
-    <${user.webId}> sioc:member_of <${communityUri}>;
-      hospex:storage <${hospexContainer}>.`,
-  })
-  cy.authenticatedRequest(user, {
-    url: hospexContainer + '.acl',
-    method: 'PUT',
-    headers: { 'content-type': 'text/turtle' },
-    body: `
-    @prefix acl: <http://www.w3.org/ns/auth/acl#>.
-    <#owner> a acl:Authorization;
-      acl:accessTo <${hospexContainer}>;
-      acl:agent <${user.webId}>;
-      acl:default <${hospexContainer}>;
-      acl:mode acl:Read, acl:Write, acl:Control.
-    <#read> a acl:Authorization;
-      acl:accessTo <${hospexContainer}>;
-      acl:agentGroup <${community.group}>;
-      acl:default <${hospexContainer}>;
-      acl:mode acl:Read.
-    `,
-  })
-  cy.authenticatedRequest(user, {
-    url: publicTypeIndexUri,
-    method: 'PATCH',
-    headers: { 'content-type': 'text/n3' },
-    body: `
-    @prefix hospex: <http://w3id.org/hospex/ns#>.
-    _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
-      <> <${dct.references}> <#hospex>.
-      <#hospex> a <${solid.TypeRegistration}>;
-      <${solid.forClass}> hospex:PersonalHospexDocument;
-      <${solid.instance}> <${hospexDocument}>.
-    }.`,
-  })
+  if (!options?.skip.includes('personalHospexDocument')) {
+    const communityUri = community.community
+    cy.authenticatedRequest(user, {
+      url: hospexDocument,
+      method: 'PUT',
+      headers: { 'content-type': 'text/turtle' },
+      body: `
+      @prefix sioc: <http://rdfs.org/sioc/ns#>.
+      @prefix hospex: <http://w3id.org/hospex/ns#>.
+      <${user.webId}> sioc:member_of <${communityUri}>;
+        hospex:storage <${hospexContainer}>.`,
+    })
+    cy.authenticatedRequest(user, {
+      url: hospexContainer + '.acl',
+      method: 'PUT',
+      headers: { 'content-type': 'text/turtle' },
+      body: `
+      @prefix acl: <http://www.w3.org/ns/auth/acl#>.
+      <#owner> a acl:Authorization;
+        acl:accessTo <${hospexContainer}>;
+        acl:agent <${user.webId}>;
+        acl:default <${hospexContainer}>;
+        acl:mode acl:Read, acl:Write, acl:Control.
+      <#read> a acl:Authorization;
+        acl:accessTo <${hospexContainer}>;
+        acl:agentGroup <${community.group}>;
+        acl:default <${hospexContainer}>;
+        acl:mode acl:Read.
+      `,
+    })
+    cy.authenticatedRequest(user, {
+      url: publicTypeIndexUri,
+      method: 'PATCH',
+      headers: { 'content-type': 'text/n3' },
+      body: `
+      @prefix hospex: <http://w3id.org/hospex/ns#>.
+      _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+        <> <${dct.references}> <#hospex>.
+        <#hospex> a <${solid.TypeRegistration}>;
+        <${solid.forClass}> hospex:PersonalHospexDocument;
+        <${solid.instance}> <${hospexDocument}>.
+      }.`,
+    })
+  }
 
   // join community
+  if (!options?.skip.includes('joinCommunity')) {
+    cy.authenticatedRequest(user, {
+      url: community.group,
+      method: 'PATCH',
+      headers: { 'content-type': 'text/n3' },
+      body: `
+      _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+        <${community.group}> <${vcard.hasMember}> <${user.webId}>.
+      }.`,
+    })
+  }
+}
+
+export const setStorage = (user: UserConfig) => {
   cy.authenticatedRequest(user, {
-    url: community.group,
+    url: user.webId,
     method: 'PATCH',
+    body: `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+        <${user.webId}> <${space.storage}> <${user.podUrl}>.
+      }.`,
     headers: { 'content-type': 'text/n3' },
-    body: `
-    _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
-      <${community.group}> <${vcard.hasMember}> <${user.webId}>.
-    }.`,
   })
 }

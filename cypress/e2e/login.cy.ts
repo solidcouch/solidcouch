@@ -1,17 +1,9 @@
-import { solid, space } from 'rdf-namespaces'
 import { UserConfig } from '../support/css-authentication'
 
 const preparePod = () => {
   cy.createRandomAccount().then(user1 => {
     cy.wrap(user1).as('user1')
-    cy.authenticatedRequest(user1, {
-      url: user1.webId,
-      method: 'PATCH',
-      body: `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
-        <${user1.webId}> <${space.storage}> <${user1.podUrl}>.
-      }.`,
-      headers: { 'content-type': 'text/n3' },
-    })
+    cy.setStorage(user1)
   })
 }
 

@@ -45,7 +45,7 @@
 import * as uuid from 'uuid'
 import { uiLogin } from './authentication'
 import { getAuthenticatedRequest, UserConfig } from './css-authentication'
-import { CommunityConfig, setupCommunity, setupPod } from './setup'
+import { CommunityConfig, setStorage, setupCommunity, setupPod } from './setup'
 
 declare global {
   namespace Cypress {
@@ -70,8 +70,16 @@ declare global {
       setupPod(
         user: UserConfig,
         community: CommunityConfig,
-        options?: unknown,
+        options?: {
+          skip: (
+            | 'personalHospexDocument'
+            | 'publicTypeIndex'
+            | 'privateTypeIndex'
+            | 'joinCommunity'
+          )[]
+        },
       ): void
+      setStorage(user: UserConfig): void
     }
   }
 }
@@ -170,10 +178,9 @@ Cypress.Commands.add(
 )
 
 Cypress.Commands.add('login', uiLogin)
-
 Cypress.Commands.add('setupCommunity', setupCommunity)
-
 Cypress.Commands.add('setupPod', setupPod)
+Cypress.Commands.add('setStorage', setStorage)
 
 /**
 Some code is copied from solidcryptpad repository
