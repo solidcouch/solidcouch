@@ -57,7 +57,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md,css,scss}\" package.json \"cypress/**/*.{ts,tsx,json,md,css,scss}\"",
     "build:ldo": "ldo build --input src/shapes --output src/ldo",
     "postbuild:ldo": "yarn format",
-    "cy:dev": "concurrently --kill-others \"BROWSER=none yarn start\" \"community-solid-server -p 4000\" \"cypress open\""
+    "cy:dev": "concurrently --kill-others \"BROWSER=none REACT_APP_COMMUNITY=http://localhost:4000/test-community/community#us yarn start\" \"community-solid-server -p 4000\" \"CYPRESS_COMMUNITY=\\\"http://localhost:4000/test-community/community#us\\\" cypress open\""
   },
   "browserslist": {
     "production": [
