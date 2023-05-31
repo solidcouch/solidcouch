@@ -20,9 +20,25 @@ export const file2base64 = async (file: File): Promise<string> =>
   })
 
 export const getContainer = (uri: URI): URI => {
-  const fragments = uri.split('/')
-  fragments[fragments.length - 1] = ''
-  return fragments.join('/')
+  const url = new URL(uri)
+  url.hash = ''
+  url.search = ''
+  if (url.pathname.length === 0 || url.pathname === '/') return url.toString()
+  const pathPieces = url.pathname.split('/').slice(0, -1)
+  pathPieces.push('')
+  url.pathname = pathPieces.join('/')
+
+  return url.toString()
+}
+
+export const getParentContainer = (uri: URI): URI => {
+  const url = new URL(uri)
+  if (url.pathname.length === 0 || url.pathname === '/') return uri
+  const pathPieces = url.pathname.split('/').slice(0, -2)
+  pathPieces.push('')
+  url.pathname = pathPieces.join('/')
+
+  return url.toString()
 }
 
 export const fullFetch: typeof fetch = async (url, init) => {

@@ -1,7 +1,7 @@
 import { ShapeType } from 'ldo'
 import { hospexCommunitySchema } from './hospexCommunity.schema'
 import { hospexCommunityContext } from './hospexCommunity.context'
-import { HospexCommunity } from './hospexCommunity.typings'
+import { HospexCommunity, HospexGroup } from './hospexCommunity.typings'
 
 /**
  * =============================================================================
@@ -15,5 +15,14 @@ import { HospexCommunity } from './hospexCommunity.typings'
 export const HospexCommunityShapeType: ShapeType<HospexCommunity> = {
   schema: hospexCommunitySchema,
   shape: 'https://example.com/HospexCommunity',
+  context: hospexCommunityContext,
+}
+
+/**
+ * HospexGroup ShapeType
+ */
+export const HospexGroupShapeType: ShapeType<HospexGroup> = {
+  schema: hospexCommunitySchema,
+  shape: 'https://example.com/HospexGroup',
   context: hospexCommunityContext,
 }

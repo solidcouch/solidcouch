@@ -43,26 +43,60 @@
 // ***********************************************
 
 import * as uuid from 'uuid'
+import { uiLogin } from './authentication'
 import { getAuthenticatedRequest, UserConfig } from './css-authentication'
+import { CommunityConfig, setStorage, setupCommunity, setupPod } from './setup'
 
 declare global {
   namespace Cypress {
     interface Chainable {
+      createAccount(options: {
+        username: string
+        password?: string
+        email?: string
+      }): Chainable<UserConfig>
+      createAccountIfNotExist(options: {
+        username: string
+        password: string
+        email?: string
+      }): Chainable<UserConfig>
       createRandomAccount(): Chainable<UserConfig>
       authenticatedRequest(
         user: UserConfig,
         ...args: Parameters<typeof cy.request>
       ): Chainable<any>
+      login(user: UserConfig): void
+      setupCommunity(config: { community: string }): Chainable<CommunityConfig>
+      setupPod(
+        user: UserConfig,
+        community: CommunityConfig,
+        options?: {
+          skip: (
+            | 'personalHospexDocument'
+            | 'publicTypeIndex'
+            | 'privateTypeIndex'
+            | 'joinCommunity'
+          )[]
+        },
+      ): void
+      setStorage(user: UserConfig): void
     }
   }
 }
 
 Cypress.Commands.add(
-  'createRandomAccount',
-  function (): Cypress.Chainable<UserConfig> {
-    const username = 'test-' + uuid.v4()
-    const password = '12345'
-    const email = username + '@example.org'
+  'createAccount',
+  function ({
+    username,
+    password,
+    email,
+  }: {
+    username: string
+    password?: string
+    email?: string
+  }): Cypress.Chainable<UserConfig> {
+    password ??= 'correcthorsebatterystaple'
+    email ??= username + '@example.org'
     const config = {
       idp: Cypress.env('cssUrl') + '/',
       podUrl: `${Cypress.env('cssUrl')}/${username}/`,
@@ -88,11 +122,65 @@ Cypress.Commands.add(
 )
 
 Cypress.Commands.add(
+  'createAccountIfNotExist',
+  function ({
+    username,
+    password,
+    email,
+  }: {
+    username: string
+    password: string
+    email?: string
+  }): Cypress.Chainable<UserConfig> {
+    email ??= username + '@example.org'
+    const config = {
+      idp: Cypress.env('cssUrl') + '/',
+      podUrl: `${Cypress.env('cssUrl')}/${username}/`,
+      webId: `${Cypress.env('cssUrl')}/${username}/profile/card#me`,
+      username: username,
+      password: password,
+      email: email,
+    }
+    const registerEndpoint = Cypress.env('cssUrl') + '/idp/register/'
+    cy.request({
+      method: 'POST',
+      url: registerEndpoint,
+      body: {
+        createWebId: 'on',
+        webId: '',
+        register: 'on',
+        createPod: 'on',
+        podName: username,
+        email: email,
+        password: password,
+        confirmPassword: password,
+      },
+      failOnStatusCode: false,
+    })
+
+    return cy.wrap(config)
+  },
+)
+
+Cypress.Commands.add(
+  'createRandomAccount',
+  function (): Cypress.Chainable<UserConfig> {
+    const username = 'test-' + uuid.v4()
+    return cy.createAccount({ username })
+  },
+)
+
+Cypress.Commands.add(
   'authenticatedRequest',
   (user: UserConfig, ...args: Parameters<typeof cy.request>) => {
     return getAuthenticatedRequest(user).then(request => request(...args))
   },
 )
+
+Cypress.Commands.add('login', uiLogin)
+Cypress.Commands.add('setupCommunity', setupCommunity)
+Cypress.Commands.add('setupPod', setupPod)
+Cypress.Commands.add('setStorage', setStorage)
 
 /**
 Some code is copied from solidcryptpad repository

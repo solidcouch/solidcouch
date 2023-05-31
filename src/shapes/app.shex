@@ -4,10 +4,12 @@ PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX ex: <https://example.com/>
 PREFIX flow: <http://www.w3.org/2005/01/wf/flow#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX hospex: <http://w3id.org/hospex/ns#>
 PREFIX ic: <http://www.w3.org/2002/12/cal/ical#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
 PREFIX mee: <http://www.w3.org/ns/pim/meeting#>
 PREFIX pim: <http://www.w3.org/ns/pim/space#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schem: <http://schema.org/>
 PREFIX sioc: <http://rdfs.org/sioc/ns#>
@@ -17,8 +19,6 @@ PREFIX ttl: <http://www.w3.org/ns/iana/media-types/text/turtle#>
 PREFIX ui: <http://www.w3.org/ns/ui#>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-
-
 
 ex:SolidProfile EXTRA a {
   a [ foaf:Person ]
@@ -35,6 +35,16 @@ ex:SolidProfile EXTRA a {
     // rdfs:comment  "A registry of all types used on the user's Pod (for private access only)" ;
   solid:publicTypeIndex @ex:PublicTypeIndex *
     // rdfs:comment  "A registry of all types used on the user's Pod (for public access)" ;
+}
+
+ex:HospexProfile {
+  vcard:note rdf:langString* ;
+  foaf:name xsd:string? ;
+  vcard:hasPhoto IRI? ;
+  hospex:offers IRI*
+    // rdfs:comment "Accommodation that the person offers" ;
+  sioc:member_of IRI ;
+  hospex:storage IRI ;
 }
 
 ex:PublicTypeIndex EXTRA a {
