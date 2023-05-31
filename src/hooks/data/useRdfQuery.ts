@@ -15,16 +15,15 @@
  * ?day -> contains -> ?messageFile // all this is resource discovery
  * ?chat -> message -> ?message
  */
-import { useQueries, useQuery } from '@tanstack/react-query'
 import { createLdoDataset } from 'ldo'
 import { LdoBase } from 'ldo/dist/util'
 import { difference, uniq, uniqBy } from 'lodash'
-import { DataFactory, Parser, ParserOptions, Quad } from 'n3'
+import { Quad } from 'n3'
 import { useEffect, useMemo, useState } from 'react'
 import { URI } from 'types'
-import type { Required } from 'utility-types'
-import { fullFetch, removeHashFromURI } from 'utils/helpers'
+import { removeHashFromURI } from 'utils/helpers'
 import { CombinedResults, Query, ResultsOf, StartsWith } from './rdfQueryTypes'
+import { useRdfDocuments } from './useRdfDocument'
 
 /**
  * Fetch data with following your nose and showing results
@@ -55,7 +54,7 @@ export const useRdfQueryData = <Params extends { [key: string]: URI | string }>(
 
   // collect datasets
   const dataset = useMemo(() => {
-    return results.flatMap(result => result.data ?? [])
+    return results.flatMap(result => result.data?.data ?? [])
   }, [results])
 
   useEffect(() => {
@@ -190,63 +189,4 @@ const getPartialResults = <Params extends { [key: string]: URI | string }>(
     subjects.forEach(subject => necessaryURIs.add(removeHashFromURI(subject)))
   }
   return [partialResults, necessaryURIs]
-}
-
-export const useRdfDocument = (uri: URI) => {
-  const doc = uri ? removeHashFromURI(uri) : uri
-  const queryKey = useMemo(() => ['rdfDocument', doc], [doc])
-
-  const result = useQuery(queryKey, () => fetchRdfDocument(doc), {
-    enabled: !!uri,
-  })
-  return result
-}
-
-export const useRdfDocuments = (uris: URI[]) => {
-  const params = useMemo(
-    () => ({
-      queries: uris
-        .map(uri => removeHashFromURI(uri))
-        .map(doc => ({
-          queryKey: ['rdfDocument', doc],
-          queryFn: () => fetchRdfDocument(doc),
-        })),
-    }),
-    [uris],
-  )
-
-  const results = useQueries(params)
-  return results
-}
-
-/**
- * Fetch rdf document
- * parse it into rdf Dataset
- * add document url as graph
- */
-const fetchRdfDocument = async (uri: URI) => {
-  const res = await fullFetch(uri)
-
-  if (res.ok) {
-    const data = await res.text()
-    return parseRdf(data, { baseIRI: uri })
-  } else throw new Error(`Fetching ${uri} not successful`)
-}
-
-const parseRdf = (
-  data: string,
-  options: Required<ParserOptions, 'baseIRI'>,
-): Quad[] => {
-  // Create a new empty RDF store to hold the parsed data
-
-  const parser = new Parser(options)
-  // Parse the input data and add the resulting quads to the store
-  const graph = DataFactory.namedNode(options.baseIRI)
-  const quads = parser
-    .parse(data)
-    .map(({ subject, predicate, object }) =>
-      DataFactory.quad(subject, predicate, object, graph),
-    )
-
-  return quads
 }

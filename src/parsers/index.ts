@@ -2,8 +2,10 @@ import { languagesOf, parseRdf } from 'ldo'
 import { AccommodationShapeType } from 'ldo/accommodation.shapeTypes'
 import { ActivityShapeType } from 'ldo/activity.shapeTypes'
 import { ContainerShapeType } from 'ldo/container.shapeTypes'
-import { HospexCommunityShapeType } from 'ldo/hospexCommunity.shapeTypes'
-import { HospexGroupShapeType } from 'ldo/hospexGroup.shapeTypes'
+import {
+  HospexCommunityShapeType,
+  HospexGroupShapeType,
+} from 'ldo/hospexCommunity.shapeTypes'
 import { HospexProfileShapeType } from 'ldo/hospexProfile.shapeTypes'
 import {
   ChatMessageListShapeShapeType,
@@ -190,7 +192,7 @@ export const getCommunityGroups = async (
     .fromSubject(communityId)
 
   const groups = community.hasUsergroup.map(({ '@id': uri }) => uri)
-  return groups
+  return groups.filter(a => a) as URI[]
 }
 
 /**

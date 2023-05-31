@@ -2,11 +2,19 @@ PREFIX ex: <https://example.com/>
 PREFIX hospex: <http://w3id.org/hospex/ns#>
 PREFIX sioc: <http://rdfs.org/sioc/ns#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 
 ex:HospexCommunity EXTRA a {
   a [hospex:Community] ;
   a [sioc:Community] ;
   sioc:name rdf:langString+ ;
   sioc:about rdf:langString+ ;
-  sioc:has_usergroup IRI+ ;
+  sioc:has_usergroup @ex:HospexGroup + ;
+}
+
+ex:HospexGroup EXTRA a {
+  a [vcard:Group] ;
+  a [sioc:Usergroup] ;
+  sioc:usergroup_of IRI ;
+  vcard:hasMember IRI * ;
 }

@@ -37,17 +37,21 @@ export const rdf2n3 = (raw: string, baseIRI?: string): Promise<N3.Quad[]> => {
 
 export async function toN3Patch(ldo: LdoBase): Promise<string> {
   const changes = transactionChanges(ldo)
-  const patch = `
-      _:patch a <${solid.InsertDeletePatch}>;
-        <${solid.inserts}> { ${
-    changes.added
-      ? await datasetToString(changes.added as Dataset, { format: 'N3' })
-      : ''
-  } };
-        <${solid.deletes}> { ${
-    changes.removed
-      ? await datasetToString(changes.removed as Dataset, { format: 'N3' })
-      : ''
-  } }.`
+  const parts = [`_:mutate a <${solid.InsertDeletePatch}>`]
+  if (changes.added) {
+    const inserts = await datasetToString(changes.added as Dataset, {
+      format: 'N3',
+    })
+    parts.push(`<${solid.inserts}> { ${inserts} }`)
+  }
+
+  if (changes.removed) {
+    const deletes = await datasetToString(changes.removed as Dataset, {
+      format: 'N3',
+    })
+    parts.push(`<${solid.deletes}> { ${deletes} }`)
+  }
+  const patch = parts.join(';\n') + '.'
+
   return patch
 }

@@ -3,9 +3,12 @@ import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
 import { comunicaApi } from 'app/services/comunicaApi'
 import { ldoApi } from 'app/services/ldoApi'
+import { SolidProfileShapeType } from 'ldo/app.shapeTypes'
+import { SolidProfile } from 'ldo/app.typings'
 import mergeWith from 'lodash/mergeWith'
 import { useMemo } from 'react'
 import { Person, URI } from 'types'
+import { useRdfQuery } from './useRdfQuery'
 
 export const useProfile = (id: URI | undefined) => {
   const { data: profile } = ldoApi.endpoints.readUser.useQuery(id ?? skipToken)
@@ -31,11 +34,16 @@ export const useProfile = (id: URI | undefined) => {
   }, [hospexProfile, id, profile])
 
   return combinedProfile
+}
 
-  // return [
-  //   combinedProfile,
-  //   mergeWith({}, profileStatus, hospexProfileStatus, (obj, src) => {
-  //     if (!src) return obj
-  //   }),
-  // ]
+const solidProfileQuery = [
+  ['?me', (a: string) => a, '?profile', SolidProfileShapeType],
+  ['?profile', 'seeAlso', '?profileDocument'],
+  ['?profileDocument'],
+] as const
+
+export const useSolidProfile = (me: URI) => {
+  const params = useMemo(() => ({ me }), [me])
+  const [results, queryStatus] = useRdfQuery(solidProfileQuery, params)
+  return [results.profile[0] as SolidProfile | undefined, queryStatus] as const
 }

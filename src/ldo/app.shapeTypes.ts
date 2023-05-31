@@ -3,6 +3,7 @@ import { appSchema } from './app.schema'
 import { appContext } from './app.context'
 import {
   SolidProfile,
+  HospexProfile,
   PublicTypeIndex,
   PrivateTypeIndex,
   TypeRegistration,
@@ -28,6 +29,15 @@ import {
 export const SolidProfileShapeType: ShapeType<SolidProfile> = {
   schema: appSchema,
   shape: 'https://example.com/SolidProfile',
+  context: appContext,
+}
+
+/**
+ * HospexProfile ShapeType
+ */
+export const HospexProfileShapeType: ShapeType<HospexProfile> = {
+  schema: appSchema,
+  shape: 'https://example.com/HospexProfile',
   context: appContext,
 }
 
