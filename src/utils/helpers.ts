@@ -25,6 +25,16 @@ export const getContainer = (uri: URI): URI => {
   return fragments.join('/')
 }
 
+export const getParentContainer = (uri: URI): URI => {
+  const url = new URL(uri)
+  if (url.pathname.length === 0 || url.pathname === '/') return uri
+  const pathPieces = url.pathname.split('/').slice(0, -2)
+  pathPieces.push('')
+  url.pathname = pathPieces.join('/')
+
+  return url.toString()
+}
+
 export const fullFetch: typeof fetch = async (url, init) => {
   try {
     return await fetch(url, init)

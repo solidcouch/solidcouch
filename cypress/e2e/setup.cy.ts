@@ -32,7 +32,7 @@ describe('Setup Solid pod', () => {
     beforeEach(setupPod())
     it('should skip the setup step', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
-      cy.contains('a', 'travel', { timeout: 10000 })
+      cy.contains('a', 'travel')
     })
   })
 
@@ -41,7 +41,7 @@ describe('Setup Solid pod', () => {
     it('should setup the pod just fine (find storage by checking parent folders)', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
       cy.contains('button', 'Continue!').click()
-      cy.contains('a', 'travel', { timeout: 10000 })
+      cy.contains('a', 'travel')
     })
   })
 
@@ -50,7 +50,7 @@ describe('Setup Solid pod', () => {
     it('should create public type index with correct ACL', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
       cy.contains('button', 'Continue!').click()
-      cy.contains('a', 'travel', { timeout: 10000 })
+      cy.contains('a', 'travel')
     })
   })
 
@@ -59,7 +59,7 @@ describe('Setup Solid pod', () => {
     it('should create private type index with correct ACL', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
       cy.contains('button', 'Continue!').click()
-      cy.contains('a', 'travel', { timeout: 10000 })
+      cy.contains('a', 'travel')
     })
   })
 
@@ -68,7 +68,7 @@ describe('Setup Solid pod', () => {
     it('should join the community', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
       cy.contains('button', 'Continue!').click()
-      cy.contains('a', 'travel', { timeout: 10000 })
+      cy.contains('a', 'travel')
     })
   })
 
@@ -77,7 +77,7 @@ describe('Setup Solid pod', () => {
     it('should create personal hospex document for this community', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
       cy.contains('button', 'Continue!').click()
-      cy.contains('a', 'travel', { timeout: 10000 })
+      cy.contains('a', 'travel')
     })
   })
 
@@ -99,7 +99,7 @@ describe('Setup Solid pod', () => {
       })
       cy.contains('button', 'Continue!').click()
       cy.wait('@addUserToCommunity')
-      cy.contains('a', 'travel', { timeout: 10000 })
+      cy.contains('a', 'travel')
     })
   })
 })

@@ -3,10 +3,10 @@ import {
   SolidProfileShapeType,
 } from 'ldo/app.shapeTypes'
 import { HospexProfile } from 'ldo/app.typings'
-import { HospexCommunityShapeType } from 'ldo/hospexCommunity.shapeTypes'
 import { useMemo } from 'react'
 import { URI } from 'types'
 import { hospex } from 'utils/rdf-namespaces'
+import { useIsMember } from './useCommunity'
 import { useRdfQuery } from './useRdfQuery'
 
 /**
@@ -22,32 +22,6 @@ export const useCheckSetup = (userId: URI, communityId: URI) => {
   return useMemo(
     () => ({ isMember, ...hospexDocumentSetup } as const),
     [hospexDocumentSetup, isMember],
-  )
-}
-
-const membershipQuery = [
-  ['?community', (c: URI) => c, '?com', HospexCommunityShapeType],
-  ['?com', 'hasUsergroup', '?group'],
-  ['?group'],
-] as const
-
-export const useIsMember = (userId: URI, communityId: URI) => {
-  const [results] = useRdfQuery(membershipQuery, { community: communityId })
-  if (results.group.length === 0) return undefined
-  const isMember = results.group.some(group =>
-    group.hasMember?.some(member => member['@id'] === userId),
-  )
-  return isMember
-}
-
-export const useReadCommunity = (communityId: URI) => {
-  const [results] = useRdfQuery(membershipQuery, { community: communityId })
-  return useMemo(
-    () => ({
-      community: communityId,
-      groups: results.group.flatMap(g => g['@id'] ?? []),
-    }),
-    [communityId, results.group],
   )
 }
 
@@ -70,6 +44,7 @@ const hospexDocumentQuery = [
   ],
   ['?hospexProfile'],
 ] as const
+
 export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
   const [results, queryStatus] = useRdfQuery(hospexDocumentQuery, {
     userId,
@@ -77,6 +52,12 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
   })
   const personalHospexDocuments = results.typeRegistration.flatMap(
     tr => tr.instance?.flatMap(i => i['@id'] ?? []) ?? [],
+  )
+  const publicTypeIndexes = results.publicTypeIndex.flatMap(
+    index => index['@id'] ?? [],
+  )
+  const privateTypeIndexes = results.privateTypeIndex.flatMap(
+    index => index['@id'] ?? [],
   )
   const isHospexProfile =
     results.hospexProfile.length > 0
@@ -101,5 +82,7 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     isPublicTypeIndex,
     isPrivateTypeIndex,
     personalHospexDocuments,
+    publicTypeIndexes,
+    privateTypeIndexes,
   } as const
 }

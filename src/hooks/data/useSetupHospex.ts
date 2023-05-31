@@ -4,92 +4,89 @@ import {
   PrivateTypeIndexShapeType,
   PublicTypeIndexShapeType,
 } from 'ldo/app.shapeTypes'
-import {
-  PrivateTypeIndex,
-  PublicTypeIndex,
-  SolidProfile,
-} from 'ldo/app.typings'
-import { SolidProfileShapeType } from 'ldo/solidProfile.shapeTypes'
+import { PrivateTypeIndex, PublicTypeIndex } from 'ldo/app.typings'
 import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
-import { minBy } from 'lodash'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback } from 'react'
 import { URI } from 'types'
 import { getContainer } from 'utils/helpers'
-import { acl, foaf, hospex, solid, space } from 'utils/rdf-namespaces'
+import { acl, foaf, hospex, solid } from 'utils/rdf-namespaces'
 import * as uuid from 'uuid'
-import { useReadCommunity } from './data/useCheckSetup'
+import { useReadCommunity } from './useCommunity'
 import {
   useCreateRdfDocument,
-  useRdfDocuments,
   useUpdateLdoDocument,
   useUpdateRdfDocument,
-} from './data/useRdfDocument'
-import { useRdfQuery } from './data/useRdfQuery'
-import { useAuth } from './useAuth'
+} from './useRdfDocument'
+
+export type SetupTask =
+  | 'createPublicTypeIndex'
+  | 'createPrivateTypeIndex'
+  | 'createHospexProfile'
+export type SetupSettings = {
+  person: URI
+  publicTypeIndex: URI
+  privateTypeIndex: URI
+  hospexDocument: URI
+}
 
 export const useSetupHospex = () => {
   const createPrivateTypeIndex = useCreatePrivateTypeIndex()
   const createPublicTypeIndex = useCreatePublicTypeIndex()
   const createHospexProfile = useCreateHospexProfile()
   const saveTypeRegistration = useSaveTypeRegistration()
-  const auth = useAuth()
-  const storage = useStorage(auth.webId ?? '')
-  const [solidProfile] = useProfile(auth.webId ?? '')
 
   // TODO add options so users can have a choice
-  return useCallback(async () => {
-    if (!auth.webId) throw new Error("We couldn't find your webId")
+  return useCallback(
+    async (
+      tasks: SetupTask[],
+      {
+        person,
+        publicTypeIndex,
+        privateTypeIndex,
+        hospexDocument,
+      }: SetupSettings,
+    ) => {
+      // create personal hospex document at hospex/sleepy-bike/card folder
+      // in home folder (pim:storage)
+      if (tasks.includes('createHospexProfile'))
+        await createHospexProfile({
+          uri: hospexDocument,
+          webId: person,
+          communityId,
+        })
 
-    // try to find hospex document
-    // create personal hospex document at hospex/sleepy-bike/card folder
-    // in home folder (pim:storage)
+      // create type indexes if we haven't found them
+      if (tasks.includes('createPrivateTypeIndex')) {
+        await createPrivateTypeIndex({
+          webId: person,
+          privateTypeIndex,
+        })
+      }
+      if (tasks.includes('createPublicTypeIndex')) {
+        await createPublicTypeIndex({
+          webId: person,
+          publicTypeIndex,
+        })
+      }
 
-    if (!storage) throw new Error("We couldn't find your storage")
-
-    const sleepyBikeFolder = storage + 'hospex/sleepy-bike/'
-
-    await createHospexProfile({
-      uri: sleepyBikeFolder + 'card',
-      webId: auth.webId,
-      communityId,
-    })
-
-    // create type indexes if we haven't found them
-    let publicTypeIndex = solidProfile?.publicTypeIndex?.[0]?.['@id']
-    let privateTypeIndex = solidProfile?.privateTypeIndex?.[0]?.['@id']
-
-    if (!privateTypeIndex) {
-      await createPrivateTypeIndex({
-        webId: auth.webId ?? '',
-        privateTypeIndex: `${storage}settings/privateTypeIndex.ttl`,
-      })
-    }
-
-    if (!publicTypeIndex) {
-      await createPublicTypeIndex({
-        webId: auth.webId as string,
-        publicTypeIndex: storage + 'settings/publicTypeIndex.ttl',
-      })
-    }
-
-    // save hospex datatype to public type index
-    const index = publicTypeIndex ?? storage + 'settings/publicTypeIndex.ttl'
-
-    await saveTypeRegistration({
-      index,
-      type: hospex.PersonalHospexDocument,
-      location: sleepyBikeFolder + 'card',
-    })
-  }, [
-    auth.webId,
-    createHospexProfile,
-    createPrivateTypeIndex,
-    createPublicTypeIndex,
-    saveTypeRegistration,
-    solidProfile?.privateTypeIndex,
-    solidProfile?.publicTypeIndex,
-    storage,
-  ])
+      // save hospex datatype to public type index
+      if (
+        tasks.includes('createHospexProfile') ||
+        tasks.includes('createPublicTypeIndex')
+      )
+        await saveTypeRegistration({
+          index: publicTypeIndex,
+          type: hospex.PersonalHospexDocument,
+          location: hospexDocument,
+        })
+    },
+    [
+      createHospexProfile,
+      createPrivateTypeIndex,
+      createPublicTypeIndex,
+      saveTypeRegistration,
+    ],
+  )
 }
 
 export const useSaveTypeRegistration = (isPrivate = false) => {
@@ -143,70 +140,6 @@ export const useSaveTypeRegistration = (isPrivate = false) => {
     },
     [updateMutation],
   )
-}
-
-const profileQuery = [
-  ['?me', (a: string) => a, '?profile', SolidProfileShapeType],
-  ['?profile', 'seeAlso', '?profileDocument'],
-  ['?profileDocument'],
-] as const
-
-export const useProfile = (me: URI) => {
-  const params = useMemo(() => ({ me }), [me])
-  const [results, queryStatus] = useRdfQuery(profileQuery, params)
-  return [results.profile[0] as SolidProfile | undefined, queryStatus] as const
-}
-
-export const useStorage = (me: URI) => {
-  const [profile, queryStatus] = useProfile(me)
-  const [rootStorage] = useRootStorage(me)
-  const storages = profile?.storage?.map(s => s['@id']) ?? []
-  if (queryStatus.isFetched) return storages[0] ?? rootStorage
-}
-
-const useRootStorage = (me: URI) => {
-  const [resources, setResources] = useState<URI[]>([getContainer(me)])
-  const [storage, setStorage] = useState<URI>()
-  const results = useRdfDocuments(resources)
-  const outcomes = useMemo(
-    () => results.map(res => res.data?.response.headers.get('Link')),
-    [results],
-  )
-
-  useEffect(() => {
-    const storageIndex = outcomes.findIndex(outcome =>
-      outcome?.includes(space.Storage),
-    )
-    if (storageIndex > -1) {
-      setStorage(resources[storageIndex])
-    } else if (results.every(r => r.isSuccess || r.isError)) {
-      setResources(state => {
-        // get shortest of the resources and get its parent if available
-        const shortest = minBy(state, str => str.length)
-        if (shortest) {
-          const parent = getParent(shortest)
-          if (!state.includes(parent)) return [...state, parent]
-        }
-        return state
-      })
-    }
-  }, [outcomes, resources, results])
-
-  const inProgress =
-    !results.every(r => r.isSuccess || r.isError) ||
-    results.length < resources.length
-
-  return [storage, inProgress]
-}
-
-const getParent = (uri: URI): URI => {
-  const url = new URL(uri)
-  if (url.pathname.length === 0 || url.pathname === '/') return uri
-  const pathPieces = url.pathname.split('/').slice(0, -2)
-  pathPieces.push('')
-  url.pathname = pathPieces.join('/')
-
-  return url.toString()
 }
 
 export const useCreatePrivateTypeIndex = () => {
