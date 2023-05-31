@@ -7,11 +7,16 @@ const preparePod = () => {
   })
 }
 
+const prepareCommunity = () => {
+  cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
+}
+
 const resetPod = () => {}
 
 describe('Sign in to the app', () => {
   beforeEach(resetPod)
   beforeEach(preparePod)
+  beforeEach(prepareCommunity)
   it('should sign in', () => {
     cy.visit('/')
     cy.contains('Sign in').click()
@@ -23,6 +28,6 @@ describe('Sign in to the app', () => {
         cy.get('button#authorize').click()
       })
     })
-    cy.contains('We would like to set up your Pod', { timeout: 10000 })
+    cy.contains('We would like to set up your Pod')
   })
 })

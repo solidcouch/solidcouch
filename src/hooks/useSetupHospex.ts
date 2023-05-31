@@ -1,5 +1,4 @@
 import { communityId } from 'config'
-import { parseRdf, startTransaction } from 'ldo'
 import {
   HospexProfileShapeType,
   PrivateTypeIndexShapeType,
@@ -15,16 +14,17 @@ import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
 import { minBy } from 'lodash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { URI } from 'types'
-import { fullFetch, getContainer } from 'utils/helpers'
-import { toN3Patch } from 'utils/ldo'
+import { getContainer } from 'utils/helpers'
 import { acl, foaf, hospex, solid, space } from 'utils/rdf-namespaces'
 import * as uuid from 'uuid'
 import { useReadCommunity } from './data/useCheckSetup'
 import {
   useCreateRdfDocument,
+  useRdfDocuments,
+  useUpdateLdoDocument,
   useUpdateRdfDocument,
 } from './data/useRdfDocument'
-import { useRdfDocuments, useRdfQuery } from './data/useRdfQuery'
+import { useRdfQuery } from './data/useRdfQuery'
 import { useAuth } from './useAuth'
 
 export const useSetupHospex = () => {
@@ -92,8 +92,13 @@ export const useSetupHospex = () => {
   ])
 }
 
-export const useSaveTypeRegistration = (isPrivate = true) => {
-  const updateMutation = useUpdateRdfDocument()
+export const useSaveTypeRegistration = (isPrivate = false) => {
+  const updatePrivateMutation = useUpdateLdoDocument(PrivateTypeIndexShapeType)
+  const updatePublicMutation = useUpdateLdoDocument(PublicTypeIndexShapeType)
+  const updateMutation = isPrivate
+    ? updatePrivateMutation
+    : updatePublicMutation
+
   return useCallback(
     async ({
       index,
@@ -104,46 +109,39 @@ export const useSaveTypeRegistration = (isPrivate = true) => {
       type: URI
       location: URI
     }) => {
-      const indexResponse = await fullFetch(index)
-      const indexData = await indexResponse.text()
-      const ldoDataset = await parseRdf(indexData, { baseIRI: index })
-      let ldo: PublicTypeIndex | PrivateTypeIndex
-      ldo = isPrivate
-        ? ldoDataset.usingType(PrivateTypeIndexShapeType).fromSubject(index)
-        : ldoDataset.usingType(PublicTypeIndexShapeType).fromSubject(index)
+      const transform = (ldo: PublicTypeIndex | PrivateTypeIndex) => {
+        let referenceIndex =
+          ldo.references?.findIndex(ref =>
+            ref.forClass.some(fc => fc['@id'] === type),
+          ) ?? -1
+        if (referenceIndex === -1) {
+          ldo.references ??= []
+          referenceIndex =
+            ldo.references.push({
+              '@id': index + '#' + uuid.v4(),
+              type: { '@id': 'TypeRegistration' },
+              forClass: [{ '@id': type }],
+            }) - 1
+        }
 
-      startTransaction(ldo)
-      let referenceIndex =
-        ldo.references?.findIndex(ref =>
-          ref.forClass.some(fc => fc['@id'] === type),
-        ) ?? -1
-      if (referenceIndex === -1) {
-        ldo.references ??= []
-        referenceIndex =
-          ldo.references.push({
-            '@id': index + '#' + uuid.v4(),
-            type: { '@id': 'TypeRegistration' },
-            forClass: [{ '@id': type }],
-          }) - 1
+        const isForContainer = location.endsWith('/')
+        const reference = ldo.references![referenceIndex]
+        if (isForContainer) {
+          reference.instanceContainer ??= []
+          reference.instanceContainer.push({ '@id': location })
+        } else {
+          reference.instance ??= []
+          reference.instance.push({ '@id': location })
+        }
       }
 
-      const isForContainer = location.endsWith('/')
-      const reference = ldo.references![referenceIndex]
-      if (isForContainer) {
-        reference.instanceContainer ??= []
-        reference.instanceContainer.push({ '@id': location })
-      } else {
-        reference.instance ??= []
-        reference.instance.push({ '@id': location })
-      }
-
-      const patch = await toN3Patch(ldo)
       await updateMutation.mutateAsync({
         uri: index,
-        patch,
+        subject: index,
+        transform,
       })
     },
-    [isPrivate, updateMutation],
+    [updateMutation],
   )
 }
 

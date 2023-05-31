@@ -4,22 +4,29 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import { createLdoDataset, ShapeType, toTurtle } from 'ldo'
+import {
+  createLdoDataset,
+  parseRdf,
+  ShapeType,
+  startTransaction,
+  toTurtle,
+} from 'ldo'
 import { LdoBase } from 'ldo/dist/util'
 import { merge } from 'lodash'
+import { DataFactory, Parser, ParserOptions, Quad } from 'n3'
 import { useMemo } from 'react'
 import { URI } from 'types'
+import type { Required } from 'utility-types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
-/**
- * Fetch Solid document with react-query
- * @param uri
- * @returns
- */
+import { toN3Patch } from 'utils/ldo'
+
 export const useRdfDocument = (uri: URI) => {
   const doc = uri ? removeHashFromURI(uri) : uri
   const queryKey = useMemo(() => ['rdfDocument', doc], [doc])
 
-  const result = useQuery(queryKey, () => fetchTurtle(doc), { enabled: !!uri })
+  const result = useQuery(queryKey, () => fetchRdfDocument(doc), {
+    enabled: !!uri,
+  })
   return result
 }
 
@@ -30,7 +37,7 @@ export const useRdfDocuments = (uris: URI[]) => {
         .map(uri => removeHashFromURI(uri))
         .map(doc => ({
           queryKey: ['rdfDocument', doc],
-          queryFn: () => fetchTurtle(doc),
+          queryFn: () => fetchRdfDocument(doc),
         })),
     }),
     [uris],
@@ -40,11 +47,37 @@ export const useRdfDocuments = (uris: URI[]) => {
   return results
 }
 
-const fetchTurtle = async (uri: URI) =>
-  await fullFetch(uri).then(res => {
-    if (res.ok) return res.text()
-    else throw new Error(`Fetching ${uri} not successful`)
-  })
+/**
+ * Fetch rdf document
+ * parse it into rdf Dataset
+ * add document url as graph
+ */
+const fetchRdfDocument = async (uri: URI) => {
+  const res = await fullFetch(uri)
+
+  if (res.ok) {
+    const data = await res.text()
+    return { data: parseRdfToQuads(data, { baseIRI: uri }), response: res }
+  } else throw new Error(`Fetching ${uri} not successful`)
+}
+
+const parseRdfToQuads = (
+  data: string,
+  options: Required<ParserOptions, 'baseIRI'>,
+): Quad[] => {
+  // Create a new empty RDF store to hold the parsed data
+
+  const parser = new Parser(options)
+  // Parse the input data and add the resulting quads to the store
+  const graph = DataFactory.namedNode(options.baseIRI)
+  const quads = parser
+    .parse(data)
+    .map(({ subject, predicate, object }) =>
+      DataFactory.quad(subject, predicate, object, graph),
+    )
+
+  return quads
+}
 
 export const useCreateRdfDocument = <S extends LdoBase>(
   shapeType: ShapeType<S>,
@@ -107,6 +140,44 @@ export const useUpdateRdfDocument = () => {
     },
   })
   return mutation
+}
+
+export const useUpdateLdoDocument = <S extends LdoBase>(
+  shapeType: ShapeType<S>,
+) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async ({
+      uri,
+      subject,
+      transform,
+    }: {
+      uri: URI
+      subject: URI
+      transform: (ldo: S) => void // transform should modify the original input, not clone it
+    }) => {
+      const originalResponse = await fullFetch(uri)
+      const originalData = await originalResponse.text()
+      const ldoDataset = await parseRdf(originalData, { baseIRI: uri })
+      const ldo = ldoDataset.usingType(shapeType).fromSubject(subject)
+
+      startTransaction(ldo)
+      transform(ldo)
+
+      const patch = await toN3Patch(ldo)
+      await fullFetch(uri, {
+        method: 'PATCH',
+        body: patch,
+        headers: { 'content-type': 'text/n3' },
+      })
+    },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries([
+        'rdfDocument',
+        removeHashFromURI(variables.uri),
+      ])
+    },
+  })
 }
 
 export const useDeleteRdfDocument = () => {
