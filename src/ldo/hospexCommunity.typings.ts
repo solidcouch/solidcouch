@@ -22,7 +22,27 @@ export interface HospexCommunity {
   )[]
   name: string[]
   about: string[]
-  hasUsergroup: {
+  hasUsergroup: HospexGroup[]
+}
+
+/**
+ * HospexGroup Type
+ */
+export interface HospexGroup {
+  '@id'?: string
+  '@context'?: ContextDefinition
+  type: (
+    | {
+        '@id': 'Group'
+      }
+    | {
+        '@id': 'Usergroup'
+      }
+  )[]
+  usergroupOf: {
+    '@id': string
+  }
+  hasMember?: {
     '@id': string
   }[]
 }

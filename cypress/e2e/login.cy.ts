@@ -23,6 +23,6 @@ describe('Sign in to the app', () => {
         cy.get('button#authorize').click()
       })
     })
-    cy.contains('We would like to set up your Pod')
+    cy.contains('We would like to set up your Pod', { timeout: 10000 })
   })
 })

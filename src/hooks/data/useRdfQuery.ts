@@ -55,7 +55,7 @@ export const useRdfQueryData = <Params extends { [key: string]: URI | string }>(
 
   // collect datasets
   const dataset = useMemo(() => {
-    return results.flatMap(result => result.data ?? [])
+    return results.flatMap(result => result.data?.data ?? [])
   }, [results])
 
   useEffect(() => {
@@ -229,7 +229,7 @@ const fetchRdfDocument = async (uri: URI) => {
 
   if (res.ok) {
     const data = await res.text()
-    return parseRdf(data, { baseIRI: uri })
+    return { data: parseRdf(data, { baseIRI: uri }), response: res }
   } else throw new Error(`Fetching ${uri} not successful`)
 }
 

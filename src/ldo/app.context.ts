@@ -156,5 +156,31 @@ export const appContext: ContextDefinition = {
     '@container': '@set',
   },
   ListedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',
+  note: {
+    '@id': 'http://www.w3.org/2006/vcard/ns#note',
+    '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+    '@container': '@set',
+  },
+  name: {
+    '@id': 'http://xmlns.com/foaf/0.1/name',
+    '@type': 'http://www.w3.org/2001/XMLSchema#string',
+  },
+  hasPhoto: {
+    '@id': 'http://www.w3.org/2006/vcard/ns#hasPhoto',
+    '@type': '@id',
+  },
+  offers: {
+    '@id': 'http://w3id.org/hospex/ns#offers',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  memberOf: {
+    '@id': 'http://rdfs.org/sioc/ns#member_of',
+    '@type': '@id',
+  },
+  storage2: {
+    '@id': 'http://w3id.org/hospex/ns#storage',
+    '@type': '@id',
+  },
   Resource: 'http://www.w3.org/ns/ldp#Resource',
 }

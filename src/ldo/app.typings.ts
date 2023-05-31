@@ -51,6 +51,31 @@ export interface SolidProfile {
 }
 
 /**
+ * HospexProfile Type
+ */
+export interface HospexProfile {
+  '@id'?: string
+  '@context'?: ContextDefinition
+  note?: string[]
+  name?: string
+  hasPhoto?: {
+    '@id': string
+  }
+  /**
+   * Accommodation that the person offers
+   */
+  offers?: {
+    '@id': string
+  }[]
+  memberOf: {
+    '@id': string
+  }
+  storage2: {
+    '@id': string
+  }
+}
+
+/**
  * PublicTypeIndex Type
  */
 export interface PublicTypeIndex {

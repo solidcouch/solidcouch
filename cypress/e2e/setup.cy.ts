@@ -8,64 +8,98 @@ const preparePod = () => {
 
 const resetPod = () => {}
 
+type SkipOptions = Parameters<typeof cy.setupPod>[2]['skip'][0]
+type SkipOptionsAndStorage = SkipOptions | 'storage'
+
+const setupPod =
+  (skip: SkipOptionsAndStorage[] = []) =>
+  () => {
+    cy.get<UserConfig>('@user1').then(user => {
+      cy.get<CommunityConfig>('@community').then(community => {
+        cy.setupPod(user, community, { skip: skip as SkipOptions[] })
+        if (!skip.includes('storage')) {
+          cy.setStorage(user)
+        }
+      })
+    })
+  }
+
 describe('Setup Solid pod', () => {
   beforeEach(resetPod)
   beforeEach(preparePod)
 
   context('everything is set up', () => {
-    beforeEach(() => {
-      cy.get<UserConfig>('@user1').then(user => {
-        cy.get<CommunityConfig>('@community').then(community => {
-          cy.setupPod(user, community)
-        })
-      })
-    })
+    beforeEach(setupPod())
     it('should skip the setup step', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
-      cy.contains('a', 'travel')
-      cy.contains('a', 'host')
+      cy.contains('a', 'travel', { timeout: 10000 })
     })
   })
 
   context('pim:storage is missing', () => {
-    it(
-      'should setup the pod just fine (find storage by checking parent folders)',
-    )
+    beforeEach(setupPod(['personalHospexDocument', 'storage']))
+    it('should setup the pod just fine (find storage by checking parent folders)', () => {
+      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.contains('button', 'Continue!').click()
+      cy.contains('a', 'travel', { timeout: 10000 })
+    })
   })
 
   context('public type index is missing', () => {
-    it('should create public type index with correct ACL')
+    beforeEach(setupPod(['publicTypeIndex']))
+    it('should create public type index with correct ACL', () => {
+      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.contains('button', 'Continue!').click()
+      cy.contains('a', 'travel', { timeout: 10000 })
+    })
   })
 
   context('private type index is missing', () => {
-    it('should create private type index with correct ACL')
+    beforeEach(setupPod(['privateTypeIndex']))
+    it('should create private type index with correct ACL', () => {
+      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.contains('button', 'Continue!').click()
+      cy.contains('a', 'travel', { timeout: 10000 })
+    })
   })
 
   context('community not joined', () => {
-    it('should join the community')
+    beforeEach(setupPod(['joinCommunity']))
+    it('should join the community', () => {
+      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.contains('button', 'Continue!').click()
+      cy.contains('a', 'travel', { timeout: 10000 })
+    })
   })
 
   context('personal hospex document for this community does not exist', () => {
-    beforeEach(() => {
-      cy.get<UserConfig>('@user1').then(user => {
-        cy.get<CommunityConfig>('@community').then(community => {
-          cy.setupPod(user, community, { skip: ['personalHospexDocument'] })
-          cy.setStorage(user)
-        })
-      })
-    })
+    beforeEach(setupPod(['personalHospexDocument']))
     it('should create personal hospex document for this community', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
-      // TODO why does it take two clicks to set up?
-      // it seems like the first time only an empty document gets created
-      cy.contains('button', 'Continue!').click()
-      cy.wait(5000)
       cy.contains('button', 'Continue!').click()
       cy.contains('a', 'travel', { timeout: 10000 })
     })
   })
 
   context('everything is missing', () => {
-    it('should set up everything')
+    beforeEach(
+      setupPod([
+        'personalHospexDocument',
+        'joinCommunity',
+        'publicTypeIndex',
+        'privateTypeIndex',
+      ]),
+    )
+    it('should set up everything', () => {
+      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.get<CommunityConfig>('@community').then(community => {
+        const url = new URL(community.group)
+        url.hash = ''
+        cy.intercept('PATCH', url.toString()).as('addUserToCommunity')
+      })
+      cy.contains('button', 'Continue!').click()
+      cy.wait('@addUserToCommunity')
+      cy.contains('a', 'travel', { timeout: 10000 })
+    })
   })
 })

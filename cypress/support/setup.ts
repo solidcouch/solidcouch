@@ -26,7 +26,7 @@ export const setupCommunity = ({
   // because we have no way of deleting accounts before new tests
   cy.createAccountIfNotExist({
     username,
-    password: 'CorrectHorseBatteryStaple',
+    password: 'correcthorsebatterystaple',
   }).as('communityUser')
   cy.get<UserConfig>('@communityUser').then(user => {
     cy.authenticatedRequest(user, {

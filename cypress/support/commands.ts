@@ -95,7 +95,7 @@ Cypress.Commands.add(
     password?: string
     email?: string
   }): Cypress.Chainable<UserConfig> {
-    password ??= uuid.v4()
+    password ??= 'correcthorsebatterystaple'
     email ??= username + '@example.org'
     const config = {
       idp: Cypress.env('cssUrl') + '/',
