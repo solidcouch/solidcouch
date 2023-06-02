@@ -40,7 +40,7 @@ export const Header = () => {
           }
         >
           <MenuItem>
-            <Link to="profile">{profile?.name ?? 'profile'}</Link>
+            <Link to="profile">{profile?.name || 'profile'}</Link>
           </MenuItem>
           <MenuItem>
             <Link to="messages">
