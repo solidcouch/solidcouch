@@ -9,4 +9,6 @@ export const uiLogin = (user: UserConfig) => {
     cy.get('input[name=password]').type(`${user.password}{enter}`)
     cy.get('button#authorize').click()
   })
+  // wait for sign-in in to finish
+  cy.contains(/(We would like to set up your Pod)|(travel)/, { timeout: 20000 })
 }

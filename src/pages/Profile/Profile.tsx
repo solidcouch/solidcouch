@@ -1,7 +1,6 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { comunicaApi } from 'app/services/comunicaApi'
 import { ButtonLink, Interests, Loading } from 'components'
 import { ProtectedImg } from 'components/ProtectedImg'
+import { communityId } from 'config'
 import { useProfile } from 'hooks/data/useProfile'
 import { useAuth } from 'hooks/useAuth'
 import { FaExternalLinkAlt, FaPencilAlt } from 'react-icons/fa'
@@ -12,16 +11,10 @@ import styles from './Profile.module.scss'
 export const Profile = () => {
   const personId = useParams().id as string
   const auth = useAuth()
-  const profile = useProfile(personId)
-
   const isMe = personId && auth.webId ? personId === auth.webId : undefined
 
-  const { data: interests } = comunicaApi.endpoints.readInterests.useQuery({
-    person: personId,
-  })
-  const { data: myInterests } = comunicaApi.endpoints.readInterests.useQuery(
-    auth.webId ? { person: auth.webId } : skipToken,
-  )
+  const [profile] = useProfile(personId, communityId)
+  const [myProfile] = useProfile(auth.webId as string, communityId)
 
   return (
     <div className={styles.container}>
@@ -48,8 +41,11 @@ export const Profile = () => {
       </ButtonLink>
       {isMe === false && <ManageContact webId={personId} />}
       <section>
-        {interests ? (
-          <Interests ids={interests} highlighted={myInterests ?? []} />
+        {profile.interests ? (
+          <Interests
+            ids={profile.interests}
+            highlighted={isMe ? [] : myProfile.interests ?? []}
+          />
         ) : (
           <Loading>loading interests...</Loading>
         )}

@@ -146,6 +146,72 @@ export const appSchema: Schema = {
       },
     },
     {
+      id: 'https://example.com/FoafProfile',
+      type: 'ShapeDecl',
+      shapeExpr: {
+        type: 'Shape',
+        expression: {
+          type: 'EachOf',
+          expressions: [
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['http://xmlns.com/foaf/0.1/Person'],
+              },
+              annotations: [
+                {
+                  type: 'Annotation',
+                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  object: {
+                    value: 'Defines the node as a Person (from foaf)',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://xmlns.com/foaf/0.1/knows',
+              valueExpr: 'https://example.com/FoafProfile',
+              min: 0,
+              max: -1,
+              annotations: [
+                {
+                  type: 'Annotation',
+                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  object: {
+                    value:
+                      'A list of WebIds for all the people this user knows.',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://xmlns.com/foaf/0.1/topic_interest',
+              valueExpr: {
+                type: 'NodeConstraint',
+                nodeKind: 'iri',
+              },
+              min: 0,
+              max: -1,
+              annotations: [
+                {
+                  type: 'Annotation',
+                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  object: {
+                    value: "A list of person's interests.",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        extra: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
+      },
+    },
+    {
       id: 'https://example.com/HospexProfile',
       type: 'ShapeDecl',
       shapeExpr: {
@@ -163,6 +229,15 @@ export const appSchema: Schema = {
               },
               min: 0,
               max: -1,
+              annotations: [
+                {
+                  type: 'Annotation',
+                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  object: {
+                    value: 'Text about person, in different languages',
+                  },
+                },
+              ],
             },
             {
               type: 'TripleConstraint',

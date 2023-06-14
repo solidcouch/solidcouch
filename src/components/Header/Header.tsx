@@ -5,6 +5,7 @@ import '@szhsin/react-menu/dist/transitions/slide.css'
 import { useAppSelector } from 'app/hooks'
 import { comunicaApi } from 'app/services/comunicaApi'
 import { Avatar } from 'components/Avatar/Avatar'
+import { communityId } from 'config'
 import { selectAuth } from 'features/auth/authSlice'
 import { useProfile } from 'hooks/data/useProfile'
 import { ReactComponent as LogoOpen } from 'logo-open.svg'
@@ -16,7 +17,7 @@ import styles from './Header.module.scss'
 export const Header = () => {
   const auth = useAppSelector(selectAuth)
 
-  const profile = useProfile(auth.webId)
+  const [profile] = useProfile(auth.webId ?? '', communityId)
 
   const { data: newMessages } =
     comunicaApi.endpoints.readMessagesFromInbox.useQuery(
@@ -40,7 +41,7 @@ export const Header = () => {
           }
         >
           <MenuItem>
-            <Link to="profile">{profile?.name ?? 'profile'}</Link>
+            <Link to="profile">{profile?.name || 'profile'}</Link>
           </MenuItem>
           <MenuItem>
             <Link to="messages">

@@ -20,6 +20,9 @@ import type { Required } from 'utility-types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
 import { toN3Patch } from 'utils/ldo'
 
+/**
+ * wrapper around react-query to fetch a single rdf document
+ */
 export const useRdfDocument = (uri: URI) => {
   const doc = uri ? removeHashFromURI(uri) : uri
   const queryKey = useMemo(() => ['rdfDocument', doc], [doc])
@@ -30,6 +33,9 @@ export const useRdfDocument = (uri: URI) => {
   return result
 }
 
+/**
+ * wrapper around react-query to fetch multiple rdf documents
+ */
 export const useRdfDocuments = (uris: URI[]) => {
   const params = useMemo(
     () => ({

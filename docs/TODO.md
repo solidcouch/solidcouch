@@ -33,3 +33,7 @@
 
 - upload travel plans and invite travellers
 - references
+
+## Bugs
+
+- in search interests from wikidata, in react-select, show all results that come from backend, not just those whose label fits
