@@ -116,7 +116,7 @@ const getPartialResults = <Params extends { [key: string]: URI | string }>(
   for (const originalPath of query) {
     // replace path elements starting ? with available params
     const path = originalPath.map(op => {
-      if (typeof op === 'string' && op.startsWith('?') && params[op.slice(1)])
+      if (typeof op === 'string' && op.startsWith('?') && op.slice(1) in params)
         return params[op.slice(1)]
       else return op
     }) as unknown as typeof originalPath

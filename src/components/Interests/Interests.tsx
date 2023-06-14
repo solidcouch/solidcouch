@@ -11,7 +11,7 @@ export const Interests = ({
   ids: URI[]
   highlighted?: URI[]
 }) => {
-  if (ids.length === 0) return <>no interests</>
+  if (ids.length === 0) return null
 
   return (
     <ul className={styles.list}>

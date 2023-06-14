@@ -1,7 +1,13 @@
-import { dct, solid, space, vcard } from 'rdf-namespaces'
+import { dct, foaf, solid, space, vcard } from 'rdf-namespaces'
 import { UserConfig } from './css-authentication'
 
 export type CommunityConfig = { community: string; group: string }
+export type SetupConfig = {
+  publicTypeIndex: string
+  privateTypeIndex: string
+  hospexContainer: string
+  hospexProfile: string
+}
 
 export const setupCommunity = ({
   community: communityUri,
@@ -260,6 +266,13 @@ export const setupPod = (
       }.`,
     })
   }
+
+  return cy.wrap({
+    publicTypeIndex: publicTypeIndexUri,
+    privateTypeIndex: privateTypeIndexUri,
+    hospexContainer,
+    hospexProfile: hospexDocument,
+  } as SetupConfig)
 }
 
 export const setStorage = (user: UserConfig) => {
@@ -270,5 +283,33 @@ export const setStorage = (user: UserConfig) => {
         <${user.webId}> <${space.storage}> <${user.podUrl}>.
       }.`,
     headers: { 'content-type': 'text/n3' },
+  })
+}
+
+/**
+ * Set data on person's hospex profile
+ * This can only be run once per person,
+ * because we don't care about deleting previous data
+ */
+export type Profile = { name: string; description: { [lang: string]: string } }
+export const setProfileData = (
+  user: UserConfig,
+  setup: SetupConfig,
+  profile: Profile,
+) => {
+  const descriptions = Object.entries(profile.description)
+    .map(
+      ([language, description]) =>
+        `<${user.webId}> <${vcard.note}> """${description}"""@${language}.`,
+    )
+    .join('\n')
+  cy.authenticatedRequest(user, {
+    url: setup.hospexProfile,
+    method: 'PATCH',
+    headers: { 'content-type': 'text/n3' },
+    body: `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+      <${user.webId}> <${foaf.name}> "${profile.name}".
+      ${descriptions}
+    }.`,
   })
 }

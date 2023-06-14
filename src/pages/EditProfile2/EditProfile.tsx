@@ -2,6 +2,7 @@ import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
 import { ldoApi } from 'app/services/ldoApi'
 import { Button, Loading } from 'components'
+import { communityId } from 'config'
 import { useProfile } from 'hooks/data/useProfile'
 import { useAuth } from 'hooks/useAuth'
 import { omit } from 'lodash'
@@ -18,7 +19,7 @@ export const EditProfile = () => {
   const auth = useAuth()
   const navigate = useNavigate()
 
-  const profile = useProfile(auth.webId)
+  const [profile] = useProfile(auth.webId as string, communityId)
 
   const [saveHospexProfile] =
     comunicaApi.endpoints.saveHospexProfile.useMutation()

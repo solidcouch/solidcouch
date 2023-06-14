@@ -37,8 +37,23 @@ ex:SolidProfile EXTRA a {
     // rdfs:comment  "A registry of all types used on the user's Pod (for public access)" ;
 }
 
+ex:FoafProfile EXTRA a {
+  a [ foaf:Person ]
+    // rdfs:comment  "Defines the node as a Person (from foaf)" ;
+  # foaf:name xsd:string ?
+  #  // rdfs:comment  "Person's name." ;
+  # vcard:hasPhoto IRI ?
+  #  // rdfs:comment  "A link to the person's photo" ;
+  foaf:knows @ex:FoafProfile *
+    // rdfs:comment  "A list of WebIds for all the people this user knows." ;
+  foaf:topic_interest IRI *
+    // rdfs:comment  "A list of person's interests." ;
+}
+
+
 ex:HospexProfile {
-  vcard:note rdf:langString* ;
+  vcard:note rdf:langString*
+    // rdfs:comment "Text about person, in different languages" ;
   foaf:name xsd:string? ;
   vcard:hasPhoto IRI? ;
   hospex:offers IRI*
@@ -46,6 +61,7 @@ ex:HospexProfile {
   sioc:member_of IRI ;
   hospex:storage IRI ;
 }
+
 
 ex:PublicTypeIndex EXTRA a {
   a [ solid:TypeIndex ] ;

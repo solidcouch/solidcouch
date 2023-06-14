@@ -81,6 +81,10 @@ describe('Setup Solid pod', () => {
     })
   })
 
+  context("person's inbox is missing", () => {
+    it('should create inbox')
+  })
+
   context('everything is missing', () => {
     beforeEach(
       setupPod([

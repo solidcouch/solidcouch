@@ -51,11 +51,38 @@ export interface SolidProfile {
 }
 
 /**
+ * FoafProfile Type
+ */
+export interface FoafProfile {
+  '@id'?: string
+  '@context'?: ContextDefinition
+  /**
+   * Defines the node as a Person (from foaf)
+   */
+  type: {
+    '@id': 'Person'
+  }
+  /**
+   * A list of WebIds for all the people this user knows.
+   */
+  knows?: FoafProfile[]
+  /**
+   * A list of person's interests.
+   */
+  topicInterest?: {
+    '@id': string
+  }[]
+}
+
+/**
  * HospexProfile Type
  */
 export interface HospexProfile {
   '@id'?: string
   '@context'?: ContextDefinition
+  /**
+   * Text about person, in different languages
+   */
   note?: string[]
   name?: string
   hasPhoto?: {
