@@ -1,8 +1,5 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
-import { comunicaApi } from 'app/services/comunicaApi'
-import { ldoApi } from 'app/services/ldoApi'
 import { createLdoDataset, languagesOf } from 'ldo'
 import {
   FoafProfileShapeType,
@@ -11,7 +8,6 @@ import {
 } from 'ldo/app.shapeTypes'
 import { FoafProfile, HospexProfile, SolidProfile } from 'ldo/app.typings'
 import { merge } from 'lodash'
-import mergeWith from 'lodash/mergeWith'
 import { useMemo } from 'react'
 import { Person, URI } from 'types'
 import { hospex } from 'utils/rdf-namespaces'
@@ -36,7 +32,7 @@ const profileQuery = [
   ],
 ] as const
 
-export const useProfile2 = (webId: URI, communityId: URI) => {
+export const useProfile = (webId: URI, communityId: URI) => {
   const params = useMemo(() => ({ webId, communityId }), [communityId, webId])
   const [results, queryStatus] = useRdfQuery(profileQuery, params)
 
@@ -76,32 +72,6 @@ export const useProfile2 = (webId: URI, communityId: URI) => {
     interests: mergedProfile.topicInterest?.map(i => i['@id']) ?? [],
   }
   return [profile, queryStatus] as const
-}
-
-export const useProfile = (id: URI | undefined) => {
-  const { data: profile } = ldoApi.endpoints.readUser.useQuery(id ?? skipToken)
-  const { data: hospexProfile } =
-    comunicaApi.endpoints.readHospexProfile.useQuery(
-      id ? { id, language: 'en' } : skipToken,
-    )
-  const combinedProfile: Person = useMemo(() => {
-    const basicProfile = {
-      photo: profile?.hasPhoto?.['@id'] || profile?.img,
-      name: profile?.name,
-      id: profile?.['@id'],
-    }
-
-    return mergeWith(
-      { id, name: '' },
-      basicProfile,
-      hospexProfile,
-      (obj, src) => {
-        if (!src) return obj
-      },
-    )
-  }, [hospexProfile, id, profile])
-
-  return combinedProfile
 }
 
 const solidProfileQuery = [

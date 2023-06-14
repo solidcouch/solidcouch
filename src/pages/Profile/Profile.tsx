@@ -1,7 +1,7 @@
 import { ButtonLink, Interests, Loading } from 'components'
 import { ProtectedImg } from 'components/ProtectedImg'
 import { communityId } from 'config'
-import { useProfile2 } from 'hooks/data/useProfile'
+import { useProfile } from 'hooks/data/useProfile'
 import { useAuth } from 'hooks/useAuth'
 import { FaExternalLinkAlt, FaPencilAlt } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
@@ -11,11 +11,10 @@ import styles from './Profile.module.scss'
 export const Profile = () => {
   const personId = useParams().id as string
   const auth = useAuth()
-  const [profile] = useProfile2(personId, communityId)
-
   const isMe = personId && auth.webId ? personId === auth.webId : undefined
 
-  const [myProfile] = useProfile2(auth.webId as string, communityId)
+  const [profile] = useProfile(personId, communityId)
+  const [myProfile] = useProfile(auth.webId as string, communityId)
 
   return (
     <div className={styles.container}>
@@ -45,7 +44,7 @@ export const Profile = () => {
         {profile.interests ? (
           <Interests
             ids={profile.interests}
-            highlighted={myProfile.interests ?? []}
+            highlighted={isMe ? [] : myProfile.interests ?? []}
           />
         ) : (
           <Loading>loading interests...</Loading>

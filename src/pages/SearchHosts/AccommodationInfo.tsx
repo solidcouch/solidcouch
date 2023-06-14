@@ -2,6 +2,7 @@ import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { comunicaApi } from 'app/services/comunicaApi'
 import { ButtonLink } from 'components'
 import { Avatar } from 'components/Avatar/Avatar'
+import { communityId } from 'config'
 import { useProfile } from 'hooks/data/useProfile'
 import { useAuth } from 'hooks/useAuth'
 import { FaExternalLinkAlt } from 'react-icons/fa'
@@ -21,7 +22,7 @@ export const AccommodationInfo = ({
       accommodationId ? { accommodationId: accommodationId } : skipToken,
     )
 
-  const person = useProfile(accommodation?.offeredBy)
+  const [person] = useProfile(accommodation?.offeredBy ?? '', communityId)
 
   const isAccommodationLoaded =
     accommodation &&
