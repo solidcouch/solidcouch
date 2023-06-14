@@ -156,6 +156,16 @@ export const appContext: ContextDefinition = {
     '@container': '@set',
   },
   ListedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',
+  knows: {
+    '@id': 'http://xmlns.com/foaf/0.1/knows',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  topicInterest: {
+    '@id': 'http://xmlns.com/foaf/0.1/topic_interest',
+    '@type': '@id',
+    '@container': '@set',
+  },
   note: {
     '@id': 'http://www.w3.org/2006/vcard/ns#note',
     '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',

@@ -25,6 +25,7 @@ export type Person = {
   photo?: URI
   name: string
   about?: string
+  interests?: URI[]
 }
 
 export type Message = {
