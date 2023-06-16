@@ -54,19 +54,23 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
       </ul>
       <Select<types.Interest>
         options={options}
+        // show all results that were found
+        filterOption={() => true}
         formatOptionLabel={interest => (
           <div title={interest.description}>
             {interest.label}
+            {interest.aliases.length > 0 && ` (${interest.aliases.join(', ')})`}
             <br />
             {interest.description}
           </div>
         )}
+        isLoading={optionsStatus.isFetching}
+        // don't keep the selected thing
+        value={null}
+        menuPlacement="auto"
+        placeholder="Search interest..."
         onInputChange={handleInputChange}
         onChange={handleSelect}
-        menuPlacement="auto"
-        value={null}
-        placeholder="Search interest..."
-        isLoading={optionsStatus.isFetching}
       />
     </div>
   )

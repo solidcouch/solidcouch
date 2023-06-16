@@ -58,13 +58,18 @@ const EditProfileForm = ({
   initialData: Partial<Pick<Person, 'name' | 'photo' | 'about'>>
   onSubmit: (data: PersonPayload) => unknown
 }) => {
-  const { register, handleSubmit, watch, reset } = useForm<PersonPayload>({
+  const { register, handleSubmit, watch, setValue } = useForm<PersonPayload>({
     defaultValues: omit(initialData, 'photo'),
   })
 
+  // when data are loaded, update the form
   useEffect(() => {
-    reset(omit(initialData, 'photo'))
-  }, [initialData, reset])
+    if (typeof initialData.name === 'string') setValue('name', initialData.name)
+  }, [initialData.name, setValue])
+  useEffect(() => {
+    if (typeof initialData.about === 'string')
+      setValue('about', initialData.about)
+  }, [initialData.about, setValue])
 
   const { data: photo } = ldoApi.endpoints.readImage.useQuery(
     initialData.photo || skipToken,
@@ -104,8 +109,8 @@ const EditProfileForm = ({
         }
       >
         <FaCamera />
+        <input id="photo" type="file" {...register('photo')} accept="image/*" />
       </label>
-      <input id="photo" type="file" {...register('photo')} accept="image/*" />
       <label htmlFor="about">About me</label>
       <textarea id="about" {...register('about')} />
       <Button primary>Save changes</Button>
