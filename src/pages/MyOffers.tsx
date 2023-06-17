@@ -1,12 +1,13 @@
 import { Button, Loading } from 'components'
 import { AccommodationForm } from 'components/AccommodationForm/AccommodationForm'
 import { AccommodationView } from 'components/AccommodationView/AccommodationView'
+import { communityId } from 'config'
+import { useHospexDocumentSetup } from 'hooks/data/useCheckSetup'
 import { useCreateAccommodation } from 'hooks/data/useCreateAccommodation'
 import { useDeleteAccommodation } from 'hooks/data/useDeleteAccommodation'
 import { useReadAccommodations } from 'hooks/data/useReadAccommodations'
 import { useUpdateAccommodation } from 'hooks/data/useUpdateAccommodation'
 import { useAuth } from 'hooks/useAuth'
-import { usePersonalHospexDocuments } from 'hooks/usePersonalHospexDocuments'
 import { useState } from 'react'
 import { Accommodation, URI } from 'types'
 import { getContainer } from 'utils/helpers'
@@ -17,22 +18,16 @@ export const MyOffers = () => {
 
   const [editing, setEditing] = useState<URI | 'new'>()
 
-  const { data: personalHospexDocuments } = usePersonalHospexDocuments(
-    auth.webId,
+  const { personalHospexDocuments } = useHospexDocumentSetup(
+    auth.webId ?? '',
+    communityId,
   )
 
-  const accommodations = useReadAccommodations(auth.webId ?? '')
+  const [accommodations] = useReadAccommodations(auth.webId ?? '', communityId)
 
   const createAccommodation = useCreateAccommodation()
   const updateAccommodation = useUpdateAccommodation()
   const deleteAccommodation = useDeleteAccommodation()
-
-  // const [createAccommodation] =
-  //   comunicaApi.endpoints.createAccommodation.useMutation()
-  // const [updateAccommodation] =
-  //   comunicaApi.endpoints.updateAccommodation.useMutation()
-  // const [deleteAccommodation] =
-  //   comunicaApi.endpoints.deleteAccommodation.useMutation()
 
   if (typeof auth.webId !== 'string') return null
 
@@ -42,30 +37,18 @@ export const MyOffers = () => {
     if (!(auth.webId && personalHospexDocuments?.[0]))
       throw new Error('missing variables')
 
-    const id =
-      getContainer(personalHospexDocuments[0]) +
-      (await crypto.randomUUID()) +
-      '#accommodation'
-
-    // await createAccommodation({
-    //   webId: auth.webId,
-    //   personalHospexDocument: personalHospexDocuments[0],
-    //   accommodation: { ...accommodation, id },
-    // }).unwrap()
-    await createAccommodation(
-      auth.webId,
-      { ...accommodation, id },
-      personalHospexDocuments[0],
-    )
+    await createAccommodation({
+      personId: auth.webId,
+      data: accommodation,
+      hospexDocument: personalHospexDocuments[0],
+      hospexContainer: getContainer(personalHospexDocuments[0]),
+    })
 
     setEditing(undefined)
   }
 
   const handleUpdate = async (accommodation: Accommodation) => {
-    if (!auth.webId) throw new Error('missing variables')
-
-    await updateAccommodation(auth.webId, accommodation)
-
+    await updateAccommodation({ data: accommodation })
     setEditing(undefined)
   }
 
@@ -78,7 +61,11 @@ export const MyOffers = () => {
     )
 
     if (isConfirmed) {
-      await deleteAccommodation(id, personalHospexDocuments[0])
+      await deleteAccommodation({
+        id,
+        personId: auth.webId,
+        hospexDocument: personalHospexDocuments[0],
+      })
     }
   }
 

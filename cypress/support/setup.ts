@@ -1,4 +1,4 @@
-import { dct, foaf, solid, space, vcard } from 'rdf-namespaces'
+import { dct, foaf, schema_https, solid, space, vcard } from 'rdf-namespaces'
 import { UserConfig } from './css-authentication'
 
 export type CommunityConfig = { community: string; group: string }
@@ -313,3 +313,60 @@ export const setProfileData = (
     }.`,
   })
 }
+
+export type AccommodationData = {
+  description: { [lang: string]: string }
+  location: [number, number]
+}
+
+export const addAccommodation = (
+  user: UserConfig,
+  setup: SetupConfig,
+  accommodation: AccommodationData,
+) => {
+  cy.authenticatedRequest(user, {
+    url: setup.hospexContainer,
+    method: 'POST',
+    headers: { 'content-type': 'text/turtle' },
+    body: accommodationTurtle({ user, accommodation }),
+  }).then(response => {
+    const location = response.headers.location as string
+    cy.authenticatedRequest(user, {
+      url: setup.hospexProfile,
+      method: 'PATCH',
+      headers: { 'content-type': 'text/n3' },
+      body: `@prefix hospex: <http://w3id.org/hospex/ns#>.
+    _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+      <${user.webId}> hospex:offers <${location}#accommodation>.
+    }.`,
+    })
+  })
+}
+
+const accommodationTurtle = ({
+  user,
+  accommodation,
+}: {
+  user: UserConfig
+  accommodation: AccommodationData
+}) => `
+@prefix : <#>.
+@prefix hospex: <http://w3id.org/hospex/ns#>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+:accommodation a hospex:Accommodation, <${schema_https.Accommodation}>;
+    geo:location :location;
+  ${Object.entries(accommodation.description)
+    .map(
+      ([language, description]) =>
+        `<${dct.description}> """${description}"""@${language};`,
+    )
+    .join('\n')}
+    hospex:offeredBy <${user.webId}>.
+:location a geo:Point;
+    geo:lat "${
+      accommodation.location[0]
+    }"^^<http://www.w3.org/2001/XMLSchema#decimal>;
+    geo:long "${
+      accommodation.location[1]
+    }"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+`

@@ -11,7 +11,7 @@ PREFIX mee: <http://www.w3.org/ns/pim/meeting#>
 PREFIX pim: <http://www.w3.org/ns/pim/space#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX schem: <http://schema.org/>
+PREFIX schema: <https://schema.org/>
 PREFIX sioc: <http://rdfs.org/sioc/ns#>
 PREFIX solid: <http://www.w3.org/ns/solid/terms#>
 PREFIX stat: <http://www.w3.org/ns/posix/stat#>
@@ -19,6 +19,8 @@ PREFIX ttl: <http://www.w3.org/ns/iana/media-types/text/turtle#>
 PREFIX ui: <http://www.w3.org/ns/ui#>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+
 
 ex:SolidProfile EXTRA a {
   a [ foaf:Person ]
@@ -50,18 +52,34 @@ ex:FoafProfile EXTRA a {
     // rdfs:comment  "A list of person's interests." ;
 }
 
-
 ex:HospexProfile {
   vcard:note rdf:langString*
     // rdfs:comment "Text about person, in different languages" ;
   foaf:name xsd:string? ;
   vcard:hasPhoto IRI? ;
-  hospex:offers IRI*
+  hospex:offers @ex:Accommodation *
     // rdfs:comment "Accommodation that the person offers" ;
   sioc:member_of IRI ;
   hospex:storage IRI ;
 }
 
+ex:Accommodation EXTRA a {
+  a [hospex:Accommodation] ;
+  a [schema:Accommodation] ;
+  dct:description rdf:langString*
+    // rdfs:comment "Text about the accommodation" ;
+  wgs84:location @ex:Point
+    // rdfs:comment "Location of the accommodation" ;
+  hospex:offeredBy @ex:HospexProfile ;
+}
+
+ex:Point EXTRA a {
+  a [wgs84:Point] ;
+  wgs84:lat xsd:decimal
+    // rdfs:comment "Latitude of the location in WGS84" ;
+  wgs84:long xsd:decimal
+    // rdfs:comment "Longitude of the location in WGS84" ;
+}
 
 ex:PublicTypeIndex EXTRA a {
   a [ solid:TypeIndex ] ;

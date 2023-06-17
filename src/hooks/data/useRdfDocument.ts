@@ -5,9 +5,10 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import {
+  ShapeType,
   createLdoDataset,
   parseRdf,
-  ShapeType,
+  setLanguagePreferences,
   startTransaction,
   toTurtle,
 } from 'ldo'
@@ -90,15 +91,25 @@ export const useCreateRdfDocument = <S extends LdoBase>(
 ) => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: async ({ uri, data }: { uri: URI; data: S | S[] }) => {
+    mutationFn: async ({
+      uri,
+      data,
+      language = 'en',
+    }: {
+      uri: URI
+      data: S | S[]
+      language?: string
+    }) => {
       const ldoDataset = createLdoDataset()
       if (Array.isArray(data)) {
         data.forEach(datum => {
           const ldo = ldoDataset.usingType(shapeType).fromSubject(datum['@id'])
+          setLanguagePreferences(language).using(ldo)
           merge(ldo, datum)
         })
       } else {
         const ldo = ldoDataset.usingType(shapeType).fromSubject(data['@id'])
+        setLanguagePreferences(language).using(ldo)
         merge(ldo, data)
       }
       const turtleData = await toTurtle(
@@ -157,15 +168,19 @@ export const useUpdateLdoDocument = <S extends LdoBase>(
       uri,
       subject,
       transform,
+      language = 'en',
     }: {
       uri: URI
       subject: URI
       transform: (ldo: S) => void // transform should modify the original input, not clone it
+      language?: string
     }) => {
       const originalResponse = await fullFetch(uri)
       const originalData = await originalResponse.text()
       const ldoDataset = await parseRdf(originalData, { baseIRI: uri })
       const ldo = ldoDataset.usingType(shapeType).fromSubject(subject)
+
+      setLanguagePreferences(language).using(ldo)
 
       startTransaction(ldo)
       transform(ldo)

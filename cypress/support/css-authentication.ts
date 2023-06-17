@@ -59,7 +59,7 @@ export const getAuthenticatedRequest = (user: UserConfig) => {
       { dpopKey },
     )
     const authRequest = cyUnwrapFetch(authFetchWrapper)
-    return cy.wrap(authRequest)
+    return cy.wrap(authRequest, { log: false })
   })
 }
 
@@ -122,7 +122,7 @@ const getAuthenticationCredentials = (user: UserConfig) => {
     .then(async response => {
       const { id, secret } = response.body
       const dpopKey = await generateDpopKeyPair()
-      return cy.wrap({ id, secret, dpopKey })
+      return cy.wrap({ id, secret, dpopKey }, { log: false })
     })
 }
 
@@ -148,7 +148,7 @@ export const getAuthenticationToken = (user: UserConfig) => {
         })
         .then(response => {
           const { access_token: accessToken } = response.body
-          return cy.wrap({ dpopKey, accessToken })
+          return cy.wrap({ dpopKey, accessToken }, { log: false })
         })
     },
   )
@@ -169,7 +169,6 @@ const parseCyRequestArgs = (...cyRequestArgs) => {
       cy.request(options)
     */
   let options = {}
-  cy.log(cyRequestArgs)
   switch (cyRequestArgs.length) {
     case 1:
       if (typeof cyRequestArgs[0] === 'string') options.url = cyRequestArgs[0]

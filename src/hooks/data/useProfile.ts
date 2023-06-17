@@ -1,6 +1,5 @@
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
-import { LanguageSet } from 'jsonld-dataset-proxy'
 import { createLdoDataset, languagesOf } from 'ldo'
 import {
   FoafProfileShapeType,
@@ -118,17 +117,11 @@ export const useUpdateHospexProfile = () => {
       await updateHospexProfileMutation.mutateAsync({
         uri: hospexDocument,
         subject: personId,
+        language,
         transform: person => {
           if (data.name) person.name = data.name
-          if (data.about) {
-            const aboutLanguages = languagesOf(person, 'note')
-            aboutLanguages[language] ??= new Set() as LanguageSet
-            aboutLanguages[language]!.clear()
-            aboutLanguages[language]!.add(data.about)
-          }
-          if (data.photo) {
-            person.hasPhoto = { '@id': data.photo }
-          }
+          if (data.about) person.note = [data.about]
+          if (data.photo) person.hasPhoto = { '@id': data.photo }
         },
       })
     },
