@@ -5,6 +5,8 @@ import {
   SolidProfile,
   FoafProfile,
   HospexProfile,
+  Accommodation,
+  Point,
   PublicTypeIndex,
   PrivateTypeIndex,
   TypeRegistration,
@@ -48,6 +50,24 @@ export const FoafProfileShapeType: ShapeType<FoafProfile> = {
 export const HospexProfileShapeType: ShapeType<HospexProfile> = {
   schema: appSchema,
   shape: 'https://example.com/HospexProfile',
+  context: appContext,
+}
+
+/**
+ * Accommodation ShapeType
+ */
+export const AccommodationShapeType: ShapeType<Accommodation> = {
+  schema: appSchema,
+  shape: 'https://example.com/Accommodation',
+  context: appContext,
+}
+
+/**
+ * Point ShapeType
+ */
+export const PointShapeType: ShapeType<Point> = {
+  schema: appSchema,
+  shape: 'https://example.com/Point',
   context: appContext,
 }
 

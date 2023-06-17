@@ -1,63 +1,55 @@
-import { query } from 'app/services/helpers'
-import {
-  useCreateSolidDocument,
-  useUpdateSolidDocument,
-} from 'hooks/useSolidDocument'
-import {
-  commitTransaction,
-  createLdoDataset,
-  languagesOf,
-  startTransaction,
-  toTurtle,
-} from 'ldo'
-import { AccommodationShapeType } from 'ldo/accommodation.shapeTypes'
+import { AccommodationShapeType } from 'ldo/app.shapeTypes'
+import { HospexProfile } from 'ldo/app.typings'
 import { useCallback } from 'react'
 import { Accommodation, URI } from 'types'
 import { hospex, solid } from 'utils/rdf-namespaces'
+import * as uuid from 'uuid'
+import { useCreateRdfDocument, useUpdateRdfDocument } from './useRdfDocument'
 
 export const useCreateAccommodation = () => {
-  const createDocumentMutation = useCreateSolidDocument()
-  const updateDocumentMutation = useUpdateSolidDocument()
+  const createAccommodationMutation = useCreateRdfDocument(
+    AccommodationShapeType,
+  )
+  const updateMutation = useUpdateRdfDocument()
 
-  const createAccommodation = useCallback(
-    async (webId: URI, data: Accommodation, personalHospexDocument: URI) => {
-      const ldoDataset = createLdoDataset()
-      const ldo = ldoDataset
-        .usingType(AccommodationShapeType)
-        .setLanguagePreferences('en')
-        .fromSubject(data.id)
-
-      startTransaction(ldo)
-
-      ldo.type = [{ '@id': 'Accommodation' }, { '@id': 'Accommodation2' }]
-      ldo.location = {
-        '@id': '#location' + crypto.randomUUID(),
-        type: { '@id': 'Point' },
-        lat: data.location.lat,
-        long: data.location.long,
-      }
-      const commentLanguages = languagesOf(ldo, 'description')
-      commentLanguages.en?.add(data.description)
-      ldo.offeredBy = { '@id': webId }
-
-      commitTransaction(ldo)
-
-      const doc = await toTurtle(ldo)
-      await createDocumentMutation.mutateAsync({
-        uri: data.id,
-        data: doc,
+  return useCallback(
+    async ({
+      personId,
+      data,
+      hospexDocument,
+      hospexContainer,
+    }: {
+      personId: URI
+      data: Omit<Accommodation, 'id'>
+      hospexDocument: URI
+      hospexContainer: URI
+    }) => {
+      const uid = uuid.v4()
+      const uri = hospexContainer + uid
+      const id = `${uri}#accommodation`
+      await createAccommodationMutation.mutateAsync({
+        uri,
+        data: {
+          '@id': id,
+          type: [{ '@id': 'Accommodation' }, { '@id': 'Accommodation2' }],
+          description: [data.description],
+          location: {
+            '@id': `${uri}#location`,
+            type: { '@id': 'Point' },
+            lat: data.location.lat,
+            long: data.location.long,
+          },
+          offeredBy: { '@id': personId } as HospexProfile,
+        },
       })
-
-      updateDocumentMutation.mutateAsync({
-        uri: personalHospexDocument,
-        patch: query`
+      await updateMutation.mutateAsync({
+        uri: hospexDocument,
+        patch: `
           _:mutate a <${solid.InsertDeletePatch}>;
-            <${solid.inserts}> { <${webId}> <${hospex.offers}> <${data.id}>. }.
+            <${solid.inserts}> { <${personId}> <${hospex.offers}> <${id}>. }.
         `,
       })
     },
-    [createDocumentMutation, updateDocumentMutation],
+    [createAccommodationMutation, updateMutation],
   )
-
-  return createAccommodation
 }

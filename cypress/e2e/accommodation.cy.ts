@@ -51,7 +51,8 @@ describe('accommodations offered by person', () => {
   })
 
   it('[other person] should be able to see accommodations of person') // not sure about this
-  it('[me] should be able to see accommodations i offer', () => {
+
+  it('[me] should be able to see accommodations offered by me', () => {
     cy.get('li[class^=MyOffers_accommodation]')
       .should('have.length', 3)
       .and('contain.text', 'accommodation 1')
