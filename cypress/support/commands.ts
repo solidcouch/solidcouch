@@ -46,6 +46,8 @@ import * as uuid from 'uuid'
 import { uiLogin } from './authentication'
 import { getAuthenticatedRequest, UserConfig } from './css-authentication'
 import {
+  AccommodationData,
+  addAccommodation,
   CommunityConfig,
   Profile,
   setProfileData,
@@ -72,7 +74,7 @@ declare global {
       authenticatedRequest(
         user: UserConfig,
         ...args: Parameters<typeof cy.request>
-      ): Chainable<any>
+      ): Chainable<Cypress.Response<any>>
       login(user: UserConfig): void
       setupCommunity(config: { community: string }): Chainable<CommunityConfig>
       setupPod(
@@ -88,7 +90,16 @@ declare global {
         },
       ): Cypress.Chainable<SetupConfig>
       setStorage(user: UserConfig): void
-      setProfileData(user, setup: SetupConfig, profile: Profile): void
+      setProfileData(
+        user: UserConfig,
+        setup: SetupConfig,
+        profile: Profile,
+      ): void
+      addAccommodation(
+        user: UserConfig,
+        setup: SetupConfig,
+        accommodation: AccommodationData,
+      ): void
     }
   }
 }
@@ -191,6 +202,7 @@ Cypress.Commands.add('setupCommunity', setupCommunity)
 Cypress.Commands.add('setupPod', setupPod)
 Cypress.Commands.add('setStorage', setStorage)
 Cypress.Commands.add('setProfileData', setProfileData)
+Cypress.Commands.add('addAccommodation', addAccommodation)
 
 /**
 Some code is copied from solidcryptpad repository
