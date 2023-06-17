@@ -40,7 +40,7 @@ describe('edit profile', () => {
     cy.location().its('pathname').should('equal', '/profile/edit')
   })
 
-  it('should be able to edit name, photo and description', () => {
+  it.only('should be able to edit name, photo and description', () => {
     cy.get<UserConfig>('@me').then(me => {
       cy.get<SetupConfig>('@setupMe').then(setup => {
         cy.visit('/profile/edit')

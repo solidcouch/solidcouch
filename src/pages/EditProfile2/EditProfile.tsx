@@ -1,9 +1,7 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { comunicaApi } from 'app/services/comunicaApi'
-import { ldoApi } from 'app/services/ldoApi'
 import { Button, Loading } from 'components'
 import { communityId } from 'config'
-import { useProfile } from 'hooks/data/useProfile'
+import { useCreateFile, useDeleteFile, useFile } from 'hooks/data/useFile'
+import { useProfile, useUpdateHospexProfile } from 'hooks/data/useProfile'
 import { useAuth } from 'hooks/useAuth'
 import { omit } from 'lodash'
 import { useEffect, useState } from 'react'
@@ -11,7 +9,7 @@ import { useForm } from 'react-hook-form'
 import { FaCamera } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { Person } from 'types'
-import { file2base64 } from 'utils/helpers'
+import { file2base64, getContainer } from 'utils/helpers'
 import { EditInterests } from './EditInterests'
 import styles from './EditProfile.module.scss'
 
@@ -19,18 +17,43 @@ export const EditProfile = () => {
   const auth = useAuth()
   const navigate = useNavigate()
 
-  const [profile] = useProfile(auth.webId as string, communityId)
+  const [profile, , hospexDocument] = useProfile(
+    auth.webId as string,
+    communityId,
+  )
 
-  const [saveHospexProfile] =
-    comunicaApi.endpoints.saveHospexProfile.useMutation()
+  const updateHospexProfile = useUpdateHospexProfile()
+  const deleteFile = useDeleteFile()
+  const createFile = useCreateFile()
 
-  const handleSaveProfile = async ({ photo, ...data }: PersonPayload) => {
+  const handleSaveProfile = async (data: PersonPayload) => {
     if (!auth.webId) throw new Error('Not signed in (should not happen)')
+    if (!hospexDocument) throw new Error('Hospex document not found')
 
-    await saveHospexProfile({
-      data: { id: auth.webId, photo: photo?.[0], ...data },
+    const photo = data.photo?.[0]
+    let photoUri: string | undefined
+    const previousPhoto = profile.photo
+
+    // create new photo if uploaded
+    if (photo)
+      photoUri = await createFile.mutateAsync({
+        uri: getContainer(hospexDocument),
+        data: photo,
+      })
+
+    // update profile
+    await updateHospexProfile({
+      hospexDocument,
+      personId: auth.webId,
+      data: { ...data, photo: photoUri },
       language: 'en',
-    }).unwrap()
+    })
+
+    // delete previous photo if changed
+    if (photo && previousPhoto) {
+      await deleteFile.mutateAsync({ uri: previousPhoto })
+    }
+
     navigate('..')
   }
 
@@ -71,9 +94,7 @@ const EditProfileForm = ({
       setValue('about', initialData.about)
   }, [initialData.about, setValue])
 
-  const { data: photo } = ldoApi.endpoints.readImage.useQuery(
-    initialData.photo || skipToken,
-  )
+  const { data: photo } = useFile(initialData.photo)
 
   const handleFormSubmit = handleSubmit(async data => {
     await onSubmit(data)
