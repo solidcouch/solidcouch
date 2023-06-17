@@ -1,5 +1,5 @@
-import { interestApi } from 'app/services/interestApi'
 import classNames from 'classnames'
+import { useReadInterest } from 'hooks/data/useInterests'
 import { merge } from 'lodash'
 import { URI } from 'types'
 import styles from './Interests.module.scss'
@@ -28,7 +28,7 @@ export const Interests = ({
 }
 
 const Interest = ({ id, highlighted }: { id: URI; highlighted?: boolean }) => {
-  const { data } = interestApi.endpoints.readInterest.useQuery({ id })
+  const { data } = useReadInterest(id)
 
   const temporaryData = {
     id,

@@ -35,11 +35,14 @@ export const useRdfQuery = <
   query: Q,
   params: Params,
 ) => {
-  const [, ldoResults, combinedQueryResults] = useRdfQueryData(query, params)
+  const [dataset, ldoResults, combinedQueryResults] = useRdfQueryData(
+    query,
+    params,
+  )
 
   return useMemo(
-    () => [ldoResults as ResultsOf<Q>, combinedQueryResults] as const,
-    [combinedQueryResults, ldoResults],
+    () => [ldoResults as ResultsOf<Q>, combinedQueryResults, dataset] as const,
+    [combinedQueryResults, dataset, ldoResults],
   )
 }
 

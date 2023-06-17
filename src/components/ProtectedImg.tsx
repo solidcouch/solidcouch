@@ -1,11 +1,7 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query/react'
-import { ldoApi } from 'app/services/ldoApi'
+import { useFile } from 'hooks/data/useFile'
 import { ImgHTMLAttributes } from 'react'
 
 export const ProtectedImg = (props: ImgHTMLAttributes<HTMLImageElement>) => {
-  const { data: src } = ldoApi.endpoints.readImage.useQuery(
-    props.src ?? skipToken,
-  )
-
-  return <img {...props} src={src} alt={props.alt ?? ''} />
+  const { data: image } = useFile(props.src)
+  return image ? <img {...props} src={image} alt={props.alt ?? ''} /> : null
 }

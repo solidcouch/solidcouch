@@ -1,0 +1,381 @@
+{
+  "searchinfo": { "search": "wild boar" },
+  "search": [
+    {
+      "id": "Q58697",
+      "title": "Q58697",
+      "pageid": 61514,
+      "display": {
+        "label": { "value": "Sus scrofa", "language": "en" },
+        "description": {
+          "value": "omnivore species of mammal",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q58697",
+      "concepturi": "http://www.wikidata.org/entity/Q58697",
+      "label": "Sus scrofa",
+      "description": "omnivore species of mammal",
+      "match": { "type": "alias", "language": "en", "text": "wild boar" },
+      "aliases": ["wild boar"]
+    },
+    {
+      "id": "Q15896091",
+      "title": "Q15896091",
+      "pageid": 17522171,
+      "display": {
+        "label": { "value": "Sus scrofa scrofa", "language": "en" },
+        "description": { "value": "subspecies of mammal", "language": "en" }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q15896091",
+      "concepturi": "http://www.wikidata.org/entity/Q15896091",
+      "label": "Sus scrofa scrofa",
+      "description": "subspecies of mammal",
+      "match": { "type": "alias", "language": "en", "text": "wild boar" },
+      "aliases": ["wild boar"]
+    },
+    {
+      "id": "Q98754963",
+      "title": "Q98754963",
+      "pageid": 96951193,
+      "display": {
+        "label": { "value": "Wild Boar", "language": "en" },
+        "description": { "value": "name of welsh wrestler", "language": "en" }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q98754963",
+      "concepturi": "http://www.wikidata.org/entity/Q98754963",
+      "label": "Wild Boar",
+      "description": "name of welsh wrestler",
+      "match": { "type": "label", "language": "en", "text": "Wild Boar" }
+    },
+    {
+      "id": "Q113488842",
+      "title": "Q113488842",
+      "pageid": 108263689,
+      "display": {
+        "label": { "value": "boar", "language": "en" },
+        "description": {
+          "value": "fictional monster from Dungeons & Dragons",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q113488842",
+      "concepturi": "http://www.wikidata.org/entity/Q113488842",
+      "label": "boar",
+      "description": "fictional monster from Dungeons & Dragons",
+      "match": { "type": "alias", "language": "en", "text": "wild boar" },
+      "aliases": ["wild boar"]
+    },
+    {
+      "id": "Q27212645",
+      "title": "Q27212645",
+      "pageid": 29039698,
+      "display": {
+        "label": { "value": "Wild Boar", "language": "en" },
+        "description": {
+          "value": "painting by Dame Elisabeth Frink",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q27212645",
+      "concepturi": "http://www.wikidata.org/entity/Q27212645",
+      "label": "Wild Boar",
+      "description": "painting by Dame Elisabeth Frink",
+      "match": { "type": "label", "language": "en", "text": "Wild Boar" }
+    },
+    {
+      "id": "Q16919794",
+      "title": "Q16919794",
+      "pageid": 18521975,
+      "display": {
+        "label": { "value": "Wild Boar", "language": "en" },
+        "description": {
+          "value": "2013 Dutch documentary directed by Willem Baptist",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q16919794",
+      "concepturi": "http://www.wikidata.org/entity/Q16919794",
+      "label": "Wild Boar",
+      "description": "2013 Dutch documentary directed by Willem Baptist",
+      "match": { "type": "label", "language": "en", "text": "Wild Boar" }
+    },
+    {
+      "id": "Q64571995",
+      "title": "Q64571995",
+      "pageid": 64260950,
+      "display": {
+        "label": { "value": "Wild Boar", "language": "en" },
+        "description": {
+          "value": "drawing in the National Gallery of Art (NGA 56639)",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q64571995",
+      "concepturi": "http://www.wikidata.org/entity/Q64571995",
+      "label": "Wild Boar",
+      "description": "drawing in the National Gallery of Art (NGA 56639)",
+      "match": { "type": "label", "language": "en", "text": "Wild Boar" }
+    },
+    {
+      "id": "Q26677713",
+      "title": "Q26677713",
+      "pageid": 28620042,
+      "display": {
+        "label": { "value": "Wild Boar", "language": "en" },
+        "description": {
+          "value": "sculpture by Elisabeth Frink",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q26677713",
+      "concepturi": "http://www.wikidata.org/entity/Q26677713",
+      "label": "Wild Boar",
+      "description": "sculpture by Elisabeth Frink",
+      "match": { "type": "label", "language": "en", "text": "Wild Boar" }
+    },
+    {
+      "id": "Q116447616",
+      "title": "Q116447616",
+      "pageid": 111207723,
+      "display": {
+        "label": { "value": "Wild boar", "language": "en" },
+        "description": {
+          "value": "sculpture by Paul Gruson in Berlin-Schmargendorf, Germany",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q116447616",
+      "concepturi": "http://www.wikidata.org/entity/Q116447616",
+      "label": "Wild boar",
+      "description": "sculpture by Paul Gruson in Berlin-Schmargendorf, Germany",
+      "match": { "type": "label", "language": "en", "text": "Wild boar" }
+    },
+    {
+      "id": "Q117832686",
+      "title": "Q117832686",
+      "pageid": 112563458,
+      "display": {
+        "label": { "value": "Wild boar", "language": "en" },
+        "description": {
+          "value": "sculpture by Karl Wenke in Gro\u00dfer Tiergarten in Berlin, Germany",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q117832686",
+      "concepturi": "http://www.wikidata.org/entity/Q117832686",
+      "label": "Wild boar",
+      "description": "sculpture by Karl Wenke in Gro\u00dfer Tiergarten in Berlin, Germany",
+      "match": { "type": "label", "language": "en", "text": "Wild boar" }
+    },
+    {
+      "id": "Q79471386",
+      "title": "Q79471386",
+      "pageid": 78910640,
+      "display": {
+        "label": { "value": "Wild Boar", "language": "en" },
+        "description": {
+          "value": "print by Thomas Browne Cornell (American, 1937-2012) (2016.155)",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q79471386",
+      "concepturi": "http://www.wikidata.org/entity/Q79471386",
+      "label": "Wild Boar",
+      "description": "print by Thomas Browne Cornell (American, 1937-2012) (2016.155)",
+      "match": { "type": "label", "language": "en", "text": "Wild Boar" }
+    },
+    {
+      "id": "Q117748201",
+      "title": "Q117748201",
+      "pageid": 112487241,
+      "display": {
+        "label": { "value": "Wild boar", "language": "en" },
+        "description": {
+          "value": "sculpture by Fritz Behn in Zoological Garden Berlin, Germany",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q117748201",
+      "concepturi": "http://www.wikidata.org/entity/Q117748201",
+      "label": "Wild boar",
+      "description": "sculpture by Fritz Behn in Zoological Garden Berlin, Germany",
+      "match": { "type": "label", "language": "en", "text": "Wild boar" }
+    },
+    {
+      "id": "Q79912175",
+      "title": "Q79912175",
+      "pageid": 79321921,
+      "display": {
+        "label": { "value": "Wild Boar", "language": "en" },
+        "description": {
+          "value": "sculpture by Anne Chapman (American) (1953.175)",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q79912175",
+      "concepturi": "http://www.wikidata.org/entity/Q79912175",
+      "label": "Wild Boar",
+      "description": "sculpture by Anne Chapman (American) (1953.175)",
+      "match": { "type": "label", "language": "en", "text": "Wild Boar" }
+    },
+    {
+      "id": "Q80015781",
+      "title": "Q80015781",
+      "pageid": 79424796,
+      "display": {
+        "label": { "value": "Wild Boar", "language": "en" },
+        "description": {
+          "value": "sculpture by Antoine-Louis Barye (French, 1796-1875) (1941.16)",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q80015781",
+      "concepturi": "http://www.wikidata.org/entity/Q80015781",
+      "label": "Wild Boar",
+      "description": "sculpture by Antoine-Louis Barye (French, 1796-1875) (1941.16)",
+      "match": { "type": "label", "language": "en", "text": "Wild Boar" }
+    },
+    {
+      "id": "Q1627899",
+      "title": "Q1627899",
+      "pageid": 1562330,
+      "display": {
+        "label": { "value": "wild boar hunting", "language": "en" },
+        "description": {
+          "value": "hunting activity, specifically for wild boar or feral pigs",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q1627899",
+      "concepturi": "http://www.wikidata.org/entity/Q1627899",
+      "label": "wild boar hunting",
+      "description": "hunting activity, specifically for wild boar or feral pigs",
+      "match": {
+        "type": "label",
+        "language": "en",
+        "text": "wild boar hunting"
+      }
+    },
+    {
+      "id": "Q11571934",
+      "title": "Q11571934",
+      "pageid": 12711866,
+      "display": {
+        "label": { "value": "wild boar meat", "language": "en" },
+        "description": { "value": "meat of wild boar", "language": "en" }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q11571934",
+      "concepturi": "http://www.wikidata.org/entity/Q11571934",
+      "label": "wild boar meat",
+      "description": "meat of wild boar",
+      "match": { "type": "label", "language": "en", "text": "wild boar meat" }
+    },
+    {
+      "id": "Q17342648",
+      "title": "Q17342648",
+      "pageid": 18939265,
+      "display": {
+        "label": {
+          "value": "Wild boar hunt in a rocky landscape",
+          "language": "en"
+        },
+        "description": {
+          "value": "painting by Roelant Savery",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q17342648",
+      "concepturi": "http://www.wikidata.org/entity/Q17342648",
+      "label": "Wild boar hunt in a rocky landscape",
+      "description": "painting by Roelant Savery",
+      "match": {
+        "type": "label",
+        "language": "en",
+        "text": "Wild boar hunt in a rocky landscape"
+      }
+    },
+    {
+      "id": "Q73225187",
+      "title": "Q73225187",
+      "pageid": 72874387,
+      "display": {
+        "label": { "value": "Crach an Craite", "language": "en" },
+        "description": {
+          "value": "fictional character from the Witcher series",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q73225187",
+      "concepturi": "http://www.wikidata.org/entity/Q73225187",
+      "label": "Crach an Craite",
+      "description": "fictional character from the Witcher series",
+      "match": {
+        "type": "alias",
+        "language": "en",
+        "text": "Wild Boar of the Sea"
+      },
+      "aliases": ["Wild Boar of the Sea"]
+    },
+    {
+      "id": "Q59720435",
+      "title": "Q59720435",
+      "pageid": 59613909,
+      "display": {
+        "label": { "value": "Wild Boar Hunting (Prado)", "language": "en" },
+        "description": {
+          "value": "painting by Frans Snyders",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q59720435",
+      "concepturi": "http://www.wikidata.org/entity/Q59720435",
+      "label": "Wild Boar Hunting (Prado)",
+      "description": "painting by Frans Snyders",
+      "match": {
+        "type": "label",
+        "language": "en",
+        "text": "Wild Boar Hunting (Prado)"
+      }
+    },
+    {
+      "id": "Q17275723",
+      "title": "Q17275723",
+      "pageid": 18872816,
+      "display": {
+        "label": { "value": "Wild boar hunt", "language": "en" },
+        "description": {
+          "value": "painting by Nicolaes Pieterszoon Berchem",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q17275723",
+      "concepturi": "http://www.wikidata.org/entity/Q17275723",
+      "label": "Wild boar hunt",
+      "description": "painting by Nicolaes Pieterszoon Berchem",
+      "match": { "type": "label", "language": "en", "text": "Wild boar hunt" }
+    }
+  ],
+  "search-continue": 20,
+  "success": 1
+}
