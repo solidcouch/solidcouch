@@ -11,8 +11,8 @@ import { FoafProfile, HospexProfile, SolidProfile } from 'ldo/app.typings'
 import { merge } from 'lodash'
 import { useCallback, useMemo } from 'react'
 import { Person, URI } from 'types'
-import { hospex } from 'utils/rdf-namespaces'
-import { useUpdateLdoDocument } from './useRdfDocument'
+import { foaf, hospex, solid } from 'utils/rdf-namespaces'
+import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
 import { useRdfQuery } from './useRdfQuery'
 
 const profileQuery = [
@@ -36,7 +36,7 @@ const profileQuery = [
 
 export const useProfile = (webId: URI, communityId: URI) => {
   const params = useMemo(() => ({ webId, communityId }), [communityId, webId])
-  const [results, queryStatus] = useRdfQuery(profileQuery, params)
+  const [results, queryStatus, dataset] = useRdfQuery(profileQuery, params)
 
   // keep the data from hospex document separate from generic foaf profile
   // can we generalize this pattern? (using only part of the fetched dataset)
@@ -75,7 +75,15 @@ export const useProfile = (webId: URI, communityId: URI) => {
     about,
     interests: mergedProfile.topicInterest?.map(i => i['@id']) ?? [],
   }
-  return [profile, queryStatus, hospexDocument] as const
+
+  const interestsWithDocuments = dataset
+    .filter(
+      quad =>
+        quad.subject.id === webId && quad.predicate.id === foaf.topic_interest,
+    )
+    .map(quad => ({ id: quad.object.id, document: quad.graph.id }))
+
+  return [profile, queryStatus, hospexDocument, interestsWithDocuments] as const
 }
 
 const solidProfileQuery = [
@@ -125,5 +133,51 @@ export const useUpdateHospexProfile = () => {
       })
     },
     [updateHospexProfileMutation],
+  )
+}
+
+export const useAddInterest = () => {
+  const updateMutation = useUpdateRdfDocument()
+  return useCallback(
+    async ({
+      person,
+      document: doc,
+      interest,
+    }: {
+      person: URI
+      document: URI
+      interest: URI
+    }) => {
+      const patch = `_:mutate a <${solid.InsertDeletePatch}>;
+        <${solid.inserts}> { <${person}> <${foaf.topic_interest}> <${interest}>. } .`
+      await updateMutation.mutateAsync({
+        uri: doc,
+        patch,
+      })
+    },
+    [updateMutation],
+  )
+}
+
+export const useRemoveInterest = () => {
+  const updateMutation = useUpdateRdfDocument()
+  return useCallback(
+    async ({
+      person,
+      document: doc,
+      interest,
+    }: {
+      person: URI
+      document: URI
+      interest: URI
+    }) => {
+      const patch = `_:mutate a <${solid.InsertDeletePatch}>;
+        <${solid.deletes}> { <${person}> <${foaf.topic_interest}> <${interest}>. } .`
+      await updateMutation.mutateAsync({
+        uri: doc,
+        patch,
+      })
+    },
+    [updateMutation],
   )
 }
