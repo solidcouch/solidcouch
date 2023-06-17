@@ -1,8 +1,12 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { comunicaApi } from 'app/services/comunicaApi'
-import { interestApi } from 'app/services/interestApi'
 import { Loading } from 'components'
 import styles from 'components/Interests/Interests.module.scss'
+import { communityId } from 'config'
+import { useReadInterest, useSearchInterests } from 'hooks/data/useInterests'
+import {
+  useAddInterest,
+  useProfile,
+  useRemoveInterest,
+} from 'hooks/data/useProfile'
 import { debounce, merge } from 'lodash'
 import { useCallback, useMemo, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
@@ -11,21 +15,17 @@ import * as types from 'types'
 import { URI } from 'types'
 
 export const EditInterests = ({ webId }: { webId: URI }) => {
-  const { data: interests } =
-    comunicaApi.endpoints.readInterestsWithDocuments.useQuery({ person: webId })
+  const [, queryStatus, , interests] = useProfile(webId, communityId)
 
   const [query, setQuery] = useState('')
 
-  const { data: options, ...optionsStatus } =
-    interestApi.endpoints.searchInterests.useQuery(
-      query ? { query } : skipToken,
-    )
+  const { data: options, ...optionsStatus } = useSearchInterests(query)
 
-  const [removeInterest] = comunicaApi.endpoints.removeInterest.useMutation()
-  const [addInterest] = comunicaApi.endpoints.addInterest.useMutation()
+  const removeInterest = useRemoveInterest()
+  const addInterest = useAddInterest()
 
   const handleRemove = async ({ id, document }: { id: URI; document: URI }) => {
-    await removeInterest({ id, document, person: webId }).unwrap()
+    await removeInterest({ interest: id, document, person: webId })
   }
 
   const debouncedSetQuery = useMemo(() => debounce(setQuery, 500), [])
@@ -37,11 +37,15 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
 
   const handleSelect = async (interest: types.Interest | null) => {
     if (interest) {
-      await addInterest({ id: interest.id, person: webId })
+      await addInterest({
+        interest: interest.id,
+        person: webId,
+        document: webId,
+      })
     }
   }
 
-  if (!interests) return <Loading>loading interests</Loading>
+  if (queryStatus.isLoading) return <Loading>loading interests</Loading>
 
   return (
     <div>
@@ -77,13 +81,9 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
 }
 
 const Interest = ({ id, onRemove }: { id: URI; onRemove: () => void }) => {
-  const { data } = interestApi.endpoints.readInterest.useQuery({ id })
+  const { data } = useReadInterest(id)
 
-  const temporaryData = {
-    id,
-    label: id.split('/').pop(),
-    description: id,
-  }
+  const temporaryData = { id, label: id.split('/').pop(), description: id }
 
   const thing = merge({}, temporaryData, data)
 

@@ -1,0 +1,352 @@
+{
+  "searchinfo": { "search": "badger" },
+  "search": [
+    {
+      "id": "Q27066",
+      "title": "Q27066",
+      "pageid": 30481,
+      "display": {
+        "label": { "value": "European badger", "language": "en" },
+        "description": { "value": "species of carnivorans", "language": "en" }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q27066",
+      "concepturi": "http://www.wikidata.org/entity/Q27066",
+      "label": "European badger",
+      "description": "species of carnivorans",
+      "match": { "type": "alias", "language": "en", "text": "badger" },
+      "aliases": ["badger"]
+    },
+    {
+      "id": "Q638105",
+      "title": "Q638105",
+      "pageid": 600349,
+      "display": {
+        "label": { "value": "badger", "language": "en" },
+        "description": {
+          "value": "short-legged omnivore in the families Mustelidae and Mephitidae",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q638105",
+      "concepturi": "http://www.wikidata.org/entity/Q638105",
+      "label": "badger",
+      "description": "short-legged omnivore in the families Mustelidae and Mephitidae",
+      "match": { "type": "label", "language": "en", "text": "badger" }
+    },
+    {
+      "id": "Q192779",
+      "title": "Q192779",
+      "pageid": 190913,
+      "display": {
+        "label": { "value": "Tupolev Tu-16", "language": "en" },
+        "description": {
+          "value": "bomber aircraft family by Tupolev",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q192779",
+      "concepturi": "http://www.wikidata.org/entity/Q192779",
+      "label": "Tupolev Tu-16",
+      "description": "bomber aircraft family by Tupolev",
+      "match": { "type": "alias", "language": "en", "text": "Badger" },
+      "aliases": ["Badger"]
+    },
+    {
+      "id": "Q2055351",
+      "title": "Q2055351",
+      "pageid": 1982780,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": {
+          "value": "human settlement in Webster County, Iowa, United States of America",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q2055351",
+      "concepturi": "http://www.wikidata.org/entity/Q2055351",
+      "label": "Badger",
+      "description": "human settlement in Webster County, Iowa, United States of America",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q798996",
+      "title": "Q798996",
+      "pageid": 751928,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": {
+          "value": "city in Roseau County, Minnesota, United States",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q798996",
+      "concepturi": "http://www.wikidata.org/entity/Q798996",
+      "label": "Badger",
+      "description": "city in Roseau County, Minnesota, United States",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q1521659",
+      "title": "Q1521659",
+      "pageid": 1458770,
+      "display": {
+        "label": { "value": "Patria AMV", "language": "en" },
+        "description": {
+          "value": "armored personnel carrier",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q1521659",
+      "concepturi": "http://www.wikidata.org/entity/Q1521659",
+      "label": "Patria AMV",
+      "description": "armored personnel carrier",
+      "match": { "type": "alias", "language": "en", "text": "Badger" },
+      "aliases": ["Badger"]
+    },
+    {
+      "id": "Q16479693",
+      "title": "Q16479693",
+      "pageid": 18102225,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": { "value": "family name", "language": "en" }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q16479693",
+      "concepturi": "http://www.wikidata.org/entity/Q16479693",
+      "label": "Badger",
+      "description": "family name",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q3184555",
+      "title": "Q3184555",
+      "pageid": 3041661,
+      "display": {
+        "label": { "value": "Joseph Badger", "language": "en" },
+        "description": {
+          "value": "American artist (1707-1765)",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q3184555",
+      "concepturi": "http://www.wikidata.org/entity/Q3184555",
+      "label": "Joseph Badger",
+      "description": "American artist (1707-1765)",
+      "match": { "type": "alias", "language": "en", "text": "Badger" },
+      "aliases": ["Badger"]
+    },
+    {
+      "id": "Q2343147",
+      "title": "Q2343147",
+      "pageid": 2263736,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": {
+          "value": "town in South Dakota, United States of America",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q2343147",
+      "concepturi": "http://www.wikidata.org/entity/Q2343147",
+      "label": "Badger",
+      "description": "town in South Dakota, United States of America",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q8239616",
+      "title": "Q8239616",
+      "pageid": 8193982,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": {
+          "value": "census-designated place in Fairbanks North Star Borough, Alaska, United States of America",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q8239616",
+      "concepturi": "http://www.wikidata.org/entity/Q8239616",
+      "label": "Badger",
+      "description": "census-designated place in Fairbanks North Star Borough, Alaska, United States of America",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q3811347",
+      "title": "Q3811347",
+      "pageid": 3634856,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": {
+          "value": "village in the United Kingdom",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q3811347",
+      "concepturi": "http://www.wikidata.org/entity/Q3811347",
+      "label": "Badger",
+      "description": "village in the United Kingdom",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q583955",
+      "title": "Q583955",
+      "pageid": 549372,
+      "display": {
+        "label": { "value": "23164 Badger", "language": "en" },
+        "description": { "value": "asteroid", "language": "en" }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q583955",
+      "concepturi": "http://www.wikidata.org/entity/Q583955",
+      "label": "23164 Badger",
+      "description": "asteroid",
+      "match": { "type": "alias", "language": "en", "text": "Badger" },
+      "aliases": ["Badger"]
+    },
+    {
+      "id": "Q1537",
+      "title": "Q1537",
+      "pageid": 1998,
+      "display": {
+        "label": { "value": "Wisconsin", "language": "en" },
+        "description": {
+          "value": "state of the United States of America",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q1537",
+      "concepturi": "http://www.wikidata.org/entity/Q1537",
+      "label": "Wisconsin",
+      "description": "state of the United States of America",
+      "match": { "type": "alias", "language": "en", "text": "Badger State" },
+      "aliases": ["Badger State"]
+    },
+    {
+      "id": "Q676461",
+      "title": "Q676461",
+      "pageid": 637218,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": { "value": "British rock band", "language": "en" }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q676461",
+      "concepturi": "http://www.wikidata.org/entity/Q676461",
+      "label": "Badger",
+      "description": "British rock band",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q798994",
+      "title": "Q798994",
+      "pageid": 751926,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": { "value": "town", "language": "en" }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q798994",
+      "concepturi": "http://www.wikidata.org/entity/Q798994",
+      "label": "Badger",
+      "description": "town",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q7393210",
+      "title": "Q7393210",
+      "pageid": 7302693,
+      "display": {
+        "label": { "value": "SS Badger", "language": "en" },
+        "description": {
+          "value": "passenger and vehicle ferry in the United States",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q7393210",
+      "concepturi": "http://www.wikidata.org/entity/Q7393210",
+      "label": "SS Badger",
+      "description": "passenger and vehicle ferry in the United States",
+      "match": { "type": "alias", "language": "en", "text": "Badger" },
+      "aliases": ["Badger"]
+    },
+    {
+      "id": "Q47493168",
+      "title": "Q47493168",
+      "pageid": 48536389,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": {
+          "value": "fictional criminal in the Firefly fictional setting",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q47493168",
+      "concepturi": "http://www.wikidata.org/entity/Q47493168",
+      "label": "Badger",
+      "description": "fictional criminal in the Firefly fictional setting",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q16170329",
+      "title": "Q16170329",
+      "pageid": 17795034,
+      "display": { "label": { "value": "Badger", "language": "en" } },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q16170329",
+      "concepturi": "http://www.wikidata.org/entity/Q16170329",
+      "label": "Badger",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q4840833",
+      "title": "Q4840833",
+      "pageid": 4626639,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": {
+          "value": "car company of Columbus, Wisconsin, United States,[1] was an automobile company founded in 1910.",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q4840833",
+      "concepturi": "http://www.wikidata.org/entity/Q4840833",
+      "label": "Badger",
+      "description": "car company of Columbus, Wisconsin, United States,[1] was an automobile company founded in 1910.",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    },
+    {
+      "id": "Q4840827",
+      "title": "Q4840827",
+      "pageid": 4626633,
+      "display": {
+        "label": { "value": "Badger", "language": "en" },
+        "description": {
+          "value": "unincorporated community in Washington",
+          "language": "en"
+        }
+      },
+      "repository": "wikidata",
+      "url": "//www.wikidata.org/wiki/Q4840827",
+      "concepturi": "http://www.wikidata.org/entity/Q4840827",
+      "label": "Badger",
+      "description": "unincorporated community in Washington",
+      "match": { "type": "label", "language": "en", "text": "Badger" }
+    }
+  ],
+  "search-continue": 20,
+  "success": 1
+}

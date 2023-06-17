@@ -1,5 +1,6 @@
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
+import { LanguageSet } from 'jsonld-dataset-proxy'
 import { createLdoDataset, languagesOf } from 'ldo'
 import {
   FoafProfileShapeType,
@@ -8,9 +9,10 @@ import {
 } from 'ldo/app.shapeTypes'
 import { FoafProfile, HospexProfile, SolidProfile } from 'ldo/app.typings'
 import { merge } from 'lodash'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Person, URI } from 'types'
-import { hospex } from 'utils/rdf-namespaces'
+import { foaf, hospex, solid } from 'utils/rdf-namespaces'
+import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
 import { useRdfQuery } from './useRdfQuery'
 
 const profileQuery = [
@@ -34,7 +36,7 @@ const profileQuery = [
 
 export const useProfile = (webId: URI, communityId: URI) => {
   const params = useMemo(() => ({ webId, communityId }), [communityId, webId])
-  const [results, queryStatus] = useRdfQuery(profileQuery, params)
+  const [results, queryStatus, dataset] = useRdfQuery(profileQuery, params)
 
   // keep the data from hospex document separate from generic foaf profile
   // can we generalize this pattern? (using only part of the fetched dataset)
@@ -49,17 +51,19 @@ export const useProfile = (webId: URI, communityId: URI) => {
       (queryStatus.data ?? [])
         .flatMap(a => a ?? [])
         .filter(a => hospexDocuments.includes(a.response.url))
-        .map(a =>
-          createLdoDataset(a.data ?? [])
+        .map(a => ({
+          ldo: createLdoDataset(a.data ?? [])
             .usingType(HospexProfileShapeType)
             .fromSubject(webId),
-        )
-        .filter(a => a.memberOf['@id'] === communityId),
+          document: a.response.url,
+        }))
+        .filter(a => a.ldo.memberOf['@id'] === communityId),
     [communityId, hospexDocuments, queryStatus.data, webId],
   )
 
   const foafProfile = results.foafProfile[0] as FoafProfile | undefined
-  const hospexProfile = hospexLdos[0] ?? undefined
+  const hospexProfile = hospexLdos[0]?.ldo ?? undefined
+  const hospexDocument = hospexLdos[0]?.document ?? undefined
   const mergedProfile = merge({}, foafProfile, hospexProfile)
   const descriptionLanguages =
     hospexProfile && languagesOf(hospexProfile, 'note')
@@ -71,7 +75,15 @@ export const useProfile = (webId: URI, communityId: URI) => {
     about,
     interests: mergedProfile.topicInterest?.map(i => i['@id']) ?? [],
   }
-  return [profile, queryStatus] as const
+
+  const interestsWithDocuments = dataset
+    .filter(
+      quad =>
+        quad.subject.id === webId && quad.predicate.id === foaf.topic_interest,
+    )
+    .map(quad => ({ id: quad.object.id, document: quad.graph.id }))
+
+  return [profile, queryStatus, hospexDocument, interestsWithDocuments] as const
 }
 
 const solidProfileQuery = [
@@ -84,4 +96,88 @@ export const useSolidProfile = (me: URI) => {
   const params = useMemo(() => ({ me }), [me])
   const [results, queryStatus] = useRdfQuery(solidProfileQuery, params)
   return [results.profile[0] as SolidProfile | undefined, queryStatus] as const
+}
+
+export const useUpdateHospexProfile = () => {
+  const updateHospexProfileMutation = useUpdateLdoDocument(
+    HospexProfileShapeType,
+  )
+
+  return useCallback(
+    async ({
+      personId,
+      hospexDocument,
+      data,
+      language = 'en',
+    }: {
+      personId: URI
+      hospexDocument: URI
+      data: Partial<Pick<Person, 'name' | 'photo' | 'about'>>
+      language: string
+    }) => {
+      await updateHospexProfileMutation.mutateAsync({
+        uri: hospexDocument,
+        subject: personId,
+        transform: person => {
+          if (data.name) person.name = data.name
+          if (data.about) {
+            const aboutLanguages = languagesOf(person, 'note')
+            aboutLanguages[language] ??= new Set() as LanguageSet
+            aboutLanguages[language]!.clear()
+            aboutLanguages[language]!.add(data.about)
+          }
+          if (data.photo) {
+            person.hasPhoto = { '@id': data.photo }
+          }
+        },
+      })
+    },
+    [updateHospexProfileMutation],
+  )
+}
+
+export const useAddInterest = () => {
+  const updateMutation = useUpdateRdfDocument()
+  return useCallback(
+    async ({
+      person,
+      document: doc,
+      interest,
+    }: {
+      person: URI
+      document: URI
+      interest: URI
+    }) => {
+      const patch = `_:mutate a <${solid.InsertDeletePatch}>;
+        <${solid.inserts}> { <${person}> <${foaf.topic_interest}> <${interest}>. } .`
+      await updateMutation.mutateAsync({
+        uri: doc,
+        patch,
+      })
+    },
+    [updateMutation],
+  )
+}
+
+export const useRemoveInterest = () => {
+  const updateMutation = useUpdateRdfDocument()
+  return useCallback(
+    async ({
+      person,
+      document: doc,
+      interest,
+    }: {
+      person: URI
+      document: URI
+      interest: URI
+    }) => {
+      const patch = `_:mutate a <${solid.InsertDeletePatch}>;
+        <${solid.deletes}> { <${person}> <${foaf.topic_interest}> <${interest}>. } .`
+      await updateMutation.mutateAsync({
+        uri: doc,
+        patch,
+      })
+    },
+    [updateMutation],
+  )
 }
