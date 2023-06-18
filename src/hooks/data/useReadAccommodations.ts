@@ -8,7 +8,7 @@ import { Accommodation, URI } from 'types'
 import { hospex } from 'utils/rdf-namespaces'
 import { useRdfQuery } from './useRdfQuery'
 
-const myAccommodationsQuery = [
+export const myAccommodationsQuery = [
   ['?personId', (a: URI) => a, '?profile', SolidProfileShapeType],
   ['?profile', 'seeAlso', '?profileDocument'],
   ['?profileDocument'],
@@ -45,10 +45,14 @@ export const useReadAccommodations = (
       const descriptionLanguages = a && languagesOf(a, 'description')
       const description =
         descriptionLanguages?.[language]?.values().next().value ?? ''
+      // TODO this is an inconsistency fix
+      // https://github.com/o-development/ldo/issues/22#issuecomment-1590228592
+      const lat = [a.location.lat].flat()[0] ?? 0
+      const long = [a.location.long].flat()[0] ?? 0
       return {
         id: a['@id'] ?? '',
         description,
-        location: { lat: a.location.lat, long: a.location.long },
+        location: { lat, long },
         offeredBy: a.offeredBy?.['@id'] ?? '',
       }
     })

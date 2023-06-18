@@ -17,7 +17,7 @@ export const EditProfile = () => {
   const auth = useAuth()
   const navigate = useNavigate()
 
-  const [profile, , hospexDocument] = useProfile(
+  const [, , hospexDocument, , hospexProfile] = useProfile(
     auth.webId as string,
     communityId,
   )
@@ -32,7 +32,7 @@ export const EditProfile = () => {
 
     const photo = data.photo?.[0]
     let photoUri: string | undefined
-    const previousPhoto = profile.photo
+    const previousPhoto = hospexProfile.photo
 
     // create new photo if uploaded
     if (photo)
@@ -59,11 +59,14 @@ export const EditProfile = () => {
 
   if (!auth.webId) throw new Error('Not signed in (should not happen)')
 
-  if (!profile) return <Loading>Fetching profile</Loading>
+  if (!hospexProfile) return <Loading>Fetching profile</Loading>
 
   return (
     <div className={styles.container}>
-      <EditProfileForm initialData={profile} onSubmit={handleSaveProfile} />
+      <EditProfileForm
+        initialData={hospexProfile}
+        onSubmit={handleSaveProfile}
+      />
       <label>Interests</label>
       <EditInterests webId={auth.webId} />
     </div>

@@ -319,28 +319,41 @@ export type AccommodationData = {
   location: [number, number]
 }
 
+export type AccommodationConfig = {
+  id: string
+  doc: string
+} & AccommodationData
+
 export const addAccommodation = (
   user: UserConfig,
   setup: SetupConfig,
   accommodation: AccommodationData,
 ) => {
-  cy.authenticatedRequest(user, {
-    url: setup.hospexContainer,
-    method: 'POST',
-    headers: { 'content-type': 'text/turtle' },
-    body: accommodationTurtle({ user, accommodation }),
-  }).then(response => {
-    const location = response.headers.location as string
-    cy.authenticatedRequest(user, {
-      url: setup.hospexProfile,
-      method: 'PATCH',
-      headers: { 'content-type': 'text/n3' },
-      body: `@prefix hospex: <http://w3id.org/hospex/ns#>.
+  return cy
+    .authenticatedRequest(user, {
+      url: setup.hospexContainer,
+      method: 'POST',
+      headers: { 'content-type': 'text/turtle' },
+      body: accommodationTurtle({ user, accommodation }),
+    })
+    .then(response => {
+      const location = response.headers.location as string
+      cy.authenticatedRequest(user, {
+        url: setup.hospexProfile,
+        method: 'PATCH',
+        headers: { 'content-type': 'text/n3' },
+        body: `@prefix hospex: <http://w3id.org/hospex/ns#>.
     _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
       <${user.webId}> hospex:offers <${location}#accommodation>.
     }.`,
+      })
+
+      return cy.wrap({
+        ...accommodation,
+        id: `${location}#accommodation`,
+        doc: location,
+      } as AccommodationConfig)
     })
-  })
 }
 
 const accommodationTurtle = ({

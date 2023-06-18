@@ -75,6 +75,13 @@ export const useProfile = (webId: URI, communityId: URI) => {
     interests: mergedProfile.topicInterest?.map(i => i['@id']) ?? [],
   }
 
+  const hospexProfileFormatted: Person | undefined = hospexProfile && {
+    id: webId,
+    name: hospexProfile.name ?? '',
+    photo: hospexProfile.hasPhoto?.['@id'],
+    about: hospexProfile.note?.[0],
+  }
+
   const interestsWithDocuments = dataset
     .filter(
       quad =>
@@ -82,7 +89,13 @@ export const useProfile = (webId: URI, communityId: URI) => {
     )
     .map(quad => ({ id: quad.object.id, document: quad.graph.id }))
 
-  return [profile, queryStatus, hospexDocument, interestsWithDocuments] as const
+  return [
+    profile,
+    queryStatus,
+    hospexDocument,
+    interestsWithDocuments,
+    hospexProfileFormatted,
+  ] as const
 }
 
 const solidProfileQuery = [

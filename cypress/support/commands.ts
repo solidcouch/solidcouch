@@ -46,6 +46,7 @@ import * as uuid from 'uuid'
 import { uiLogin } from './authentication'
 import { getAuthenticatedRequest, UserConfig } from './css-authentication'
 import {
+  AccommodationConfig,
   AccommodationData,
   addAccommodation,
   CommunityConfig,
@@ -99,7 +100,7 @@ declare global {
         user: UserConfig,
         setup: SetupConfig,
         accommodation: AccommodationData,
-      ): void
+      ): Cypress.Chainable<AccommodationConfig>
     }
   }
 }
