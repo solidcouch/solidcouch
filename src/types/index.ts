@@ -1,3 +1,5 @@
+import { Overwrite } from 'utility-types'
+
 export type URI = string
 
 export type Location = {
@@ -11,6 +13,11 @@ export interface Accommodation {
   location: Location
   offeredBy: URI
 }
+
+export type AccommodationExtended = Overwrite<
+  Accommodation,
+  { offeredBy: Person }
+>
 
 export type Community = {
   id: URI

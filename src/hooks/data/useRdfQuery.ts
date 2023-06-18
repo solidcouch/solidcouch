@@ -34,10 +34,12 @@ export const useRdfQuery = <
 >(
   query: Q,
   params: Params,
+  language = 'en',
 ) => {
   const [dataset, ldoResults, combinedQueryResults] = useRdfQueryData(
     query,
     params,
+    language,
   )
 
   return useMemo(
@@ -49,6 +51,7 @@ export const useRdfQuery = <
 export const useRdfQueryData = <Params extends { [key: string]: URI | string }>(
   query: Query<Params>,
   params: Params,
+  language: string,
 ) => {
   const [resources, setResources] = useState<URI[]>([])
 
@@ -61,17 +64,17 @@ export const useRdfQueryData = <Params extends { [key: string]: URI | string }>(
   }, [results])
 
   useEffect(() => {
-    const [, newResources] = getPartialResults(query, dataset, params)
+    const [, newResources] = getPartialResults(query, dataset, params, language)
     setResources(oldResources => {
       const diff = difference(Array.from(newResources), oldResources)
       return diff.length > 0 ? Array.from(newResources) : oldResources
     })
-  }, [dataset, params, query])
+  }, [dataset, language, params, query])
 
   const ldoDict2 = useMemo(() => {
-    const [partialResults] = getPartialResults(query, dataset, params)
+    const [partialResults] = getPartialResults(query, dataset, params, language)
     return partialResults
-  }, [dataset, params, query])
+  }, [dataset, language, params, query])
 
   const combinedResults = useMemo(() => {
     const mergedResults = results.reduce((result, current) => {
@@ -110,6 +113,7 @@ const getPartialResults = <Params extends { [key: string]: URI | string }>(
   query: Query<Params>,
   dataset: Quad[],
   params: Params,
+  language: string,
 ): [{ [key: string]: LdoBase[] }, Set<URI>] => {
   const ldoDataset = createLdoDataset(dataset)
   const partialResults: { [key: string]: LdoBase[] } = {}
@@ -140,7 +144,10 @@ const getPartialResults = <Params extends { [key: string]: URI | string }>(
       const toName = to.slice(1)
 
       const ldos = subjects.map(subject =>
-        ldoDataset.usingType(shapeType).fromSubject(fn(subject)),
+        ldoDataset
+          .usingType(shapeType)
+          .setLanguagePreferences(language)
+          .fromSubject(fn(subject)),
       )
       partialResults[toName] = uniqBy(
         (partialResults[toName] ?? []).concat(ldos),
