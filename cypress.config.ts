@@ -4,9 +4,9 @@ import { defineConfig } from 'cypress'
 export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:3000',
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
+    // setupNodeEvents(on, config) {
+    //   // implement node event listeners here
+    // },
     defaultCommandTimeout: 10000,
     // set mobile viewport as default, because we make mobile-first interface
     // this is screen size of iPhone 11, apparently a popular phone
@@ -16,4 +16,6 @@ export default defineConfig({
   env: {
     cssUrl: 'http://localhost:4000',
   },
+  screenshotOnRunFailure: false,
+  video: false,
 })
