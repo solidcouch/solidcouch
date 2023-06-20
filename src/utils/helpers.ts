@@ -31,6 +31,25 @@ export const getContainer = (uri: URI): URI => {
   return url.toString()
 }
 
+/**
+ * Get container which is a parent container of current resource or container
+ */
+export const getParent = (uri: URI): URI => {
+  const container = getContainer(uri)
+  return container === uri ? getParentContainer(container) : container
+}
+
+export const getAllParents = (uri: URI) => generateIteratively(uri, getParent)
+
+/**
+ * Return parent container of a container
+ *
+ * @example
+ * https://example.com/asdf/ghjk/ -> https://example.com/asdf/
+ * https://example.com/asdf/ -> https://example.com/
+ * https://example.com/ -> https://example.com/
+ *
+ */
 export const getParentContainer = (uri: URI): URI => {
   const url = new URL(uri)
   if (url.pathname.length === 0 || url.pathname === '/') return uri
@@ -62,4 +81,29 @@ export const https = (uri: URI): URI => {
   const url = new URL(uri)
   url.protocol = 'https'
   return url.toString()
+}
+
+/**
+ * Finds repeated values in a sequence generated based on a starting value and a generator function.
+ * Result don't include the starting value
+ *
+ * @template T - The type of values in the sequence.
+ * @param {T} initialValue - The initial value to start the sequence.
+ * @param {(prevValue: T) => T} generateNextValue - A function that generates the next value based on the previous value.
+ * @returns {T[]} - An array containing the found values until the first repeated value.
+ */
+export const generateIteratively = <T>(
+  initialValue: T,
+  generateNextValue: (prevValue: T) => T,
+): T[] => {
+  const seen = new Set<T>()
+  let value: T = initialValue
+
+  while (!seen.has(value)) {
+    seen.add(value)
+    value = generateNextValue(value)
+  }
+
+  seen.delete(initialValue)
+  return Array.from(seen)
 }

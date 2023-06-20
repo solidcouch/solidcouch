@@ -1,6 +1,7 @@
 import { QueryEngine as TraversalQueryEngine } from '@comunica/query-sparql-link-traversal/lib/index-browser'
 import { QueryEngine } from '@comunica/query-sparql/lib/index-browser'
 import { fetch } from '@inrupt/solid-client-authn-browser'
+import dayjs from 'dayjs'
 import { mergeWith, uniq } from 'lodash'
 import { DataFactory, Quad } from 'n3'
 import { Message, Thread, URI } from 'types'
@@ -507,12 +508,7 @@ export const createMessage = async ({
 
   const container = getContainer(chat)
 
-  const date = new Date()
-  const year = date.getFullYear().toString().padStart(4, '0')
-  const month = (date.getMonth() + 1).toString().padStart(2, '0')
-  const day = date.getDate().toString().padStart(2, '0')
-
-  const chatFile = `${container}${year}/${month}/${day}/chat.ttl`
+  const chatFile = `${container}${dayjs().format('YYYY/MM/DD')}/chat.ttl`
   const id = `${chatFile}#msg-${uuid.v4()}`
   const msgNode = namedNode(id)
 

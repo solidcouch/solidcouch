@@ -76,6 +76,13 @@ export const useRdfQueryData = <Params extends { [key: string]: URI | string }>(
     return partialResults
   }, [dataset, language, params, query])
 
+  // catch the time between new resources are discovered, and start fetching
+  const isWorking = useMemo(() => {
+    const [, newResources] = getPartialResults(query, dataset, params, language)
+    const diff = difference(Array.from(newResources), resources)
+    return diff.length > 0
+  }, [dataset, language, params, query, resources])
+
   const combinedResults = useMemo(() => {
     const mergedResults = results.reduce((result, current) => {
       for (const prop in current) {
@@ -99,11 +106,13 @@ export const useRdfQueryData = <Params extends { [key: string]: URI | string }>(
         }
       }
 
+      result.isLoading ||= isWorking
+
       result.isSuccess = current.isSuccess && result.isSuccess
       return result
     }, {} as CombinedResults<typeof results>)
     return mergedResults
-  }, [results])
+  }, [isWorking, results])
 
   // return the dataset
   return [dataset, ldoDict2, combinedResults, results] as const

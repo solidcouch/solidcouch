@@ -89,6 +89,7 @@ const inboxMessagesQuery = [
   ['?notification', 'object', '?message'],
   ['?notification', 'target', '?chat'],
   ['?message'],
+  ['?chat'],
 ] as const
 
 export const useReadMessagesFromInbox = (webId: URI) => {
@@ -96,6 +97,7 @@ export const useReadMessagesFromInbox = (webId: URI) => {
     inboxMessagesQuery,
     { me: webId },
   )
+
   const messages: Message[] = useMemo(
     () =>
       partialResults.notification.map(notification => ({
@@ -104,6 +106,9 @@ export const useReadMessagesFromInbox = (webId: URI) => {
         createdAt: new Date(notification.object?.created).getTime(),
         from: notification.object.maker?.['@id'],
         chat: notification.target['@id'] ?? '',
+        otherChats: notification.target.participation?.flatMap(
+          p => p.references?.flatMap(r => r['@id'] ?? []) ?? [],
+        ),
         notification: notification['@id'],
         status: 'unread',
       })),

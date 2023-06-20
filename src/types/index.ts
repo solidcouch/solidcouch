@@ -43,6 +43,7 @@ export type Message = {
   status?: 'unread'
   notification?: URI
   chat: URI
+  otherChats?: URI[]
 }
 
 export type Thread = {
