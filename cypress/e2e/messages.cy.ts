@@ -155,10 +155,6 @@ describe('messages with other person', () => {
     cy.get<UserConfig>('@me').then(me => {
       cy.get<UserConfig>('@otherPerson').then(otherPerson => {
         cy.login(me)
-        cy.visit(`/messages/${encodeURIComponent(otherPerson.webId)}`)
-        cy.get('textarea[name=message]').type(
-          'This is a first message{enter}with second line',
-        )
         cy.get<SetupConfig>('@otherPersonSetup').then(otherPersonSetup => {
           cy.intercept('POST', otherPersonSetup.inbox).as('createNotification')
         })
@@ -175,7 +171,9 @@ describe('messages with other person', () => {
             `${meSetup.hospexContainer}**/${getDate()}/chat.ttl`,
           ).as('createTodayChat')
         })
-        cy.contains('button', 'Send').click()
+
+        writeMessage(otherPerson, 'This is a first message')
+
         cy.wait('@createNotification')
           .its('response.statusCode')
           .should('equal', 201)
