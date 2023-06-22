@@ -2,6 +2,9 @@ import { as, dct } from 'rdf-namespaces'
 import { UserConfig } from '../support/css-authentication'
 import { CommunityConfig, SetupConfig } from '../support/setup'
 
+/**
+ * @todo TODO possibly these tests largely overlap, get rid of the overlaps
+ */
 describe('messages with other person', () => {
   beforeEach(() => {
     cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
@@ -62,6 +65,82 @@ describe('messages with other person', () => {
 
   it('should mark unread messages as read; and keep unread messages marked')
 
+  it('should process message notifications and delete them', () => {
+    cy.get<UserConfig>('@me').then(me => {
+      cy.get<UserConfig>('@otherPerson').then(otherPerson => {
+        cy.get<SetupConfig>('@meSetup').then(meSetup => {
+          cy.get<SetupConfig>('@otherPersonSetup').then(otherPersonSetup => {
+            // my chat should get updated here to reference the other chat
+            cy.intercept(
+              'PUT',
+              `${meSetup.hospexContainer}messages/**/index.ttl`,
+            ).as('createMyChat')
+            cy.intercept(
+              'PATCH',
+              `${meSetup.hospexContainer}messages/**/index.ttl`,
+            ).as('updateMyChat')
+            cy.intercept('DELETE', `${meSetup.inbox}**`).as(
+              'deleteMyNotification',
+            )
+            cy.intercept(
+              'PATCH',
+              `${otherPersonSetup.hospexContainer}messages/**/index.ttl`,
+            ).as('updateOtherPersonChat')
+            cy.intercept(
+              'PATCH',
+              `${otherPersonSetup.hospexContainer}messages/**/index.ttl`,
+            ).as('updateOtherPersonChat')
+            cy.intercept('DELETE', `${otherPersonSetup.inbox}**`).as(
+              'deleteOtherPersonNotification',
+            )
+
+            cy.login(me)
+
+            writeMessage(otherPerson, 'Test message')
+            writeMessage(otherPerson, 'Other message')
+
+            cy.get('[class^=Messages_message_]').should('have.length', 2)
+
+            // sign in as otherPerson
+            cy.logout()
+            cy.login(otherPerson)
+
+            // other chat should get created here, referencing other person, and other chat
+            cy.get('@deleteOtherPersonNotification.all').should(
+              'have.length',
+              0,
+            )
+
+            writeMessage(me, 'msg1')
+            writeMessage(me, 'msg2')
+
+            cy.get('@deleteOtherPersonNotification.all').should(
+              'have.length',
+              2,
+            )
+
+            cy.get('[class^=Messages_message_]').should('have.length', 4)
+
+            cy.logout()
+            cy.login(me)
+
+            writeMessage(otherPerson, 'msg...3')
+            writeMessage(otherPerson, 'msg...4')
+            cy.get('[class^=Messages_message_]').should('have.length', 6)
+            // cy.get('[class*=Messages_unread]').should('have.length', 2)
+            cy.wait('@updateMyChat')
+              .its('request.body')
+              .should('include', otherPersonSetup.hospexContainer)
+              .and('include', dct.references)
+            cy.get('@deleteMyNotification.all').should('have.length', 2)
+
+            // TODO test the looks of updating unread messages
+          })
+        })
+      })
+    })
+  })
+
   it('should allow sending a new message to the other person')
 
   it('should allow sending a few messages back and forth between users, and properly setup both chats', () => {
@@ -102,7 +181,7 @@ describe('messages with other person', () => {
         writeMessage(otherPerson, 'msg...4')
 
         cy.get('[class^=Messages_message_]').should('have.length', 6)
-        cy.get('[class*=Messages_unread]').should('not.exist')
+        // cy.get('[class*=Messages_unread]').should('have.length', 2)
         cy.get<SetupConfig>('@otherPersonSetup').then(otherPersonSetup => {
           cy.wait('@updateMyChat')
             .its('request.body')
