@@ -45,7 +45,8 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
     }
   }
 
-  if (queryStatus.isLoading) return <Loading>loading interests</Loading>
+  if (queryStatus.isLoading || queryStatus.isLoading === undefined)
+    return <Loading>loading interests</Loading>
 
   return (
     <div>

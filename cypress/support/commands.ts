@@ -43,18 +43,18 @@
 // ***********************************************
 
 import * as uuid from 'uuid'
-import { uiLogin } from './authentication'
-import { getAuthenticatedRequest, UserConfig } from './css-authentication'
+import { uiLogin, uiLogout } from './authentication'
+import { UserConfig, getAuthenticatedRequest } from './css-authentication'
 import {
   AccommodationConfig,
   AccommodationData,
-  addAccommodation,
   CommunityConfig,
   Profile,
+  SetupConfig,
+  addAccommodation,
   setProfileData,
   setStorage,
   setupCommunity,
-  SetupConfig,
   setupPod,
 } from './setup'
 
@@ -77,6 +77,7 @@ declare global {
         ...args: Parameters<typeof cy.request>
       ): Chainable<Cypress.Response<any>>
       login(user: UserConfig): void
+      logout(): void
       setupCommunity(config: { community: string }): Chainable<CommunityConfig>
       setupPod(
         user: UserConfig,
@@ -199,6 +200,7 @@ Cypress.Commands.add(
 )
 
 Cypress.Commands.add('login', uiLogin)
+Cypress.Commands.add('logout', uiLogout)
 Cypress.Commands.add('setupCommunity', setupCommunity)
 Cypress.Commands.add('setupPod', setupPod)
 Cypress.Commands.add('setStorage', setStorage)

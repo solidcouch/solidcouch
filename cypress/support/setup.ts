@@ -1,4 +1,12 @@
-import { dct, foaf, schema_https, solid, space, vcard } from 'rdf-namespaces'
+import {
+  dct,
+  foaf,
+  ldp,
+  schema_https,
+  solid,
+  space,
+  vcard,
+} from 'rdf-namespaces'
 import { UserConfig } from './css-authentication'
 
 export type CommunityConfig = { community: string; group: string }
@@ -7,6 +15,7 @@ export type SetupConfig = {
   privateTypeIndex: string
   hospexContainer: string
   hospexProfile: string
+  inbox: string
 }
 
 export const setupCommunity = ({
@@ -131,6 +140,7 @@ export const setupPod = (
       | 'publicTypeIndex'
       | 'privateTypeIndex'
       | 'joinCommunity'
+      | 'inbox'
     )[]
   },
 ) => {
@@ -138,6 +148,48 @@ export const setupPod = (
   const privateTypeIndexUri = `${user.podUrl}settings/privateTypeIndex.ttl`
   const hospexContainer = `${user.podUrl}hospex/test-community/`
   const hospexDocument = hospexContainer + 'card'
+  const inboxUri = `${user.podUrl}inbox/`
+
+  // create inbox
+  if (!options?.skip.includes('inbox')) {
+    cy.authenticatedRequest(user, {
+      url: inboxUri,
+      method: 'PUT',
+      headers: {
+        Link: '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"',
+        'content-type': 'text/turtle',
+      },
+    })
+    cy.authenticatedRequest(user, {
+      url: inboxUri + '.acl',
+      method: 'PUT',
+      headers: { 'content-type': 'text/turtle' },
+      body: `
+      @prefix acl: <http://www.w3.org/ns/auth/acl#>.
+
+      <#Append>
+        a acl:Authorization;
+        acl:agentClass acl:AuthenticatedAgent;
+        acl:accessTo <./>;
+        acl:default <./>;
+        acl:mode acl:Append.
+      <#ControlReadWrite>
+        a acl:Authorization;
+        acl:agent <${user.webId}>;
+        acl:accessTo <./>;
+        acl:default <./>;
+        acl:mode acl:Control, acl:Read, acl:Write.`,
+    })
+    cy.authenticatedRequest(user, {
+      url: user.webId,
+      method: 'PATCH',
+      headers: { 'content-type': 'text/n3' },
+      body: `
+      _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+        <${user.webId}> <${ldp.inbox}> <${inboxUri}>.
+      }.`,
+    })
+  }
   // create public type index
   if (!options?.skip.includes('publicTypeIndex')) {
     cy.authenticatedRequest(user, {
@@ -272,6 +324,7 @@ export const setupPod = (
     privateTypeIndex: privateTypeIndexUri,
     hospexContainer,
     hospexProfile: hospexDocument,
+    inbox: inboxUri,
   } as SetupConfig)
 }
 

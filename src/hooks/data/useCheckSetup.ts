@@ -59,6 +59,8 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
   const privateTypeIndexes = results.privateTypeIndex.flatMap(
     index => index['@id'] ?? [],
   )
+  const inboxes = results.profile.flatMap(p => p.inbox?.['@id'] ?? [])
+
   const isHospexProfile =
     results.hospexProfile.length > 0
       ? true
@@ -84,5 +86,6 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     personalHospexDocuments,
     publicTypeIndexes,
     privateTypeIndexes,
+    inboxes,
   } as const
 }

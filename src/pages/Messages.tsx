@@ -1,7 +1,15 @@
-import { comunicaApi } from 'app/services/comunicaApi'
 import classNames from 'classnames'
 import { Button, Loading } from 'components'
 import { PersonBadge } from 'components/PersonBadge/PersonBadge'
+import { communityId } from 'config'
+import { useCheckSetup } from 'hooks/data/useCheckSetup'
+import {
+  useCreateChat,
+  useCreateMessage,
+  useCreateMessageNotification,
+  useProcessNotification,
+} from 'hooks/data/useCreateMessage'
+import { useSolidProfile } from 'hooks/data/useProfile'
 import { useReadMessages } from 'hooks/data/useReadMessages'
 import { useAuth } from 'hooks/useAuth'
 import { produce } from 'immer'
@@ -9,6 +17,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { URI } from 'types'
+import { getContainer } from 'utils/helpers'
 import styles from './Messages.module.scss'
 
 export const Messages = () => {
@@ -17,14 +26,29 @@ export const Messages = () => {
 
   const [isSaving, setIsSaving] = useState(false)
 
-  const [messages, fetchingStatus] = useReadMessages({
-    me: auth.webId ?? '',
-    userId: personId,
-  })
+  const [messages, fetchingStatus, notificationsFetchingStatus, chats] =
+    useReadMessages({
+      me: auth.webId ?? '',
+      userId: personId,
+    })
 
-  const [createMessage] = comunicaApi.endpoints.createMessage.useMutation()
-  const [processNotification] =
-    comunicaApi.endpoints.processNotification.useMutation()
+  const {
+    privateTypeIndexes,
+    personalHospexDocuments,
+    // inboxes: [myInbox],
+  } = useCheckSetup(auth.webId ?? '', communityId)
+
+  const [otherPersonSetup] = useSolidProfile(personId)
+  const otherInbox = otherPersonSetup?.inbox?.['@id']
+
+  const createMessage2 = useCreateMessage()
+  const createMessageNotification = useCreateMessageNotification()
+  const createChat = useCreateChat()
+
+  const processNotification = useProcessNotification()
+
+  // const [processNotification] =
+  //   comunicaApi.endpoints.processNotification.useMutation()
 
   // keep status of notification processing in a dict
   // key will be message uri
@@ -38,7 +62,7 @@ export const Messages = () => {
 
   useEffect(() => {
     ;(async () => {
-      if (messages && auth.webId) {
+      if (messages && auth.webId && chats[0]?.myChat) {
         for (const message of messages) {
           if (
             message.notification && // there is a notification to process
@@ -52,11 +76,17 @@ export const Messages = () => {
               }),
             )
             try {
+              // await processNotification({
+              //   id: message.notification,
+              //   me: auth.webId,
+              //   other: personId,
+              // }).unwrap()
               await processNotification({
-                id: message.notification,
-                me: auth.webId,
-                other: personId,
-              }).unwrap()
+                notificationId: message.notification,
+                chat: chats[0].myChat,
+                otherChat: message.chat,
+                otherPerson: personId,
+              })
               setNotificationStatuses(
                 produce(draft => {
                   draft[message.id] = 'processed'
@@ -75,29 +105,72 @@ export const Messages = () => {
     })()
   }, [
     auth.webId,
+    chats,
     messages,
     notificationStatuses,
     personId,
     processNotification,
   ])
 
+  const otherChatFromNotifications = messages
+    .filter(msg => msg.notification)
+    .find(msg => !!msg.chat)?.chat
+
   const { register, handleSubmit, reset } = useForm<{ message: string }>()
 
   const handleFormSubmit = handleSubmit(async data => {
     if (!auth.webId) throw new Error('No authenticated user available')
     setIsSaving(true)
-    await createMessage({
+    if (!otherInbox)
+      throw new Error('Inbox of the other person not found (probably too soon)')
+
+    let chat: string | undefined = chats[0]?.myChat
+
+    if (!chat) {
+      if (!personalHospexDocuments[0])
+        throw new Error('Hospex not set up (should not happen)')
+      if (!privateTypeIndexes[0])
+        throw new Error('Private type index not set up (should not happen)')
+      ;({ chatId: chat } = await createChat({
+        me: auth.webId,
+        otherPerson: personId,
+        hospexContainer: getContainer(personalHospexDocuments[0]),
+        otherChat:
+          chats[0]?.otherChats?.[0] ?? otherChatFromNotifications ?? undefined,
+        privateTypeIndex: privateTypeIndexes[0],
+      }))
+    }
+
+    const { messageId, createdAt } = await createMessage2({
       senderId: auth.webId,
-      receiverId: personId,
       message: data.message,
-    }).unwrap()
+      chat,
+    })
+    await createMessageNotification({
+      inbox: otherInbox,
+      senderId: auth.webId,
+      messageId,
+      chatId: chat,
+      updated: createdAt,
+    })
+
     reset({ message: '' })
     setIsSaving(false)
   })
 
+  const isFormDisabled = isSaving || !otherInbox
+
+  const isInitialConversation =
+    !fetchingStatus.isLoading &&
+    !notificationsFetchingStatus.isLoading &&
+    !chats.some(ch => !!ch.myChat)
+
   return (
     <div>
-      <pre>{fetchingStatus.isLoading && 'Loading'}</pre>
+      <pre>
+        {(fetchingStatus.isLoading || notificationsFetchingStatus.isLoading) &&
+          'Loading'}
+      </pre>
       Messages with <PersonBadge webId={personId} link />
       <div className={styles.messages}>
         {messages?.map(({ id, message, from, createdAt, status }) => (
@@ -126,10 +199,16 @@ export const Messages = () => {
           </div>
         )}
       </div>
+      {isInitialConversation && (
+        <>
+          This is a start of your conversation{' '}
+          <Button secondary>Ignore (not implemented)</Button>
+        </>
+      )}
       <form onSubmit={handleFormSubmit} className={styles.messageForm}>
-        <fieldset disabled={isSaving}>
+        <fieldset disabled={isFormDisabled}>
           <textarea {...register('message', { required: true })} />
-          <Button primary type="submit" disabled={isSaving}>
+          <Button primary type="submit" disabled={isFormDisabled}>
             Send
           </Button>
         </fieldset>

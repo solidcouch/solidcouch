@@ -58,7 +58,23 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
     ) ?? []
   ).filter(a => Boolean(a)) as Message[]
 
-  const { data: allMessagesFromInbox } = useReadMessagesFromInbox(me)
+  const myChats = useMemo(
+    () =>
+      results.chat.flatMap(ch =>
+        ch['@id']
+          ? {
+              myChat: ch['@id'],
+              otherChats: (
+                ch as ChatShape
+              ).participation?.[0].references?.flatMap(och => och['@id'] ?? []),
+            }
+          : [],
+      ),
+    [results.chat],
+  )
+
+  const { data: allMessagesFromInbox, ...notificationsQueryStatus } =
+    useReadMessagesFromInbox(me)
 
   const messagesFromInbox = useMemo(
     () => allMessagesFromInbox.filter(msg => msg.from === userId),
@@ -85,5 +101,10 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
     return combined.sort((a, b) => (a?.createdAt ?? 0) - (b?.createdAt ?? 0))
   }, [messages, messagesFromInbox])
 
-  return [combinedMessages, queryStatus] as const
+  return [
+    combinedMessages,
+    queryStatus,
+    notificationsQueryStatus,
+    myChats,
+  ] as const
 }
