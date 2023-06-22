@@ -231,7 +231,7 @@ export const useDeleteRdfDocument = () => {
     },
     onSuccess: (data, variables) => {
       const uri = removeHashFromURI(variables.uri)
-      // parent folder uri gets changed, too
+      // when stuff is deleted, containing folder is also changed
       queryClient.invalidateQueries(['rdfDocument', uri])
       queryClient.invalidateQueries(['rdfDocument', getParent(uri)])
     },

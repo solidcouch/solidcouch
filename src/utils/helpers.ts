@@ -84,8 +84,8 @@ export const https = (uri: URI): URI => {
 }
 
 /**
- * Finds repeated values in a sequence generated based on a starting value and a generator function.
- * Result don't include the starting value
+ * Find repeated values in a sequence generated based on a starting value and a generator function.
+ * List of results doesn't include the starting value
  *
  * @template T - The type of values in the sequence.
  * @param {T} initialValue - The initial value to start the sequence.

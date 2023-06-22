@@ -52,6 +52,10 @@ describe('messages with other person', () => {
     })
   })
 
+  /**
+   * Send a message to a specified person with cypress
+   * It sends a message through UI and waits until it is displayed
+   */
   const writeMessage = (person: UserConfig, message: string) => {
     const path = `/messages/${encodeURIComponent(person.webId)}`
     cy.location().then(location => {
@@ -83,9 +87,9 @@ describe('messages with other person', () => {
               'deleteMyNotification',
             )
             cy.intercept(
-              'PATCH',
+              'PUT',
               `${otherPersonSetup.hospexContainer}messages/**/index.ttl`,
-            ).as('updateOtherPersonChat')
+            ).as('createOtherPersonChat')
             cy.intercept(
               'PATCH',
               `${otherPersonSetup.hospexContainer}messages/**/index.ttl`,
@@ -230,6 +234,8 @@ describe('messages with other person', () => {
     })
   })
 
+  it('should be able to ignore received messages', () => {})
+
   it('should allow starting a new conversation', () => {
     cy.get<UserConfig>('@me').then(me => {
       cy.get<UserConfig>('@otherPerson').then(otherPerson => {
@@ -278,22 +284,15 @@ describe('messages with other person', () => {
   })
 })
 
-/**
- * Duplicate helper to convert http to https uri
- * copied from src/utils/helpers.ts
- */
-const https = (uri: string): string => {
-  const url = new URL(uri)
-  url.protocol = 'https'
-  return url.toString()
-}
-
 describe('threads (list of conversations)', () => {
   it('should show list of active conversations with different people')
   it('should show new conversations which were started by other person')
   it('should show new conversations which were started by me')
 })
 
+/**
+ * Generate current date in YYYY/MM/DD format
+ */
 const getDate = () => {
   // Get the current date
   const currentDate = new Date()
@@ -303,6 +302,15 @@ const getDate = () => {
   const month = String(currentDate.getMonth() + 1).padStart(2, '0')
   const day = String(currentDate.getDate()).padStart(2, '0')
 
-  // Create the date string in YYYY/MM/DD format
   return `${year}/${month}/${day}`
+}
+
+/**
+ * Duplicate helper to convert http to https uri
+ * copied from src/utils/helpers.ts
+ */
+const https = (uri: string): string => {
+  const url = new URL(uri)
+  url.protocol = 'https'
+  return url.toString()
 }
