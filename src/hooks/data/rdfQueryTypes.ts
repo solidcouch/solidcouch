@@ -18,10 +18,10 @@ export type CombinedResults<Results> = Results extends (infer Result)[]
     : never
   : never
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type StartsWith<
   Key,
   Prep extends string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 > = Key extends `${Prep}${infer T}` ? Key : never
 
 type ResultOf<Query, K extends string> = Query extends readonly (infer Path)[]

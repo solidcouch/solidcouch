@@ -30,6 +30,7 @@ import { toN3Patch } from 'utils/ldo'
 /**
  * wrapper around react-query to fetch a single rdf document
  */
+// eslint-disable-next-line import/no-unused-modules
 export const useRdfDocument = (uri: URI) => {
   const doc = uri ? removeHashFromURI(uri) : uri
   const queryKey = useMemo(() => ['rdfDocument', doc], [doc])

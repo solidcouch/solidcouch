@@ -64,19 +64,6 @@ export const getAuthenticatedRequest = (user: UserConfig) => {
 }
 
 /**
- * creates an authenticated fetch with credentials from user
- */
-export const getAuthenticatedFetch = (
-  user: UserConfig,
-): Cypress.Chainable<(typeof window)['fetch']> => {
-  return getAuthenticationToken(user).then(async ({ accessToken, dpopKey }) => {
-    return buildAuthenticatedFetch(window.fetch, accessToken, {
-      dpopKey,
-    })
-  })
-}
-
-/**
  * this is used to get the valid authentication headers from buildAuthenticatedFetch
  *
  * pretends to be a normal fetch
@@ -126,7 +113,7 @@ const getAuthenticationCredentials = (user: UserConfig) => {
     })
 }
 
-export const getAuthenticationToken = (user: UserConfig) => {
+const getAuthenticationToken = (user: UserConfig) => {
   return getAuthenticationCredentials(user).then(
     async ({ id, secret, dpopKey }) => {
       const authString = `${encodeURIComponent(id)}:${encodeURIComponent(

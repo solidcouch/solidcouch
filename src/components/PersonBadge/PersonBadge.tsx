@@ -1,5 +1,5 @@
 import { ldoApi } from 'app/services/ldoApi'
-import { Avatar } from 'components/Avatar/Avatar'
+import { Avatar } from 'components'
 import { Link } from 'react-router-dom'
 import { URI } from 'types'
 import styles from './PersonBadge.module.scss'

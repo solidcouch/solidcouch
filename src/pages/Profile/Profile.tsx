@@ -1,9 +1,9 @@
-import { ButtonLink, Interests, Loading } from 'components'
+import { ButtonLink, ExternalIconLink, Interests, Loading } from 'components'
 import { ProtectedImg } from 'components/ProtectedImg'
 import { communityId } from 'config'
 import { useProfile } from 'hooks/data/useProfile'
 import { useAuth } from 'hooks/useAuth'
-import { FaExternalLinkAlt, FaPencilAlt } from 'react-icons/fa'
+import { FaPencilAlt } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import { ManageContact } from './ManageContact'
 import styles from './Profile.module.scss'
@@ -20,10 +20,7 @@ export const Profile = () => {
     <div className={styles.container}>
       <ProtectedImg className={styles.photo} src={profile.photo} alt="" />
       <header className={styles.name}>
-        {profile.name}{' '}
-        <a href={personId} target="_blank" rel="noopener noreferrer">
-          <FaExternalLinkAlt />
-        </a>
+        {profile.name} <ExternalIconLink href={personId} />
       </header>
       <section className={styles.about}>{profile.about}</section>
       {isMe && (

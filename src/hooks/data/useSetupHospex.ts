@@ -89,7 +89,7 @@ export const useSetupHospex = () => {
   )
 }
 
-export const useSaveTypeRegistration = (isPrivate = false) => {
+const useSaveTypeRegistration = (isPrivate = false) => {
   const updatePrivateMutation = useUpdateLdoDocument(PrivateTypeIndexShapeType)
   const updatePublicMutation = useUpdateLdoDocument(PublicTypeIndexShapeType)
   const updateMutation = isPrivate
@@ -142,7 +142,7 @@ export const useSaveTypeRegistration = (isPrivate = false) => {
   )
 }
 
-export const useCreatePrivateTypeIndex = () => {
+const useCreatePrivateTypeIndex = () => {
   const createMutation = useCreateRdfDocument(PrivateTypeIndexShapeType)
   const updateMutation = useUpdateRdfDocument()
 

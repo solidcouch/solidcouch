@@ -1,7 +1,7 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { URI } from 'types'
 
-export const fetchWithRedirect: typeof fetch = async (url, init) => {
+const fetchWithRedirect: typeof fetch = async (url, init) => {
   // first try to find final redirect
   const response = await globalThis.fetch(url, { method: 'GET' })
   // then fetch from this final redirect
@@ -92,7 +92,7 @@ export const https = (uri: URI): URI => {
  * @param {(prevValue: T) => T} generateNextValue - A function that generates the next value based on the previous value.
  * @returns {T[]} - An array containing the found values until the first repeated value.
  */
-export const generateIteratively = <T>(
+const generateIteratively = <T>(
   initialValue: T,
   generateNextValue: (prevValue: T) => T,
 ): T[] => {

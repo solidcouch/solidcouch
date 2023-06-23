@@ -48,7 +48,7 @@ export const useRdfQuery = <
   )
 }
 
-export const useRdfQueryData = <Params extends { [key: string]: URI | string }>(
+const useRdfQueryData = <Params extends { [key: string]: URI | string }>(
   query: Query<Params>,
   params: Params,
   language: string,

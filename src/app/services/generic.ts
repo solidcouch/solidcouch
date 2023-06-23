@@ -1,7 +1,7 @@
 import { QueryEngine } from '@comunica/query-sparql/lib/index-browser'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import * as config from 'config'
-import n3 from 'n3'
+import { Parser } from 'n3'
 import { URI } from 'types'
 import { fullFetch, getContainer } from 'utils/helpers'
 import { hospex, rdf, rdfs, sioc, solid } from 'utils/rdf-namespaces'
@@ -92,7 +92,7 @@ const getSeeAlso = async ({
   })
   const text = await response.text()
   // parse the turtle
-  const parser = new n3.Parser({ format: 'text/turtle' })
+  const parser = new Parser({ format: 'text/turtle' })
   const results = parser.parse(text)
   return results
     .filter(

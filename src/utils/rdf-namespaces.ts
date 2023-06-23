@@ -1,3 +1,6 @@
+/* eslint-disable import/export */
+// not sure how to resolve errors resulting from this eslint rule
+// it's because we overwrite exports from rdf-namespaces here
 import * as ns from 'rdf-namespaces'
 import { https } from './helpers'
 export * from 'rdf-namespaces'

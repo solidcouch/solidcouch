@@ -2,7 +2,6 @@ import { Dataset } from '@rdfjs/types'
 import { transactionChanges } from 'ldo'
 import { datasetToString } from 'ldo/dist/datasetConverters'
 import { LdoBase } from 'ldo/dist/util'
-import N3 from 'n3'
 import { solid } from 'utils/rdf-namespaces'
 
 // stringifying objects with circular reference, according to MDN:
@@ -22,18 +21,6 @@ const getCircularReplacer = () => {
 
 export const ldo2json = <T>(ldo: T): T =>
   JSON.parse(JSON.stringify(ldo, getCircularReplacer()))
-
-export const rdf2n3 = (raw: string, baseIRI?: string): Promise<N3.Quad[]> => {
-  return new Promise((resolve, reject) => {
-    const quads: N3.Quad[] = []
-    const parser = new N3.Parser({ baseIRI })
-    parser.parse(raw, (error, quad) => {
-      if (error) return reject(error)
-      if (quad) quads.push(quad)
-      else return resolve(quads)
-    })
-  })
-}
 
 export async function toN3Patch(ldo: LdoBase): Promise<string> {
   const changes = transactionChanges(ldo)

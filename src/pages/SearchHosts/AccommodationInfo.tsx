@@ -1,5 +1,4 @@
-import { ButtonLink } from 'components'
-import { Avatar } from 'components/Avatar/Avatar'
+import { Avatar, ButtonLink } from 'components'
 import { useReadAccommodation } from 'hooks/data/useReadAccommodation'
 import { useAuth } from 'hooks/useAuth'
 import { Link } from 'react-router-dom'
