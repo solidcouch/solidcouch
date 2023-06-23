@@ -34,7 +34,7 @@ const threadsQuery = [
   ['?otherChat', 'message', '?message'],
 ] as const
 
-export const useReadThreadsOnly = (webId: URI) => {
+const useReadThreadsOnly = (webId: URI) => {
   const [ldoResults, queryResults] = useRdfQuery(threadsQuery, { me: webId })
 
   const threads: Thread[] = useMemo(

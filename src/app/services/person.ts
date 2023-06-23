@@ -1,5 +1,5 @@
 import { mergeWith } from 'lodash'
-import n3 from 'n3'
+import { DataFactory, Parser, Quad } from 'n3'
 import { foaf, vcard } from 'rdf-namespaces'
 import { Person, URI } from 'types'
 import { Overwrite } from 'utility-types'
@@ -7,7 +7,7 @@ import { fullFetch, getContainer } from 'utils/helpers'
 import { createFile, deleteFile, getHospexDocuments } from './generic'
 import { query } from './helpers'
 
-const { quad, namedNode, literal } = n3.DataFactory
+const { quad, namedNode, literal } = DataFactory
 
 export const readHospexProfile = async ({
   id,
@@ -47,7 +47,7 @@ const readProfileFromDocument = async (
     await fullFetch(docUri, { headers: { accept: 'text/turtle' } })
   ).text()
 
-  const parser = new n3.Parser({ format: 'text/turtle', baseIRI: docUri })
+  const parser = new Parser({ format: 'text/turtle', baseIRI: docUri })
   const quads = parser.parse(doc)
 
   // find name
@@ -101,12 +101,12 @@ const saveProfileToDocument = async (
   const doc = await (
     await fullFetch(document, { headers: { accept: 'text/turtle' } })
   ).text()
-  const parser = new n3.Parser({ format: 'text/turtle', baseIRI: document })
+  const parser = new Parser({ format: 'text/turtle', baseIRI: document })
   const quads = parser.parse(doc)
 
   // collect triples to remove and add
-  const triplesToRemove: n3.Quad[] = []
-  const triplesToAdd: n3.Quad[] = []
+  const triplesToRemove: Quad[] = []
+  const triplesToAdd: Quad[] = []
 
   // photo
   if (data.photo) {

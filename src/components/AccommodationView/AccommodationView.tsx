@@ -1,5 +1,4 @@
 import { tileServer } from 'config'
-import 'leaflet'
 import { LatLngTuple } from 'leaflet'
 import { useEffect, useMemo } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'

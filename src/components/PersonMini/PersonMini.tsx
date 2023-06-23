@@ -1,6 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { ldoApi } from 'app/services/ldoApi'
-import { Avatar } from 'components/Avatar/Avatar'
+import { Avatar } from 'components'
 import { URI } from 'types'
 
 export const PersonMini = ({

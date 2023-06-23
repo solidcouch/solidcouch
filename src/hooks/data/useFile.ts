@@ -28,6 +28,7 @@ export const useFile = (uri: URI = '') => {
 /**
  * wrapper around react-query to fetch multiple files as object urls
  */
+// eslint-disable-next-line import/no-unused-modules
 export const useFiles = (uris: URI[]) => {
   const params = useMemo(
     () => ({
@@ -64,7 +65,7 @@ const readFile = async (uri: URI) => {
  * @param data - file to save
  * @returns url of the newly created file
  */
-export const createFile = async (url: URI, data: File): Promise<URI> => {
+const createFile = async (url: URI, data: File): Promise<URI> => {
   const response = await fetch(url, { method: 'POST', body: data })
 
   // return location of the new file
@@ -82,7 +83,7 @@ export const createFile = async (url: URI, data: File): Promise<URI> => {
  * @param url - url to overwrite
  * @param data - file to save
  */
-export const updateFile = async (url: URI, data: File) => {
+const updateFile = async (url: URI, data: File) => {
   await fetch(url, { method: 'PUT', body: data })
 }
 
@@ -91,7 +92,7 @@ export const updateFile = async (url: URI, data: File) => {
  *
  * @param url
  */
-export const deleteFile = async (url: URI) => {
+const deleteFile = async (url: URI) => {
   await fetch(url, { method: 'DELETE' })
 }
 
@@ -108,6 +109,7 @@ export const useCreateFile = () => {
   return mutation
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export const useUpdateFile = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({

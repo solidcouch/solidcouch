@@ -176,7 +176,7 @@ export const ignoreContact = async ({
 /**
  * Grant hospex folder access to a user
  */
-export const grantHospexAccess = async ({
+const grantHospexAccess = async ({
   me,
   accessFor,
 }: {

@@ -1,4 +1,4 @@
-import { Button } from 'components/Button/Button'
+import { Button } from 'components'
 import { SelectLocation } from 'components/SelectLocation'
 import { merge } from 'lodash'
 import styles from 'pages/MyOffers.module.scss'
