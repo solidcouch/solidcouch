@@ -51,6 +51,7 @@ import {
   CommunityConfig,
   Profile,
   SetupConfig,
+  SkipOptions,
   addAccommodation,
   setProfileData,
   setStorage,
@@ -83,12 +84,7 @@ declare global {
         user: UserConfig,
         community: CommunityConfig,
         options?: {
-          skip: (
-            | 'personalHospexDocument'
-            | 'publicTypeIndex'
-            | 'privateTypeIndex'
-            | 'joinCommunity'
-          )[]
+          skip: SkipOptions[]
         },
       ): Cypress.Chainable<SetupConfig>
       setStorage(user: UserConfig): void

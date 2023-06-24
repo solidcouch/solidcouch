@@ -47,9 +47,6 @@ export const Messages = () => {
 
   const processNotification = useProcessNotification()
 
-  // const [processNotification] =
-  //   comunicaApi.endpoints.processNotification.useMutation()
-
   // keep status of notification processing in a dict
   // key will be message uri
   const [notificationStatuses, setNotificationStatuses] = useState<{
@@ -76,11 +73,6 @@ export const Messages = () => {
               }),
             )
             try {
-              // await processNotification({
-              //   id: message.notification,
-              //   me: auth.webId,
-              //   other: personId,
-              // }).unwrap()
               await processNotification({
                 notificationId: message.notification,
                 chat: chats[0].myChat,

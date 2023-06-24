@@ -8,11 +8,12 @@ import { PrivateTypeIndex, PublicTypeIndex } from 'ldo/app.typings'
 import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
 import { useCallback } from 'react'
 import { URI } from 'types'
-import { getContainer } from 'utils/helpers'
-import { acl, foaf, hospex, solid } from 'utils/rdf-namespaces'
+import { getAcl, getContainer } from 'utils/helpers'
+import { acl, foaf, hospex, ldp, solid } from 'utils/rdf-namespaces'
 import * as uuid from 'uuid'
 import { useReadCommunity } from './useCommunity'
 import {
+  useCreateRdfContainer,
   useCreateRdfDocument,
   useUpdateLdoDocument,
   useUpdateRdfDocument,
@@ -21,17 +22,20 @@ import {
 export type SetupTask =
   | 'createPublicTypeIndex'
   | 'createPrivateTypeIndex'
+  | 'createInbox'
   | 'createHospexProfile'
 export type SetupSettings = {
   person: URI
   publicTypeIndex: URI
   privateTypeIndex: URI
+  inbox: URI
   hospexDocument: URI
 }
 
 export const useSetupHospex = () => {
   const createPrivateTypeIndex = useCreatePrivateTypeIndex()
   const createPublicTypeIndex = useCreatePublicTypeIndex()
+  const createInbox = useCreateInbox()
   const createHospexProfile = useCreateHospexProfile()
   const saveTypeRegistration = useSaveTypeRegistration()
 
@@ -44,6 +48,7 @@ export const useSetupHospex = () => {
         publicTypeIndex,
         privateTypeIndex,
         hospexDocument,
+        inbox,
       }: SetupSettings,
     ) => {
       // create personal hospex document at hospex/sleepy-bike/card folder
@@ -69,6 +74,14 @@ export const useSetupHospex = () => {
         })
       }
 
+      // create inbox
+      if (tasks.includes('createInbox')) {
+        await createInbox({
+          webId: person,
+          inbox,
+        })
+      }
+
       // save hospex datatype to public type index
       if (
         tasks.includes('createHospexProfile') ||
@@ -82,6 +95,7 @@ export const useSetupHospex = () => {
     },
     [
       createHospexProfile,
+      createInbox,
       createPrivateTypeIndex,
       createPublicTypeIndex,
       saveTypeRegistration,
@@ -89,7 +103,7 @@ export const useSetupHospex = () => {
   )
 }
 
-const useSaveTypeRegistration = (isPrivate = false) => {
+export const useSaveTypeRegistration = (isPrivate = false) => {
   const updatePrivateMutation = useUpdateLdoDocument(PrivateTypeIndexShapeType)
   const updatePublicMutation = useUpdateLdoDocument(PublicTypeIndexShapeType)
   const updateMutation = isPrivate
@@ -195,7 +209,7 @@ const useCreateHospexProfile = () => {
           storage2: { '@id': hospexStorage },
         },
       })
-      const aclUri = hospexStorage + '.acl'
+      const aclUri = await getAcl(hospexStorage)
       await createAclMutation.mutateAsync({
         uri: aclUri,
         data: [
@@ -241,17 +255,21 @@ const useCreatePublicTypeIndex = () => {
     }) => {
       await createIndexMutation.mutateAsync({
         uri: publicTypeIndex,
+        method: 'PUT',
         data: {
           '@id': publicTypeIndex,
           type: [{ '@id': 'TypeIndex' }, { '@id': 'ListedDocument' }],
         },
       })
 
+      const aclUri = await getAcl(publicTypeIndex)
+
       await createAclMutation.mutateAsync({
-        uri: publicTypeIndex + '.acl',
+        uri: aclUri,
+        method: 'PUT',
         data: [
           {
-            '@id': publicTypeIndex + '#owner',
+            '@id': aclUri + '#owner',
             type: { '@id': 'Authorization' },
             agent: [{ '@id': webId }],
             accessTo: [{ '@id': publicTypeIndex }],
@@ -262,7 +280,7 @@ const useCreatePublicTypeIndex = () => {
             ],
           },
           {
-            '@id': publicTypeIndex + '#public',
+            '@id': aclUri + '#public',
             type: { '@id': 'Authorization' },
             agentClass: [{ '@id': foaf.Agent }],
             accessTo: [{ '@id': publicTypeIndex }],
@@ -277,5 +295,52 @@ const useCreatePublicTypeIndex = () => {
       await updateMutation.mutateAsync({ uri: webId, patch })
     },
     [createAclMutation, createIndexMutation, updateMutation],
+  )
+}
+
+const useCreateInbox = () => {
+  const createContainerMutation = useCreateRdfContainer()
+  const createAclMutation = useCreateRdfDocument(AuthorizationShapeType)
+  const updateMutation = useUpdateRdfDocument()
+
+  return useCallback(
+    async ({ webId, inbox }: { webId: URI; inbox: URI }) => {
+      await createContainerMutation.mutateAsync({ uri: inbox })
+
+      // create ACL for inbox
+      const aclUri = await getAcl(inbox)
+      await createAclMutation.mutateAsync({
+        uri: aclUri,
+        data: [
+          {
+            '@id': aclUri + '#ControlReadWrite',
+            type: { '@id': 'Authorization' },
+            agent: [{ '@id': webId }],
+            accessTo: [{ '@id': inbox }],
+            default: { '@id': inbox },
+            mode: [
+              { '@id': acl.Read },
+              { '@id': acl.Write },
+              { '@id': acl.Control },
+            ],
+          },
+          {
+            '@id': aclUri + '#Append',
+            type: { '@id': 'Authorization' },
+            agentClass: [{ '@id': acl.AuthenticatedAgent }],
+            accessTo: [{ '@id': inbox }],
+            default: { '@id': inbox },
+            mode: [{ '@id': acl.Append }],
+          },
+        ],
+      })
+
+      // create private type index
+      await updateMutation.mutateAsync({
+        uri: webId,
+        patch: `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> { <${webId}> <${ldp.inbox}> <${inbox}>. }.`,
+      })
+    },
+    [createAclMutation, createContainerMutation, updateMutation],
   )
 }

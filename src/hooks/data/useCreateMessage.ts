@@ -1,24 +1,21 @@
-import { fetch } from '@inrupt/solid-client-authn-browser'
 import dayjs from 'dayjs'
 import {
   ChatShapeShapeType,
   MessageActivityShapeType,
-  PrivateTypeIndexShapeType,
 } from 'ldo/app.shapeTypes'
 import { ChatMessageShape, ChatShape } from 'ldo/app.typings'
 import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
-import parseLinkHeader from 'parse-link-header'
-import { publicTypeIndex } from 'rdf-namespaces/dist/solid'
 import { useCallback } from 'react'
 import { URI } from 'types'
-import { getContainer } from 'utils/helpers'
-import { acl, meeting } from 'utils/rdf-namespaces'
+import { getAcl, getContainer } from 'utils/helpers'
+import { acl } from 'utils/rdf-namespaces'
 import * as uuid from 'uuid'
 import {
   useCreateRdfDocument,
   useDeleteRdfDocument,
   useUpdateLdoDocument,
 } from './useRdfDocument'
+import { useSaveTypeRegistration } from './useSetupHospex'
 
 export const useCreateMessage = () => {
   const queryMutation = useUpdateLdoDocument(ChatShapeShapeType)
@@ -98,7 +95,8 @@ export const useCreateMessageNotification = () => {
 export const useCreateChat = () => {
   const createChatMutation = useCreateRdfDocument(ChatShapeShapeType)
   const createAclMutation = useCreateRdfDocument(AuthorizationShapeType)
-  const updatePrivateMutation = useUpdateLdoDocument(PrivateTypeIndexShapeType)
+  const updatePrivateIndex = useSaveTypeRegistration(true)
+
   return useCallback(
     async ({
       me,
@@ -144,12 +142,7 @@ export const useCreateChat = () => {
         },
       })
       // set permissions
-      const response = await fetch(chatContainer, { method: 'HEAD' })
-      const linkHeader = response.headers.get('link')
-      const links = parseLinkHeader(linkHeader)
-      const aclUri = links?.acl?.url
-      if (!aclUri)
-        throw new Error('We could not find WAC link for a given resource')
+      const aclUri = await getAcl(chatContainer)
 
       await createAclMutation.mutateAsync({
         uri: aclUri,
@@ -178,34 +171,15 @@ export const useCreateChat = () => {
       })
 
       // save to privateTypeIndex
-      await updatePrivateMutation.mutateAsync({
-        uri: privateTypeIndex,
-        subject: privateTypeIndex,
-        transform: ldo => {
-          // find or create type registration for LongChat
-          const typeRegistration = ldo.references?.find(registration =>
-            registration.forClass.some(
-              fc => fc['@id'] === meeting.LongChat || fc['@id'] === 'LongChat',
-            ),
-          )
-
-          if (typeRegistration) {
-            typeRegistration.instance ??= []
-            typeRegistration.instance.push({ '@id': chatId })
-          } else {
-            ldo.references ??= []
-            ldo.references.push({
-              '@id': publicTypeIndex + '#' + uuid.v4(),
-              type: { '@id': 'TypeRegistration' },
-              forClass: [{ '@id': 'LongChat' }],
-              instance: [{ '@id': chatId }],
-            })
-          }
-        },
+      await updatePrivateIndex({
+        index: privateTypeIndex,
+        type: 'LongChat',
+        location: chatId,
       })
+
       return { chatContainer, chatFile, chatId }
     },
-    [createAclMutation, createChatMutation, updatePrivateMutation],
+    [createAclMutation, createChatMutation, updatePrivateIndex],
   )
 }
 

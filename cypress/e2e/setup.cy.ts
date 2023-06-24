@@ -1,5 +1,5 @@
 import { UserConfig } from '../support/css-authentication'
-import { CommunityConfig } from '../support/setup'
+import { CommunityConfig, SkipOptions } from '../support/setup'
 
 const preparePod = () => {
   cy.createRandomAccount().as('user1')
@@ -8,7 +8,6 @@ const preparePod = () => {
 
 const resetPod = () => {}
 
-type SkipOptions = Parameters<typeof cy.setupPod>[2]['skip'][0]
 type SkipOptionsAndStorage = SkipOptions | 'storage'
 
 const setupPod =
@@ -63,6 +62,15 @@ describe('Setup Solid pod', () => {
     })
   })
 
+  context('inbox is missing', () => {
+    beforeEach(setupPod(['inbox']))
+    it('should create inbox with correct ACL', () => {
+      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.contains('button', 'Continue!').click()
+      cy.contains('a', 'travel')
+    })
+  })
+
   context('community not joined', () => {
     beforeEach(setupPod(['joinCommunity']))
     it('should join the community', () => {
@@ -92,6 +100,7 @@ describe('Setup Solid pod', () => {
         'joinCommunity',
         'publicTypeIndex',
         'privateTypeIndex',
+        'inbox',
       ]),
     )
     it('should set up everything', () => {

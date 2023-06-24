@@ -19,12 +19,7 @@ import { DataFactory, Parser, ParserOptions, Quad } from 'n3'
 import { useMemo } from 'react'
 import { URI } from 'types'
 import type { Required } from 'utility-types'
-import {
-  fullFetch,
-  getAllParents,
-  getParent,
-  removeHashFromURI,
-} from 'utils/helpers'
+import { fullFetch, getAllParents, removeHashFromURI } from 'utils/helpers'
 import { toN3Patch } from 'utils/ldo'
 
 /**
@@ -93,6 +88,34 @@ const parseRdfToQuads = (
   return quads
 }
 
+/**
+ * Create a RDF container specified by a URI
+ * TODO if needed it should also be possible to use POST request here
+ * https://solidproject.org/TR/protocol#writing-resources
+ */
+export const useCreateRdfContainer = () => {
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: async ({ uri }: { uri: URI }) => {
+      if (uri.slice(-1) !== '/')
+        throw new Error(`Container must end with "/", got ${uri}`)
+      const response = await fullFetch(uri, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'text/turtle',
+          Link: '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"',
+          'If-None-Match': '*',
+        },
+      })
+
+      const location = response.headers.get('location')
+      return location as string
+    },
+    onSuccess: onSuccessInvalidate(queryClient),
+  })
+  return mutation
+}
+
 export const useCreateRdfDocument = <S extends LdoBase>(
   shapeType: ShapeType<S>,
 ) => {
@@ -137,15 +160,7 @@ export const useCreateRdfDocument = <S extends LdoBase>(
       const location = response.headers.get('location')
       return location as string
     },
-    onSuccess: (data, variables) => {
-      const uri = removeHashFromURI(variables.uri)
-      queryClient.invalidateQueries(['rdfDocument', uri])
-
-      // when stuff is created, containing folder is also changed
-      const cachedAncestor = getCachedAncestor(uri, queryClient)
-      if (cachedAncestor)
-        queryClient.invalidateQueries(['rdfDocument', cachedAncestor])
-    },
+    onSuccess: onSuccessInvalidate(queryClient),
   })
 
   return mutation
@@ -161,17 +176,7 @@ export const useUpdateRdfDocument = () => {
         headers: { 'content-type': 'text/n3' },
       })
     },
-    onSuccess: (data, variables) => {
-      const uri = removeHashFromURI(variables.uri)
-      queryClient.invalidateQueries(['rdfDocument', uri])
-
-      // when stuff is created, containing folder is also changed
-      if (data.status === 201) {
-        const cachedAncestor = getCachedAncestor(uri, queryClient)
-        if (cachedAncestor)
-          queryClient.invalidateQueries(['rdfDocument', cachedAncestor])
-      }
-    },
+    onSuccess: onSuccessInvalidate(queryClient, data => data.status === 201),
   })
   return mutation
 }
@@ -210,17 +215,7 @@ export const useUpdateLdoDocument = <S extends LdoBase>(
         headers: { 'content-type': 'text/n3' },
       })
     },
-    onSuccess: (data, variables) => {
-      const uri = removeHashFromURI(variables.uri)
-      queryClient.invalidateQueries(['rdfDocument', uri])
-
-      // when stuff is created, containing folder is also changed
-      if (data.status === 201) {
-        const cachedAncestor = getCachedAncestor(uri, queryClient)
-        if (cachedAncestor)
-          queryClient.invalidateQueries(['rdfDocument', cachedAncestor])
-      }
-    },
+    onSuccess: onSuccessInvalidate(queryClient, data => data.status === 201),
   })
 }
 
@@ -230,12 +225,7 @@ export const useDeleteRdfDocument = () => {
     mutationFn: async ({ uri }: { uri: URI }) => {
       await fullFetch(uri, { method: 'DELETE' })
     },
-    onSuccess: (data, variables) => {
-      const uri = removeHashFromURI(variables.uri)
-      // when stuff is deleted, containing folder is also changed
-      queryClient.invalidateQueries(['rdfDocument', uri])
-      queryClient.invalidateQueries(['rdfDocument', getParent(uri)])
-    },
+    onSuccess: onSuccessInvalidate(queryClient),
   })
   return mutation
 }
@@ -258,3 +248,23 @@ const getCachedAncestor = (uri: URI, queryClient: QueryClient) => {
   const longestCachedParent = maxBy(cachedParents, str => str.length)
   return longestCachedParent
 }
+
+/**
+ * invalidate uri and its nearest existing ancestor container
+ */
+const onSuccessInvalidate =
+  <Data = Response>(
+    queryClient: QueryClient,
+    checkStatus: (data: Data) => boolean = () => true,
+  ) =>
+  <Variables extends { uri: URI }>(data: Data, variables: Variables) => {
+    const uri = removeHashFromURI(variables.uri)
+    queryClient.invalidateQueries(['rdfDocument', uri])
+
+    // when stuff is created, containing folder is also changed
+    if (checkStatus(data)) {
+      const cachedAncestor = getCachedAncestor(uri, queryClient)
+      if (cachedAncestor)
+        queryClient.invalidateQueries(['rdfDocument', cachedAncestor])
+    }
+  }

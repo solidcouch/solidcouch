@@ -131,17 +131,18 @@ export const setupCommunity = ({
   } as CommunityConfig)
 }
 
+export type SkipOptions =
+  | 'personalHospexDocument'
+  | 'publicTypeIndex'
+  | 'privateTypeIndex'
+  | 'joinCommunity'
+  | 'inbox'
+
 export const setupPod = (
   user: UserConfig,
   community: CommunityConfig,
   options?: {
-    skip: (
-      | 'personalHospexDocument'
-      | 'publicTypeIndex'
-      | 'privateTypeIndex'
-      | 'joinCommunity'
-      | 'inbox'
-    )[]
+    skip: SkipOptions[]
   },
 ) => {
   const publicTypeIndexUri = `${user.podUrl}settings/publicTypeIndex.ttl`
