@@ -10,7 +10,11 @@
 - [ ] save about me in multiple languages
 - [ ] testing - WIP
 - [ ] fix compatibility issues among different Solid servers
-- [ ] setup inbox if it's missing
+- [x] setup inbox if it's missing
+
+### Profile
+
+- [ ] fix setup of profile, according to latest [WebId Profile specification](https://solid.github.io/webid-profile/), especially create appropriate preferencesFile document with privateTypeIndex
 
 ### Messages
 
@@ -38,5 +42,3 @@
 - references
 
 ## Bugs
-
-- in search interests from wikidata, in react-select, show all results that come from backend, not just those whose label fits

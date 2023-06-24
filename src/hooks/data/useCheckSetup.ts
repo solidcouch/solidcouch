@@ -68,21 +68,24 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
       ? undefined
       : false
   const isPublicTypeIndex =
-    results.publicTypeIndex.length > 0
+    publicTypeIndexes.length > 0
       ? true
       : queryStatus.isInitialLoading
       ? undefined
       : false
   const isPrivateTypeIndex =
-    results.privateTypeIndex.length > 0
+    privateTypeIndexes.length > 0
       ? true
       : queryStatus.isInitialLoading
       ? undefined
       : false
+  const isInbox =
+    inboxes.length > 0 ? true : queryStatus.isInitialLoading ? undefined : false
   return {
     isHospexProfile,
     isPublicTypeIndex,
     isPrivateTypeIndex,
+    isInbox,
     personalHospexDocuments,
     publicTypeIndexes,
     privateTypeIndexes,

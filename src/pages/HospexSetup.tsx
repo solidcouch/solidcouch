@@ -18,17 +18,21 @@ export const HospexSetup = ({
   isPublicTypeIndex,
   isPrivateTypeIndex,
   isHospexProfile,
+  isInbox,
   personalHospexDocuments,
   publicTypeIndexes,
   privateTypeIndexes,
+  inboxes,
 }: {
   isMember: boolean
   isHospexProfile: boolean
   isPublicTypeIndex: boolean
   isPrivateTypeIndex: boolean
+  isInbox: boolean
   personalHospexDocuments: URI[]
   publicTypeIndexes: URI[]
   privateTypeIndexes: URI[]
+  inboxes: URI[]
 }) => {
   const auth = useAuth()
   const setupHospex = useSetupHospex()
@@ -38,11 +42,17 @@ export const HospexSetup = ({
   const [isSaving, setIsSaving] = useState(false)
   const handleClickSetup = async () => {
     setIsSaving(true)
-    if (!isPublicTypeIndex || !isPrivateTypeIndex || !isHospexProfile) {
+    if (
+      !isPublicTypeIndex ||
+      !isPrivateTypeIndex ||
+      !isHospexProfile ||
+      !isInbox
+    ) {
       const tasks: SetupTask[] = []
       if (!isPublicTypeIndex) tasks.push('createPublicTypeIndex')
       if (!isPrivateTypeIndex) tasks.push('createPrivateTypeIndex')
       if (!isHospexProfile) tasks.push('createHospexProfile')
+      if (!isInbox) tasks.push('createInbox')
 
       if (!auth.webId) throw new Error('not signed in')
       if (isPublicTypeIndex && !publicTypeIndexes[0])
@@ -57,6 +67,7 @@ export const HospexSetup = ({
         privateTypeIndex: isPrivateTypeIndex
           ? privateTypeIndexes[0]
           : `${storage}settings/privateTypeIndex.ttl`,
+        inbox: isInbox ? inboxes[0] : `${storage}inbox/`,
         hospexDocument: isHospexProfile
           ? personalHospexDocuments[0]
           : `${storage}hospex/sleepy-bike/card`,
@@ -79,24 +90,27 @@ export const HospexSetup = ({
     <div>
       <header>Welcome to sleepy.bike!</header>
       <div>We would like to set up your Pod:</div>
-      <ul>{!isMember && `join community ${communityId}`}</ul>
       <ul>
-        {!isPublicTypeIndex &&
-          `create public type index ${
-            storage + 'settings/publicTypeIndex.ttl'
-          }`}
-      </ul>
-      <ul>
-        {!isPrivateTypeIndex &&
-          `create private type index ${
-            storage + 'settings/privateTypeIndex.ttl'
-          }`}
-      </ul>
-      <ul>
-        {!isHospexProfile &&
-          `setup hospex document and storage ${
-            storage + 'hospex/sleepy-bike/card'
-          }`}
+        <li>{!isMember && `join community ${communityId}`}</li>
+        <li>
+          {!isPublicTypeIndex &&
+            `create public type index ${
+              storage + 'settings/publicTypeIndex.ttl'
+            }`}
+        </li>
+        <li>
+          {!isPrivateTypeIndex &&
+            `create private type index ${
+              storage + 'settings/privateTypeIndex.ttl'
+            }`}
+        </li>
+        <li>{!isInbox && `create inbox ${storage + 'inbox/'}`}</li>
+        <li>
+          {!isHospexProfile &&
+            `setup hospex document and storage ${
+              storage + 'hospex/sleepy-bike/card'
+            }`}
+        </li>
       </ul>
       <Button primary onClick={() => handleClickSetup()}>
         Continue!

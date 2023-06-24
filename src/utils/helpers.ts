@@ -1,4 +1,5 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
+import parseLinkHeader from 'parse-link-header'
 import { URI } from 'types'
 
 const fetchWithRedirect: typeof fetch = async (url, init) => {
@@ -34,7 +35,7 @@ export const getContainer = (uri: URI): URI => {
 /**
  * Get container which is a parent container of current resource or container
  */
-export const getParent = (uri: URI): URI => {
+const getParent = (uri: URI): URI => {
   const container = getContainer(uri)
   return container === uri ? getParentContainer(container) : container
 }
@@ -106,4 +107,13 @@ const generateIteratively = <T>(
 
   seen.delete(initialValue)
   return Array.from(seen)
+}
+
+export const getAcl = async (uri: URI) => {
+  const response = await fetch(uri, { method: 'HEAD' })
+  const linkHeader = response.headers.get('link')
+  const links = parseLinkHeader(linkHeader)
+  const aclUri = links?.acl?.url
+  if (!aclUri) throw new Error(`We could not find WAC link for ${uri}`)
+  return aclUri
 }

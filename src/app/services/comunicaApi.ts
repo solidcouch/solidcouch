@@ -17,7 +17,6 @@ import {
 import { Overwrite } from 'utility-types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
 import {
-  acl,
   dct,
   foaf,
   geo,
@@ -309,23 +308,6 @@ export const comunicaApi = createApi({
       transformResponse: (matchedDocuments: unknown[]) =>
         matchedDocuments.length > 0,
       providesTags: (res, err, args) => [
-        { type: 'Community', id: 'IS_MEMBER_OF_' + args.communityId },
-      ],
-    }),
-    joinCommunity: builder.mutation<
-      null,
-      {
-        webId: URI
-        communityId: URI
-        personalHospexDocument: URI
-        storage: URI
-      }
-    >({
-      queryFn: async props => {
-        await joinCommunity(props)
-        return { data: null }
-      },
-      invalidatesTags: (res, err, args) => [
         { type: 'Community', id: 'IS_MEMBER_OF_' + args.communityId },
       ],
     }),
@@ -771,74 +753,4 @@ const deleteAccommodation = async ({
     ),
   )
   // await myEngine.invalidateHttpCache()
-}
-
-const joinCommunity = async ({
-  communityId,
-  webId,
-  personalHospexDocument,
-  storage,
-}: {
-  webId: URI
-  communityId: URI
-  personalHospexDocument: URI
-  storage: URI
-}) => {
-  // get community group
-  const communityQuery = query`
-    SELECT ?group WHERE {
-        <${communityId}>
-            <${rdf.type}> <${sioc.Community}>;
-            <${sioc.has_usergroup}> ?group.
-    }
-  `
-  const bindingsStream = await myEngine.queryBindings(communityQuery, {
-    sources: [communityId],
-    fetch,
-  })
-  const response = await bindingsStream.toArray()
-  const groupId = response[0].get('group')?.value
-  if (!groupId) throw new Error("Community doesn't advertise group to join")
-
-  // add webId to group
-  const addWebIdQuery = query`INSERT DATA {
-    <${groupId}> <${vcard.hasMember}> <${webId}>.
-  }`
-  await myEngine.queryVoid(addWebIdQuery, {
-    sources: [groupId],
-    lenient: true,
-    destination: { type: 'patchSparqlUpdate', value: groupId },
-    fetch,
-  })
-
-  // add community to personal hospex documents (sioc:member_of, vcard:memberOf)
-  const addToPersonalHospexDocument = query`INSERT DATA {
-    <${webId}>
-        <${sioc.member_of}> <${communityId}>;
-        <${hospex.storage}> <${storage}>.
-  }`
-  await myEngine.queryVoid(addToPersonalHospexDocument, {
-    sources: [personalHospexDocument],
-    lenient: true,
-    destination: { type: 'patchSparqlUpdate', value: personalHospexDocument },
-    fetch,
-  })
-
-  // update storage permissions so everybody from the group can read the stuff
-  const addGroupPermissions = query`INSERT DATA {
-    <${storage}.acl#Read>
-        <${rdf.type}> <${acl.Authorization}>;
-        <${acl.accessTo}> <${storage}>;
-        <${acl.default__workaround}> <${storage}>;
-        <${acl.mode}> <${acl.Read}>;
-        <${acl.agentGroup}> <${groupId}>.
-  }`
-  await myEngine.queryVoid(addGroupPermissions, {
-    sources: [storage + '.acl'],
-    lenient: true,
-    destination: { type: 'patchSparqlUpdate', value: storage + '.acl' },
-    fetch,
-  })
-
-  await myEngine.invalidateHttpCache()
 }
