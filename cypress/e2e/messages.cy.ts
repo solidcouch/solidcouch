@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { as, dct } from 'rdf-namespaces'
 import { UserConfig } from '../support/css-authentication'
 import { CommunityConfig, SetupConfig } from '../support/setup'
@@ -255,7 +256,9 @@ describe('messages with other person', () => {
           )
           cy.intercept(
             'PATCH',
-            `${meSetup.hospexContainer}**/${getDate()}/chat.ttl`,
+            `${meSetup.hospexContainer}**/${dayjs().format(
+              'YYYY/MM/DD',
+            )}/chat.ttl`,
           ).as('createTodayChat')
         })
 
@@ -285,27 +288,6 @@ describe('messages with other person', () => {
     })
   })
 })
-
-describe('threads (list of conversations)', () => {
-  it('should show list of active conversations with different people')
-  it('should show new conversations which were started by other person')
-  it('should show new conversations which were started by me')
-})
-
-/**
- * Generate current date in YYYY/MM/DD format
- */
-const getDate = () => {
-  // Get the current date
-  const currentDate = new Date()
-
-  // Extract the components of the date
-  const year = currentDate.getFullYear()
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0')
-  const day = String(currentDate.getDate()).padStart(2, '0')
-
-  return `${year}/${month}/${day}`
-}
 
 /**
  * Duplicate helper to convert http to https uri

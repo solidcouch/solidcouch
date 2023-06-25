@@ -40,14 +40,22 @@ const useReadThreadsOnly = (webId: URI) => {
   const threads: Thread[] = useMemo(
     () =>
       (ldoResults.chat as ChatShape[])
-        .map(chat => ({
-          id: chat['@id'] as URI,
-          related: chat.participation?.flatMap(p =>
-            p.references?.map(r => r['@id']).filter(a => Boolean(a)),
-          ) as URI[],
-          participants:
-            chat.participation?.map(p => p.participant['@id']) ?? [],
-          messages: [
+        .map(chat => {
+          // chat uri
+          const id = chat['@id'] as URI
+          // referenced chat uris
+          const related =
+            chat.participation?.flatMap(
+              p =>
+                p.references
+                  ?.flatMap(r => r['@id'] ?? [])
+                  .filter(a => Boolean(a)) ?? [],
+            ) ?? []
+          // people who participate in the chat
+          const participants =
+            chat.participation?.map(p => p.participant['@id']) ?? []
+          // memssages from all referenced chats
+          const messages = [
             chat,
             ...((chat.participation?.flatMap(p => p.references) ?? []).filter(
               a => a,
@@ -62,8 +70,11 @@ const useReadThreadsOnly = (webId: URI) => {
                 chat: chat['@id'] as URI,
               }))
               .sort((a, b) => a.createdAt - b.createdAt),
-          ),
-        }))
+          )
+
+          return { id, related, participants, messages }
+        })
+        // sort the chats by time of the last message
         .sort(
           (a, b) =>
             ([...b.messages].pop()?.createdAt ?? 0) -
@@ -129,7 +140,9 @@ export const useReadThreads = (webId: URI) => {
     const combined = cloneDeep(threads)
     inboxMessages.forEach(imsg => {
       // find thread
-      const thread = combined.find(t => t.related.includes(imsg.chat))
+      const thread = combined.find(
+        t => t.related.includes(imsg.chat) || imsg.otherChats?.includes(t.id),
+      )
       if (thread) {
         thread.status = 'unread'
         const msgIndex = thread.messages.findIndex(msg => msg.id === imsg.id)
