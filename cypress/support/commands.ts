@@ -58,6 +58,7 @@ import {
   setupCommunity,
   setupPod,
 } from './setup'
+import { Conversation, createConversation } from './setup/messages'
 
 declare global {
   namespace Cypress {
@@ -98,9 +99,42 @@ declare global {
         setup: SetupConfig,
         accommodation: AccommodationData,
       ): Cypress.Chainable<AccommodationConfig>
+      /**
+       * Create conversation for testing
+       * @param conversation.participations - people who are part of the chat
+       *   it can be further specified whether to create chat
+       *   and whether to reference other participations in it
+       * @param conversation.messages - list of messages to create
+       *   numeric parameters relate message to conversation.participations elements
+       */
+      createConversation(conversation: Conversation): void
+      /**
+       * Create random account, setup pod and set profile data
+       * all in one command
+       */
+      createPerson(
+        profile: Profile,
+        community: CommunityConfig,
+      ): Cypress.Chainable<Person>
     }
   }
 }
+
+export type Person = UserConfig & SetupConfig & Profile
+
+Cypress.Commands.add(
+  'createPerson',
+  (profile: Profile, community: CommunityConfig) => {
+    cy.createRandomAccount().then(user => {
+      cy.setupPod(user, community).then(setup => {
+        cy.setProfileData(user, setup, profile)
+        return cy.wrap({ ...user, ...setup, ...profile } as Person, {
+          log: false,
+        })
+      })
+    })
+  },
+)
 
 Cypress.Commands.add(
   'createAccount',
@@ -135,7 +169,7 @@ Cypress.Commands.add(
       confirmPassword: password,
     })
 
-    return cy.wrap(config)
+    return cy.wrap(config, { log: false })
   },
 )
 
@@ -176,7 +210,7 @@ Cypress.Commands.add(
       failOnStatusCode: false,
     })
 
-    return cy.wrap(config)
+    return cy.wrap(config, { log: false })
   },
 )
 
@@ -202,6 +236,7 @@ Cypress.Commands.add('setupPod', setupPod)
 Cypress.Commands.add('setStorage', setStorage)
 Cypress.Commands.add('setProfileData', setProfileData)
 Cypress.Commands.add('addAccommodation', addAccommodation)
+Cypress.Commands.add('createConversation', createConversation)
 
 /**
 Some code is copied from solidcryptpad repository

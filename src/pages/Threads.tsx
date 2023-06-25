@@ -1,8 +1,8 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { ldoApi } from 'app/services/ldoApi'
 import classNames from 'classnames'
 import { Loading } from 'components'
 import { PersonMini } from 'components/PersonMini/PersonMini'
+import { communityId } from 'config'
+import { useProfile } from 'hooks/data/useProfile'
 import { useReadThreads } from 'hooks/data/useReadThreads'
 import { useAuth } from 'hooks/useAuth'
 import { Link } from 'react-router-dom'
@@ -43,16 +43,14 @@ export const Threads = () => {
 const Thread = ({ thread }: { thread: ThreadType }) => {
   const auth = useAuth()
   const other = thread.participants.find(p => p !== auth.webId)
-  const { data: person } = ldoApi.endpoints.readUser.useQuery(
-    other || skipToken,
-  )
+  const [person] = useProfile(other ?? '', communityId)
   const lastMessage = thread.messages[thread.messages.length - 1]
   return (
     <div className={classNames(styles.thread, thread.status && styles.unread)}>
       <PersonMini webId={other ?? ''} className={styles.avatar} />
       <div>
-        <div className={styles.name} title={person?.['@id']}>
-          {person?.name}
+        <div className={styles.name} title={person.id}>
+          {person.name}
         </div>
         <div className={styles.content} title={lastMessage?.message}>
           {lastMessage?.message}
