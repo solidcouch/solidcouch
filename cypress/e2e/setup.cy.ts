@@ -3,7 +3,6 @@ import { CommunityConfig, SkipOptions } from '../support/setup'
 
 const preparePod = () => {
   cy.createRandomAccount().as('user1')
-  cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
 }
 
 const resetPod = () => {}

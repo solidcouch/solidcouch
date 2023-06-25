@@ -7,8 +7,6 @@ const users = range(10).map(i => (i === 0 ? 'me' : `user${i}`))
 describe('Map of accommodation offers', () => {
   // create and setup community and profiles
   beforeEach(() => {
-    cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
-
     cy.get<CommunityConfig>('@community').then(community => {
       users.forEach((tag, i) => {
         cy.createRandomAccount().as(tag)

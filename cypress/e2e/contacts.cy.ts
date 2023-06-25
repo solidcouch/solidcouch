@@ -1,10 +1,22 @@
-describe("person's contacts", () => {
-  it(
-    '[me] should show contacts, including unconfirmed and pending, and confirm & remove button',
-  )
-  it('[other person] should show confirmed (2-directional) contacts')
+import { CommunityConfig } from '../support/setup'
 
-  it('should allow adding other person as a contact')
+describe("person's contacts", () => {
+  beforeEach(() => {
+    cy.get<CommunityConfig>('@community').then(community => {
+      cy.createPerson(
+        { name: 'My Name', description: { en: 'My description' } },
+        community,
+      )
+    })
+  })
+  it(
+    'should show my contacts, including unconfirmed and pending, and confirm & remove button',
+  )
+  it("should show other person's confirmed (2-directional) contacts", () => {})
+
+  it(
+    'should allow adding other person as contact and send contact request notification',
+  )
 
   it('should allow removing other person as contact')
 

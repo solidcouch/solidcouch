@@ -8,8 +8,6 @@ import { CommunityConfig, SetupConfig } from '../support/setup'
  */
 describe('messages with other person', () => {
   beforeEach(() => {
-    cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
-
     // create and setup two people
     cy.get<CommunityConfig>('@community').then(community => {
       ;['me', 'otherPerson'].forEach((tag, i) => {
