@@ -5,7 +5,7 @@ describe('threads (list of conversations)', () => {
   beforeEach(() => {
     // create and setup people
     cy.get<CommunityConfig>('@community').then(community => {
-      ;['me', 'person1', 'person2', 'person3'].forEach((tag, i) => {
+      ;['me', 'person1', 'person2'].forEach((tag, i) => {
         cy.createPerson(
           {
             name: `Name ${i}`,
