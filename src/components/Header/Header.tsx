@@ -1,13 +1,12 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@szhsin/react-menu'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
 import { useAppSelector } from 'app/hooks'
-import { comunicaApi } from 'app/services/comunicaApi'
 import { Avatar } from 'components'
 import { communityId } from 'config'
 import { selectAuth } from 'features/auth/authSlice'
 import { useProfile } from 'hooks/data/useProfile'
+import { useReadMessagesFromInbox } from 'hooks/data/useReadThreads'
 import { ReactComponent as LogoOpen } from 'logo-open.svg'
 import { ReactComponent as Logo } from 'logo.svg'
 import { Link } from 'react-router-dom'
@@ -19,10 +18,7 @@ export const Header = () => {
 
   const [profile] = useProfile(auth.webId ?? '', communityId)
 
-  const { data: newMessages } =
-    comunicaApi.endpoints.readMessagesFromInbox.useQuery(
-      auth.webId ? { me: auth.webId } : skipToken,
-    )
+  const { data: newMessages } = useReadMessagesFromInbox(auth.webId ?? '')
 
   return (
     <nav className={styles.header}>

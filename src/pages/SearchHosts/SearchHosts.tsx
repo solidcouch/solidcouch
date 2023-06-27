@@ -1,5 +1,4 @@
 import MarkerClusterGroup from '@changey/react-leaflet-markercluster'
-// import { comunicaApi } from 'app/services/comunicaApi'
 import { defaultIcon, highlightedIcon, tileServer } from 'config'
 import { useSearchAccommodations } from 'hooks/data/useSearchAccommodations'
 import { FaTimes } from 'react-icons/fa'

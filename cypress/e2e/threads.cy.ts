@@ -166,4 +166,133 @@ describe('threads (list of conversations)', () => {
       })
     })
   })
+
+  it('should show unread messages in main menu', () => {
+    cy.get<Person>('@me').then(me => {
+      cy.get<Person>('@person1').then(person1 => {
+        cy.get<Person>('@person2').then(person2 => {
+          cy.createConversation({
+            participations: [{ person: me }, { person: person1 }],
+            messages: [
+              {
+                message: 'message1',
+                created: new Date('2022-01-21'),
+                chat: 1,
+                notifications: [],
+              },
+              {
+                message: 'message2',
+                created: new Date('2023-06-24 10:00:00'),
+                chat: 0,
+                notifications: [],
+              },
+              {
+                message: 'message3',
+                created: new Date('2023-06-24 17:46:23'),
+                chat: 1,
+                notifications: [0],
+              },
+            ],
+          })
+          cy.createConversation({
+            participations: [{ person: me }, { person: person2 }],
+            messages: [
+              {
+                message: 'other message 1',
+                created: new Date('2023-06-20'),
+                chat: 0,
+                notifications: [],
+              },
+              {
+                message: 'other message 2',
+                created: new Date('2023-06-21 10:00:00'),
+                chat: 1,
+                notifications: [0],
+              },
+              {
+                message: 'other message 3',
+                created: new Date('2023-06-21 10:00:00'),
+                chat: 1,
+                notifications: [0],
+              },
+            ],
+          })
+          cy.login(me)
+          cy.get('[class^=Header_header] .szh-menu-button').click()
+          cy.contains('a', 'messages (3 new)').should(
+            'have.attr',
+            'href',
+            '/messages',
+          )
+        })
+      })
+    })
+  })
+
+  it('should show unread messages on main page messages', () => {
+    cy.get<Person>('@me').then(me => {
+      cy.get<Person>('@person1').then(person1 => {
+        cy.get<Person>('@person2').then(person2 => {
+          cy.createConversation({
+            participations: [{ person: me }, { person: person1 }],
+            messages: [
+              {
+                message: 'message1',
+                created: new Date('2022-01-21'),
+                chat: 1,
+                notifications: [],
+              },
+              {
+                message: 'message2',
+                created: new Date('2023-06-24 10:00:00'),
+                chat: 0,
+                notifications: [],
+              },
+              {
+                message: 'message3',
+                created: new Date('2023-06-24 17:46:23'),
+                chat: 1,
+                notifications: [0],
+              },
+            ],
+          })
+          cy.createConversation({
+            participations: [{ person: me }, { person: person2 }],
+            messages: [
+              {
+                message: 'other message 1',
+                created: new Date('2023-06-20'),
+                chat: 0,
+                notifications: [],
+              },
+              {
+                message: 'other message 2',
+                created: new Date('2023-06-21 10:00:00'),
+                chat: 1,
+                notifications: [0],
+              },
+              {
+                message: 'other message 3',
+                created: new Date('2023-06-21 10:00:00'),
+                chat: 1,
+                notifications: [0],
+              },
+            ],
+          })
+          cy.login(me)
+
+          cy.intercept({ method: 'DELETE', url: me.inbox + '*' }).as(
+            'deleteNotification',
+          )
+
+          cy.contains('a', '(3 new)').click()
+          cy.contains('a', person2.name).click()
+          cy.wait('@deleteNotification', { timeout: 20000 })
+          cy.wait('@deleteNotification', { timeout: 20000 })
+          cy.get('[class^=Header_logoContainer]').click()
+          cy.contains('a', '(1 new)')
+        })
+      })
+    })
+  })
 })
