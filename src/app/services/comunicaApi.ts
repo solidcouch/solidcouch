@@ -5,15 +5,7 @@ import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { merge } from 'lodash'
 import { DataFactory, Parser, Quad } from 'n3'
-import {
-  Accommodation,
-  Community,
-  Contact,
-  Message,
-  Person,
-  Thread,
-  URI,
-} from 'types'
+import { Accommodation, Community, Message, Person, Thread, URI } from 'types'
 import { Overwrite } from 'utility-types'
 import { fullFetch, removeHashFromURI } from 'utils/helpers'
 import {
@@ -27,12 +19,6 @@ import {
   vcard,
   xsd,
 } from 'utils/rdf-namespaces'
-import {
-  confirmContact,
-  createContact,
-  ignoreContact,
-  readContacts,
-} from './contacts'
 import { getHospexDocuments } from './generic'
 import { bindings2data, query } from './helpers'
 import {
@@ -106,7 +92,6 @@ export const comunicaApi = createApi({
   tagTypes: [
     'Accommodation',
     'Community',
-    'ContactList',
     'Interest',
     'MessageThread',
     'MessageNotification',
@@ -378,45 +363,6 @@ export const comunicaApi = createApi({
         { type: 'MessageThread', id: 'LIST' },
         { type: 'MessageThread', id: args.other },
         { type: 'MessageNotification', id: 'LIST' },
-      ],
-    }),
-    readContacts: builder.query<Contact[], URI>({
-      queryFn: async props => {
-        return { data: await readContacts(props) }
-      },
-      providesTags: (res, err, args) => [{ type: 'ContactList', id: args }],
-    }),
-    createContact: builder.mutation<
-      unknown,
-      { me: URI; other: URI; invitation: string }
-    >({
-      queryFn: async props => {
-        await createContact(props)
-        return { data: null }
-      },
-      invalidatesTags: (res, err, args) => [
-        { type: 'ContactList', id: args.me },
-      ],
-    }),
-    confirmContact: builder.mutation<
-      unknown,
-      { me: URI; other: URI; notification: URI }
-    >({
-      queryFn: async props => {
-        await confirmContact(props)
-        return { data: null }
-      },
-      invalidatesTags: (res, err, args) => [
-        { type: 'ContactList', id: args.me },
-      ],
-    }),
-    ignoreContact: builder.mutation<unknown, { me: URI; notification: URI }>({
-      queryFn: async props => {
-        await ignoreContact(props)
-        return { data: null }
-      },
-      invalidatesTags: (res, err, args) => [
-        { type: 'ContactList', id: args.me },
       ],
     }),
 

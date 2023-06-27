@@ -98,7 +98,6 @@ export const appContext: ContextDefinition = {
   updated: {
     '@id': 'https://www.w3.org/ns/activitystreams#updated',
     '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
-    '@container': '@set',
   },
   Invite: 'https://www.w3.org/ns/activitystreams#Invite',
   content2: {

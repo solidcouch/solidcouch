@@ -12,13 +12,8 @@ import styles from './Threads.module.scss'
 export const Threads = () => {
   const auth = useAuth()
 
-  // const { data: threads, error } = comunicaApi.endpoints.readThreads.useQuery(
-  //   auth.webId ? { me: auth.webId } : skipToken,
-  // )
-
   const { data: threads } = useReadThreads(auth.webId ?? '')
 
-  // if (error) return <>{JSON.stringify(error, null, 2)}</>
   if (!threads) return <Loading>Loading...</Loading>
 
   return (
