@@ -6,6 +6,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import {
+  LdoBuilder,
   ShapeType,
   createLdoDataset,
   parseRdf,
@@ -19,7 +20,12 @@ import { DataFactory, Parser, ParserOptions, Quad } from 'n3'
 import { useMemo } from 'react'
 import { URI } from 'types'
 import type { Required } from 'utility-types'
-import { fullFetch, getAllParents, removeHashFromURI } from 'utils/helpers'
+import {
+  fullFetch,
+  getAllParents,
+  getParent,
+  removeHashFromURI,
+} from 'utils/helpers'
 import { toN3Patch } from 'utils/ldo'
 
 /**
@@ -219,6 +225,46 @@ export const useUpdateLdoDocument = <S extends LdoBase>(
   })
 }
 
+export const useMatchUpdateLdoDocument = <S extends LdoBase>(
+  shapeType: ShapeType<S>,
+) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async ({
+      uri,
+      match,
+      transform,
+      language = 'en',
+    }: {
+      uri: URI
+      match: (builder: LdoBuilder<S>) => S
+      transform: (ldo: S) => void // transform should modify the original input, not clone it
+      language?: string
+    }) => {
+      const originalResponse = await fullFetch(uri)
+      let originalData = ''
+      if (originalResponse.ok) originalData = await originalResponse.text()
+      const ldoDataset = await parseRdf(originalData, { baseIRI: uri })
+      const builder = ldoDataset.usingType(shapeType)
+
+      const ldo = match(builder)
+
+      setLanguagePreferences(language).using(ldo)
+
+      startTransaction(ldo)
+      transform(ldo)
+
+      const patch = await toN3Patch(ldo)
+      return await fullFetch(uri, {
+        method: 'PATCH',
+        body: patch,
+        headers: { 'content-type': 'text/n3' },
+      })
+    },
+    onSuccess: onSuccessInvalidate(queryClient, data => data.status === 201),
+  })
+}
+
 export const useDeleteRdfDocument = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
@@ -260,6 +306,8 @@ const onSuccessInvalidate =
   <Variables extends { uri: URI }>(data: Data, variables: Variables) => {
     const uri = removeHashFromURI(variables.uri)
     queryClient.invalidateQueries(['rdfDocument', uri])
+    // TODO this may not be necessary
+    queryClient.invalidateQueries(['rdfDocument', getParent(uri)])
 
     // when stuff is created, containing folder is also changed
     if (checkStatus(data)) {

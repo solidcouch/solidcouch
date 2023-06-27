@@ -86,6 +86,46 @@ export const wacSchema: Schema = {
             },
             {
               type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/ns/auth/acl#mode',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['http://www.w3.org/ns/auth/acl#Read'],
+              },
+              min: 0,
+              max: 1,
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/ns/auth/acl#mode',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['http://www.w3.org/ns/auth/acl#Write'],
+              },
+              min: 0,
+              max: 1,
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/ns/auth/acl#mode',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['http://www.w3.org/ns/auth/acl#Control'],
+              },
+              min: 0,
+              max: 1,
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/ns/auth/acl#mode',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['http://www.w3.org/ns/auth/acl#Append'],
+              },
+              min: 0,
+              max: 1,
+            },
+            {
+              type: 'TripleConstraint',
               predicate: 'http://www.w3.org/ns/auth/acl#origin',
               valueExpr: {
                 type: 'NodeConstraint',

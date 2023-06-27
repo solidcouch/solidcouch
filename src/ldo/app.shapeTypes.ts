@@ -18,6 +18,8 @@ import {
   Resource,
   Inbox,
   MessageActivity,
+  ContactInvitationActivity,
+  ContactRelationship,
 } from './app.typings'
 
 /**
@@ -168,5 +170,24 @@ export const InboxShapeType: ShapeType<Inbox> = {
 export const MessageActivityShapeType: ShapeType<MessageActivity> = {
   schema: appSchema,
   shape: 'https://example.com/MessageActivity',
+  context: appContext,
+}
+
+/**
+ * ContactInvitationActivity ShapeType
+ */
+export const ContactInvitationActivityShapeType: ShapeType<ContactInvitationActivity> =
+  {
+    schema: appSchema,
+    shape: 'https://example.com/ContactInvitationActivity',
+    context: appContext,
+  }
+
+/**
+ * ContactRelationship ShapeType
+ */
+export const ContactRelationshipShapeType: ShapeType<ContactRelationship> = {
+  schema: appSchema,
+  shape: 'https://example.com/ContactRelationship',
   context: appContext,
 }

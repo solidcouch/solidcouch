@@ -26,6 +26,7 @@ export const appContext: ContextDefinition = {
   actor: {
     '@id': 'https://www.w3.org/ns/activitystreams#actor',
     '@type': '@id',
+    '@container': '@set',
   },
   context: {
     '@id': 'https://www.w3.org/ns/activitystreams#context',
@@ -34,6 +35,7 @@ export const appContext: ContextDefinition = {
   object: {
     '@id': 'https://www.w3.org/ns/activitystreams#object',
     '@type': '@id',
+    '@container': '@set',
   },
   created: {
     '@id': 'http://purl.org/dc/terms/created',
@@ -50,6 +52,7 @@ export const appContext: ContextDefinition = {
   target: {
     '@id': 'https://www.w3.org/ns/activitystreams#target',
     '@type': '@id',
+    '@container': '@set',
   },
   LongChat: 'http://www.w3.org/ns/pim/meeting#LongChat',
   author: {
@@ -98,6 +101,25 @@ export const appContext: ContextDefinition = {
   updated: {
     '@id': 'https://www.w3.org/ns/activitystreams#updated',
     '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+    '@container': '@set',
+  },
+  Invite: 'https://www.w3.org/ns/activitystreams#Invite',
+  content2: {
+    '@id': 'https://www.w3.org/ns/activitystreams#content',
+    '@type': 'http://www.w3.org/2001/XMLSchema#string',
+  },
+  Relationship: 'https://www.w3.org/ns/activitystreams#Relationship',
+  subject: {
+    '@id': 'https://www.w3.org/ns/activitystreams#subject',
+    '@type': '@id',
+  },
+  relationship: {
+    '@id': 'https://www.w3.org/ns/activitystreams#relationship',
+  },
+  knows: {
+    '@id': 'http://xmlns.com/foaf/0.1/knows',
+    '@type': '@id',
+    '@container': '@set',
   },
   modified: {
     '@id': 'http://purl.org/dc/terms/modified',
@@ -156,11 +178,6 @@ export const appContext: ContextDefinition = {
     '@container': '@set',
   },
   ListedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',
-  knows: {
-    '@id': 'http://xmlns.com/foaf/0.1/knows',
-    '@type': '@id',
-    '@container': '@set',
-  },
   topicInterest: {
     '@id': 'http://xmlns.com/foaf/0.1/topic_interest',
     '@type': '@id',

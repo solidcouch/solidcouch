@@ -48,9 +48,7 @@ describe("person's contacts", () => {
     cy.get<Person>('@me').then(me => cy.login(me))
   })
 
-  it(
-    'should show my contacts, including unconfirmed and pending, and confirm & remove button',
-  )
+  it('should show my contacts, including unconfirmed and pending')
 
   it("should show other person's confirmed (2-directional) contacts", () => {
     cy.get<Person>('@person1').then(person1 => {

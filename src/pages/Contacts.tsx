@@ -1,6 +1,6 @@
-import { comunicaApi } from 'app/services/comunicaApi'
 import { Loading } from 'components'
 import { PersonBadge } from 'components/PersonBadge/PersonBadge'
+import { useReadContacts } from 'hooks/data/useContacts'
 import { useAuth } from 'hooks/useAuth'
 import { useParams } from 'react-router-dom'
 import * as types from 'types'
@@ -11,8 +11,7 @@ export const Contacts = () => {
   const personId = useParams().id as string
   const auth = useAuth()
 
-  const { data: contacts } =
-    comunicaApi.endpoints.readContacts.useQuery(personId)
+  const [contacts] = useReadContacts(personId)
 
   if (!auth.webId) return <Loading>authenticating</Loading>
   if (!contacts) return <Loading>fetching contacts</Loading>

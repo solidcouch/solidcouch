@@ -30,9 +30,23 @@ export interface Authorization {
   agentGroup?: {
     '@id': string
   }[]
-  mode: {
-    '@id': string
-  }[]
+  mode?: (
+    | {
+        '@id': string
+      }
+    | {
+        '@id': 'Read'
+      }
+    | {
+        '@id': 'Write'
+      }
+    | {
+        '@id': 'Control'
+      }
+    | {
+        '@id': 'Append'
+      }
+  )[]
   origin?: {
     '@id': string
   }[]

@@ -35,7 +35,7 @@ export const getContainer = (uri: URI): URI => {
 /**
  * Get container which is a parent container of current resource or container
  */
-const getParent = (uri: URI): URI => {
+export const getParent = (uri: URI): URI => {
   const container = getContainer(uri)
   return container === uri ? getParentContainer(container) : container
 }

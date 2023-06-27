@@ -11,5 +11,9 @@ ex:Authorization EXTRA a {
   acl:agentClass IRI* ;
   acl:agentGroup IRI* ;
   acl:mode IRI+ ;
+  acl:mode [acl:Read] ? ;
+  acl:mode [acl:Write] ? ;
+  acl:mode [acl:Control] ? ;
+  acl:mode [acl:Append] ? ;
   acl:origin IRI*;
 }
