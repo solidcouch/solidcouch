@@ -26,7 +26,6 @@ export const appContext: ContextDefinition = {
   actor: {
     '@id': 'https://www.w3.org/ns/activitystreams#actor',
     '@type': '@id',
-    '@container': '@set',
   },
   context: {
     '@id': 'https://www.w3.org/ns/activitystreams#context',
@@ -35,7 +34,6 @@ export const appContext: ContextDefinition = {
   object: {
     '@id': 'https://www.w3.org/ns/activitystreams#object',
     '@type': '@id',
-    '@container': '@set',
   },
   created: {
     '@id': 'http://purl.org/dc/terms/created',
@@ -52,7 +50,6 @@ export const appContext: ContextDefinition = {
   target: {
     '@id': 'https://www.w3.org/ns/activitystreams#target',
     '@type': '@id',
-    '@container': '@set',
   },
   LongChat: 'http://www.w3.org/ns/pim/meeting#LongChat',
   author: {

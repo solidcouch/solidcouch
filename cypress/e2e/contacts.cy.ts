@@ -77,21 +77,45 @@ describe("person's contacts", () => {
 
   it('should allow adding other person as contact and send contact request notification', () => {
     cy.get<Person>('@person1').then(person => {
-      cy.visit(`/profile/${encodeURIComponent(person.webId)}`)
+      cy.get<Person>('@me').then(me => {
+        cy.visit(`/profile/${encodeURIComponent(person.webId)}`)
 
-      cy.intercept({ method: 'POST', url: person.inbox }).as('sendNotification')
-      // there should be button add as contact
-      cy.contains('button', 'Add to my contacts').click()
-      cy.get('textarea[name=invitation]')
-        .clear()
-        .type('Contact invitation text')
-      cy.contains('button', 'Send contact invitation').click()
-      // wait for the button to update
-      cy.contains('Contact request sent')
-      // check that notification was sent
-      cy.wait('@sendNotification')
-        .its('request.body')
-        .should('contain', 'Contact invitation text')
+        cy.intercept({ method: 'POST', url: person.inbox }).as(
+          'sendNotification',
+        )
+        cy.intercept({
+          method: 'PATCH',
+          url: me.hospexContainer + '.acl',
+        }).as('grantHospexAccess')
+
+        // there should be button add as contact
+        cy.contains('button', 'Add to my contacts').click()
+        cy.get('textarea[name=invitation]')
+          .clear()
+          .type('Contact invitation text')
+        cy.contains('button', 'Send contact invitation').click()
+        // wait for the button to update
+        cy.contains('Contact request sent')
+        // check that notification was sent
+        cy.wait('@sendNotification')
+          .its('request.body')
+          .should('contain', 'Contact invitation text')
+        cy.wait('@grantHospexAccess')
+
+        // test that other person can confirm
+        cy.logout()
+        cy.login(person)
+        cy.visit(`/profile/${encodeURIComponent(me.webId)}`)
+        cy.contains('button', 'See contact invitation', {
+          timeout: 20000,
+        }).click()
+        cy.intercept({ method: 'DELETE', url: person.inbox + '*' }).as(
+          'deleteNotification',
+        )
+        cy.contains('button', 'Accept').click()
+        cy.wait('@deleteNotification')
+        cy.contains('Contact exists')
+      })
     })
   })
 

@@ -75,9 +75,10 @@ const contactRequestQuery = [
   ['?notification', 'object', '?relationship'],
   [
     '?notification',
-    () => {
-      return true
-    },
+    (ldo: ContactInvitationActivity) =>
+      ldo.object?.subject?.['@id'] === ldo.actor?.['@id'] &&
+      ldo.object?.object?.['@id'] === ldo.target?.['@id'] &&
+      ldo.object?.relationship?.['@id'] === 'knows',
   ],
 ] as const
 const useReadContactNotifications = (me: URI) => {
@@ -89,9 +90,7 @@ const useReadContactNotifications = (me: URI) => {
   const contacts: Contact[] = useMemo(
     () =>
       (partialResults.notification as ContactInvitationActivity[]).map(n => ({
-        // TODO a bug in LDO which misaligns types and values
-        // @ts-ignore
-        webId: n.actor?.[0]?.['@id'] as unknown as URI,
+        webId: n.actor?.['@id'] as unknown as URI,
         status: 'request_received',
         notification: n['@id']!,
         invitation: n.content2,
@@ -157,7 +156,7 @@ const useCreateContactNotification = () => {
         data: {
           '@id': '',
           // @ts-ignore
-          type: { '@id': 'Invite' },
+          type: [{ '@id': 'Invite' }],
           content2: message,
           actor: { '@id': me },
           object: {
