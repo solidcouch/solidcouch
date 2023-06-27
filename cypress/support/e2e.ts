@@ -18,3 +18,8 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// set up a community before every test
+beforeEach(() => {
+  cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
+})

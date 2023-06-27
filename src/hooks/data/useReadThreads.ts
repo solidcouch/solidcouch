@@ -1,5 +1,5 @@
 import { ContainerShapeType, SolidProfileShapeType } from 'ldo/app.shapeTypes'
-import { ChatShape } from 'ldo/app.typings'
+import { ChatShape, MessageActivity } from 'ldo/app.typings'
 import { cloneDeep } from 'lodash'
 import { useMemo } from 'react'
 import { Message, Thread, URI } from 'types'
@@ -111,7 +111,7 @@ export const useReadMessagesFromInbox = (webId: URI) => {
 
   const messages: Message[] = useMemo(
     () =>
-      partialResults.notification.map(notification => ({
+      (partialResults.notification as MessageActivity[]).map(notification => ({
         id: notification.object['@id'] ?? '',
         message: notification.object.content,
         createdAt: new Date(notification.object?.created).getTime(),

@@ -39,6 +39,10 @@ export const wacContext: ContextDefinition = {
     '@type': '@id',
     '@container': '@set',
   },
+  Read: 'http://www.w3.org/ns/auth/acl#Read',
+  Write: 'http://www.w3.org/ns/auth/acl#Write',
+  Control: 'http://www.w3.org/ns/auth/acl#Control',
+  Append: 'http://www.w3.org/ns/auth/acl#Append',
   origin: {
     '@id': 'http://www.w3.org/ns/auth/acl#origin',
     '@type': '@id',

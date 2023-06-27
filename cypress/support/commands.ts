@@ -58,6 +58,7 @@ import {
   setupCommunity,
   setupPod,
 } from './setup'
+import { ContactNotification, saveContacts } from './setup/contacts'
 import { Conversation, createConversation } from './setup/messages'
 
 declare global {
@@ -113,28 +114,62 @@ declare global {
        * all in one command
        */
       createPerson(
-        profile: Profile,
-        community: CommunityConfig,
+        profile?: Profile,
+        community?: CommunityConfig,
       ): Cypress.Chainable<Person>
+      /**
+       * Save foaf:knows to a person
+       * @param person - person to save to
+       * @param contacts - list of webIds of the other people
+       * @param doc - optional extended profile document to save contacts to
+       *   if doc is provided, we'll also link the extended profile document from main profile
+       */
+      saveContacts(config: {
+        person: Person
+        contacts: Person[]
+        notifications?: (ContactNotification | number)[]
+        doc?: string
+      }): void
     }
   }
 }
+
+Cypress.Commands.add('saveContacts', saveContacts)
 
 export type Person = UserConfig & SetupConfig & Profile
 
 Cypress.Commands.add(
   'createPerson',
-  (profile: Profile, community: CommunityConfig) => {
-    cy.createRandomAccount().then(user => {
-      cy.setupPod(user, community).then(setup => {
-        cy.setProfileData(user, setup, profile)
-        return cy.wrap({ ...user, ...setup, ...profile } as Person, {
-          log: false,
+  (profile?: Profile, community?: CommunityConfig) => {
+    cy.get<CommunityConfig>('@community').then(defaultCommunity => {
+      profile ??= {
+        name: generateRandomString(8),
+        description: { en: generateRandomString(20 + Math.random() * 40) },
+      }
+      cy.createRandomAccount().then(user => {
+        cy.setupPod(user, community ?? defaultCommunity).then(setup => {
+          cy.setProfileData(user, setup, profile)
+          return cy.wrap({ ...user, ...setup, ...profile } as Person, {
+            log: false,
+          })
         })
       })
     })
   },
 )
+
+export const generateRandomString = (length: number): string => {
+  const characters =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ          '
+  let randomString = ''
+  for (let i = 0; i < length; i++) {
+    const randomChar = characters.charAt(
+      Math.floor(Math.random() * characters.length),
+    )
+    randomString += randomChar
+  }
+  return randomString.trim()
+}
 
 Cypress.Commands.add(
   'createAccount',

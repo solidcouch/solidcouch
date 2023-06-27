@@ -12,11 +12,6 @@ export const AccommodationInfo = ({
 }) => {
   const { webId } = useAuth()
 
-  // const { data: accommodation, ...accommodationStatus } =
-  //   comunicaApi.endpoints.readAccommodation.useQuery(
-  //     accommodationId ? { accommodationId: accommodationId } : skipToken,
-  //   )
-
   const [accommodation] = useReadAccommodation({
     accommodationId,
   })

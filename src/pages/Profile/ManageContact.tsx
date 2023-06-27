@@ -1,17 +1,22 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { comunicaApi } from 'app/services/comunicaApi'
 import { Button, Loading } from 'components'
+import { communityId } from 'config'
+import { useCheckSetup } from 'hooks/data/useCheckSetup'
+import {
+  useConfirmContact,
+  useCreateContact,
+  useIgnoreContactRequest,
+  useReadContacts,
+} from 'hooks/data/useContacts'
 import { useAuth } from 'hooks/useAuth'
 import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
 import { ContactInvitation, URI } from 'types'
+import { getContainer } from 'utils/helpers'
 
 export const ManageContact = ({ webId }: { webId: URI }) => {
   const auth = useAuth()
-  const { data: contacts } = comunicaApi.endpoints.readContacts.useQuery(
-    auth.webId ?? skipToken,
-  )
+  const [contacts] = useReadContacts(auth.webId!)
 
   if (!contacts) return <Loading>loading...</Loading>
 
@@ -38,24 +43,29 @@ export const ProcessContactInvitation = ({
   const [modalOpen, setModalOpen] = useState(false)
   const auth = useAuth()
 
-  const [confirmContact] = comunicaApi.endpoints.confirmContact.useMutation()
-  const [ignoreContact] = comunicaApi.endpoints.ignoreContact.useMutation()
+  const confirmContact = useConfirmContact()
+  const ignoreContact = useIgnoreContactRequest()
+
+  const setup = useCheckSetup(auth.webId!, communityId)
 
   const handleConfirm = async () => {
     if (!auth.webId) throw new Error('unauthenticated')
+    const hospexContainer = getContainer(setup.personalHospexDocuments[0])
+    if (!hospexContainer)
+      throw new Error('hospex container not set up (too soon?)')
     await confirmContact({
       me: auth.webId,
       other: contact.webId,
       notification: contact.notification,
-    }).unwrap()
+      hospexContainer,
+    })
     setModalOpen(false)
   }
   const handleIgnore = async () => {
     if (!auth.webId) throw new Error('unauthenticated')
     await ignoreContact({
-      me: auth.webId,
       notification: contact.notification,
-    }).unwrap()
+    })
     setModalOpen(false)
   }
 
@@ -66,7 +76,11 @@ export const ProcessContactInvitation = ({
       </Button>
       <Modal isOpen={modalOpen} onRequestClose={() => setModalOpen(false)}>
         <div>{contact.invitation}</div>
-        <Button primary onClick={handleConfirm}>
+        <Button
+          primary
+          onClick={handleConfirm}
+          disabled={setup.personalHospexDocuments.length === 0}
+        >
           Accept
         </Button>
         <Button secondary onClick={handleIgnore}>
@@ -81,11 +95,25 @@ const AddContact = ({ webId }: { webId: URI }) => {
   const [modalOpen, setModalOpen] = useState(false)
   const auth = useAuth()
 
-  const [createContact] = comunicaApi.endpoints.createContact.useMutation()
+  const createContact2 = useCreateContact()
+  const mySetup = useCheckSetup(auth.webId!, communityId)
+  const otherSetup = useCheckSetup(webId, communityId)
 
   const handleSubmit = async ({ invitation }: { invitation: string }) => {
     if (!auth.webId) throw new Error('unauthenticated')
-    await createContact({ me: auth.webId, other: webId, invitation }).unwrap()
+    const hospexContainer = getContainer(mySetup.personalHospexDocuments[0])
+    if (!hospexContainer)
+      throw new Error('hospex container not found (too soon?)')
+    const inbox = getContainer(otherSetup.inboxes[0])
+    if (!inbox) throw new Error('inbox not found (too soon?)')
+
+    await createContact2({
+      me: auth.webId,
+      other: webId,
+      message: invitation,
+      hospexContainer,
+      inbox,
+    })
     setModalOpen(false)
   }
   const handleCancel = async () => {
@@ -99,6 +127,10 @@ const AddContact = ({ webId }: { webId: URI }) => {
         onClick={() => {
           setModalOpen(true)
         }}
+        disabled={
+          mySetup.personalHospexDocuments.length === 0 ||
+          otherSetup.inboxes.length === 0
+        }
       >
         Add to my contacts
       </Button>

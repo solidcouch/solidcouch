@@ -1,22 +1,10 @@
 import { UserConfig } from '../support/css-authentication'
 
-const preparePod = () => {
-  cy.createRandomAccount().then(user1 => {
-    cy.wrap(user1).as('user1')
-    cy.setStorage(user1)
-  })
-}
-
-const prepareCommunity = () => {
-  cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
-}
-
-const resetPod = () => {}
-
 describe('Sign in to the app', () => {
-  beforeEach(resetPod)
-  beforeEach(preparePod)
-  beforeEach(prepareCommunity)
+  beforeEach(() => {
+    cy.createRandomAccount().as('user1')
+  })
+
   it('should sign in', () => {
     cy.visit('/')
     cy.contains('Sign in').click()

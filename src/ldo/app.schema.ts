@@ -980,6 +980,15 @@ export const appSchema: Schema = {
               type: 'TripleConstraint',
               predicate: 'http://www.w3.org/ns/ldp#contains',
               valueExpr: 'https://example.com/MessageActivity',
+              min: 0,
+              max: -1,
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/ns/ldp#contains',
+              valueExpr: 'https://example.com/ContactInvitationActivity',
+              min: 0,
+              max: -1,
             },
             {
               type: 'TripleConstraint',
@@ -1058,6 +1067,109 @@ export const appSchema: Schema = {
               valueExpr: {
                 type: 'NodeConstraint',
                 datatype: 'http://www.w3.org/2001/XMLSchema#dateTime',
+              },
+            },
+          ],
+        },
+        extra: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
+      },
+    },
+    {
+      id: 'https://example.com/ContactInvitationActivity',
+      type: 'ShapeDecl',
+      shapeExpr: {
+        type: 'Shape',
+        expression: {
+          type: 'EachOf',
+          expressions: [
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['https://www.w3.org/ns/activitystreams#Invite'],
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#actor',
+              valueExpr: {
+                type: 'NodeConstraint',
+                nodeKind: 'iri',
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#content',
+              valueExpr: {
+                type: 'NodeConstraint',
+                datatype: 'http://www.w3.org/2001/XMLSchema#string',
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#object',
+              valueExpr: 'https://example.com/ContactRelationship',
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#target',
+              valueExpr: {
+                type: 'NodeConstraint',
+                nodeKind: 'iri',
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#updated',
+              valueExpr: {
+                type: 'NodeConstraint',
+                datatype: 'http://www.w3.org/2001/XMLSchema#dateTime',
+              },
+            },
+          ],
+        },
+        extra: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
+      },
+    },
+    {
+      id: 'https://example.com/ContactRelationship',
+      type: 'ShapeDecl',
+      shapeExpr: {
+        type: 'Shape',
+        expression: {
+          type: 'EachOf',
+          expressions: [
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['https://www.w3.org/ns/activitystreams#Relationship'],
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#subject',
+              valueExpr: {
+                type: 'NodeConstraint',
+                nodeKind: 'iri',
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#relationship',
+              valueExpr: {
+                type: 'NodeConstraint',
+                values: ['http://xmlns.com/foaf/0.1/knows'],
+              },
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'https://www.w3.org/ns/activitystreams#object',
+              valueExpr: {
+                type: 'NodeConstraint',
+                nodeKind: 'iri',
               },
             },
           ],

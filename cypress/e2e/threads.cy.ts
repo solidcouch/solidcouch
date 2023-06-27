@@ -3,11 +3,9 @@ import { CommunityConfig } from '../support/setup'
 
 describe('threads (list of conversations)', () => {
   beforeEach(() => {
-    cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
-
     // create and setup people
     cy.get<CommunityConfig>('@community').then(community => {
-      ;['me', 'person1', 'person2', 'person3'].forEach((tag, i) => {
+      ;['me', 'person1', 'person2'].forEach((tag, i) => {
         cy.createPerson(
           {
             name: `Name ${i}`,

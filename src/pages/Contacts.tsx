@@ -1,8 +1,8 @@
-import { comunicaApi } from 'app/services/comunicaApi'
 import { Loading } from 'components'
 import { PersonBadge } from 'components/PersonBadge/PersonBadge'
+import { useReadContacts } from 'hooks/data/useContacts'
 import { useAuth } from 'hooks/useAuth'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import * as types from 'types'
 import styles from './Contacts.module.scss'
 import { ProcessContactInvitation } from './Profile/ManageContact'
@@ -11,8 +11,7 @@ export const Contacts = () => {
   const personId = useParams().id as string
   const auth = useAuth()
 
-  const { data: contacts } =
-    comunicaApi.endpoints.readContacts.useQuery(personId)
+  const [contacts] = useReadContacts(personId)
 
   if (!auth.webId) return <Loading>authenticating</Loading>
   if (!contacts) return <Loading>fetching contacts</Loading>
@@ -20,7 +19,7 @@ export const Contacts = () => {
   return (
     <div>
       <h1>
-        Contacts of <PersonBadge webId={personId} />
+        Contacts of <PersonBadge webId={personId} link />
       </h1>
       <ul className={styles.contactList}>
         {contacts
@@ -45,9 +44,7 @@ export const Contacts = () => {
 const Contact = ({ contact }: { contact: types.Contact }) => {
   return (
     <div className={styles.contact}>
-      <Link to={`/profile/${encodeURIComponent(contact.webId)}`}>
-        <PersonBadge webId={contact.webId} />
-      </Link>
+      <PersonBadge webId={contact.webId} link />
       <span className={styles.spacer}></span>
       {contact.status === 'request_sent' && (
         <span className={styles.status}>pending</span>

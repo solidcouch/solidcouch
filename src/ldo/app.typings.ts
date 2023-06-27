@@ -348,7 +348,7 @@ export interface Inbox {
         '@id': 'BasicContainer'
       }
   )[]
-  contains: MessageActivity
+  contains?: (MessageActivity | ContactInvitationActivity)[]
   modified: string
   mtime: number
   size: number
@@ -372,4 +372,44 @@ export interface MessageActivity {
   object: ChatMessageShape
   target: ChatShape
   updated: string
+}
+
+/**
+ * ContactInvitationActivity Type
+ */
+export interface ContactInvitationActivity {
+  '@id'?: string
+  '@context'?: ContextDefinition
+  type: {
+    '@id': 'Invite'
+  }
+  actor: {
+    '@id': string
+  }
+  content2: string
+  object: ContactRelationship
+  target: {
+    '@id': string
+  }
+  updated: string
+}
+
+/**
+ * ContactRelationship Type
+ */
+export interface ContactRelationship {
+  '@id'?: string
+  '@context'?: ContextDefinition
+  type: {
+    '@id': 'Relationship'
+  }
+  subject: {
+    '@id': string
+  }
+  relationship: {
+    '@id': 'knows'
+  }
+  object: {
+    '@id': string
+  }
 }

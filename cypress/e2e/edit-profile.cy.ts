@@ -12,7 +12,6 @@ const profile = {
 describe('edit profile', () => {
   // create and setup community and profiles
   beforeEach(() => {
-    cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
     cy.createRandomAccount().as('me')
     cy.get<CommunityConfig>('@community').then(community => {
       cy.get<UserConfig>('@me').then(user => {

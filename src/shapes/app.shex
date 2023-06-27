@@ -166,7 +166,8 @@ ex:Resource EXTRA a {
 ex:Inbox EXTRA a {
   a [ ldp:Container ] ;
   a [ ldp:BasicContainer ] ;
-  ldp:contains @ex:MessageActivity ;
+  ldp:contains @ex:MessageActivity *;
+  ldp:contains @ex:ContactInvitationActivity *;
   dct:modified xsd:dateTime ;
   stat:mtime xsd:decimal ;
   stat:size xsd:decimal
@@ -179,4 +180,20 @@ ex:MessageActivity EXTRA a {
   as:object @ex:ChatMessageShape ;
   as:target @ex:ChatShape ;
   as:updated xsd:dateTime
+}
+
+ex:ContactInvitationActivity EXTRA a {
+  a [as:Invite] ;
+  as:actor IRI ;
+  as:content xsd:string ;
+  as:object @ex:ContactRelationship;
+  as:target IRI ;
+  as:updated xsd:dateTime ;
+}
+
+ex:ContactRelationship EXTRA a {
+  a [as:Relationship] ;
+  as:subject IRI ;
+  as:relationship [foaf:knows] ;
+  as:object IRI ;
 }

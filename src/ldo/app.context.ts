@@ -99,6 +99,24 @@ export const appContext: ContextDefinition = {
     '@id': 'https://www.w3.org/ns/activitystreams#updated',
     '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
   },
+  Invite: 'https://www.w3.org/ns/activitystreams#Invite',
+  content2: {
+    '@id': 'https://www.w3.org/ns/activitystreams#content',
+    '@type': 'http://www.w3.org/2001/XMLSchema#string',
+  },
+  Relationship: 'https://www.w3.org/ns/activitystreams#Relationship',
+  subject: {
+    '@id': 'https://www.w3.org/ns/activitystreams#subject',
+    '@type': '@id',
+  },
+  relationship: {
+    '@id': 'https://www.w3.org/ns/activitystreams#relationship',
+  },
+  knows: {
+    '@id': 'http://xmlns.com/foaf/0.1/knows',
+    '@type': '@id',
+    '@container': '@set',
+  },
   modified: {
     '@id': 'http://purl.org/dc/terms/modified',
     '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
@@ -156,11 +174,6 @@ export const appContext: ContextDefinition = {
     '@container': '@set',
   },
   ListedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',
-  knows: {
-    '@id': 'http://xmlns.com/foaf/0.1/knows',
-    '@type': '@id',
-    '@container': '@set',
-  },
   topicInterest: {
     '@id': 'http://xmlns.com/foaf/0.1/topic_interest',
     '@type': '@id',
