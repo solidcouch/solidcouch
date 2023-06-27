@@ -58,7 +58,7 @@ import {
   setupCommunity,
   setupPod,
 } from './setup'
-import { saveContacts } from './setup/contacts'
+import { ContactNotification, saveContacts } from './setup/contacts'
 import { Conversation, createConversation } from './setup/messages'
 
 declare global {
@@ -125,8 +125,9 @@ declare global {
        *   if doc is provided, we'll also link the extended profile document from main profile
        */
       saveContacts(config: {
-        person: UserConfig
-        contacts: string[]
+        person: Person
+        contacts: Person[]
+        notifications?: (ContactNotification | number)[]
         doc?: string
       }): void
     }
@@ -157,8 +158,9 @@ Cypress.Commands.add(
   },
 )
 
-const generateRandomString = (length: number): string => {
-  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ '
+export const generateRandomString = (length: number): string => {
+  const characters =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ          '
   let randomString = ''
   for (let i = 0; i < length; i++) {
     const randomChar = characters.charAt(
