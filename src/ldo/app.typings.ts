@@ -48,6 +48,12 @@ export interface SolidProfile {
    * A registry of all types used on the user's Pod (for public access)
    */
   publicTypeIndex?: PublicTypeIndex[]
+  /**
+   * Solid OIDC issuer for a webId.
+   */
+  oidcIssuer: {
+    '@id': string
+  }[]
 }
 
 /**

@@ -1,9 +1,10 @@
 import { login } from '@inrupt/solid-client-authn-browser'
-import { ldoApi } from 'app/services/ldoApi'
 import { Button } from 'components'
+import { readOidcIssuer } from 'components/SignIn/oidcIssuer'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
+import { URI } from 'types'
 import styles from './SignIn.module.scss'
 
 Modal.setAppElement('#root')
@@ -13,20 +14,15 @@ const oidcIssuers = [
   { name: 'solidweb.me', url: 'https://solidweb.me' },
 ]
 
-const useGuessIssuer = () => {
-  const [readOidcIssuer] = ldoApi.endpoints.readOidcIssuer.useLazyQuery()
-
-  return async (webIdOrIssuer: string): Promise<string> => {
-    let issuer: string
-    try {
-      // first we assume that the provider is
-      const profile = await readOidcIssuer(webIdOrIssuer).unwrap()
-      issuer = profile.oidcIssuer[0]['@id']
-    } catch {
-      issuer = webIdOrIssuer
-    }
-
-    return issuer
+const guessIssuer = async (webIdOrIssuer: URI): Promise<URI> => {
+  try {
+    // assume that the address is webId
+    const oidcIssuers = await readOidcIssuer(webIdOrIssuer)
+    if (oidcIssuers.length === 0) throw new Error('OIDC issuer not found')
+    return oidcIssuers[0]
+  } catch {
+    // default to initial URI
+    return webIdOrIssuer
   }
 }
 
@@ -34,8 +30,6 @@ export const SignIn = () => {
   const [modalOpen, setModalOpen] = useState(false)
 
   const { register, handleSubmit } = useForm<{ webIdOrIssuer: string }>()
-
-  const guessIssuer = useGuessIssuer()
 
   // sign in on selecting a provider
   const handleSelectIssuer = async (oidcIssuer: string) => {

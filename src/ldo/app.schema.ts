@@ -140,6 +140,25 @@ export const appSchema: Schema = {
                 },
               ],
             },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://www.w3.org/ns/solid/terms#oidcIssuer',
+              valueExpr: {
+                type: 'NodeConstraint',
+                nodeKind: 'iri',
+              },
+              min: 1,
+              max: -1,
+              annotations: [
+                {
+                  type: 'Annotation',
+                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  object: {
+                    value: 'Solid OIDC issuer for a webId.',
+                  },
+                },
+              ],
+            },
           ],
         },
         extra: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
