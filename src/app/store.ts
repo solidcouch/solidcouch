@@ -7,11 +7,9 @@ import {
 import * as authSlice from 'features/auth/authSlice'
 import { rtkQueryErrorLogger } from './rtkQueryErrorLogger'
 import { comunicaApi } from './services/comunicaApi'
-import { ldoApi } from './services/ldoApi'
 
 const appReducer = combineReducers({
   auth: authSlice.reducer,
-  [ldoApi.reducerPath]: ldoApi.reducer,
   [comunicaApi.reducerPath]: comunicaApi.reducer,
 })
 
@@ -32,7 +30,6 @@ export const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
       .concat(rtkQueryErrorLogger)
-      .concat(ldoApi.middleware)
       .concat(comunicaApi.middleware),
 })
 
