@@ -1,6 +1,5 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { comunicaApi } from 'app/services/comunicaApi'
 import { ButtonLink } from 'components'
+import { useReadMessagesFromInbox } from 'hooks/data/useReadThreads'
 import { useAuth } from 'hooks/useAuth'
 import { NavLayout } from 'layouts/NavLayout'
 import { useMemo } from 'react'
@@ -10,10 +9,7 @@ import styles from './Home.module.scss'
 export const Home = () => {
   const auth = useAuth()
 
-  const { data: newMessages } =
-    comunicaApi.endpoints.readMessagesFromInbox.useQuery(
-      auth.webId ? { me: auth.webId } : skipToken,
-    )
+  const { data: newMessages } = useReadMessagesFromInbox(auth.webId!)
 
   const tabs = useMemo(
     () => [

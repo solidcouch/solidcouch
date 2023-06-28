@@ -208,25 +208,45 @@ export const useProcessNotification = () => {
       // at this point my chat must exist
       // and we add other chat to my chat as referenced chat
       // TODO check that otherChat correctly references this chat, and only this chat, or references nothing
-      await updateChat.mutateAsync({
-        uri: chat,
-        subject: chat,
-        transform: ldo => {
-          if (!ldo.participation) throw new Error('no participation')
-          if (ldo.participation && ldo.participation.length > 2)
-            throw new Error('too much participation (only 2 people supported!)')
-          const participation = ldo.participation?.find(
-            p => p.participant?.['@id'] === otherPerson,
-          )
+      try {
+        await updateChat.mutateAsync({
+          uri: chat,
+          subject: chat,
+          transform: ldo => {
+            if (!ldo.participation) throw new Error('no participation')
+            if (ldo.participation && ldo.participation.length > 2)
+              throw new Error(
+                'too much participation (only 2 people supported!)',
+              )
+            const participation = ldo.participation?.find(
+              p => p.participant?.['@id'] === otherPerson,
+            )
 
-          if (!participation)
-            throw new Error("other person's participation not found")
-          if (participation.references && participation.references?.length > 0)
-            throw new Error('participation alread references some other chat')
+            if (!participation)
+              throw new Error("other person's participation not found")
 
-          participation.references = [{ '@id': otherChat } as ChatShape]
-        },
-      })
+            if (
+              participation.references?.length === 1 &&
+              participation.references[0]['@id'] === otherChat
+            )
+              throw new Error('already updated')
+
+            if (
+              participation.references &&
+              participation.references?.length > 0
+            )
+              throw new Error(
+                'participation already references some other chat',
+              )
+
+            participation.references = [{ '@id': otherChat } as ChatShape]
+          },
+        })
+      } catch (error) {
+        if (error instanceof Error && error.message === 'already updated') {
+          // do nothing
+        } else throw error
+      }
 
       await deleteNotification.mutateAsync({ uri: notificationId })
     },

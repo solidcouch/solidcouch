@@ -174,6 +174,11 @@ export const appContext: ContextDefinition = {
     '@container': '@set',
   },
   ListedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',
+  oidcIssuer: {
+    '@id': 'http://www.w3.org/ns/solid/terms#oidcIssuer',
+    '@type': '@id',
+    '@container': '@set',
+  },
   topicInterest: {
     '@id': 'http://xmlns.com/foaf/0.1/topic_interest',
     '@type': '@id',

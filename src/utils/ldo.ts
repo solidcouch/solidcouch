@@ -19,6 +19,11 @@ const getCircularReplacer = () => {
   }
 }
 
+/**
+ * Stringify LDO
+ * useful for logging
+ */
+// eslint-disable-next-line import/no-unused-modules
 export const ldo2json = <T>(ldo: T): T =>
   JSON.parse(JSON.stringify(ldo, getCircularReplacer()))
 

@@ -67,7 +67,7 @@ export const useRdfDocuments = (uris: URI[]) => {
  * parse it into rdf Dataset
  * add document url as graph
  */
-const fetchRdfDocument = async (uri: URI) => {
+export const fetchRdfDocument = async (uri: URI) => {
   const res = await fullFetch(uri)
 
   if (res.ok) {

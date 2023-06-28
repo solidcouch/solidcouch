@@ -1,6 +1,6 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { ldoApi } from 'app/services/ldoApi'
 import { Avatar } from 'components'
+import { communityId } from 'config'
+import { useProfile } from 'hooks/data/useProfile'
 import { URI } from 'types'
 
 export const PersonMini = ({
@@ -10,15 +10,8 @@ export const PersonMini = ({
   webId: URI
   className?: string
 }) => {
-  const { data: person } = ldoApi.endpoints.readUser.useQuery(
-    webId || skipToken,
-  )
+  const [person] = useProfile(webId, communityId)
   return (
-    <Avatar
-      photo={person?.hasPhoto?.['@id'] ?? person?.img}
-      square
-      size={1.25}
-      className={className}
-    />
+    <Avatar photo={person.photo} square size={1.25} className={className} />
   )
 }

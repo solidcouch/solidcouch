@@ -37,6 +37,8 @@ ex:SolidProfile EXTRA a {
     // rdfs:comment  "A registry of all types used on the user's Pod (for private access only)" ;
   solid:publicTypeIndex @ex:PublicTypeIndex *
     // rdfs:comment  "A registry of all types used on the user's Pod (for public access)" ;
+  solid:oidcIssuer IRI +
+    // rdfs:comment  "Solid OIDC issuer for a webId." ;
 }
 
 ex:FoafProfile EXTRA a {
