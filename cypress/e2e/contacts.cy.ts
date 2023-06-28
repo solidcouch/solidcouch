@@ -180,4 +180,6 @@ describe("person's contacts", () => {
   })
 
   it('should ignore fake contacts (not published by correct person)')
+
+  it('should show number of contact requests in user menu')
 })

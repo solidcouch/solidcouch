@@ -49,7 +49,6 @@ export const Header = () => {
             <MenuItem>
               <Link to={`profile/${encodeURIComponent(auth.webId)}/contacts`}>
                 contacts
-                {newMessages?.length ? ` (${newMessages.length} new)` : null}
               </Link>
             </MenuItem>
           )}
