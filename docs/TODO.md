@@ -42,3 +42,12 @@
 - references
 
 ## Bugs
+
+- fix the redirect error: Sometimes the app redirects to identity provider, but identity provider fails with
+  (i think it happened with solidcommunity.net, which runs NodeSolidServer)
+  ```json
+  {
+    "error": "invalid_request",
+    "error_description": "Mismatching redirect uri"
+  }
+  ```
