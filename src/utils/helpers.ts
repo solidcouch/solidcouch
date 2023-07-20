@@ -109,11 +109,15 @@ const generateIteratively = <T>(
   return Array.from(seen)
 }
 
+/**
+ * Find link to ACL document for a given URI
+ */
 export const getAcl = async (uri: URI) => {
   const response = await fetch(uri, { method: 'HEAD' })
   const linkHeader = response.headers.get('link')
   const links = parseLinkHeader(linkHeader)
   const aclUri = links?.acl?.url
   if (!aclUri) throw new Error(`We could not find WAC link for ${uri}`)
-  return aclUri
+  // if aclUri is relative, return absolute uri
+  return new URL(aclUri, uri).toString()
 }
