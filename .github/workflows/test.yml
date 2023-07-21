@@ -13,6 +13,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         env:
+          NODE_ENV: test
           CYPRESS_COMMUNITY: http://localhost:4000/test-community/community#us'
           CYPRESS_OTHER_COMMUNITY: http://localhost:4000/other-community/community#us'
           CYPRESS_cssUrl: http://localhost:4000
