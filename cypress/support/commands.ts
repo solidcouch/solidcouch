@@ -168,7 +168,7 @@ export const generateRandomString = (length: number): string => {
     )
     randomString += randomChar
   }
-  return randomString.trim()
+  return randomString.replace(/\s+/g, ' ').trim()
 }
 
 Cypress.Commands.add(
