@@ -2,7 +2,7 @@ name: Notify matrix room when an issue is created
 
 on:
   issues:
-    types: [opened, reopened, transferred]
+    types: [opened, reopened]
 
 jobs:
   ping_matrix:
