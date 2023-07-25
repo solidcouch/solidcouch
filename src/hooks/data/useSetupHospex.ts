@@ -51,7 +51,7 @@ export const useSetupHospex = () => {
         inbox,
       }: SetupSettings,
     ) => {
-      // create personal hospex document at hospex/sleepy-bike/card folder
+      // create personal hospex document at hospex/{communityContainer}/card
       // in home folder (pim:storage)
       if (tasks.includes('createHospexProfile'))
         await createHospexProfile({
