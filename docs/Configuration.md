@@ -26,9 +26,9 @@ REACT_APP_VARIABLE1="variable" REACT_APP_VARIABLE_2="other variable" yarn build
 
 ### Specify environment variables for github workflow build
 
-Have a look in [deployment workflow](../.github/workflows/deploy.yml) to see how our github environment variables map to our app configuration options
+You can specify github environment variables in [repository's settings](https://github.com/OpenHospitalityNetwork/sleepy.bike/settings/variables/actions). Some of github variables are named differently from the environment variables documented here
 
-You need to specify environment variables in [repository's github settings](https://github.com/OpenHospitalityNetwork/sleepy.bike/settings/variables/actions). Some of github variables are named differently from the environment variables documented here
+Have a look in [deployment workflow](../.github/workflows/deploy.yml) to see how our github environment variables map to our app configuration options
 
 #### Github workflow variables
 
