@@ -28,6 +28,7 @@ jobs:
         run: yarn build
         env:
           REACT_APP_COMMUNITY: ${{ vars.COMMUNITY }}
+          REACT_APP_COMMUNITY_CONTAINER: ${{ vars.COMMUNITY_CONTAINER }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
