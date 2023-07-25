@@ -1,6 +1,6 @@
 import { Button } from 'components'
 import { Loading } from 'components/Loading/Loading'
-import { communityId } from 'config'
+import { communityContainer, communityId } from 'config'
 import { useReadCommunity } from 'hooks/data/useCommunity'
 import { useJoinGroup } from 'hooks/data/useJoinGroup'
 import {
@@ -70,7 +70,7 @@ export const HospexSetup = ({
         inbox: isInbox ? inboxes[0] : `${storage}inbox/`,
         hospexDocument: isHospexProfile
           ? personalHospexDocuments[0]
-          : `${storage}hospex/sleepy-bike/card`,
+          : `${storage}hospex/${communityContainer}/card`,
       }
       await setupHospex(tasks, settings)
     }
@@ -107,9 +107,8 @@ export const HospexSetup = ({
         <li>{!isInbox && `create inbox ${storage + 'inbox/'}`}</li>
         <li>
           {!isHospexProfile &&
-            `setup hospex document and storage ${
-              storage + 'hospex/sleepy-bike/card'
-            }`}
+            'setup hospex document and storage ' +
+              `${storage}hospex/${communityContainer}/card`}
         </li>
       </ul>
       <Button primary onClick={() => handleClickSetup()}>
