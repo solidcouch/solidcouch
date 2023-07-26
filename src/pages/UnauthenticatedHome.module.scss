@@ -1,0 +1,58 @@
+.wrapper {
+  height: 100%;
+  padding-bottom: 3rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+
+  text-align: justify;
+
+  .mainDescription {
+    font-size: 1.2rem;
+  }
+
+  .actions {
+    button {
+      padding: 1rem;
+      font-size: 1.2rem;
+    }
+  }
+
+  .projects {
+    max-width: 20rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+
+    .project {
+      display: grid;
+      grid-template-rows: 2fr 1fr;
+      align-items: start;
+      justify-items: center;
+      gap: 1rem;
+
+      .logo {
+        height: 6rem;
+        width: 6rem;
+      }
+    }
+
+    .plus {
+      font-size: 3rem;
+    }
+  }
+
+  .spacer {
+    flex: auto;
+  }
+
+  .footer {
+    a {
+      text-decoration: underline;
+    }
+  }
+}
