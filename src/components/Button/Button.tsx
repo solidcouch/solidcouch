@@ -70,3 +70,26 @@ export const ExternalIconLink = (
     <FaExternalLinkAlt />
   </a>
 )
+
+export const ExternalButtonLink = ({
+  primary,
+  secondary,
+  tertiary,
+  danger,
+  className,
+  ...props
+}: AnchorHTMLAttributes<HTMLAnchorElement> & ButtonProps) => {
+  return (
+    <a
+      className={classNames(
+        className,
+        styles.button,
+        primary && styles.primary,
+        danger && styles.danger,
+        secondary && styles.secondary,
+        tertiary && styles.tertiary,
+      )}
+      {...props}
+    />
+  )
+}
