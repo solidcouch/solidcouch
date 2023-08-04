@@ -167,8 +167,10 @@ export const Join = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Ask for help in our project spaces!
-            </a>
+              Ask for help in our project spaces
+            </a>{' '}
+            or write us email to{' '}
+            <i className={styles.email}>"join at sleepy dot bike"</i>
           </div>
         </div>
       </Modal>
