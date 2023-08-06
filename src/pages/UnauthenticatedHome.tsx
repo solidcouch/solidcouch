@@ -21,7 +21,10 @@ export const UnauthenticatedHome = () => {
           />
           <div>Open Hospitality Network</div>
         </a>
-        <span className={styles.plus}>+</span>
+        <span className={styles.connection}>
+          <span className={styles.plus}>+</span>
+          <span />
+        </span>
         <a href="https://solidproject.org" className={styles.project}>
           <img
             src="https://avatars3.githubusercontent.com/u/14262490?v=3&s=200"
