@@ -43,7 +43,15 @@ const tabs = [
           Get a Pod at solidweb.me 😉
         </ExternalButtonLink>
         <br />
-        It runs the more modern Community Solid Server
+        It runs the{' '}
+        <a
+          href="https://github.com/CommunitySolidServer/CommunitySolidServer"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Community Solid Server
+        </a>
+        , which is modern and open-source.
       </>
     ),
   },
@@ -84,7 +92,7 @@ const tabs = [
         </p>
         <p>
           Choose option <i>"Use my existing WebID to access my Pod"</i> with one
-          of these providers
+          of these providers:
         </p>
         <ul>
           {oidcIssuers
@@ -102,9 +110,12 @@ const tabs = [
               </li>
             ))}
         </ul>
-        (this will need more explanation),
-        <br />
-        or host your own Solid Server.
+        <p>
+          To complete the process, you must prove that the WebId on your domain
+          belongs to you. Afterwards, the WebId must point to your Profile
+          Document. (This may need more explanation.)
+        </p>
+        <p>Or use your domain to host your own Solid Pod.</p>
       </>
     ),
   },
@@ -170,7 +181,7 @@ export const Join = () => {
               Ask for help in our project spaces
             </a>{' '}
             or write us email to{' '}
-            <i className={styles.email}>"join at sleepy dot bike"</i>
+            <i className={styles.email}>"support at sleepy dot bike"</i>
           </div>
         </div>
       </Modal>
