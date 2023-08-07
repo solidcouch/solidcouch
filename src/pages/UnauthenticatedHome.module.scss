@@ -28,21 +28,26 @@
     gap: 1rem;
     text-align: center;
 
-    .project {
+    .project,
+    .connection {
       display: grid;
-      grid-template-rows: 2fr 1fr;
+      grid-template-rows: 1fr 1fr;
       align-items: start;
       justify-items: center;
-      gap: 1rem;
+      gap: 0.5rem;
 
       .logo {
         height: 6rem;
         width: 6rem;
+        object-fit: contain;
       }
     }
 
     .plus {
       font-size: 3rem;
+      height: 6rem;
+      display: flex;
+      align-items: center;
     }
   }
 
