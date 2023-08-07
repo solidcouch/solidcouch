@@ -83,12 +83,20 @@ const tabs = [
             >
               running your own Solid server
             </a>
+            .
           </i>
         </p>
         <hr />
         <p>
-          If you own a <b>domain name</b>, you can have your webId on your
-          domain. This gives you more control over your Solid identity.
+          If you own a <b>domain name</b>, you can have your{' '}
+          <a
+            href="https://solidproject.org/TR/protocol#webid"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WebID
+          </a>{' '}
+          on your domain. This gives you more control over your Solid identity.
         </p>
         <p>
           Choose option <i>"Use my existing WebID to access my Pod"</i> with one
@@ -111,8 +119,8 @@ const tabs = [
             ))}
         </ul>
         <p>
-          To complete the process, you must prove that the WebId on your domain
-          belongs to you. Afterwards, the WebId must point to your Profile
+          To complete the process, you must prove that the WebID on your domain
+          belongs to you. Afterwards, the WebID must point to your Profile
           Document. (This may need more explanation.)
         </p>
         <p>Or use your domain to host your own Solid Pod.</p>
