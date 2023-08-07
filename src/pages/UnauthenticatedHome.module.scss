@@ -1,0 +1,32 @@
+.wrapper {
+  height: 100%;
+  padding-bottom: 3rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+
+  text-align: justify;
+
+  .mainDescription {
+    font-size: 1.2rem;
+  }
+
+  .actions {
+    button {
+      padding: 1rem;
+      font-size: 1.2rem;
+    }
+  }
+
+  .spacer {
+    flex: auto;
+  }
+
+  .footer {
+    a {
+      text-decoration: underline;
+    }
+  }
+}
