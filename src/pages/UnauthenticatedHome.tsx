@@ -1,3 +1,4 @@
+import { Join } from 'components/Join/Join'
 import { SignIn } from 'components/SignIn/SignIn'
 import styles from './UnauthenticatedHome.module.scss'
 
@@ -9,6 +10,7 @@ export const UnauthenticatedHome = () => {
         want to host them.
       </section>
       <section className={styles.actions}>
+        <Join />
         <SignIn />
       </section>
       <div className={styles.projects}>
