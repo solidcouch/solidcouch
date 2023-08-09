@@ -1,6 +1,7 @@
 import { login } from '@inrupt/solid-client-authn-browser'
 import { Button } from 'components'
 import { readOidcIssuer } from 'components/SignIn/oidcIssuer'
+import { oidcIssuers } from 'config'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
@@ -8,11 +9,6 @@ import { URI } from 'types'
 import styles from './SignIn.module.scss'
 
 Modal.setAppElement('#root')
-
-const oidcIssuers = [
-  { name: 'solidcommunity.net', url: 'https://solidcommunity.net' },
-  { name: 'solidweb.me', url: 'https://solidweb.me' },
-]
 
 const guessIssuer = async (webIdOrIssuer: URI): Promise<URI> => {
   try {
@@ -28,16 +24,25 @@ const guessIssuer = async (webIdOrIssuer: URI): Promise<URI> => {
 
 export const SignIn = () => {
   const [modalOpen, setModalOpen] = useState(false)
+  const [longList, setLongList] = useState(false)
 
   const { register, handleSubmit } = useForm<{ webIdOrIssuer: string }>()
 
   // sign in on selecting a provider
   const handleSelectIssuer = async (oidcIssuer: string) => {
-    await login({
-      oidcIssuer,
-      redirectUrl: window.location.href,
-      clientName: 'sleepy.bike',
-    })
+    try {
+      await login({
+        oidcIssuer,
+        redirectUrl: window.location.href,
+        clientName: 'sleepy.bike',
+      })
+    } catch (e) {
+      if (e instanceof TypeError) {
+        alert(
+          "We didn't succeed with redirecting to the issuer. Have you provided correct webId or OIDCIssuer? Or is it down?",
+        )
+      } else throw e
+    }
   }
 
   const handleFormSubmit = handleSubmit(async ({ webIdOrIssuer }) => {
@@ -46,15 +51,13 @@ export const SignIn = () => {
     try {
       await handleSelectIssuer(issuer)
     } catch (e) {
-      alert(
-        "We didn't succeed with redirecting to the issuer. Have you provided correct webId or OIDCIssuer?",
-      )
+      alert(JSON.stringify(e))
     }
   })
 
   return (
     <>
-      <Button primary onClick={() => setModalOpen(true)}>
+      <Button secondary onClick={() => setModalOpen(true)}>
         Sign in
       </Button>
       <Modal
@@ -65,11 +68,22 @@ export const SignIn = () => {
       >
         <div className={styles.providers}>
           Select your Solid identity provider
-          {oidcIssuers.map(({ name, url }) => (
-            <Button secondary key={url} onClick={() => handleSelectIssuer(url)}>
-              {name}
+          {oidcIssuers
+            .slice(longList ? undefined : 0, longList ? undefined : 2)
+            .map(({ issuer: url }) => (
+              <Button
+                secondary
+                key={url}
+                onClick={() => handleSelectIssuer(url)}
+              >
+                {new URL(url).hostname}
+              </Button>
+            ))}
+          {!longList && (
+            <Button tertiary onClick={() => setLongList(true)}>
+              more
             </Button>
-          ))}
+          )}
           or write your own Solid identity provider, or your webId
           <form className={styles.webIdForm} onSubmit={handleFormSubmit}>
             <input

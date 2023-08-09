@@ -1,0 +1,62 @@
+.container {
+  // show footer at the bottom
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 100%;
+
+  a {
+    text-decoration: underline;
+  }
+
+  ul {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  .content {
+    .podOptions {
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+
+        margin: 1.5rem 0;
+
+        border-bottom: 2px solid black;
+
+        input[type='radio'] {
+          opacity: 0;
+          position: absolute;
+        }
+
+        /* Styling for the tab labels */
+        label {
+          padding: 0.5rem 0.75rem;
+          cursor: pointer;
+        }
+
+        /* Styling for the selected tab */
+        input[type='radio']:checked + label {
+          background-color: black;
+          color: white;
+        }
+      }
+
+      .tabContent {
+        p {
+          margin: 0.75rem 0;
+        }
+      }
+    }
+  }
+
+  .footer {
+    .email {
+      white-space: nowrap;
+    }
+  }
+}

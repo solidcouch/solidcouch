@@ -14,6 +14,10 @@
   }
 
   .actions {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+
     button {
       padding: 1rem;
       font-size: 1.2rem;
