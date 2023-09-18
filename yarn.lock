@@ -5422,14 +5422,15 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@inrupt/oidc-client-ext@^1.16.0":
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/@inrupt/oidc-client-ext/-/oidc-client-ext-1.16.0.tgz#f9289cfa6caa1cd5578da5521873cea3fa1b8b66"
-  integrity sha512-09fJEX64GFq6eWY5xSFsKWo9Uz2v14s2L2It49/KnzAe7O9hc8XXelNndLPxrrOOzuf38YHv4W1irFJPy4PPMw==
+"@inrupt/oidc-client-ext@^1.17.2":
+  version "1.17.2"
+  resolved "https://registry.yarnpkg.com/@inrupt/oidc-client-ext/-/oidc-client-ext-1.17.2.tgz#6ccb6a55387bd5284cf684448fe2a5569fcd7b40"
+  integrity sha512-bmfY4DijxpiGeRu9b4EhAc69gs+TQErM0HBJDNqmXKAoWDD5wdj2nrCJ5jKxodKWujhWyL0AYVOnBzAI46N3hg==
   dependencies:
     "@inrupt/oidc-client" "^1.11.6"
-    "@inrupt/solid-client-authn-core" "^1.16.0"
-    jose "^4.10.0"
+    "@inrupt/solid-client-authn-core" "^1.17.2"
+    "@inrupt/universal-fetch" "^1.0.1"
+    jose "^4.14.6"
     uuid "^9.0.0"
 
 "@inrupt/oidc-client@^1.11.6":
@@ -5443,37 +5444,40 @@
     crypto-js "^4.0.0"
     serialize-javascript "^4.0.0"
 
-"@inrupt/solid-client-authn-browser@^1.16.0":
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-browser/-/solid-client-authn-browser-1.16.0.tgz#4338025f1161974d5fae313ee4f2ab6d0eea21f5"
-  integrity sha512-6Wq/e8C5RapSFTRhs7TKThwhLaQ2DdMqmAiqaNlP7XpTWKRv87Chc2sX0msPjzmM+L/Tde2+71lX1o0x6sQbKA==
+"@inrupt/solid-client-authn-browser@^1.17.2":
+  version "1.17.2"
+  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-browser/-/solid-client-authn-browser-1.17.2.tgz#a18e670ccc6a76568409a23c85ea5b4a6ad11539"
+  integrity sha512-jyiTtrgdrhbNo5LYw8DurFtGTxxxkwWt41PGJ/6CxEq7MUUVkoeN/jJrSkgwSRW/K9kHgrLlCeodsl+7QEnumA==
   dependencies:
-    "@inrupt/oidc-client-ext" "^1.16.0"
-    "@inrupt/solid-client-authn-core" "^1.16.0"
-    "@inrupt/universal-fetch" "^1.0.1"
-    "@types/lodash.clonedeep" "^4.5.6"
-    "@types/node" "^20.1.0"
-    "@types/uuid" "^9.0.1"
+    "@inrupt/oidc-client-ext" "^1.17.2"
+    "@inrupt/solid-client-authn-core" "^1.17.2"
+    "@inrupt/universal-fetch" "^1.0.2"
     events "^3.3.0"
-    jose "^4.3.7"
-    lodash.clonedeep "^4.5.0"
+    jose "^4.14.6"
     uuid "^9.0.0"
 
-"@inrupt/solid-client-authn-core@^1.16.0":
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-core/-/solid-client-authn-core-1.16.0.tgz#ca92e80e8e9cf7fe6984434252d2ba0912df4b16"
-  integrity sha512-lp4p21Ob0SJwPW2mJcUkM6YBp/zj9MM+RlHRM1uUdpPgvybGDLEIgJfKjkjku0RqFFJwCSP/KtbdCgnNFk5KXw==
+"@inrupt/solid-client-authn-core@^1.17.2":
+  version "1.17.2"
+  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-core/-/solid-client-authn-core-1.17.2.tgz#b0973167642962b151ce650e8f73d47c46238da8"
+  integrity sha512-WxT4jcoAyWdL9ztqPmNSTDoVaOJV9aey3MkYI130roO/mu4DJdgCh072bBHrdbuspiTi7NS5ONAbV+TuVa1+Jg==
   dependencies:
     "@inrupt/universal-fetch" "^1.0.1"
     events "^3.3.0"
-    jose "^4.10.0"
-    lodash.clonedeep "^4.5.0"
+    jose "^4.14.6"
     uuid "^9.0.0"
 
 "@inrupt/universal-fetch@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@inrupt/universal-fetch/-/universal-fetch-1.0.1.tgz#37924564aaaca586913cab68728fb94c0a504928"
   integrity sha512-oqbG7jS1fa6hVkjSir+u5Ab3eSbyxFyOjsgjDICL27mAd5z8oImTSETnY2hYbkRaJQYKMBOXhtm7L5/+EbeVJg==
+  dependencies:
+    node-fetch "^2.6.7"
+    undici "^5.19.1"
+
+"@inrupt/universal-fetch@^1.0.2":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@inrupt/universal-fetch/-/universal-fetch-1.0.3.tgz#b13cedc95e6e7adbd6b749846ab0c7e49e918f9c"
+  integrity sha512-AP/nMOuuKvR2YoQkdS77ntuuq5ZYDGStI8Uirp1MCsyPSoBLyNnRjMLjlGqIlaC+5Xp7TYZJ9z/Kl2uUEpXUFw==
   dependencies:
     node-fetch "^2.6.7"
     undici "^5.19.1"
@@ -6691,13 +6695,6 @@
   dependencies:
     "@types/geojson" "*"
 
-"@types/lodash.clonedeep@^4.5.6":
-  version "4.5.7"
-  resolved "https://registry.yarnpkg.com/@types/lodash.clonedeep/-/lodash.clonedeep-4.5.7.tgz#0e119f582ed6f9e6b373c04a644651763214f197"
-  integrity sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==
-  dependencies:
-    "@types/lodash" "*"
-
 "@types/lodash.orderby@^4.6.7":
   version "4.6.7"
   resolved "https://registry.yarnpkg.com/@types/lodash.orderby/-/lodash.orderby-4.6.7.tgz#3484098c0633f45aa0d3a57c5a8fc8a031cebb43"
@@ -6769,11 +6766,6 @@
   version "16.18.11"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.11.tgz#cbb15c12ca7c16c85a72b6bdc4d4b01151bb3cae"
   integrity sha512-3oJbGBUWuS6ahSnEq1eN2XrCyf4YsWI8OyCvo7c64zQJNplk3mO84t53o8lfTk+2ji59g5ycfc6qQ3fdHliHuA==
-
-"@types/node@^20.1.0":
-  version "20.2.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.2.5.tgz#26d295f3570323b2837d322180dfbf1ba156fefb"
-  integrity sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==
 
 "@types/nodemailer@^6.4.7":
   version "6.4.7"
@@ -12119,10 +12111,10 @@ jose@^4.1.4, jose@^4.10.3, jose@^4.14.1:
   resolved "https://registry.yarnpkg.com/jose/-/jose-4.14.4.tgz#59e09204e2670c3164ee24cbfe7115c6f8bff9ca"
   integrity sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==
 
-jose@^4.10.0, jose@^4.3.7:
-  version "4.11.2"
-  resolved "https://registry.yarnpkg.com/jose/-/jose-4.11.2.tgz#d9699307c02e18ff56825843ba90e2fae9f09e23"
-  integrity sha512-njj0VL2TsIxCtgzhO+9RRobBvws4oYyCM8TpvoUQwl/MbIM3NFJRR9+e6x0sS5xXaP1t6OCBkaBME98OV9zU5A==
+jose@^4.14.6:
+  version "4.14.6"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.14.6.tgz#94dca1d04a0ad8c6bff0998cdb51220d473cc3af"
+  integrity sha512-EqJPEUlZD0/CSUMubKtMaYUOtWe91tZXTWMJZoKSbLk+KtdhNdcvppH8lA9XwVu2V4Ailvsj0GBZJ2ZwDjfesQ==
 
 js-sdsl@^4.1.4:
   version "4.3.0"
@@ -12601,11 +12593,6 @@ locate-path@^6.0.0:
   integrity sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==
   dependencies:
     p-locate "^5.0.0"
-
-lodash.clonedeep@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
-  integrity sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==
 
 lodash.debounce@^4.0.8:
   version "4.0.8"
