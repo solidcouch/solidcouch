@@ -54,6 +54,15 @@ export const UnauthenticatedHome = () => {
           view source code
         </a>{' '}
         or <a href="https://opencollective.com/ohn">support us financially</a>.
+        <br />
+        Follow us on{' '}
+        <a rel="me" href="https://floss.social/@sleepybike">
+          mastodon
+        </a>{' '}
+        or{' '}
+        <a rel="me" href="https://www.facebook.com/SleepyBikePage/">
+          Facebook
+        </a>
       </footer>
     </div>
   )
