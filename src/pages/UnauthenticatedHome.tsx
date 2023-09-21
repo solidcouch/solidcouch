@@ -55,11 +55,11 @@ export const UnauthenticatedHome = () => {
         </a>{' '}
         or <a href="https://opencollective.com/ohn">support us financially</a>.
         <br />
-        Follow us on{' '}
+        Follow us in the{' '}
         <a rel="me" href="https://floss.social/@sleepybike">
-          mastodon
+          Fediverse
         </a>{' '}
-        or{' '}
+        or on{' '}
         <a rel="me" href="https://www.facebook.com/SleepyBikePage/">
           Facebook
         </a>.
