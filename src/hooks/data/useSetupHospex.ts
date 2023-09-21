@@ -32,6 +32,7 @@ export type SetupSettings = {
   hospexDocument: URI
 }
 
+
 export const useSetupHospex = () => {
   const createPrivateTypeIndex = useCreatePrivateTypeIndex()
   const createPublicTypeIndex = useCreatePublicTypeIndex()
