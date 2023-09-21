@@ -13,5 +13,5 @@ jobs:
         with:
           room_id: ${{ secrets.MATRIX_ROOM_ID }}
           access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-          message: "${{ github.event.issue.user.login }} has just opened an issue: [${{ github.event.issue.title }}](${{ github.event.issue.html_url }})"
-          server: "matrix.org"
+          message: '${{ github.event.issue.user.login }} has just opened an issue: [${{ github.event.issue.title }}](${{ github.event.issue.html_url }})'
+          server: 'matrix.org'
