@@ -62,7 +62,8 @@ export const UnauthenticatedHome = () => {
         or on{' '}
         <a rel="me" href="https://www.facebook.com/SleepyBikePage/">
           Facebook
-        </a>.
+        </a>
+        .
       </footer>
     </div>
   )
