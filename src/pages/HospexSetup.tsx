@@ -19,6 +19,7 @@ export const HospexSetup = ({
   isPrivateTypeIndex,
   isHospexProfile,
   isInbox,
+  isEmailNotifications,
   personalHospexDocuments,
   publicTypeIndexes,
   privateTypeIndexes,
@@ -29,6 +30,7 @@ export const HospexSetup = ({
   isPublicTypeIndex: boolean
   isPrivateTypeIndex: boolean
   isInbox: boolean
+  isEmailNotifications: boolean | 'unverified'
   personalHospexDocuments: URI[]
   publicTypeIndexes: URI[]
   privateTypeIndexes: URI[]
@@ -40,20 +42,22 @@ export const HospexSetup = ({
   const community = useReadCommunity(communityId)
   const joinGroup = useJoinGroup()
   const [isSaving, setIsSaving] = useState(false)
+  const [email, setEmail] = useState('')
   const handleClickSetup = async () => {
     setIsSaving(true)
     if (
       !isPublicTypeIndex ||
       !isPrivateTypeIndex ||
       !isHospexProfile ||
-      !isInbox
+      !isInbox ||
+      !isEmailNotifications
     ) {
       const tasks: SetupTask[] = []
       if (!isPublicTypeIndex) tasks.push('createPublicTypeIndex')
       if (!isPrivateTypeIndex) tasks.push('createPrivateTypeIndex')
       if (!isHospexProfile) tasks.push('createHospexProfile')
       if (!isInbox) tasks.push('createInbox')
-
+      if (!isEmailNotifications) tasks.push('integrateEmailNotifications')
       if (!auth.webId) throw new Error('not signed in')
       if (isPublicTypeIndex && !publicTypeIndexes[0])
         throw new Error('existing public type index not found')
@@ -71,6 +75,7 @@ export const HospexSetup = ({
         hospexDocument: isHospexProfile
           ? personalHospexDocuments[0]
           : `${storage}hospex/${communityContainer}/card`,
+        email,
       }
       await setupHospex(tasks, settings)
     }
@@ -109,6 +114,21 @@ export const HospexSetup = ({
           {!isHospexProfile &&
             'setup hospex document and storage ' +
               `${storage}hospex/${communityContainer}/card`}
+        </li>
+        <li>
+          {!isEmailNotifications && (
+            <div>
+              setup email notifications{' '}
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+            </div>
+          )}
+          {isEmailNotifications === 'unverified' && (
+            <div>Please verify your email</div>
+          )}
         </li>
       </ul>
       <Button primary onClick={() => handleClickSetup()}>

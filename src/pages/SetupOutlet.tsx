@@ -2,7 +2,10 @@ import { useAppSelector } from 'app/hooks'
 import { Loading } from 'components'
 import { communityId } from 'config'
 import { selectAuth } from 'features/auth/authSlice'
-import { useCheckSetup } from 'hooks/data/useCheckSetup'
+import {
+  useCheckEmailNotifications,
+  useCheckSetup,
+} from 'hooks/data/useCheckSetup'
 import { omit } from 'lodash'
 import { Outlet } from 'react-router-dom'
 import { NonUndefined } from 'utility-types'
@@ -18,17 +21,29 @@ export const SetupOutlet = () => {
     'personalHospexDocuments',
   ])
 
-  const isEverythingSetUp = Object.values(setupCheck).every(v => v)
+  // set up email
+  const isEmailNotifications = useCheckEmailNotifications(setupCheck.inboxes[0])
+
+  const isEverythingSetUp =
+    Object.values(setupCheck).every(v => v) && isEmailNotifications === true
 
   if (isEverythingSetUp) return <Outlet />
 
   const checks = Object.entries(tasks)
     .filter(([, value]) => value === undefined)
     .map(([key]) => key)
-  if (Object.values(setupCheck).some(a => a === undefined))
+  if (
+    Object.values(setupCheck).some(a => a === undefined) ||
+    isEmailNotifications === undefined
+  )
     return <Loading>Checking {checks.join(', ')}</Loading>
 
-  return <HospexSetup {...(setupCheck as DefinedProps<typeof setupCheck>)} />
+  return (
+    <HospexSetup
+      {...(setupCheck as DefinedProps<typeof setupCheck>)}
+      isEmailNotifications={isEmailNotifications}
+    />
+  )
 }
 
 type DefinedProps<T extends { [key: string]: unknown }> = {
