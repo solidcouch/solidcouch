@@ -15,7 +15,7 @@ jobs:
         with:
           room_id: ${{ secrets.MATRIX_ROOM_ID }}
           access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-          message: "A change [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was merged."
-          server: "matrix.org"
+          message: 'A change [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was merged.'
+          server: 'matrix.org'
       - run: |
           echo The PR was merged
