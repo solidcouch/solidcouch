@@ -46,7 +46,7 @@ export const UnauthenticatedHome = () => {
       <div className={styles.spacer} />
       <footer className={styles.footer}>
         Visit our project spaces to{' '}
-        <a href="https://matrix.to/#/#ohn:matrix.org">
+        <a href="https://matrix.to/#/#sleepy.bike-space:matrix.org">
           ask a question or join the team
         </a>
         ,{' '}
@@ -60,7 +60,7 @@ export const UnauthenticatedHome = () => {
           Fediverse
         </a>{' '}
         or on{' '}
-        <a rel="me" href="https://www.facebook.com/SleepyBikePage/">
+        <a rel="me" href="https://www.facebook.com/SleepyBikeFanpage/">
           Facebook
         </a>
         .
