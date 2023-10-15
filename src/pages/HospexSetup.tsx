@@ -118,9 +118,10 @@ export const HospexSetup = ({
         <li>
           {!isEmailNotifications && (
             <div>
-              setup email notifications{' '}
+              Setup email notifications{' '}
               <input
                 type="email"
+                placeholder="Your email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
               />

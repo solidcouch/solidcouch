@@ -45,7 +45,10 @@ describe("person's contacts", () => {
 
   // sign in
   beforeEach(() => {
-    cy.get<Person>('@me').then(me => cy.login(me))
+    cy.get<Person>('@me').then(me => {
+      cy.stubMailer({ person: me })
+      cy.login(me)
+    })
   })
 
   it('should show my contacts, including unconfirmed and pending')

@@ -32,6 +32,9 @@ export const SetupOutlet = () => {
   const checks = Object.entries(tasks)
     .filter(([, value]) => value === undefined)
     .map(([key]) => key)
+  if (isEmailNotifications === undefined) {
+    checks.push('isEmailNotifications')
+  }
   if (
     Object.values(setupCheck).some(a => a === undefined) ||
     isEmailNotifications === undefined

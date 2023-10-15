@@ -367,12 +367,13 @@ const useInitEmailNotifications = () => {
       headers: { 'content-type': 'application/ld+json' },
       body: JSON.stringify(requestData),
     })
-    return response.json() // Assuming the response is in JSON format
+
+    if (!response.ok) throw new Error('not ok!')
   }
 
   const queryClient = useQueryClient()
 
-  const { mutate, isLoading, isError, isSuccess } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: addActivity,
     onSuccess: () => {
       queryClient.invalidateQueries(['mailerIntegration'])

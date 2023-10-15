@@ -1,45 +1,30 @@
-import { UserConfig } from '../support/css-authentication'
-import { CommunityConfig } from '../support/setup'
-
-const profile = {
-  name: 'Test Name',
-  description: {
-    // we wanted to test multiline description, but cypress wasn't detecting it
-    en: 'Hello! This is description in English.',
-  },
-}
+import { Person } from '../support/commands'
 
 describe('accommodations offered by person', () => {
   // create and setup community and profiles
   beforeEach(() => {
-    cy.createRandomAccount().as('me')
-    cy.get<CommunityConfig>('@community').then(community => {
-      cy.get<UserConfig>('@me').then(user => {
-        cy.setupPod(user, community)
-          .as('setupMe')
-          .then(setup => {
-            cy.setProfileData(user, setup, profile)
-            cy.addAccommodation(user, setup, {
-              description: { en: 'accommodation 1' },
-              location: [50, 16],
-            })
-            cy.addAccommodation(user, setup, {
-              description: { en: 'accommodation 2' },
-              location: [51, 17],
-            })
-            cy.addAccommodation(user, setup, {
-              description: { en: 'accommodation 3' },
-              location: [52, 18],
-            })
-          })
+    cy.createPerson().as('me')
+    cy.get<Person>('@me').then(person => {
+      cy.addAccommodation(person, {
+        description: { en: 'accommodation 1' },
+        location: [50, 16],
+      })
+      cy.addAccommodation(person, {
+        description: { en: 'accommodation 2' },
+        location: [51, 17],
+      })
+      cy.addAccommodation(person, {
+        description: { en: 'accommodation 3' },
+        location: [52, 18],
       })
     })
   })
 
   // sign in
   beforeEach(() => {
-    cy.get<UserConfig>('@me').then(user => {
-      cy.login(user)
+    cy.get<Person>('@me').then(person => {
+      cy.stubMailer({ person })
+      cy.login(person)
     })
   })
 

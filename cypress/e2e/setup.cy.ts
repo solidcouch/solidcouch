@@ -5,8 +5,6 @@ const preparePod = () => {
   cy.createRandomAccount().as('user1')
 }
 
-const resetPod = () => {}
-
 type SkipOptionsAndStorage = SkipOptions | 'storage'
 
 const setupPod =
@@ -23,8 +21,13 @@ const setupPod =
   }
 
 describe('Setup Solid pod', () => {
-  beforeEach(resetPod)
   beforeEach(preparePod)
+
+  beforeEach(() => {
+    cy.get<UserConfig>('@user1').then(user => {
+      cy.stubMailer({ person: { ...user, inbox: user.podUrl + 'inbox/' } })
+    })
+  })
 
   context('everything is set up', () => {
     beforeEach(setupPod())
@@ -92,6 +95,39 @@ describe('Setup Solid pod', () => {
     it('should create inbox')
   })
 
+  context('email notifications are not integrated', () => {
+    beforeEach(setupPod())
+    it('should ask for email and integrate notifications', () => {
+      cy.get<UserConfig>('@user1').then(user => {
+        cy.stubMailer({
+          person: { ...user, inbox: `${user.podUrl}inbox/` },
+          integrated: false,
+        })
+        cy.login(user)
+        cy.get('input[type="email"][placeholder="Your email"]')
+          .should('exist')
+          .type('asdf@example.com')
+        cy.stubMailer({
+          person: { ...user, inbox: `${user.podUrl}inbox/` },
+          verified: false,
+        })
+        cy.intercept('POST', 'http://localhost:3005/inbox').as('integration')
+        cy.contains('button', 'Continue!').click()
+        cy.contains('verify your email')
+        cy.wait('@integration')
+          .its('request.body')
+          .should('deep.equal', {
+            '@id': '',
+            '@context': 'https://www.w3.org/ns/activitystreams',
+            '@type': 'Add',
+            actor: user.webId,
+            object: `${user.podUrl}inbox/`,
+            target: 'asdf@example.com',
+          })
+      })
+    })
+  })
+
   context('everything is missing', () => {
     beforeEach(
       setupPod([
@@ -103,15 +139,38 @@ describe('Setup Solid pod', () => {
       ]),
     )
     it('should set up everything', () => {
-      cy.get<UserConfig>('@user1').then(user => cy.login(user))
-      cy.get<CommunityConfig>('@community').then(community => {
-        const url = new URL(community.group)
-        url.hash = ''
-        cy.intercept('PATCH', url.toString()).as('addUserToCommunity')
+      cy.get<UserConfig>('@user1').then(user => {
+        cy.stubMailer({
+          person: { ...user, inbox: `${user.podUrl}inbox/` },
+          integrated: false,
+        })
+        cy.login(user)
+        cy.get<CommunityConfig>('@community').then(community => {
+          const url = new URL(community.group)
+          url.hash = ''
+          cy.intercept('PATCH', url.toString()).as('addUserToCommunity')
+        })
+        cy.get('input[type="email"][placeholder="Your email"]')
+          .should('exist')
+          .type('asdf@example.com')
+        cy.intercept('POST', 'http://localhost:3005/inbox').as('integration')
+        // here we respond differently than real test (integration would be unverified)
+        // but we respond it verified, to be able to check that everything was established and we entered the app
+        cy.stubMailer({ person: { ...user, inbox: `${user.podUrl}inbox/` } })
+        cy.contains('button', 'Continue!').click()
+        cy.wait('@addUserToCommunity', { timeout: 10000 })
+        cy.wait('@integration')
+          .its('request.body')
+          .should('deep.equal', {
+            '@id': '',
+            '@context': 'https://www.w3.org/ns/activitystreams',
+            '@type': 'Add',
+            actor: user.webId,
+            object: `${user.podUrl}inbox/`,
+            target: 'asdf@example.com',
+          })
+        cy.contains('a', 'travel')
       })
-      cy.contains('button', 'Continue!').click()
-      cy.wait('@addUserToCommunity')
-      cy.contains('a', 'travel')
     })
   })
 })
