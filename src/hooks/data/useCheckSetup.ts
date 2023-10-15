@@ -97,7 +97,7 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
 
 export const useCheckEmailNotifications = (inbox: URI, mailer: string) => {
   const checkMailerIntegration = useCallback(async () => {
-    if (!mailer) throw new Error('Mailer not set up')
+    if (!mailer) return 'mailer not set up'
 
     const response = await fetch(`${mailer}/status`)
     if (!response.ok) {
@@ -106,11 +106,14 @@ export const useCheckEmailNotifications = (inbox: URI, mailer: string) => {
     return response.json()
   }, [mailer])
 
-  const { isLoading, data, isError, error } = useQuery<{
-    integrations: { object: URI; target: URI; verified: boolean }[]
-  }>(['mailerIntegration'], checkMailerIntegration)
+  const { isLoading, data } = useQuery<
+    | {
+        integrations: { object: URI; target: URI; verified: boolean }[]
+      }
+    | 'mailer not set up'
+  >(['mailerIntegration'], checkMailerIntegration)
 
-  if (isError && (error as Error).message === 'Mailer not set up') return true
+  if (data === 'mailer not set up') return true
 
   if (isLoading || !data) return undefined
   const integrations = data.integrations.filter(i => i.object === inbox)
