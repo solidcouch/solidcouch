@@ -107,6 +107,7 @@ describe("person's contacts", () => {
 
         // test that other person can confirm
         cy.logout()
+        cy.stubMailer({ person })
         cy.login(person)
         cy.visit(`/profile/${encodeURIComponent(me.webId)}`)
         cy.contains('button', 'See contact invitation', {

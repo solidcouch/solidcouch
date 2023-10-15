@@ -3,6 +3,12 @@ import { UserConfig } from '../support/css-authentication'
 describe('Sign in to the app', () => {
   beforeEach(() => {
     cy.createRandomAccount().as('user1')
+    cy.get<UserConfig>('@user1').then(user => {
+      cy.stubMailer({
+        person: { ...user, inbox: `${user.podUrl}inbox/` },
+        integrated: false,
+      })
+    })
   })
 
   it('should sign in with identity provider', () => {
