@@ -6,6 +6,8 @@ You'll find [configurable options](#options) for the application here. We use en
 
 - `REACT_APP_COMMUNITY` - URI of the community
 - `REACT_APP_COMMUNITY_CONTAINER` - name of folder in which to store person's data of this community
+- `REACT_APP_EMAIL_NOTIFICATIONS_SERVICE` - server providing email notifications service along the lines of [solid-email-notifications](https://github.com/openHospitalityNetwork/solid-email-notifications); provide base url without trailing slash; notifications will be disabled if left empty
+- `REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY` - identity of the email notifications service; app will allow this identity to read person's inbox
 - [default CreateReactApp options](https://create-react-app.dev/docs/advanced-configuration)
 
 ## Usage
@@ -34,6 +36,8 @@ Have a look in [deployment workflow](../.github/workflows/deploy.yml) to see how
 
 - `COMMUNITY`
 - `COMMUNITY_CONTAINER`
+- `EMAIL_NOTIFICATIONS_SERVICE`
+- `EMAIL_NOTIFICATIONS_IDENTITY`
 - see [deployment workflow](../.github/workflows/deploy.yml) for more
 
 ## Adding a new option

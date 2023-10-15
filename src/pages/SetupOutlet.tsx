@@ -1,6 +1,6 @@
 import { useAppSelector } from 'app/hooks'
 import { Loading } from 'components'
-import { communityId } from 'config'
+import { communityId, emailNotificationsService } from 'config'
 import { selectAuth } from 'features/auth/authSlice'
 import {
   useCheckEmailNotifications,
@@ -22,7 +22,10 @@ export const SetupOutlet = () => {
   ])
 
   // set up email
-  const isEmailNotifications = useCheckEmailNotifications(setupCheck.inboxes[0])
+  const isEmailNotifications = useCheckEmailNotifications(
+    setupCheck.inboxes[0],
+    emailNotificationsService,
+  )
 
   const isEverythingSetUp =
     Object.values(setupCheck).every(v => v) && isEmailNotifications === true

@@ -97,6 +97,11 @@ describe('Setup Solid pod', () => {
 
   context('email notifications are not integrated', () => {
     beforeEach(setupPod())
+
+    it('should allow custom email notifications service')
+
+    it('should make inbox readable for email notifications service identity')
+
     it('should ask for email and integrate notifications', () => {
       cy.get<UserConfig>('@user1').then(user => {
         cy.stubMailer({

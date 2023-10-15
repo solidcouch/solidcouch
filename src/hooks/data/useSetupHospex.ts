@@ -1,6 +1,10 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { communityId } from 'config'
+import {
+  communityId,
+  emailNotificationsIdentity,
+  emailNotificationsService,
+} from 'config'
 import { useAuth } from 'hooks/useAuth'
 import {
   HospexProfileShapeType,
@@ -362,7 +366,7 @@ const useCreateInbox = () => {
 const useInitEmailNotifications = () => {
   // Define a mutation function that will handle the API request
   const addActivity = async (requestData: any) => {
-    const response = await fetch(`http://localhost:3005/inbox`, {
+    const response = await fetch(`${emailNotificationsService}/inbox`, {
       method: 'post',
       headers: { 'content-type': 'application/ld+json' },
       body: JSON.stringify(requestData),
@@ -417,7 +421,7 @@ const useInitEmailNotifications = () => {
           ldo['@id'] = inboxAcl + '#read'
           ldo.type = { '@id': 'Authorization' }
 
-          ldo.agent = [{ '@id': 'http://localhost:3456/bot/profile/card#me' }]
+          ldo.agent = [{ '@id': emailNotificationsIdentity }]
           ldo.accessTo = [{ '@id': inbox }]
           ldo.default = { '@id': inbox }
           ldo.mode = [{ '@id': acl.Read }]
