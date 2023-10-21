@@ -7,7 +7,7 @@ export default defineConfig({
     // setupNodeEvents(on, config) {
     //   // implement node event listeners here
     // },
-    defaultCommandTimeout: 10000,
+    defaultCommandTimeout: 15000,
     // set mobile viewport as default, because we make mobile-first interface
     // this is screen size of iPhone 11, apparently a popular phone
     viewportWidth: 375,

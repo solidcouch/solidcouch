@@ -1,5 +1,5 @@
+import { Person } from '../support/commands'
 import { UserConfig } from '../support/css-authentication'
-import { CommunityConfig } from '../support/setup'
 
 const profile = {
   name: 'Test Name',
@@ -17,26 +17,15 @@ const otherProfile = {
 describe('view profile', () => {
   // create and setup community and profiles
   beforeEach(() => {
-    cy.createRandomAccount().as('me')
-    cy.createRandomAccount().as('otherPerson')
-    cy.get<CommunityConfig>('@community').then(community => {
-      cy.get<UserConfig>('@me').then(user => {
-        cy.setupPod(user, community).then(setup => {
-          cy.setProfileData(user, setup, profile)
-        })
-      })
-      cy.get<UserConfig>('@otherPerson').then(user => {
-        cy.setupPod(user, community).then(setup => {
-          cy.setProfileData(user, setup, otherProfile)
-        })
-      })
-    })
+    cy.createPerson(profile).as('me')
+    cy.createPerson(otherProfile).as('otherPerson')
   })
 
   // sign in
   beforeEach(() => {
-    cy.get<UserConfig>('@me').then(user => {
-      cy.login(user)
+    cy.get<Person>('@me').then(person => {
+      cy.stubMailer({ person })
+      cy.login(person)
     })
   })
 

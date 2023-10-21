@@ -7,6 +7,7 @@ import {
   space,
   vcard,
 } from 'rdf-namespaces'
+import { Person } from './commands'
 import { UserConfig } from './css-authentication'
 
 export type CommunityConfig = { community: string; group: string }
@@ -379,26 +380,25 @@ export type AccommodationConfig = {
 } & AccommodationData
 
 export const addAccommodation = (
-  user: UserConfig,
-  setup: SetupConfig,
+  person: Person,
   accommodation: AccommodationData,
 ) => {
   return cy
-    .authenticatedRequest(user, {
-      url: setup.hospexContainer,
+    .authenticatedRequest(person, {
+      url: person.hospexContainer,
       method: 'POST',
       headers: { 'content-type': 'text/turtle' },
-      body: accommodationTurtle({ user, accommodation }),
+      body: accommodationTurtle({ user: person, accommodation }),
     })
     .then(response => {
       const location = response.headers.location as string
-      cy.authenticatedRequest(user, {
-        url: setup.hospexProfile,
+      cy.authenticatedRequest(person, {
+        url: person.hospexProfile,
         method: 'PATCH',
         headers: { 'content-type': 'text/n3' },
         body: `@prefix hospex: <http://w3id.org/hospex/ns#>.
     _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
-      <${user.webId}> hospex:offers <${location}#accommodation>.
+      <${person.webId}> hospex:offers <${location}#accommodation>.
     }.`,
       })
 
@@ -437,3 +437,25 @@ const accommodationTurtle = ({
       accommodation.location[1]
     }"^^<http://www.w3.org/2001/XMLSchema#decimal>.
 `
+
+export const stubMailer = ({
+  person,
+  mailer = 'http://localhost:3005',
+  integrated = true,
+  verified = true,
+}: {
+  person: Pick<Person, 'webId' | 'inbox'>
+  mailer?: string
+  integrated?: boolean
+  verified?: boolean
+}): void => {
+  cy.intercept('GET', `${mailer}/status`, {
+    statusCode: 200,
+    body: {
+      actor: person.webId,
+      integrations: integrated
+        ? [{ object: person.inbox, target: 'asdf@example.com', verified }]
+        : [],
+    },
+  })
+}

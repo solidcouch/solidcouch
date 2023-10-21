@@ -1,40 +1,33 @@
 import { range } from 'lodash'
+import { Person } from '../support/commands'
 import { UserConfig } from '../support/css-authentication'
-import { AccommodationConfig, CommunityConfig } from '../support/setup'
+import { AccommodationConfig } from '../support/setup'
 
 const users = range(10).map(i => (i === 0 ? 'me' : `user${i}`))
 
 describe('Map of accommodation offers', () => {
-  // create and setup community and profiles
+  // create people and their accommodations
   beforeEach(() => {
-    cy.get<CommunityConfig>('@community').then(community => {
-      users.forEach((tag, i) => {
-        cy.createRandomAccount().as(tag)
-        cy.get<UserConfig>(`@${tag}`).then(user => {
-          cy.setupPod(user, community)
-            .as(`${tag}Setup`)
-            .then(setup => {
-              cy.setProfileData(user, setup, {
-                name: `Name ${i}`,
-                description: { en: `This is English description ${i}` },
-              })
-              cy.addAccommodation(user, setup, {
-                description: { en: `accommodation of ${tag}` },
-                location:
-                  i % 2 === 1
-                    ? [5 * i + 5, 10 * i - 10]
-                    : [-10 * i + 40, 5 * i - 90],
-              }).as(`${tag}Accommodation`)
-            })
-        })
+    users.forEach((tag, i) => {
+      cy.createPerson({
+        name: `Name ${i}`,
+        description: { en: `This is English description ${i}` },
+      }).as(tag)
+      cy.get<Person>(`@${tag}`).then(person => {
+        cy.addAccommodation(person, {
+          description: { en: `accommodation of ${tag}` },
+          location:
+            i % 2 === 1 ? [5 * i + 5, 10 * i - 10] : [-10 * i + 40, 5 * i - 90],
+        }).as(`${tag}Accommodation`)
       })
     })
   })
 
   // sign in
   beforeEach(() => {
-    cy.get<UserConfig>('@me').then(user => {
-      cy.login(user)
+    cy.get<Person>('@me').then(person => {
+      cy.stubMailer({ person })
+      cy.login(person)
     })
   })
 

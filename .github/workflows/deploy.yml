@@ -29,6 +29,8 @@ jobs:
         env:
           REACT_APP_COMMUNITY: ${{ vars.COMMUNITY }}
           REACT_APP_COMMUNITY_CONTAINER: ${{ vars.COMMUNITY_CONTAINER }}
+          REACT_APP_EMAIL_NOTIFICATIONS_SERVICE: ${{ vars.EMAIL_NOTIFICATIONS_SERVICE }}
+          REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY: ${{ vars.EMAIL_NOTIFICATIONS_IDENTITY }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3

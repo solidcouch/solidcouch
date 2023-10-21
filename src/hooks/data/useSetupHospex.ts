@@ -1,4 +1,11 @@
-import { communityId } from 'config'
+import { fetch } from '@inrupt/solid-client-authn-browser'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  communityId,
+  emailNotificationsIdentity,
+  emailNotificationsService,
+} from 'config'
+import { useAuth } from 'hooks/useAuth'
 import {
   HospexProfileShapeType,
   PrivateTypeIndexShapeType,
@@ -24,12 +31,14 @@ export type SetupTask =
   | 'createPrivateTypeIndex'
   | 'createInbox'
   | 'createHospexProfile'
+  | 'integrateEmailNotifications'
 export type SetupSettings = {
   person: URI
   publicTypeIndex: URI
   privateTypeIndex: URI
   inbox: URI
   hospexDocument: URI
+  email: string
 }
 
 export const useSetupHospex = () => {
@@ -38,6 +47,9 @@ export const useSetupHospex = () => {
   const createInbox = useCreateInbox()
   const createHospexProfile = useCreateHospexProfile()
   const saveTypeRegistration = useSaveTypeRegistration()
+  const initEmailNotifications = useInitEmailNotifications()
+
+  const { webId } = useAuth()
 
   // TODO add options so users can have a choice
   return useCallback(
@@ -49,6 +61,7 @@ export const useSetupHospex = () => {
         privateTypeIndex,
         hospexDocument,
         inbox,
+        email,
       }: SetupSettings,
     ) => {
       // create personal hospex document at hospex/{communityContainer}/card
@@ -92,13 +105,18 @@ export const useSetupHospex = () => {
           type: hospex.PersonalHospexDocument,
           location: hospexDocument,
         })
+
+      if (tasks.includes('integrateEmailNotifications'))
+        await initEmailNotifications({ email, inbox, webId: webId as string })
     },
     [
       createHospexProfile,
       createInbox,
       createPrivateTypeIndex,
       createPublicTypeIndex,
+      initEmailNotifications,
       saveTypeRegistration,
+      webId,
     ],
   )
 }
@@ -342,5 +360,80 @@ const useCreateInbox = () => {
       })
     },
     [createAclMutation, createContainerMutation, updateMutation],
+  )
+}
+
+const useInitEmailNotifications = () => {
+  // Define a mutation function that will handle the API request
+  const addActivity = async (requestData: any) => {
+    const response = await fetch(`${emailNotificationsService}/inbox`, {
+      method: 'post',
+      headers: { 'content-type': 'application/ld+json' },
+      body: JSON.stringify(requestData),
+    })
+
+    if (!response.ok) throw new Error('not ok!')
+  }
+
+  const queryClient = useQueryClient()
+
+  const { mutate } = useMutation({
+    mutationFn: addActivity,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['mailerIntegration'])
+    },
+  })
+
+  const initializeIntegration = useCallback(
+    ({ webId, inbox, email }: { webId: URI; inbox: URI; email: string }) => {
+      const requestData = {
+        '@context': 'https://www.w3.org/ns/activitystreams',
+        '@id': '',
+        '@type': 'Add',
+        actor: webId,
+        object: inbox,
+        target: email,
+      }
+
+      mutate(requestData)
+    },
+    [mutate],
+  )
+
+  const updateAclMutation = useUpdateLdoDocument(AuthorizationShapeType)
+
+  return useCallback(
+    async ({
+      email,
+      inbox,
+      webId,
+    }: {
+      webId: URI
+      inbox: URI
+      email: string
+    }) => {
+      // give mailer read access to inbox
+      const inboxAcl = await getAcl(inbox)
+      await updateAclMutation.mutateAsync({
+        uri: inboxAcl,
+        subject: inboxAcl + '#read',
+        transform: ldo => {
+          ldo['@id'] = inboxAcl + '#read'
+          ldo.type = { '@id': 'Authorization' }
+
+          ldo.agent = [{ '@id': emailNotificationsIdentity }]
+          ldo.accessTo = [{ '@id': inbox }]
+          ldo.default = { '@id': inbox }
+          ldo.mode = [{ '@id': acl.Read }]
+        },
+      })
+      // initialize integration
+      await initializeIntegration({
+        email,
+        inbox,
+        webId,
+      })
+    },
+    [initializeIntegration, updateAclMutation],
   )
 }

@@ -1,5 +1,4 @@
-import { UserConfig } from '../support/css-authentication'
-import { CommunityConfig, SetupConfig } from '../support/setup'
+import { Person } from '../support/commands'
 
 const profile = {
   name: 'Test Name',
@@ -10,24 +9,16 @@ const profile = {
 }
 
 describe('edit profile', () => {
-  // create and setup community and profiles
+  // create person
   beforeEach(() => {
-    cy.createRandomAccount().as('me')
-    cy.get<CommunityConfig>('@community').then(community => {
-      cy.get<UserConfig>('@me').then(user => {
-        cy.setupPod(user, community)
-          .as('setupMe')
-          .then(setup => {
-            cy.setProfileData(user, setup, profile)
-          })
-      })
-    })
+    cy.createPerson(profile).as('me')
   })
 
   // sign in
   beforeEach(() => {
-    cy.get<UserConfig>('@me').then(user => {
-      cy.login(user)
+    cy.get<Person>('@me').then(person => {
+      cy.stubMailer({ person })
+      cy.login(person)
     })
   })
 
@@ -40,43 +31,39 @@ describe('edit profile', () => {
   })
 
   it('should be able to edit name, photo and description', () => {
-    cy.get<UserConfig>('@me').then(me => {
-      cy.get<SetupConfig>('@setupMe').then(setup => {
-        cy.visit('/profile/edit')
-        cy.get('input[name=name]')
-          .should('have.value', profile.name)
-          .clear()
-          .type('Mynew Name')
-        cy.get('textarea[name=about]')
-          .should('have.value', profile.description.en)
-          .clear()
-          .type('this is my new description{enter}{enter}and it is multiline')
-        cy.get('input[name=photo]').parent().selectFile('cypress/e2e/image.png')
+    cy.get<Person>('@me').then(me => {
+      cy.visit('/profile/edit')
+      cy.get('input[name=name]')
+        .should('have.value', profile.name)
+        .clear()
+        .type('Mynew Name')
+      cy.get('textarea[name=about]')
+        .should('have.value', profile.description.en)
+        .clear()
+        .type('this is my new description{enter}{enter}and it is multiline')
+      cy.get('input[name=photo]').parent().selectFile('cypress/e2e/image.png')
 
-        // intercept that the photo was saved
-        cy.intercept({ method: 'POST', url: setup.hospexContainer }).as(
-          'savePhoto',
-        )
-        cy.contains('button', 'Save changes').click()
+      // intercept that the photo was saved
+      cy.intercept({ method: 'POST', url: me.hospexContainer }).as('savePhoto')
+      cy.contains('button', 'Save changes').click()
 
-        cy.wait('@savePhoto').then(interception => {
-          cy.intercept({
-            method: 'GET',
-            // intercept that we fetch the newly created image later
-            url: interception.response.headers.location as string,
-          }).as('fetchSavedPhoto')
-        })
-
-        cy.location()
-          .its('pathname')
-          .should('equal', `/profile/${encodeURIComponent(me.webId)}`)
-
-        // it's kind of hard to test uri of protected photo
-        // so we can at least test that we fetched the saved photo
-        cy.wait('@fetchSavedPhoto')
-        cy.contains('[class^=Profile_name]', 'Mynew Name')
-        cy.contains('[class^=Profile_about]', 'this is my new description')
+      cy.wait('@savePhoto').then(interception => {
+        cy.intercept({
+          method: 'GET',
+          // intercept that we fetch the newly created image later
+          url: interception.response.headers.location as string,
+        }).as('fetchSavedPhoto')
       })
+
+      cy.location()
+        .its('pathname')
+        .should('equal', `/profile/${encodeURIComponent(me.webId)}`)
+
+      // it's kind of hard to test uri of protected photo
+      // so we can at least test that we fetched the saved photo
+      cy.wait('@fetchSavedPhoto')
+      cy.contains('[class^=Profile_name]', 'Mynew Name')
+      cy.contains('[class^=Profile_about]', 'this is my new description')
     })
   })
 
