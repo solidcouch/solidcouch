@@ -45,7 +45,10 @@ describe("person's contacts", () => {
 
   // sign in
   beforeEach(() => {
-    cy.get<Person>('@me').then(me => cy.login(me))
+    cy.get<Person>('@me').then(me => {
+      cy.stubMailer({ person: me })
+      cy.login(me)
+    })
   })
 
   it('should show my contacts, including unconfirmed and pending')
@@ -104,6 +107,7 @@ describe("person's contacts", () => {
 
         // test that other person can confirm
         cy.logout()
+        cy.stubMailer({ person })
         cy.login(person)
         cy.visit(`/profile/${encodeURIComponent(me.webId)}`)
         cy.contains('button', 'See contact invitation', {

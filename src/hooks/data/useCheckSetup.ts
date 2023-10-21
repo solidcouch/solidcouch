@@ -1,9 +1,11 @@
+import { fetch } from '@inrupt/solid-client-authn-browser'
+import { useQuery } from '@tanstack/react-query'
 import {
   HospexProfileShapeType,
   SolidProfileShapeType,
 } from 'ldo/app.shapeTypes'
 import { HospexProfile } from 'ldo/app.typings'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { URI } from 'types'
 import { hospex } from 'utils/rdf-namespaces'
 import { useIsMember } from './useCommunity'
@@ -91,4 +93,32 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     privateTypeIndexes,
     inboxes,
   } as const
+}
+
+export const useCheckEmailNotifications = (inbox: URI, mailer: string) => {
+  const checkMailerIntegration = useCallback(async () => {
+    if (!mailer) return 'mailer not set up'
+
+    const response = await fetch(`${mailer}/status`)
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+    return response.json()
+  }, [mailer])
+
+  const { isLoading, data } = useQuery<
+    | {
+        integrations: { object: URI; target: URI; verified: boolean }[]
+      }
+    | 'mailer not set up'
+  >(['mailerIntegration'], checkMailerIntegration)
+
+  if (data === 'mailer not set up') return true
+
+  if (isLoading || !data) return undefined
+  const integrations = data.integrations.filter(i => i.object === inbox)
+
+  if (integrations.length === 0) return false
+  else if (integrations.some(i => i.verified)) return true
+  else return 'unverified' as const
 }

@@ -14,6 +14,21 @@ export const communityId =
 export const communityContainer =
   process.env.REACT_APP_COMMUNITY_CONTAINER || 'dev-sleepy-bike'
 
+/**
+ * Service for email notifications
+ * Should work along the lines of https://github.com/openHospitalityNetwork/solid-email-notifications
+ */
+export const emailNotificationsService =
+  process.env.REACT_APP_EMAIL_NOTIFICATIONS_SERVICE ?? ''
+// TODO maybe we'll fetch the identity directly from the mailer, when it supports that option, so the setup will be less complicated
+export const emailNotificationsIdentity =
+  process.env.REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY ?? ''
+
+if (emailNotificationsService && !emailNotificationsIdentity)
+  throw new Error(
+    'Please provide webId of email notifications service in environment variable REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY',
+  )
+
 export const wikidataLDF = 'https://query.wikidata.org/bigdata/ldf'
 
 export const oidcIssuers = [

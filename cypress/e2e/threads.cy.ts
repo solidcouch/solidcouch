@@ -1,19 +1,20 @@
 import { Person } from '../support/commands'
-import { CommunityConfig } from '../support/setup'
 
 describe('threads (list of conversations)', () => {
   beforeEach(() => {
     // create and setup people
-    cy.get<CommunityConfig>('@community').then(community => {
-      ;['me', 'person1', 'person2'].forEach((tag, i) => {
-        cy.createPerson(
-          {
-            name: `Name ${i}`,
-            description: { en: `This is English description ${i}` },
-          },
-          community,
-        ).as(tag)
-      })
+    ;['me', 'person1', 'person2'].forEach((tag, i) => {
+      cy.createPerson({
+        name: `Name ${i}`,
+        description: { en: `This is English description ${i}` },
+      }).as(tag)
+    })
+  })
+
+  // stub mailer
+  beforeEach(() => {
+    cy.get<Person>('@me').then(me => {
+      cy.stubMailer({ person: me })
     })
   })
 

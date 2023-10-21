@@ -1,28 +1,19 @@
 import dayjs from 'dayjs'
 import { as, dct } from 'rdf-namespaces'
+import { Person } from '../support/commands'
 import { UserConfig } from '../support/css-authentication'
-import { CommunityConfig, SetupConfig } from '../support/setup'
 
 /**
  * @todo TODO possibly these tests largely overlap, get rid of the overlaps
  */
 describe('messages with other person', () => {
   beforeEach(() => {
-    // create and setup two people
-    cy.get<CommunityConfig>('@community').then(community => {
-      ;['me', 'otherPerson'].forEach((tag, i) => {
-        cy.createRandomAccount().as(tag)
-        cy.get<UserConfig>(`@${tag}`).then(user => {
-          cy.setupPod(user, community)
-            .as(`${tag}Setup`)
-            .then(setup => {
-              cy.setProfileData(user, setup, {
-                name: `Name ${i}`,
-                description: { en: `This is English description ${i}` },
-              })
-            })
-        })
-      })
+    // create two people
+    ;['me', 'otherPerson'].forEach((tag, i) => {
+      cy.createPerson({
+        name: `Name ${i}`,
+        description: { en: `This is English description ${i}` },
+      }).as(tag)
     })
   })
 
@@ -31,15 +22,17 @@ describe('messages with other person', () => {
   it('should show messages that other person sent to me')
 
   it('should show unread messages in inbox', () => {
-    cy.get<UserConfig>('@me').then(me => {
-      cy.get<UserConfig>('@otherPerson').then(otherPerson => {
+    cy.get<Person>('@me').then(me => {
+      cy.get<Person>('@otherPerson').then(otherPerson => {
         // first other person will send me a few messages
+        cy.stubMailer({ person: otherPerson })
         cy.login(otherPerson)
         writeMessage(me, 'Test message')
         writeMessage(me, 'Other message')
 
         // sign in as me and check results
         cy.logout()
+        cy.stubMailer({ person: me })
         cy.login(me)
         cy.visit(`/messages/${encodeURIComponent(otherPerson.webId)}`)
         cy.contains('Messages with')
@@ -69,79 +62,71 @@ describe('messages with other person', () => {
   it('should mark unread messages as read; and keep unread messages marked')
 
   it('should process message notifications and delete them', () => {
-    cy.get<UserConfig>('@me').then(me => {
-      cy.get<UserConfig>('@otherPerson').then(otherPerson => {
-        cy.get<SetupConfig>('@meSetup').then(meSetup => {
-          cy.get<SetupConfig>('@otherPersonSetup').then(otherPersonSetup => {
-            // my chat should get updated here to reference the other chat
-            cy.intercept(
-              'PUT',
-              `${meSetup.hospexContainer}messages/**/index.ttl`,
-            ).as('createMyChat')
-            cy.intercept(
-              'PATCH',
-              `${meSetup.hospexContainer}messages/**/index.ttl`,
-            ).as('updateMyChat')
-            cy.intercept('DELETE', `${meSetup.inbox}**`).as(
-              'deleteMyNotification',
-            )
-            cy.intercept(
-              'PUT',
-              `${otherPersonSetup.hospexContainer}messages/**/index.ttl`,
-            ).as('createOtherPersonChat')
-            cy.intercept(
-              'PATCH',
-              `${otherPersonSetup.hospexContainer}messages/**/index.ttl`,
-            ).as('updateOtherPersonChat')
-            cy.intercept('DELETE', `${otherPersonSetup.inbox}**`).as(
-              'deleteOtherPersonNotification',
-            )
+    cy.get<Person>('@me').then(me => {
+      cy.get<Person>('@otherPerson').then(otherPerson => {
+        // my chat should get updated here to reference the other chat
+        cy.intercept('PUT', `${me.hospexContainer}messages/**/index.ttl`).as(
+          'createMyChat',
+        )
+        cy.intercept('PATCH', `${me.hospexContainer}messages/**/index.ttl`).as(
+          'updateMyChat',
+        )
+        cy.intercept('DELETE', `${me.inbox}**`).as('deleteMyNotification')
+        cy.intercept(
+          'PUT',
+          `${otherPerson.hospexContainer}messages/**/index.ttl`,
+        ).as('createOtherPersonChat')
+        cy.intercept(
+          'PATCH',
+          `${otherPerson.hospexContainer}messages/**/index.ttl`,
+        ).as('updateOtherPersonChat')
+        cy.intercept('DELETE', `${otherPerson.inbox}**`).as(
+          'deleteOtherPersonNotification',
+        )
 
-            cy.login(me)
+        cy.stubMailer({ person: me })
+        cy.login(me)
 
-            writeMessage(otherPerson, 'Test message')
-            writeMessage(otherPerson, 'Other message')
+        writeMessage(otherPerson, 'Test message')
+        writeMessage(otherPerson, 'Other message')
 
-            cy.get('[class^=Messages_message_]').should('have.length', 2)
+        cy.get('[class^=Messages_message_]').should('have.length', 2)
 
-            // sign in as otherPerson
-            cy.logout()
-            cy.login(otherPerson)
+        // sign in as otherPerson
+        cy.logout()
+        cy.stubMailer({ person: otherPerson })
+        cy.login(otherPerson)
 
-            // other chat should get created here, referencing other person, and other chat
-            cy.get('@deleteOtherPersonNotification.all').should(
-              'have.length',
-              0,
-            )
+        // other chat should get created here, referencing other person, and other chat
+        cy.get('@deleteOtherPersonNotification.all').should('have.length', 0)
 
-            writeMessage(me, 'msg1')
-            writeMessage(me, 'msg2')
+        writeMessage(me, 'msg1')
+        writeMessage(me, 'msg2')
 
-            // 2 notifications should be deleted
-            cy.wait('@deleteOtherPersonNotification')
-            cy.wait('@deleteOtherPersonNotification')
+        // 2 notifications should be deleted
+        cy.wait('@deleteOtherPersonNotification')
+        cy.wait('@deleteOtherPersonNotification')
 
-            cy.get('[class^=Messages_message_]').should('have.length', 4)
+        cy.get('[class^=Messages_message_]').should('have.length', 4)
 
-            cy.logout()
-            cy.login(me)
+        cy.logout()
+        cy.stubMailer({ person: me })
+        cy.login(me)
 
-            writeMessage(otherPerson, 'msg...3')
-            writeMessage(otherPerson, 'msg...4')
-            cy.get('[class^=Messages_message_]').should('have.length', 6)
-            // cy.get('[class*=Messages_unread]').should('have.length', 2)
-            cy.wait('@updateMyChat')
-              .its('request.body')
-              .should('include', otherPersonSetup.hospexContainer)
-              .and('include', dct.references)
+        writeMessage(otherPerson, 'msg...3')
+        writeMessage(otherPerson, 'msg...4')
+        cy.get('[class^=Messages_message_]').should('have.length', 6)
+        // cy.get('[class*=Messages_unread]').should('have.length', 2)
+        cy.wait('@updateMyChat')
+          .its('request.body')
+          .should('include', otherPerson.hospexContainer)
+          .and('include', dct.references)
 
-            // 2 notifications should be deleted
-            cy.wait('@deleteMyNotification')
-            cy.wait('@deleteMyNotification')
+        // 2 notifications should be deleted
+        cy.wait('@deleteMyNotification')
+        cy.wait('@deleteMyNotification')
 
-            // TODO test the looks of updating unread messages
-          })
-        })
+        // TODO test the looks of updating unread messages
       })
     })
   })
@@ -149,9 +134,10 @@ describe('messages with other person', () => {
   it('should allow sending a new message to the other person')
 
   it('should allow sending a few messages back and forth between users, and properly setup both chats', () => {
-    cy.get<UserConfig>('@me').then(me => {
-      cy.get<UserConfig>('@otherPerson').then(otherPerson => {
+    cy.get<Person>('@me').then(me => {
+      cy.get<Person>('@otherPerson').then(otherPerson => {
         // first the other person will send a few messages to me
+        cy.stubMailer({ person: me })
         cy.login(me)
 
         // my chat should get created here, referencing other person, but not other chat
@@ -163,6 +149,7 @@ describe('messages with other person', () => {
 
         // sign in as otherPerson
         cy.logout()
+        cy.stubMailer({ person: otherPerson })
         cy.login(otherPerson)
 
         // other chat should get created here, referencing other person, and other chat
@@ -173,26 +160,22 @@ describe('messages with other person', () => {
         cy.get('[class^=Messages_message_]').should('have.length', 4)
 
         cy.logout()
+        cy.stubMailer({ person: me })
         cy.login(me)
 
         // my chat should get updated here to reference the other chat
-        cy.get<SetupConfig>('@meSetup').then(meSetup => {
-          cy.intercept(
-            'PATCH',
-            `${meSetup.hospexContainer}messages/**/index.ttl`,
-          ).as('updateMyChat')
-        })
+        cy.intercept('PATCH', `${me.hospexContainer}messages/**/index.ttl`).as(
+          'updateMyChat',
+        )
         writeMessage(otherPerson, 'msg...3')
         writeMessage(otherPerson, 'msg...4')
 
         cy.get('[class^=Messages_message_]').should('have.length', 6)
         // cy.get('[class*=Messages_unread]').should('have.length', 2)
-        cy.get<SetupConfig>('@otherPersonSetup').then(otherPersonSetup => {
-          cy.wait('@updateMyChat')
-            .its('request.body')
-            .should('include', otherPersonSetup.hospexContainer)
-            .and('include', dct.references)
-        })
+        cy.wait('@updateMyChat')
+          .its('request.body')
+          .should('include', otherPerson.hospexContainer)
+          .and('include', dct.references)
       })
     })
   })
@@ -200,15 +183,17 @@ describe('messages with other person', () => {
   it('should be able to write across multiple days')
 
   it('should allow replying to a new conversation', () => {
-    cy.get<UserConfig>('@me').then(me => {
-      cy.get<UserConfig>('@otherPerson').then(otherPerson => {
+    cy.get<Person>('@me').then(me => {
+      cy.get<Person>('@otherPerson').then(otherPerson => {
         // first other person will send me a few messages
+        cy.stubMailer({ person: otherPerson })
         cy.login(otherPerson)
         writeMessage(me, 'Test message')
         writeMessage(me, 'Other message')
 
         // sign in as me and check results
         cy.logout()
+        cy.stubMailer({ person: me })
         cy.login(me)
         cy.visit(`/messages/${encodeURIComponent(otherPerson.webId)}`)
         cy.contains('Messages with')
@@ -217,17 +202,13 @@ describe('messages with other person', () => {
         ).should('have.length', 2)
 
         // my chat should get created (but only one), and it should reference the other chat
-        cy.get<SetupConfig>('@meSetup').then(meSetup => {
-          cy.intercept('PUT', `${meSetup.hospexContainer}**/index.ttl`).as(
-            'createChat',
-          )
-        })
+        cy.intercept('PUT', `${me.hospexContainer}**/index.ttl`).as(
+          'createChat',
+        )
         writeMessage(otherPerson, 'Message back')
-        cy.get<SetupConfig>('@otherPersonSetup').then(otherPersonSetup => {
-          cy.wait('@createChat')
-            .its('request.body')
-            .should('include', otherPersonSetup.hospexContainer)
-        })
+        cy.wait('@createChat')
+          .its('request.body')
+          .should('include', otherPerson.hospexContainer)
         // it should also get referenced in privateTypeIndex, and saved}) acl
         // the notification should get deleted after being processed
         // TODO
@@ -238,27 +219,20 @@ describe('messages with other person', () => {
   it('should be able to ignore received messages', () => {})
 
   it('should allow starting a new conversation', () => {
-    cy.get<UserConfig>('@me').then(me => {
-      cy.get<UserConfig>('@otherPerson').then(otherPerson => {
+    cy.get<Person>('@me').then(me => {
+      cy.get<Person>('@otherPerson').then(otherPerson => {
+        cy.stubMailer({ person: me })
         cy.login(me)
-        cy.get<SetupConfig>('@otherPersonSetup').then(otherPersonSetup => {
-          cy.intercept('POST', otherPersonSetup.inbox).as('createNotification')
-        })
-        cy.get<SetupConfig>('@meSetup').then(meSetup => {
-          cy.intercept('PATCH', meSetup.privateTypeIndex).as('updateTypeIndex')
-          cy.intercept('PUT', `${meSetup.hospexContainer}**/index.ttl`).as(
-            'createChat',
-          )
-          cy.intercept('PUT', `${meSetup.hospexContainer}**/.acl`).as(
-            'createChatAcl',
-          )
-          cy.intercept(
-            'PATCH',
-            `${meSetup.hospexContainer}**/${dayjs().format(
-              'YYYY/MM/DD',
-            )}/chat.ttl`,
-          ).as('createTodayChat')
-        })
+        cy.intercept('POST', otherPerson.inbox).as('createNotification')
+        cy.intercept('PATCH', me.privateTypeIndex).as('updateTypeIndex')
+        cy.intercept('PUT', `${me.hospexContainer}**/index.ttl`).as(
+          'createChat',
+        )
+        cy.intercept('PUT', `${me.hospexContainer}**/.acl`).as('createChatAcl')
+        cy.intercept(
+          'PATCH',
+          `${me.hospexContainer}**/${dayjs().format('YYYY/MM/DD')}/chat.ttl`,
+        ).as('createTodayChat')
 
         writeMessage(otherPerson, 'This is a first message')
 

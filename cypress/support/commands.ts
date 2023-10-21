@@ -57,6 +57,7 @@ import {
   setStorage,
   setupCommunity,
   setupPod,
+  stubMailer,
 } from './setup'
 import { ContactNotification, saveContacts } from './setup/contacts'
 import { Conversation, createConversation } from './setup/messages'
@@ -96,8 +97,7 @@ declare global {
         profile: Profile,
       ): void
       addAccommodation(
-        user: UserConfig,
-        setup: SetupConfig,
+        person: Person,
         accommodation: AccommodationData,
       ): Cypress.Chainable<AccommodationConfig>
       /**
@@ -129,6 +129,12 @@ declare global {
         contacts: Person[]
         notifications?: (ContactNotification | number)[]
         doc?: string
+      }): void
+      stubMailer(config: {
+        person: Pick<Person, 'webId' | 'inbox'>
+        mailer?: string
+        integrated?: boolean
+        verified?: boolean
       }): void
     }
   }
@@ -272,6 +278,7 @@ Cypress.Commands.add('setStorage', setStorage)
 Cypress.Commands.add('setProfileData', setProfileData)
 Cypress.Commands.add('addAccommodation', addAccommodation)
 Cypress.Commands.add('createConversation', createConversation)
+Cypress.Commands.add('stubMailer', stubMailer)
 
 /**
 Some code is copied from solidcryptpad repository
