@@ -1,11 +1,24 @@
-name: Notify matrix room when a pull request is merged (or rebased)
+name: Notify matrix room when a pull request is opened (or reopened) or merged (or rebased)
 
 on:
   pull_request:
-    types:
-      - closed
+    types: [opened, reopened, closed]
 
 jobs:
+  ping_matrix_when_opened:
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: send message for pr opening
+        uses: s3krit/matrix-message-action@v0.0.3
+        with:
+          room_id: ${{ secrets.MATRIX_ROOM_ID }}
+          access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+          message: '[${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was opened.'
+          server: 'matrix.org'
+      - run: |
+          echo The PR was opened
+
   ping_matrix_when_merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
@@ -15,7 +28,7 @@ jobs:
         with:
           room_id: ${{ secrets.MATRIX_ROOM_ID }}
           access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-          message: 'A change [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was merged.'
+          message: '[${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was merged.'
           server: 'matrix.org'
       - run: |
           echo The PR was merged
