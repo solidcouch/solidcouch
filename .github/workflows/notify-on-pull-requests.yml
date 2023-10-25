@@ -1,12 +1,14 @@
 name: Notify matrix room when a pull request is opened (or reopened) or merged (or rebased)
 
+# pull_request payload docs: https://docs.github.com/en/webhooks/webhook-events-and-payloads#pull_request
+
 on:
   pull_request:
     types: [opened, reopened, closed]
 
 jobs:
   ping_matrix_when_opened:
-    if: github.event.pull_request.merged == false
+    if: github.event.pull_request.state == 'open' && github.event.pull_request.draft != true
     runs-on: ubuntu-latest
     steps:
       - name: send message for pr opening
@@ -14,13 +16,13 @@ jobs:
         with:
           room_id: ${{ secrets.MATRIX_ROOM_ID }}
           access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-          message: '[${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was opened.'
+          message: 'PR [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was opened.'
           server: 'matrix.org'
       - run: |
           echo The PR was opened
 
   ping_matrix_when_merged:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.state == 'closed' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: send message for merge
@@ -28,7 +30,7 @@ jobs:
         with:
           room_id: ${{ secrets.MATRIX_ROOM_ID }}
           access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-          message: '[${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was merged.'
+          message: 'PR [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was merged.'
           server: 'matrix.org'
       - run: |
           echo The PR was merged
