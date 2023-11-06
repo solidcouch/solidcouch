@@ -1,6 +1,6 @@
 import MarkerClusterGroup from '@changey/react-leaflet-markercluster'
 import { defaultIcon, highlightedIcon, tileServer } from 'config'
-import { useSearchAccommodations } from 'hooks/data/useSearchAccommodations'
+import { useSearchAccommodations3 } from 'hooks/data/useSearchAccommodations'
 import { FaTimes } from 'react-icons/fa'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { useSearchParams } from 'react-router-dom'
@@ -12,7 +12,11 @@ export const SearchHosts = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedAccommodationId = searchParams.get('hosting')
 
-  const [offers] = useSearchAccommodations()
+  //useSearchAccommodations()
+
+  //const offers: AccommodationExtended[] = []
+
+  const [offers] = useSearchAccommodations3()
 
   const handleMarkerClick = (accommodationId: URI) => {
     setSearchParams({ hosting: accommodationId })
@@ -20,6 +24,7 @@ export const SearchHosts = () => {
 
   return (
     <div className={styles.container}>
+      {/* {isLoading && <div>...</div>} */}
       {selectedAccommodationId && (
         <div className={styles.offerOverlay}>
           <button
