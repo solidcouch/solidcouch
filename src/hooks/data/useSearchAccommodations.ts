@@ -328,9 +328,12 @@ const searchAccommodationsQuery2: RdfQuery = [
 ]
 
 export const useSearchAccommodations3 = (communityId = config.communityId) => {
-  const [store, isLoading] = useRdfQuery2(searchAccommodationsQuery2, {
-    community: [communityId],
-  })
+  const initial = useMemo(() => ({ community: [communityId] }), [communityId])
+  const [store, isLoading] = useRdfQuery2(
+    searchAccommodationsQuery2,
+    initial,
+    1000,
+  )
 
   return useMemo(() => {
     const dataset = createLdoDataset([...store])

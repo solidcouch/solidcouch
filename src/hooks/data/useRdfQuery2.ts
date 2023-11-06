@@ -1,24 +1,11 @@
 import { BlankNode, Literal, NamedNode, Quad, Variable } from '@rdfjs/types'
-import { difference, uniq } from 'lodash'
+import { UseQueryResult } from '@tanstack/react-query'
+import { difference, throttle, uniq } from 'lodash'
 import * as n3 from 'n3'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { URI } from 'types'
 import { removeHashFromURI } from 'utils/helpers'
 import { useRdfDocuments } from './useRdfDocument'
-
-const findObjects = (
-  store: n3.Store,
-  subject: n3.NamedNode,
-  predicate: n3.NamedNode,
-) => {
-  const matches = store.match(subject, predicate)
-
-  const objects = []
-  for (const quad of matches) {
-    objects.push(quad.object)
-  }
-  return objects
-}
 
 const findQuads = (
   store: n3.Store,
@@ -144,7 +131,6 @@ const processStore = (
   addResource: (resource: URI) => void,
   initial: { [key: string]: URI[] } = {},
 ) => {
-  const start = Date.now()
   const variables: {
     [key: string]: (Quad | NamedNode | Literal | BlankNode | Variable)[]
   } = {}
@@ -161,17 +147,56 @@ const processStore = (
 
     transform(store, variables, addResource)
   })
+}
 
-  console.log(start, Date.now() - start, '***')
+const runStore = (
+  documents: UseQueryResult<
+    {
+      data: n3.Quad[]
+      response: Response
+    },
+    unknown
+  >[],
+  query: RdfQuery,
+  addResource: (g: string) => void,
+  initial: { [key: string]: string[] },
+  setStore: React.Dispatch<
+    React.SetStateAction<n3.Store<Quad, n3.Quad, Quad, Quad>>
+  >,
+) => {
+  console.log(Date.now())
+  const store = new n3.Store()
+  documents.forEach(({ data }) => data && store.addQuads(data.data))
+  processStore(store, query, addResource, initial)
+  setStore(s => {
+    const previous = [...s].map(
+      a => `${a.subject.value} ${a.predicate.value} ${a.object.value}`,
+    )
+    const current = [...store].map(
+      a => `${a.subject.value} ${a.predicate.value} ${a.object.value}`,
+    )
+    const isDifferent =
+      difference(previous, current).length +
+        difference(current, previous).length >
+      0
+
+    return isDifferent ? store : s
+  })
 }
 
 export const useRdfQuery2 = (
   query: RdfQuery,
   initial: { [key: string]: URI[] } = {},
+  throttling: number = 0,
 ) => {
   const [resources, setResources] = useState<string[]>([])
   const [store, setStore] = useState(new n3.Store())
   const documents = useRdfDocuments(resources)
+
+  const runStoreThrottled = useMemo(
+    () => (throttling ? throttle(runStore, throttling) : runStore),
+    [throttling],
+  )
 
   const addResource = useCallback((g: string) => {
     setResources(resources =>
@@ -180,24 +205,8 @@ export const useRdfQuery2 = (
   }, [])
 
   useEffect(() => {
-    const store = new n3.Store()
-    documents.forEach(({ data }) => data && store.addQuads(data.data))
-    processStore(store, query, addResource, initial)
-    setStore(s => {
-      const previous = [...s].map(
-        a => `${a.subject.value} ${a.predicate.value} ${a.object.value}`,
-      )
-      const current = [...store].map(
-        a => `${a.subject.value} ${a.predicate.value} ${a.object.value}`,
-      )
-      const isDifferent =
-        difference(previous, current).length +
-          difference(current, previous).length >
-        0
-
-      return isDifferent ? store : s
-    })
-  }, [addResource, documents, initial, query])
+    runStoreThrottled(documents, query, addResource, initial, setStore)
+  }, [addResource, documents, initial, query, runStoreThrottled])
 
   return useMemo(
     () => [store, documents.some(d => d.isLoading)] as const,
