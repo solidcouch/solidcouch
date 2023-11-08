@@ -1,0 +1,11 @@
+@use 'styles/media';
+
+@mixin remove-page-margins {
+  margin-left: -35px;
+  margin-right: -35px;
+
+  @include media.for-tablet-portrait-up {
+    margin-left: -70px;
+    margin-right: -70px;
+  }
+}
