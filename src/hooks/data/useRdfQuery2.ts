@@ -5,19 +5,8 @@ import * as n3 from 'n3'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { URI } from 'types'
 import { removeHashFromURI } from 'utils/helpers'
+import { StartsWith } from './rdfQueryTypes'
 import { useRdfDocuments } from './useRdfDocument'
-
-const findQuads = (
-  store: n3.Store,
-  subject: n3.NamedNode | null,
-  predicate: n3.NamedNode | null,
-  object?: n3.NamedNode | null,
-  graph?: n3.NamedNode | null,
-) => {
-  const matches = store.match(subject, predicate, object, graph)
-
-  return [...matches]
-}
 
 type VariableDict = {
   [key: string]: (Quad | NamedNode | Literal | BlankNode | Variable)[]
@@ -94,11 +83,14 @@ const match2Transform = (config: Match): TransformStore => {
       }
     }
 
+    /* TODO this is the command that blocks the UI
+     * Single store.match is probably O(1), but e.g. when we're looping over many subjects, the complexity can easily grow to O(n) or worse
+     * we may want to give the JavaScript event loop a space to breath by putting setTimeout(() => {}, 0) somewhere */
     const results = subjects
       .flatMap(s =>
         predicates.flatMap(p =>
           objects.flatMap(o =>
-            graphs.flatMap(g => findQuads(store, s, p, o, g)),
+            graphs.flatMap(g => [...store.match(s, p, o, g)]),
           ),
         ),
       )
@@ -125,6 +117,11 @@ const addResources2Transform = (config: AddResources): TransformStore => {
 
 export type RdfQuery = (TransformStore | Match | AddResources)[]
 
+/**
+ * Follow your nose through RDF graph in n3.Store, change it, and discover resources that still need to be fetched, for the RDF graph to be complete
+ * @param query RdfQuery - Array of commands to follow your nose
+ * This method changes the store in place
+ */
 const processStore = (
   store: n3.Store,
   query: RdfQuery,
@@ -149,7 +146,10 @@ const processStore = (
   })
 }
 
-const runStore = (
+/**
+ * Set up store, follow your nose through it, and setState if it changed.
+ */
+const processAndUpdateStore = (
   documents: UseQueryResult<
     {
       data: n3.Quad[]
@@ -164,7 +164,6 @@ const runStore = (
     React.SetStateAction<n3.Store<Quad, n3.Quad, Quad, Quad>>
   >,
 ) => {
-  console.log(Date.now())
   const store = new n3.Store()
   documents.forEach(({ data }) => data && store.addQuads(data.data))
   processStore(store, query, addResource, initial)
@@ -184,7 +183,14 @@ const runStore = (
   })
 }
 
-export const useRdfQuery2 = (
+/**
+ * Follow your nose through Knowledge graph, starting from initial URIs, across multiple resources
+ * @param {RdfQuery} query - Array of commands to follow. Available commands are "match", "add resources", and custom process function
+ * @param {Object.<string, URI[]>} initial - URIs to start from. It's important that the object is memoized e.g. with useMemo(() => ({ key: [uri] }), [])
+ * @param {number} [throttling=0] - [milliseconds] currently, we go through the store in inefficient manner, too often. That can slow down the UI for wide datasets. With this parameter you can limit how often this is done. Disabled by default
+ * @returns {[n3.Store, {isLoading: boolean, isEtc: boolean }]} - n3.Store and resource querying status as array tuple
+ */
+export const useRdfQuery = (
   query: RdfQuery,
   initial: { [key: string]: URI[] } = {},
   throttling: number = 0,
@@ -194,7 +200,10 @@ export const useRdfQuery2 = (
   const documents = useRdfDocuments(resources)
 
   const runStoreThrottled = useMemo(
-    () => (throttling ? throttle(runStore, throttling) : runStore),
+    () =>
+      throttling
+        ? throttle(processAndUpdateStore, throttling)
+        : processAndUpdateStore,
     [throttling],
   )
 
@@ -204,12 +213,50 @@ export const useRdfQuery2 = (
     )
   }, [])
 
+  // TODO This effect runs every time "documents" change. This is way too often. We only need to run this effect whenever some new results are received; not when something starts loading etc...
   useEffect(() => {
     runStoreThrottled(documents, query, addResource, initial, setStore)
   }, [addResource, documents, initial, query, runStoreThrottled])
 
   return useMemo(
-    () => [store, documents.some(d => d.isLoading)] as const,
+    () => [store, combineStatus(documents)] as const,
     [documents, store],
   )
+}
+
+/**
+ * Take results of useQueries, and combine boolean values like `isLoading` into a single object.
+ * For every field, we combine using ||, with exception of isSuccess, isFetched and isFetchedAfterMount, where we combine using && logical operator.
+ * e.g. isLoading === true when something is loading;  isFetched === true when everything is fetched
+ */
+const combineStatus = (
+  results: UseQueryResult<
+    {
+      data: n3.Quad[]
+      response: Response
+    },
+    unknown
+  >[],
+) => {
+  type CombinedStatus = Record<
+    StartsWith<keyof UseQueryResult<any, unknown>, 'is'>,
+    boolean
+  >
+
+  return results.reduce((result, current) => {
+    for (const prop in current) {
+      const key = prop as keyof typeof current
+      if (typeof key === 'string') {
+        if (key.startsWith('is')) {
+          const typedKey = key as StartsWith<typeof key, 'is'>
+          result[typedKey] ||= Boolean(current[typedKey])
+        }
+      }
+    }
+
+    result.isSuccess &&= current.isSuccess
+    result.isFetched &&= current.isFetched
+    result.isFetchedAfterMount &&= current.isFetchedAfterMount
+    return result
+  }, {} as CombinedStatus)
 }
