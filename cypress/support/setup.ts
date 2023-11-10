@@ -142,18 +142,22 @@ export type SkipOptions =
 export const setupPod = (
   user: UserConfig,
   community: CommunityConfig,
-  options?: {
-    skip: SkipOptions[]
+  {
+    skip = [],
+    hospexContainerName = 'test-community',
+  }: { skip: SkipOptions[]; hospexContainerName: string } = {
+    skip: [],
+    hospexContainerName: 'test-community',
   },
 ) => {
   const publicTypeIndexUri = `${user.podUrl}settings/publicTypeIndex.ttl`
   const privateTypeIndexUri = `${user.podUrl}settings/privateTypeIndex.ttl`
-  const hospexContainer = `${user.podUrl}hospex/test-community/`
+  const hospexContainer = `${user.podUrl}hospex/${hospexContainerName}/`
   const hospexDocument = hospexContainer + 'card'
   const inboxUri = `${user.podUrl}inbox/`
 
   // create inbox
-  if (!options?.skip.includes('inbox')) {
+  if (!skip.includes('inbox')) {
     cy.authenticatedRequest(user, {
       url: inboxUri,
       method: 'PUT',
@@ -193,7 +197,7 @@ export const setupPod = (
     })
   }
   // create public type index
-  if (!options?.skip.includes('publicTypeIndex')) {
+  if (!skip.includes('publicTypeIndex')) {
     cy.authenticatedRequest(user, {
       url: publicTypeIndexUri,
       method: 'PUT',
@@ -232,7 +236,7 @@ export const setupPod = (
     })
   }
   // create private type index
-  if (!options?.skip.includes('privateTypeIndex')) {
+  if (!skip.includes('privateTypeIndex')) {
     cy.authenticatedRequest(user, {
       url: privateTypeIndexUri,
       method: 'PUT',
@@ -263,7 +267,7 @@ export const setupPod = (
     })
   }
   // create hospex document
-  if (!options?.skip.includes('personalHospexDocument')) {
+  if (!skip.includes('personalHospexDocument')) {
     const communityUri = community.community
     cy.authenticatedRequest(user, {
       url: hospexDocument,
@@ -309,7 +313,7 @@ export const setupPod = (
   }
 
   // join community
-  if (!options?.skip.includes('joinCommunity')) {
+  if (!skip.includes('joinCommunity')) {
     cy.authenticatedRequest(user, {
       url: community.group,
       method: 'PATCH',

@@ -91,10 +91,6 @@ describe('Setup Solid pod', () => {
     })
   })
 
-  context("person's inbox is missing", () => {
-    it('should create inbox')
-  })
-
   context('email notifications are not integrated', () => {
     beforeEach(setupPod())
 
@@ -180,6 +176,31 @@ describe('Setup Solid pod', () => {
           })
         cy.contains('a', 'travel')
       })
+    })
+  })
+
+  context('person joined another community', () => {
+    beforeEach(() => {
+      cy.get<UserConfig>('@user1').then(user => {
+        cy.get<CommunityConfig>('@otherCommunity').then(community => {
+          cy.setupPod(user, community, {
+            hospexContainerName: 'other-community',
+          })
+        })
+      })
+      setupPod([
+        'personalHospexDocument',
+        'joinCommunity',
+        'publicTypeIndex',
+        'privateTypeIndex',
+        'inbox',
+      ])()
+    })
+
+    it('should join this community just fine', () => {
+      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.contains('button', 'Continue!').click()
+      cy.contains('a', 'travel')
     })
   })
 })
