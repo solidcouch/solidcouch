@@ -12,6 +12,10 @@ export const SearchHosts = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedAccommodationId = searchParams.get('hosting')
 
+  //useSearchAccommodations()
+
+  //const offers: AccommodationExtended[] = []
+
   const [offers] = useSearchAccommodations()
 
   const handleMarkerClick = (accommodationId: URI) => {
@@ -20,6 +24,7 @@ export const SearchHosts = () => {
 
   return (
     <div className={styles.container}>
+      {/* {isLoading && <div>...</div>} */}
       {selectedAccommodationId && (
         <div className={styles.offerOverlay}>
           <button
