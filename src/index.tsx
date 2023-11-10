@@ -10,7 +10,9 @@ import { RouterProvider } from 'react-router-dom'
 import { router } from 'router'
 import { reportWebVitals } from './reportWebVitals'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 1 } },
+})
 
 const root = createRoot(document.getElementById('root') as HTMLElement)
 root.render(

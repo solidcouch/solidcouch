@@ -8,7 +8,7 @@ import { Accommodation, URI } from 'types'
 import { hospex } from 'utils/rdf-namespaces'
 import { useRdfQuery } from './useRdfQuery'
 
-export const myAccommodationsQuery = [
+const myAccommodationsQuery = [
   ['?personId', (a: URI) => a, '?profile', SolidProfileShapeType],
   ['?profile', 'seeAlso', '?profileDocument'],
   ['?profileDocument'],
