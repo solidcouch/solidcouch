@@ -13,6 +13,10 @@ export const SearchHosts = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedAccommodationId = searchParams.get('hosting')
 
+  //useSearchAccommodations()
+
+  //const offers: AccommodationExtended[] = []
+
   const [offers, status] = useSearchAccommodations()
 
   const handleMarkerClick = (accommodationId: URI) => {
