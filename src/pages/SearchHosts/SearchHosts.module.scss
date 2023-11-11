@@ -1,4 +1,4 @@
-@use 'styles/media';
+@use 'styles/helpers';
 
 .container {
   // position: fixed;
@@ -10,13 +10,8 @@
   background-color: lightgray;
   position: relative;
   height: 100%;
-  margin-left: -35px;
-  margin-right: -35px;
 
-  @include media.for-tablet-portrait-up {
-    margin-left: -70px;
-    margin-right: -70px;
-  }
+  @include helpers.remove-page-margins;
 }
 
 .offerOverlay {
