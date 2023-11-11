@@ -1,0 +1,51 @@
+@use 'styles/helpers';
+
+.bar {
+  height: 2px;
+  background-color: gray;
+  position: fixed;
+  width: 100vw;
+  z-index: 10000;
+  overflow: hidden;
+
+  @include helpers.remove-page-margins;
+
+  &.animate {
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0%;
+      height: 100%;
+      background-color: lightgray;
+      animation: progress 2s linear infinite;
+    }
+  }
+}
+
+@keyframes progress {
+  0% {
+    left: 0;
+    width: 0%;
+  }
+  5% {
+    left: 0;
+    width: 0%;
+  }
+  45% {
+    left: 0;
+    width: 100%;
+  }
+  55% {
+    left: 0;
+    width: 100%;
+  }
+  95% {
+    left: 100%;
+    width: 0%;
+  }
+  100% {
+    left: 100%;
+    width: 0%;
+  }
+}
