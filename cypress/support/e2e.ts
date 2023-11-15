@@ -22,4 +22,7 @@ import './commands'
 // set up a community before every test
 beforeEach(() => {
   cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
+  cy.setupCommunity({ community: Cypress.env('OTHER_COMMUNITY') }).as(
+    'otherCommunity',
+  )
 })

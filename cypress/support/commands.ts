@@ -87,7 +87,8 @@ declare global {
         user: UserConfig,
         community: CommunityConfig,
         options?: {
-          skip: SkipOptions[]
+          skip?: SkipOptions[]
+          hospexContainerName?: string
         },
       ): Cypress.Chainable<SetupConfig>
       setStorage(user: UserConfig): void
