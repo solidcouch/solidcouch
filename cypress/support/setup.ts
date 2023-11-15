@@ -145,10 +145,7 @@ export const setupPod = (
   {
     skip = [],
     hospexContainerName = 'test-community',
-  }: { skip: SkipOptions[]; hospexContainerName: string } = {
-    skip: [],
-    hospexContainerName: 'test-community',
-  },
+  }: { skip?: SkipOptions[]; hospexContainerName?: string } = {},
 ) => {
   const publicTypeIndexUri = `${user.podUrl}settings/publicTypeIndex.ttl`
   const privateTypeIndexUri = `${user.podUrl}settings/privateTypeIndex.ttl`
