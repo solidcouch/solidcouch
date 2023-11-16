@@ -4,7 +4,7 @@ name: Notify matrix room when a pull request is opened (or reopened) or merged (
 
 on:
   pull_request:
-    types: [opened, reopened, closed]
+    types: [opened, reopened, ready_for_review, closed]
 
 jobs:
   ping_matrix_when_opened:
