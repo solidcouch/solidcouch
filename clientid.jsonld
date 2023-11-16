@@ -1,0 +1,18 @@
+{
+  "@context": "https://www.w3.org/ns/solid/oidc-context.jsonld",
+  "client_id": "https://sleepy.bike/clientid.jsonld",
+  "client_name": "sleepy.bike",
+  "redirect_uris": [
+    "https://sleepy.bike/"
+  ],
+  "client_uri": "https://sleepy.bike/",
+  "logo_uri": "https://sleepy.bike/logo.svg",
+  "scope": "openid profile offline_access webid",
+  "grant_types": [
+    "refresh_token",
+    "authorization_code"
+  ],
+  "response_types": [
+    "code"
+  ]
+}
