@@ -50,7 +50,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && node scripts/build-clientid.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "preanalyze": "yarn build",
@@ -59,7 +59,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md,css,scss}\" package.json \"cypress/**/*.{ts,tsx,json,md,css,scss}\" \"**/*.{yml,yaml,md,json,html}\"",
     "build:ldo": "ldo build --input src/shapes --output src/ldo",
     "postbuild:ldo": "yarn format",
-    "cy:dev": "concurrently --kill-others \"BROWSER=none REACT_APP_COMMUNITY=http://localhost:4000/test-community/community#us REACT_APP_EMAIL_NOTIFICATIONS_SERVICE=http://localhost:3005 REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY=https://example.com/bot/profile/card#me yarn start\" \"community-solid-server -p 4000 -l error\" \"CYPRESS_COMMUNITY=\\\"http://localhost:4000/test-community/community#us\\\" CYPRESS_OTHER_COMMUNITY=\\\"http://localhost:4000/other-community/community#us\\\" cypress open\""
+    "cy:dev": "concurrently --kill-others \"BROWSER=none REACT_APP_COMMUNITY=http://localhost:4000/test-community/community#us REACT_APP_EMAIL_NOTIFICATIONS_SERVICE=http://localhost:3005 REACT_APP_ENABLE_DEV_CLIENT_ID=true REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY=https://example.com/bot/profile/card#me yarn start\" \"community-solid-server -p 4000 -l error\" \"CYPRESS_COMMUNITY=\\\"http://localhost:4000/test-community/community#us\\\" CYPRESS_OTHER_COMMUNITY=\\\"http://localhost:4000/other-community/community#us\\\" cypress open\""
   },
   "browserslist": {
     "production": [

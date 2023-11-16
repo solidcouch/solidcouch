@@ -33,8 +33,13 @@ export const SignIn = () => {
     try {
       await login({
         oidcIssuer,
-        redirectUrl: window.location.href,
+        redirectUrl: new URL('/', window.location.href).toString(),
         clientName: 'sleepy.bike',
+        clientId:
+          process.env.NODE_ENV === 'development' &&
+          !process.env.REACT_APP_ENABLE_DEV_CLIENT_ID
+            ? undefined
+            : new URL('/clientid.jsonld', window.location.href).toJSON(),
       })
     } catch (e) {
       if (e instanceof TypeError) {
