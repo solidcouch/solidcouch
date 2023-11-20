@@ -1,3 +1,4 @@
+import { ButtonLink } from 'components'
 import { Join } from 'components/Join/Join'
 import { SignIn } from 'components/SignIn/SignIn'
 import styles from './UnauthenticatedHome.module.scss'
@@ -40,9 +41,11 @@ export const UnauthenticatedHome = () => {
       {/*<!--As a member, you own your data. In the future, you'll be able to
           connect with other similar communities in the greater hospitality
   exchange network.-->*/}
-      {/*<ButtonLink tertiary to="about">
-        Read more
-</ButtonLink>*/}
+      <section>
+        <ButtonLink tertiary to="about">
+          Read more
+        </ButtonLink>
+      </section>
       <div className={styles.spacer} />
       <footer className={styles.footer}>
         Visit our project spaces to{' '}
