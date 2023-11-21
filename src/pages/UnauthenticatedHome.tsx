@@ -13,6 +13,9 @@ export const UnauthenticatedHome = () => {
       <section className={styles.actions}>
         <Join />
         <SignIn />
+        <ButtonLink tertiary to="about">
+          Read more
+        </ButtonLink>
       </section>
       <div className={styles.projects}>
         <a href="https://openhospitality.network" className={styles.project}>
@@ -41,11 +44,6 @@ export const UnauthenticatedHome = () => {
       {/*<!--As a member, you own your data. In the future, you'll be able to
           connect with other similar communities in the greater hospitality
   exchange network.-->*/}
-      <section>
-        <ButtonLink tertiary to="about">
-          Read more
-        </ButtonLink>
-      </section>
       <div className={styles.spacer} />
       <footer className={styles.footer}>
         Visit our project spaces to{' '}

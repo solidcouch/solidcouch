@@ -11,12 +11,17 @@
 
   .mainDescription {
     font-size: 1.2rem;
+
+    a {
+      text-decoration: underline;
+    }
   }
 
   .actions {
     display: flex;
     justify-content: center;
     gap: 2rem;
+    flex-wrap: wrap-reverse;
 
     button {
       padding: 1rem;
