@@ -1,5 +1,6 @@
 import { Join } from 'components/Join/Join'
 import { SignIn } from 'components/SignIn/SignIn'
+import { Link } from 'react-router-dom'
 import styles from './UnauthenticatedHome.module.scss'
 
 export const UnauthenticatedHome = () => {
@@ -7,7 +8,7 @@ export const UnauthenticatedHome = () => {
     <div className={styles.wrapper}>
       <section className={styles.mainDescription}>
         Sleepy Bike is a community of bicycle touring travellers and those who
-        want to host them.
+        want to host them. <Link to="about">Read more&hellip;</Link>
       </section>
       <section className={styles.actions}>
         <Join />
@@ -40,9 +41,6 @@ export const UnauthenticatedHome = () => {
       {/*<!--As a member, you own your data. In the future, you'll be able to
           connect with other similar communities in the greater hospitality
   exchange network.-->*/}
-      {/*<ButtonLink tertiary to="about">
-        Read more
-</ButtonLink>*/}
       <div className={styles.spacer} />
       <footer className={styles.footer}>
         Visit our project spaces to{' '}
