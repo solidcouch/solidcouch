@@ -33,14 +33,14 @@ export const wikidataLDF = 'https://query.wikidata.org/bigdata/ldf'
 
 export const oidcIssuers = [
   {
-    issuer: 'https://solidweb.me',
-    registration: 'https://solidweb.me/idp/register/',
-    server: 'CSS',
-  },
-  {
     issuer: 'https://solidcommunity.net',
     registration: 'https://solidcommunity.net/register',
     server: 'NSS',
+  },
+  {
+    issuer: 'https://solidweb.me',
+    registration: 'https://solidweb.me/idp/register/',
+    server: 'CSS',
   },
   {
     issuer: 'https://solid.redpencil.io/',
@@ -49,7 +49,7 @@ export const oidcIssuers = [
   },
   {
     issuer: 'https://teamid.live/',
-    registration: 'https://teamid.live/idp/register/',
+    registration: 'https://teamid.live/.account/login/password/register/',
     server: 'CSS',
   },
   {
