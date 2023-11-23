@@ -36,22 +36,22 @@ const tabs = [
       <>
         <ExternalButtonLink
           secondary
-          href="https://solidweb.me/idp/register/"
+          href="https://solidcommunity.net/register"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Get a Pod at solidweb.me 😉
+          Get a Pod at solidcommunity.net 😉
         </ExternalButtonLink>
         <br />
-        It runs the{' '}
+        It is managed by the Solid community folks, and will be migrated to a{' '}
         <a
-          href="https://github.com/CommunitySolidServer/CommunitySolidServer"
+          href="https://github.com/solid-contrib/pivot"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Community Solid Server
+          modern and open-source Solid server
         </a>
-        , which is modern and open-source.
+        .
       </>
     ),
   },
