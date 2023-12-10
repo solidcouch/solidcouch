@@ -1,5 +1,5 @@
 import { App } from 'App'
-import { About } from 'pages/About'
+import { About } from 'pages/About/About'
 import { AuthenticatedOutlet } from 'pages/AuthenticatedOutlet'
 import { Contacts } from 'pages/Contacts'
 import { EditProfile } from 'pages/EditProfile'
