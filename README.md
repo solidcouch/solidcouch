@@ -40,7 +40,6 @@ You can also [configure the app](./docs/Configuration.md) with environment varia
 REACT_APP_COMMUNITY="https://community.example/community#us" REACT_APP_COMMUNITY_CONTAINER="community-example" yarn start`
 ```
 
-
 ## Testing
 
 We use [Cypress](https://www.cypress.io/app) to test the application.
