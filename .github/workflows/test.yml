@@ -22,5 +22,5 @@ jobs:
           REACT_APP_ENABLE_DEV_CLIENT_ID: true
           BROWSER: none
         with:
-          start: yarn start, yarn community-solid-server -p 4000 -l error
-          wait-on: 'http://localhost:3000, http://localhost:4000'
+          start: yarn cy:github:app:notifications:simple, yarn cy:github:app:notifications:solid, yarn community-solid-server -p 4000 -l error
+          wait-on: 'http://localhost:3000, http://localhost:3001, http://localhost:4000'

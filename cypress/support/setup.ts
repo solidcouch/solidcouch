@@ -450,6 +450,7 @@ export const stubMailer = ({
   integrated?: boolean
   verified?: boolean
 }): void => {
+  // interception for Solid mailer
   cy.intercept('GET', `${mailer}/status`, {
     statusCode: 200,
     body: {
@@ -459,4 +460,11 @@ export const stubMailer = ({
         : [],
     },
   })
+
+  // interception for simple mailer
+  cy.intercept(
+    'GET',
+    `http://localhost:3005/status/${encodeURIComponent(person.webId)}`,
+    { statusCode: 200, body: { emailVerified: integrated && verified } },
+  )
 }

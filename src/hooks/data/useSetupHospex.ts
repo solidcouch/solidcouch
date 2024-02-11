@@ -16,7 +16,7 @@ import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
 import { useCallback } from 'react'
 import { URI } from 'types'
 import { getAcl, getContainer } from 'utils/helpers'
-import { acl, foaf, hospex, ldp, solid } from 'utils/rdf-namespaces'
+import { acl, foaf, hospex, ldp, solid, space } from 'utils/rdf-namespaces'
 import * as uuid from 'uuid'
 import { useReadCommunity } from './useCommunity'
 import {
@@ -32,6 +32,7 @@ export type SetupTask =
   | 'createInbox'
   | 'createHospexProfile'
   | 'integrateEmailNotifications'
+  | 'integrateSimpleEmailNotifications'
 export type SetupSettings = {
   person: URI
   publicTypeIndex: URI
@@ -48,6 +49,7 @@ export const useSetupHospex = () => {
   const createHospexProfile = useCreateHospexProfile()
   const saveTypeRegistration = useSaveTypeRegistration()
   const initEmailNotifications = useInitEmailNotifications()
+  const initSimpleEmailNotifications = useInitSimpleEmailNotifications()
 
   const { webId } = useAuth()
 
@@ -108,6 +110,12 @@ export const useSetupHospex = () => {
 
       if (tasks.includes('integrateEmailNotifications'))
         await initEmailNotifications({ email, inbox, webId: webId as string })
+      if (tasks.includes('integrateSimpleEmailNotifications'))
+        await initSimpleEmailNotifications({
+          email,
+          webId: webId as string,
+          hospexDocument,
+        })
     },
     [
       createHospexProfile,
@@ -115,6 +123,7 @@ export const useSetupHospex = () => {
       createPrivateTypeIndex,
       createPublicTypeIndex,
       initEmailNotifications,
+      initSimpleEmailNotifications,
       saveTypeRegistration,
       webId,
     ],
@@ -436,4 +445,137 @@ const useInitEmailNotifications = () => {
     },
     [initializeIntegration, updateAclMutation],
   )
+}
+
+const useInitSimpleEmailNotifications = () => {
+  // Define a mutation function that will handle the API request
+  const addActivity = async (requestData: any) => {
+    const response = await fetch(`${emailNotificationsService}/init`, {
+      method: 'post',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(requestData),
+    })
+
+    if (!response.ok) throw new Error('not ok!')
+  }
+
+  const queryClient = useQueryClient()
+  const preparePodForSimpleEmailNotifications =
+    usePreparePodForSimpleEmailNotifications()
+
+  const { mutate } = useMutation({
+    mutationFn: addActivity,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['simpleMailerIntegration'])
+    },
+  })
+
+  const initializeIntegration = useCallback(
+    ({ email }: { email: string }) => {
+      const requestData = { email }
+
+      mutate(requestData)
+    },
+    [mutate],
+  )
+
+  return useCallback(
+    async ({
+      email,
+      webId,
+      hospexDocument,
+    }: {
+      webId: URI
+      email: string
+      hospexDocument: string
+    }) => {
+      // TODO give mailer read or write access to email settings, as needed
+      await preparePodForSimpleEmailNotifications({
+        hospexDocument,
+        webId,
+        email,
+      })
+      // initialize integration
+      await initializeIntegration({ email })
+    },
+    [initializeIntegration, preparePodForSimpleEmailNotifications],
+  )
+}
+
+const usePreparePodForSimpleEmailNotifications = () => {
+  const updateAclMutation = useUpdateLdoDocument(AuthorizationShapeType)
+  const updateMutation = useUpdateRdfDocument()
+
+  const preparePodForSimpleEmailNotifications = useCallback(
+    async ({
+      hospexDocument,
+      webId,
+      email,
+    }: {
+      hospexDocument: string
+      webId: string
+      email: string
+    }) => {
+      // First find the hospex container for this community
+      const hospexContainer = getContainer(hospexDocument)
+      // give the mailer read access to the hospex container
+      const hospexContainerAcl = await getAcl(hospexContainer)
+      await updateAclMutation.mutateAsync({
+        uri: hospexContainerAcl,
+        subject: hospexContainerAcl + '#readForMailer',
+        transform: ldo => {
+          ldo['@id'] = hospexContainerAcl + '#readForMailer'
+          ldo.type = { '@id': 'Authorization' }
+
+          ldo.agent = [{ '@id': emailNotificationsIdentity }]
+          ldo.accessTo = [{ '@id': hospexContainer }]
+          ldo.default = { '@id': hospexContainer }
+          ldo.mode = [{ '@id': acl.Read }]
+        },
+      })
+      // create emailSettings file
+      const emailSettings = hospexContainer + 'emailSettings'
+
+      const addEmail = `_:mutate a <${solid.InsertDeletePatch}>;
+        <${solid.inserts}> { <${webId}> <${foaf.mbox}> <${email}>. } .`
+      await updateMutation.mutateAsync({
+        uri: emailSettings,
+        patch: addEmail,
+      })
+
+      // give the mailer read & write access to the email settings file
+      const emailSettingsAcl = await getAcl(emailSettings)
+      await updateAclMutation.mutateAsync({
+        uri: emailSettingsAcl,
+        subject: emailSettingsAcl + '#readWriteMailer',
+        transform: ldo => {
+          ldo['@id'] = emailSettingsAcl + '#readWriteMailer'
+          ldo.type = { '@id': 'Authorization' }
+          ldo.agent = [{ '@id': emailNotificationsIdentity }]
+          ldo.accessTo = [{ '@id': emailSettings }]
+          ldo.mode = [{ '@id': acl.Read }, { '@id': acl.Write }]
+
+          ldo['@id'] = emailSettingsAcl + '#owner'
+          ldo.type = { '@id': 'Authorization' }
+          ldo.agent = [{ '@id': webId }]
+          ldo.accessTo = [{ '@id': emailSettings }]
+          ldo.mode = [
+            { '@id': acl.Read },
+            { '@id': acl.Write },
+            { '@id': acl.Control },
+          ]
+        },
+      })
+
+      // put the triple person -> settings -> email file to hospexDocument
+      const patch = `_:mutate a <${solid.InsertDeletePatch}>;
+        <${solid.inserts}> { <${webId}> <${space.preferencesFile}> <${emailSettings}>. } .`
+      await updateMutation.mutateAsync({
+        uri: hospexDocument,
+        patch,
+      })
+    },
+    [updateAclMutation, updateMutation],
+  )
+  return preparePodForSimpleEmailNotifications
 }
