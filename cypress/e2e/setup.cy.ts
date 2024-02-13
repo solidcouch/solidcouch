@@ -96,6 +96,7 @@ describe('Setup Solid pod', () => {
     () => {
       beforeEach(setupPod())
 
+      // switch to the app on port 3001 which has the solid-email-notifications enabled
       before(() => {
         Cypress.config('baseUrl', 'http://localhost:3001')
       })

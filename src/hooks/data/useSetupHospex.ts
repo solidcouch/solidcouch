@@ -489,7 +489,7 @@ const useInitSimpleEmailNotifications = () => {
       email: string
       hospexDocument: string
     }) => {
-      // TODO give mailer read or write access to email settings, as needed
+      // give mailer read and write access to email settings, as needed
       await preparePodForSimpleEmailNotifications({
         hospexDocument,
         webId,
@@ -502,6 +502,8 @@ const useInitSimpleEmailNotifications = () => {
   )
 }
 
+// TODO this method runs very carelessly
+// in particular, we don't want to overwrite existing resources or data
 const usePreparePodForSimpleEmailNotifications = () => {
   const updateAclMutation = useUpdateLdoDocument(AuthorizationShapeType)
   const updateMutation = useUpdateRdfDocument()
@@ -554,7 +556,12 @@ const usePreparePodForSimpleEmailNotifications = () => {
           ldo.agent = [{ '@id': emailNotificationsIdentity }]
           ldo.accessTo = [{ '@id': emailSettings }]
           ldo.mode = [{ '@id': acl.Read }, { '@id': acl.Write }]
-
+        },
+      })
+      await updateAclMutation.mutateAsync({
+        uri: emailSettingsAcl,
+        subject: emailSettingsAcl + '#owner',
+        transform: ldo => {
           ldo['@id'] = emailSettingsAcl + '#owner'
           ldo.type = { '@id': 'Authorization' }
           ldo.agent = [{ '@id': webId }]

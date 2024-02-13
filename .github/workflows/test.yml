@@ -22,5 +22,8 @@ jobs:
           REACT_APP_ENABLE_DEV_CLIENT_ID: true
           BROWSER: none
         with:
+          # we run two apps - with solid- and simple-email-notifications enabled
+          # the app-specific environment variables are provided in package.json
+          # didn't find way to provide them to yarn start directly here
           start: yarn cy:github:app:notifications:simple, yarn cy:github:app:notifications:solid, yarn community-solid-server -p 4000 -l error
           wait-on: 'http://localhost:3000, http://localhost:3001, http://localhost:4000'
