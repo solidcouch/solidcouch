@@ -100,6 +100,14 @@ const hospexDocumentQuery: RdfQuery = [
     pick: 'graph',
     target: '?hospexDocumentForCommunity',
   },
+  {
+    type: 'match',
+    subject: '?person',
+    predicate: space.preferencesFile,
+    graph: '?hospexDocumentForCommunity',
+    pick: 'object',
+    target: '?hospexSettings',
+  },
   { type: 'add resources', variable: '?hospexDocumentForCommunity' },
   // remove all other hospex documents that don't belong to this community
   (store, variables) => {
@@ -198,4 +206,33 @@ export const useCheckEmailNotifications = (inbox: URI, mailer: string) => {
   if (integrations.length === 0) return false
   else if (integrations.some(i => i.verified)) return true
   else return 'unverified' as const
+}
+
+export const useCheckSimpleEmailNotifications = (
+  webId: URI,
+  mailer: string,
+) => {
+  const checkMailerIntegration = useCallback(async () => {
+    if (!mailer) return 'mailer not set up'
+
+    const response = await fetch(
+      `${mailer}/status/${encodeURIComponent(webId)}`,
+    )
+
+    if (response.status === 403) return { emailVerified: false }
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+    return response.json()
+  }, [mailer, webId])
+
+  const { isLoading, data } = useQuery<
+    { emailVerified: boolean } | 'mailer not set up'
+  >(['simpleMailerIntegration'], checkMailerIntegration)
+
+  if (data === 'mailer not set up') return true
+
+  if (isLoading || !data) return undefined
+
+  return data.emailVerified
 }

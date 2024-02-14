@@ -20,10 +20,14 @@ export const HospexSetup = ({
   isHospexProfile,
   isInbox,
   isEmailNotifications,
+  isSimpleEmailNotifications,
   personalHospexDocuments,
   publicTypeIndexes,
   privateTypeIndexes,
   inboxes,
+  isNotificationsInitialized,
+  onNotificationsInitialized,
+  onNotificationsInitializedTryAgain,
 }: {
   isMember: boolean
   isHospexProfile: boolean
@@ -31,10 +35,14 @@ export const HospexSetup = ({
   isPrivateTypeIndex: boolean
   isInbox: boolean
   isEmailNotifications: boolean | 'unverified'
+  isSimpleEmailNotifications: boolean | 'unverified'
   personalHospexDocuments: URI[]
   publicTypeIndexes: URI[]
   privateTypeIndexes: URI[]
   inboxes: URI[]
+  isNotificationsInitialized: boolean
+  onNotificationsInitialized: () => void
+  onNotificationsInitializedTryAgain: () => void
 }) => {
   const auth = useAuth()
   const setupHospex = useSetupHospex()
@@ -50,7 +58,8 @@ export const HospexSetup = ({
       !isPrivateTypeIndex ||
       !isHospexProfile ||
       !isInbox ||
-      !isEmailNotifications
+      !isEmailNotifications ||
+      !isSimpleEmailNotifications
     ) {
       const tasks: SetupTask[] = []
       if (!isPublicTypeIndex) tasks.push('createPublicTypeIndex')
@@ -58,6 +67,8 @@ export const HospexSetup = ({
       if (!isHospexProfile) tasks.push('createHospexProfile')
       if (!isInbox) tasks.push('createInbox')
       if (!isEmailNotifications) tasks.push('integrateEmailNotifications')
+      if (!isSimpleEmailNotifications)
+        tasks.push('integrateSimpleEmailNotifications')
       if (!auth.webId) throw new Error('not signed in')
       if (isPublicTypeIndex && !publicTypeIndexes[0])
         throw new Error('existing public type index not found')
@@ -78,6 +89,7 @@ export const HospexSetup = ({
         email,
       }
       await setupHospex(tasks, settings)
+      onNotificationsInitialized()
     }
     if (!isMember)
       await joinGroup({
@@ -130,6 +142,27 @@ export const HospexSetup = ({
           {isEmailNotifications === 'unverified' && (
             <div>Please verify your email</div>
           )}
+        </li>
+        <li>
+          {!isSimpleEmailNotifications &&
+            (!isNotificationsInitialized ? (
+              <div>
+                Setup simple email notifications{' '}
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                />
+              </div>
+            ) : (
+              <div>
+                Please verify your email. Email didn't arrive?{' '}
+                <Button secondary onClick={onNotificationsInitializedTryAgain}>
+                  Try again
+                </Button>
+              </div>
+            ))}
         </li>
       </ul>
       <Button primary onClick={() => handleClickSetup()}>

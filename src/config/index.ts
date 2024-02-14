@@ -23,6 +23,11 @@ export const emailNotificationsService =
 // TODO maybe we'll fetch the identity directly from the mailer, when it supports that option, so the setup will be less complicated
 export const emailNotificationsIdentity =
   process.env.REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY ?? ''
+export const emailNotificationsType: 'simple' | 'solid' =
+  (process.env.REACT_APP_EMAIL_NOTIFICATIONS_TYPE as
+    | 'simple'
+    | 'solid'
+    | undefined) ?? 'simple'
 
 if (emailNotificationsService && !emailNotificationsIdentity)
   throw new Error(
