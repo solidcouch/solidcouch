@@ -10,6 +10,7 @@ import { FoafProfile, HospexProfile, SolidProfile } from 'ldo/app.typings'
 import { merge } from 'lodash'
 import { useCallback, useMemo } from 'react'
 import { Person, URI } from 'types'
+import { ldo2json } from 'utils/ldo'
 import { foaf, hospex, solid } from 'utils/rdf-namespaces'
 import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
 import { useRdfQuery } from './useRdfQuery'
@@ -63,7 +64,14 @@ export const useProfile = (webId: URI, communityId: URI) => {
   const foafProfile = results.foafProfile[0] as FoafProfile | undefined
   const hospexProfile = hospexLdos[0]?.ldo ?? undefined
   const hospexDocument = hospexLdos[0]?.document ?? undefined
-  const mergedProfile = merge({}, foafProfile, hospexProfile)
+
+  // we convert LDOs to pure objects before merging for better performance
+  // merging LDOs took up to several seconds when data were complex (e.g. with Trinpod)
+  const mergedProfile = merge(
+    {},
+    foafProfile && ldo2json(foafProfile),
+    hospexProfile && ldo2json(hospexProfile),
+  )
   const descriptionLanguages =
     hospexProfile && languagesOf(hospexProfile, 'note')
   const about = descriptionLanguages?.en?.values().next().value ?? ''
