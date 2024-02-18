@@ -12,12 +12,14 @@ import {
 import { useSolidProfile } from 'hooks/data/useProfile'
 import { useReadMessages } from 'hooks/data/useReadMessages'
 import { useAuth } from 'hooks/useAuth'
+import { useSendEmailNotification } from 'hooks/useSendEmailNotification'
 import { produce } from 'immer'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { URI } from 'types'
 import { getContainer } from 'utils/helpers'
+import * as config from '../config'
 import styles from './Messages.module.scss'
 
 export const Messages = () => {
@@ -41,9 +43,14 @@ export const Messages = () => {
   const [otherPersonSetup] = useSolidProfile(personId)
   const otherInbox = otherPersonSetup?.inbox?.['@id']
 
-  const createMessage2 = useCreateMessage()
+  const createMessage = useCreateMessage()
   const createMessageNotification = useCreateMessageNotification()
   const createChat = useCreateChat()
+  const sendNotification = useSendEmailNotification({
+    from: auth.webId as string,
+    to: personId,
+    type: 'message',
+  })
 
   const processNotification = useProcessNotification()
 
@@ -133,7 +140,7 @@ export const Messages = () => {
       }))
     }
 
-    const { messageId, createdAt } = await createMessage2({
+    const { messageId, createdAt } = await createMessage({
       senderId: auth.webId,
       message: data.message,
       chat,
@@ -148,6 +155,13 @@ export const Messages = () => {
 
     reset({ message: '' })
     setIsSaving(false)
+
+    // send email notification
+    if (
+      config.emailNotificationsService &&
+      config.emailNotificationsType === 'simple'
+    )
+      await sendNotification({ messageId, message: data.message })
   })
 
   const isFormDisabled = isSaving || !otherInbox
@@ -193,8 +207,8 @@ export const Messages = () => {
       </div>
       {isInitialConversation && (
         <>
-          This is a start of your conversation{' '}
-          <Button secondary>Ignore (not implemented)</Button>
+          This is a start of your conversation
+          {/* {' '}<Button secondary>Ignore (not implemented)</Button> */}
         </>
       )}
       <form onSubmit={handleFormSubmit} className={styles.messageForm}>

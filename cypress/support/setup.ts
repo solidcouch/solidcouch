@@ -467,4 +467,8 @@ export const stubMailer = ({
     `http://localhost:3005/status/${encodeURIComponent(person.webId)}`,
     { statusCode: 200, body: { emailVerified: integrated && verified } },
   )
+
+  cy.intercept('POST', `http://localhost:3005/notification`, {
+    statusCode: 200,
+  }).as('simpleEmailNotification')
 }
