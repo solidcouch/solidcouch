@@ -259,6 +259,38 @@ describe('messages with other person', () => {
       })
     })
   })
+
+  context('simple email notifications enabled', () => {
+    it('should ask the simple email notifications service to send email notification to receiver', () => {
+      cy.get<Person>('@me').then(me => {
+        cy.get<Person>('@otherPerson').then(otherPerson => {
+          cy.stubMailer({ person: me })
+          cy.login(me)
+          writeMessage(otherPerson, 'Test message')
+          cy.wait('@simpleEmailNotification')
+            .its('request.body')
+            .should('containSubset', {
+              '@context': 'https://www.w3.org/ns/activitystreams',
+              type: 'Create',
+              actor: {
+                type: 'Person',
+                id: me.webId,
+                name: me.name,
+              },
+              object: {
+                type: 'Note',
+                content: 'Test message',
+              },
+              target: {
+                type: 'Person',
+                id: otherPerson.webId,
+                name: otherPerson.name,
+              },
+            })
+        })
+      })
+    })
+  })
 })
 
 /**
