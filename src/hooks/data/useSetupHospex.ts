@@ -539,7 +539,7 @@ const usePreparePodForSimpleEmailNotifications = () => {
       const emailSettings = hospexContainer + 'emailSettings'
 
       const addEmail = `_:mutate a <${solid.InsertDeletePatch}>;
-        <${solid.inserts}> { <${webId}> <${foaf.mbox}> <${email}>. } .`
+        <${solid.inserts}> { <${webId}> <${foaf.mbox}> "${email}". } .`
       await updateMutation.mutateAsync({
         uri: emailSettings,
         patch: addEmail,

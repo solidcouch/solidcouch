@@ -82,6 +82,7 @@
   },
   "devDependencies": {
     "@solid/community-server": "^6.0.0",
+    "@types/chai-subset": "^1.3.5",
     "@types/jsonld": "^1.5.8",
     "@types/leaflet": "^1.9.1",
     "@types/lodash": "^4.14.191",
@@ -90,6 +91,7 @@
     "@types/react-modal": "^3.13.1",
     "@types/shexj": "^2.1.4",
     "@typescript-eslint/parser": "^5.60.0",
+    "chai-subset": "^1.6.0",
     "concurrently": "^8.0.1",
     "cypress": "^12.12.0",
     "eslint-config-prettier": "^8.6.0",
