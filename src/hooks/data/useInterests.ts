@@ -43,16 +43,14 @@ interface WikidataEntitiesResult {
 }
 
 export const useSearchInterests = (query: string, language = 'en') =>
-  useQuery(
-    ['wikidataSearch', query, language],
-    () => searchInterests(query, language),
-    {
-      enabled: !!query,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      staleTime: Infinity,
-    },
-  )
+  useQuery({
+    queryKey: ['wikidataSearch', query, language],
+    queryFn: () => searchInterests(query, language),
+    enabled: !!query,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
+  })
 
 const searchInterests = async (
   query: string,
@@ -70,16 +68,14 @@ const searchInterests = async (
 }
 
 export const useReadInterest = (uri: URI, language = 'en') =>
-  useQuery(
-    ['wikidataEntity', uri, language],
-    () => readInterest(uri, language),
-    {
-      enabled: !!uri,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      staleTime: Infinity,
-    },
-  )
+  useQuery({
+    queryKey: ['wikidataEntity', uri, language],
+    queryFn: () => readInterest(uri, language),
+    enabled: !!uri,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
+  })
 
 const readInterest = async (
   uri: URI,

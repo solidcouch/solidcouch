@@ -16,7 +16,9 @@ export const useFile = (uri: URI = '') => {
   const doc = uri ? removeHashFromURI(uri) : uri
   const queryKey = useMemo(() => ['file', doc], [doc])
 
-  const result = useQuery(queryKey, () => readFile(doc), {
+  const result = useQuery({
+    queryKey,
+    queryFn: () => readFile(doc),
     enabled: !!uri,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -102,7 +104,9 @@ export const useCreateFile = () => {
     mutationFn: async ({ uri, data }: { uri: URI; data: File }) =>
       await createFile(uri, data),
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries(['file', removeHashFromURI(variables.uri)])
+      queryClient.invalidateQueries({
+        queryKey: ['file', removeHashFromURI(variables.uri)],
+      })
     },
   })
 
@@ -116,7 +120,9 @@ export const useUpdateFile = () => {
     mutationFn: async ({ uri, data }: { uri: URI; data: File }) =>
       await updateFile(uri, data),
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries(['file', removeHashFromURI(variables.uri)])
+      queryClient.invalidateQueries({
+        queryKey: ['file', removeHashFromURI(variables.uri)],
+      })
     },
   })
 
@@ -128,7 +134,9 @@ export const useDeleteFile = () => {
   const mutation = useMutation({
     mutationFn: async ({ uri }: { uri: URI }) => await deleteFile(uri),
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries(['file', removeHashFromURI(variables.uri)])
+      queryClient.invalidateQueries({
+        queryKey: ['file', removeHashFromURI(variables.uri)],
+      })
     },
   })
 
