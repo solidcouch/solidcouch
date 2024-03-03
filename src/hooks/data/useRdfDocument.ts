@@ -159,7 +159,7 @@ export const useCreateRdfDocument = <S extends LdoBase>(
         body: turtleData,
         headers: {
           'content-type': 'text/turtle',
-          'If-None-Match': '*'
+          'If-None-Match': '*',
         },
       })
 
