@@ -152,18 +152,16 @@ export const useCreateRdfDocument = <S extends LdoBase>(
         setLanguagePreferences(language).using(ldo)
         merge(ldo, data)
       }
-      const turtleData = await toTurtle(
+      const body = await toTurtle(
         ldoDataset.usingType(shapeType).fromSubject(''),
       )
 
-      const response = await fullFetch(uri, {
-        method,
-        body: turtleData,
-        headers: {
-          'content-type': 'text/turtle',
-          // 'If-None-Match': '*'
-        },
-      })
+      const headers: HeadersInit = { 'content-type': 'text/turtle' }
+      // let's make sure we don't overwrite an existing resource
+      // https://solidproject.org/TR/protocol#conditional-update
+      if (method === 'PUT') headers['If-None-Match'] = '*'
+
+      const response = await fullFetch(uri, { method, body, headers })
 
       const location = response.headers.get('location')
       return location as string
