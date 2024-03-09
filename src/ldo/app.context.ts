@@ -8,7 +8,6 @@ import { ContextDefinition } from 'jsonld'
 export const appContext: ContextDefinition = {
   type: {
     '@id': '@type',
-    '@container': '@set',
   },
   Person: 'http://xmlns.com/foaf/0.1/Person',
   inbox: {
@@ -120,17 +119,14 @@ export const appContext: ContextDefinition = {
   modified: {
     '@id': 'http://purl.org/dc/terms/modified',
     '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
-    '@container': '@set',
   },
   mtime: {
     '@id': 'http://www.w3.org/ns/posix/stat#mtime',
     '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
-    '@container': '@set',
   },
   size: {
     '@id': 'http://www.w3.org/ns/posix/stat#size',
     '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
-    '@container': '@set',
   },
   preferencesFile: {
     '@id': 'http://www.w3.org/ns/pim/space#preferencesFile',

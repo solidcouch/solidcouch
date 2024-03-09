@@ -15,8 +15,7 @@
  * ?day -> contains -> ?messageFile // all this is resource discovery
  * ?chat -> message -> ?message
  */
-import { createLdoDataset } from 'ldo'
-import { LdoBase } from 'ldo/dist/util'
+import { LdoBase, createLdoDataset } from '@ldo/ldo'
 import { difference, uniq, uniqBy } from 'lodash'
 import { Quad } from 'n3'
 import { useEffect, useMemo, useState } from 'react'

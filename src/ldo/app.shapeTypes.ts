@@ -1,4 +1,4 @@
-import { ShapeType } from 'ldo'
+import { ShapeType } from '@ldo/ldo'
 import { appSchema } from './app.schema'
 import { appContext } from './app.context'
 import {

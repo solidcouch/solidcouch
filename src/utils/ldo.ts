@@ -1,7 +1,6 @@
+import { LdoBase, transactionChanges } from '@ldo/ldo'
+import { datasetToString } from '@ldo/rdf-utils'
 import { Dataset } from '@rdfjs/types'
-import { transactionChanges } from 'ldo'
-import { datasetToString } from 'ldo/dist/datasetConverters'
-import { LdoBase } from 'ldo/dist/util'
 import { solid } from 'utils/rdf-namespaces'
 
 // stringifying objects with circular reference, according to MDN:

@@ -1,5 +1,5 @@
+import { createLdoDataset } from '@ldo/ldo'
 import * as config from 'config'
-import { createLdoDataset } from 'ldo'
 import { AccommodationShapeType } from 'ldo/app.shapeTypes'
 import { differenceBy } from 'lodash'
 import * as n3 from 'n3'

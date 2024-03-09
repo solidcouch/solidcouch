@@ -8,7 +8,6 @@ import { ContextDefinition } from 'jsonld'
 export const accommodationContext: ContextDefinition = {
   type: {
     '@id': '@type',
-    '@container': '@set',
   },
   Accommodation: 'http://w3id.org/hospex/ns#Accommodation',
   Accommodation2: 'https://schema.org/Accommodation',

@@ -1,4 +1,4 @@
-import { ShapeType } from 'ldo'
+import { ShapeType } from '@ldo/ldo'
 import { oidcSchema } from './oidc.schema'
 import { oidcContext } from './oidc.context'
 import { OidcIssuer } from './oidc.typings'
