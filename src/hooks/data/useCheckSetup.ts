@@ -196,7 +196,7 @@ export const useCheckEmailNotifications = (inbox: URI, mailer: string) => {
         integrations: { object: URI; target: URI; verified: boolean }[]
       }
     | 'mailer not set up'
-  >(['mailerIntegration'], checkMailerIntegration)
+  >({ queryKey: ['mailerIntegration'], queryFn: checkMailerIntegration })
 
   if (data === 'mailer not set up') return true
 
@@ -228,7 +228,7 @@ export const useCheckSimpleEmailNotifications = (
 
   const { isLoading, data } = useQuery<
     { emailVerified: boolean } | 'mailer not set up'
-  >(['simpleMailerIntegration'], checkMailerIntegration)
+  >({ queryKey: ['simpleMailerIntegration'], queryFn: checkMailerIntegration })
 
   if (data === 'mailer not set up') return true
 

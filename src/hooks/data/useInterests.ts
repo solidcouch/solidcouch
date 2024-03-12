@@ -43,16 +43,14 @@ interface WikidataEntitiesResult {
 }
 
 export const useSearchInterests = (query: string, language = 'en') =>
-  useQuery(
-    ['wikidataSearch', query, language],
-    () => searchInterests(query, language),
-    {
-      enabled: !!query,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      staleTime: Infinity,
-    },
-  )
+  useQuery({
+    queryKey: ['wikidataSearch', query, language],
+    queryFn: () => searchInterests(query, language),
+    enabled: !!query,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
+  })
 
 const searchInterests = async (
   query: string,
@@ -70,35 +68,33 @@ const searchInterests = async (
 }
 
 export const useReadInterest = (uri: URI, language = 'en') =>
-  useQuery(
-    ['wikidataEntity', uri, language],
-    () => readInterest(uri, language),
-    {
-      enabled: !!uri,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      staleTime: Infinity,
-    },
-  )
+  useQuery({
+    queryKey: ['wikidataEntity', uri, language],
+    queryFn: () => readInterest(uri, language),
+    enabled: !!uri,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
+  })
 
 const readInterest = async (
   uri: URI,
   language: string,
-): Promise<Interest | undefined> => {
+): Promise<Interest | {}> => {
   const id = uri.match(wikidataRegex)?.[2] ?? ''
 
   // currently, we resolve only wikidata interests
-  if (!id) return undefined
+  if (!id) return {}
 
   const res = await fetch(
     `https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${id}&languages=${language}&format=json&origin=*`,
   )
   const data: WikidataEntitiesResult = await res.json()
-  if (!data || !data.entities) return undefined
+  if (!data || !data.entities) return {}
 
   const entity = data.entities[id]
 
-  if (!entity) return undefined
+  if (!entity) return {}
 
   const label = entity.labels[language]?.value ?? ''
   const description = entity.descriptions[language]?.value ?? ''
