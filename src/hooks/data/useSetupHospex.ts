@@ -389,7 +389,7 @@ const useInitEmailNotifications = () => {
   const { mutate } = useMutation({
     mutationFn: addActivity,
     onSuccess: () => {
-      queryClient.invalidateQueries(['mailerIntegration'])
+      queryClient.invalidateQueries({ queryKey: ['mailerIntegration'] })
     },
   })
 
@@ -466,7 +466,7 @@ const useInitSimpleEmailNotifications = () => {
   const { mutate } = useMutation({
     mutationFn: addActivity,
     onSuccess: () => {
-      queryClient.invalidateQueries(['simpleMailerIntegration'])
+      queryClient.invalidateQueries({ queryKey: ['simpleMailerIntegration'] })
     },
   })
 

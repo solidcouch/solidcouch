@@ -36,7 +36,9 @@ export const useRdfDocument = (uri: URI) => {
   const doc = uri ? removeHashFromURI(uri) : uri
   const queryKey = useMemo(() => ['rdfDocument', doc], [doc])
 
-  const result = useQuery(queryKey, () => fetchRdfDocument(doc), {
+  const result = useQuery({
+    queryKey,
+    queryFn: () => fetchRdfDocument(doc),
     enabled: !!uri,
   })
   return result
@@ -305,14 +307,16 @@ const onSuccessInvalidate =
   ) =>
   <Variables extends { uri: URI }>(data: Data, variables: Variables) => {
     const uri = removeHashFromURI(variables.uri)
-    queryClient.invalidateQueries(['rdfDocument', uri])
+    queryClient.invalidateQueries({ queryKey: ['rdfDocument', uri] })
     // TODO this may not be necessary
-    queryClient.invalidateQueries(['rdfDocument', getParent(uri)])
+    queryClient.invalidateQueries({ queryKey: ['rdfDocument', getParent(uri)] })
 
     // when stuff is created, containing folder is also changed
     if (checkStatus(data)) {
       const cachedAncestor = getCachedAncestor(uri, queryClient)
       if (cachedAncestor)
-        queryClient.invalidateQueries(['rdfDocument', cachedAncestor])
+        queryClient.invalidateQueries({
+          queryKey: ['rdfDocument', cachedAncestor],
+        })
     }
   }
