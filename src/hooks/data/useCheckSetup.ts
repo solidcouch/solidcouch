@@ -1,14 +1,11 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { createLdoDataset } from '@ldo/ldo'
 import { useQuery } from '@tanstack/react-query'
-import { SolidProfileShapeType } from 'ldo/app.shapeTypes'
-import { differenceBy } from 'lodash'
-import * as n3 from 'n3'
+import { ldp } from 'rdf-namespaces'
 import { useCallback, useMemo } from 'react'
 import { URI } from 'types'
-import { dct, hospex, rdfs, sioc, solid, space } from 'utils/rdf-namespaces'
+import { hospexDocumentQuery } from './queries'
 import { useIsMember } from './useCommunity'
-import { RdfQuery, useRdfQuery } from './useRdfQuery2'
+import { useLDhopQuery } from './useLDhopQuery'
 
 /**
  * Check that
@@ -26,148 +23,49 @@ export const useCheckSetup = (userId: URI, communityId: URI) => {
   )
 }
 
-const hospexDocumentQuery: RdfQuery = [
-  // find person and their profile documents
-  // https://solid.github.io/webid-profile/#discovery
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: rdfs.seeAlso, // TODO also include foaf.isPrimaryTopicOf
-    pick: 'object',
-    target: '?profileDocument',
-  },
-  // fetch the profile documents
-  { type: 'add resources', variable: '?profileDocument' },
-  // find and fetch preferences file
-  // https://solid.github.io/webid-profile/#discovery
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: space.preferencesFile,
-    pick: 'object',
-    target: '?preferencesFile',
-  },
-  { type: 'add resources', variable: '?preferencesFile' },
-  // find and fetch private type index
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: solid.privateTypeIndex,
-    pick: 'object',
-    target: '?privateTypeIndex',
-  },
-  { type: 'add resources', variable: '?privateTypeIndex' },
-  // find public type index
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: solid.publicTypeIndex,
-    pick: 'object',
-    target: '?publicTypeIndex',
-  },
-  // and in public type index, find all personal hospex documents of the person, and fetch them
-  {
-    type: 'match',
-    subject: '?publicTypeIndex',
-    predicate: dct.references,
-    pick: 'object',
-    target: '?typeRegistration',
-  },
-  {
-    type: 'match',
-    subject: '?typeRegistration',
-    predicate: solid.forClass,
-    object: hospex.PersonalHospexDocument,
-    pick: 'subject',
-    target: '?typeRegistrationForHospex',
-  },
-  {
-    type: 'match',
-    subject: '?typeRegistrationForHospex',
-    predicate: solid.instance,
-    pick: 'object',
-    target: `?hospexDocument`,
-  },
-  { type: 'add resources', variable: '?hospexDocument' },
-  // find only hospex documents for this particular community
-  // we find hospex document (graph) that contains triple person - sioc.member_of -> community
-  // and fetch those hospex documents (if not fetched already)
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: sioc.member_of,
-    object: '?community',
-    pick: 'graph',
-    target: '?hospexDocumentForCommunity',
-  },
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: space.preferencesFile,
-    graph: '?hospexDocumentForCommunity',
-    pick: 'object',
-    target: '?hospexSettings',
-  },
-  { type: 'add resources', variable: '?hospexDocumentForCommunity' },
-  // remove all other hospex documents that don't belong to this community
-  (store, variables) => {
-    differenceBy(
-      variables.hospexDocument,
-      variables.hospexDocumentForCommunity,
-      'value',
-    ).forEach(hd => store.removeMatches(null, null, null, hd as n3.NamedNode))
-  },
-]
-
 export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
-  const [store, queryStatus] = useRdfQuery(hospexDocumentQuery, {
-    person: [userId],
-    community: [communityId],
+  const { isLoading, variables } = useLDhopQuery({
+    query: useMemo(
+      () =>
+        hospexDocumentQuery.concat([
+          {
+            type: 'match',
+            subject: '?person',
+            predicate: ldp.inbox,
+            pick: 'object',
+            target: '?inbox',
+          },
+        ]),
+      [],
+    ),
+    variables: useMemo(
+      () => ({
+        person: [userId],
+        community: [communityId],
+      }),
+      [communityId, userId],
+    ),
+    fetch,
   })
 
-  const profile = useMemo(() => {
-    const dataset = createLdoDataset([...store])
-    const profile = dataset.usingType(SolidProfileShapeType).fromSubject(userId)
-    return profile
-  }, [store, userId])
+  const publicTypeIndexes = variables.publicTypeIndex ?? []
+  const privateTypeIndexes = variables.privateTypeIndex ?? []
+  const inboxes = variables.inbox ?? []
 
-  const publicTypeIndexes =
-    profile.publicTypeIndex?.filter(i => i['@id']).map(i => i['@id'] as URI) ??
-    []
-  const privateTypeIndexes =
-    profile.privateTypeIndex?.filter(i => i['@id']).map(i => i['@id'] as URI) ??
-    []
-  const inboxes = profile.inbox?.['@id'] ? [profile.inbox['@id']] : []
-
-  // we look for a resource that says `<this person> <is member of> <this community>.` That should be the personal hospex document; but maybe in the future this will change
-  const personalHospexDocumentsForCommunity = [
-    ...store.match(
-      new n3.NamedNode(userId),
-      new n3.NamedNode(sioc.member_of),
-      new n3.NamedNode(communityId),
-    ),
-  ].map(q => q.graph.value)
+  const personalHospexDocumentsForCommunity =
+    variables.hospexDocumentForCommunity ?? []
 
   const isHospexProfile =
     personalHospexDocumentsForCommunity.length > 0
       ? true
-      : queryStatus.isInitialLoading
+      : isLoading
       ? undefined
       : false
   const isPublicTypeIndex =
-    publicTypeIndexes.length > 0
-      ? true
-      : queryStatus.isInitialLoading
-      ? undefined
-      : false
+    publicTypeIndexes.length > 0 ? true : isLoading ? undefined : false
   const isPrivateTypeIndex =
-    privateTypeIndexes.length > 0
-      ? true
-      : queryStatus.isInitialLoading
-      ? undefined
-      : false
-  const isInbox =
-    inboxes.length > 0 ? true : queryStatus.isInitialLoading ? undefined : false
+    privateTypeIndexes.length > 0 ? true : isLoading ? undefined : false
+  const isInbox = inboxes.length > 0 ? true : isLoading ? undefined : false
   return {
     isHospexProfile,
     isPublicTypeIndex,

@@ -17,10 +17,9 @@ export const EditProfile = () => {
   const auth = useAuth()
   const navigate = useNavigate()
 
-  const [, , hospexDocument, , hospexProfile] = useProfile(
-    auth.webId as string,
-    communityId,
-  )
+  const out = useProfile(auth.webId as string, communityId)
+
+  const [, , hospexDocument, , hospexProfile] = out
 
   const updateHospexProfile = useUpdateHospexProfile()
   const deleteFile = useDeleteFile()
@@ -32,7 +31,7 @@ export const EditProfile = () => {
 
     const photo = data.photo?.[0]
     let photoUri: string | undefined
-    const previousPhoto = hospexProfile.photo
+    const previousPhoto = hospexProfile?.photo
 
     // create new photo if uploaded
     if (photo)

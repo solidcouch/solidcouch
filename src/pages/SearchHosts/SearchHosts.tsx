@@ -20,7 +20,7 @@ export const SearchHosts = () => {
 
   //const offers: AccommodationExtended[] = []
 
-  const [offers, status] = useSearchAccommodations()
+  const [offers, isLoading] = useSearchAccommodations()
 
   const handleMarkerClick = (accommodationId: URI) => {
     setSearchParams({ hosting: accommodationId })
@@ -28,7 +28,7 @@ export const SearchHosts = () => {
 
   return (
     <>
-      {status.isLoading && <ProgressBar />}
+      {isLoading && <ProgressBar />}
       <div className={styles.container}>
         {selectedAccommodationId && (
           <div className={styles.offerOverlay}>

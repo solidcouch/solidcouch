@@ -1,3 +1,4 @@
+import { fetch } from '@inrupt/solid-client-authn-browser'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
@@ -8,102 +9,165 @@ import {
 } from 'ldo/app.shapeTypes'
 import { FoafProfile, HospexProfile, SolidProfile } from 'ldo/app.typings'
 import { merge } from 'lodash'
+import { NamedNode } from 'n3'
 import { useCallback, useMemo } from 'react'
 import { Person, URI } from 'types'
 import { ldo2json } from 'utils/ldo'
-import { foaf, hospex, solid } from 'utils/rdf-namespaces'
+import { foaf, solid } from 'utils/rdf-namespaces'
+import { hospexDocumentQuery, webIdProfileQuery } from './queries'
+import { useLDhopQuery } from './useLDhopQuery'
 import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
 import { useRdfQuery } from './useRdfQuery'
 
-const profileQuery = [
-  ['?webId', (a: string) => a, '?profile', SolidProfileShapeType],
-  ['?profile', 'seeAlso', '?profileDocument'],
-  ['?profileDocument'],
-  ['?profile', (a: URI) => a, '?foafProfile', FoafProfileShapeType],
-  ['?foafProfile'],
-  ['?profile', 'publicTypeIndex', '?publicTypeIndex'],
-  ['?publicTypeIndex', 'references', '?typeRegistration'],
-  ['?typeRegistration', 'forClass', hospex.PersonalHospexDocument],
-  ['?typeRegistration', 'instance', '?hospexDocument'],
-  ['?hospexDocument'],
-  ['?profile', (a: URI) => a, '?hospexProfile', HospexProfileShapeType],
-  [
-    '?hospexProfile',
-    (ldo: HospexProfile, params: { communityId: URI }) =>
-      ldo.memberOf?.['@id'] === params.communityId,
-  ],
-] as const
-
 export const useProfile = (webId: URI, communityId: URI) => {
-  const params = useMemo(() => ({ webId, communityId }), [communityId, webId])
-  const [results, queryStatus, dataset] = useRdfQuery(profileQuery, params)
+  const hospexDocumentQueryOutput = useLDhopQuery({
+    query: hospexDocumentQuery,
+    variables: useMemo(
+      () => ({ person: webId ? [webId] : [], community: [communityId] }),
+      [communityId, webId],
+    ),
+    fetch,
+  })
+
+  const { variables, isLoading } = hospexDocumentQueryOutput
+
+  const foafProfileQueryOutput = useLDhopQuery({
+    query: webIdProfileQuery,
+    variables: useMemo(() => ({ person: webId ? [webId] : [] }), [webId]),
+    fetch,
+  })
 
   // keep the data from hospex document separate from generic foaf profile
   // can we generalize this pattern? (using only part of the fetched dataset)
   // we also do this because of the issue in LDO - when we expect one name but there are multiple, the result contains array, not a single result
   // https://github.com/o-development/ldo/issues/22#issuecomment-1590228592
-  const hospexDocuments = useMemo(
-    () => results.hospexDocument.flatMap(hd => hd['@id'] ?? []),
-    [results.hospexDocument],
-  )
-  const hospexLdos = useMemo(
-    () =>
-      (queryStatus.data ?? [])
-        .flatMap(a => a ?? [])
-        .filter(a => hospexDocuments.includes(a.response.url))
-        .map(a => ({
-          ldo: createLdoDataset(a.data ?? [])
-            .usingType(HospexProfileShapeType)
-            .fromSubject(webId),
-          document: a.response.url,
-        }))
-        .filter(a => a.ldo.memberOf['@id'] === communityId),
-    [communityId, hospexDocuments, queryStatus.data, webId],
-  )
 
-  const foafProfile = results.foafProfile[0] as FoafProfile | undefined
-  const hospexProfile = hospexLdos[0]?.ldo ?? undefined
-  const hospexDocument = hospexLdos[0]?.document ?? undefined
+  const hospexProfiles = useMemo(() => {
+    const hospexDocuments = variables.hospexDocumentForCommunity ?? []
+    const hospexGraphs = hospexDocuments.map(hospexDocument =>
+      hospexDocumentQueryOutput.store.getQuads(
+        null,
+        null,
+        null,
+        new NamedNode(hospexDocument),
+      ),
+    )
+    const hospexLdos = hospexGraphs.map(hospexGraph =>
+      createLdoDataset(hospexGraph)
+        .usingType(HospexProfileShapeType)
+        .fromSubject(webId),
+    )
+
+    return hospexLdos
+  }, [
+    hospexDocumentQueryOutput.store,
+    variables.hospexDocumentForCommunity,
+    webId,
+  ])
+
+  // const hospexLdos = useMemo(
+  //   () =>
+  //     (queryStatus.data ?? [])
+  //       .flatMap(a => a ?? [])
+  //       .filter(a => hospexDocuments.includes(a.response.url))
+  //       .map(a => ({
+  //         ldo: createLdoDataset(a.data ?? [])
+  //           .usingType(HospexProfileShapeType)
+  //           .fromSubject(webId),
+  //         document: a.response.url,
+  //       }))
+  //       .filter(a => a.ldo.memberOf?.['@id'] === communityId),
+  //   [communityId, hospexDocuments, queryStatus.data, webId],
+  // )
+
+  const foafProfile = useMemo(() => {
+    const { store } = foafProfileQueryOutput
+    const foafLdo = createLdoDataset([...store])
+      .usingType(FoafProfileShapeType)
+      .fromSubject(webId)
+    return foafLdo
+  }, [foafProfileQueryOutput, webId])
 
   // we convert LDOs to pure objects before merging for better performance
   // merging LDOs took up to several seconds when data were complex (e.g. with Trinpod)
-  const mergedProfile = merge(
-    {},
-    foafProfile && ldo2json(foafProfile),
-    hospexProfile && ldo2json(hospexProfile),
+  const mergedProfile: FoafProfile & HospexProfile = useMemo(
+    () =>
+      merge(
+        {},
+        ldo2json(foafProfile),
+        ...hospexProfiles.map(hp => ldo2json(hp)),
+      ),
+    [foafProfile, hospexProfiles],
   )
-  const descriptionLanguages =
-    hospexProfile && languagesOf(hospexProfile, 'note')
-  const about = descriptionLanguages?.en?.values().next().value ?? ''
-  const profile: Person = {
-    id: webId,
-    name: mergedProfile.name ?? '',
-    photo: mergedProfile.hasPhoto?.['@id'],
-    about,
-    interests: mergedProfile.topicInterest?.map(i => i['@id']) ?? [],
-  }
+  const descriptionLanguages = useMemo(
+    () =>
+      hospexProfiles.map(hospexProfile => languagesOf(hospexProfile, 'note')),
+    [hospexProfiles],
+  )
+  const [about] = useMemo(
+    () => descriptionLanguages.map(dl => dl?.en?.values().next().value ?? ''),
+    [descriptionLanguages],
+  )
+  const profile: Person = useMemo(
+    () => ({
+      id: webId,
+      name: mergedProfile.name ?? '',
+      photo: mergedProfile.hasPhoto?.['@id'],
+      about,
+      interests: mergedProfile.topicInterest?.map(i => i['@id']) ?? [],
+    }),
+    [
+      about,
+      mergedProfile.hasPhoto,
+      mergedProfile.name,
+      mergedProfile.topicInterest,
+      webId,
+    ],
+  )
 
-  const hospexProfileFormatted: Person | undefined = hospexProfile && {
-    id: webId,
-    name: hospexProfile.name ?? '',
-    photo: hospexProfile.hasPhoto?.['@id'],
-    about: hospexProfile.note?.[0],
-  }
+  const hospexProfileFormatted: Person | undefined = useMemo(
+    () =>
+      hospexProfiles.length > 0
+        ? {
+            id: webId,
+            name: hospexProfiles[0].name ?? '',
+            photo: hospexProfiles[0].hasPhoto?.['@id'],
+            about: hospexProfiles[0].note?.[0],
+          }
+        : undefined,
+    [hospexProfiles, webId],
+  )
 
-  const interestsWithDocuments = dataset
-    .filter(
-      quad =>
-        quad.subject.id === webId && quad.predicate.id === foaf.topic_interest,
-    )
-    .map(quad => ({ id: quad.object.id, document: quad.graph.id }))
+  const interestsWithDocuments = useMemo(
+    () =>
+      hospexDocumentQueryOutput.store
+        .getQuads(
+          new NamedNode(webId),
+          new NamedNode(foaf.topic_interest),
+          null,
+          null,
+        )
+        .map(quad => ({ id: quad.object.id, document: quad.graph.id })),
+    [hospexDocumentQueryOutput, webId],
+  )
 
-  return [
-    profile,
-    queryStatus,
-    hospexDocument,
-    interestsWithDocuments,
-    hospexProfileFormatted,
-  ] as const
+  return useMemo(
+    () =>
+      [
+        profile,
+        isLoading,
+        variables.hospexDocumentForCommunity?.[0],
+        interestsWithDocuments,
+        hospexProfileFormatted,
+      ] as const,
+    [
+      hospexProfileFormatted,
+      interestsWithDocuments,
+      isLoading,
+      profile,
+      variables.hospexDocumentForCommunity,
+    ],
+  )
 }
 
 const solidProfileQuery = [

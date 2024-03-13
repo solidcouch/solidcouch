@@ -15,7 +15,9 @@ import * as types from 'types'
 import { URI } from 'types'
 
 export const EditInterests = ({ webId }: { webId: URI }) => {
-  const [, queryStatus, , interests] = useProfile(webId, communityId)
+  const [, isLoading, , interests] = useProfile(webId, communityId)
+
+  console.log(interests)
 
   const [query, setQuery] = useState('')
 
@@ -45,7 +47,7 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
     }
   }
 
-  if (queryStatus.isLoading || queryStatus.isLoading === undefined)
+  if (isLoading || isLoading === undefined)
     return <Loading>loading interests</Loading>
 
   return (
