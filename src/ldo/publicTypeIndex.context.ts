@@ -8,7 +8,6 @@ import { ContextDefinition } from 'jsonld'
 export const publicTypeIndexContext: ContextDefinition = {
   type: {
     '@id': '@type',
-    '@container': '@set',
   },
   TypeIndex: 'http://www.w3.org/ns/solid/terms#TypeIndex',
   ListedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',

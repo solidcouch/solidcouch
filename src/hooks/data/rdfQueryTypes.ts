@@ -1,5 +1,5 @@
+import { ShapeType } from '@ldo/ldo'
 import { UseQueryResult } from '@tanstack/react-query'
-import { ShapeType } from 'ldo'
 import { URI } from 'types'
 
 export type Query<Params extends { [key: string]: string | URI }> = readonly (

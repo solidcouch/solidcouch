@@ -1,5 +1,5 @@
+import { createLdoDataset } from '@ldo/ldo'
 import { fetchRdfDocument } from 'hooks/data/useRdfDocument'
-import { createLdoDataset } from 'ldo'
 import { SolidProfileShapeType } from 'ldo/app.shapeTypes'
 import { URI } from 'types'
 

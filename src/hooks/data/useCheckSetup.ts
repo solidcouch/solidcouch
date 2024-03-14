@@ -1,6 +1,6 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
+import { createLdoDataset } from '@ldo/ldo'
 import { useQuery } from '@tanstack/react-query'
-import { createLdoDataset } from 'ldo'
 import { SolidProfileShapeType } from 'ldo/app.shapeTypes'
 import { differenceBy } from 'lodash'
 import * as n3 from 'n3'

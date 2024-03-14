@@ -1,6 +1,6 @@
+import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
-import { createLdoDataset, languagesOf } from 'ldo'
 import {
   FoafProfileShapeType,
   HospexProfileShapeType,

@@ -8,7 +8,6 @@ import { ContextDefinition } from 'jsonld'
 export const hospexCommunityContext: ContextDefinition = {
   type: {
     '@id': '@type',
-    '@container': '@set',
   },
   Community: 'http://w3id.org/hospex/ns#Community',
   Community2: 'http://rdfs.org/sioc/ns#Community',

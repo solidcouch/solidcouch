@@ -1,4 +1,4 @@
-import { ShapeType } from 'ldo'
+import { ShapeType } from '@ldo/ldo'
 import { hospexCommunitySchema } from './hospexCommunity.schema'
 import { hospexCommunityContext } from './hospexCommunity.context'
 import { HospexCommunity, HospexGroup } from './hospexCommunity.typings'

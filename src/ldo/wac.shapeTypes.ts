@@ -1,4 +1,4 @@
-import { ShapeType } from 'ldo'
+import { ShapeType } from '@ldo/ldo'
 import { wacSchema } from './wac.schema'
 import { wacContext } from './wac.context'
 import { Authorization } from './wac.typings'
