@@ -1,4 +1,4 @@
-import { ShapeType } from 'ldo'
+import { ShapeType } from '@ldo/ldo'
 import { longChatSchema } from './longChat.schema'
 import { longChatContext } from './longChat.context'
 import {

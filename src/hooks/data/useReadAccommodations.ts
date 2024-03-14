@@ -1,4 +1,4 @@
-import { languagesOf } from 'ldo'
+import { languagesOf } from '@ldo/ldo'
 import {
   HospexProfileShapeType,
   SolidProfileShapeType,

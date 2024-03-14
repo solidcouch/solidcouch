@@ -1,4 +1,4 @@
-import { ShapeType } from 'ldo'
+import { ShapeType } from '@ldo/ldo'
 import { publicTypeIndexSchema } from './publicTypeIndex.schema'
 import { publicTypeIndexContext } from './publicTypeIndex.context'
 import { PublicTypeIndex, TypeRegistration } from './publicTypeIndex.typings'

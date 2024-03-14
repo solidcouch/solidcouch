@@ -1,11 +1,5 @@
 import {
-  QueryClient,
-  useMutation,
-  useQueries,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query'
-import {
+  LdoBase,
   LdoBuilder,
   ShapeType,
   createLdoDataset,
@@ -13,8 +7,14 @@ import {
   setLanguagePreferences,
   startTransaction,
   toTurtle,
-} from 'ldo'
-import { LdoBase } from 'ldo/dist/util'
+} from '@ldo/ldo'
+import {
+  QueryClient,
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { maxBy, merge } from 'lodash'
 import { DataFactory, Parser, ParserOptions, Quad } from 'n3'
 import { useMemo } from 'react'
