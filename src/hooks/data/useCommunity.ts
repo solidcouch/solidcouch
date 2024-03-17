@@ -1,30 +1,28 @@
-import { HospexCommunityShapeType } from 'ldo/hospexCommunity.shapeTypes'
+import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMemo } from 'react'
 import { URI } from 'types'
-import { useRdfQuery } from './useRdfQuery'
-
-const membershipQuery = [
-  ['?community', (c: URI) => c, '?com', HospexCommunityShapeType],
-  ['?com', 'hasUsergroup', '?group'],
-  ['?group'],
-] as const
+import { readCommunityMembersQuery, readCommunityQuery } from './queries'
+import { useLDhopQuery } from './useLDhopQuery'
 
 export const useIsMember = (userId: URI, communityId: URI) => {
-  const [results] = useRdfQuery(membershipQuery, { community: communityId })
-  if (results.group.length === 0) return undefined
-  const isMember = results.group.some(group =>
-    group.hasMember?.some(member => member['@id'] === userId),
-  )
-  return isMember
+  const { variables } = useLDhopQuery({
+    query: readCommunityMembersQuery,
+    variables: useMemo(() => ({ community: [communityId] }), [communityId]),
+    fetch,
+  })
+
+  return (variables.person ?? []).includes(userId)
 }
 
 export const useReadCommunity = (communityId: URI) => {
-  const [results] = useRdfQuery(membershipQuery, { community: communityId })
+  const { variables } = useLDhopQuery({
+    query: readCommunityQuery,
+    variables: useMemo(() => ({ community: [communityId] }), [communityId]),
+    fetch,
+  })
+
   return useMemo(
-    () => ({
-      community: communityId,
-      groups: results.group.flatMap(g => g['@id'] ?? []),
-    }),
-    [communityId, results.group],
+    () => ({ community: communityId, groups: variables.group ?? [] }),
+    [communityId, variables.group],
   )
 }

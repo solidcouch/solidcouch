@@ -17,8 +17,6 @@ import { URI } from 'types'
 export const EditInterests = ({ webId }: { webId: URI }) => {
   const [, isLoading, , interests] = useProfile(webId, communityId)
 
-  console.log(interests)
-
   const [query, setQuery] = useState('')
 
   const { data: options, ...optionsStatus } = useSearchInterests(query)

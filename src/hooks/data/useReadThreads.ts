@@ -1,9 +1,17 @@
-import { ContainerShapeType, SolidProfileShapeType } from 'ldo/app.shapeTypes'
-import { ChatShape, MessageActivity } from 'ldo/app.typings'
+import { fetch } from '@inrupt/solid-client-authn-browser'
+import { useLDhopQuery } from '@ldhop/react'
+import { createLdoDataset } from '@ldo/ldo'
+import {
+  ContainerShapeType,
+  MessageActivityShapeType,
+  SolidProfileShapeType,
+} from 'ldo/app.shapeTypes'
+import { ChatShape } from 'ldo/app.typings'
 import { cloneDeep } from 'lodash'
 import { useMemo } from 'react'
 import { Message, Thread, URI } from 'types'
 import { getContainer } from 'utils/helpers'
+import { inboxMessagesQuery } from './queries'
 import { useRdfQuery } from './useRdfQuery'
 
 const threadsQuery = [
@@ -89,47 +97,53 @@ const useReadThreadsOnly = (webId: URI) => {
   )
 }
 
-const inboxMessagesQuery = [
-  ['?me', (a: string) => a, '?profile', SolidProfileShapeType],
-  ['?profile', 'seeAlso', '?profileDocument'],
-  ['?profileDocument'],
-  ['?profile', 'inbox', '?inbox'],
-  ['?inbox', 'contains', '?notification'],
-  ['?notification', 'type', 'Add'],
-  ['?notification', 'context', 'https://www.pod-chat.com/LongChatMessage'],
-  ['?notification', 'object', '?message'],
-  ['?notification', 'target', '?chat'],
-  ['?message'],
-  ['?chat'],
-] as const
+// const inboxMessagesQueryLegacy = [
+//   ['?me', (a: string) => a, '?profile', SolidProfileShapeType],
+//   ['?profile', 'seeAlso', '?profileDocument'],
+//   ['?profileDocument'],
+//   ['?profile', 'inbox', '?inbox'],
+//   ['?inbox', 'contains', '?notification'],
+//   ['?notification', 'type', 'Add'],
+//   ['?notification', 'context', 'https://www.pod-chat.com/LongChatMessage'],
+//   ['?notification', 'object', '?message'],
+//   ['?notification', 'target', '?chat'],
+//   ['?message'],
+//   ['?chat'],
+// ] as const
 
 export const useReadMessagesFromInbox = (webId: URI) => {
-  const [partialResults, combinedQueryResults] = useRdfQuery(
-    inboxMessagesQuery,
-    { me: webId },
-  )
+  const { store, variables /*isLoading*/ } = useLDhopQuery({
+    query: inboxMessagesQuery,
+    variables: useMemo(() => ({ person: webId ? [webId] : [] }), [webId]),
+    fetch,
+  })
+
+  const isLoading = true
 
   const messages: Message[] = useMemo(
     () =>
-      (partialResults.notification as MessageActivity[]).map(notification => ({
-        id: notification.object['@id'] ?? '',
-        message: notification.object.content,
-        createdAt: new Date(notification.object?.created).getTime(),
-        from: notification.object.maker?.['@id'],
-        chat: notification.target['@id'] ?? '',
-        otherChats: notification.target.participation?.flatMap(
-          p => p.references?.flatMap(r => r['@id'] ?? []) ?? [],
-        ),
-        notification: notification['@id'],
-        status: 'unread',
-      })),
-    [partialResults.notification],
+      (variables.longChatNotification ?? []).map(notification => {
+        const ldo = createLdoDataset([...(store ?? [])])
+          .usingType(MessageActivityShapeType)
+          .fromSubject(notification)
+
+        return {
+          id: ldo.object['@id'] ?? '',
+          message: ldo.object.content,
+          createdAt: new Date(ldo.object?.created).getTime(),
+          from: ldo.object.maker?.['@id'],
+          chat: ldo.target['@id'] ?? '',
+          otherChats: ldo.target.participation?.flatMap(
+            p => p.references?.flatMap(r => r['@id'] ?? []) ?? [],
+          ),
+          notification: ldo['@id'],
+          status: 'unread',
+        }
+      }),
+    [store, variables.longChatNotification],
   )
 
-  return useMemo(
-    () => ({ ...combinedQueryResults, data: messages }),
-    [combinedQueryResults, messages],
-  )
+  return useMemo(() => ({ isLoading, data: messages }), [isLoading, messages])
 }
 
 export const useReadThreads = (webId: URI) => {

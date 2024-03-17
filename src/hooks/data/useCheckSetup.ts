@@ -1,11 +1,12 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useQuery } from '@tanstack/react-query'
-import { ldp } from 'rdf-namespaces'
 import { useCallback, useMemo } from 'react'
 import { URI } from 'types'
-import { hospexDocumentQuery } from './queries'
+import { hospexDocumentQuery, personInbox } from './queries'
 import { useIsMember } from './useCommunity'
 import { useLDhopQuery } from './useLDhopQuery'
+
+const hospexDocumentQueryWithInbox = hospexDocumentQuery.concat([personInbox])
 
 /**
  * Check that
@@ -25,19 +26,7 @@ export const useCheckSetup = (userId: URI, communityId: URI) => {
 
 export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
   const { isLoading, variables } = useLDhopQuery({
-    query: useMemo(
-      () =>
-        hospexDocumentQuery.concat([
-          {
-            type: 'match',
-            subject: '?person',
-            predicate: ldp.inbox,
-            pick: 'object',
-            target: '?inbox',
-          },
-        ]),
-      [],
-    ),
+    query: hospexDocumentQueryWithInbox,
     variables: useMemo(
       () => ({
         person: [userId],

@@ -52,6 +52,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
         new NamedNode(hospexDocument),
       ),
     )
+
     const hospexLdos = hospexGraphs.map(hospexGraph =>
       createLdoDataset(hospexGraph)
         .usingType(HospexProfileShapeType)

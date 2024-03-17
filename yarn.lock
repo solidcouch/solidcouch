@@ -5810,10 +5810,10 @@
   dependencies:
     vary "^1.1.2"
 
-"@ldhop/core@^0.0.1-alpha.1":
-  version "0.0.1-alpha.1"
-  resolved "https://registry.npmjs.org/@ldhop/core/-/core-0.0.1-alpha.1.tgz#4056d21298c3c1dcb34c0118c6612f53b6b3ae20"
-  integrity sha512-C2ihZHqcpG/LlrOth3ZxSMm3Ov4e4/LkrCVsbOcvyckSucthzXVOJogPu7GsUJERlajFKs4+s4DrMcLPYq5lbA==
+"@ldhop/core@^0.0.1-alpha.2":
+  version "0.0.1-alpha.2"
+  resolved "https://registry.npmjs.org/@ldhop/core/-/core-0.0.1-alpha.2.tgz#7f78229eece282ff28607ea62e9b8d9d4cbc6fcc"
+  integrity sha512-djFOj8icY93kRp8GKDSRWWOtpTzmeTmq9Wj1kJpZHmDhrgH8tP2EPxrKKheUn7VlEzbmhJ7G+bEx783dsn6Rcg==
   dependencies:
     "@types/lodash" "^4.14.202"
     "@types/n3" "^1.16.4"
@@ -5821,12 +5821,12 @@
     n3 "^1.17.2"
     utility-types "^3.10.0"
 
-"@ldhop/react@^0.0.0-alpha.0":
-  version "0.0.0-alpha.0"
-  resolved "https://registry.npmjs.org/@ldhop/react/-/react-0.0.0-alpha.0.tgz#587b9762c316867e38093be2654cd9dd6e130e74"
-  integrity sha512-x0PSs5x80gIieAgeHQvVI9qcVrjLFmbcS/JWuUxyJvZETeGj2KEhbnix+sryQNkL0FHJfmPOWiE8CXb9U1zy8A==
+"@ldhop/react@^0.0.1-alpha.2":
+  version "0.0.1-alpha.2"
+  resolved "https://registry.npmjs.org/@ldhop/react/-/react-0.0.1-alpha.2.tgz#e32535a939c6266917fab16d530365746456d12d"
+  integrity sha512-Y+u2e3eeY4J+vEascztWg3fZmveez1JpuPPNYgVjQfVx0tgpVoefIgf4th1tkF/m/zaUxMyXoBAHv0OTLh8nGA==
   dependencies:
-    "@ldhop/core" "^0.0.1-alpha.1"
+    "@ldhop/core" "^0.0.1-alpha.2"
 
 "@ldo/cli@^0.0.1-alpha.23":
   version "0.0.1-alpha.23"
@@ -6382,17 +6382,17 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
-"@tanstack/query-core@5.25.0":
-  version "5.25.0"
-  resolved "https://registry.npmjs.org/@tanstack/query-core/-/query-core-5.25.0.tgz#e08ed0a9fad34c8005d1a282e57280031ac50cdc"
-  integrity sha512-vlobHP64HTuSE68lWF1mEhwSRC5Q7gaT+a/m9S+ItuN+ruSOxe1rFnR9j0ACWQ314BPhBEVKfBQ6mHL0OWfdbQ==
+"@tanstack/query-core@5.28.4":
+  version "5.28.4"
+  resolved "https://registry.npmjs.org/@tanstack/query-core/-/query-core-5.28.4.tgz#fa416532f8b33ca8608d40bb9728b60e2e1a38dc"
+  integrity sha512-uQZqOFqLWUvXNIQZ63XdKzg22NtHzgCBUfDmjDHi3BoF+nUYeBNvMi/xFPtFrMhqRzG2Ir4mYaGsWZzmiEjXpA==
 
-"@tanstack/react-query@^5.25.0":
-  version "5.25.0"
-  resolved "https://registry.npmjs.org/@tanstack/react-query/-/react-query-5.25.0.tgz#f4dac794cf10dd956aa56dbbdf67049a5ba2669d"
-  integrity sha512-u+n5R7mLO7RmeiIonpaCRVXNRWtZEef/aVZ/XGWRPa7trBIvGtzlfo0Ah7ZtnTYfrKEVwnZ/tzRCBcoiqJ/tFw==
+"@tanstack/react-query@^5.28.4":
+  version "5.28.4"
+  resolved "https://registry.npmjs.org/@tanstack/react-query/-/react-query-5.28.4.tgz#32e56ca4fd08513a906fe6323908f0e38ffccbba"
+  integrity sha512-BErcoB/QQG6YwLSUKnaGxF+lSc270RH2w3kMBpG0i4YzDCsFs2pdxPX1WVknQvFk9bNgukMb158hc2Zb4SdwSA==
   dependencies:
-    "@tanstack/query-core" "5.25.0"
+    "@tanstack/query-core" "5.28.4"
 
 "@testing-library/dom@^8.5.0":
   version "8.20.0"
