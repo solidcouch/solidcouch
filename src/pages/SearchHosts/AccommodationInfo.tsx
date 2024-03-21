@@ -12,9 +12,7 @@ export const AccommodationInfo = ({
 }) => {
   const { webId } = useAuth()
 
-  const [accommodation] = useReadAccommodation({
-    accommodationId,
-  })
+  const [accommodation] = useReadAccommodation({ accommodationId })
 
   const isOther =
     webId && accommodation?.offeredBy && webId !== accommodation.offeredBy.id

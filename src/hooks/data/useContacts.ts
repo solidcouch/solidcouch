@@ -1,56 +1,65 @@
-import {
-  ContactInvitationActivityShapeType,
-  FoafProfileShapeType,
-  SolidProfileShapeType,
-} from 'ldo/app.shapeTypes'
-import { ContactInvitationActivity } from 'ldo/app.typings'
+import { useLDhopQuery } from '@ldhop/react'
+import { createLdoDataset } from '@ldo/ldo'
+import { ContactInvitationActivityShapeType } from 'ldo/app.shapeTypes'
 import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
+import { Store } from 'n3'
 import { useCallback, useMemo } from 'react'
 import { Contact, URI } from 'types'
-import { getAcl } from 'utils/helpers'
-import { acl, rdf } from 'utils/rdf-namespaces'
+import { getAcl, removeHashFromURI } from 'utils/helpers'
+import { acl, foaf, rdf, rdfs } from 'utils/rdf-namespaces'
+import { contactRequestsQuery, contactsQuery } from './queries'
 import {
   useCreateRdfDocument,
   useDeleteRdfDocument,
   useMatchUpdateLdoDocument,
   useUpdateRdfDocument,
 } from './useRdfDocument'
-import { useRdfQuery } from './useRdfQuery'
-
-const contactsQuery = [
-  ['?person', (a: string) => a, '?profile', SolidProfileShapeType],
-  ['?profile', 'seeAlso', '?profileDocument'],
-  ['?profileDocument'],
-  ['?profile', (a: string) => a, '?foafProfile', FoafProfileShapeType],
-  ['?foafProfile', 'knows', '?otherFoafProfile'],
-  [
-    '?otherFoafProfile',
-    (a: string) => a,
-    '?otherProfile',
-    SolidProfileShapeType,
-  ],
-  ['?otherProfile', 'seeAlso', '?otherProfileDocument'],
-  ['?otherProfileDocument'],
-] as const
 
 export const useReadContacts = (personId: URI) => {
-  const params = useMemo(() => ({ person: personId }), [personId])
-  const [results, queryStatus] = useRdfQuery(contactsQuery, params)
-
-  const contacts: Contact[] = useMemo(
-    () =>
-      results.foafProfile.flatMap(
-        fp =>
-          fp.knows?.map(c => {
-            const isConfirmed = c.knows?.some(k => k['@id'] === personId)
-            return {
-              webId: c['@id']!,
-              status: isConfirmed ? 'confirmed' : 'request_sent',
-            }
-          }) ?? [],
-      ),
-    [personId, results.foafProfile],
+  const { quads, variables, isLoading } = useLDhopQuery(
+    useMemo(
+      () => ({
+        query: contactsQuery,
+        variables: { person: [personId] },
+        fetch,
+      }),
+      [personId],
+    ),
   )
+
+  const contacts: Contact[] = useMemo(() => {
+    const store = new Store(quads)
+
+    return (variables.otherPerson ?? []).map(otherPerson => {
+      // find personal and profile documents of otherPerson
+      const personalDocument = removeHashFromURI(otherPerson)
+      const extendedDocuments = store.getObjects(
+        otherPerson,
+        rdfs.seeAlso,
+        personalDocument,
+      )
+      // see if the other person advertises contact to the person
+      const knowsPersonal = store.getQuads(
+        otherPerson,
+        foaf.knows,
+        personId,
+        personalDocument,
+      )
+
+      const knowsExtended = extendedDocuments.flatMap(ed =>
+        store.getQuads(otherPerson, foaf.knows, personId, ed),
+      )
+
+      return {
+        webId: otherPerson,
+        status:
+          knowsPersonal.length + knowsExtended.length > 0
+            ? 'confirmed'
+            : 'request_sent',
+      }
+    })
+  }, [personId, quads, variables.otherPerson])
+
   const [notifications, notificationQueryStatus] =
     useReadContactNotifications(personId)
 
@@ -58,49 +67,49 @@ export const useReadContacts = (personId: URI) => {
     () =>
       [
         contacts.concat(notifications),
-        queryStatus,
+        { isLoading },
         notificationQueryStatus,
       ] as const,
-    [contacts, notificationQueryStatus, notifications, queryStatus],
+    [isLoading, contacts, notificationQueryStatus, notifications],
   )
 }
 
-const contactRequestQuery = [
-  ['?me', (a: string) => a, '?profile', SolidProfileShapeType],
-  ['?profile', 'seeAlso', '?profileDocument'],
-  ['?profileDocument'],
-  ['?profile', 'inbox', '?inbox'],
-  ['?inbox', 'contains', '?notification'],
-  ['?notification', 'type', 'Invite'],
-  ['?notification', 'object', '?relationship'],
-  [
-    '?notification',
-    (ldo: ContactInvitationActivity) =>
-      ldo.object?.subject?.['@id'] === ldo.actor?.['@id'] &&
-      ldo.object?.object?.['@id'] === ldo.target?.['@id'] &&
-      ldo.object?.relationship?.['@id'] === 'knows',
-  ],
-] as const
 const useReadContactNotifications = (me: URI) => {
-  const [partialResults, combinedQueryResults] = useRdfQuery(
-    contactRequestQuery,
-    { me },
+  const { quads, variables, isLoading } = useLDhopQuery(
+    useMemo(
+      () => ({
+        query: contactRequestsQuery,
+        variables: { person: [me] },
+        fetch,
+      }),
+      [me],
+    ),
   )
 
-  const contacts: Contact[] = useMemo(
-    () =>
-      (partialResults.notification as ContactInvitationActivity[]).map(n => ({
+  const contacts: Contact[] = useMemo(() => {
+    const notifications = variables.inviteNotification ?? []
+    const dataset = createLdoDataset(quads).usingType(
+      ContactInvitationActivityShapeType,
+    )
+    return notifications
+      .map(notification => dataset.fromSubject(notification))
+      .filter(
+        ldo =>
+          ldo.object?.subject?.['@id'] === ldo.actor?.['@id'] &&
+          ldo.object?.object?.['@id'] === ldo.target?.['@id'] &&
+          ldo.object?.relationship?.['@id'] === 'knows',
+      )
+      .map(n => ({
         webId: n.actor?.['@id'] as unknown as URI,
         status: 'request_received',
         notification: n['@id']!,
         invitation: n.content2,
-      })),
-    [partialResults.notification],
-  )
+      }))
+  }, [quads, variables.inviteNotification])
 
   return useMemo(
-    () => [contacts, combinedQueryResults] as const,
-    [combinedQueryResults, contacts],
+    () => [contacts, { isLoading }] as const,
+    [contacts, isLoading],
   )
 }
 

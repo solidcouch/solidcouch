@@ -1,5 +1,5 @@
 import type { Match, RdfQuery } from '@ldhop/core'
-import { dct, ldp, rdf, sioc, solid, vcard } from 'rdf-namespaces'
+import { dct, foaf, ldp, rdf, sioc, solid, vcard } from 'rdf-namespaces'
 import { as, hospex, rdfs, space } from 'utils/rdf-namespaces'
 
 const personInbox: Match = {
@@ -199,4 +199,54 @@ export const inboxMessagesQuery: RdfQuery = [
     target: '?chat',
   },
   { type: 'add resources', variable: '?chat' },
+]
+
+export const accommodationQuery: RdfQuery = [
+  {
+    type: 'match',
+    subject: '?offer',
+    predicate: hospex.offeredBy,
+    pick: 'object',
+    target: '?person',
+  },
+]
+
+export const contactsQuery: RdfQuery = [
+  ...profileDocuments,
+  {
+    type: 'match',
+    subject: '?person',
+    predicate: foaf.knows,
+    pick: 'object',
+    target: '?otherPerson',
+  },
+  {
+    type: 'match',
+    subject: '?otherPerson',
+    predicate: rdfs.seeAlso, // TODO also include foaf.isPrimaryTopicOf
+    pick: 'object',
+    target: '?otherProfileDocument',
+  },
+  // fetch the profile documents
+  { type: 'add resources', variable: '?otherProfileDocument' },
+]
+
+export const contactRequestsQuery: RdfQuery = [
+  ...profileDocuments,
+  personInbox,
+  {
+    type: 'match',
+    subject: '?inbox',
+    predicate: ldp.contains,
+    pick: 'object',
+    target: '?notification',
+  },
+  {
+    type: 'match',
+    subject: '?notification',
+    predicate: rdf.type,
+    object: as.Invite,
+    pick: 'subject',
+    target: '?inviteNotification',
+  },
 ]
