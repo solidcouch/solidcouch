@@ -14,11 +14,7 @@ export const useReadAccommodations = (
   communityId: URI,
   language = 'en',
 ) => {
-  const {
-    variables,
-    store = [],
-    isLoading,
-  } = useLDhopQuery({
+  const { variables, quads, isLoading } = useLDhopQuery({
     query: readPersonAccommodationsQuery,
     variables: useMemo(
       () => ({ person: [personId], community: [communityId] }),
@@ -28,7 +24,7 @@ export const useReadAccommodations = (
   })
 
   return useMemo(() => {
-    const dataset = createLdoDataset([...store])
+    const dataset = createLdoDataset(quads)
     const offerIds = variables.offer ?? []
 
     const accommodations: Accommodation[] = offerIds
@@ -53,5 +49,5 @@ export const useReadAccommodations = (
       })
 
     return [accommodations, isLoading] as const
-  }, [isLoading, language, store, variables.offer])
+  }, [isLoading, language, quads, variables.offer])
 }

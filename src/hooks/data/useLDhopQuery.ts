@@ -1,6 +1,7 @@
 import { QueryAndStore, RdfQuery } from '@ldhop/core'
 import { fetchRdfDocument } from '@ldhop/core/dist/utils/helpers'
 import { QueryKey, UseQueryResult, useQueries } from '@tanstack/react-query'
+import { isEqual } from 'lodash'
 import mapValues from 'lodash/mapValues'
 import { Quad, Store } from 'n3'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -11,6 +12,7 @@ type Variables = { [variable: string]: string[] | undefined }
 const defaultGetAdditionalData = () => ({})
 
 export const useLDhopQuery = <AdditionalData extends object = {}>({
+  name = 'LDhop query',
   query,
   variables,
   fetch,
@@ -18,6 +20,7 @@ export const useLDhopQuery = <AdditionalData extends object = {}>({
   staleTime = Infinity,
   getAdditionalData = defaultGetAdditionalData as () => AdditionalData,
 }: {
+  name?: string
   query: RdfQuery
   variables: Variables
   fetch: Fetch
@@ -41,6 +44,7 @@ export const useLDhopQuery = <AdditionalData extends object = {}>({
   const [resources, setResources] = useState<string[]>([])
   const [outputVariables, setOutputVariables] = useState<Variables>({})
   const [outputStore, setOutputStore] = useState<Store>(new Store())
+  const [outputQuads, setOutputQuads] = useState<Quad[]>([])
 
   const results = useQueries({
     queries: resources.map(resource => ({
@@ -65,7 +69,12 @@ export const useLDhopQuery = <AdditionalData extends object = {}>({
   useEffect(() => {
     qas.current = new QueryAndStore(query, variableSets)
     setResources([])
-  }, [query, variableSets])
+    setOutputStore(qas.current.store)
+    lastResults.current = { data: [] } as AdditionalData & {
+      data: []
+      pending: boolean
+    }
+  }, [name, query, variableSets])
 
   useEffect(() => {
     for (const result of results.data) {
@@ -87,22 +96,35 @@ export const useLDhopQuery = <AdditionalData extends object = {}>({
       else return [...resources, ...newResources]
     })
 
-    setOutputVariables(
-      mapValues(qas.current.getAllVariables(), uriSet => Array.from(uriSet)),
+    const newOutputVariables = mapValues(
+      qas.current.getAllVariables(),
+      uriSet => Array.from(uriSet),
+    )
+
+    setOutputVariables(outputVariables =>
+      isEqual(newOutputVariables, outputVariables)
+        ? outputVariables
+        : newOutputVariables,
     )
 
     setOutputStore(qas.current.store)
 
+    const nextOutputQuads = [...qas.current.store] as Quad[]
+    setOutputQuads(outputQuads =>
+      isEqual(outputQuads, nextOutputQuads) ? outputQuads : nextOutputQuads,
+    )
+
     lastResults.current = results
-  }, [resources, results])
+  }, [results])
 
   return useMemo(
     () => ({
       store: outputStore,
+      quads: outputQuads,
       variables: outputVariables,
       qas: qas.current,
       isLoading: results.pending,
     }),
-    [outputStore, outputVariables, results.pending],
+    [outputQuads, outputStore, outputVariables, results.pending],
   )
 }

@@ -8,20 +8,20 @@ import { searchAccommodationsQuery } from './queries'
 import { useLDhopQuery } from './useLDhopQuery'
 
 export const useSearchAccommodations = (communityId = config.communityId) => {
-  const initial = useMemo(() => ({ community: [communityId] }), [communityId])
-
-  const {
-    variables,
-    store = [],
-    isLoading,
-  } = useLDhopQuery({
-    query: searchAccommodationsQuery,
-    variables: initial,
-    fetch,
-  })
+  const { quads, isLoading } = useLDhopQuery(
+    useMemo(
+      () => ({
+        name: 'search accommodations',
+        query: searchAccommodationsQuery,
+        variables: { community: [communityId] },
+        fetch,
+      }),
+      [communityId],
+    ),
+  )
 
   return useMemo(() => {
-    const dataset = createLdoDataset([...store])
+    const dataset = createLdoDataset(quads)
     const accommodations = dataset
       .usingType(AccommodationShapeType)
       .matchObject(null, hospex.offers)
@@ -42,6 +42,5 @@ export const useSearchAccommodations = (communityId = config.communityId) => {
       }))
 
     return [accommodations, isLoading] as const
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store, variables])
+  }, [isLoading, quads])
 }

@@ -20,22 +20,29 @@ import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
 import { useRdfQuery } from './useRdfQuery'
 
 export const useProfile = (webId: URI, communityId: URI) => {
-  const hospexDocumentQueryOutput = useLDhopQuery({
-    query: hospexDocumentQuery,
-    variables: useMemo(
-      () => ({ person: webId ? [webId] : [], community: [communityId] }),
+  const hospexDocumentQueryOutput = useLDhopQuery(
+    useMemo(
+      () => ({
+        query: hospexDocumentQuery,
+        variables: { person: webId ? [webId] : [], community: [communityId] },
+        fetch,
+      }),
       [communityId, webId],
     ),
-    fetch,
-  })
+  )
 
   const { variables, isLoading } = hospexDocumentQueryOutput
 
-  const foafProfileQueryOutput = useLDhopQuery({
-    query: webIdProfileQuery,
-    variables: useMemo(() => ({ person: webId ? [webId] : [] }), [webId]),
-    fetch,
-  })
+  const foafProfileQueryOutput = useLDhopQuery(
+    useMemo(
+      () => ({
+        query: webIdProfileQuery,
+        variables: { person: webId ? [webId] : [] },
+        fetch,
+      }),
+      [webId],
+    ),
+  )
 
   // keep the data from hospex document separate from generic foaf profile
   // can we generalize this pattern? (using only part of the fetched dataset)
@@ -82,8 +89,8 @@ export const useProfile = (webId: URI, communityId: URI) => {
   // )
 
   const foafProfile = useMemo(() => {
-    const { store } = foafProfileQueryOutput
-    const foafLdo = createLdoDataset([...store])
+    const { quads } = foafProfileQueryOutput
+    const foafLdo = createLdoDataset(quads)
       .usingType(FoafProfileShapeType)
       .fromSubject(webId)
     return foafLdo

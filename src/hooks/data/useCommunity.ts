@@ -5,11 +5,16 @@ import { readCommunityMembersQuery, readCommunityQuery } from './queries'
 import { useLDhopQuery } from './useLDhopQuery'
 
 export const useIsMember = (userId: URI, communityId: URI) => {
-  const { variables } = useLDhopQuery({
-    query: readCommunityMembersQuery,
-    variables: useMemo(() => ({ community: [communityId] }), [communityId]),
-    fetch,
-  })
+  const { variables } = useLDhopQuery(
+    useMemo(
+      () => ({
+        query: readCommunityMembersQuery,
+        variables: { community: [communityId] },
+        fetch,
+      }),
+      [communityId],
+    ),
+  )
 
   return (variables.person ?? []).includes(userId)
 }

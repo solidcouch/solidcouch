@@ -9,7 +9,6 @@ import { useProfile } from 'hooks/data/useProfile'
 import { useReadMessagesFromInbox } from 'hooks/data/useReadThreads'
 import { ReactComponent as LogoOpen } from 'logo-open.svg'
 import { ReactComponent as Logo } from 'logo.svg'
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { SignOut } from '../SignOut'
 import styles from './Header.module.scss'
@@ -19,15 +18,7 @@ export const Header = () => {
 
   const [profile] = useProfile(auth.webId ?? '', communityId)
 
-  useEffect(() => {
-    console.log('profile changed', Date.now())
-  }, [profile])
-
   const { data: newMessages } = useReadMessagesFromInbox(auth.webId ?? '')
-
-  useEffect(() => {
-    console.log('new messages changed', Date.now())
-  }, [newMessages])
 
   return (
     <nav className={styles.header}>

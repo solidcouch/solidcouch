@@ -2,9 +2,15 @@ import { Match, RdfQuery } from '@ldhop/core'
 import { dct, ldp, rdf, sioc, solid, vcard } from 'rdf-namespaces'
 import { as, hospex, rdfs, space } from 'utils/rdf-namespaces'
 
-// find person and their profile documents
-// https://solid.github.io/webid-profile/#discovery
-export const webIdProfileQuery: RdfQuery = [
+const personInbox: Match = {
+  type: 'match',
+  subject: '?person',
+  predicate: ldp.inbox,
+  pick: 'object',
+  target: '?inbox',
+}
+
+const profileDocuments: RdfQuery = [
   {
     type: 'match',
     subject: '?person',
@@ -14,6 +20,24 @@ export const webIdProfileQuery: RdfQuery = [
   },
   // fetch the profile documents
   { type: 'add resources', variable: '?profileDocument' },
+]
+
+const publicWebIdProfileQuery: RdfQuery = [
+  ...profileDocuments,
+  // find public type index
+  {
+    type: 'match',
+    subject: '?person',
+    predicate: solid.publicTypeIndex,
+    pick: 'object',
+    target: '?publicTypeIndex',
+  },
+]
+
+// find person and their profile documents
+// https://solid.github.io/webid-profile/#discovery
+export const webIdProfileQuery: RdfQuery = [
+  ...publicWebIdProfileQuery,
   // find and fetch preferences file
   // https://solid.github.io/webid-profile/#discovery
   {
@@ -32,19 +56,11 @@ export const webIdProfileQuery: RdfQuery = [
     pick: 'object',
     target: '?privateTypeIndex',
   },
-  // find public type index
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: solid.publicTypeIndex,
-    pick: 'object',
-    target: '?publicTypeIndex',
-  },
+  personInbox,
 ]
 
 // in public type index, find all personal hospex documents of the person for a particular community, and fetch them
-export const hospexDocumentQuery: RdfQuery = [
-  ...webIdProfileQuery,
+const partialHospexDocumentQuery: RdfQuery = [
   {
     type: 'match',
     subject: '?publicTypeIndex',
@@ -76,6 +92,16 @@ export const hospexDocumentQuery: RdfQuery = [
     pick: 'graph',
     target: '?hospexDocumentForCommunity',
   },
+]
+
+export const hospexDocumentQuery: RdfQuery = [
+  ...publicWebIdProfileQuery,
+  ...partialHospexDocumentQuery,
+]
+
+export const privateProfileAndHospexDocumentQuery: RdfQuery = [
+  ...webIdProfileQuery,
+  ...partialHospexDocumentQuery,
   {
     type: 'match',
     subject: '?person',
@@ -84,6 +110,7 @@ export const hospexDocumentQuery: RdfQuery = [
     pick: 'object',
     target: '?hospexSettings',
   },
+  personInbox,
 ]
 
 export const readPersonAccommodationsQuery: RdfQuery = [
@@ -130,24 +157,8 @@ export const searchAccommodationsQuery: RdfQuery = [
   ...readPersonAccommodationsQuery,
 ]
 
-export const personInbox: Match = {
-  type: 'match',
-  subject: '?person',
-  predicate: ldp.inbox,
-  pick: 'object',
-  target: '?inbox',
-}
-
 export const inboxMessagesQuery: RdfQuery = [
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: rdfs.seeAlso, // TODO also include foaf.isPrimaryTopicOf
-    pick: 'object',
-    target: '?profileDocument',
-  },
-  // fetch the profile documents
-  { type: 'add resources', variable: '?profileDocument' },
+  ...profileDocuments,
   personInbox,
   {
     type: 'match',

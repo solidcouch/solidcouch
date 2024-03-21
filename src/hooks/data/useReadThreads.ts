@@ -1,5 +1,4 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import {
   ContainerShapeType,
@@ -12,6 +11,7 @@ import { useMemo } from 'react'
 import { Message, Thread, URI } from 'types'
 import { getContainer } from 'utils/helpers'
 import { inboxMessagesQuery } from './queries'
+import { useLDhopQuery } from './useLDhopQuery'
 import { useRdfQuery } from './useRdfQuery'
 
 const threadsQuery = [
@@ -112,18 +112,21 @@ const useReadThreadsOnly = (webId: URI) => {
 // ] as const
 
 export const useReadMessagesFromInbox = (webId: URI) => {
-  const { store, variables /*isLoading*/ } = useLDhopQuery({
-    query: inboxMessagesQuery,
-    variables: useMemo(() => ({ person: webId ? [webId] : [] }), [webId]),
-    fetch,
-  })
-
-  const isLoading = true
+  const { quads, variables, isLoading } = useLDhopQuery(
+    useMemo(
+      () => ({
+        query: inboxMessagesQuery,
+        variables: { person: webId ? [webId] : [] },
+        fetch,
+      }),
+      [webId],
+    ),
+  )
 
   const messages: Message[] = useMemo(
     () =>
       (variables.longChatNotification ?? []).map(notification => {
-        const ldo = createLdoDataset([...(store ?? [])])
+        const ldo = createLdoDataset(quads)
           .usingType(MessageActivityShapeType)
           .fromSubject(notification)
 
@@ -140,7 +143,7 @@ export const useReadMessagesFromInbox = (webId: URI) => {
           status: 'unread',
         }
       }),
-    [store, variables.longChatNotification],
+    [quads, variables.longChatNotification],
   )
 
   return useMemo(() => ({ isLoading, data: messages }), [isLoading, messages])
