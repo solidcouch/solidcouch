@@ -20,7 +20,6 @@ import {
   profileDocuments,
   webIdProfileQuery,
 } from './queries'
-import { useLDhopQuery as useLDhopQuery2 } from './useLDhopQuery'
 import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
 
 export const useProfile = (webId: URI, communityId: URI) => {
@@ -183,7 +182,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
 }
 
 export const useSolidProfile = (person: URI) => {
-  const { quads, isFetched } = useLDhopQuery2<{ isFetched: boolean }>(
+  const { quads, isFetched } = useLDhopQuery(
     useMemo(
       () => ({
         query: profileDocuments,
