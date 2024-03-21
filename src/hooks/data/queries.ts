@@ -10,7 +10,7 @@ const personInbox: Match = {
   target: '?inbox',
 }
 
-const profileDocuments: RdfQuery = [
+export const profileDocuments: RdfQuery = [
   {
     type: 'match',
     subject: '?person',

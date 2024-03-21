@@ -8,16 +8,20 @@ import {
   HospexProfileShapeType,
   SolidProfileShapeType,
 } from 'ldo/app.shapeTypes'
-import { FoafProfile, HospexProfile, SolidProfile } from 'ldo/app.typings'
+import { FoafProfile, HospexProfile } from 'ldo/app.typings'
 import { merge } from 'lodash'
 import { NamedNode } from 'n3'
 import { useCallback, useMemo } from 'react'
 import { Person, URI } from 'types'
 import { ldo2json } from 'utils/ldo'
 import { foaf, solid } from 'utils/rdf-namespaces'
-import { hospexDocumentQuery, webIdProfileQuery } from './queries'
+import {
+  hospexDocumentQuery,
+  profileDocuments,
+  webIdProfileQuery,
+} from './queries'
+import { useLDhopQuery as useLDhopQuery2 } from './useLDhopQuery'
 import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
-import { useRdfQuery } from './useRdfQuery'
 
 export const useProfile = (webId: URI, communityId: URI) => {
   const hospexDocumentQueryOutput = useLDhopQuery(
@@ -178,16 +182,27 @@ export const useProfile = (webId: URI, communityId: URI) => {
   )
 }
 
-const solidProfileQuery = [
-  ['?me', (a: string) => a, '?profile', SolidProfileShapeType],
-  ['?profile', 'seeAlso', '?profileDocument'],
-  ['?profileDocument'],
-] as const
+export const useSolidProfile = (person: URI) => {
+  const { quads, isFetched } = useLDhopQuery2<{ isFetched: boolean }>(
+    useMemo(
+      () => ({
+        query: profileDocuments,
+        variables: { person: [person] },
+        fetch,
+        getAdditionalData: results => ({
+          isFetched: results.every(result => result.isFetched),
+        }),
+      }),
+      [person],
+    ),
+  )
 
-export const useSolidProfile = (me: URI) => {
-  const params = useMemo(() => ({ me }), [me])
-  const [results, queryStatus] = useRdfQuery(solidProfileQuery, params)
-  return [results.profile[0] as SolidProfile | undefined, queryStatus] as const
+  const output = useMemo(() => {
+    const dataset = createLdoDataset(quads)
+    const profile = dataset.usingType(SolidProfileShapeType).fromSubject(person)
+    return [profile, { isFetched }] as const
+  }, [isFetched, person, quads])
+  return output
 }
 
 export const useUpdateHospexProfile = () => {
