@@ -1,10 +1,10 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
+import { useLDhopQuery } from '@ldhop/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { URI } from 'types'
 import { privateProfileAndHospexDocumentQuery } from './queries'
 import { useIsMember } from './useCommunity'
-import { useLDhopQuery } from './useLDhopQuery'
 
 /**
  * Check that

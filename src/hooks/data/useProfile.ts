@@ -1,4 +1,5 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
+import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
@@ -15,7 +16,6 @@ import { Person, URI } from 'types'
 import { ldo2json } from 'utils/ldo'
 import { foaf, solid } from 'utils/rdf-namespaces'
 import { hospexDocumentQuery, webIdProfileQuery } from './queries'
-import { useLDhopQuery } from './useLDhopQuery'
 import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
 import { useRdfQuery } from './useRdfQuery'
 

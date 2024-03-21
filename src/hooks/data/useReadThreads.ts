@@ -1,4 +1,5 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
+import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import {
   ContainerShapeType,
@@ -11,7 +12,6 @@ import { useMemo } from 'react'
 import { Message, Thread, URI } from 'types'
 import { getContainer } from 'utils/helpers'
 import { inboxMessagesQuery } from './queries'
-import { useLDhopQuery } from './useLDhopQuery'
 import { useRdfQuery } from './useRdfQuery'
 
 const threadsQuery = [

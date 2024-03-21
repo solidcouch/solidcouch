@@ -1,4 +1,4 @@
-import { Match, RdfQuery } from '@ldhop/core'
+import type { Match, RdfQuery } from '@ldhop/core'
 import { dct, ldp, rdf, sioc, solid, vcard } from 'rdf-namespaces'
 import { as, hospex, rdfs, space } from 'utils/rdf-namespaces'
 

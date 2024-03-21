@@ -1,8 +1,8 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
+import { useLDhopQuery } from '@ldhop/react'
 import { useMemo } from 'react'
 import { URI } from 'types'
 import { readCommunityMembersQuery, readCommunityQuery } from './queries'
-import { useLDhopQuery } from './useLDhopQuery'
 
 export const useIsMember = (userId: URI, communityId: URI) => {
   const { variables } = useLDhopQuery(
