@@ -13,18 +13,20 @@ const tabs = [
       <>
         Here are some Pod providers that work with sleepy.bike:
         <ul>
-          {oidcIssuers.map(({ issuer, registration }) => (
-            <li>
-              <ExternalButtonLink
-                secondary
-                href={registration}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {new URL(issuer).hostname}
-              </ExternalButtonLink>
-            </li>
-          ))}
+          {oidcIssuers
+            .filter(iss => iss.registration)
+            .map(({ issuer, registration }) => (
+              <li key={issuer}>
+                <ExternalButtonLink
+                  secondary
+                  href={registration}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {new URL(issuer).hostname}
+                </ExternalButtonLink>
+              </li>
+            ))}
         </ul>
       </>
     ),
@@ -104,9 +106,11 @@ const tabs = [
         </p>
         <ul>
           {oidcIssuers
-            .filter(({ server }) => server === 'CSS')
+            .filter(
+              ({ server, registration }) => registration && server === 'CSS',
+            )
             .map(({ issuer, registration }) => (
-              <li>
+              <li key={issuer}>
                 <ExternalButtonLink
                   secondary
                   href={registration}
