@@ -10,7 +10,7 @@ import {
 } from 'ldo/app.shapeTypes'
 import { FoafProfile, HospexProfile } from 'ldo/app.typings'
 import { merge } from 'lodash'
-import { NamedNode } from 'n3'
+import { NamedNode, Store } from 'n3'
 import { useCallback, useMemo } from 'react'
 import { Person, URI } from 'types'
 import { ldo2json } from 'utils/ldo'
@@ -55,7 +55,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
   const hospexProfiles = useMemo(() => {
     const hospexDocuments = variables.hospexDocumentForCommunity ?? []
     const hospexGraphs = hospexDocuments.map(hospexDocument =>
-      hospexDocumentQueryOutput.store.getQuads(
+      new Store(hospexDocumentQueryOutput.quads).getQuads(
         null,
         null,
         null,
@@ -71,7 +71,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
 
     return hospexLdos
   }, [
-    hospexDocumentQueryOutput.store,
+    hospexDocumentQueryOutput.quads,
     variables.hospexDocumentForCommunity,
     webId,
   ])
@@ -151,7 +151,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
 
   const interestsWithDocuments = useMemo(
     () =>
-      hospexDocumentQueryOutput.store
+      new Store(hospexDocumentQueryOutput.quads)
         .getQuads(
           new NamedNode(webId),
           new NamedNode(foaf.topic_interest),
