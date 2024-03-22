@@ -2,52 +2,49 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import {
-  ContainerShapeType,
+  ChatShapeShapeType,
   MessageActivityShapeType,
-  SolidProfileShapeType,
 } from 'ldo/app.shapeTypes'
 import { ChatShape } from 'ldo/app.typings'
 import { cloneDeep } from 'lodash'
 import { useMemo } from 'react'
 import { Message, Thread, URI } from 'types'
 import { getContainer } from 'utils/helpers'
-import { inboxMessagesQuery } from './queries'
-import { useRdfQuery } from './useRdfQuery'
-
-const threadsQuery = [
-  ['?me', (a: string) => a, '?profile', SolidProfileShapeType],
-  ['?profile', 'seeAlso', '?profileDocument'],
-  ['?profileDocument'],
-  ['?profile', 'privateTypeIndex', '?privateTypeIndex'],
-  ['?privateTypeIndex', 'references', '?typeRegistration'],
-  ['?typeRegistration', 'forClass', 'LongChat'],
-  ['?typeRegistration', 'instance', '?chat'],
-  ['?chat', 'participation', '?participation'],
-  ['?participation', 'references', '?otherChat'],
-  ['?chat', getContainer, '?chatContainer', ContainerShapeType],
-  ['?otherChat', getContainer, '?chatContainer', ContainerShapeType],
-  ['?chatContainer', 'contains', '?year'],
-  /**
-   * TODO use only latest year, month and day
-   * to avoid downloading unnecessary documents
-   * this will require some query generalization
-   *
-   * we need to collect all years of particular chat, and then continue only with the latest year
-   */
-  ['?year', 'contains', '?month'],
-  ['?month', 'contains', '?day'],
-  ['?day', 'contains', '?messagesDoc'],
-  ['?messagesDoc'],
-  ['?chat', 'message', '?message'],
-  ['?otherChat', 'message', '?message'],
-] as const
+import { inboxMessagesQuery, messageTree, threadsQuery } from './queries'
 
 const useReadThreadsOnly = (webId: URI) => {
-  const [ldoResults, queryResults] = useRdfQuery(threadsQuery, { me: webId })
+  const { quads, variables } = useLDhopQuery(
+    useMemo(
+      () => ({
+        query: threadsQuery,
+        variables: { person: [webId] },
+        fetch,
+      }),
+      [webId],
+    ),
+  )
 
-  const threads: Thread[] = useMemo(
-    () =>
-      (ldoResults.chat as ChatShape[])
+  const messageTreeResults = useLDhopQuery(
+    useMemo(() => {
+      const chat = variables.chat ?? []
+      const otherChat = variables.otherChat ?? []
+      const chatContainer = [...chat, ...otherChat].map(c => getContainer(c))
+      return {
+        query: messageTree,
+        variables: { chat, otherChat, chatContainer },
+        fetch,
+      }
+    }, [variables.chat, variables.otherChat]),
+  )
+
+  const threads: Thread[] = useMemo(() => {
+    const dataset = createLdoDataset(
+      quads.concat(messageTreeResults.quads),
+    ).usingType(ChatShapeShapeType)
+
+    return (
+      (variables.chat ?? [])
+        .map(chatId => dataset.fromSubject(chatId))
         .map(chat => {
           // chat uri
           const id = chat['@id'] as URI
@@ -87,14 +84,11 @@ const useReadThreadsOnly = (webId: URI) => {
           (a, b) =>
             ([...b.messages].pop()?.createdAt ?? 0) -
             ([...a.messages].pop()?.createdAt ?? 0),
-        ),
-    [ldoResults.chat],
-  )
+        )
+    )
+  }, [messageTreeResults.quads, quads, variables.chat])
 
-  return useMemo(
-    () => ({ ...queryResults, data: threads }),
-    [queryResults, threads],
-  )
+  return useMemo(() => ({ data: threads }), [threads])
 }
 
 // const inboxMessagesQueryLegacy = [
