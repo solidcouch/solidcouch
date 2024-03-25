@@ -5810,10 +5810,10 @@
   dependencies:
     vary "^1.1.2"
 
-"@ldhop/core@^0.0.1-alpha.4":
-  version "0.0.1-alpha.4"
-  resolved "https://registry.npmjs.org/@ldhop/core/-/core-0.0.1-alpha.4.tgz#dc9569677d83ff0b12978fec4fc3be120ac47137"
-  integrity sha512-XstN40mSNfhwbThhckH6mFC37WoN96CKKEOGpz46kKwfX3nNwzptBy8PVkajTorlPNyOO0S0fXEEFIIaQx3G3Q==
+"@ldhop/core@^0.0.1-alpha.5":
+  version "0.0.1-alpha.5"
+  resolved "https://registry.npmjs.org/@ldhop/core/-/core-0.0.1-alpha.5.tgz#8e2576a74f271eab5018dfa7c31440144c3011a4"
+  integrity sha512-yp5Q8poB55Pw3HjWOcqwBAhZ3qkDywpFIpd2It0zfRHh3ATqTtNUuIoeODs0FIk+nNv3rivjedpQPoTRpqvaUg==
   dependencies:
     "@types/lodash" "^4.17.0"
     "@types/n3" "^1.16.4"
@@ -5821,12 +5821,12 @@
     n3 "^1.17.2"
     utility-types "^3.10.0"
 
-"@ldhop/react@^0.0.1-alpha.4":
-  version "0.0.1-alpha.4"
-  resolved "https://registry.npmjs.org/@ldhop/react/-/react-0.0.1-alpha.4.tgz#03ae1e2f63d52edf2120e6962ba0ca76ef327f34"
-  integrity sha512-YWO+G/Of9bO/8XAaHlCO15n5AYrpoW463TCob9eKmQz3mJdLX/zUizvATIQXzES89r6bDoxssKeW42MnuBR7+g==
+"@ldhop/react@^0.0.1-alpha.5":
+  version "0.0.1-alpha.5"
+  resolved "https://registry.npmjs.org/@ldhop/react/-/react-0.0.1-alpha.5.tgz#ee9ac09d88e59b8d07aa2217e9b5bb6da1a08503"
+  integrity sha512-i3fkIwhq9td2sY1rQ6tn8UorEnhS04DpbBXIeRSfQLrBYY5654YRba9bC0mn0j4UyzEpSiLBusOYD1Lz22+PDw==
   dependencies:
-    "@ldhop/core" "^0.0.1-alpha.4"
+    "@ldhop/core" "^0.0.1-alpha.5"
     "@types/lodash" "^4.17.0"
     lodash "^4.17.21"
 

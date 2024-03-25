@@ -38,6 +38,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
       return {
         query: messageTree,
         variables: { chat: chatInTwo, otherChat, chatContainer },
+        staleTime: 10000,
         fetch,
       }
     }, [quads, variables.chatWithOtherPerson, variables.otherChat]),
