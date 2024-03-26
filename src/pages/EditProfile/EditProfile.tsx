@@ -17,9 +17,10 @@ export const EditProfile = () => {
   const auth = useAuth()
   const navigate = useNavigate()
 
-  const out = useProfile(auth.webId as string, communityId)
-
-  const [, , hospexDocument, , hospexProfile] = out
+  const [, , hospexDocument, , hospexProfile] = useProfile(
+    auth.webId as string,
+    communityId,
+  )
 
   const updateHospexProfile = useUpdateHospexProfile()
   const deleteFile = useDeleteFile()
