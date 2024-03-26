@@ -1,5 +1,6 @@
 import type { Match, RdfQuery } from '@ldhop/core'
 import { dct, foaf, ldp, rdf, sioc, solid, vcard } from 'rdf-namespaces'
+import { getContainer } from 'utils/helpers'
 import { as, hospex, meeting, rdfs, space, wf } from 'utils/rdf-namespaces'
 
 const personInbox: Match = {
@@ -300,7 +301,7 @@ const chats: RdfQuery = [
   },
 ]
 
-export const threadsQuery: RdfQuery = [
+const threadsQuery: RdfQuery = [
   ...chats,
   {
     type: 'match',
@@ -311,7 +312,7 @@ export const threadsQuery: RdfQuery = [
   },
 ]
 
-export const chatsWithPerson: RdfQuery = [
+const chatsWithPerson: RdfQuery = [
   ...chats,
   {
     type: 'match',
@@ -360,7 +361,7 @@ export const chatsWithPerson: RdfQuery = [
   },
 ]
 
-export const messageTree: RdfQuery = [
+const messageTree: RdfQuery = [
   {
     type: 'match',
     subject: '?chatContainer',
@@ -404,4 +405,38 @@ export const messageTree: RdfQuery = [
     pick: 'object',
     target: '?message',
   },
+]
+
+export const messages: RdfQuery = [
+  ...chatsWithPerson,
+  {
+    type: 'transform variable',
+    source: '?chatWithOtherPerson',
+    target: '?chatContainer',
+    transform: getContainer,
+  },
+  {
+    type: 'transform variable',
+    source: '?otherChat',
+    target: '?chatContainer',
+    transform: getContainer,
+  },
+  ...messageTree,
+]
+
+export const threads: RdfQuery = [
+  ...threadsQuery,
+  {
+    type: 'transform variable',
+    source: '?chat',
+    target: '?chatContainer',
+    transform: getContainer,
+  },
+  {
+    type: 'transform variable',
+    source: '?otherChat',
+    target: '?chatContainer',
+    transform: getContainer,
+  },
+  ...messageTree,
 ]

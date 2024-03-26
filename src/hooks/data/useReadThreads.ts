@@ -9,8 +9,7 @@ import { ChatShape } from 'ldo/app.typings'
 import { cloneDeep } from 'lodash'
 import { useMemo } from 'react'
 import { Message, Thread, URI } from 'types'
-import { getContainer } from 'utils/helpers'
-import { inboxMessagesQuery, messageTree, threadsQuery } from './queries'
+import { inboxMessagesQuery, threads as threadsQuery } from './queries'
 
 const useReadThreadsOnly = (webId: URI) => {
   const { quads, variables } = useLDhopQuery(
@@ -24,23 +23,8 @@ const useReadThreadsOnly = (webId: URI) => {
     ),
   )
 
-  const messageTreeResults = useLDhopQuery(
-    useMemo(() => {
-      const chat = variables.chat ?? []
-      const otherChat = variables.otherChat ?? []
-      const chatContainer = [...chat, ...otherChat].map(c => getContainer(c))
-      return {
-        query: messageTree,
-        variables: { chat, otherChat, chatContainer },
-        fetch,
-      }
-    }, [variables.chat, variables.otherChat]),
-  )
-
   const threads: Thread[] = useMemo(() => {
-    const dataset = createLdoDataset(
-      quads.concat(messageTreeResults.quads),
-    ).usingType(ChatShapeShapeType)
+    const dataset = createLdoDataset(quads).usingType(ChatShapeShapeType)
 
     return (
       (variables.chat ?? [])
@@ -86,24 +70,10 @@ const useReadThreadsOnly = (webId: URI) => {
             ([...a.messages].pop()?.createdAt ?? 0),
         )
     )
-  }, [messageTreeResults.quads, quads, variables.chat])
+  }, [quads, variables.chat])
 
   return useMemo(() => ({ data: threads }), [threads])
 }
-
-// const inboxMessagesQueryLegacy = [
-//   ['?me', (a: string) => a, '?profile', SolidProfileShapeType],
-//   ['?profile', 'seeAlso', '?profileDocument'],
-//   ['?profileDocument'],
-//   ['?profile', 'inbox', '?inbox'],
-//   ['?inbox', 'contains', '?notification'],
-//   ['?notification', 'type', 'Add'],
-//   ['?notification', 'context', 'https://www.pod-chat.com/LongChatMessage'],
-//   ['?notification', 'object', '?message'],
-//   ['?notification', 'target', '?chat'],
-//   ['?message'],
-//   ['?chat'],
-// ] as const
 
 export const useReadMessagesFromInbox = (webId: URI) => {
   const { quads, variables, isLoading } = useLDhopQuery(
@@ -127,8 +97,8 @@ export const useReadMessagesFromInbox = (webId: URI) => {
         return {
           id: ldo.object['@id'] ?? '',
           message: ldo.object.content,
-          createdAt: new Date(ldo.object?.created).getTime(),
-          from: ldo.object.maker?.['@id'],
+          createdAt: new Date(ldo.object?.created ?? ldo.updated).getTime(),
+          from: ldo.object.maker?.['@id'] ?? ldo.actor?.['@id'],
           chat: ldo.target['@id'] ?? '',
           otherChats: ldo.target.participation?.flatMap(
             p => p.references?.flatMap(r => r['@id'] ?? []) ?? [],

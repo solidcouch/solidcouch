@@ -151,6 +151,7 @@ export const Messages = () => {
       messageId,
       chatId: chat,
       updated: createdAt,
+      content: data.message,
     })
 
     reset({ message: '' })

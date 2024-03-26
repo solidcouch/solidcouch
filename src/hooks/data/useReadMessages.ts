@@ -2,56 +2,33 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { ChatShapeShapeType } from 'ldo/app.shapeTypes'
-import { Store } from 'n3'
 import { useMemo } from 'react'
 import { Message, URI } from 'types'
-import { getContainer } from 'utils/helpers'
-import { wf } from 'utils/rdf-namespaces'
-import { chatsWithPerson, messageTree } from './queries'
+import { messages as messagesQuery } from './queries'
 import { useReadMessagesFromInbox } from './useReadThreads'
 
 export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
   const { quads, variables, isLoading } = useLDhopQuery(
     useMemo(
       () => ({
-        query: chatsWithPerson,
+        query: messagesQuery,
         variables: { person: [me], otherPerson: [userId] },
         fetch,
+        staleTime: 30000,
       }),
       [me, userId],
     ),
   )
 
-  const messageTreeResults = useLDhopQuery(
-    useMemo(() => {
-      const chat = variables.chatWithOtherPerson ?? []
-      const chatInTwo = chat.filter(c => {
-        const s = new Store(quads)
-        const participations = s.getObjects(c, wf.participation, null)
-
-        return participations.length > 0 && participations.length <= 2
-      })
-      const otherChat = variables.otherChat ?? []
-      const chatContainer = [...chatInTwo, ...otherChat].map(c =>
-        getContainer(c),
-      )
-      return {
-        query: messageTree,
-        variables: { chat: chatInTwo, otherChat, chatContainer },
-        staleTime: 10000,
-        fetch,
-      }
-    }, [quads, variables.chatWithOtherPerson, variables.otherChat]),
-  )
-
   const messages: Message[] = useMemo(() => {
-    const dataset = createLdoDataset(
-      quads.concat(messageTreeResults.quads),
-    ).usingType(ChatShapeShapeType)
+    const dataset = createLdoDataset(quads).usingType(ChatShapeShapeType)
     const messages = (
       (variables.chatWithOtherPerson ?? [])
         .concat(variables.otherChat ?? [])
         .map(c => dataset.fromSubject(c))
+        .filter(
+          chat => chat.participation?.length && chat.participation.length <= 2,
+        )
         .flatMap(chat =>
           chat?.message?.flatMap(
             message =>
@@ -68,20 +45,16 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
     ).filter(a => Boolean(a)) as Message[]
 
     return messages
-  }, [
-    messageTreeResults.quads,
-    quads,
-    variables.chatWithOtherPerson,
-    variables.otherChat,
-  ])
+  }, [quads, variables.chatWithOtherPerson, variables.otherChat])
 
   const myChats = useMemo(() => {
-    const dataset = createLdoDataset(
-      quads.concat(messageTreeResults.quads),
-    ).usingType(ChatShapeShapeType)
+    const dataset = createLdoDataset(quads).usingType(ChatShapeShapeType)
 
     const chats = (variables.chatWithOtherPerson ?? [])
       .map(c => dataset.fromSubject(c))
+      .filter(
+        chat => chat.participation?.length && chat.participation.length <= 2,
+      )
       .flatMap(ch =>
         ch['@id']
           ? {
@@ -94,7 +67,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
       )
 
     return chats
-  }, [messageTreeResults.quads, quads, variables.chatWithOtherPerson])
+  }, [quads, variables.chatWithOtherPerson])
 
   const { data: allMessagesFromInbox, ...notificationsQueryStatus } =
     useReadMessagesFromInbox(me)
@@ -126,7 +99,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
 
   return [
     combinedMessages,
-    { isLoading: isLoading || messageTreeResults.isLoading },
+    { isLoading: isLoading },
     notificationsQueryStatus,
     myChats,
   ] as const
