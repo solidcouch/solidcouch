@@ -17,6 +17,7 @@ const useReadThreadsOnly = (webId: URI) => {
       () => ({
         query: threadsQuery,
         variables: { person: [webId] },
+        staleTime: 30000,
         fetch,
       }),
       [webId],
@@ -82,6 +83,7 @@ export const useReadMessagesFromInbox = (webId: URI) => {
         query: inboxMessagesQuery,
         variables: { person: webId ? [webId] : [] },
         fetch,
+        staleTime: 30000,
       }),
       [webId],
     ),
@@ -131,7 +133,6 @@ export const useReadThreads = (webId: URI) => {
           thread.messages[msgIndex] = imsg
         } else {
           thread.messages.push(imsg)
-          thread.messages.sort((a, b) => a.createdAt - b.createdAt)
         }
       } else {
         combined.push({
@@ -141,13 +142,18 @@ export const useReadThreads = (webId: URI) => {
           participants: [imsg.from],
           status: 'new',
         })
-        combined.sort(
-          (a, b) =>
-            ([...b.messages].pop()?.createdAt ?? 0) -
-            ([...a.messages].pop()?.createdAt ?? 0),
-        )
       }
     })
+
+    for (const c of combined) {
+      c.messages.sort((a, b) => (a?.createdAt ?? 0) - (b?.createdAt ?? 0))
+    }
+
+    combined.sort(
+      (a, b) =>
+        ([...b.messages].pop()?.createdAt ?? 0) -
+        ([...a.messages].pop()?.createdAt ?? 0),
+    )
     return combined
   }, [inboxMessages, threads])
 
