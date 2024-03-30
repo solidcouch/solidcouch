@@ -8,7 +8,7 @@ import { hospex } from 'utils/rdf-namespaces'
 import { searchAccommodationsQuery } from './queries'
 
 export const useSearchAccommodations = (communityId = config.communityId) => {
-  const { quads, isLoading } = useLDhopQuery(
+  const { quads, isMissing } = useLDhopQuery(
     useMemo(
       () => ({
         name: 'search accommodations',
@@ -41,6 +41,6 @@ export const useSearchAccommodations = (communityId = config.communityId) => {
         },
       }))
 
-    return [accommodations, isLoading] as const
-  }, [isLoading, quads])
+    return [accommodations, isMissing] as const
+  }, [isMissing, quads])
 }
