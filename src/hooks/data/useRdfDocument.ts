@@ -1,3 +1,5 @@
+import { fetch } from '@inrupt/solid-client-authn-browser'
+import { fetchRdfDocument as fetchRdfDocumentLdhop } from '@ldhop/core'
 import {
   LdoBase,
   LdoBuilder,
@@ -16,10 +18,8 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { maxBy, merge } from 'lodash'
-import { DataFactory, Parser, ParserOptions, Quad } from 'n3'
 import { useMemo } from 'react'
 import { URI } from 'types'
-import type { Required } from 'utility-types'
 import {
   fullFetch,
   getAllParents,
@@ -27,6 +27,9 @@ import {
   removeHashFromURI,
 } from 'utils/helpers'
 import { toN3Patch } from 'utils/ldo'
+
+export const fetchRdfDocument = (uri: string) =>
+  fetchRdfDocumentLdhop(uri, fetch)
 
 /**
  * wrapper around react-query to fetch a single rdf document
@@ -62,40 +65,6 @@ export const useRdfDocuments = (uris: URI[]) => {
 
   const results = useQueries(params)
   return results
-}
-
-/**
- * Fetch rdf document
- * parse it into rdf Dataset
- * add document url as graph
- */
-export const fetchRdfDocument = async (uri: URI) => {
-  const res = await fullFetch(uri)
-
-  if (res.ok) {
-    const data = await res.text()
-    return { data: parseRdfToQuads(data, { baseIRI: uri }), response: res }
-  } else if (400 <= res.status && res.status < 500) {
-    return { data: [], response: res }
-  } else throw new Error(`Fetching ${uri} not successful`)
-}
-
-const parseRdfToQuads = (
-  data: string,
-  options: Required<ParserOptions, 'baseIRI'>,
-): Quad[] => {
-  // Create a new empty RDF store to hold the parsed data
-
-  const parser = new Parser(options)
-  // Parse the input data and add the resulting quads to the store
-  const graph = DataFactory.namedNode(options.baseIRI)
-  const quads = parser
-    .parse(data)
-    .map(({ subject, predicate, object }) =>
-      DataFactory.quad(subject, predicate, object, graph),
-    )
-
-  return quads
 }
 
 /**

@@ -5279,6 +5279,11 @@
   resolved "https://registry.npmjs.org/@emotion/hash/-/hash-0.9.0.tgz"
   integrity sha512-14FtKiHhy2QoPIzdTcvh//8OyBlknNs2nXRwIhG904opCby3l+9Xaf/wuPvICBF0rc1ZCNBd3nKe9cd2mecVkQ==
 
+"@emotion/hash@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.npmjs.org/@emotion/hash/-/hash-0.9.1.tgz#4ffb0055f7ef676ebc3a5a91fb621393294e2f43"
+  integrity sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==
+
 "@emotion/memoize@^0.8.0":
   version "0.8.0"
   resolved "https://registry.npmjs.org/@emotion/memoize/-/memoize-0.8.0.tgz"
@@ -5810,23 +5815,22 @@
   dependencies:
     vary "^1.1.2"
 
-"@ldhop/core@^0.0.1-alpha.8":
-  version "0.0.1-alpha.8"
-  resolved "https://registry.npmjs.org/@ldhop/core/-/core-0.0.1-alpha.8.tgz#456b4d33d6b59aab22e076d995a67f8bf096d9d1"
-  integrity sha512-TacwiLMjQBHe7zEPODG/FphqrlfLv+gqcSG74CcneAcRywYd7gBGgMTtSS1JbF0Upa4ZBNEJ//Sy7KAmb8HGDw==
+"@ldhop/core@^0.0.1-alpha.12":
+  version "0.0.1-alpha.12"
+  resolved "https://registry.npmjs.org/@ldhop/core/-/core-0.0.1-alpha.12.tgz#4139fd3b947467322c176664de0cda32ce63fd65"
+  integrity sha512-yEAQWSxITg4X6g5IkakFqsCIkBbx+YJg5Zw16jJ6goq5nxsISKEuubKNeLO02aZ9/yJToIxq7G8z89dOGqjs5w==
   dependencies:
-    "@types/lodash" "^4.17.0"
+    "@emotion/hash" "^0.9.1"
     "@types/n3" "^1.16.4"
-    lodash "^4.17.21"
     n3 "^1.17.2"
     utility-types "^3.10.0"
 
-"@ldhop/react@^0.0.1-alpha.8":
-  version "0.0.1-alpha.8"
-  resolved "https://registry.npmjs.org/@ldhop/react/-/react-0.0.1-alpha.8.tgz#a6032741995818bb54401afae7fb77d6950d4a79"
-  integrity sha512-TFeMjeOLduGuD3AxcCsbtybUawbib24r7F0F0R+HPtrp99LnqdydzFnqn7MAJAw/fhLhj3bq3+r2xZ8aMFB9vA==
+"@ldhop/react@^0.0.1-alpha.12":
+  version "0.0.1-alpha.12"
+  resolved "https://registry.npmjs.org/@ldhop/react/-/react-0.0.1-alpha.12.tgz#0c1c42211488825de185d275fcaf8d1721ab9eeb"
+  integrity sha512-cGFbIoKo2TcM69Bs9JjkFxlZ1C4sSKQm4Jt5C//sx55CmCcjGz6YZidnhgffWzzAlqp7U3Wc0vm7aPnBHmNp1g==
   dependencies:
-    "@ldhop/core" "^0.0.1-alpha.8"
+    "@ldhop/core" "^0.0.1-alpha.12"
     "@types/lodash" "^4.17.0"
     lodash "^4.17.21"
 

@@ -1,4 +1,5 @@
 import type { RdfQuery } from '@ldhop/core'
+import { NamedNode, Term } from 'n3'
 import { dct, ldp, rdf, solid } from 'rdf-namespaces'
 import { getContainer } from 'utils/helpers'
 import { as, meeting, space, wf } from 'utils/rdf-namespaces'
@@ -203,19 +204,24 @@ const messageTree: RdfQuery = [
   },
 ]
 
+const getContainerNode = (term: Term) =>
+  term.termType === 'NamedNode'
+    ? new NamedNode(getContainer(term.value))
+    : undefined
+
 export const messages: RdfQuery = [
   ...chatsWithPerson,
   {
     type: 'transform variable',
     source: '?chatWithOtherPerson',
     target: '?chatContainer',
-    transform: getContainer,
+    transform: getContainerNode,
   },
   {
     type: 'transform variable',
     source: '?otherChat',
     target: '?chatContainer',
-    transform: getContainer,
+    transform: getContainerNode,
   },
   ...messageTree,
 ]
@@ -226,13 +232,13 @@ export const threads: RdfQuery = [
     type: 'transform variable',
     source: '?chat',
     target: '?chatContainer',
-    transform: getContainer,
+    transform: getContainerNode,
   },
   {
     type: 'transform variable',
     source: '?otherChat',
     target: '?chatContainer',
-    transform: getContainer,
+    transform: getContainerNode,
   },
   ...messageTree,
 ]
