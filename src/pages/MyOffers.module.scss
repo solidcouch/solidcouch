@@ -9,6 +9,13 @@
   gap: 2rem;
 
   padding-bottom: 2rem;
+
+  .header {
+    align-self: start;
+    * {
+      vertical-align: text-bottom;
+    }
+  }
 }
 
 .accommodation {
