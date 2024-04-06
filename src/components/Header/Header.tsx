@@ -40,18 +40,22 @@ export const Header = () => {
             <Link to="profile">{profile?.name || 'profile'}</Link>
           </MenuItem>
           <MenuItem>
+            <Link to="profile/edit">edit profile</Link>
+          </MenuItem>
+          <MenuItem>
             <Link to="messages">
               messages
               {newMessages?.length ? ` (${newMessages.length} new)` : null}
             </Link>
           </MenuItem>
-          {auth.webId && (
-            <MenuItem>
-              <Link to={`profile/${encodeURIComponent(auth.webId)}/contacts`}>
-                contacts
-              </Link>
-            </MenuItem>
-          )}
+          <MenuItem>
+            <Link to={`profile/${encodeURIComponent(auth.webId!)}/contacts`}>
+              contacts
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="host/offers">my hosting</Link>
+          </MenuItem>
           <MenuDivider />
           <MenuItem>
             <SignOut />
