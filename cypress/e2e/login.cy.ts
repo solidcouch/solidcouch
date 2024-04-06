@@ -54,4 +54,49 @@ describe('Sign in to the app', () => {
     })
     cy.contains('We would like to set up your Pod')
   })
+
+  it('should remember last identity provider selected during login', () => {
+    cy.visit('/')
+    cy.contains('Sign in').click()
+    cy.get('input[name=webIdOrIssuer]').should('have.value', '')
+    // the provider should also be the first highlighted button
+    cy.get<UserConfig>('@user1').then(user1 => {
+      // sign in using custom provider
+      cy.login(user1)
+      cy.contains('We would like to set up your Pod')
+      // sign out
+      cy.logout()
+
+      cy.visit('/')
+      cy.contains('Sign in').click()
+      // the custom provider should be filled in
+      cy.get('input[name=webIdOrIssuer]').should('have.value', user1.idp)
+      // the provider should also be the first highlighted button
+      cy.get('[class^=SignIn_providers] button')
+        .first()
+        .contains(user1.idp.slice(7, -1))
+    })
+  })
+
+  it('should remember last provider selected at signup', () => {
+    cy.visit('/')
+    cy.contains('Join').click()
+    cy.get('label').contains('Show me some providers!').click()
+    cy.get('[class^=Join_podOptions] a ')
+      .contains('solidcommunity.net')
+      // prevent opening new window (breaks CI tests)
+      .invoke('removeAttr', 'target')
+      .invoke('removeAttr', 'rel')
+      .invoke('removeAttr', 'href')
+      .click()
+
+    // close signup and open signin
+    cy.get('label').contains('Show me some providers!').type('{esc}')
+    cy.contains('Sign in').click()
+
+    // the provider should also be the first highlighted button
+    cy.get('[class^=SignIn_providers] button')
+      .first()
+      .contains('solidcommunity.net')
+  })
 })

@@ -1,7 +1,9 @@
 import { login } from '@inrupt/solid-client-authn-browser'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { Button } from 'components'
 import { guessIssuer } from 'components/SignIn/oidcIssuer'
 import { oidcIssuers } from 'config'
+import { actions, selectLastSelectedIssuer } from 'features/login/loginSlice'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
@@ -13,10 +15,21 @@ export const SignIn = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [longList, setLongList] = useState(false)
 
-  const { register, handleSubmit } = useForm<{ webIdOrIssuer: string }>()
+  const lastIssuer = useAppSelector(selectLastSelectedIssuer)
+  const isListedIssuer = oidcIssuers.some(iss => iss.issuer === lastIssuer)
+
+  const { register, handleSubmit } = useForm<{ webIdOrIssuer: string }>({
+    defaultValues: { webIdOrIssuer: !isListedIssuer ? lastIssuer : '' },
+  })
+
+  const dispatch = useAppDispatch()
 
   // sign in on selecting a provider
   const handleSelectIssuer = async (oidcIssuer: string) => {
+    const prevIssuer = lastIssuer ?? ''
+    // remember oidcIssuer for next logins
+    dispatch(actions.setLastSelectedIssuer(oidcIssuer))
+
     try {
       await login({
         oidcIssuer,
@@ -29,6 +42,8 @@ export const SignIn = () => {
             : new URL('/clientid.jsonld', window.location.href).toJSON(),
       })
     } catch (e) {
+      // if login redirect was unsuccessful, revert to previous issuer
+      dispatch(actions.setLastSelectedIssuer(prevIssuer))
       if (e instanceof TypeError) {
         alert(
           `We didn't succeed with redirecting to the issuer at ${oidcIssuer}.\nHave you provided correct webId or OIDCIssuer? Or is it down?\n\nReason: ${
@@ -61,8 +76,22 @@ export const SignIn = () => {
       >
         <div className={styles.providers}>
           Select your Solid identity provider
+          {lastIssuer && (
+            <Button primary onClick={() => handleSelectIssuer(lastIssuer)}>
+              {
+                // show issuer without protocol and trailing slash
+                lastIssuer
+                  .split('/')
+                  .slice(2)
+                  .filter(a => a)
+                  .join('/')
+              }
+            </Button>
+          )}
           {oidcIssuers
-            .slice(longList ? undefined : 0, longList ? undefined : 2)
+            .filter(iss => iss.issuer !== lastIssuer)
+            // show featured issuers in short list, or all in long list
+            .filter(iss => iss.featured || longList)
             .map(({ issuer: url }) => (
               <Button
                 secondary
