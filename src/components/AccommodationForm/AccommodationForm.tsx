@@ -15,7 +15,7 @@ export const AccommodationForm = ({
   onCancel: () => void
 }) => {
   const { handleSubmit, register, control } = useForm<Accommodation>({
-    defaultValues: merge({ location: { lat: 50, long: 15 } }, initialData),
+    defaultValues: merge({ location: { lat: 0, long: 0 } }, initialData),
   })
 
   const handleFormSubmit = handleSubmit(data => {

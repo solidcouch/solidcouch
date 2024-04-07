@@ -5997,7 +5997,7 @@
   dependencies:
     "@types/node" "*"
 
-"@react-leaflet/core@^2.0.0", "@react-leaflet/core@^2.1.0":
+"@react-leaflet/core@^2", "@react-leaflet/core@^2.0.0", "@react-leaflet/core@^2.1.0":
   version "2.1.0"
   resolved "https://registry.npmjs.org/@react-leaflet/core/-/core-2.1.0.tgz"
   integrity sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==
@@ -6451,6 +6451,13 @@
     "@ts-jison/common" "^0.3.0"
     "@ts-jison/lexer" "^0.3.0"
 
+"@turtlesocks/react-leaflet.locatecontrol@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@turtlesocks/react-leaflet.locatecontrol/-/react-leaflet.locatecontrol-0.1.1.tgz#4e53d752c5dccfe46df76f0c5e1aff7d394b741d"
+  integrity sha512-O1NzVHds9JaIe4NEdzNwraQ1Bt5JCrjGsutd7tLHCVOjWWjJq/MJKgE+26D3cZubHjFUpCEPrIFgXvP6CZvWVQ==
+  dependencies:
+    "@react-leaflet/core" "^2"
+
 "@types/accepts@*":
   version "1.3.5"
   resolved "https://registry.npmjs.org/@types/accepts/-/accepts-1.3.5.tgz"
@@ -6814,6 +6821,20 @@
     "@types/keygrip" "*"
     "@types/koa-compose" "*"
     "@types/node" "*"
+
+"@types/leaflet.locatecontrol@^0.74.4":
+  version "0.74.4"
+  resolved "https://registry.npmjs.org/@types/leaflet.locatecontrol/-/leaflet.locatecontrol-0.74.4.tgz#15cb1f3a5c49956da9dadeea7e65b0e53193ff09"
+  integrity sha512-JNS2WYI80KrR980DXjQyHnzFoNEy0Vjtt6f8gJvit6RBgRqsQw83rH0ZTtLCwpFHIKrjF/jvIPv/3Fhv4F4SUg==
+  dependencies:
+    "@types/leaflet" "*"
+
+"@types/leaflet@*":
+  version "1.9.9"
+  resolved "https://registry.npmjs.org/@types/leaflet/-/leaflet-1.9.9.tgz#5e469f1443c6796b59ad8300495bd82797345356"
+  integrity sha512-o0qD9ReJzWpGNIAY0O32NkpfM6rhV4sxnwVkz7x7Ah4Zy9sP+2T9Q3byccL5la1ZX416k+qiyvt8ksBavPPY7A==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/leaflet@^1.9.1":
   version "1.9.1"
@@ -12665,6 +12686,11 @@ lazy-ass@1.6.0, lazy-ass@^1.6.0:
   version "1.6.0"
   resolved "https://registry.npmjs.org/lazy-ass/-/lazy-ass-1.6.0.tgz"
   integrity sha512-cc8oEVoctTvsFZ/Oje/kGnHbpWHYBe8IAJe4C0QNc3t8uM/0Y8+erSz/7Y1ALuXTEZTMvxXwO6YbX1ey3ujiZw==
+
+leaflet.locatecontrol@^0.79.0:
+  version "0.79.0"
+  resolved "https://registry.npmjs.org/leaflet.locatecontrol/-/leaflet.locatecontrol-0.79.0.tgz#0236b87c699a49f9ddb2f289941fbc0d3c3f8b62"
+  integrity sha512-h64QIHFkypYdr90lkSfjKvPvvk8/b8UnP3m9WuoWdp5p2AaCWC0T1NVwyuj4rd5U4fBW3tQt4ppmZ2LceHMIDg==
 
 leaflet.markercluster@^1.5.3:
   version "1.5.3"
