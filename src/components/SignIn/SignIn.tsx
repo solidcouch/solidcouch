@@ -1,26 +1,13 @@
 import { login } from '@inrupt/solid-client-authn-browser'
 import { Button } from 'components'
-import { readOidcIssuer } from 'components/SignIn/oidcIssuer'
+import { guessIssuer } from 'components/SignIn/oidcIssuer'
 import { oidcIssuers } from 'config'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
-import { URI } from 'types'
 import styles from './SignIn.module.scss'
 
 Modal.setAppElement('#root')
-
-const guessIssuer = async (webIdOrIssuer: URI): Promise<URI> => {
-  try {
-    // assume that the address is webId
-    const oidcIssuers = await readOidcIssuer(webIdOrIssuer)
-    if (oidcIssuers.length === 0) throw new Error('OIDC issuer not found')
-    return oidcIssuers[0]
-  } catch {
-    // default to initial URI
-    return webIdOrIssuer
-  }
-}
 
 export const SignIn = () => {
   const [modalOpen, setModalOpen] = useState(false)
@@ -44,19 +31,20 @@ export const SignIn = () => {
     } catch (e) {
       if (e instanceof TypeError) {
         alert(
-          "We didn't succeed with redirecting to the issuer. Have you provided correct webId or OIDCIssuer? Or is it down?",
+          `We didn't succeed with redirecting to the issuer at ${oidcIssuer}.\nHave you provided correct webId or OIDCIssuer? Or is it down?\n\nReason: ${
+            e.message
+          }\n\nError: ${e.toString()}`,
         )
-      } else throw e
+      } else alert(`Something went wrong.\nError: ${e}`)
     }
   }
 
   const handleFormSubmit = handleSubmit(async ({ webIdOrIssuer }) => {
-    const issuer = await guessIssuer(webIdOrIssuer)
-
     try {
+      const issuer = await guessIssuer(webIdOrIssuer)
       await handleSelectIssuer(issuer)
     } catch (e) {
-      alert(JSON.stringify(e))
+      alert(`Something went wrong.\nError: ${e}`)
     }
   })
 
@@ -92,7 +80,7 @@ export const SignIn = () => {
           or write your own Solid identity provider, or your webId
           <form className={styles.webIdForm} onSubmit={handleFormSubmit}>
             <input
-              type="url"
+              type="text"
               placeholder="Your webId or provider"
               {...register('webIdOrIssuer', { required: 'required' })}
             />
