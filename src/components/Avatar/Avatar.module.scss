@@ -3,6 +3,8 @@
   // width: 2rem;
   border-radius: 1000rem;
   display: inline-block;
+  object-fit: cover;
+
   &.square {
     border-radius: 0;
   }
