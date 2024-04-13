@@ -1,77 +1,73 @@
-import { ContainerShapeType, SolidProfileShapeType } from 'ldo/app.shapeTypes'
-import { ChatShape } from 'ldo/app.typings'
+import { fetch } from '@inrupt/solid-client-authn-browser'
+import { useLDhopQuery } from '@ldhop/react'
+import { createLdoDataset } from '@ldo/ldo'
+import { ChatShapeShapeType } from 'ldo/app.shapeTypes'
 import { useMemo } from 'react'
 import { Message, URI } from 'types'
-import { getContainer } from 'utils/helpers'
-import { useRdfQuery } from './useRdfQuery'
+import { messages as messagesQuery } from './queries'
 import { useReadMessagesFromInbox } from './useReadThreads'
 
-const messagesQuery = [
-  ['?me', (a: string) => a, '?profile', SolidProfileShapeType],
-  ['?profile', 'seeAlso', '?profileDocument'],
-  ['?profileDocument'],
-  ['?profile', 'privateTypeIndex', '?privateTypeIndex'],
-  ['?privateTypeIndex', 'references', '?typeRegistration'],
-  ['?typeRegistration', 'forClass', 'LongChat'],
-  ['?typeRegistration', 'instance', '?chat'],
-  // keep only chat that is with userId person, and only them
-  [
-    '?chat',
-    (ldo: ChatShape, params: { userId: URI }) =>
-      typeof ldo.participation?.length === 'number' &&
-      ldo.participation.length < 3 &&
-      ldo.participation.some(p => p.participant['@id'] === params.userId),
-  ],
-  ['?chat', 'participation', '?participation'],
-  ['?participation', 'references', '?otherChat'],
-  ['?chat', 'message', '?message'],
-  ['?otherChat', 'message', '?message'],
-  ['?chat', getContainer, '?chatContainer', ContainerShapeType],
-  ['?otherChat', getContainer, '?chatContainer', ContainerShapeType],
-  ['?chatContainer', 'contains', '?year'],
-  ['?year', 'contains', '?month'],
-  ['?month', 'contains', '?day'],
-  ['?day', 'contains', '?messagesDoc'],
-  ['?messagesDoc'],
-  ['?message'],
-] as const
-
 export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
-  const params = useMemo(() => ({ me, userId }), [me, userId])
-  const [results, queryStatus] = useRdfQuery(messagesQuery, params)
+  const { quads, variables, isLoading } = useLDhopQuery(
+    useMemo(
+      () => ({
+        query: messagesQuery,
+        variables: { person: [me], otherPerson: [userId] },
+        fetch,
+        staleTime: 30000,
+      }),
+      [me, userId],
+    ),
+  )
 
-  const messages = (
-    results.chat.concat(results.otherChat).flatMap(chat =>
-      (chat as ChatShape)?.message?.flatMap(
-        message =>
-          ({
-            id: message['@id'],
-            message: message.content,
-            createdAt: new Date(message.created).getTime(),
-            from: message.maker['@id'],
-            chat: chat['@id'],
-            test: (chat as ChatShape).participation?.map(
-              p => p.participant['@id'],
-            ),
-          } as Message),
-      ),
-    ) ?? []
-  ).filter(a => Boolean(a)) as Message[]
+  const messages: Message[] = useMemo(() => {
+    const dataset = createLdoDataset(quads).usingType(ChatShapeShapeType)
+    const messages = (
+      (variables.chatWithOtherPerson ?? [])
+        .concat(variables.otherChat ?? [])
+        .map(c => dataset.fromSubject(c))
+        .filter(
+          chat => chat.participation?.length && chat.participation.length <= 2,
+        )
+        .flatMap(chat =>
+          chat?.message?.flatMap(
+            message =>
+              ({
+                id: message['@id'],
+                message: message.content,
+                createdAt: new Date(message.created).getTime(),
+                from: message.maker['@id'],
+                chat: chat['@id'],
+                test: chat.participation?.map(p => p.participant['@id']),
+              } as Message),
+          ),
+        ) ?? []
+    ).filter(a => Boolean(a)) as Message[]
 
-  const myChats = useMemo(
-    () =>
-      results.chat.flatMap(ch =>
+    return messages
+  }, [quads, variables.chatWithOtherPerson, variables.otherChat])
+
+  const myChats = useMemo(() => {
+    const dataset = createLdoDataset(quads).usingType(ChatShapeShapeType)
+
+    const chats = (variables.chatWithOtherPerson ?? [])
+      .map(c => dataset.fromSubject(c))
+      .filter(
+        chat => chat.participation?.length && chat.participation.length <= 2,
+      )
+      .flatMap(ch =>
         ch['@id']
           ? {
               myChat: ch['@id'],
-              otherChats: (
-                ch as ChatShape
-              ).participation?.[0].references?.flatMap(och => och['@id'] ?? []),
+              otherChats: ch.participation?.[0].references?.flatMap(
+                och => och['@id'] ?? [],
+              ),
             }
           : [],
-      ),
-    [results.chat],
-  )
+      )
+
+    return chats
+  }, [quads, variables.chatWithOtherPerson])
 
   const { data: allMessagesFromInbox, ...notificationsQueryStatus } =
     useReadMessagesFromInbox(me)
@@ -103,7 +99,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
 
   return [
     combinedMessages,
-    queryStatus,
+    { isLoading: isLoading },
     notificationsQueryStatus,
     myChats,
   ] as const

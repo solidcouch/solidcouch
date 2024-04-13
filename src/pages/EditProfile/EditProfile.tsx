@@ -32,7 +32,7 @@ export const EditProfile = () => {
 
     const photo = data.photo?.[0]
     let photoUri: string | undefined
-    const previousPhoto = hospexProfile.photo
+    const previousPhoto = hospexProfile?.photo
 
     // create new photo if uploaded
     if (photo)
