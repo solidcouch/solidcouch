@@ -1,8 +1,11 @@
 .container {
-  height: calc(100% - 4rem);
-  margin-bottom: 4rem;
+  height: 100%; //calc(100% - 4rem);
+  // margin-bottom: 4rem;
 }
 
+//// disabled the bottom navigation in NavLayout
+//// until we have use for the other tabs, or decide to remove this
+/*
 .navigation {
   position: fixed;
   bottom: 0;
@@ -30,3 +33,4 @@
     }
   }
 }
+*/

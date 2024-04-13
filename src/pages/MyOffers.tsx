@@ -9,6 +9,7 @@ import { useReadAccommodations } from 'hooks/data/useReadAccommodations'
 import { useUpdateAccommodation } from 'hooks/data/useUpdateAccommodation'
 import { useAuth } from 'hooks/useAuth'
 import { useState } from 'react'
+import { FaDoorOpen } from 'react-icons/fa'
 import { Accommodation, URI } from 'types'
 import { getContainer } from 'utils/helpers'
 import styles from './MyOffers.module.scss'
@@ -71,6 +72,9 @@ export const MyOffers = () => {
 
   return (
     <div className={styles.container}>
+      <h1 className={styles.header}>
+        <FaDoorOpen size={32} /> My Accommodation Offers
+      </h1>
       <ul style={{ display: 'contents' }}>
         {accommodations.map(accommodation =>
           editing === accommodation.id ? (
@@ -102,7 +106,6 @@ export const MyOffers = () => {
           ),
         )}
       </ul>
-      {/* <pre>{JSON.stringify(accommodations, null, 2)}</pre> */}
       {editing === 'new' ? (
         <AccommodationForm
           onSubmit={handleCreate}
