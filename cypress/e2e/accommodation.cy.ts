@@ -34,6 +34,14 @@ describe('accommodations offered by person', () => {
     cy.location().its('pathname').should('equal', '/host/offers')
   })
 
+  it('should be able to navigate to my offers page from user menu', () => {
+    // through header, open edit-profile page
+    cy.visit('/')
+    cy.get('[class^=Header_header] .szh-menu-button').click()
+    cy.contains('a', 'my hosting').click()
+    cy.location().its('pathname').should('equal', '/host/offers')
+  })
+
   it('[other person] should be able to see accommodations of person') // not sure about this
 
   it('[me] should be able to see accommodations offered by me', () => {

@@ -26,7 +26,16 @@ describe('edit profile', () => {
     // through header, open profile page
     cy.get('[class^=Header_header] .szh-menu-button').click()
     cy.get('a[href="/profile"]').click()
-    cy.contains('a', 'edit profile').click()
+    cy.get('[class^=Profile_container]').contains('a', 'edit profile').click()
+    cy.location().its('pathname').should('equal', '/profile/edit')
+  })
+
+  it('should be able to navigate to profile edit page from user menu', () => {
+    // through header, open edit-profile page
+    cy.get('[class^=Header_header] .szh-menu-button').click()
+    cy.get('[class^=Header_header] .szh-menu')
+      .contains('a', 'edit profile')
+      .click()
     cy.location().its('pathname').should('equal', '/profile/edit')
   })
 
