@@ -1,9 +1,35 @@
+import { useAppDispatch } from 'app/hooks'
 import { Button } from 'components'
 import { ExternalButtonLink } from 'components/Button/Button'
-import { oidcIssuers } from 'config'
-import { ChangeEvent, Fragment, useState } from 'react'
+import { oidcIssuers, type IssuerConfig } from 'config'
+import { actions } from 'features/login/loginSlice'
+import { ChangeEvent, Fragment, ReactNode, useState } from 'react'
 import Modal from 'react-modal'
 import styles from './Join.module.scss'
+
+const RegistrationButton = ({
+  issuer,
+  registration,
+  children,
+}: Pick<IssuerConfig, 'issuer' | 'registration'> & {
+  children?: ReactNode
+}) => {
+  const dispatch = useAppDispatch()
+
+  return (
+    <ExternalButtonLink
+      secondary
+      href={registration!}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => {
+        dispatch(actions.setLastSelectedIssuer(issuer))
+      }}
+    >
+      {children ?? new URL(issuer).hostname}
+    </ExternalButtonLink>
+  )
+}
 
 const tabs = [
   {
@@ -15,16 +41,9 @@ const tabs = [
         <ul>
           {oidcIssuers
             .filter(iss => iss.registration)
-            .map(({ issuer, registration }) => (
-              <li key={issuer}>
-                <ExternalButtonLink
-                  secondary
-                  href={registration}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {new URL(issuer).hostname}
-                </ExternalButtonLink>
+            .map(issuerConfig => (
+              <li key={issuerConfig.issuer}>
+                <RegistrationButton {...issuerConfig} />
               </li>
             ))}
         </ul>
@@ -34,16 +53,12 @@ const tabs = [
   {
     id: 'choose-for-me',
     label: 'Choose for me!',
+    // TODO put this label and description into config
     content: (
       <>
-        <ExternalButtonLink
-          secondary
-          href="https://solidcommunity.net/register"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <RegistrationButton {...oidcIssuers.find(iss => iss.recommended)!}>
           Get a Pod at solidcommunity.net 😉
-        </ExternalButtonLink>
+        </RegistrationButton>
         <br />
         It is managed by the Solid community folks, and will be migrated to a{' '}
         <a
@@ -109,16 +124,9 @@ const tabs = [
             .filter(
               ({ server, registration }) => registration && server === 'CSS',
             )
-            .map(({ issuer, registration }) => (
-              <li key={issuer}>
-                <ExternalButtonLink
-                  secondary
-                  href={registration}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {new URL(issuer).hostname}
-                </ExternalButtonLink>
+            .map(issuerConfig => (
+              <li key={issuerConfig.issuer}>
+                <RegistrationButton {...issuerConfig} />
               </li>
             ))}
         </ul>
