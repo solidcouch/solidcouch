@@ -1,9 +1,7 @@
 import { ButtonLink } from 'components'
 import { useReadMessagesFromInbox } from 'hooks/data/useReadThreads'
 import { useAuth } from 'hooks/useAuth'
-import { NavLayout } from 'layouts/NavLayout'
-import { useMemo } from 'react'
-import { FaRegComment } from 'react-icons/fa'
+import { FaDoorOpen, FaMap, FaRegComment } from 'react-icons/fa'
 import styles from './Home.module.scss'
 
 export const Home = () => {
@@ -11,31 +9,18 @@ export const Home = () => {
 
   const { data: newMessages } = useReadMessagesFromInbox(auth.webId!)
 
-  const tabs = useMemo(
-    () => [
-      {
-        link: 'messages',
-        label: (
-          <span>
-            <FaRegComment size={32} />
-            {newMessages?.length ? ` (${newMessages.length} new)` : null}
-          </span>
-        ),
-      },
-    ],
-    [newMessages],
-  )
-
   return (
-    <NavLayout tabs={tabs}>
-      <div className={styles.container}>
-        <ButtonLink to="travel" secondary>
-          travel
-        </ButtonLink>
-        <ButtonLink to="host" secondary>
-          host
-        </ButtonLink>
-      </div>
-    </NavLayout>
+    <div className={styles.container}>
+      <ButtonLink to="travel" secondary>
+        <FaMap size={24} /> travel
+      </ButtonLink>
+      <ButtonLink to="host" secondary>
+        <FaDoorOpen size={24} /> host
+      </ButtonLink>
+      <ButtonLink to="messages" secondary>
+        <FaRegComment size={24} /> messages
+        {newMessages?.length ? ` (${newMessages.length} new)` : null}
+      </ButtonLink>
+    </div>
   )
 }
