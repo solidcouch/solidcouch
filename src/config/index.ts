@@ -36,18 +36,25 @@ if (emailNotificationsService && !emailNotificationsIdentity)
 
 export const wikidataLDF = 'https://query.wikidata.org/bigdata/ldf'
 
-export const oidcIssuers: {
+export type IssuerConfig = {
+  recommended?: boolean // the recommended provider for sign up
+  featured?: boolean // featured providers for sign in
   issuer: string
   registration?: string
   server: 'NSS' | 'CSS'
-}[] = [
+}
+
+export const oidcIssuers: IssuerConfig[] = [
   {
+    recommended: true,
+    featured: true,
     issuer: 'https://solidcommunity.net',
     registration: 'https://solidcommunity.net/register',
     server: 'NSS',
   },
   {
-    issuer: 'https://solidweb.me',
+    featured: true,
+    issuer: 'https://solidweb.me/',
     server: 'CSS',
   },
   {
