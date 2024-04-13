@@ -1,7 +1,10 @@
 import MarkerClusterGroup from '@changey/react-leaflet-markercluster'
+import { LocateControl } from '@turtlesocks/react-leaflet.locatecontrol/dist/LocateControl'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { defaultIcon, highlightedIcon, tileServer } from 'config'
 import { useSearchAccommodations } from 'hooks/data/useSearchAccommodations'
+import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
+import 'leaflet/dist/leaflet.css'
 import { FaTimes } from 'react-icons/fa'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { useSearchParams } from 'react-router-dom'
@@ -48,6 +51,15 @@ export const SearchHosts = () => {
           center={[0, 0]}
         >
           <TileLayer url={tileServer} />
+          <LocateControl
+            strings={{ title: 'My location' }}
+            showPopup={false}
+            clickBehavior={{
+              inView: 'stop',
+              outOfView: 'setView',
+              inViewNotFollowing: 'setView',
+            }}
+          />
           <MarkerClusterGroup maxClusterRadius={20}>
             {offers
               ? offers.map(offer => {
