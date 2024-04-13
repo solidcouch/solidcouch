@@ -1,6 +1,7 @@
 import { Button, Loading } from 'components'
 import { AccommodationForm } from 'components/AccommodationForm/AccommodationForm'
 import { AccommodationView } from 'components/AccommodationView/AccommodationView'
+import { withToast } from 'components/withToast'
 import { communityId } from 'config'
 import { useHospexDocumentSetup } from 'hooks/data/useCheckSetup'
 import { useCreateAccommodation } from 'hooks/data/useCreateAccommodation'
@@ -38,18 +39,27 @@ export const MyOffers = () => {
     if (!(auth.webId && personalHospexDocuments?.[0]))
       throw new Error('missing variables')
 
-    await createAccommodation({
-      personId: auth.webId,
-      data: accommodation,
-      hospexDocument: personalHospexDocuments[0],
-      hospexContainer: getContainer(personalHospexDocuments[0]),
-    })
+    await withToast(
+      createAccommodation({
+        personId: auth.webId,
+        data: accommodation,
+        hospexDocument: personalHospexDocuments[0],
+        hospexContainer: getContainer(personalHospexDocuments[0]),
+      }),
+      {
+        pending: 'Creating accommodation',
+        success: 'Accommodation created',
+      },
+    )
 
     setEditing(undefined)
   }
 
   const handleUpdate = async (accommodation: Accommodation) => {
-    await updateAccommodation({ data: accommodation })
+    await withToast(updateAccommodation({ data: accommodation }), {
+      pending: 'Updating accommodation',
+      success: 'Accommodation updated',
+    })
     setEditing(undefined)
   }
 
@@ -62,11 +72,17 @@ export const MyOffers = () => {
     )
 
     if (isConfirmed) {
-      await deleteAccommodation({
-        id,
-        personId: auth.webId,
-        hospexDocument: personalHospexDocuments[0],
-      })
+      await withToast(
+        deleteAccommodation({
+          id,
+          personId: auth.webId,
+          hospexDocument: personalHospexDocuments[0],
+        }),
+        {
+          pending: 'Deleting accommodation',
+          success: 'Accommodation deleted',
+        },
+      )
     }
   }
 

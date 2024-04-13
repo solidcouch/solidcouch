@@ -1,4 +1,5 @@
 import { Button, Loading } from 'components'
+import { withToast } from 'components/withToast'
 import { communityId } from 'config'
 import { useCreateFile, useDeleteFile, useFile } from 'hooks/data/useFile'
 import { useProfile, useUpdateHospexProfile } from 'hooks/data/useProfile'
@@ -65,7 +66,12 @@ export const EditProfile = () => {
     <div className={styles.container}>
       <EditProfileForm
         initialData={hospexProfile}
-        onSubmit={handleSaveProfile}
+        onSubmit={data =>
+          withToast(handleSaveProfile(data), {
+            pending: 'Updating profile',
+            success: 'Profile updated',
+          })
+        }
       />
       <label>Interests</label>
       <EditInterests webId={auth.webId} />

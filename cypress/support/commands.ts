@@ -137,6 +137,8 @@ declare global {
         integrated?: boolean
         verified?: boolean
       }): void
+      testToast(message: string)
+      testAndCloseToast(message: string)
     }
   }
 }
@@ -280,6 +282,16 @@ Cypress.Commands.add('setProfileData', setProfileData)
 Cypress.Commands.add('addAccommodation', addAccommodation)
 Cypress.Commands.add('createConversation', createConversation)
 Cypress.Commands.add('stubMailer', stubMailer)
+
+Cypress.Commands.add('testToast', (message: string) =>
+  cy.contains('div.Toastify__toast', message),
+)
+Cypress.Commands.add('testAndCloseToast', (message: string) =>
+  cy
+    .testToast(message)
+    .find('button.Toastify__close-button')
+    .click({ force: true }),
+)
 
 /**
 Some code is copied from solidcryptpad repository

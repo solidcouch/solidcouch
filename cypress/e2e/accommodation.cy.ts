@@ -63,6 +63,8 @@ describe('accommodations offered by person', () => {
       'This is a new description in English',
     )
     cy.contains('button', 'Submit').click()
+    cy.testToast('Creating accommodation')
+    cy.testAndCloseToast('Accommodation created')
     cy.get('li[class^=MyOffers_accommodation]')
       .should('have.length', 4)
       .and('contain.text', 'This is a new description in English')
@@ -77,6 +79,8 @@ describe('accommodations offered by person', () => {
       .type('changed second accommodation')
     //TODO change location, too
     cy.contains('button', 'Submit').click()
+    cy.testToast('Updating accommodation')
+    cy.testAndCloseToast('Accommodation updated')
     cy.get('li[class^=MyOffers_accommodation]')
       .should('have.length', 3)
       .and('contain.text', 'accommodation 1')
@@ -89,6 +93,8 @@ describe('accommodations offered by person', () => {
     cy.contains('li[class^=MyOffers_accommodation]', 'accommodation 2')
       .contains('button', 'Delete')
       .click()
+    cy.testToast('Deleting accommodation')
+    cy.testAndCloseToast('Accommodation deleted')
     cy.get('li[class^=MyOffers_accommodation]')
       .should('have.length', 2)
       .and('contain.text', 'accommodation 1')

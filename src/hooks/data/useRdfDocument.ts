@@ -147,11 +147,21 @@ export const useUpdateRdfDocument = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: async ({ uri, patch }: { uri: URI; patch: string }) => {
-      return await fullFetch(uri, {
+      const response = await fullFetch(uri, {
         method: 'PATCH',
         body: patch,
         headers: { 'content-type': 'text/n3' },
       })
+      if (!response.ok) {
+        if (response.status === 401)
+          throw new Error(
+            "401: You're not authenticated. Please refresh the application and sign in again.",
+          )
+        if (response.status === 403)
+          throw new Error("403: You don't have permissions to do this action.")
+        throw new Error(response.status + (await response.text()))
+      }
+      return response
     },
     onSuccess: onSuccessInvalidate(queryClient, data => data.status === 201),
   })

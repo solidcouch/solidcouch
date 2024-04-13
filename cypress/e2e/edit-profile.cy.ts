@@ -56,6 +56,9 @@ describe('edit profile', () => {
       cy.intercept({ method: 'POST', url: me.hospexContainer }).as('savePhoto')
       cy.contains('button', 'Save changes').click()
 
+      cy.testToast('Updating profile')
+      cy.testAndCloseToast('Profile updated')
+
       cy.wait('@savePhoto').then(interception => {
         cy.intercept({
           method: 'GET',
@@ -110,11 +113,15 @@ describe('edit profile', () => {
     // add one interest
     cy.get('input#react-select-3-input').type('wild boar')
     cy.contains('omnivore').click()
+    cy.testToast('Adding Sus scrofa to interests')
+    cy.testAndCloseToast('Sus scrofa added to interests')
     cy.get('ul[class^=Interests_list]').should('contain.text', 'Sus scrofa')
 
     // add another interest
     cy.get('input#react-select-3-input').type('badger')
     cy.contains('species of carnivorans').click()
+    cy.testToast('Adding European badger to interests')
+    cy.testAndCloseToast('European badger added to interests')
     cy.get('ul[class^=Interests_list]')
       .should('contain.text', 'European badger')
       .and('contain.text', 'Sus scrofa')
@@ -133,6 +140,9 @@ describe('edit profile', () => {
 
     // find one interest and click its remove button
     cy.contains('[class^=Interests_item]', 'Sus scrofa').find('button').click()
+
+    cy.testToast('Removing interest')
+    cy.testAndCloseToast('Interest removed')
 
     // was it removed?
     cy.get('ul[class^=Interests_list]')

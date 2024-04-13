@@ -7,6 +7,8 @@ import { usePreviousUriAfterSolidRedirect } from 'hooks/usePreviousUriAfterSolid
 import { Content, Header, Layout } from 'layouts/Layout'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
+import { Slide, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const App = () => {
   // initialize the app, provide layout
@@ -28,6 +30,7 @@ export const App = () => {
 
   return (
     <Layout>
+      <ToastContainer transition={Slide} />
       <Header>
         <PageHeader />
       </Header>

@@ -1,5 +1,6 @@
 import { Loading } from 'components'
 import styles from 'components/Interests/Interests.module.scss'
+import { withToast } from 'components/withToast'
 import { communityId } from 'config'
 import { useReadInterest, useSearchInterests } from 'hooks/data/useInterests'
 import {
@@ -25,7 +26,10 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
   const addInterest = useAddInterest()
 
   const handleRemove = async ({ id, document }: { id: URI; document: URI }) => {
-    await removeInterest({ interest: id, document, person: webId })
+    await withToast(removeInterest({ interest: id, document, person: webId }), {
+      pending: 'Removing interest',
+      success: 'Interest removed',
+    })
   }
 
   const debouncedSetQuery = useMemo(() => debounce(setQuery, 500), [])
@@ -37,11 +41,17 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
 
   const handleSelect = async (interest: types.Interest | null) => {
     if (interest) {
-      await addInterest({
-        interest: interest.id,
-        person: webId,
-        document: webId,
-      })
+      await withToast(
+        addInterest({
+          interest: interest.id,
+          person: webId,
+          document: webId,
+        }),
+        {
+          pending: `Adding ${interest.label} to interests`,
+          success: `${interest.label} added to interests`,
+        },
+      )
     }
   }
 
