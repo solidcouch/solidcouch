@@ -31,7 +31,9 @@ export const useReadAccommodations = (
       .map(offerId =>
         dataset.usingType(AccommodationShapeType).fromSubject(offerId),
       )
-      .filter(a => a?.location?.lat && a?.location?.long)
+      .filter(
+        a => a?.location?.lat !== undefined && a?.location?.long !== undefined,
+      )
       .map(a => {
         const descriptionLanguages = a && languagesOf(a, 'description')
         const description =
