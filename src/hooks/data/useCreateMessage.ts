@@ -63,12 +63,14 @@ export const useCreateMessageNotification = () => {
       messageId,
       chatId,
       updated,
+      content,
     }: {
       inbox: URI
       senderId: URI
       messageId: URI
       chatId: URI
       updated: string // date as isostring
+      content: string
     }) => {
       // create the message
       await queryMutation.mutateAsync({
@@ -82,7 +84,13 @@ export const useCreateMessageNotification = () => {
           type: [{ '@id': 'Add' }],
           actor: { '@id': senderId },
           context: { '@id': 'https://www.pod-chat.com/LongChatMessage' },
-          object: { '@id': messageId } as ChatMessageShape,
+          object: {
+            '@id': messageId,
+            type: [{ '@id': 'Note' }],
+            created: updated,
+            content,
+            maker: { '@id': senderId },
+          } as ChatMessageShape,
           target: { '@id': chatId } as ChatShape,
           updated,
         },

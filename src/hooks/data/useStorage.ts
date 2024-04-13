@@ -18,7 +18,7 @@ const useRootStorage = (me: URI) => {
   const [storage, setStorage] = useState<URI>()
   const results = useRdfDocuments(resources)
   const outcomes = useMemo(
-    () => results.map(res => res.data?.response.headers.get('Link')),
+    () => results.map(res => res.data?.response?.headers.get('Link')),
     [results],
   )
 

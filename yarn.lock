@@ -5279,6 +5279,11 @@
   resolved "https://registry.npmjs.org/@emotion/hash/-/hash-0.9.0.tgz"
   integrity sha512-14FtKiHhy2QoPIzdTcvh//8OyBlknNs2nXRwIhG904opCby3l+9Xaf/wuPvICBF0rc1ZCNBd3nKe9cd2mecVkQ==
 
+"@emotion/hash@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.npmjs.org/@emotion/hash/-/hash-0.9.1.tgz#4ffb0055f7ef676ebc3a5a91fb621393294e2f43"
+  integrity sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==
+
 "@emotion/memoize@^0.8.0":
   version "0.8.0"
   resolved "https://registry.npmjs.org/@emotion/memoize/-/memoize-0.8.0.tgz"
@@ -5809,6 +5814,25 @@
   integrity sha512-WPXQUaAeAMVaLTEFpoq3T2O1C+FstkjJnDQqy95Ck1UdILajsRhu6mhJ8H2f4NFPRBoCNN+qywTJfq/gGki5mw==
   dependencies:
     vary "^1.1.2"
+
+"@ldhop/core@^0.0.1-alpha.12":
+  version "0.0.1-alpha.12"
+  resolved "https://registry.npmjs.org/@ldhop/core/-/core-0.0.1-alpha.12.tgz#4139fd3b947467322c176664de0cda32ce63fd65"
+  integrity sha512-yEAQWSxITg4X6g5IkakFqsCIkBbx+YJg5Zw16jJ6goq5nxsISKEuubKNeLO02aZ9/yJToIxq7G8z89dOGqjs5w==
+  dependencies:
+    "@emotion/hash" "^0.9.1"
+    "@types/n3" "^1.16.4"
+    n3 "^1.17.2"
+    utility-types "^3.10.0"
+
+"@ldhop/react@^0.0.1-alpha.12":
+  version "0.0.1-alpha.12"
+  resolved "https://registry.npmjs.org/@ldhop/react/-/react-0.0.1-alpha.12.tgz#0c1c42211488825de185d275fcaf8d1721ab9eeb"
+  integrity sha512-cGFbIoKo2TcM69Bs9JjkFxlZ1C4sSKQm4Jt5C//sx55CmCcjGz6YZidnhgffWzzAlqp7U3Wc0vm7aPnBHmNp1g==
+  dependencies:
+    "@ldhop/core" "^0.0.1-alpha.12"
+    "@types/lodash" "^4.17.0"
+    lodash "^4.17.21"
 
 "@ldo/cli@^0.0.1-alpha.23":
   version "0.0.1-alpha.23"
@@ -6364,17 +6388,17 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
-"@tanstack/query-core@5.24.1":
-  version "5.24.1"
-  resolved "https://registry.npmjs.org/@tanstack/query-core/-/query-core-5.24.1.tgz#d40928dec22b47df97fb2648e8c499772e8d7eb2"
-  integrity sha512-DZ6Nx9p7BhjkG50ayJ+MKPgff+lMeol7QYXkvuU5jr2ryW/4ok5eanaS9W5eooA4xN0A/GPHdLGOZGzArgf5Cg==
+"@tanstack/query-core@5.28.4":
+  version "5.28.4"
+  resolved "https://registry.npmjs.org/@tanstack/query-core/-/query-core-5.28.4.tgz#fa416532f8b33ca8608d40bb9728b60e2e1a38dc"
+  integrity sha512-uQZqOFqLWUvXNIQZ63XdKzg22NtHzgCBUfDmjDHi3BoF+nUYeBNvMi/xFPtFrMhqRzG2Ir4mYaGsWZzmiEjXpA==
 
-"@tanstack/react-query@^5.24.1":
-  version "5.24.1"
-  resolved "https://registry.npmjs.org/@tanstack/react-query/-/react-query-5.24.1.tgz#bcb913febe0d813cec1fda7783298d07aa998b20"
-  integrity sha512-4+09JEdO4d6+Gc8Y/g2M/MuxDK5IY0QV8+2wL2304wPKJgJ54cBbULd3nciJ5uvh/as8rrxx6s0mtIwpRuGd1g==
+"@tanstack/react-query@^5.28.4":
+  version "5.28.4"
+  resolved "https://registry.npmjs.org/@tanstack/react-query/-/react-query-5.28.4.tgz#32e56ca4fd08513a906fe6323908f0e38ffccbba"
+  integrity sha512-BErcoB/QQG6YwLSUKnaGxF+lSc270RH2w3kMBpG0i4YzDCsFs2pdxPX1WVknQvFk9bNgukMb158hc2Zb4SdwSA==
   dependencies:
-    "@tanstack/query-core" "5.24.1"
+    "@tanstack/query-core" "5.28.4"
 
 "@testing-library/dom@^8.5.0":
   version "8.20.0"
@@ -6855,6 +6879,11 @@
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.191.tgz"
   integrity sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==
 
+"@types/lodash@^4.17.0":
+  version "4.17.0"
+  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.17.0.tgz#d774355e41f372d5350a4d0714abb48194a489c3"
+  integrity sha512-t7dhREVv6dbNj0q17X12j7yDG4bD/DHYX7o5/DbDxobP0HnGPgpRz2Ej77aL7TZT3DSw13fqUTj8J4mMnqa7WA==
+
 "@types/lru-cache@^5.1.1":
   version "5.1.1"
   resolved "https://registry.npmjs.org/@types/lru-cache/-/lru-cache-5.1.1.tgz"
@@ -6906,6 +6935,14 @@
   dependencies:
     "@types/node" "*"
     rdf-js "^4.0.2"
+
+"@types/n3@^1.16.4":
+  version "1.16.4"
+  resolved "https://registry.npmjs.org/@types/n3/-/n3-1.16.4.tgz#007f489eb848a6a8ac586b037b8eea281da5730f"
+  integrity sha512-6PmHRYCCdjbbBV2UVC/HjtL6/5Orx9ku2CQjuojucuHvNvPmnm6+02B18YGhHfvU25qmX2jPXyYPHsMNkn+w2w==
+  dependencies:
+    "@rdfjs/types" "^1.1.0"
+    "@types/node" "*"
 
 "@types/node@*", "@types/node@^18.0.0":
   version "18.11.18"
@@ -13375,7 +13412,7 @@ multicast-dns@^7.2.5:
     dns-packet "^5.2.2"
     thunky "^1.0.2"
 
-n3@^1.11.1, n3@^1.16.2, n3@^1.16.3, n3@^1.16.4, n3@^1.17.0, n3@^1.17.1, n3@^1.6.3:
+n3@^1.11.1, n3@^1.16.2, n3@^1.16.3, n3@^1.16.4, n3@^1.17.0, n3@^1.17.1, n3@^1.17.2, n3@^1.6.3:
   version "1.17.2"
   resolved "https://registry.npmjs.org/n3/-/n3-1.17.2.tgz#3370b2d07da98a5b2865fa43c2d4e5c563cc65df"
   integrity sha512-BxSM52wYFqXrbQQT5WUEzKUn6qpYV+2L4XZLfn3Gblz2kwZ09S+QxC33WNdVEQy2djenFL8SNkrjejEKlvI6+Q==
