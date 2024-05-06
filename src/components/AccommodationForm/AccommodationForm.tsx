@@ -6,7 +6,7 @@ import { SelectLocation } from 'components/SelectLocation'
 import { merge } from 'lodash'
 import styles from 'pages/MyOffers.module.scss'
 import { Controller, useForm } from 'react-hook-form'
-import { FaLocationArrow } from 'react-icons/fa'
+import { FaExclamationTriangle, FaLocationArrow } from 'react-icons/fa'
 import { Accommodation } from 'types'
 
 const validationSchema: JSONSchemaType<
@@ -66,6 +66,9 @@ export const AccommodationForm = ({
     >
       <label>
         Hosting location (click <FaLocationArrow /> or drag & zoom map)
+        <br />
+        <FaExclamationTriangle /> For safety, share only approximate location{' '}
+        <FaExclamationTriangle />
       </label>
       <Controller
         control={control}
