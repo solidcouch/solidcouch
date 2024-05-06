@@ -42,9 +42,9 @@ describe('accommodations offered by person', () => {
     cy.location().its('pathname').should('equal', '/host/offers')
   })
 
-  it('[other person] should be able to see accommodations of person') // not sure about this
+  it('should be able to see accommodations of other person') // not sure about this
 
-  it('[me] should be able to see accommodations offered by me', () => {
+  it('should be able to see accommodations offered by me', () => {
     cy.get('li[class^=MyOffers_accommodation]')
       .should('have.length', 3)
       .and('contain.text', 'accommodation 1')
@@ -52,11 +52,15 @@ describe('accommodations offered by person', () => {
       .and('contain.text', 'accommodation 3')
   })
 
-  it('[me] should be able to add new accommodation', () => {
+  it('should be able to add a new accommodation', () => {
     cy.get('li[class^=MyOffers_accommodation]').should('have.length', 3)
     cy.contains('button', 'Add Accommodation').click()
 
-    // TODO drag the map
+    // move the map
+    cy.get('[class^=AccommodationView_mapContainer]')
+      .last()
+      .focus()
+      .type('{leftarrow}{uparrow}+')
 
     // write some description
     cy.get('textarea[name=description]').type(
@@ -68,14 +72,45 @@ describe('accommodations offered by person', () => {
       .and('contain.text', 'This is a new description in English')
   })
 
-  it('[me] should be able to edit location and description of accommodation', () => {
+  it("should encounter validation error when location hasn't been moved", () => {
+    cy.get('li[class^=MyOffers_accommodation]').should('have.length', 3)
+    cy.contains('button', 'Add Accommodation').click()
+
+    // don't move the map
+
+    // write some description
+    cy.get('textarea[name=description]').type(
+      'This is a new description in English',
+    )
+    cy.contains('button', 'Submit').click()
+    cy.contains('Please move map to your hosting location')
+  })
+
+  it('should encounter validation error when description is empty', () => {
+    cy.get('li[class^=MyOffers_accommodation]').should('have.length', 3)
+    cy.contains('button', 'Add Accommodation').click()
+
+    // move the map
+    cy.get('[class^=AccommodationView_mapContainer]')
+      .last()
+      .focus()
+      .type('{leftarrow}{uparrow}+')
+
+    cy.contains('button', 'Submit').click()
+    cy.contains('This field is required')
+  })
+
+  it('should be able to edit location and description of accommodation', () => {
     cy.contains('li[class^=MyOffers_accommodation]', 'accommodation 2')
       .contains('button', 'Edit')
       .click()
     cy.get('textarea[name="description"]')
       .clear()
       .type('changed second accommodation')
-    //TODO change location, too
+    cy.get('[class^=AccommodationView_mapContainer]')
+      .last()
+      .focus()
+      .type('{leftarrow}{downarrow}')
     cy.contains('button', 'Submit').click()
     cy.get('li[class^=MyOffers_accommodation]')
       .should('have.length', 3)
@@ -85,7 +120,7 @@ describe('accommodations offered by person', () => {
       .and('contain.text', 'accommodation 3')
   })
 
-  it('[me] should be able to delete accommodation', () => {
+  it('should be able to delete accommodation', () => {
     cy.contains('li[class^=MyOffers_accommodation]', 'accommodation 2')
       .contains('button', 'Delete')
       .click()
