@@ -23,7 +23,7 @@ export const AccommodationView = (accommodation: Accommodation) => {
   )
 
   return (
-    <div className={styles.container}>
+    <>
       <MapContainer
         className={styles.mapContainer}
         attributionControl={false}
@@ -44,6 +44,6 @@ export const AccommodationView = (accommodation: Accommodation) => {
           <FaExternalLinkAlt />
         </a>
       </div>
-    </div>
+    </>
   )
 }

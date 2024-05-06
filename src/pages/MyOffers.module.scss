@@ -23,9 +23,29 @@
   padding: 1rem;
   position: relative;
   max-width: 100%;
+  width: calc(300px + 2rem);
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  label {
+    font-size: small;
+    margin-bottom: -1rem;
+  }
+
+  .errorMessage {
+    font-size: small;
+    color: red;
+    margin-top: -1rem;
+  }
+
+  .inputError {
+    border: 2px solid red;
+  }
+
+  textarea {
+    width: 100%;
+  }
 
   .actions {
     display: flex;
