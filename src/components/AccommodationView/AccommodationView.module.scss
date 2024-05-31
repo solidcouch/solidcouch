@@ -4,16 +4,7 @@
   max-width: 100%;
 }
 
-.container {
-  display: contents;
-  // flex-direction: column;
-  // align-items: center;
-  // gap: 1rem;
-  // width: 300px;
-  // max-width: 100%;
-
-  .description {
-    width: 100%;
-    white-space: pre-line;
-  }
+.description {
+  width: 100%;
+  white-space: pre-line;
 }
