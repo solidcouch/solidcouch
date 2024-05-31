@@ -44,6 +44,16 @@ describe('messages with other person', () => {
     })
   })
 
+  // check that toasts with info are shown and closed
+  const checkAndCloseMessageInfo = () => {
+    cy.testToast('Creating message')
+    cy.testToast('Sending Solid notification')
+    cy.testToast('Sending email notification')
+    cy.testAndCloseToast('Message was created')
+    cy.testAndCloseToast('Solid notification was sent')
+    cy.testAndCloseToast('Email notification was sent')
+  }
+
   /**
    * Send a message to a specified person with cypress
    * It sends a message through UI and waits until it is displayed
@@ -55,6 +65,7 @@ describe('messages with other person', () => {
       cy.contains('button:not([disabled])', 'Send')
       cy.get('textarea[name=message]').type(message)
       cy.contains('button', 'Send').click()
+      checkAndCloseMessageInfo()
       cy.contains('[class*=Messages_fromMe]', message, { timeout: 20000 })
     })
   }

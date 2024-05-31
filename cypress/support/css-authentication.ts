@@ -73,7 +73,7 @@ export const getAuthenticatedRequest = (user: UserConfig) => {
 const cyFetchWrapper = (url: string, options = {}) => {
   // mock response
   return {
-    // buildAUthenticatedFetch relies on response.ok to be true. Else it checks for unauthorized errors
+    // buildAuthenticatedFetch relies on response.ok to be true. Else it checks for unauthorized errors
     ok: true,
     options,
   }
