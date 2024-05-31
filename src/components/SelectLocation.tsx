@@ -45,8 +45,9 @@ const Move = ({ onChange }: { onChange?: (location: Location) => void }) => {
 export const SelectLocation: React.FC<{
   value: Location
   onChange: (location: Location) => void
+  isInitial?: boolean
   className?: string
-}> = ({ value, onChange }) => {
+}> = ({ value, onChange, isInitial }) => {
   const location = useMemo(
     () => [value.lat, value.long] as LatLngTuple,
     [value.lat, value.long],
@@ -56,7 +57,7 @@ export const SelectLocation: React.FC<{
     <MapContainer
       attributionControl={false}
       center={location}
-      zoom={1}
+      zoom={isInitial ? 1 : 12}
       scrollWheelZoom="center"
       doubleClickZoom="center"
       touchZoom="center"
