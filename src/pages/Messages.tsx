@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { Button, Loading } from 'components'
 import { PersonBadge } from 'components/PersonBadge/PersonBadge'
+import { withToast } from 'components/withToast'
 import { communityId } from 'config'
 import { useCheckSetup } from 'hooks/data/useCheckSetup'
 import {
@@ -140,19 +141,29 @@ export const Messages = () => {
       }))
     }
 
-    const { messageId, createdAt } = await createMessage({
-      senderId: auth.webId,
-      message: data.message,
-      chat,
-    })
-    await createMessageNotification({
-      inbox: otherInbox,
-      senderId: auth.webId,
-      messageId,
-      chatId: chat,
-      updated: createdAt,
-      content: data.message,
-    })
+    const { messageId, createdAt } = await withToast(
+      createMessage({
+        senderId: auth.webId,
+        message: data.message,
+        chat,
+      }),
+      { pending: 'Creating message', success: 'Message was created' },
+    )
+
+    await withToast(
+      createMessageNotification({
+        inbox: otherInbox,
+        senderId: auth.webId,
+        messageId,
+        chatId: chat,
+        updated: createdAt,
+        content: data.message,
+      }),
+      {
+        pending: 'Sending Solid notification',
+        success: 'Solid notification was sent',
+      },
+    )
 
     reset({ message: '' })
     setIsSaving(false)
@@ -161,8 +172,12 @@ export const Messages = () => {
     if (
       config.emailNotificationsService &&
       config.emailNotificationsType === 'simple'
-    )
-      await sendNotification({ messageId, message: data.message })
+    ) {
+      await withToast(sendNotification({ messageId, message: data.message }), {
+        pending: 'Sending email notification',
+        success: 'Email notification was sent',
+      })
+    }
   })
 
   const isFormDisabled = isSaving || !otherInbox

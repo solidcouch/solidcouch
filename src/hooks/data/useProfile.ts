@@ -250,10 +250,7 @@ export const useAddInterest = () => {
     }) => {
       const patch = `_:mutate a <${solid.InsertDeletePatch}>;
         <${solid.inserts}> { <${person}> <${foaf.topic_interest}> <${interest}>. } .`
-      await updateMutation.mutateAsync({
-        uri: doc,
-        patch,
-      })
+      await updateMutation.mutateAsync({ uri: doc, patch })
     },
     [updateMutation],
   )
