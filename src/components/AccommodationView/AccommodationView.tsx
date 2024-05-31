@@ -32,6 +32,8 @@ export const AccommodationView = (accommodation: Accommodation) => {
         scrollWheelZoom="center"
         doubleClickZoom="center"
         touchZoom="center"
+        dragging={false}
+        keyboard={false}
       >
         <TileLayer url={tileServer} />
         <Marker position={location} />
