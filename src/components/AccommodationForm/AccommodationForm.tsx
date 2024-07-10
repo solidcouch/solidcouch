@@ -62,7 +62,7 @@ export const AccommodationForm = ({
     <form
       onSubmit={handleFormSubmit}
       onReset={onCancel}
-      className={styles.accommodation}
+      className={classNames(styles.accommodationForm, styles.accommodation)}
     >
       <label>
         Hosting location (click <FaLocationArrow /> or drag & zoom map)
