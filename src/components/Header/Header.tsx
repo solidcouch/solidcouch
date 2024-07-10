@@ -23,7 +23,7 @@ export const Header = () => {
     <nav className={styles.header}>
       <Link className={styles.logoContainer} to="/">
         <Logo className={styles.logo} />
-        sleepy.bike
+        SolidCouch
       </Link>
       <div className={styles.spacer} />
       {auth.isLoggedIn === true && (

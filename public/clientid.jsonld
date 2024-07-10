@@ -1,7 +1,7 @@
 {
   "@context": "https://www.w3.org/ns/solid/oidc-context.jsonld",
   "client_id": "%BASE_URL%/clientid.jsonld",
-  "client_name": "sleepy.bike",
+  "client_name": "SolidCouch",
   "redirect_uris": [
     "%BASE_URL%/"
   ],

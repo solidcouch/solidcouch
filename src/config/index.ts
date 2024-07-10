@@ -12,7 +12,7 @@ export const communityId =
  * Don't include trailing slash!
  */
 export const communityContainer =
-  process.env.REACT_APP_COMMUNITY_CONTAINER || 'dev-sleepy-bike'
+  process.env.REACT_APP_COMMUNITY_CONTAINER || 'dev-solidcouch'
 
 /**
  * Service for email notifications

@@ -34,7 +34,7 @@ export const SignIn = () => {
       await login({
         oidcIssuer,
         redirectUrl: new URL('/', window.location.href).toString(),
-        clientName: 'sleepy.bike',
+        clientName: 'SolidCouch',
         clientId:
           process.env.NODE_ENV === 'development' &&
           !process.env.REACT_APP_ENABLE_DEV_CLIENT_ID
