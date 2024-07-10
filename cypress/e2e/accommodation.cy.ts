@@ -1,5 +1,41 @@
 import { Person } from '../support/commands'
 
+// left, right, up, down, zoom in, zoom out
+type Move = 'l' | 'r' | 'u' | 'd' | 'i' | 'o'
+
+const moveDict: Record<Move, string> = {
+  l: '{leftarrow}',
+  r: '{rightarrow}',
+  u: '{uparrow}',
+  d: '{downarrow}',
+  i: '+',
+  o: '-',
+}
+
+const moveFormMap = (moves: Move[]) => {
+  // form should open and map should load
+  cy.get(
+    '[class^=MyOffers_accommodationForm] [class^=AccommodationView_mapContainer] .leaflet-control-container',
+  ).should('have.length', 1)
+
+  // wait a bit to make really sure map has loaded
+  cy.wait(1000)
+
+  // move the map
+  const m = cy
+    .get(
+      '[class^=MyOffers_accommodationForm] [class^=AccommodationView_mapContainer]',
+    )
+    .should('have.length', 1)
+    .last()
+    .focus()
+
+  for (const move of moves) {
+    cy.wait(500)
+    m.type(moveDict[move])
+  }
+}
+
 describe('accommodations offered by person', () => {
   // create and setup community and profiles
   beforeEach(() => {
@@ -57,19 +93,17 @@ describe('accommodations offered by person', () => {
     cy.contains('button', 'Add Accommodation').click()
 
     // move the map
-    cy.get('[class^=AccommodationView_mapContainer]')
-      .last()
-      .focus()
-      .type('{leftarrow}{uparrow}+')
+    moveFormMap(['l', 'u', 'i', 'l', 'l'])
 
     // write some description
     cy.get('textarea[name=description]').type(
       'This is a new description in English',
     )
     cy.contains('button', 'Submit').click()
-    // for some strange reason the following passes locally, but not on github
-    // cy.testToast('Creating accommodation')
-    // cy.testAndCloseToast('Accommodation created')
+
+    cy.testToast('Creating accommodation')
+    cy.testAndCloseToast('Accommodation created')
+
     cy.get('li[class^=MyOffers_accommodation]')
       .should('have.length', 4)
       .and('contain.text', 'This is a new description in English')
@@ -80,6 +114,7 @@ describe('accommodations offered by person', () => {
     cy.contains('button', 'Add Accommodation').click()
 
     // don't move the map
+    moveFormMap([])
 
     // write some description
     cy.get('textarea[name=description]').type(
@@ -93,11 +128,7 @@ describe('accommodations offered by person', () => {
     cy.get('li[class^=MyOffers_accommodation]').should('have.length', 3)
     cy.contains('button', 'Add Accommodation').click()
 
-    // move the map
-    cy.get('[class^=AccommodationView_mapContainer]')
-      .last()
-      .focus()
-      .type('{leftarrow}{uparrow}+')
+    moveFormMap(['l', 'u', 'i'])
 
     cy.contains('button', 'Submit').click()
     cy.contains('This field is required')
@@ -110,10 +141,9 @@ describe('accommodations offered by person', () => {
     cy.get('textarea[name="description"]')
       .clear()
       .type('changed second accommodation')
-    cy.get('[class^=AccommodationView_mapContainer]')
-      .eq(1)
-      .focus()
-      .type('{leftarrow}{downarrow}')
+
+    moveFormMap(['o', 'o', 'l', 'd'])
+
     cy.contains('button', 'Submit').click()
     cy.testToast('Updating accommodation')
     cy.testAndCloseToast('Accommodation updated')

@@ -12,6 +12,15 @@ export default defineConfig({
     // this is screen size of iPhone 11, apparently a popular phone
     viewportWidth: 375,
     viewportHeight: 812,
+    setupNodeEvents(on) {
+      on('task', {
+        log(message) {
+          // eslint-disable-next-line no-console
+          console.log(message)
+          return null
+        },
+      })
+    },
   },
   env: {
     cssUrl: 'http://localhost:4000',

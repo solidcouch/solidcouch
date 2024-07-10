@@ -293,6 +293,16 @@ Cypress.Commands.add('testAndCloseToast', (message: string) =>
     .click({ force: true }),
 )
 
+Cypress.Commands.overwrite('log', (originalFn, message, ...args) => {
+  // log into cypress
+  originalFn(message, ...args)
+  // log into terminal
+  cy.task('log', message)
+  // log into browser console
+  // eslint-disable-next-line no-console
+  console.log(message)
+})
+
 /**
 Some code is copied from solidcryptpad repository
 https://github.com/solidcryptpad/solidcryptpad/blob/74f93fee06fcb93b454f6004863647ef11e9c24f/cypress/support/commands.ts

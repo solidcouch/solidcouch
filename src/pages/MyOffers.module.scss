@@ -28,6 +28,10 @@
   flex-direction: column;
   gap: 1rem;
 
+  &.accommodationForm {
+    border-color: purple;
+  }
+
   label {
     font-size: small;
     margin-bottom: -1rem;
