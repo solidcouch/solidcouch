@@ -1,8 +1,8 @@
 name: Notify matrix room when an issue is created
 
-on:
-  issues:
-    types: [opened, reopened]
+on: {}
+#  issues:
+#    types: [opened, reopened]
 
 jobs:
   ping_matrix:

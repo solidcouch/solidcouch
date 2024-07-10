@@ -1,4 +1,4 @@
-# Personas for Sleepy Bike
+# Personas for SolidCouch cycling community
 
 Authors: [Ida and Tilman](https://justtwowheels.de)
 

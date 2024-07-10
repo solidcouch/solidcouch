@@ -105,7 +105,7 @@ export const HospexSetup = ({
 
   return (
     <div>
-      <header>Welcome to sleepy.bike!</header>
+      <header>Welcome to SolidCouch!</header>
       <div>We would like to set up your Pod:</div>
       <ul>
         <li>{!isMember && `join community ${communityId}`}</li>

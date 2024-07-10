@@ -74,7 +74,7 @@ export const setupCommunity = ({
       @prefix sioc: <http://rdfs.org/sioc/ns#>.
       <${communityUri}> a hospex:Community, sioc:Community;
         sioc:name "Test Community"@en;
-        sioc:about "Development community for sleepy-bike-solid"@en;
+        sioc:about "Development community for SolidCouch"@en;
         sioc:has_usergroup <${groupUri}>.`,
     })
     cy.authenticatedRequest(user, {

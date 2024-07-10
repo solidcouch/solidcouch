@@ -66,6 +66,10 @@
   }
 
   .footer {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-evenly;
     a {
       text-decoration: underline;
     }

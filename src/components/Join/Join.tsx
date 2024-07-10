@@ -37,7 +37,7 @@ const tabs = [
     label: 'Show me some providers!',
     content: (
       <>
-        Here are some Pod providers that work with sleepy.bike:
+        Here are some Pod providers that work with SolidCouch:
         <ul>
           {oidcIssuers
             .filter(iss => iss.registration)
@@ -162,7 +162,7 @@ export const Join = () => {
       >
         <div className={styles.container}>
           <div className={styles.content}>
-            To join Sleepy Bike, you need a{' '}
+            To join SolidCouch, you need a{' '}
             <a
               href="https://solidproject.org/users/get-a-pod"
               target="_blank"
@@ -201,7 +201,7 @@ export const Join = () => {
               Ask for help in our project spaces
             </a>{' '}
             or write us email to{' '}
-            <i className={styles.email}>"support at sleepy dot bike"</i>
+            <i className={styles.email}>"support at solidcouch dot org"</i>
           </div>
         </div>
       </Modal>

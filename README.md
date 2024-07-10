@@ -1,8 +1,8 @@
-# Sleepy.bike
+# SolidCouch
 
-a decentralized hospitality exchange community for slow travellers
+A decentralized hospitality exchange community app built with Solid Protocol.
 
-We're developing based on [wireframes](https://www.figma.com/proto/Ke1XF3qG2auBchUWqWsRlE/wireframes?node-id=3%3A26&starting-point-node-id=3%3A26) and design (WIP - do you want to help? Join our [bi-weekly OpenHospitalityNetwork calls](https://pad.kanthaus.online/ohn#) and tell us)
+Please read the [SolidCouch Announcement](https://mrkvon.org/blog/announcing-solidcouch).
 
 ## Developer quick start
 
@@ -13,13 +13,13 @@ You need Node v16. You can use [nvm](https://github.com/nvm-sh/nvm/blob/master/R
 1. Clone this repository on your computer
 
    ```bash
-   git clone https://github.com/OpenHospitalityNetwork/sleepy.bike.git
+   git clone https://github.com/solidcouch/solidcouch.git
    ```
 
 1. Go to the project directory
 
    ```bash
-   cd sleepy.bike
+   cd solidcouch
    ```
 
 1. Install dependencies
