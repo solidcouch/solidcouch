@@ -1,3 +1,4 @@
+import { Person } from '../support/commands'
 import { UserConfig } from '../support/css-authentication'
 
 describe('Sign in to the app', () => {
@@ -98,5 +99,21 @@ describe('Sign in to the app', () => {
     cy.get('[class^=SignIn_providers] button')
       .first()
       .contains('solidcommunity.net')
+  })
+
+  it('should return to previous URL after login', () => {
+    cy.createPerson().as('person')
+    cy.visit('/profile/edit?a=b&c=d#ef')
+    cy.contains('Sign in').click()
+    cy.get<Person>('@person').then(person => {
+      cy.stubMailer({ person })
+      cy.get('input[name=webIdOrIssuer]').type(`${person.idp}{enter}`)
+      cy.origin(person.idp, { args: { person } }, ({ person }) => {
+        cy.get('input[name=email]').type(person.email)
+        cy.get('input[name=password]').type(`${person.password}{enter}`)
+        cy.get('button#authorize').click()
+      })
+    })
+    cy.url().should('include', '/profile/edit?a=b&c=d#ef')
   })
 })
