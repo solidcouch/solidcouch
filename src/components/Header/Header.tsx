@@ -7,7 +7,6 @@ import { communityId } from 'config'
 import { selectAuth } from 'features/auth/authSlice'
 import { useProfile } from 'hooks/data/useProfile'
 import { useReadMessagesFromInbox } from 'hooks/data/useReadThreads'
-import { ReactComponent as LogoOpen } from 'logo-open.svg'
 import { ReactComponent as Logo } from 'logo.svg'
 import { Link } from 'react-router-dom'
 import { SignOut } from '../SignOut'
@@ -24,8 +23,7 @@ export const Header = () => {
     <nav className={styles.header}>
       <Link className={styles.logoContainer} to="/">
         <Logo className={styles.logo} />
-        <LogoOpen className={styles.logoOpen} />{' '}
-        {auth.isLoggedIn === false && <span>sleepy.bike</span>}
+        sleepy.bike
       </Link>
       <div className={styles.spacer} />
       {auth.isLoggedIn === true && (

@@ -45,3 +45,10 @@ REACT_APP_COMMUNITY="https://community.example/community#us" REACT_APP_COMMUNITY
 We use [Cypress](https://www.cypress.io/app) to test the application.
 
 To start the tests, run `yarn cy:dev`, wait a bit, and Cypress will open. Select "E2E tests" from the options, then pick your preferred browser (Electron and Chromium work, Firefox fails), and select a test suite to run.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+**Note:** The logos, trademarks, and designs included in this repository are not covered by the MIT License.
+They are the property of their respective owners and may not be used without permission.

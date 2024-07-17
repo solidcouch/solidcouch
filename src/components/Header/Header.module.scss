@@ -11,24 +11,8 @@
     font-size: 1.25rem;
 
     // logo
-    // when we hover the logo, open eyes
-    .logo,
-    .logoOpen {
+    .logo {
       height: 1.5rem;
-    }
-
-    .logoOpen {
-      display: none;
-    }
-
-    &:hover {
-      .logo {
-        display: none;
-      }
-
-      .logoOpen {
-        display: initial;
-      }
     }
   }
 
