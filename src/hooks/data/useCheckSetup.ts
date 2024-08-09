@@ -3,6 +3,7 @@ import { useLDhopQuery } from '@ldhop/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { URI } from 'types'
+import { hospex, sioc } from 'utils/rdf-namespaces'
 import { privateProfileAndHospexDocumentQuery } from './queries'
 import { useIsMember } from './useCommunity'
 
@@ -23,7 +24,7 @@ export const useCheckSetup = (userId: URI, communityId: URI) => {
 }
 
 export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
-  const { isLoading, variables } = useLDhopQuery({
+  const { isLoading, variables, store } = useLDhopQuery({
     query: privateProfileAndHospexDocumentQuery,
     variables: useMemo(
       () => ({
@@ -41,6 +42,29 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
 
   const personalHospexDocumentsForCommunity =
     variables.hospexDocumentForCommunity ?? []
+
+  const hospexDocuments = useMemo(
+    () =>
+      (variables.hospexDocument ?? [])
+        // TODO we'll want more info here, like community name, maybe description, etc
+        .map(hd => {
+          const communities = store
+            .getObjects(userId, sioc.member_of, hd)
+            .map(({ value }) => ({
+              uri: value,
+              // TODO handle with language
+              name: store.getObjects(value, sioc.name, null)[0]?.value,
+            }))
+          const hospexContainers = store.getObjects(userId, hospex.storage, hd)
+
+          return {
+            hospexDocument: hd,
+            communities,
+            storage: hospexContainers[0]?.value,
+          }
+        }),
+    [store, userId, variables],
+  )
 
   const isHospexProfile =
     personalHospexDocumentsForCommunity.length > 0
@@ -62,6 +86,7 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     publicTypeIndexes,
     privateTypeIndexes,
     inboxes,
+    allHospex: hospexDocuments,
   } as const
 }
 

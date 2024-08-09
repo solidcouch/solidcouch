@@ -20,6 +20,7 @@ import {
 import { maxBy, merge } from 'lodash'
 import { useMemo } from 'react'
 import { URI } from 'types'
+import { HttpError } from 'utils/errors'
 import {
   fullFetch,
   getAllParents,
@@ -105,11 +106,13 @@ export const useCreateRdfDocument = <S extends LdoBase>(
       data,
       language = 'en',
       method = 'PUT',
+      throwOnHttpError = false,
     }: {
       uri: URI
       data: S | S[]
       language?: string
       method?: 'POST' | 'PUT'
+      throwOnHttpError?: boolean
     }) => {
       const ldoDataset = createLdoDataset()
       if (Array.isArray(data)) {
@@ -133,6 +136,10 @@ export const useCreateRdfDocument = <S extends LdoBase>(
       if (method === 'PUT') headers['If-None-Match'] = '*'
 
       const response = await fullFetch(uri, { method, body, headers })
+
+      if (throwOnHttpError && !response.ok) {
+        throw new HttpError(response.status, response.statusText, response)
+      }
 
       const location = response.headers.get('location')
       return location as string
@@ -176,26 +183,53 @@ export const useUpdateLdoDocument = <S extends LdoBase>(
     mutationFn: async ({
       uri,
       subject,
+      matchSubject,
       transform,
       language = 'en',
-    }: {
-      uri: URI
-      subject: URI
-      transform: (ldo: S) => void // transform should modify the original input, not clone it
-      language?: string
-    }) => {
+    }:
+      | {
+          uri: URI
+          subject: URI
+          matchSubject?: undefined
+          transform: (ldo: S) => void // transform should modify the original input, not clone it
+          language?: string
+        }
+      | {
+          uri: URI
+          subject?: undefined
+          matchSubject: { predicate: string; object?: string; graph?: string }
+          transform: (ldo: S[]) => void // transform should modify the original input, not clone it
+          language?: string
+        }) => {
       const originalResponse = await fullFetch(uri)
       let originalData = ''
       if (originalResponse.ok) originalData = await originalResponse.text()
       const ldoDataset = await parseRdf(originalData, { baseIRI: uri })
-      const ldo = ldoDataset.usingType(shapeType).fromSubject(subject)
+      const ldoBuilder = ldoDataset.usingType(shapeType)
 
-      setLanguagePreferences(language).using(ldo)
+      let patch = ''
+      if (subject) {
+        const ldo = ldoBuilder.fromSubject(subject)
+        setLanguagePreferences(language).using(ldo)
 
-      startTransaction(ldo)
-      transform(ldo)
+        startTransaction(ldo)
+        transform(ldo)
 
-      const patch = await toN3Patch(ldo)
+        patch = await toN3Patch(ldo)
+      } else if (matchSubject) {
+        const ldo = ldoBuilder.matchSubject(
+          matchSubject.predicate,
+          matchSubject.object,
+          matchSubject.graph,
+        )
+        setLanguagePreferences(language).using(ldo)
+
+        startTransaction(ldo)
+        transform(ldo)
+
+        patch = await toN3Patch(ldo)
+      }
+
       return await fullFetch(uri, {
         method: 'PATCH',
         body: patch,
