@@ -69,11 +69,11 @@
     "build:ldo": "ldo build --input src/shapes --output src/ldo",
     "postbuild:ldo": "yarn format",
     "cy:dev": "concurrently --kill-others \"yarn cy:dev:app:notifications:solid\" \"yarn cy:dev:app:notifications:simple\" \"yarn cy:dev:css\" \"yarn cy:dev:open\"",
-    "cy:dev:app": "BROWSER=none REACT_APP_COMMUNITY=http://localhost:4000/test-community/community#us REACT_APP_EMAIL_NOTIFICATIONS_SERVICE=http://localhost:3005 REACT_APP_ENABLE_DEV_CLIENT_ID=true REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY=https://example.com/bot/profile/card#me yarn start",
+    "cy:dev:app": "BROWSER=none REACT_APP_COMMUNITY=http://localhost:4000/test-community/community#us REACT_APP_EMAIL_NOTIFICATIONS_SERVICE=http://localhost:3005 REACT_APP_ENABLE_DEV_CLIENT_ID=true REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY=http://localhost:4000/mailbot/profile/card#me yarn start",
     "cy:dev:app:notifications:solid": "REACT_APP_EMAIL_NOTIFICATIONS_TYPE=solid PORT=3001 yarn cy:dev:app",
     "cy:dev:app:notifications:simple": "REACT_APP_EMAIL_NOTIFICATIONS_TYPE=simple yarn cy:dev:app",
     "cy:dev:css": "community-solid-server -p 4000 -l error",
-    "cy:dev:open": "CYPRESS_COMMUNITY=\"http://localhost:4000/test-community/community#us\" CYPRESS_OTHER_COMMUNITY=\"http://localhost:4000/other-community/community#us\" cypress open",
+    "cy:dev:open": "CYPRESS_COMMUNITY=\"http://localhost:4000/test-community/community#us\" CYPRESS_OTHER_COMMUNITY=\"http://localhost:4000/other-community/community#us\" CYPRESS_EMAIL_NOTIFICATIONS_IDENTITY=\"http://localhost:4000/mailbot/profile/card#me\" cypress open",
     "cy:github:app:notifications:simple": "REACT_APP_EMAIL_NOTIFICATIONS_TYPE=simple yarn start",
     "cy:github:app:notifications:solid": "REACT_APP_EMAIL_NOTIFICATIONS_TYPE=solid PORT=3001 yarn start"
   },

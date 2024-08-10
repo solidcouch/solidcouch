@@ -1,5 +1,5 @@
 import { Parser, Store } from 'n3'
-import { sioc } from 'rdf-namespaces'
+import { sioc, space } from 'rdf-namespaces'
 import { processAcl } from '../../src/utils/helpers'
 import { UserConfig } from '../support/css-authentication'
 import { CommunityConfig, SkipOptions } from '../support/setup'
@@ -145,10 +145,10 @@ describe('Setup Solid pod', () => {
     },
   )
 
-  context(
+  context.only(
     'email notifications with simple-email-notifications are not integrated',
     () => {
-      it('should ask for email and integrate notifications', () => {
+      beforeEach(() => {
         cy.get<UserConfig>('@user1').then(user => {
           // first we find out whether the user has verified email
           cy.stubMailer({
@@ -165,16 +165,73 @@ describe('Setup Solid pod', () => {
           cy.intercept('POST', 'http://localhost:3005/init', {}).as(
             'integration',
           )
-
-          cy.contains('button', 'Continue!').click()
-
-          cy.wait('@integration', { timeout: 10000 })
-            .its('request.body')
-            .should('deep.equal', { email: 'asdf@example.com' })
-
-          cy.contains('verify your email')
         })
       })
+
+      it('should ask for email and integrate notifications', () => {
+        cy.contains('button', 'Continue!').click()
+
+        cy.wait('@integration', { timeout: 10000 })
+          .its('request.body')
+          .should('deep.equal', { email: 'asdf@example.com' })
+
+        cy.contains('verify your email')
+      })
+
+      it.only('should prepare pod for storing email verification', () => {
+        cy.contains('button', 'Continue!').click()
+
+        cy.wait('@integration', { timeout: 10000 })
+        cy.contains('verify your email')
+
+        // preparation means:
+        // - giving the notification bot read access to the hospex document
+        // - creating an email settings file for storing proof that email was verified
+        // - giving the notification bot read and write access to the email settings
+        // - linking email settings from hospex document
+
+        cy.get<UserConfig>('@user1').then(user => {
+          const hospexUrl = `${user.podUrl}hospex/dev-solidcouch/card`
+          cy.get<UserConfig>('@notificationsBot').then(bot => {
+            // - bot read access to hospex document
+            cy.authenticatedRequest(bot, {
+              url: hospexUrl,
+              method: 'GET',
+              failOnStatusCode: true,
+            }).then(response => {
+              expect(response.status).to.equal(200)
+              cy.wrap(response.body).as('hospexDocumentBody')
+            })
+            // - linking email settings from hospex document
+            cy.get<string>('@hospexDocumentBody').then(body => {
+              const store = new Store(
+                new Parser({ baseIRI: hospexUrl }).parse(body),
+              )
+
+              const settings = store
+                .getObjects(user.webId, space.preferencesFile, null)
+                .map(a => a.value)
+
+              expect(settings).to.have.length(1)
+              cy.wrap(settings[0]).as('mailerConfig')
+            })
+
+            // - creating an email settings file for storing proof that email was verified
+            // - giving the notification bot read and write access to the email settings
+            cy.get<string>('@mailerConfig').then(mailerConfig => {
+              cy.authenticatedRequest(bot, {
+                url: mailerConfig,
+                method: 'GET',
+                failOnStatusCode: true,
+              })
+                .its('status')
+                .should('equal', 200)
+            })
+          })
+        })
+      })
+
+      it('should not overwrite other email service settings in the pod')
     },
   )
 

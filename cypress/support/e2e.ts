@@ -30,3 +30,13 @@ beforeEach(() => {
     'otherCommunity',
   )
 })
+
+beforeEach(() => {
+  const url = Cypress.env('EMAIL_NOTIFICATIONS_IDENTITY')
+  console.log(url, '****')
+  const username = new URL(url).pathname.split('/')[1]
+  cy.createAccountIfNotExist({
+    username,
+    password: 'correcthorsebatterystaple',
+  }).as('notificationsBot')
+})
