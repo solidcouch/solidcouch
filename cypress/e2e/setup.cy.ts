@@ -348,6 +348,7 @@ describe('Setup Solid pod', () => {
           )
         })
 
+        // access both notification settings by both identities
         cy.get<string[]>('@settingsList').then(settingsList => {
           settingsList.forEach((s, i) => {
             ;['mailbot', 'mailbot2'].forEach(bot => {
@@ -356,12 +357,16 @@ describe('Setup Solid pod', () => {
           })
         })
 
+        // one mailer should be able to access one mailer config
+        // and another mailer should be able to access the other mailer config
+        // and have read and write access
         cy.get<Cypress.Response<unknown>>('@mailbotSettings1').then(m1s1 => {
           cy.get<Cypress.Response<unknown>>('@mailbotSettings2').then(m1s2 => {
             cy.get<Cypress.Response<unknown>>('@mailbot2Settings1').then(
               m2s1 => {
                 cy.get<Cypress.Response<unknown>>('@mailbot2Settings2').then(
                   m2s2 => {
+                    // each mailer can access one config
                     expect(m1s1.status).to.be.oneOf([200, 403])
                     expect(m1s2.status).to.equal(
                       m1s1.status === 200 ? 403 : 200,
@@ -372,6 +377,7 @@ describe('Setup Solid pod', () => {
                     expect(m2s2.status).to.equal(
                       m1s1.status === 200 ? 200 : 403,
                     )
+                    // and each mailer should have read and write access to its config
                     ;(
                       [
                         ['mailbotSettings1', m1s1],
