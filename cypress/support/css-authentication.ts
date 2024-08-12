@@ -99,7 +99,7 @@ const cyUnwrapFetch = wrappedFetch => {
 }
 
 const getAuthenticationCredentials = (user: UserConfig) => {
-  const credentialsEndpoint = `${Cypress.env('cssUrl')}/idp/credentials/`
+  const credentialsEndpoint = `${Cypress.env('CSS_URL')}/idp/credentials/`
   return cy
     .request('POST', credentialsEndpoint, {
       email: user.email,
@@ -119,7 +119,7 @@ const getAuthenticationToken = (user: UserConfig) => {
       const authString = `${encodeURIComponent(id)}:${encodeURIComponent(
         secret,
       )}`
-      const tokenEndpoint = `${Cypress.env('cssUrl')}/.oidc/token`
+      const tokenEndpoint = `${Cypress.env('CSS_URL')}/.oidc/token`
       return cy
         .request({
           method: 'POST',

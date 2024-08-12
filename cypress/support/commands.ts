@@ -197,14 +197,14 @@ Cypress.Commands.add(
     password ??= 'correcthorsebatterystaple'
     email ??= username + '@example.org'
     const config = {
-      idp: Cypress.env('cssUrl') + '/',
-      podUrl: `${Cypress.env('cssUrl')}/${username}/`,
-      webId: `${Cypress.env('cssUrl')}/${username}/profile/card#me`,
+      idp: Cypress.env('CSS_URL') + '/',
+      podUrl: `${Cypress.env('CSS_URL')}/${username}/`,
+      webId: `${Cypress.env('CSS_URL')}/${username}/profile/card#me`,
       username: username,
       password: password,
       email: email,
     }
-    const registerEndpoint = Cypress.env('cssUrl') + '/idp/register/'
+    const registerEndpoint = Cypress.env('CSS_URL') + '/idp/register/'
     cy.request('POST', registerEndpoint, {
       createWebId: 'on',
       webId: '',
@@ -233,14 +233,14 @@ Cypress.Commands.add(
   }): Cypress.Chainable<UserConfig> {
     email ??= username + '@example.org'
     const config = {
-      idp: Cypress.env('cssUrl') + '/',
-      podUrl: `${Cypress.env('cssUrl')}/${username}/`,
-      webId: `${Cypress.env('cssUrl')}/${username}/profile/card#me`,
+      idp: Cypress.env('CSS_URL') + '/',
+      podUrl: `${Cypress.env('CSS_URL')}/${username}/`,
+      webId: `${Cypress.env('CSS_URL')}/${username}/profile/card#me`,
       username: username,
       password: password,
       email: email,
     }
-    const registerEndpoint = Cypress.env('cssUrl') + '/idp/register/'
+    const registerEndpoint = Cypress.env('CSS_URL') + '/idp/register/'
     cy.request({
       method: 'POST',
       url: registerEndpoint,
