@@ -1,4 +1,4 @@
-export * from './leaflet'
+export { tileServer } from './leaflet'
 
 export const communityId =
   process.env.REACT_APP_COMMUNITY ||
