@@ -1,9 +1,10 @@
 import { useAppDispatch } from 'app/hooks'
 import { Button } from 'components'
 import { ExternalButtonLink } from 'components/Button/Button'
-import { oidcIssuers, type IssuerConfig } from 'config'
+import type { IssuerConfig } from 'config'
+import { useConfig } from 'config/hooks'
 import { actions } from 'features/login/loginSlice'
-import { ChangeEvent, Fragment, ReactNode, useState } from 'react'
+import { ChangeEvent, Fragment, ReactNode, useMemo, useState } from 'react'
 import Modal from 'react-modal'
 import styles from './Join.module.scss'
 
@@ -31,115 +32,127 @@ const RegistrationButton = ({
   )
 }
 
-const tabs = [
-  {
-    id: 'show-options',
-    label: 'Show me some providers!',
-    content: (
-      <>
-        Here are some Pod providers that work with SolidCouch:
-        <ul>
-          {oidcIssuers
-            .filter(iss => iss.registration)
-            .map(issuerConfig => (
-              <li key={issuerConfig.issuer}>
-                <RegistrationButton {...issuerConfig} />
-              </li>
-            ))}
-        </ul>
-      </>
-    ),
-  },
-  {
-    id: 'choose-for-me',
-    label: 'Choose for me!',
-    // TODO put this label and description into config
-    content: (
-      <>
-        <RegistrationButton {...oidcIssuers.find(iss => iss.recommended)!}>
-          Get a Pod at solidcommunity.net 😉
-        </RegistrationButton>
-        <br />
-        It is managed by the Solid community folks, and will be migrated to a{' '}
-        <a
-          href="https://github.com/solid-contrib/pivot"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          modern and open-source Solid server
-        </a>
-        .
-      </>
-    ),
-  },
-  {
-    id: 'more-control',
-    label: 'I want more control',
-    content: (
-      <>
-        <p>
-          You can <b>host your Pod</b>. This will give you full control over
-          your data. However, it's more complicated to set up, and requires
-          maintenance. We recommend{' '}
-          <a
-            href="https://github.com/communitysolidserver/communitysolidserver#-running-the-server"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Community Solid Server
-          </a>
-          .
-        </p>
-        <p>
-          <i>
-            Read more about{' '}
+const useTabs = () => {
+  const { oidcIssuers } = useConfig()
+
+  const tabs = useMemo(
+    () => [
+      {
+        id: 'show-options',
+        label: 'Show me some providers!',
+        content: (
+          <>
+            Here are some Pod providers that work with SolidCouch:
+            <ul>
+              {oidcIssuers
+                .filter(iss => iss.registration)
+                .map(issuerConfig => (
+                  <li key={issuerConfig.issuer}>
+                    <RegistrationButton {...issuerConfig} />
+                  </li>
+                ))}
+            </ul>
+          </>
+        ),
+      },
+      {
+        id: 'choose-for-me',
+        label: 'Choose for me!',
+        // TODO put this label and description into config
+        content: (
+          <>
+            <RegistrationButton {...oidcIssuers.find(iss => iss.recommended)!}>
+              Get a Pod at solidcommunity.net 😉
+            </RegistrationButton>
+            <br />
+            It is managed by the Solid community folks, and will be migrated to
+            a{' '}
             <a
-              href="https://solidproject.org/self-hosting/css"
+              href="https://github.com/solid-contrib/pivot"
               target="_blank"
               rel="noopener noreferrer"
             >
-              running your own Solid server
+              modern and open-source Solid server
             </a>
             .
-          </i>
-        </p>
-        <hr />
-        <p>
-          If you own a <b>domain name</b>, you can have your{' '}
-          <a
-            href="https://solidproject.org/TR/protocol#webid"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            WebID
-          </a>{' '}
-          on your domain. This gives you more control over your Solid identity.
-        </p>
-        <p>
-          Choose option <i>"Use my existing WebID to access my Pod"</i> with one
-          of these providers:
-        </p>
-        <ul>
-          {oidcIssuers
-            .filter(
-              ({ server, registration }) => registration && server === 'CSS',
-            )
-            .map(issuerConfig => (
-              <li key={issuerConfig.issuer}>
-                <RegistrationButton {...issuerConfig} />
-              </li>
-            ))}
-        </ul>
-        <p>
-          To complete the process, you must prove that the WebID on your domain
-          belongs to you. Afterwards, the WebID must point to your Profile
-          Document. (This may need more explanation.)
-        </p>
-        <p>Or use your domain to host your own Solid Pod.</p>
-      </>
-    ),
-  },
-]
+          </>
+        ),
+      },
+      {
+        id: 'more-control',
+        label: 'I want more control',
+        content: (
+          <>
+            <p>
+              You can <b>host your Pod</b>. This will give you full control over
+              your data. However, it's more complicated to set up, and requires
+              maintenance. We recommend{' '}
+              <a
+                href="https://github.com/communitysolidserver/communitysolidserver#-running-the-server"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Community Solid Server
+              </a>
+              .
+            </p>
+            <p>
+              <i>
+                Read more about{' '}
+                <a
+                  href="https://solidproject.org/self-hosting/css"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  running your own Solid server
+                </a>
+                .
+              </i>
+            </p>
+            <hr />
+            <p>
+              If you own a <b>domain name</b>, you can have your{' '}
+              <a
+                href="https://solidproject.org/TR/protocol#webid"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WebID
+              </a>{' '}
+              on your domain. This gives you more control over your Solid
+              identity.
+            </p>
+            <p>
+              Choose option <i>"Use my existing WebID to access my Pod"</i> with
+              one of these providers:
+            </p>
+            <ul>
+              {oidcIssuers
+                .filter(
+                  ({ server, registration }) =>
+                    registration && server === 'CSS',
+                )
+                .map(issuerConfig => (
+                  <li key={issuerConfig.issuer}>
+                    <RegistrationButton {...issuerConfig} />
+                  </li>
+                ))}
+            </ul>
+            <p>
+              To complete the process, you must prove that the WebID on your
+              domain belongs to you. Afterwards, the WebID must point to your
+              Profile Document. (This may need more explanation.)
+            </p>
+            <p>Or use your domain to host your own Solid Pod.</p>
+          </>
+        ),
+      },
+    ],
+    [oidcIssuers],
+  )
+
+  return tabs
+}
 
 export const Join = () => {
   const [modalOpen, setModalOpen] = useState(false)
@@ -148,6 +161,8 @@ export const Join = () => {
   const handleTabChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedTab(event.target.value)
   }
+
+  const tabs = useTabs()
 
   return (
     <>

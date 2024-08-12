@@ -1,6 +1,6 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation } from '@tanstack/react-query'
-import { communityId, emailNotificationsService } from 'config'
+import { useConfig } from 'config/hooks'
 import { useCallback } from 'react'
 import { useProfile } from './data/useProfile'
 
@@ -40,27 +40,24 @@ const getMessageNotificationBody = ({
 
 // TODO make also notification for contact request, contact confirmation, ...
 
-const sendNotification = async ({
-  data,
-}: {
-  type: 'message'
-  data: MessageNotificationData
-}) => {
-  const response = await fetch(
-    new URL('notification', emailNotificationsService),
-    {
-      method: 'POST',
-      body: JSON.stringify(getMessageNotificationBody(data)),
-      headers: { 'content-type': 'application/ld+json' },
-    },
-  )
-  if (!response.ok) throw new Error('not ok!')
-}
+const sendNotification =
+  (emailNotificationsService: string) =>
+  async ({ data }: { type: 'message'; data: MessageNotificationData }) => {
+    const response = await fetch(
+      new URL('notification', emailNotificationsService),
+      {
+        method: 'POST',
+        body: JSON.stringify(getMessageNotificationBody(data)),
+        headers: { 'content-type': 'application/ld+json' },
+      },
+    )
+    if (!response.ok) throw new Error('not ok!')
+  }
 
 export const useSendEmailNotification = ({
   from,
   to,
-  community = communityId,
+  community,
   type,
 }: {
   from: string
@@ -68,10 +65,14 @@ export const useSendEmailNotification = ({
   community?: string
   type: 'message'
 }) => {
+  const { communityId, emailNotificationsService } = useConfig()
+  community ??= communityId
   const [fromPerson] = useProfile(from, community)
   const [toPerson] = useProfile(to, community)
 
-  const { mutateAsync } = useMutation({ mutationFn: sendNotification })
+  const { mutateAsync } = useMutation({
+    mutationFn: sendNotification(emailNotificationsService),
+  })
 
   return useCallback(
     async (data: MessageNotification) => {

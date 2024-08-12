@@ -1,7 +1,7 @@
 import MarkerClusterGroup from '@changey/react-leaflet-markercluster'
 import { LocateControl } from '@turtlesocks/react-leaflet.locatecontrol/dist/LocateControl'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import { defaultIcon, highlightedIcon, tileServer } from 'config'
+import { useConfig } from 'config/hooks'
 import { useSearchAccommodations } from 'hooks/data/useSearchAccommodations'
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
 import 'leaflet/dist/leaflet.css'
@@ -13,10 +13,11 @@ import { AccommodationInfo } from './AccommodationInfo'
 import styles from './SearchHosts.module.scss'
 
 export const SearchHosts = () => {
+  const { communityId, defaultIcon, highlightedIcon, tileServer } = useConfig()
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedAccommodationId = searchParams.get('hosting')
 
-  const [offers, isLoading] = useSearchAccommodations()
+  const [offers, isLoading] = useSearchAccommodations(communityId)
 
   const handleMarkerClick = (accommodationId: URI) => {
     setSearchParams({ hosting: accommodationId })

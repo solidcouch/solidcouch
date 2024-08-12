@@ -1,13 +1,12 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
-import * as config from 'config'
 import { AccommodationShapeType } from 'ldo/app.shapeTypes'
 import { useMemo } from 'react'
 import { hospex } from 'utils/rdf-namespaces'
 import { searchAccommodationsQuery } from './queries'
 
-export const useSearchAccommodations = (communityId = config.communityId) => {
+export const useSearchAccommodations = (communityId: string) => {
   const { quads, isMissing } = useLDhopQuery(
     useMemo(
       () => ({

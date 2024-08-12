@@ -43,6 +43,7 @@
 // ***********************************************
 
 import * as uuid from 'uuid'
+import { resetAppConfig, updateAppConfig } from './app-config'
 import { uiLogin, uiLogout } from './authentication'
 import { UserConfig, getAuthenticatedRequest } from './css-authentication'
 import {
@@ -139,6 +140,8 @@ declare global {
       }): void
       testToast(message: string)
       testAndCloseToast(message: string)
+      updateAppConfig: typeof updateAppConfig
+      resetAppConfig: typeof resetAppConfig
     }
   }
 }
@@ -282,6 +285,8 @@ Cypress.Commands.add('setProfileData', setProfileData)
 Cypress.Commands.add('addAccommodation', addAccommodation)
 Cypress.Commands.add('createConversation', createConversation)
 Cypress.Commands.add('stubMailer', stubMailer)
+Cypress.Commands.add('updateAppConfig', updateAppConfig)
+Cypress.Commands.add('resetAppConfig', resetAppConfig)
 
 Cypress.Commands.add('testToast', (message: string) =>
   cy.contains('div.Toastify__toast', message),

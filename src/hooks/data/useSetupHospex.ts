@@ -1,10 +1,6 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import {
-  communityId,
-  emailNotificationsIdentity,
-  emailNotificationsService,
-} from 'config'
+import { useConfig } from 'config/hooks'
 import { useAuth } from 'hooks/useAuth'
 import {
   HospexProfileShapeType,
@@ -46,6 +42,7 @@ export type SetupSettings = {
 }
 
 export const useSetupHospex = () => {
+  const { communityId } = useConfig()
   const createPrivateTypeIndex = useCreatePrivateTypeIndex()
   const createPublicTypeIndex = useCreatePublicTypeIndex()
   const createInbox = useCreateInbox()
@@ -126,6 +123,7 @@ export const useSetupHospex = () => {
     },
     [
       addToHospexProfile,
+      communityId,
       createHospexProfile,
       createInbox,
       createPrivateTypeIndex,
@@ -222,6 +220,7 @@ const useCreatePrivateTypeIndex = () => {
 
 // add community to existing hospex profile
 const useAddToHospexProfile = () => {
+  const { communityId } = useConfig()
   const updateMutation = useUpdateLdoDocument(HospexProfileShapeType)
   const createAcl = useCreateHospexProfileAcl()
   const updateAcl = useUpdateAcl()
@@ -255,7 +254,7 @@ const useAddToHospexProfile = () => {
         ])
       }
     },
-    [community.groups, createAcl, updateAcl, updateMutation],
+    [community.groups, communityId, createAcl, updateAcl, updateMutation],
   )
 }
 
@@ -270,7 +269,8 @@ const useUpdateAcl = () => {
         operation: 'add'
         access: ('Read' | 'Append' | 'Write' | 'Control')[] // add to this access
         default?: boolean
-        agentGroups: URI[]
+        agentGroups?: URI[]
+        agents?: URI[]
       }[],
       // options: { throwOnHttpError?: boolean } = {},
     ) => {
@@ -283,6 +283,8 @@ const useUpdateAcl = () => {
       const writer = new Writer({ format: 'N-Triples' })
 
       for (const operation of operations) {
+        operation.agents ??= []
+        operation.agentGroups ??= []
         // find relevant access
         const auth = authorizations.find(a => {
           const expectedAccess = new Set(operation.access)
@@ -295,40 +297,45 @@ const useUpdateAcl = () => {
             : a.defaults.length === 0
         })
 
-        if (auth) {
-          operation.agentGroups.forEach(ag =>
-            writer.addQuad(
+        const getNewAuthUrl = (uri: string) => {
+          const newAuthURL = new URL(uri)
+          newAuthURL.hash = uuid.v4()
+          return newAuthURL.toString()
+        }
+
+        const authUrl = auth?.url ?? getNewAuthUrl(aclUri)
+
+        const authNode = new NamedNode(authUrl)
+
+        writer.addQuads(
+          operation.agentGroups.map(
+            ag =>
               new Quad(
-                new NamedNode(auth.url),
+                authNode,
                 new NamedNode(acl.agentGroup),
                 new NamedNode(ag),
               ),
-            ),
-          )
-        } else {
+          ),
+        )
+        writer.addQuads(
+          operation.agents.map(
+            a => new Quad(authNode, new NamedNode(acl.agent), new NamedNode(a)),
+          ),
+        )
+
+        if (!auth) {
           // untested!
-          const newAuthURL = new URL(aclUri)
-          newAuthURL.hash = uuid.v4()
-          const newAuth = new NamedNode(newAuthURL.toString())
           writer.addQuads([
             new Quad(
-              newAuth,
+              authNode,
               new NamedNode(rdf.type),
               new NamedNode(acl.Authorization),
             ),
-            new Quad(newAuth, new NamedNode(acl.accessTo), new NamedNode(uri)),
-            ...operation.agentGroups.map(
-              ag =>
-                new Quad(
-                  newAuth,
-                  new NamedNode(acl.agentGroup),
-                  new NamedNode(ag),
-                ),
-            ),
+            new Quad(authNode, new NamedNode(acl.accessTo), new NamedNode(uri)),
             ...operation.access.map(
               a =>
                 new Quad(
-                  newAuth,
+                  authNode,
                   new NamedNode(acl.mode),
                   new NamedNode(acl[a]),
                 ),
@@ -337,7 +344,7 @@ const useUpdateAcl = () => {
           if (operation.default)
             writer.addQuads([
               new Quad(
-                newAuth,
+                authNode,
                 new NamedNode(acl.default__workaround),
                 new NamedNode(uri),
               ),
@@ -368,6 +375,7 @@ const useUpdateAcl = () => {
 }
 
 const useCreateHospexProfileAcl = () => {
+  const { communityId } = useConfig()
   const createAclMutation = useCreateRdfDocument(AuthorizationShapeType)
   const community = useReadCommunity(communityId)
 
@@ -544,6 +552,7 @@ const useCreateInbox = () => {
 }
 
 const useInitEmailNotifications = () => {
+  const { emailNotificationsService, emailNotificationsIdentity } = useConfig()
   // Define a mutation function that will handle the API request
   const addActivity = async (requestData: any) => {
     const response = await fetch(`${emailNotificationsService}/inbox`, {
@@ -614,11 +623,12 @@ const useInitEmailNotifications = () => {
         webId,
       })
     },
-    [initializeIntegration, updateAclMutation],
+    [emailNotificationsIdentity, initializeIntegration, updateAclMutation],
   )
 }
 
 const useInitSimpleEmailNotifications = () => {
+  const { emailNotificationsService } = useConfig()
   // Define a mutation function that will handle the API request
   const addActivity = async (requestData: any) => {
     const response = await fetch(`${emailNotificationsService}/init`, {
@@ -676,8 +686,10 @@ const useInitSimpleEmailNotifications = () => {
 // TODO this method runs very carelessly
 // in particular, we don't want to overwrite existing resources or data
 const usePreparePodForSimpleEmailNotifications = () => {
+  const { emailNotificationsIdentity } = useConfig()
   const updateAclMutation = useUpdateLdoDocument(AuthorizationShapeType)
   const updateMutation = useUpdateRdfDocument()
+  const updateAcl = useUpdateAcl()
 
   const preparePodForSimpleEmailNotifications = useCallback(
     async ({
@@ -692,22 +704,16 @@ const usePreparePodForSimpleEmailNotifications = () => {
       // First find the hospex container for this community
       const hospexContainer = getContainer(hospexDocument)
       // give the mailer read access to the hospex container
-      const hospexContainerAcl = await getAcl(hospexContainer)
-      await updateAclMutation.mutateAsync({
-        uri: hospexContainerAcl,
-        subject: hospexContainerAcl + '#readForMailer',
-        transform: ldo => {
-          ldo['@id'] = hospexContainerAcl + '#readForMailer'
-          ldo.type = { '@id': 'Authorization' }
-
-          ldo.agent = [{ '@id': emailNotificationsIdentity }]
-          ldo.accessTo = [{ '@id': hospexContainer }]
-          ldo.default = { '@id': hospexContainer }
-          ldo.mode = [{ '@id': acl.Read }]
+      await updateAcl(getContainer(hospexDocument), [
+        {
+          operation: 'add',
+          access: ['Read'],
+          agents: [emailNotificationsIdentity],
+          default: true,
         },
-      })
+      ])
       // create emailSettings file
-      const emailSettings = hospexContainer + 'emailSettings'
+      const emailSettings = hospexContainer + 'emailSettings-' + uuid.v4()
 
       const addEmail = `_:mutate a <${solid.InsertDeletePatch}>;
         <${solid.inserts}> { <${webId}> <${foaf.mbox}> "${email}". } .`
@@ -753,7 +759,7 @@ const usePreparePodForSimpleEmailNotifications = () => {
         patch,
       })
     },
-    [updateAclMutation, updateMutation],
+    [emailNotificationsIdentity, updateAcl, updateAclMutation, updateMutation],
   )
   return preparePodForSimpleEmailNotifications
 }

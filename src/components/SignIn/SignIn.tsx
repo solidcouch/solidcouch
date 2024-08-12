@@ -2,7 +2,7 @@ import { login } from '@inrupt/solid-client-authn-browser'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { Button } from 'components'
 import { guessIssuer } from 'components/SignIn/oidcIssuer'
-import { oidcIssuers } from 'config'
+import { useConfig } from 'config/hooks'
 import { actions, selectLastSelectedIssuer } from 'features/login/loginSlice'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -12,6 +12,7 @@ import styles from './SignIn.module.scss'
 Modal.setAppElement('#root')
 
 export const SignIn = () => {
+  const { oidcIssuers } = useConfig()
   const [modalOpen, setModalOpen] = useState(false)
   const [longList, setLongList] = useState(false)
 
@@ -56,7 +57,7 @@ export const SignIn = () => {
 
   const handleFormSubmit = handleSubmit(async ({ webIdOrIssuer }) => {
     try {
-      const issuer = await guessIssuer(webIdOrIssuer)
+      const issuer = await guessIssuer(webIdOrIssuer, oidcIssuers)
       await handleSelectIssuer(issuer)
     } catch (e) {
       alert(`Something went wrong.\nError: ${e}`)

@@ -2,7 +2,7 @@ import { Button, Loading } from 'components'
 import { AccommodationForm } from 'components/AccommodationForm/AccommodationForm'
 import { AccommodationView } from 'components/AccommodationView/AccommodationView'
 import { withToast } from 'components/withToast'
-import { communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { useHospexDocumentSetup } from 'hooks/data/useCheckSetup'
 import { useCreateAccommodation } from 'hooks/data/useCreateAccommodation'
 import { useDeleteAccommodation } from 'hooks/data/useDeleteAccommodation'
@@ -16,6 +16,7 @@ import { getContainer } from 'utils/helpers'
 import styles from './MyOffers.module.scss'
 
 export const MyOffers = () => {
+  const { communityId } = useConfig()
   const auth = useAuth()
 
   const [editing, setEditing] = useState<URI | 'new'>()
