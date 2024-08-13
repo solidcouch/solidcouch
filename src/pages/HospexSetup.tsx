@@ -28,6 +28,7 @@ export const HospexSetup = ({
   isNotificationsInitialized,
   onNotificationsInitialized,
   onNotificationsInitializedTryAgain,
+  allHospex,
 }: {
   isMember: boolean
   isHospexProfile: boolean
@@ -40,6 +41,11 @@ export const HospexSetup = ({
   publicTypeIndexes: URI[]
   privateTypeIndexes: URI[]
   inboxes: URI[]
+  allHospex: {
+    hospexDocument: URI
+    storage: URI
+    communities: { uri: string; name: string }[]
+  }[]
   isNotificationsInitialized: boolean
   onNotificationsInitialized: () => void
   onNotificationsInitializedTryAgain: () => void
@@ -51,6 +57,9 @@ export const HospexSetup = ({
   const joinGroup = useJoinGroup()
   const [isSaving, setIsSaving] = useState(false)
   const [email, setEmail] = useState('')
+  const [selectedHospexDocument, setSelectedHospexDocument] = useState('')
+  const [addToExisting, setAddToExisting] = useState<boolean>()
+  const newHospexDocument = `${storage}hospex/${communityContainer}/card`
   const handleClickSetup = async () => {
     setIsSaving(true)
     if (
@@ -64,7 +73,14 @@ export const HospexSetup = ({
       const tasks: SetupTask[] = []
       if (!isPublicTypeIndex) tasks.push('createPublicTypeIndex')
       if (!isPrivateTypeIndex) tasks.push('createPrivateTypeIndex')
-      if (!isHospexProfile) tasks.push('createHospexProfile')
+      if (!isHospexProfile) {
+        if (allHospex.length === 0) tasks.push('createHospexProfile')
+        else if (typeof addToExisting === 'boolean') {
+          if (addToExisting) {
+            tasks.push('addToHospexProfile')
+          } else tasks.push('createHospexProfile')
+        }
+      }
       if (!isInbox) tasks.push('createInbox')
       if (!isEmailNotifications) tasks.push('integrateEmailNotifications')
       if (!isSimpleEmailNotifications)
@@ -85,7 +101,9 @@ export const HospexSetup = ({
         inbox: isInbox ? inboxes[0] : `${storage}inbox/`,
         hospexDocument: isHospexProfile
           ? personalHospexDocuments[0]
-          : `${storage}hospex/${communityContainer}/card`,
+          : allHospex.length > 0
+          ? selectedHospexDocument
+          : newHospexDocument,
         email,
       }
       await setupHospex(tasks, settings)
@@ -122,10 +140,49 @@ export const HospexSetup = ({
             }`}
         </li>
         <li>{!isInbox && `create inbox ${storage + 'inbox/'}`}</li>
+        {!isHospexProfile && allHospex.length === 0 && (
+          <li>setup hospex document and storage {newHospexDocument}</li>
+        )}
         <li>
-          {!isHospexProfile &&
-            'setup hospex document and storage ' +
-              `${storage}hospex/${communityContainer}/card`}
+          {!isHospexProfile && allHospex.length > 0 && (
+            <fieldset>
+              <legend>setup hospex document and storage</legend>
+              <div>
+                <input
+                  type="radio"
+                  id="new-hospex-document"
+                  name="hospexDocument"
+                  value={newHospexDocument}
+                  checked={newHospexDocument === selectedHospexDocument}
+                  onChange={e => {
+                    setSelectedHospexDocument(e.target.value)
+                    setAddToExisting(false)
+                  }}
+                />{' '}
+                <label htmlFor="new-hospex-document">
+                  New storage ({newHospexDocument})
+                </label>
+              </div>
+              {allHospex.map(({ hospexDocument, communities }, i) => (
+                <div key={hospexDocument}>
+                  <input
+                    type="radio"
+                    id={`hospexDocument-${i}`}
+                    name="hospexDocument"
+                    value={hospexDocument}
+                    checked={hospexDocument === selectedHospexDocument}
+                    onChange={() => {
+                      setSelectedHospexDocument(hospexDocument)
+                      setAddToExisting(true)
+                    }}
+                  />{' '}
+                  <label htmlFor={`hospexDocument-${i}`}>
+                    {communities.map(c => c.name ?? c.uri).join(', ')}
+                  </label>
+                </div>
+              ))}
+            </fieldset>
+          )}
         </li>
         <li>
           {!isEmailNotifications && (

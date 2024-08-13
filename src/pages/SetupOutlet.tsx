@@ -27,6 +27,7 @@ export const SetupOutlet = () => {
     'publicTypeIndexes',
     'privateTypeIndexes',
     'personalHospexDocuments',
+    'allHospexDocuments',
   ])
 
   // set up email

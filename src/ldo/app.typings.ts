@@ -98,9 +98,9 @@ export interface HospexProfile {
    * Accommodation that the person offers
    */
   offers?: Accommodation[]
-  memberOf: {
+  memberOf?: {
     '@id': string
-  }
+  }[]
   storage2: {
     '@id': string
   }

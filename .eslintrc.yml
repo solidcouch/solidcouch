@@ -18,6 +18,7 @@ rules:
   'prettier/prettier': warn
   'no-console': warn
   'import/no-default-export': error
+  # TODO later import/no-cycle: warn
   # check for unused arguments (overriding extended rule)
   '@typescript-eslint/no-unused-vars':
     - warn

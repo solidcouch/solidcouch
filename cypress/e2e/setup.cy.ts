@@ -1,3 +1,6 @@
+import { Parser, Store } from 'n3'
+import { sioc } from 'rdf-namespaces'
+import { processAcl } from '../../src/utils/helpers'
 import { UserConfig } from '../support/css-authentication'
 import { CommunityConfig, SkipOptions } from '../support/setup'
 
@@ -232,10 +235,70 @@ describe('Setup Solid pod', () => {
       ])()
     })
 
-    it('should join this community just fine', () => {
+    it('should show option to create a new community folder, and join this community just fine', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.get(`input[type=radio]`).first().check()
       cy.contains('button', 'Continue!').click()
       cy.contains('a', 'travel')
     })
+
+    it('should show option to choose existing community folder, and not break it when adding the community', () => {
+      cy.get<UserConfig>('@user1').then(cy.login)
+      cy.get<UserConfig>('@user1').then(user => {
+        cy.get(
+          `input[type=radio][value="${user.podUrl}hospex/other-community/card"]`,
+        ).check()
+      })
+      cy.contains('button', 'Continue!').click()
+      cy.contains('a', 'travel')
+
+      // check that both communities still have access
+      cy.get<CommunityConfig>('@community').then(community => {
+        cy.get<CommunityConfig>('@otherCommunity').then(otherCommunity => {
+          cy.get<UserConfig>('@user1').then(user => {
+            const aclUrl = `${user.podUrl}hospex/other-community/.acl`
+            cy.authenticatedRequest(user, {
+              url: aclUrl,
+              method: 'GET',
+              failOnStatusCode: true,
+            }).then(response => {
+              const acls = processAcl(aclUrl, response.body)
+
+              const read = acls.find(
+                acl => acl.accesses.length === 1 && acl.accesses[0] === 'Read',
+              )
+
+              expect(read.agentGroups)
+                .to.have.length(2)
+                .and.to.include(community.group)
+                .and.to.include(otherCommunity.group)
+            })
+
+            const url = `${user.podUrl}hospex/other-community/card`
+
+            cy.authenticatedRequest(user, {
+              url,
+              method: 'GET',
+              failOnStatusCode: true,
+            }).then(response => {
+              const parser = new Parser({ baseIRI: url })
+              const store = new Store(parser.parse(response.body))
+
+              const communities = store
+                .getObjects(user.webId, sioc.member_of, null)
+                .map(a => a.value)
+              expect(communities)
+                .to.have.length(2)
+                .and.to.include(community.community)
+                .and.to.include(otherCommunity.community)
+            })
+          })
+        })
+      })
+    })
+
+    it('should explain implications of choosing other community folder')
+
+    it('should not break email notifications of the other community')
   })
 })

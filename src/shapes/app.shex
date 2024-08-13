@@ -61,7 +61,7 @@ ex:HospexProfile {
   vcard:hasPhoto IRI? ;
   hospex:offers @ex:Accommodation *
     // rdfs:comment "Accommodation that the person offers" ;
-  sioc:member_of IRI ;
+  sioc:member_of IRI * ;
   hospex:storage IRI ;
 }
 

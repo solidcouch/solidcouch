@@ -60,4 +60,19 @@ export const privateProfileAndHospexDocumentQuery: RdfQuery = [
     target: '?hospexSettings',
   },
   personInbox,
+  // get all communities that are set up
+  {
+    type: 'match',
+    subject: '?person',
+    predicate: sioc.member_of,
+    pick: 'object',
+    target: '?eachCommunity',
+  },
+  {
+    type: 'match',
+    subject: '?eachCommunity',
+    predicate: sioc.name,
+    pick: 'object',
+    target: '?communityName',
+  },
 ]
