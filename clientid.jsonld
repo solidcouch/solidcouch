@@ -1,12 +1,12 @@
 {
   "@context": "https://www.w3.org/ns/solid/oidc-context.jsonld",
-  "client_id": "https://sleepy.bike/clientid.jsonld",
+  "client_id": "https://app.solidcouch.org/clientid.jsonld",
   "client_name": "SolidCouch",
   "redirect_uris": [
-    "https://sleepy.bike/"
+    "https://app.solidcouch.org/"
   ],
-  "client_uri": "https://sleepy.bike/",
-  "logo_uri": "https://sleepy.bike/logo.svg",
+  "client_uri": "https://app.solidcouch.org/",
+  "logo_uri": "https://app.solidcouch.org/logo.svg",
   "scope": "openid profile offline_access webid",
   "grant_types": [
     "refresh_token",
