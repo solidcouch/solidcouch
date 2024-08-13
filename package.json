@@ -60,6 +60,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && node scripts/build-clientid.js",
+    "build:cname": "node scripts/add-cname.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "preanalyze": "yarn build",
