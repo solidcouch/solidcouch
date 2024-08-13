@@ -1,4 +1,4 @@
-export * from './leaflet'
+export { tileServer } from './leaflet'
 
 export const communityId =
   process.env.REACT_APP_COMMUNITY ||
@@ -34,7 +34,7 @@ if (emailNotificationsService && !emailNotificationsIdentity)
     'Please provide webId of email notifications service in environment variable REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY',
   )
 
-export const wikidataLDF = 'https://query.wikidata.org/bigdata/ldf'
+// export const wikidataLDF = 'https://query.wikidata.org/bigdata/ldf'
 
 export type IssuerConfig = {
   recommended?: boolean // the recommended provider for sign up

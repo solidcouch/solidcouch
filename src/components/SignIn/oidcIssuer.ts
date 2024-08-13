@@ -1,5 +1,5 @@
 import { createLdoDataset } from '@ldo/ldo'
-import { oidcIssuers } from 'config'
+import type { IssuerConfig } from 'config'
 import { fetchRdfDocument } from 'hooks/data/useRdfDocument'
 import { SolidProfileShapeType } from 'ldo/app.shapeTypes'
 import { URI } from 'types'
@@ -28,7 +28,10 @@ const guessIssuerFromWebID = async (webIdOrIssuer: URI): Promise<URI> => {
 }
 
 // Returns a known issuer URL by matching the host, or undefined if not found.
-const healIssuerURL = (issuer: URI): URI | undefined => {
+const healIssuerURL = (
+  issuer: URI,
+  oidcIssuers: IssuerConfig[],
+): URI | undefined => {
   const issuerURL = new URL(issuer)
   return oidcIssuers.find(iss => iss.issuer.includes(issuerURL.host))?.issuer
 }
@@ -40,14 +43,20 @@ const ensureProtocol = (url: string): string => {
 }
 
 // Attempts to heal the issuer URL or return the URL if it's a known issuer.
-const healIssuer = (issuer: URI): URI | undefined => {
+const healIssuer = (
+  issuer: URI,
+  oidcIssuers: IssuerConfig[],
+): URI | undefined => {
   const urlWithProtocol = ensureProtocol(issuer)
-  return healIssuerURL(urlWithProtocol) ?? urlWithProtocol
+  return healIssuerURL(urlWithProtocol, oidcIssuers) ?? urlWithProtocol
 }
 
 // Main function to guess and heal an issuer URL from a given WebID or issuer.
-export const guessIssuer = async (webIdOrIssuer: string): Promise<URI> => {
+export const guessIssuer = async (
+  webIdOrIssuer: string,
+  oidcIssuers: IssuerConfig[],
+): Promise<URI> => {
   const urlWithProtocol = ensureProtocol(webIdOrIssuer)
   const issuer = await guessIssuerFromWebID(urlWithProtocol)
-  return healIssuer(issuer) ?? issuer
+  return healIssuer(issuer, oidcIssuers) ?? issuer
 }

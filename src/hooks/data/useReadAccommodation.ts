@@ -1,6 +1,6 @@
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
-import { communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { AccommodationShapeType } from 'ldo/app.shapeTypes'
 import { useMemo } from 'react'
 import { AccommodationExtended, Person, URI } from 'types'
@@ -12,6 +12,7 @@ export const useReadAccommodation = ({
 }: {
   accommodationId: URI
 }) => {
+  const { communityId } = useConfig()
   const { quads, variables, isLoading } = useLDhopQuery(
     useMemo(
       () => ({

@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { Button, Loading } from 'components'
 import { PersonBadge } from 'components/PersonBadge/PersonBadge'
 import { withToast } from 'components/withToast'
-import { communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { useCheckSetup } from 'hooks/data/useCheckSetup'
 import {
   useCreateChat,
@@ -20,10 +20,11 @@ import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { URI } from 'types'
 import { getContainer } from 'utils/helpers'
-import * as config from '../config'
 import styles from './Messages.module.scss'
 
 export const Messages = () => {
+  const { communityId, emailNotificationsService, emailNotificationsType } =
+    useConfig()
   const personId = useParams().id as string
   const auth = useAuth()
 
@@ -169,10 +170,7 @@ export const Messages = () => {
     setIsSaving(false)
 
     // send email notification
-    if (
-      config.emailNotificationsService &&
-      config.emailNotificationsType === 'simple'
-    ) {
+    if (emailNotificationsService && emailNotificationsType === 'simple') {
       await withToast(sendNotification({ messageId, message: data.message }), {
         pending: 'Sending email notification',
         success: 'Email notification was sent',

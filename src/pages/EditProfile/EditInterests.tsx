@@ -1,7 +1,7 @@
 import { Loading } from 'components'
 import styles from 'components/Interests/Interests.module.scss'
 import { withToast } from 'components/withToast'
-import { communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { useReadInterest, useSearchInterests } from 'hooks/data/useInterests'
 import {
   useAddInterest,
@@ -16,6 +16,7 @@ import * as types from 'types'
 import { URI } from 'types'
 
 export const EditInterests = ({ webId }: { webId: URI }) => {
+  const { communityId } = useConfig()
   const [, isLoading, , interests] = useProfile(webId, communityId)
 
   const [query, setQuery] = useState('')

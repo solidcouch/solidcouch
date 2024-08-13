@@ -1,5 +1,5 @@
 import { LocateControl } from '@turtlesocks/react-leaflet.locatecontrol/dist/LocateControl'
-import { tileServer } from 'config'
+import { useConfig } from 'config/hooks'
 import { LatLngTuple } from 'leaflet'
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
 import 'leaflet/dist/leaflet.css'
@@ -52,6 +52,7 @@ export const SelectLocation: React.FC<{
     () => [value.lat, value.long] as LatLngTuple,
     [value.lat, value.long],
   )
+  const { tileServer } = useConfig()
 
   return (
     <MapContainer

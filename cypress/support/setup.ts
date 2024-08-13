@@ -23,7 +23,7 @@ export const setupCommunity = ({
   community: communityUri,
 }: {
   community: string
-}) => {
+}): Cypress.Chainable<CommunityConfig> => {
   const url = new URL(communityUri)
   const username = url.pathname.split('/')[1]
   url.hash = ''
@@ -126,10 +126,7 @@ export const setupCommunity = ({
         `,
     })
   })
-  return cy.wrap({
-    community: communityUri,
-    group: groupUri,
-  } as CommunityConfig)
+  return cy.wrap({ community: communityUri, group: groupUri })
 }
 
 export type SkipOptions =

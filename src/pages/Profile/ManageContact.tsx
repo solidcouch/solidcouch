@@ -1,5 +1,5 @@
 import { Button, Loading } from 'components'
-import { communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { useCheckSetup } from 'hooks/data/useCheckSetup'
 import {
   useConfirmContact,
@@ -40,6 +40,7 @@ export const ProcessContactInvitation = ({
   contact: ContactInvitation
   children?: ReactNode
 }) => {
+  const { communityId } = useConfig()
   const [modalOpen, setModalOpen] = useState(false)
   const auth = useAuth()
 
@@ -92,6 +93,7 @@ export const ProcessContactInvitation = ({
 }
 
 const AddContact = ({ webId }: { webId: URI }) => {
+  const { communityId } = useConfig()
   const [modalOpen, setModalOpen] = useState(false)
   const auth = useAuth()
 

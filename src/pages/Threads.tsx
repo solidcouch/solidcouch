@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { Loading } from 'components'
 import { PersonMini } from 'components/PersonMini/PersonMini'
-import { communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { useProfile } from 'hooks/data/useProfile'
 import { useReadThreads } from 'hooks/data/useReadThreads'
 import { useAuth } from 'hooks/useAuth'
@@ -36,6 +36,7 @@ export const Threads = () => {
 }
 
 const Thread = ({ thread }: { thread: ThreadType }) => {
+  const { communityId } = useConfig()
   const auth = useAuth()
   const other = thread.participants.find(p => p !== auth.webId)
   const [person] = useProfile(other ?? '', communityId)

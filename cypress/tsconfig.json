@@ -7,5 +7,5 @@
     "lib": ["es5", "dom", "esnext"],
     "types": ["cypress", "node"]
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../src/global.d.ts"]
 }

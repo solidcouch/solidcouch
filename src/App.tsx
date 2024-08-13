@@ -1,6 +1,7 @@
 import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser'
 import { useAppDispatch } from 'app/hooks'
 import { Header as PageHeader } from 'components'
+import { useSetEditableConfig } from 'config/hooks'
 import { actions } from 'features/auth/authSlice'
 import { useAuth } from 'hooks/useAuth'
 import { usePreviousUriAfterSolidRedirect } from 'hooks/usePreviousUriAfterSolidRedirect'
@@ -12,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 export const App = () => {
   // initialize the app, provide layout
+
+  useSetEditableConfig()
 
   usePreviousUriAfterSolidRedirect()
 

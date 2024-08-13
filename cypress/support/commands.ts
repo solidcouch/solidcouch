@@ -43,6 +43,7 @@
 // ***********************************************
 
 import * as uuid from 'uuid'
+import { resetAppConfig, updateAppConfig } from './app-config'
 import { uiLogin, uiLogout } from './authentication'
 import { UserConfig, getAuthenticatedRequest } from './css-authentication'
 import {
@@ -139,6 +140,8 @@ declare global {
       }): void
       testToast(message: string)
       testAndCloseToast(message: string)
+      updateAppConfig: typeof updateAppConfig
+      resetAppConfig: typeof resetAppConfig
     }
   }
 }
@@ -194,14 +197,14 @@ Cypress.Commands.add(
     password ??= 'correcthorsebatterystaple'
     email ??= username + '@example.org'
     const config = {
-      idp: Cypress.env('cssUrl') + '/',
-      podUrl: `${Cypress.env('cssUrl')}/${username}/`,
-      webId: `${Cypress.env('cssUrl')}/${username}/profile/card#me`,
+      idp: Cypress.env('CSS_URL') + '/',
+      podUrl: `${Cypress.env('CSS_URL')}/${username}/`,
+      webId: `${Cypress.env('CSS_URL')}/${username}/profile/card#me`,
       username: username,
       password: password,
       email: email,
     }
-    const registerEndpoint = Cypress.env('cssUrl') + '/idp/register/'
+    const registerEndpoint = Cypress.env('CSS_URL') + '/idp/register/'
     cy.request('POST', registerEndpoint, {
       createWebId: 'on',
       webId: '',
@@ -230,14 +233,14 @@ Cypress.Commands.add(
   }): Cypress.Chainable<UserConfig> {
     email ??= username + '@example.org'
     const config = {
-      idp: Cypress.env('cssUrl') + '/',
-      podUrl: `${Cypress.env('cssUrl')}/${username}/`,
-      webId: `${Cypress.env('cssUrl')}/${username}/profile/card#me`,
+      idp: Cypress.env('CSS_URL') + '/',
+      podUrl: `${Cypress.env('CSS_URL')}/${username}/`,
+      webId: `${Cypress.env('CSS_URL')}/${username}/profile/card#me`,
       username: username,
       password: password,
       email: email,
     }
-    const registerEndpoint = Cypress.env('cssUrl') + '/idp/register/'
+    const registerEndpoint = Cypress.env('CSS_URL') + '/idp/register/'
     cy.request({
       method: 'POST',
       url: registerEndpoint,
@@ -282,6 +285,8 @@ Cypress.Commands.add('setProfileData', setProfileData)
 Cypress.Commands.add('addAccommodation', addAccommodation)
 Cypress.Commands.add('createConversation', createConversation)
 Cypress.Commands.add('stubMailer', stubMailer)
+Cypress.Commands.add('updateAppConfig', updateAppConfig)
+Cypress.Commands.add('resetAppConfig', resetAppConfig)
 
 Cypress.Commands.add('testToast', (message: string) =>
   cy.contains('div.Toastify__toast', message),

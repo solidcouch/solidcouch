@@ -23,7 +23,7 @@ export default defineConfig({
     },
   },
   env: {
-    cssUrl: 'http://localhost:4000',
+    CSS_URL: 'http://localhost:4000',
   },
   screenshotOnRunFailure: false,
   video: false,
