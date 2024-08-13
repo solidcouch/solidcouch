@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs')
 
 // write CNAME into ./build based on BASE_URL environment variable
