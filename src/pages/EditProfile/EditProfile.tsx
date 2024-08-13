@@ -1,6 +1,6 @@
 import { Button, Loading } from 'components'
 import { withToast } from 'components/withToast'
-import { communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { useCreateFile, useDeleteFile, useFile } from 'hooks/data/useFile'
 import { useProfile, useUpdateHospexProfile } from 'hooks/data/useProfile'
 import { useAuth } from 'hooks/useAuth'
@@ -15,6 +15,7 @@ import { EditInterests } from './EditInterests'
 import styles from './EditProfile.module.scss'
 
 export const EditProfile = () => {
+  const { communityId } = useConfig()
   const auth = useAuth()
   const navigate = useNavigate()
 

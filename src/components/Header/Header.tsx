@@ -3,7 +3,7 @@ import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
 import { useAppSelector } from 'app/hooks'
 import { Avatar } from 'components'
-import { communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { selectAuth } from 'features/auth/authSlice'
 import { useProfile } from 'hooks/data/useProfile'
 import { useReadMessagesFromInbox } from 'hooks/data/useReadThreads'
@@ -13,6 +13,7 @@ import { SignOut } from '../SignOut'
 import styles from './Header.module.scss'
 
 export const Header = () => {
+  const { communityId } = useConfig()
   const auth = useAppSelector(selectAuth)
 
   const [profile] = useProfile(auth.webId ?? '', communityId)

@@ -1,6 +1,6 @@
 import { Button } from 'components'
 import { Loading } from 'components/Loading/Loading'
-import { communityContainer, communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { useReadCommunity } from 'hooks/data/useCommunity'
 import { useJoinGroup } from 'hooks/data/useJoinGroup'
 import {
@@ -50,6 +50,7 @@ export const HospexSetup = ({
   onNotificationsInitialized: () => void
   onNotificationsInitializedTryAgain: () => void
 }) => {
+  const { communityContainer, communityId } = useConfig()
   const auth = useAuth()
   const setupHospex = useSetupHospex()
   const storage = useStorage(auth.webId ?? '')

@@ -1,10 +1,6 @@
 import { useAppSelector } from 'app/hooks'
 import { Loading } from 'components'
-import {
-  communityId,
-  emailNotificationsService,
-  emailNotificationsType,
-} from 'config'
+import { useConfig } from 'config/hooks'
 import { selectAuth } from 'features/auth/authSlice'
 import {
   useCheckEmailNotifications,
@@ -18,6 +14,8 @@ import { NonUndefined } from 'utility-types'
 import { HospexSetup } from './HospexSetup'
 
 export const SetupOutlet = () => {
+  const { communityId, emailNotificationsService, emailNotificationsType } =
+    useConfig()
   const auth = useAppSelector(selectAuth)
   const [notificationsInitialized, setNotificationsInitialized] =
     useState(false)

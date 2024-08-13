@@ -1,5 +1,5 @@
 import { Avatar } from 'components'
-import { communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { useProfile } from 'hooks/data/useProfile'
 import { Link } from 'react-router-dom'
 import { URI } from 'types'
@@ -12,6 +12,7 @@ export const PersonBadge = ({
   webId: URI
   link?: boolean
 }) => {
+  const { communityId } = useConfig()
   const [person] = useProfile(webId, communityId)
 
   const badge = (

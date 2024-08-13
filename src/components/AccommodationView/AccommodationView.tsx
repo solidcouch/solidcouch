@@ -1,4 +1,4 @@
-import { tileServer } from 'config'
+import { useConfig } from 'config/hooks'
 import { LatLngTuple } from 'leaflet'
 import { useEffect, useMemo } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
@@ -17,6 +17,8 @@ const CenterNewLocation = ({ location }: { location: LatLngTuple }) => {
 }
 
 export const AccommodationView = (accommodation: Accommodation) => {
+  const { tileServer } = useConfig()
+
   const location: LatLngTuple = useMemo(
     () => [accommodation.location.lat, accommodation.location.long],
     [accommodation.location.lat, accommodation.location.long],

@@ -1,6 +1,6 @@
 import { ButtonLink, ExternalIconLink, Interests, Loading } from 'components'
 import { ProtectedImg } from 'components/ProtectedImg'
-import { communityId } from 'config'
+import { useConfig } from 'config/hooks'
 import { useProfile } from 'hooks/data/useProfile'
 import { useAuth } from 'hooks/useAuth'
 import { FaPencilAlt } from 'react-icons/fa'
@@ -9,6 +9,7 @@ import { ManageContact } from './ManageContact'
 import styles from './Profile.module.scss'
 
 export const Profile = () => {
+  const { communityId } = useConfig()
   const personId = useParams().id as string
   const auth = useAuth()
   const isMe = personId && auth.webId ? personId === auth.webId : undefined

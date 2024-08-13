@@ -23,10 +23,23 @@ import './commands'
 import chaiSubset from 'chai-subset'
 chai.use(chaiSubset)
 
+// reset app configuration before every test
+beforeEach(() => cy.resetAppConfig({ waitForContent: 'Sign in' }))
+
 // set up a community before every test
 beforeEach(() => {
   cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
   cy.setupCommunity({ community: Cypress.env('OTHER_COMMUNITY') }).as(
     'otherCommunity',
   )
+})
+
+// set up email notifications Solid identity
+beforeEach(() => {
+  const url = Cypress.env('EMAIL_NOTIFICATIONS_IDENTITY')
+  const username = new URL(url).pathname.split('/')[1]
+  cy.createAccountIfNotExist({
+    username,
+    password: 'correcthorsebatterystaple',
+  }).as('mailbot')
 })
