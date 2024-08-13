@@ -13,10 +13,12 @@ import {
 } from 'ldo/app.shapeTypes'
 import { PrivateTypeIndex, PublicTypeIndex } from 'ldo/app.typings'
 import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
+import { NamedNode, Quad, Writer } from 'n3'
+import { acl, foaf, ldp, rdf, solid, space } from 'rdf-namespaces'
 import { useCallback } from 'react'
 import { URI } from 'types'
-import { getAcl, getContainer } from 'utils/helpers'
-import { acl, foaf, hospex, ldp, solid, space } from 'utils/rdf-namespaces'
+import { fullFetch, getAcl, getContainer, processAcl } from 'utils/helpers'
+import { hospex } from 'utils/rdf-namespaces'
 import * as uuid from 'uuid'
 import { useReadCommunity } from './useCommunity'
 import {
@@ -31,6 +33,7 @@ export type SetupTask =
   | 'createPrivateTypeIndex'
   | 'createInbox'
   | 'createHospexProfile'
+  | 'addToHospexProfile'
   | 'integrateEmailNotifications'
   | 'integrateSimpleEmailNotifications'
 export type SetupSettings = {
@@ -47,6 +50,7 @@ export const useSetupHospex = () => {
   const createPublicTypeIndex = useCreatePublicTypeIndex()
   const createInbox = useCreateInbox()
   const createHospexProfile = useCreateHospexProfile()
+  const addToHospexProfile = useAddToHospexProfile()
   const saveTypeRegistration = useSaveTypeRegistration()
   const initEmailNotifications = useInitEmailNotifications()
   const initSimpleEmailNotifications = useInitSimpleEmailNotifications()
@@ -74,6 +78,9 @@ export const useSetupHospex = () => {
           webId: person,
           communityId,
         })
+
+      if (tasks.includes('addToHospexProfile'))
+        await addToHospexProfile({ uri: hospexDocument, webId: person })
 
       // create type indexes if we haven't found them
       if (tasks.includes('createPrivateTypeIndex')) {
@@ -118,6 +125,7 @@ export const useSetupHospex = () => {
         })
     },
     [
+      addToHospexProfile,
       createHospexProfile,
       createInbox,
       createPrivateTypeIndex,
@@ -212,30 +220,163 @@ const useCreatePrivateTypeIndex = () => {
   )
 }
 
-const useCreateHospexProfile = () => {
-  const createMutation = useCreateRdfDocument(HospexProfileShapeType)
+// add community to existing hospex profile
+const useAddToHospexProfile = () => {
+  const updateMutation = useUpdateLdoDocument(HospexProfileShapeType)
+  const createAcl = useCreateHospexProfileAcl()
+  const updateAcl = useUpdateAcl()
+  const community = useReadCommunity(communityId)
+
+  return useCallback(
+    async ({ uri, webId }: { uri: string; webId: string }) => {
+      await updateMutation.mutateAsync({
+        uri,
+        subject: webId,
+        transform: ldo => {
+          ldo.memberOf ??= []
+          ldo.memberOf.push({ '@id': communityId })
+          ldo.storage2 ??= { '@id': getContainer(uri) }
+          ldo['@id'] ??= webId
+        },
+      })
+      try {
+        await createAcl(
+          { webId, uri: getContainer(uri) },
+          { throwOnHttpError: true },
+        )
+      } catch (e) {
+        await updateAcl(getContainer(uri), [
+          {
+            operation: 'add',
+            access: ['Read'],
+            agentGroups: community.groups,
+            default: true,
+          },
+        ])
+      }
+    },
+    [community.groups, createAcl, updateAcl, updateMutation],
+  )
+}
+
+const useUpdateAcl = () => {
+  const updateAclMutation = useUpdateRdfDocument()
+
+  return useCallback(
+    async (
+      uri: string, // uri of the document or container whose acl we want to update
+      operations: {
+        // operations to perform
+        operation: 'add'
+        access: ('Read' | 'Append' | 'Write' | 'Control')[] // add to this access
+        default?: boolean
+        agentGroups: URI[]
+      }[],
+      // options: { throwOnHttpError?: boolean } = {},
+    ) => {
+      const aclUri = await getAcl(uri)
+      const aclResponse = await fullFetch(aclUri)
+      const aclBody = await aclResponse.text()
+
+      const authorizations = processAcl(aclUri, aclBody)
+
+      const writer = new Writer({ format: 'N-Triples' })
+
+      for (const operation of operations) {
+        // find relevant access
+        const auth = authorizations.find(a => {
+          const expectedAccess = new Set(operation.access)
+          const actualAccess = new Set(a.accesses)
+
+          return expectedAccess.size === actualAccess.size &&
+            [...expectedAccess].every(aa => actualAccess.has(aa)) &&
+            operation.default
+            ? a.defaults.includes(uri)
+            : a.defaults.length === 0
+        })
+
+        if (auth) {
+          operation.agentGroups.forEach(ag =>
+            writer.addQuad(
+              new Quad(
+                new NamedNode(auth.url),
+                new NamedNode(acl.agentGroup),
+                new NamedNode(ag),
+              ),
+            ),
+          )
+        } else {
+          // untested!
+          const newAuthURL = new URL(aclUri)
+          newAuthURL.hash = uuid.v4()
+          const newAuth = new NamedNode(newAuthURL.toString())
+          writer.addQuads([
+            new Quad(
+              newAuth,
+              new NamedNode(rdf.type),
+              new NamedNode(acl.Authorization),
+            ),
+            new Quad(newAuth, new NamedNode(acl.accessTo), new NamedNode(uri)),
+            ...operation.agentGroups.map(
+              ag =>
+                new Quad(
+                  newAuth,
+                  new NamedNode(acl.agentGroup),
+                  new NamedNode(ag),
+                ),
+            ),
+            ...operation.access.map(
+              a =>
+                new Quad(
+                  newAuth,
+                  new NamedNode(acl.mode),
+                  new NamedNode(acl[a]),
+                ),
+            ),
+          ])
+          if (operation.default)
+            writer.addQuads([
+              new Quad(
+                newAuth,
+                new NamedNode(acl.default__workaround),
+                new NamedNode(uri),
+              ),
+            ])
+        }
+      }
+
+      const insertions = await new Promise<string>((resolve, reject) => {
+        writer.end((error, result) => {
+          if (error) reject(error)
+          else resolve(result)
+        })
+      })
+
+      await updateAclMutation.mutateAsync({
+        uri: aclUri,
+        patch: `
+        @prefix foaf: <http://xmlns.com/foaf/0.1/>.
+        @prefix solid: <http://www.w3.org/ns/solid/terms#>.
+        _:mutation a solid:InsertDeletePatch;
+          solid:inserts {
+            ${insertions}
+          } .`,
+      })
+    },
+    [updateAclMutation],
+  )
+}
+
+const useCreateHospexProfileAcl = () => {
   const createAclMutation = useCreateRdfDocument(AuthorizationShapeType)
   const community = useReadCommunity(communityId)
 
   return useCallback(
-    async ({
-      uri,
-      webId,
-      communityId,
-    }: {
-      uri: URI
-      webId: URI
-      communityId: URI
-    }) => {
+    async (
+      { uri, webId }: { uri: URI; webId: URI },
+      options: { throwOnHttpError?: boolean } = {},
+    ) => {
       const hospexStorage = getContainer(uri)
-      await createMutation.mutateAsync({
-        uri,
-        data: {
-          '@id': webId,
-          memberOf: { '@id': communityId },
-          storage2: { '@id': hospexStorage },
-        },
-      })
       const aclUri = await getAcl(hospexStorage)
       await createAclMutation.mutateAsync({
         uri: aclUri,
@@ -261,9 +402,39 @@ const useCreateHospexProfile = () => {
             mode: [{ '@id': acl.Read }],
           },
         ],
+        ...options,
       })
     },
-    [community.groups, createAclMutation, createMutation],
+    [community.groups, createAclMutation],
+  )
+}
+
+const useCreateHospexProfile = () => {
+  const createMutation = useCreateRdfDocument(HospexProfileShapeType)
+  const createAcl = useCreateHospexProfileAcl()
+
+  return useCallback(
+    async ({
+      uri,
+      webId,
+      communityId,
+    }: {
+      uri: URI
+      webId: URI
+      communityId: URI
+    }) => {
+      const hospexStorage = getContainer(uri)
+      await createMutation.mutateAsync({
+        uri,
+        data: {
+          '@id': webId,
+          memberOf: [{ '@id': communityId }],
+          storage2: { '@id': hospexStorage },
+        },
+      })
+      await createAcl({ uri, webId })
+    },
+    [createAcl, createMutation],
   )
 }
 

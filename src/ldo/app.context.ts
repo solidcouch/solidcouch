@@ -225,6 +225,7 @@ export const appContext: ContextDefinition = {
   memberOf: {
     '@id': 'http://rdfs.org/sioc/ns#member_of',
     '@type': '@id',
+    '@container': '@set',
   },
   storage2: {
     '@id': 'http://w3id.org/hospex/ns#storage',

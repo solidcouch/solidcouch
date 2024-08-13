@@ -1,5 +1,7 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
+import * as n3 from 'n3'
 import parseLinkHeader from 'parse-link-header'
+import { acl, rdf } from 'rdf-namespaces'
 import { URI } from 'types'
 
 const fetchWithRedirect: typeof fetch = async (url, init) => {
@@ -120,4 +122,54 @@ export const getAcl = async (uri: URI) => {
   if (!aclUri) throw new Error(`We could not find WAC link for ${uri}`)
   // if aclUri is relative, return absolute uri
   return new URL(aclUri, uri).toString()
+}
+
+export const processAcl = (
+  url: string,
+  content: string,
+): {
+  url: string
+  accesses: ('Read' | 'Write' | 'Append' | 'Control')[]
+  agents: string[]
+  agentClasses: string[]
+  agentGroups: string[]
+  defaults: string[]
+}[] => {
+  const parser = new n3.Parser({ baseIRI: url })
+  const quads = parser.parse(content)
+  const store = new n3.Store(quads)
+  const auths = store.getSubjects(rdf.type, acl.Authorization, null)
+
+  const accessDict = {
+    [acl.Read]: 'Read',
+    [acl.Write]: 'Write',
+    [acl.Append]: 'Append',
+    [acl.Control]: 'Control',
+  } as const
+
+  return auths.map(auth => {
+    const accesses = store
+      .getObjects(auth, acl.mode, null)
+      .map(mode => accessDict[mode.value])
+
+    const agents = store.getObjects(auth, acl.agent, null).map(q => q.value)
+    const agentClasses = store
+      .getObjects(auth, acl.agentClass, null)
+      .map(q => q.value)
+    const agentGroups = store
+      .getObjects(auth, acl.agentGroup, null)
+      .map(q => q.value)
+
+    const defaults = store
+      .getObjects(auth, acl.default__workaround, null)
+      .map(a => a.value)
+    return {
+      url: auth.value,
+      accesses,
+      agents,
+      agentClasses,
+      agentGroups,
+      defaults,
+    }
+  })
 }
