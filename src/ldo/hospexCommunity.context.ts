@@ -21,6 +21,19 @@ export const hospexCommunityContext: ContextDefinition = {
     '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
     '@container': '@set',
   },
+  note: {
+    '@id': 'http://rdfs.org/sioc/ns#note',
+    '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+  },
+  logo: {
+    '@id': 'http://xmlns.com/foaf/0.1/logo',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  homepage: {
+    '@id': 'http://xmlns.com/foaf/0.1/homepage',
+    '@type': '@id',
+  },
   hasUsergroup: {
     '@id': 'http://rdfs.org/sioc/ns#has_usergroup',
     '@type': '@id',

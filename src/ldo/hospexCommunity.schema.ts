@@ -42,6 +42,15 @@ export const hospexCommunitySchema: Schema = {
               },
               min: 1,
               max: -1,
+              annotations: [
+                {
+                  type: 'Annotation',
+                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  object: {
+                    value: 'Name of the community. One name per language.',
+                  },
+                },
+              ],
             },
             {
               type: 'TripleConstraint',
@@ -53,6 +62,56 @@ export const hospexCommunitySchema: Schema = {
               },
               min: 1,
               max: -1,
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://rdfs.org/sioc/ns#note',
+              valueExpr: {
+                type: 'NodeConstraint',
+                datatype:
+                  'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+              },
+              min: 0,
+              max: 1,
+              annotations: [
+                {
+                  type: 'Annotation',
+                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  object: {
+                    value: 'A teaser, tagline, pun for the community',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://xmlns.com/foaf/0.1/logo',
+              valueExpr: {
+                type: 'NodeConstraint',
+                nodeKind: 'iri',
+              },
+              min: 0,
+              max: 2,
+              annotations: [
+                {
+                  type: 'Annotation',
+                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  object: {
+                    value:
+                      'Logo of the community. If two are specified, the second one may be used for highlight of the first one',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'TripleConstraint',
+              predicate: 'http://xmlns.com/foaf/0.1/homepage',
+              valueExpr: {
+                type: 'NodeConstraint',
+                nodeKind: 'iri',
+              },
+              min: 0,
+              max: 1,
             },
             {
               type: 'TripleConstraint',

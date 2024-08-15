@@ -3,11 +3,12 @@ import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
 import { useAppSelector } from 'app/hooks'
 import { Avatar } from 'components'
+import { Logo } from 'components/Logo/Logo'
 import { useConfig } from 'config/hooks'
 import { selectAuth } from 'features/auth/authSlice'
+import { useReadCommunity } from 'hooks/data/useCommunity'
 import { useProfile } from 'hooks/data/useProfile'
 import { useReadMessagesFromInbox } from 'hooks/data/useReadThreads'
-import { ReactComponent as Logo } from 'logo.svg'
 import { Link } from 'react-router-dom'
 import { SignOut } from '../SignOut'
 import styles from './Header.module.scss'
@@ -20,11 +21,17 @@ export const Header = () => {
 
   const { data: newMessages } = useReadMessagesFromInbox(auth.webId ?? '')
 
+  const community = useReadCommunity(communityId)
+
   return (
     <nav className={styles.header}>
       <Link className={styles.logoContainer} to="/">
-        <Logo className={styles.logo} />
-        SolidCouch
+        <Logo
+          logo={community.logo[0]}
+          focusedLogo={community.logo[1]}
+          name={community.name || (community.isLoading ? '...' : 'Home')}
+          className={styles.logo}
+        />
       </Link>
       <div className={styles.spacer} />
       {auth.isLoggedIn === true && (

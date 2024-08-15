@@ -83,7 +83,7 @@ declare global {
       ): Chainable<Cypress.Response<any>>
       login(user: UserConfig): void
       logout(): void
-      setupCommunity(config: { community: string }): Chainable<CommunityConfig>
+      setupCommunity: typeof setupCommunity
       setupPod(
         user: UserConfig,
         community: CommunityConfig,

@@ -1,0 +1,26 @@
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+
+  // logo
+  // when we hover the logo, show the alternative logo
+  .logo {
+    height: 1.5rem;
+  }
+
+  .focusedLogo {
+    display: none;
+  }
+
+  &:hover {
+    .unfocusedLogo {
+      display: none;
+    }
+
+    .focusedLogo {
+      display: initial;
+    }
+  }
+}
