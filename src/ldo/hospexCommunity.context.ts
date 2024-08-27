@@ -24,6 +24,7 @@ export const hospexCommunityContext: ContextDefinition = {
   note: {
     '@id': 'http://rdfs.org/sioc/ns#note',
     '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+    '@container': '@set',
   },
   logo: {
     '@id': 'http://xmlns.com/foaf/0.1/logo',

@@ -11,8 +11,8 @@ export const Head = () => {
 
   const logo =
     focused && community.logo.length >= 2
-      ? community.logo[1]
-      : community.logo[0]
+      ? community.logo[0]
+      : community.logo[1]
 
   return (
     <Helmet>

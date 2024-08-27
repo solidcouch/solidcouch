@@ -49,8 +49,8 @@ export const useReadCommunity = (communityId: URI) => {
   const pun = useMemo(() => {
     const punLanguages = languagesOf(community, 'note')
 
-    const english = punLanguages['en']
-    const none = punLanguages['@none']
+    const english = [...(punLanguages['en']?.values() ?? [])][0]
+    const none = [...(punLanguages['@none']?.values() ?? [])][0]
 
     return english || none
   }, [community])

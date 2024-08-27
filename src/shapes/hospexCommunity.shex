@@ -12,7 +12,7 @@ ex:HospexCommunity EXTRA a {
   sioc:name rdf:langString+
     // rdfs:comment "Name of the community. One name per language.";
   sioc:about rdf:langString+ ;
-  sioc:note rdf:langString?
+  sioc:note rdf:langString*
     // rdfs:comment "A teaser, tagline, pun for the community";
   foaf:logo IRI {0,2}
     // rdfs:comment "Logo of the community. If two are specified, the second one may be used for highlight of the first one";

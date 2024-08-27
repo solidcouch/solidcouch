@@ -72,7 +72,7 @@ export const hospexCommunitySchema: Schema = {
                   'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
               },
               min: 0,
-              max: 1,
+              max: -1,
               annotations: [
                 {
                   type: 'Annotation',

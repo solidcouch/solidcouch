@@ -28,7 +28,7 @@ export interface HospexCommunity {
   /**
    * A teaser, tagline, pun for the community
    */
-  note?: string
+  note?: string[]
   /**
    * Logo of the community. If two are specified, the second one may be used for highlight of the first one
    */
