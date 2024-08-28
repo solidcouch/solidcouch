@@ -1,3 +1,4 @@
+root: true
 extends:
   - eslint:recommended
   - react-app
@@ -10,6 +11,7 @@ settings:
     '@typescript-eslint/parser':
       - .ts
       - .tsx
+      - .mts
   import/resolver:
     typescript:
       alwaysTryTypes: true

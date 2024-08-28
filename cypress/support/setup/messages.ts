@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { solid } from 'rdf-namespaces'
-import * as uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import { UserConfig } from '../css-authentication'
 import { SetupConfig } from '../setup'
 
@@ -33,7 +33,7 @@ export const createConversation = (conversation: Conversation) => {
   // and they will definitely not reference non-existent chats
   const chatConfigs = conversation.participations
     .map(({ person, setupChat = true, skipReferences = [] }) => ({
-      container: `${person.hospexContainer}messages/${uuid.v4()}/`,
+      container: `${person.hospexContainer}messages/${uuidv4()}/`,
       get chat() {
         return `${this.container}index.ttl#this`
       },
@@ -80,7 +80,7 @@ const saveMessage = (message: {
     message.container +
     dayjs(message.created).format('YYYY/MM/DD') +
     '/chat.ttl#msg-' +
-    uuid.v4()
+    uuidv4()
   cy.authenticatedRequest(message.creator, {
     method: 'PATCH',
     url: uri,
@@ -205,7 +205,7 @@ const getChatTurtle = ({
 }: ChatConfig) => {
   const time = created.toISOString()
   const allParticipations = [...participations, { person: creator.webId }].map(
-    participation => ({ ...participation, id: uuid.v4() }),
+    participation => ({ ...participation, id: uuidv4() }),
   )
   return `
 @prefix cal: <http://www.w3.org/2002/12/cal/ical#>.

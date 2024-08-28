@@ -21,8 +21,19 @@ export type SetupConfig = {
 
 export const setupCommunity = ({
   community: communityUri,
+  name = 'Test Community',
+  about = 'Development community for SolidCouch',
+  pun,
+  logo,
 }: {
   community: string
+  name?: string
+  about?: string
+  pun?: string
+  logo?: {
+    fixture: string
+    contentType: 'image/jpeg' | 'image/png' | 'image/svg+xml'
+  }
 }): Cypress.Chainable<CommunityConfig> => {
   const url = new URL(communityUri)
   const username = url.pathname.split('/')[1]
@@ -44,7 +55,7 @@ export const setupCommunity = ({
     username,
     password: 'correcthorsebatterystaple',
   }).as('communityUser')
-  cy.get<UserConfig>('@communityUser').then(user => {
+  return cy.get<UserConfig>('@communityUser').then(user => {
     cy.authenticatedRequest(user, {
       url: groupAcl,
       method: 'DELETE',
@@ -65,17 +76,62 @@ export const setupCommunity = ({
       method: 'DELETE',
       failOnStatusCode: false,
     })
-    cy.authenticatedRequest(user, {
-      url: communityDoc,
-      method: 'PUT',
-      headers: { 'content-type': 'text/turtle' },
-      body: `
+    // add logo
+    // TODO generalize to reusable image upload method
+    if (logo) {
+      cy.fixture(logo.fixture, 'base64').then(base64 => {
+        cy.authenticatedRequest(user, {
+          url: user.podUrl,
+          method: 'POST',
+          headers: { 'Content-Type': logo.contentType },
+          body: Cypress.Blob.base64StringToBlob(base64, logo.contentType),
+          encoding: 'binary',
+        }).then(response => {
+          expect(response.status).to.be.within(200, 299)
+          const url = response.headers['location']
+          cy.log(JSON.stringify(url))
+          cy.wrap(url).as('logoUrl')
+        })
+      })
+    } else cy.wrap(undefined).as('logoUrl')
+
+    cy.get<string | undefined>('@logoUrl').then(logoUrl => {
+      // upload community data
+      cy.authenticatedRequest(user, {
+        url: communityDoc,
+        method: 'PUT',
+        headers: { 'content-type': 'text/turtle' },
+        body: `
+      @prefix foaf: <http://xmlns.com/foaf/0.1/>.
       @prefix hospex: <http://w3id.org/hospex/ns#>.
       @prefix sioc: <http://rdfs.org/sioc/ns#>.
-      <${communityUri}> a hospex:Community, sioc:Community;
-        sioc:name "Test Community"@en;
-        sioc:about "Development community for SolidCouch"@en;
+      <${communityUri}>
+        a hospex:Community, sioc:Community;
+        sioc:name "${name}"@en;
+        sioc:about """${about}"""@en;
+        ${pun ? `sioc:note """${pun}"""@en;` : ''}
+        ${logoUrl ? `foaf:logo <${logoUrl}>;` : ''}
         sioc:has_usergroup <${groupUri}>.`,
+      })
+
+      // make logo public
+      if (logoUrl)
+        cy.authenticatedRequest(user, {
+          url: logoUrl + '.acl',
+          method: 'PUT',
+          headers: { 'content-type': 'text/turtle' },
+          body: `
+      @prefix acl: <http://www.w3.org/ns/auth/acl#>.
+      @prefix foaf: <http://xmlns.com/foaf/0.1/>.
+      <#Control> a acl:Authorization;
+        acl:agent <${user.webId}>;
+        acl:accessTo <${logoUrl}>;
+        acl:mode acl:Read, acl:Write, acl:Control.
+      <#Read> a acl:Authorization;
+        acl:accessTo <${logoUrl}>;
+        acl:mode acl:Read;
+        acl:agentClass foaf:Agent.`,
+        })
     })
     cy.authenticatedRequest(user, {
       url: groupDoc,
@@ -125,8 +181,9 @@ export const setupCommunity = ({
         acl:agentClass acl:AuthenticatedAgent.
         `,
     })
+
+    return cy.wrap({ community: communityUri, group: groupUri, user })
   })
-  return cy.wrap({ community: communityUri, group: groupUri })
 }
 
 export type SkipOptions =

@@ -13,6 +13,11 @@
     font-size: 1.2rem;
   }
 
+  .pun {
+    font-size: 1.2rem;
+    font-style: italic;
+  }
+
   .actions {
     display: flex;
     justify-content: center;
@@ -24,17 +29,32 @@
     }
   }
 
+  .logo {
+    height: 5rem;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
   .spacer {
     flex: auto;
   }
 
   .footer {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    justify-content: space-evenly;
     a {
       text-decoration: underline;
+    }
+    .footerInfo {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+    .attribution {
+      color: gray;
+      font-size: small;
+      a {
+        color: inherit;
+      }
     }
   }
 }

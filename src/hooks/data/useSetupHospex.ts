@@ -15,7 +15,7 @@ import { useCallback } from 'react'
 import { URI } from 'types'
 import { fullFetch, getAcl, getContainer, processAcl } from 'utils/helpers'
 import { hospex } from 'utils/rdf-namespaces'
-import * as uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import { useReadCommunity } from './useCommunity'
 import {
   useCreateRdfContainer,
@@ -162,7 +162,7 @@ export const useSaveTypeRegistration = (isPrivate = false) => {
           ldo.references ??= []
           referenceIndex =
             ldo.references.push({
-              '@id': index + '#' + uuid.v4(),
+              '@id': index + '#' + uuidv4(),
               type: { '@id': 'TypeRegistration' },
               forClass: [{ '@id': type }],
             }) - 1
@@ -299,7 +299,7 @@ const useUpdateAcl = () => {
 
         const getNewAuthUrl = (uri: string) => {
           const newAuthURL = new URL(uri)
-          newAuthURL.hash = uuid.v4()
+          newAuthURL.hash = uuidv4()
           return newAuthURL.toString()
         }
 
@@ -713,7 +713,7 @@ const usePreparePodForSimpleEmailNotifications = () => {
         },
       ])
       // create emailSettings file
-      const emailSettings = hospexContainer + 'emailSettings-' + uuid.v4()
+      const emailSettings = hospexContainer + 'emailSettings-' + uuidv4()
 
       const addEmail = `_:mutate a <${solid.InsertDeletePatch}>;
         <${solid.inserts}> { <${webId}> <${foaf.mbox}> "${email}". } .`
