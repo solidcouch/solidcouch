@@ -42,7 +42,7 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-import * as uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import { resetAppConfig, updateAppConfig } from './app-config'
 import { uiLogin, uiLogout } from './authentication'
 import { UserConfig, getAuthenticatedRequest } from './css-authentication'
@@ -264,7 +264,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'createRandomAccount',
   function (): Cypress.Chainable<UserConfig> {
-    const username = 'test-' + uuid.v4()
+    const username = 'test-' + uuidv4()
     return cy.createAccount({ username })
   },
 )

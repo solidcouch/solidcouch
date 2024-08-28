@@ -9,7 +9,7 @@ import { useCallback } from 'react'
 import { URI } from 'types'
 import { getAcl, getContainer } from 'utils/helpers'
 import { acl } from 'utils/rdf-namespaces'
-import * as uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import {
   useCreateRdfDocument,
   useDeleteRdfDocument,
@@ -31,7 +31,7 @@ export const useCreateMessage = () => {
     }) => {
       const container = getContainer(chat)
       const chatFile = `${container}${dayjs().format('YYYY/MM/DD')}/chat.ttl`
-      const id = `${chatFile}#msg-${uuid.v4()}`
+      const id = `${chatFile}#msg-${uuidv4()}`
       const createdAt = new Date().toISOString()
       // create the message
       await queryMutation.mutateAsync({
@@ -120,7 +120,7 @@ export const useCreateChat = () => {
       privateTypeIndex: URI
     }) => {
       // create index.ttl on my pod and fill it with info
-      const chatContainer = `${hospexContainer}messages/${uuid.v4()}/`
+      const chatContainer = `${hospexContainer}messages/${uuidv4()}/`
       const chatFile = `${chatContainer}index.ttl`
       const chatId = `${chatFile}#this`
       const date = new Date().toISOString()
@@ -136,12 +136,12 @@ export const useCreateChat = () => {
           title: 'Hospex chat channel',
           participation: [
             {
-              '@id': `${chatFile}#${uuid.v4()}`,
+              '@id': `${chatFile}#${uuidv4()}`,
               dtstart: date,
               participant: { '@id': me },
             },
             {
-              '@id': `${chatFile}#${uuid.v4()}`,
+              '@id': `${chatFile}#${uuidv4()}`,
               dtstart: date,
               participant: { '@id': otherPerson },
               references: otherChat ? [{ '@id': otherChat } as ChatShape] : [],

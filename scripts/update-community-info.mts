@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-named-as-default-member */
+// TODO fix the weird linter errors that we currently suppress above (shouldn't show up)
 /**
  * This script fetches community info from community Solid pod and saves them as environment variables in .env.build
  * The env variables are used to populate index.html in build step
@@ -8,7 +12,7 @@ import { QueryAndStore, run } from '@ldhop/core'
 import fetch from 'cross-fetch'
 import { writeFileSync } from 'fs'
 import he from 'he'
-import { Quad_Object } from 'n3'
+import type { Quad_Object } from 'n3'
 import { foaf, sioc } from 'rdf-namespaces'
 
 const communityId = process.env.REACT_APP_COMMUNITY
@@ -57,6 +61,7 @@ const defaultAbout =
   // create-react-app doesn't take care on its own
   const env = `REACT_APP_COMMUNITY_LOGO='${encodeURI(logo)}'
 REACT_APP_COMMUNITY_NAME='${he.encode(name)}'
+REACT_APP_COMMUNITY_NAME_UNSAFE='${name}'
 REACT_APP_COMMUNITY_ABOUT='${he.encode(about)}'
 REACT_APP_COMMUNITY_HOMEPAGE='${encodeURI(homepage)}'
 `
