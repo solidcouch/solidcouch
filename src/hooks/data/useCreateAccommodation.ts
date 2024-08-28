@@ -3,7 +3,7 @@ import { HospexProfile } from 'ldo/app.typings'
 import { useCallback } from 'react'
 import { Accommodation, URI } from 'types'
 import { hospex, solid } from 'utils/rdf-namespaces'
-import * as uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import { useCreateRdfDocument, useUpdateRdfDocument } from './useRdfDocument'
 
 export const useCreateAccommodation = () => {
@@ -24,7 +24,7 @@ export const useCreateAccommodation = () => {
       hospexDocument: URI
       hospexContainer: URI
     }) => {
-      const uid = uuid.v4()
+      const uid = uuidv4()
       const uri = hospexContainer + uid
       const id = `${uri}#accommodation`
       await createAccommodationMutation.mutateAsync({

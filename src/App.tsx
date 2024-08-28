@@ -1,6 +1,7 @@
 import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser'
 import { useAppDispatch } from 'app/hooks'
 import { Header as PageHeader } from 'components'
+import { Head } from 'components/Head'
 import { useSetEditableConfig } from 'config/hooks'
 import { actions } from 'features/auth/authSlice'
 import { useAuth } from 'hooks/useAuth'
@@ -33,6 +34,7 @@ export const App = () => {
 
   return (
     <Layout>
+      <Head />
       <ToastContainer transition={Slide} />
       <Header>
         <PageHeader />

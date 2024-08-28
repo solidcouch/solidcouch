@@ -20,8 +20,24 @@ export interface HospexCommunity {
         '@id': 'Community2'
       }
   )[]
+  /**
+   * Name of the community. One name per language.
+   */
   name: string[]
   about: string[]
+  /**
+   * A teaser, tagline, pun for the community
+   */
+  note?: string[]
+  /**
+   * Logo of the community. If two are specified, the second one may be used for highlight of the first one
+   */
+  logo?: {
+    '@id': string
+  }[]
+  homepage?: {
+    '@id': string
+  }
   hasUsergroup: HospexGroup[]
 }
 

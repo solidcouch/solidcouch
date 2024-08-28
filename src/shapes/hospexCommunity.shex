@@ -1,14 +1,22 @@
 PREFIX ex: <https://example.com/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX hospex: <http://w3id.org/hospex/ns#>
-PREFIX sioc: <http://rdfs.org/sioc/ns#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sioc: <http://rdfs.org/sioc/ns#>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 
 ex:HospexCommunity EXTRA a {
   a [hospex:Community] ;
   a [sioc:Community] ;
-  sioc:name rdf:langString+ ;
+  sioc:name rdf:langString+
+    // rdfs:comment "Name of the community. One name per language.";
   sioc:about rdf:langString+ ;
+  sioc:note rdf:langString*
+    // rdfs:comment "A teaser, tagline, pun for the community";
+  foaf:logo IRI {0,2}
+    // rdfs:comment "Logo of the community. If two are specified, the second one may be used for highlight of the first one";
+  foaf:homepage IRI ?;
   sioc:has_usergroup @ex:HospexGroup + ;
 }
 
