@@ -38,6 +38,7 @@ export const oidcIssuers: IssuerConfig[] = [
   {
     featured: true,
     issuer: 'https://solidweb.me/',
+    registration: 'https://solidweb.me/.account/login/password/register/',
     server: 'CSS',
   },
   {
@@ -64,6 +65,12 @@ export const oidcIssuers: IssuerConfig[] = [
     issuer: 'https://inrupt.net',
     registration: 'https://inrupt.net/register',
     server: 'NSS',
+  },
+  {
+    issuer: 'https://pods.solidcommunity.au',
+    registration:
+      'https://pods.solidcommunity.au/.account/login/password/register/',
+    server: 'CSS',
   },
 ]
 
