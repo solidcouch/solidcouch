@@ -21,6 +21,14 @@ content = content.replaceAll(
     'https://app.solidcouch.org', // or a default
 )
 
+// update name and logo if available
+const contentObject = JSON.parse(content, 'utf8')
+const communityName = process.env.REACT_APP_COMMUNITY_NAME_UNSAFE
+const communityLogo = process.env.REACT_APP_COMMUNITY_LOGO
+if (communityName) contentObject.client_name = communityName
+if (communityLogo) contentObject.logo_uri = communityLogo
+content = JSON.stringify(contentObject, null, 2)
+
 // Write the content to the output file
 fs.writeFileSync(clientIdPath, content, 'utf8')
 

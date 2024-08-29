@@ -61,6 +61,7 @@ export const HospexSetup = ({
   const [selectedHospexDocument, setSelectedHospexDocument] = useState('')
   const [addToExisting, setAddToExisting] = useState<boolean>()
   const newHospexDocument = `${storage}hospex/${communityContainer}/card`
+
   const handleClickSetup = async () => {
     setIsSaving(true)
     if (
@@ -124,7 +125,7 @@ export const HospexSetup = ({
 
   return (
     <div>
-      <header>Welcome to SolidCouch!</header>
+      <header>Welcome to {community.name || 'SolidCouch'}!</header>
       <div>We would like to set up your Pod:</div>
       <ul>
         <li>{!isMember && `join community ${communityId}`}</li>

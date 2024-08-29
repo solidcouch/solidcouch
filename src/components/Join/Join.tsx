@@ -4,6 +4,7 @@ import { ExternalButtonLink } from 'components/Button/Button'
 import type { IssuerConfig } from 'config'
 import { useConfig } from 'config/hooks'
 import { actions } from 'features/login/loginSlice'
+import { useReadCommunity } from 'hooks/data/useCommunity'
 import { ChangeEvent, Fragment, ReactNode, useMemo, useState } from 'react'
 import Modal from 'react-modal'
 import styles from './Join.module.scss'
@@ -33,7 +34,10 @@ const RegistrationButton = ({
 }
 
 const useTabs = () => {
-  const { oidcIssuers } = useConfig()
+  const { oidcIssuers, communityId } = useConfig()
+
+  const community = useReadCommunity(communityId)
+  const communityName = community.name || 'SolidCouch'
 
   const tabs = useMemo(
     () => [
@@ -42,7 +46,7 @@ const useTabs = () => {
         label: 'Show me some providers!',
         content: (
           <>
-            Here are some Pod providers that work with SolidCouch:
+            Here are some Pod providers that work with {communityName}:
             <ul>
               {oidcIssuers
                 .filter(iss => iss.registration)
@@ -148,7 +152,7 @@ const useTabs = () => {
         ),
       },
     ],
-    [oidcIssuers],
+    [communityName, oidcIssuers],
   )
 
   return tabs
@@ -157,6 +161,10 @@ const useTabs = () => {
 export const Join = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedTab, setSelectedTab] = useState<string>()
+
+  const { communityId } = useConfig()
+  const community = useReadCommunity(communityId)
+  const communityName = community.name || 'SolidCouch'
 
   const handleTabChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedTab(event.target.value)
@@ -177,7 +185,7 @@ export const Join = () => {
       >
         <div className={styles.container}>
           <div className={styles.content}>
-            To join SolidCouch, you need a{' '}
+            To join {communityName}, you need a{' '}
             <a
               href="https://solidproject.org/users/get-a-pod"
               target="_blank"
