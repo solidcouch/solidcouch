@@ -4,6 +4,7 @@ import { Button } from 'components'
 import { guessIssuer } from 'components/SignIn/oidcIssuer'
 import { useConfig } from 'config/hooks'
 import { actions, selectLastSelectedIssuer } from 'features/login/loginSlice'
+import { useReadCommunity } from 'hooks/data/useCommunity'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
@@ -12,7 +13,7 @@ import styles from './SignIn.module.scss'
 Modal.setAppElement('#root')
 
 export const SignIn = () => {
-  const { oidcIssuers } = useConfig()
+  const { oidcIssuers, communityId } = useConfig()
   const [modalOpen, setModalOpen] = useState(false)
   const [longList, setLongList] = useState(false)
 
@@ -25,6 +26,8 @@ export const SignIn = () => {
 
   const dispatch = useAppDispatch()
 
+  const community = useReadCommunity(communityId)
+
   // sign in on selecting a provider
   const handleSelectIssuer = async (oidcIssuer: string) => {
     const prevIssuer = lastIssuer ?? ''
@@ -35,7 +38,7 @@ export const SignIn = () => {
       await login({
         oidcIssuer,
         redirectUrl: new URL('/', window.location.href).toString(),
-        clientName: 'SolidCouch',
+        clientName: community.name || 'SolidCouch',
         clientId:
           process.env.NODE_ENV === 'development' &&
           !process.env.REACT_APP_ENABLE_DEV_CLIENT_ID
