@@ -1,0 +1,16 @@
+.taskList {
+  li {
+    margin: 1rem;
+    list-style-type: disc;
+    border-left: 4px solid black;
+    padding-left: 0.5rem;
+  }
+
+  .storageOptions {
+    margin-left: 1rem;
+    input {
+      margin: 0.5rem;
+      margin-left: 1rem;
+    }
+  }
+}
