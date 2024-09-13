@@ -12,6 +12,7 @@ import { useStorage } from 'hooks/data/useStorage'
 import { useAuth } from 'hooks/useAuth'
 import { FormEventHandler, useState } from 'react'
 import { URI } from 'types'
+import { getContainer } from 'utils/helpers'
 import styles from './HospexSetup.module.scss'
 
 export const HospexSetup = ({
@@ -157,7 +158,7 @@ export const HospexSetup = ({
                   You already seem to be a member of some hospex communities. Do
                   you want to
                 </legend>
-                <div>
+                <div className={styles.option}>
                   <input
                     required
                     type="radio"
@@ -171,16 +172,17 @@ export const HospexSetup = ({
                     }}
                   />{' '}
                   <label htmlFor="new-hospex-document">
-                    Set up new data for this community ({newHospexDocument})
+                    Set up new data for this community (
+                    {new URL(getContainer(newHospexDocument)).pathname})
                   </label>
                 </div>
                 <div>
                   <legend>
-                    Or share data of one of your existing communities?
+                    Or share data of one of your existing communities?{' '}
                     <i>(recommended for similar communities)</i>
                   </legend>
                   {allHospex.map(({ hospexDocument, communities }, i) => (
-                    <div key={hospexDocument}>
+                    <div key={hospexDocument} className={styles.option}>
                       <input
                         required
                         type="radio"
@@ -194,7 +196,8 @@ export const HospexSetup = ({
                         }}
                       />{' '}
                       <label htmlFor={`hospexDocument-${i}`}>
-                        {communities.map(c => c.name ?? c.uri).join(', ')}
+                        {communities.map(c => c.name ?? c.uri).join(', ')} (
+                        {new URL(getContainer(hospexDocument)).pathname})
                       </label>
                     </div>
                   ))}
