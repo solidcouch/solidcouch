@@ -59,20 +59,6 @@ export const UnauthenticatedHome = () => {
       </section>
       <div className={styles.spacer} />
       <footer className={styles.footer}>
-        {/* Visit our project spaces to{' '}
-        <a href="https://matrix.to/#/#todo:matrix.org">
-          ask a question or join the team
-        </a>,
-        {/* or <a href="https://opencollective.com/todo">support us financially</a>. */}
-        {/* <br />
-        Follow us in the{' '}
-        <a rel="me" href="https://floss.social/@todo">
-          Fediverse
-        </a>{' '}
-        or on{' '}
-        <a rel="me" href="https://www.facebook.com/todo/">
-          Facebook
-        </a>. */}
         <div className={styles.footerInfo}>WIP</div>
         <div className={styles.attribution}>
           Powered by <a href="https://github.com/solidcouch">SolidCouch</a>

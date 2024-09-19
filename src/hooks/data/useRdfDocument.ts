@@ -126,6 +126,8 @@ export const useCreateRdfDocument = <S extends LdoBase>(
         setLanguagePreferences(language).using(ldo)
         merge(ldo, data)
       }
+
+      // For license and copyright purposes, please refer to https://github.com/solidcouch/solidcouch/pull/88/commits/5c3e71bd98b505e386c6f48f62fce409ccfd9d6f for authorship of the following lines.
       const body = await toTurtle(
         ldoDataset.usingType(shapeType).fromSubject(''),
       )
