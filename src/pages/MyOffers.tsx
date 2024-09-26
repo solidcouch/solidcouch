@@ -6,10 +6,11 @@ import { useConfig } from 'config/hooks'
 import { useHospexDocumentSetup } from 'hooks/data/useCheckSetup'
 import { useCreateAccommodation } from 'hooks/data/useCreateAccommodation'
 import { useDeleteAccommodation } from 'hooks/data/useDeleteAccommodation'
+import { useNotifyGeoindex } from 'hooks/data/useNotifyGeoindex'
 import { useReadAccommodations } from 'hooks/data/useReadAccommodations'
 import { useUpdateAccommodation } from 'hooks/data/useUpdateAccommodation'
 import { useAuth } from 'hooks/useAuth'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { FaDoorOpen } from 'react-icons/fa'
 import { Accommodation, URI } from 'types'
 import { getContainer } from 'utils/helpers'
@@ -32,6 +33,44 @@ export const MyOffers = () => {
   const updateAccommodation = useUpdateAccommodation()
   const deleteAccommodation = useDeleteAccommodation()
 
+  const [isGeoindexSetUp, notifyGeoindex] = useNotifyGeoindex()
+
+  /**
+   * notifying geoindex if it's set up with toast and stuff...
+   */
+  const runNotifyGeoindex = useCallback(
+    async ({
+      uri,
+      type,
+    }: {
+      uri: string
+      type: 'Create' | 'Update' | 'Delete'
+    }) => {
+      if (isGeoindexSetUp && auth.webId)
+        await withToast(
+          notifyGeoindex({ type, actor: auth.webId, object: uri }),
+          {
+            pending: 'Notifying indexing service',
+            success: {
+              render: ({ data }) => {
+                switch (data) {
+                  case 201:
+                    return <>Accommodation added to indexing service</>
+                  case 200:
+                    return <>Accommodation updated in indexing service</>
+                  case 204:
+                    return <>Accommodation removed from indexing service</>
+                  default:
+                    return <>Unexpected status code from indexing service</>
+                }
+              },
+            },
+          },
+        )
+    },
+    [auth.webId, isGeoindexSetUp, notifyGeoindex],
+  )
+
   if (typeof auth.webId !== 'string') return null
 
   if (!accommodations) return <Loading>Loading...</Loading>
@@ -40,7 +79,7 @@ export const MyOffers = () => {
     if (!(auth.webId && personalHospexDocuments?.[0]))
       throw new Error('missing variables')
 
-    await withToast(
+    const { uri } = await withToast(
       createAccommodation({
         personId: auth.webId,
         data: accommodation,
@@ -54,6 +93,8 @@ export const MyOffers = () => {
     )
 
     setEditing(undefined)
+
+    await runNotifyGeoindex({ type: 'Create', uri })
   }
 
   const handleUpdate = async (accommodation: Accommodation) => {
@@ -62,6 +103,8 @@ export const MyOffers = () => {
       success: 'Accommodation updated',
     })
     setEditing(undefined)
+
+    await runNotifyGeoindex({ type: 'Update', uri: accommodation.id })
   }
 
   const handleDelete = async (id: URI) => {
@@ -84,6 +127,8 @@ export const MyOffers = () => {
           success: 'Accommodation deleted',
         },
       )
+
+      await runNotifyGeoindex({ type: 'Delete', uri: id })
     }
   }
 

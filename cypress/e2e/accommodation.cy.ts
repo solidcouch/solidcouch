@@ -64,11 +64,16 @@ describe('accommodations offered by person', () => {
     })
   })
 
-  // go to offers page
-  beforeEach(() => {
+  /**
+   * Go to offers page
+   */
+  const goToOffers = () => {
     cy.contains('a', 'host').click()
     cy.location().its('pathname').should('equal', '/host/offers')
-  })
+  }
+
+  // go to offers page
+  beforeEach(goToOffers)
 
   it('should be able to navigate to my offers page from user menu', () => {
     // through header, open edit-profile page
@@ -166,5 +171,108 @@ describe('accommodations offered by person', () => {
       .and('contain.text', 'accommodation 1')
       .and('not.contain.text', 'accommodation 2')
       .and('contain.text', 'accommodation 3')
+  })
+
+  context('geoindex is set up', () => {
+    const geoindexService = 'https://geoindex.example.com/profile/card#bot'
+    beforeEach(() => {
+      cy.updateAppConfig({ geoindexService }, { waitForContent: 'travel' })
+      goToOffers()
+    })
+
+    it("should send info about creation into geoindex's inbox", () => {
+      cy.get<Person>('@me').then(me => {
+        // test creation
+        cy.intercept('POST', new URL('/inbox', geoindexService).toString(), {
+          statusCode: 201,
+        }).as('geoindexInbox')
+        cy.get('li[class^=MyOffers_accommodation]').should('have.length', 3)
+        cy.contains('button', 'Add Accommodation').click()
+
+        // move the map
+        moveFormMap(['l', 'u', 'i', 'l', 'l'])
+
+        // write some description
+        cy.get('textarea[name=description]').type(
+          'This is a new description in English',
+        )
+        cy.contains('button', 'Submit').click()
+
+        cy.testToast('Creating accommodation')
+        cy.testAndCloseToast('Accommodation created')
+
+        cy.testToast('Notifying indexing service')
+        cy.testAndCloseToast('Accommodation added to indexing service')
+
+        cy.wait('@geoindexInbox')
+          .its('request.body')
+          .should('containSubset', {
+            '@context': 'https://www.w3.org/ns/activitystreams',
+            type: 'Create',
+            actor: { type: 'Person', id: me.webId },
+            object: { type: 'Document' },
+          })
+      })
+    })
+
+    it("should send info about update into geoindex's inbox", () => {
+      cy.get<Person>('@me').then(me => {
+        // test update
+        cy.intercept('POST', new URL('/inbox', geoindexService).toString(), {
+          statusCode: 200,
+        }).as('geoindexInbox')
+
+        cy.contains('li[class^=MyOffers_accommodation]', 'accommodation 2')
+          .contains('button', 'Edit')
+          .click()
+        cy.get('textarea[name="description"]')
+          .clear()
+          .type('changed second accommodation')
+
+        moveFormMap(['o', 'o', 'l', 'd'])
+
+        cy.contains('button', 'Submit').click()
+        cy.testToast('Updating accommodation')
+        cy.testAndCloseToast('Accommodation updated')
+        cy.testToast('Notifying indexing service')
+        cy.testAndCloseToast('Accommodation updated in indexing service')
+
+        cy.wait('@geoindexInbox')
+          .its('request.body')
+          .should('containSubset', {
+            '@context': 'https://www.w3.org/ns/activitystreams',
+            type: 'Update',
+            actor: { type: 'Person', id: me.webId },
+            object: { type: 'Document' },
+          })
+      })
+    })
+
+    it("should send info about deletion into geoindex's inbox", () => {
+      cy.get<Person>('@me').then(me => {
+        // test deletion
+        cy.intercept('POST', new URL('/inbox', geoindexService).toString(), {
+          statusCode: 204,
+        }).as('geoindexInbox')
+
+        cy.contains('li[class^=MyOffers_accommodation]', 'accommodation 2')
+          .contains('button', 'Delete')
+          .click()
+        cy.testToast('Deleting accommodation')
+        cy.testAndCloseToast('Accommodation deleted')
+
+        cy.testToast('Notifying indexing service')
+        cy.testAndCloseToast('Accommodation removed from indexing service')
+
+        cy.wait('@geoindexInbox')
+          .its('request.body')
+          .should('containSubset', {
+            '@context': 'https://www.w3.org/ns/activitystreams',
+            type: 'Delete',
+            actor: { type: 'Person', id: me.webId },
+            object: { type: 'Document' },
+          })
+      })
+    })
   })
 })

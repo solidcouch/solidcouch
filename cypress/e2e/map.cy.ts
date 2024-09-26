@@ -68,5 +68,7 @@ describe('Map of accommodation offers', () => {
     })
   })
 
-  it('should fetch offers in the displayed area only (requires indexing)')
+  context('geoindex is set up', () => {
+    it('should fetch offers in the displayed area using geoindex')
+  })
 })

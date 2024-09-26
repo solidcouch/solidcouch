@@ -26,3 +26,5 @@ export const emailNotificationsType: 'simple' | 'solid' =
     | 'simple'
     | 'solid'
     | undefined) ?? 'simple'
+
+export const geoindexService = process.env.REACT_APP_GEOINDEX
