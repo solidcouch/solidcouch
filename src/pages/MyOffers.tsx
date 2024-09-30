@@ -12,7 +12,7 @@ import { useUpdateAccommodation } from 'hooks/data/useUpdateAccommodation'
 import { useAuth } from 'hooks/useAuth'
 import { useCallback, useState } from 'react'
 import { FaDoorOpen } from 'react-icons/fa'
-import { Accommodation, URI } from 'types'
+import { Accommodation, Location, URI } from 'types'
 import { getContainer } from 'utils/helpers'
 import styles from './MyOffers.module.scss'
 
@@ -42,18 +42,28 @@ export const MyOffers = () => {
     async ({
       uri,
       type,
+      previousLocation,
+      currentLocation,
     }: {
       uri: string
       type: 'Create' | 'Update' | 'Delete'
+      previousLocation?: Location
+      currentLocation?: Location
     }) => {
       if (isGeoindexSetUp && auth.webId)
         await withToast(
-          notifyGeoindex({ type, actor: auth.webId, object: uri }),
+          notifyGeoindex({
+            type,
+            actor: auth.webId,
+            object: uri,
+            previousLocation,
+            currentLocation,
+          }),
           {
             pending: 'Notifying indexing service',
             success: {
               render: ({ data }) => {
-                switch (data) {
+                switch (data.status) {
                   case 201:
                     return <>Accommodation added to indexing service</>
                   case 200:
@@ -94,20 +104,32 @@ export const MyOffers = () => {
 
     setEditing(undefined)
 
-    await runNotifyGeoindex({ type: 'Create', uri })
+    await runNotifyGeoindex({
+      type: 'Create',
+      uri,
+      currentLocation: accommodation.location,
+    })
   }
 
-  const handleUpdate = async (accommodation: Accommodation) => {
+  const handleUpdate = async (
+    accommodation: Accommodation,
+    previousAccommodation: Accommodation,
+  ) => {
     await withToast(updateAccommodation({ data: accommodation }), {
       pending: 'Updating accommodation',
       success: 'Accommodation updated',
     })
     setEditing(undefined)
 
-    await runNotifyGeoindex({ type: 'Update', uri: accommodation.id })
+    await runNotifyGeoindex({
+      type: 'Update',
+      uri: accommodation.id,
+      currentLocation: accommodation.location,
+      previousLocation: previousAccommodation.location,
+    })
   }
 
-  const handleDelete = async (id: URI) => {
+  const handleDelete = async ({ id, location }: Accommodation) => {
     if (!(auth.webId && personalHospexDocuments?.[0]))
       throw new Error('missing variables')
 
@@ -128,7 +150,11 @@ export const MyOffers = () => {
         },
       )
 
-      await runNotifyGeoindex({ type: 'Delete', uri: id })
+      await runNotifyGeoindex({
+        type: 'Delete',
+        uri: id,
+        previousLocation: location,
+      })
     }
   }
 
@@ -142,7 +168,7 @@ export const MyOffers = () => {
           editing === accommodation.id ? (
             <AccommodationForm
               key={accommodation.id}
-              onSubmit={handleUpdate}
+              onSubmit={a => handleUpdate(a, accommodation)}
               onCancel={() => {
                 setEditing(undefined)
               }}
@@ -160,7 +186,7 @@ export const MyOffers = () => {
                 >
                   Edit
                 </Button>
-                <Button danger onClick={() => handleDelete(accommodation.id)}>
+                <Button danger onClick={() => handleDelete(accommodation)}>
                   Delete
                 </Button>
               </div>

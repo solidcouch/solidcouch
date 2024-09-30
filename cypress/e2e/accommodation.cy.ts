@@ -199,9 +199,8 @@ describe('accommodations offered by person', () => {
         cy.contains('button', 'Submit').click()
 
         cy.testToast('Creating accommodation')
-        cy.testAndCloseToast('Accommodation created')
-
         cy.testToast('Notifying indexing service')
+        cy.testAndCloseToast('Accommodation created')
         cy.testAndCloseToast('Accommodation added to indexing service')
 
         cy.wait('@geoindexInbox')
@@ -233,8 +232,8 @@ describe('accommodations offered by person', () => {
 
         cy.contains('button', 'Submit').click()
         cy.testToast('Updating accommodation')
-        cy.testAndCloseToast('Accommodation updated')
         cy.testToast('Notifying indexing service')
+        cy.testAndCloseToast('Accommodation updated')
         cy.testAndCloseToast('Accommodation updated in indexing service')
 
         cy.wait('@geoindexInbox')
@@ -259,9 +258,8 @@ describe('accommodations offered by person', () => {
           .contains('button', 'Delete')
           .click()
         cy.testToast('Deleting accommodation')
-        cy.testAndCloseToast('Accommodation deleted')
-
         cy.testToast('Notifying indexing service')
+        cy.testAndCloseToast('Accommodation deleted')
         cy.testAndCloseToast('Accommodation removed from indexing service')
 
         cy.wait('@geoindexInbox')

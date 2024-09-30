@@ -1,11 +1,11 @@
 export class HttpError extends Error {
-  public statusCode: number
+  public status: number
   public response: any
 
-  constructor(statusCode: number, message: string, response: any) {
+  constructor(message: string, response: Response) {
     super(message)
     this.name = 'HttpError'
-    this.statusCode = statusCode
+    this.status = response.status
     this.response = response
 
     // Set the prototype explicitly to maintain correct instance type

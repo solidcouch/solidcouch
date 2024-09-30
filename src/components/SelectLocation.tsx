@@ -1,43 +1,82 @@
 import { LocateControl } from '@turtlesocks/react-leaflet.locatecontrol/dist/LocateControl'
 import { useConfig } from 'config/hooks'
-import { LatLngTuple } from 'leaflet'
+import type { LatLngTuple, Map } from 'leaflet'
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
 import 'leaflet/dist/leaflet.css'
 import React, { useCallback, useEffect, useMemo } from 'react'
-import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
-import { Location } from 'types'
+import {
+  MapContainer,
+  Marker,
+  TileLayer,
+  useMap,
+  useMapEvent,
+} from 'react-leaflet'
+import { Bounds, Location } from 'types'
 import styles from './AccommodationView/AccommodationView.module.scss'
 
 const normalizeLng = (lng: number) => (((lng % 360) - 180 * 3) % 360) + 180
 
-const Move = ({ onChange }: { onChange?: (location: Location) => void }) => {
+const getBounds = (map: Map) => {
+  const rawBounds = map.getBounds()
+  const bounds = {
+    n: rawBounds.getNorth(),
+    s: rawBounds.getSouth(),
+    e: rawBounds.getEast(),
+    w: rawBounds.getWest(),
+  }
+
+  return bounds
+}
+
+export const Move = ({
+  onChange,
+  onUpdate,
+}: {
+  onChange?: (location: Location, bounds: Bounds) => void
+  onUpdate?: (location: Location, bounds: Bounds) => void
+}) => {
   const map = useMap()
 
   // trigger onChange callback when location changes
   const handleMove = useCallback(() => {
     const { lat, lng } = map.getCenter()
-    onChange?.({ lat, long: lng })
+    const bounds = getBounds(map)
+    onChange?.({ lat, long: lng }, bounds)
   }, [map, onChange])
 
   // when move ends, move map to normal longitude, if it's out
   const handleMoveEnd = useCallback(() => {
     const { lat, lng } = map.getCenter()
     const nlng = normalizeLng(lng)
+    const normalizedCenter = { lat, long: nlng }
     if (Math.abs(nlng - lng) > 1) {
-      map.setView([lat, nlng])
-      onChange?.({ lat, long: nlng })
+      map.setView([lat, nlng], map.getZoom(), { animate: false })
+      const bounds = getBounds(map)
+      onChange?.(normalizedCenter, bounds)
     }
-  }, [map, onChange])
+    const bounds = getBounds(map)
+    onUpdate?.(normalizedCenter, bounds)
+  }, [map, onChange, onUpdate])
 
+  const handleLoad = useCallback(() => {
+    const { lat, lng } = map.getCenter()
+    const nlng = normalizeLng(lng)
+    const normalizedCenter = { lat, long: nlng }
+    if (Math.abs(nlng - lng) > 1) {
+      map.setView([lat, nlng], map.getZoom(), { animate: false })
+    }
+    const bounds = getBounds(map)
+    onUpdate?.(normalizedCenter, bounds)
+  }, [map, onUpdate])
+
+  useMapEvent('load', handleLoad)
+  useMapEvent('move', handleMove)
+  useMapEvent('moveend', handleMoveEnd)
+
+  // this just runs as well, because 'load' doesn't typically trigger, as if the map is loaded before the hooks are hooked
   useEffect(() => {
-    map.on('move', handleMove)
-    map.on('moveend', handleMoveEnd)
-
-    return () => {
-      map.off('move', handleMove)
-      map.off('moveend', handleMoveEnd)
-    }
-  }, [handleMove, handleMoveEnd, map])
+    map && handleLoad()
+  }, [handleLoad, map])
 
   return null
 }
