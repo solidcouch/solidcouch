@@ -173,3 +173,25 @@ export const processAcl = (
     }
   })
 }
+
+/**
+ * Merge arrays of objects and deduplicate the elements by a given key
+ * Note: the later array's object will overwrite previous matching ones
+ */
+export const mergeArrays = <
+  T extends { [key in K]: string | number } & Record<string, any>,
+  K extends keyof T,
+>(
+  key: K,
+  ...arrays: T[][]
+) => {
+  const dict: { [key: string]: T } = {}
+
+  for (const arr of arrays) {
+    for (const item of arr) {
+      dict[item[key]] = item
+    }
+  }
+
+  return Object.values(dict)
+}

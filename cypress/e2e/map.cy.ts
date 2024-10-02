@@ -134,6 +134,31 @@ describe('Map of accommodation offers', () => {
         testClickOffer()
       })
     })
+
+    it('when the geoindex fails, it should fall back to the slow querying', () => {
+      cy.get<PersonAccommodation[]>('@accommodations').then(() => {
+        cy.intercept(
+          {
+            method: 'GET',
+            url: new URL('/query?object="*"', geoindexService).toString(),
+          },
+          { forceNetworkError: true },
+        ).as('geoindexQuery')
+        cy.contains('a', 'travel').click()
+        cy.location().its('pathname').should('equal', '/travel/search')
+
+        const queries = '0123456789bcdefghjkmnpqrstuvwxyz'
+          .split('')
+          .map(c => `"${c}"`)
+
+        cy.wait('@geoindexQuery')
+          .its('request.query.object')
+          .should('be.oneOf', queries)
+
+        testOffers()
+        testClickOffer()
+      })
+    })
   })
 })
 

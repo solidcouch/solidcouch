@@ -8,6 +8,7 @@ import { Parser, Store } from 'n3'
 import ngeohash from 'ngeohash'
 import { useMemo } from 'react'
 import { HttpError } from 'utils/errors'
+import { mergeArrays } from 'utils/helpers'
 import { hospex } from 'utils/rdf-namespaces'
 import { searchAccommodationsQuery } from './queries'
 
@@ -73,7 +74,7 @@ export const useSearchAccommodations = (
     [boundaries],
   )
 
-  const queries = useMemo(
+  const geoindexQueries = useMemo(
     () =>
       geohashes.map(h => ({
         queryKey: ['geoindex', h],
@@ -88,8 +89,8 @@ export const useSearchAccommodations = (
     [geohashes, geoindexService],
   )
 
-  const a = useQueries({
-    queries,
+  const geoindexResults = useQueries({
+    queries: geoindexQueries,
     combine: results => ({
       isError: results.some(r => r.isError),
       isPending: results.some(r => r.isPending),
@@ -100,7 +101,7 @@ export const useSearchAccommodations = (
 
   const ldhopQueryParams = useMemo(
     () =>
-      geoindexService && !a.isError
+      geoindexService && !geoindexResults.isError
         ? { query: [], variables: {}, fetch }
         : {
             query: searchAccommodationsQuery,
@@ -108,7 +109,7 @@ export const useSearchAccommodations = (
             fetch,
             store: new Store(),
           },
-    [a.isError, communityId, geoindexService],
+    [communityId, geoindexResults.isError, geoindexService],
   )
 
   const { quads, isMissing } = useLDhopQuery(ldhopQueryParams)
@@ -140,20 +141,27 @@ export const useSearchAccommodations = (
   const indexedAccommodations = useMemo(
     () =>
       [
-        a.data.map(d => ({
-          id: d.uri,
+        geoindexResults.data.map(({ uri, location }) => ({
+          id: uri,
           location: {
-            lat: d.location.latitude,
-            long: d.location.longitude,
+            lat: location.latitude,
+            long: location.longitude,
           },
           offeredBy: { id: '', name: '' },
         })),
-        a.isPending,
+        geoindexResults.isPending,
       ] as const,
-    [a.data, a.isPending],
+    [geoindexResults.data, geoindexResults.isPending],
   )
 
-  return geoindexService && !a.isError
-    ? indexedAccommodations
-    : slowAccommodations
+  const mergedResults = useMemo(() => {
+    const merged = mergeArrays(
+      'id',
+      indexedAccommodations[0],
+      slowAccommodations[0],
+    )
+    return [merged, indexedAccommodations[1] || slowAccommodations[1]] as const
+  }, [indexedAccommodations, slowAccommodations])
+
+  return mergedResults
 }
