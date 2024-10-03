@@ -6,7 +6,7 @@ import { useConfig } from 'config/hooks'
 import { AccommodationShapeType } from 'ldo/app.shapeTypes'
 import { Parser, Store } from 'n3'
 import ngeohash from 'ngeohash'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { HttpError } from 'utils/errors'
 import { mergeArrays } from 'utils/helpers'
 import { hospex } from 'utils/rdf-namespaces'
@@ -60,6 +60,12 @@ export const useSearchAccommodations = (
 ) => {
   const { geoindexService } = useConfig()
 
+  // if there was an error, we want to fall back to slow querying, until success shows up
+  const [lastGeoindexError, setLastGeoindexError] = useState(0)
+  const [lastGeoindexSucces, setLastGeoindexSuccess] = useState(0)
+
+  const fallback = !geoindexService || lastGeoindexError > lastGeoindexSucces
+
   const geohashes = useMemo(
     () =>
       boundaries
@@ -94,22 +100,32 @@ export const useSearchAccommodations = (
     combine: results => ({
       isError: results.some(r => r.isError),
       isPending: results.some(r => r.isPending),
+      isSuccess: results.every(r => r.isSuccess),
       errors: results.filter(r => r.error).map(r => r.error!),
       data: results.filter(r => r.data).flatMap(r => r.data!),
     }),
   })
 
+  // when results flip to error, update lastError variable
+  useEffect(() => {
+    if (geoindexResults.isError) setLastGeoindexError(Date.now())
+  }, [geoindexResults.isError])
+  // when results flip to success, update lastSuccess variable
+  useEffect(() => {
+    if (geoindexResults.isSuccess) setLastGeoindexSuccess(Date.now())
+  }, [geoindexResults.isSuccess])
+
   const ldhopQueryParams = useMemo(
     () =>
-      geoindexService && !geoindexResults.isError
-        ? { query: [], variables: {}, fetch }
-        : {
+      fallback
+        ? {
             query: searchAccommodationsQuery,
             variables: { community: [communityId] },
             fetch,
             store: new Store(),
-          },
-    [communityId, geoindexResults.isError, geoindexService],
+          }
+        : { query: [], variables: {}, fetch },
+    [communityId, fallback],
   )
 
   const { quads, isMissing } = useLDhopQuery(ldhopQueryParams)
