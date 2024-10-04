@@ -9,6 +9,7 @@ export {
   emailNotificationsIdentity,
   emailNotificationsService,
   emailNotificationsType,
+  geoindexService,
 } from './variables'
 
 // TODO maybe we'll fetch the identity directly from the mailer, when it supports that option, so the setup will be less complicated

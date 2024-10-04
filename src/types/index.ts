@@ -7,6 +7,8 @@ export type Location = {
   long: number
 }
 
+export type Bounds = { n: number; s: number; e: number; w: number }
+
 export interface Accommodation {
   id: URI
   description: string
