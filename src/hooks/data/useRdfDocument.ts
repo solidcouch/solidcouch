@@ -140,7 +140,7 @@ export const useCreateRdfDocument = <S extends LdoBase>(
       const response = await fullFetch(uri, { method, body, headers })
 
       if (throwOnHttpError && !response.ok) {
-        throw new HttpError(response.status, response.statusText, response)
+        throw new HttpError(response.statusText, response)
       }
 
       const location = response.headers.get('location')

@@ -33,6 +33,7 @@ jobs:
           REACT_APP_EMAIL_NOTIFICATIONS_TYPE: ${{ vars.EMAIL_NOTIFICATIONS_TYPE }}
           REACT_APP_EMAIL_NOTIFICATIONS_SERVICE: ${{ vars.EMAIL_NOTIFICATIONS_SERVICE }}
           REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY: ${{ vars.EMAIL_NOTIFICATIONS_IDENTITY }}
+          REACT_APP_GEOINDEX: ${{ vars.GEOINDEX }}
           BASE_URL: ${{ vars.BASE_URL }} # base url for clientid.jsonld
 
       - name: Add CNAME

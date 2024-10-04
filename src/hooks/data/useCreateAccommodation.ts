@@ -49,6 +49,8 @@ export const useCreateAccommodation = () => {
             <${solid.inserts}> { <${personId}> <${hospex.offers}> <${id}>. }.
         `,
       })
+
+      return { uri: id }
     },
     [createAccommodationMutation, updateMutation],
   )
