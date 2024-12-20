@@ -268,7 +268,7 @@ describe('Setup Solid pod', () => {
           .its('request.body')
           .should('deep.equal', { email: 'other-email@example.com' })
 
-        cy.logout()
+        cy.get<UserConfig>('@user1').then(cy.logout)
 
         // then we set up the current email service settings
         cy.resetAppConfig({ waitForContent: 'Sign in' })

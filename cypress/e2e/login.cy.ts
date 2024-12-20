@@ -20,6 +20,7 @@ describe('Sign in to the app', () => {
       cy.origin(user1.idp, { args: { user1 } }, ({ user1 }) => {
         cy.get('input[name=email]').type(user1.email)
         cy.get('input[name=password]').type(`${user1.password}{enter}`)
+        cy.contains(user1.webId)
         cy.get('button#authorize').click()
       })
     })
@@ -66,7 +67,7 @@ describe('Sign in to the app', () => {
       cy.login(user1)
       cy.contains('We would like to set up your Pod')
       // sign out
-      cy.logout()
+      cy.logout(user1)
 
       cy.visit('/')
       cy.contains('Sign in').click()

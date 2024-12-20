@@ -8,7 +8,7 @@ import {
   vcard,
 } from 'rdf-namespaces'
 import { Person } from './commands'
-import { UserConfig } from './css-authentication'
+import { logoutUser, UserConfig } from './css-authentication'
 
 export type CommunityConfig = { community: string; group: string }
 export type SetupConfig = {
@@ -618,12 +618,16 @@ export const createAccount =
     password ??= 'correcthorsebatterystaple'
     email ??= username + '@example.org'
 
-    return cy.wrap(
-      createAccountAsync(ifNotExist)({
-        username,
-        password,
-        email,
-        provider: Cypress.env('CSS_URL') + '/',
-      }),
-    )
+    return cy
+      .wrap(
+        createAccountAsync(ifNotExist)({
+          username,
+          password,
+          email,
+          provider: Cypress.env('CSS_URL') + '/',
+        }),
+      )
+      .then((config: UserConfig) =>
+        logoutUser(config).then(() => cy.wrap(config)),
+      )
   }

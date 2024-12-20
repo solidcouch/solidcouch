@@ -106,7 +106,7 @@ describe("person's contacts", () => {
         cy.wait('@grantHospexAccess')
 
         // test that other person can confirm
-        cy.logout()
+        cy.logout(me)
         cy.stubMailer({ person })
         cy.login(person)
         cy.visit(`/profile/${encodeURIComponent(me.webId)}`)

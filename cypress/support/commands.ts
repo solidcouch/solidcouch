@@ -82,8 +82,8 @@ declare global {
         user: UserConfig,
         ...args: Parameters<typeof cy.request>
       ): Chainable<Cypress.Response<any>>
-      login(user: UserConfig): void
-      logout(): void
+      login: typeof uiLogin
+      logout: typeof uiLogout
       setupCommunity: typeof setupCommunity
       setupPod(
         user: UserConfig,

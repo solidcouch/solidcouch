@@ -1,4 +1,4 @@
-import { UserConfig } from './css-authentication'
+import { logoutUser, UserConfig } from './css-authentication'
 
 export const uiLogin = (user: UserConfig) => {
   cy.visit('/')
@@ -17,7 +17,7 @@ export const uiLogin = (user: UserConfig) => {
 /**
  * Perform a logout from the application, and from the solid server
  */
-export const uiLogout = () => {
+export const uiLogout = (user: UserConfig) => {
   cy.get('[class^=Header_header] button.szh-menu-button').click()
   cy.contains('button', 'sign out').click()
   cy.contains('button', 'Sign in')
@@ -26,4 +26,6 @@ export const uiLogout = () => {
     cy.contains('button', 'Yes').click()
     cy.contains('Sign-out Success')
   })
+
+  logoutUser(user)
 }
