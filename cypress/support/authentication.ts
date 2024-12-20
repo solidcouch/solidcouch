@@ -7,6 +7,7 @@ export const uiLogin = (user: UserConfig) => {
   cy.origin(user.idp, { args: { user } }, ({ user }) => {
     cy.get('input[name=email]').type(user.email)
     cy.get('input[name=password]').type(`${user.password}{enter}`)
+    cy.contains(user.webId)
     cy.get('button#authorize').click()
   })
   // wait for sign-in in to finish
@@ -20,7 +21,7 @@ export const uiLogout = () => {
   cy.get('[class^=Header_header] button.szh-menu-button').click()
   cy.contains('button', 'sign out').click()
   cy.contains('button', 'Sign in')
-  cy.origin('http://localhost:4000', () => {
+  cy.origin(Cypress.env('CSS_URL'), () => {
     cy.visit('/.oidc/session/end')
     cy.contains('button', 'Yes').click()
     cy.contains('Sign-out Success')

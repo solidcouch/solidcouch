@@ -54,6 +54,7 @@ import {
   SetupConfig,
   SkipOptions,
   addAccommodation,
+  createAccount,
   setProfileData,
   setStorage,
   setupCommunity,
@@ -183,90 +184,10 @@ export const generateRandomString = (length: number): string => {
   return randomString.replace(/\s+/g, ' ').trim()
 }
 
-Cypress.Commands.add(
-  'createAccount',
-  function ({
-    username,
-    password,
-    email,
-  }: {
-    username: string
-    password?: string
-    email?: string
-  }): Cypress.Chainable<UserConfig> {
-    password ??= 'correcthorsebatterystaple'
-    email ??= username + '@example.org'
-    const config = {
-      idp: Cypress.env('CSS_URL') + '/',
-      podUrl: `${Cypress.env('CSS_URL')}/${username}/`,
-      webId: `${Cypress.env('CSS_URL')}/${username}/profile/card#me`,
-      username: username,
-      password: password,
-      email: email,
-    }
-    const registerEndpoint = Cypress.env('CSS_URL') + '/idp/register/'
-    cy.request('POST', registerEndpoint, {
-      createWebId: 'on',
-      webId: '',
-      register: 'on',
-      createPod: 'on',
-      podName: username,
-      email: email,
-      password: password,
-      confirmPassword: password,
-    })
-
-    return cy.wrap(config, { log: false })
-  },
-)
-
-Cypress.Commands.add(
-  'createAccountIfNotExist',
-  function ({
-    username,
-    password,
-    email,
-  }: {
-    username: string
-    password: string
-    email?: string
-  }): Cypress.Chainable<UserConfig> {
-    email ??= username + '@example.org'
-    const config = {
-      idp: Cypress.env('CSS_URL') + '/',
-      podUrl: `${Cypress.env('CSS_URL')}/${username}/`,
-      webId: `${Cypress.env('CSS_URL')}/${username}/profile/card#me`,
-      username: username,
-      password: password,
-      email: email,
-    }
-    const registerEndpoint = Cypress.env('CSS_URL') + '/idp/register/'
-    cy.request({
-      method: 'POST',
-      url: registerEndpoint,
-      body: {
-        createWebId: 'on',
-        webId: '',
-        register: 'on',
-        createPod: 'on',
-        podName: username,
-        email: email,
-        password: password,
-        confirmPassword: password,
-      },
-      failOnStatusCode: false,
-    })
-
-    return cy.wrap(config, { log: false })
-  },
-)
-
-Cypress.Commands.add(
-  'createRandomAccount',
-  function (): Cypress.Chainable<UserConfig> {
-    const username = 'test-' + uuidv4()
-    return cy.createAccount({ username })
-  },
+Cypress.Commands.add('createAccount', createAccount())
+Cypress.Commands.add('createAccountIfNotExist', createAccount(true))
+Cypress.Commands.add('createRandomAccount', () =>
+  cy.createAccount({ username: 'test-' + uuidv4() }),
 )
 
 Cypress.Commands.add(

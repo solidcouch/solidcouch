@@ -526,3 +526,104 @@ export const stubMailer = ({
     statusCode: 200,
   }).as('simpleEmailNotification')
 }
+
+const createAccountAsync =
+  (ifNotExist?: boolean) =>
+  async ({
+    username,
+    password,
+    email,
+    provider,
+  }: {
+    username: string
+    password?: string
+    email?: string
+    provider: string
+  }) => {
+    password ??= 'correcthorsebatterystaple'
+    email ??= username + '@example.org'
+
+    const config = {
+      idp: new URL('./', provider).toString(),
+      podUrl: new URL(`${username}/`, provider).toString(),
+      webId: new URL(`${username}/profile/card#me`, provider).toString(),
+      username,
+      password,
+      email,
+    }
+
+    const accountEndpoint = new URL('.account/account/', provider).toString()
+
+    const throwIfResponseNotOk = async (response: Response) => {
+      if (!response.ok)
+        throw new Error(
+          `Query was not successful: ${
+            response.status
+          } ${await response.text()}`,
+        )
+    }
+
+    // create the account
+    const response = await fetch(accountEndpoint, {
+      method: 'post',
+      credentials: 'include',
+    })
+
+    await throwIfResponseNotOk(response)
+
+    // get account handles
+    const response2 = await fetch(new URL('.account/', provider).toString(), {
+      credentials: 'include',
+    })
+    await throwIfResponseNotOk(response2)
+    type AccountHandles = {
+      controls: {
+        password: { login: string; create: string }
+        account: { webId: string; pod: string; clientCredentials: string }
+      }
+    }
+    const handles = (await response2.json()) as AccountHandles
+
+    const createLoginResponse = await fetch(handles.controls.password.create, {
+      method: 'post',
+      body: JSON.stringify({ email, password, confirmPassword: password }),
+      headers: { 'content-type': 'application/json' },
+      credentials: 'include',
+    })
+    if (!ifNotExist) await throwIfResponseNotOk(createLoginResponse)
+
+    const response3 = await fetch(handles.controls.account.pod, {
+      method: 'post',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ name: username }),
+      credentials: 'include',
+    })
+
+    if (!ifNotExist) await throwIfResponseNotOk(response3)
+
+    return config
+  }
+
+export const createAccount =
+  (ifNotExist?: boolean) =>
+  ({
+    username,
+    password,
+    email,
+  }: {
+    username: string
+    password?: string
+    email?: string
+  }): Cypress.Chainable<UserConfig> => {
+    password ??= 'correcthorsebatterystaple'
+    email ??= username + '@example.org'
+
+    return cy.wrap(
+      createAccountAsync(ifNotExist)({
+        username,
+        password,
+        email,
+        provider: Cypress.env('CSS_URL') + '/',
+      }),
+    )
+  }
