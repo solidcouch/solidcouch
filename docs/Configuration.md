@@ -12,7 +12,7 @@ You'll find [configurable options](#options) for the application here. We use en
 - `VITE_EMAIL_NOTIFICATIONS_SERVICE` - server providing email notifications service of type specified in `VITE_EMAIL_NOTIFICATIONS_TYPE`; provide base url without trailing slash; notifications will be disabled if left empty
 - `VITE_EMAIL_NOTIFICATIONS_IDENTITY` - identity of the email notifications service; app will allow this identity to read person's inbox
 - [default CreateReactApp options](https://create-react-app.dev/docs/advanced-configuration)
-- `BASE_URL` - this is base url for ClientID in ./public/clientid.jsonld, it's disabled in development environment by default (dynamic clientID is used), defaults to http://localhost:3000 in development, and https://app.solidcouch.org for build
+- `BASE_URL` - this is base url for ClientID in ./public/clientid.jsonld, it's disabled in development environment by default (dynamic clientID is used), defaults to http://localhost:5173 in development, and https://app.solidcouch.org for build
 - `VITE_ENABLE_DEV_CLIENT_ID` - enable static ClientID in development environment (see also `BASE_URL` option). If you set this option, you'll only be able to sign in with Solid Pod running on localhost! (dynamic clientID will be used by default)
 - `VITE_GEOINDEX` - webId of the geoindex, if available
 
@@ -23,7 +23,7 @@ _Note: You can also [specify environment variables in .env files](https://create
 ### Run
 
 ```bash
-VITE_VARIABLE1="variable" VITE_VARIABLE_2="other variable" yarn start
+VITE_VARIABLE1="variable" VITE_VARIABLE_2="other variable" yarn dev
 ```
 
 ### Build

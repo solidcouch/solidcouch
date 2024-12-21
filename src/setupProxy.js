@@ -5,7 +5,7 @@ const { readFileSync } = require('fs')
  *
  * You can specify the urls in BASE_URL environment variable
  * It also takes BASE_URL of Vercel automatically (not sure if this is useful)
- * By default BASE_URL is set to http://localhost:3000
+ * By default BASE_URL is set to http://localhost:5173
  */
 module.exports = function (app) {
   app.get('/clientid.jsonld', (req, res) => {

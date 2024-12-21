@@ -68,8 +68,9 @@
   },
   "scripts": {
     "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "prebuild": "yarn build:community-info",
-    "build": "dotenv -e .env.build -- tsc -b && vite build",
     "build:only": "dotenv -e .env.build -- vite build",
     "postbuild": " yarn build:update-clientid && yarn build:update-manifest",
     "build:cname": "node scripts/add-cname.js",
@@ -83,7 +84,7 @@
     "build:ldo": "ldo build --input src/shapes --output src/ldo",
     "postbuild:ldo": "yarn format",
     "cy:dev": "concurrently --kill-others \"yarn cy:dev:app\" \"yarn cy:dev:css\" \"yarn cy:dev:open\"",
-    "cy:dev:app": "BROWSER=none VITE_COMMUNITY=http://localhost:4000/test-community/community#us VITE_EMAIL_NOTIFICATIONS_SERVICE=http://localhost:3005 VITE_ENABLE_DEV_CLIENT_ID=true VITE_EMAIL_NOTIFICATIONS_IDENTITY=http://localhost:4000/mailbot/profile/card#me VITE_EMAIL_NOTIFICATIONS_TYPE=simple VITE_GEOINDEX= yarn start",
+    "cy:dev:app": "BROWSER=none VITE_COMMUNITY=http://localhost:4000/test-community/community#us VITE_EMAIL_NOTIFICATIONS_SERVICE=http://localhost:3005 VITE_ENABLE_DEV_CLIENT_ID=true VITE_EMAIL_NOTIFICATIONS_IDENTITY=http://localhost:4000/mailbot/profile/card#me VITE_EMAIL_NOTIFICATIONS_TYPE=simple VITE_GEOINDEX= yarn dev",
     "cy:dev:css": "community-solid-server -p 4000 -l error -c ./cypress/css-config.json",
     "cy:dev:open": "CYPRESS_COMMUNITY=\"http://localhost:4000/test-community/community#us\" CYPRESS_OTHER_COMMUNITY=\"http://localhost:4000/other-community/community#us\" CYPRESS_EMAIL_NOTIFICATIONS_IDENTITY=\"http://localhost:4000/mailbot/profile/card#me\" cypress open"
   },

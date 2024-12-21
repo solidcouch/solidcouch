@@ -31,13 +31,13 @@ You need node v20. You can use [nvm](https://github.com/nvm-sh/nvm/blob/master/R
 1. Run the app
 
    ```bash
-   yarn start
+   yarn dev
    ```
 
 You can also [configure the app](./docs/Configuration.md) with environment variables, e.g.:
 
 ```bash
-VITE_COMMUNITY="https://community.example/community#us" VITE_COMMUNITY_CONTAINER="community-example" yarn start`
+VITE_COMMUNITY="https://community.example/community#us" VITE_COMMUNITY_CONTAINER="community-example" yarn dev`
 ```
 
 ## Testing
