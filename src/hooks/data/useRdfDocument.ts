@@ -29,8 +29,14 @@ import {
 } from 'utils/helpers'
 import { toN3Patch } from 'utils/ldo'
 
+// do not use browser cache
+// This is a temporary fix until the bug in CSS gets fixed
+// https://github.com/CommunitySolidServer/CommunitySolidServer/issues/1959
+const noCacheFetch: typeof globalThis.fetch = (input, init) =>
+  fetch(input, { cache: 'no-store', ...init })
+
 export const fetchRdfDocument = (uri: string) =>
-  fetchRdfDocumentLdhop(uri, fetch)
+  fetchRdfDocumentLdhop(uri, noCacheFetch)
 
 /**
  * wrapper around react-query to fetch a single rdf document

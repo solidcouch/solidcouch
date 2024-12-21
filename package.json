@@ -84,7 +84,7 @@
     "postbuild:ldo": "yarn format",
     "cy:dev": "concurrently --kill-others \"yarn cy:dev:app\" \"yarn cy:dev:css\" \"yarn cy:dev:open\"",
     "cy:dev:app": "BROWSER=none REACT_APP_COMMUNITY=http://localhost:4000/test-community/community#us REACT_APP_EMAIL_NOTIFICATIONS_SERVICE=http://localhost:3005 REACT_APP_ENABLE_DEV_CLIENT_ID=true REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY=http://localhost:4000/mailbot/profile/card#me REACT_APP_EMAIL_NOTIFICATIONS_TYPE=simple REACT_APP_GEOINDEX= yarn start",
-    "cy:dev:css": "community-solid-server -p 4000 -l error",
+    "cy:dev:css": "community-solid-server -p 4000 -l error -c ./cypress/css-config.json",
     "cy:dev:open": "CYPRESS_COMMUNITY=\"http://localhost:4000/test-community/community#us\" CYPRESS_OTHER_COMMUNITY=\"http://localhost:4000/other-community/community#us\" CYPRESS_EMAIL_NOTIFICATIONS_IDENTITY=\"http://localhost:4000/mailbot/profile/card#me\" cypress open"
   },
   "browserslist": {
@@ -101,7 +101,7 @@
   },
   "devDependencies": {
     "@ldo/cli": "^0.0.1-alpha.23",
-    "@solid/community-server": "^6.0.0",
+    "@solid/community-server": "^7.1.3",
     "@types/chai-subset": "^1.3.5",
     "@types/jsonld": "^1.5.13",
     "@types/leaflet": "^1.9.1",
@@ -122,5 +122,6 @@
     "sass": "^1.57.1",
     "start-server-and-test": "^2.0.0",
     "utility-types": "^3.10.0"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

@@ -31,7 +31,7 @@ describe('messages with other person', () => {
         writeMessage(me, 'Other message')
 
         // sign in as me and check results
-        cy.logout()
+        cy.logout(otherPerson)
         cy.stubMailer({ person: me })
         cy.login(me)
         cy.visit(`/messages/${encodeURIComponent(otherPerson.webId)}`)
@@ -104,7 +104,7 @@ describe('messages with other person', () => {
         cy.get('[class^=Messages_message_]').should('have.length', 2)
 
         // sign in as otherPerson
-        cy.logout()
+        cy.logout(me)
         cy.stubMailer({ person: otherPerson })
         cy.login(otherPerson)
 
@@ -120,7 +120,7 @@ describe('messages with other person', () => {
 
         cy.get('[class^=Messages_message_]').should('have.length', 4)
 
-        cy.logout()
+        cy.logout(otherPerson)
         cy.stubMailer({ person: me })
         cy.login(me)
 
@@ -159,7 +159,7 @@ describe('messages with other person', () => {
         cy.get('[class^=Messages_message_]').should('have.length', 2)
 
         // sign in as otherPerson
-        cy.logout()
+        cy.logout(me)
         cy.stubMailer({ person: otherPerson })
         cy.login(otherPerson)
 
@@ -170,7 +170,7 @@ describe('messages with other person', () => {
 
         cy.get('[class^=Messages_message_]').should('have.length', 4)
 
-        cy.logout()
+        cy.logout(otherPerson)
         cy.stubMailer({ person: me })
         cy.login(me)
 
@@ -203,7 +203,7 @@ describe('messages with other person', () => {
         writeMessage(me, 'Other message')
 
         // sign in as me and check results
-        cy.logout()
+        cy.logout(otherPerson)
         cy.stubMailer({ person: me })
         cy.login(me)
         cy.visit(`/messages/${encodeURIComponent(otherPerson.webId)}`)
