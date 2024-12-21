@@ -8,7 +8,7 @@ Please read the [SolidCouch Announcement](https://mrkvon.org/blog/announcing-sol
 
 This is a single page application written in React.
 
-You need Node v16. You can use [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md) to switch to that particular version. You also need [yarn](https://classic.yarnpkg.com/en/docs/install).
+You need node v20. You can use [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md) to switch to that particular version. You also need [yarn](https://classic.yarnpkg.com/en/docs/install).
 
 1. Clone this repository on your computer
 

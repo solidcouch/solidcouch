@@ -29,9 +29,10 @@ beforeEach(() => cy.resetAppConfig({ waitForContent: 'Sign in' }))
 // set up a community before every test
 beforeEach(() => {
   cy.setupCommunity({ community: Cypress.env('COMMUNITY') }).as('community')
-  cy.setupCommunity({ community: Cypress.env('OTHER_COMMUNITY') }).as(
-    'otherCommunity',
-  )
+  cy.setupCommunity({
+    community: Cypress.env('OTHER_COMMUNITY'),
+    name: 'Other Community',
+  }).as('otherCommunity')
 })
 
 // set up email notifications Solid identity
