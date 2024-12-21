@@ -245,6 +245,7 @@ describe('Setup Solid pod', () => {
       it('should not overwrite other email service settings in the pod', () => {
         // first we set up other email service settings
         cy.get<CommunityConfig>('@otherCommunity').then(otherCommunity => {
+          cy.logout('@user1')
           cy.createRandomAccount()
             .as('mailbot2')
             .then(bot => {
@@ -254,8 +255,9 @@ describe('Setup Solid pod', () => {
                   communityContainer: 'other-community',
                   communityId: otherCommunity.community,
                 },
-                { waitForContent: 'dev-solidcouch' },
+                { waitForContent: 'Sign in' },
               )
+              cy.login('@user1')
               cy.visit('/')
               cy.contains('other-community')
               cy.get('input[type="email"][placeholder="Your email"]')
@@ -268,11 +270,11 @@ describe('Setup Solid pod', () => {
           .its('request.body')
           .should('deep.equal', { email: 'other-email@example.com' })
 
-        cy.get<UserConfig>('@user1').then(cy.logout)
+        cy.logout('@user1')
 
         // then we set up the current email service settings
         cy.resetAppConfig({ waitForContent: 'Sign in' })
-        cy.get<UserConfig>('@user1').then(cy.login)
+        cy.login('@user1')
         cy.contains('dev-solidcouch')
         cy.get(`input[type=radio]`).should('have.length', 2).last().check()
         cy.get('input[type="email"][placeholder="Your email"]')

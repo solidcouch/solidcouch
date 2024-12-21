@@ -628,6 +628,6 @@ export const createAccount =
         }),
       )
       .then((config: UserConfig) =>
-        logoutUser(config).then(() => cy.wrap(config)),
+        logoutUser(config).then(() => cy.wrap(config, { log: false })),
       )
   }
