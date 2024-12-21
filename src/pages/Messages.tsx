@@ -1,25 +1,25 @@
 import classNames from 'classnames'
-import { Button, Loading } from 'components'
-import { PersonBadge } from 'components/PersonBadge/PersonBadge'
-import { withToast } from 'components/withToast'
-import { useConfig } from 'config/hooks'
-import { useCheckSetup } from 'hooks/data/useCheckSetup'
+import { produce } from 'immer'
+import { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
+import { Button, Loading } from '../components'
+import { PersonBadge } from '../components/PersonBadge/PersonBadge'
+import { withToast } from '../components/withToast'
+import { useConfig } from '../config/hooks'
+import { useCheckSetup } from '../hooks/data/useCheckSetup'
 import {
   useCreateChat,
   useCreateMessage,
   useCreateMessageNotification,
   useProcessNotification,
-} from 'hooks/data/useCreateMessage'
-import { useSolidProfile } from 'hooks/data/useProfile'
-import { useReadMessages } from 'hooks/data/useReadMessages'
-import { useAuth } from 'hooks/useAuth'
-import { useSendEmailNotification } from 'hooks/useSendEmailNotification'
-import { produce } from 'immer'
-import { useEffect, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
-import { URI } from 'types'
-import { getContainer } from 'utils/helpers'
+} from '../hooks/data/useCreateMessage'
+import { useSolidProfile } from '../hooks/data/useProfile'
+import { useReadMessages } from '../hooks/data/useReadMessages'
+import { useAuth } from '../hooks/useAuth'
+import { useSendEmailNotification } from '../hooks/useSendEmailNotification'
+import { URI } from '../types'
+import { getContainer } from '../utils/helpers'
 import styles from './Messages.module.scss'
 
 export const Messages = () => {

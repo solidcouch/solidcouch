@@ -1,5 +1,4 @@
 import { LocateControl } from '@turtlesocks/react-leaflet.locatecontrol/dist/LocateControl'
-import { useConfig } from 'config/hooks'
 import type { LatLngTuple, Map } from 'leaflet'
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
 import 'leaflet/dist/leaflet.css'
@@ -12,6 +11,7 @@ import {
   useMapEvent,
 } from 'react-leaflet'
 import { Bounds, Location } from 'types'
+import { useConfig } from '../config/hooks'
 import styles from './AccommodationView/AccommodationView.module.scss'
 
 const normalizeLng = (lng: number) => (((lng % 360) - 180 * 3) % 360) + 180

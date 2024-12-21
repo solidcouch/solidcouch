@@ -1,16 +1,16 @@
-import { useAppSelector } from 'app/hooks'
-import { Loading } from 'components'
-import { useConfig } from 'config/hooks'
-import { selectAuth } from 'features/auth/authSlice'
-import {
-  useCheckEmailNotifications,
-  useCheckSetup,
-  useCheckSimpleEmailNotifications,
-} from 'hooks/data/useCheckSetup'
 import { omit } from 'lodash'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { NonUndefined } from 'utility-types'
+import { useAppSelector } from '../app/hooks'
+import { Loading } from '../components'
+import { useConfig } from '../config/hooks'
+import { selectAuth } from '../features/auth/authSlice'
+import {
+  useCheckEmailNotifications,
+  useCheckSetup,
+  useCheckSimpleEmailNotifications,
+} from '../hooks/data/useCheckSetup'
 import { HospexSetup } from './HospexSetup'
 
 export const SetupOutlet = () => {

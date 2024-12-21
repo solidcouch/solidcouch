@@ -1,9 +1,9 @@
-import { Loading } from 'components'
-import { PersonBadge } from 'components/PersonBadge/PersonBadge'
-import { useReadContacts } from 'hooks/data/useContacts'
-import { useAuth } from 'hooks/useAuth'
 import { useParams } from 'react-router-dom'
 import * as types from 'types'
+import { Loading } from '../components'
+import { PersonBadge } from '../components/PersonBadge/PersonBadge'
+import { useReadContacts } from '../hooks/data/useContacts'
+import { useAuth } from '../hooks/useAuth'
 import styles from './Contacts.module.scss'
 import { ProcessContactInvitation } from './Profile/ManageContact'
 

@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 ;(() => {
-  const communityName = process.env.REACT_APP_COMMUNITY_NAME_UNSAFE
+  const communityName = process.env.VITE_COMMUNITY_NAME_UNSAFE
 
   if (!communityName) return
 

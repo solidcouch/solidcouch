@@ -1,9 +1,9 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
-import { ChatShapeShapeType } from 'ldo/app.shapeTypes'
 import { useMemo } from 'react'
 import { Message, URI } from 'types'
+import { ChatShapeShapeType } from '../../ldo/app.shapeTypes'
 import { messages as messagesQuery } from './queries'
 import { useReadMessagesFromInbox } from './useReadThreads'
 

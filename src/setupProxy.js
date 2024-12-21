@@ -12,10 +12,10 @@ module.exports = function (app) {
     const clientIdTemplate = readFileSync('./public/clientid.jsonld', 'utf8')
     const clientId = clientIdTemplate.replaceAll(
       '%BASE_URL%',
-      process.env.BASE_URL ??
-        (process.env.VERCEL_BRANCH_URL &&
-          'https://' + process.env.VERCEL_BRANCH_URL) ??
-        `http://localhost:${process.env.PORT ?? 3000}`,
+      import.meta.env.BASE_URL ??
+        (import.meta.env.VERCEL_BRANCH_URL &&
+          'https://' + import.meta.env.VERCEL_BRANCH_URL) ??
+        `http://localhost:${import.meta.env.PORT ?? 3000}`,
     )
 
     res.end(clientId)

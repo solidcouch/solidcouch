@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { URI } from 'types'
-import { removeHashFromURI } from 'utils/helpers'
+import { removeHashFromURI } from '../../utils/helpers'
 
 /**
  * wrapper around react-query to fetch a single file as object url

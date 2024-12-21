@@ -1,13 +1,16 @@
 import { login } from '@inrupt/solid-client-authn-browser'
-import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { Button } from 'components'
-import { guessIssuer } from 'components/SignIn/oidcIssuer'
-import { useConfig } from 'config/hooks'
-import { actions, selectLastSelectedIssuer } from 'features/login/loginSlice'
-import { useReadCommunity } from 'hooks/data/useCommunity'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { Button } from '../../components'
+import { guessIssuer } from '../../components/SignIn/oidcIssuer'
+import { useConfig } from '../../config/hooks'
+import {
+  actions,
+  selectLastSelectedIssuer,
+} from '../../features/login/loginSlice'
+import { useReadCommunity } from '../../hooks/data/useCommunity'
 import styles from './SignIn.module.scss'
 
 Modal.setAppElement('#root')
@@ -40,8 +43,8 @@ export const SignIn = () => {
         redirectUrl: new URL('/', window.location.href).toString(),
         clientName: community.name || 'SolidCouch',
         clientId:
-          process.env.NODE_ENV === 'development' &&
-          !process.env.REACT_APP_ENABLE_DEV_CLIENT_ID
+          import.meta.env.NODE_ENV === 'development' &&
+          !import.meta.env.VITE_ENABLE_DEV_CLIENT_ID
             ? undefined
             : new URL('/clientid.jsonld', window.location.href).toJSON(),
       })

@@ -37,7 +37,7 @@ You need node v20. You can use [nvm](https://github.com/nvm-sh/nvm/blob/master/R
 You can also [configure the app](./docs/Configuration.md) with environment variables, e.g.:
 
 ```bash
-REACT_APP_COMMUNITY="https://community.example/community#us" REACT_APP_COMMUNITY_CONTAINER="community-example" yarn start`
+VITE_COMMUNITY="https://community.example/community#us" VITE_COMMUNITY_CONTAINER="community-example" yarn start`
 ```
 
 ## Testing

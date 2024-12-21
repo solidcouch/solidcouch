@@ -1,4 +1,4 @@
-import type { ConfigContextType } from 'config/hooks'
+import type { ConfigContextType } from './config/hooks'
 
 declare global {
   interface Window {

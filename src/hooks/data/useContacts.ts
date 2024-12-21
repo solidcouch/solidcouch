@@ -1,12 +1,12 @@
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
-import { ContactInvitationActivityShapeType } from 'ldo/app.shapeTypes'
-import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
 import { Store } from 'n3'
 import { useCallback, useMemo } from 'react'
 import { Contact, URI } from 'types'
-import { getAcl, removeHashFromURI } from 'utils/helpers'
-import { acl, foaf, rdf, rdfs } from 'utils/rdf-namespaces'
+import { ContactInvitationActivityShapeType } from '../../ldo/app.shapeTypes'
+import { AuthorizationShapeType } from '../../ldo/wac.shapeTypes'
+import { getAcl, removeHashFromURI } from '../../utils/helpers'
+import { acl, foaf, rdf, rdfs } from '../../utils/rdf-namespaces'
 import { contactRequestsQuery, contactsQuery } from './queries'
 import {
   useCreateRdfDocument,

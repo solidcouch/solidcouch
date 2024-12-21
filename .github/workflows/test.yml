@@ -17,11 +17,11 @@ jobs:
           CYPRESS_OTHER_COMMUNITY: http://localhost:4000/other-community/community#us'
           CYPRESS_CSS_URL: http://localhost:4000
           CYPRESS_EMAIL_NOTIFICATIONS_IDENTITY: http://localhost:4000/mailbot/profile/card#me
-          REACT_APP_COMMUNITY: http://localhost:4000/test-community/community#us'
-          REACT_APP_EMAIL_NOTIFICATIONS_SERVICE: http://localhost:3005
-          REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY: http://localhost:4000/mailbot/profile/card#me
-          REACT_APP_EMAIL_NOTIFICATIONS_TYPE: simple
-          REACT_APP_ENABLE_DEV_CLIENT_ID: true
+          VITE_COMMUNITY: http://localhost:4000/test-community/community#us'
+          VITE_EMAIL_NOTIFICATIONS_SERVICE: http://localhost:3005
+          VITE_EMAIL_NOTIFICATIONS_IDENTITY: http://localhost:4000/mailbot/profile/card#me
+          VITE_EMAIL_NOTIFICATIONS_TYPE: simple
+          VITE_ENABLE_DEV_CLIENT_ID: true
           BROWSER: none
         with:
           start: yarn start, yarn community-solid-server -p 4000 -l error -c ./cypress/css-config.json

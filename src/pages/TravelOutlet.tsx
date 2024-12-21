@@ -1,5 +1,5 @@
-import { NavLayout } from 'layouts/NavLayout'
 import { Outlet } from 'react-router-dom'
+import { NavLayout } from '../layouts/NavLayout'
 
 // const tabs = [
 //   { link: 'search', label: 'search hosts' },

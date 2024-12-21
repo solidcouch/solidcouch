@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { URI } from 'types'
-import { solid, vcard } from 'utils/rdf-namespaces'
+import { solid, vcard } from '../../utils/rdf-namespaces'
 import { useUpdateRdfDocument } from './useRdfDocument'
 
 export const useJoinGroup = () => {

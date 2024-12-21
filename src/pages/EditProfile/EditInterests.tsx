@@ -1,19 +1,22 @@
-import { Loading } from 'components'
-import styles from 'components/Interests/Interests.module.scss'
-import { withToast } from 'components/withToast'
-import { useConfig } from 'config/hooks'
-import { useReadInterest, useSearchInterests } from 'hooks/data/useInterests'
-import {
-  useAddInterest,
-  useProfile,
-  useRemoveInterest,
-} from 'hooks/data/useProfile'
 import { debounce, merge } from 'lodash'
 import { useCallback, useMemo, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import Select from 'react-select'
 import * as types from 'types'
 import { URI } from 'types'
+import { Loading } from '../../components'
+import styles from '../../components/Interests/Interests.module.scss'
+import { withToast } from '../../components/withToast'
+import { useConfig } from '../../config/hooks'
+import {
+  useReadInterest,
+  useSearchInterests,
+} from '../../hooks/data/useInterests'
+import {
+  useAddInterest,
+  useProfile,
+  useRemoveInterest,
+} from '../../hooks/data/useProfile'
 
 export const EditInterests = ({ webId }: { webId: URI }) => {
   const { communityId } = useConfig()

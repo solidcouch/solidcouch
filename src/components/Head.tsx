@@ -1,7 +1,7 @@
-import { useConfig } from 'config/hooks'
-import { useReadCommunity } from 'hooks/data/useCommunity'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useConfig } from '../config/hooks'
+import { useReadCommunity } from '../hooks/data/useCommunity'
 
 export const Head = () => {
   const { communityId } = useConfig()

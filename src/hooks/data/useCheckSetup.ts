@@ -3,7 +3,7 @@ import { useLDhopQuery } from '@ldhop/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { URI } from 'types'
-import { hospex, sioc } from 'utils/rdf-namespaces'
+import { hospex, sioc } from '../../utils/rdf-namespaces'
 import { privateProfileAndHospexDocumentQuery } from './queries'
 import { useIsMember } from './useCommunity'
 

@@ -1,7 +1,7 @@
 import { LdoBase, transactionChanges } from '@ldo/ldo'
 import { datasetToString } from '@ldo/rdf-utils'
 import { Dataset } from '@rdfjs/types'
-import { solid } from 'utils/rdf-namespaces'
+import { solid } from '../utils/rdf-namespaces'
 
 // stringifying objects with circular reference, according to MDN:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cyclic_object_value#circular_references

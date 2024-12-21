@@ -1,7 +1,7 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation } from '@tanstack/react-query'
-import { useConfig } from 'config/hooks'
 import { useCallback } from 'react'
+import { useConfig } from '../config/hooks'
 import { useProfile } from './data/useProfile'
 
 type Person = { id: string; name: string }

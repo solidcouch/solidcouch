@@ -1,18 +1,18 @@
-import { Button } from 'components'
-import { Loading } from 'components/Loading/Loading'
-import { useConfig } from 'config/hooks'
-import { useReadCommunity } from 'hooks/data/useCommunity'
-import { useJoinGroup } from 'hooks/data/useJoinGroup'
+import { FormEventHandler, useState } from 'react'
+import { URI } from 'types'
+import { Button } from '../../components'
+import { Loading } from '../../components/Loading/Loading'
+import { useConfig } from '../../config/hooks'
+import { useReadCommunity } from '../../hooks/data/useCommunity'
+import { useJoinGroup } from '../../hooks/data/useJoinGroup'
 import {
   SetupSettings,
   SetupTask,
   useSetupHospex,
-} from 'hooks/data/useSetupHospex'
-import { useStorage } from 'hooks/data/useStorage'
-import { useAuth } from 'hooks/useAuth'
-import { FormEventHandler, useState } from 'react'
-import { URI } from 'types'
-import { getContainer } from 'utils/helpers'
+} from '../../hooks/data/useSetupHospex'
+import { useStorage } from '../../hooks/data/useStorage'
+import { useAuth } from '../../hooks/useAuth'
+import { getContainer } from '../../utils/helpers'
 import styles from './HospexSetup.module.scss'
 
 export const HospexSetup = ({

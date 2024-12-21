@@ -1,9 +1,9 @@
-import { useConfig } from 'config/hooks'
 import { LatLngTuple } from 'leaflet'
 import { useEffect, useMemo } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import type { Accommodation } from 'types'
+import { useConfig } from '../../config/hooks'
 import styles from './AccommodationView.module.scss'
 
 const CenterNewLocation = ({ location }: { location: LatLngTuple }) => {

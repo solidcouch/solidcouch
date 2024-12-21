@@ -23,8 +23,8 @@ content = content.replaceAll(
 
 // update name and logo if available
 const contentObject = JSON.parse(content, 'utf8')
-const communityName = process.env.REACT_APP_COMMUNITY_NAME_UNSAFE
-const communityLogo = process.env.REACT_APP_COMMUNITY_LOGO
+const communityName = process.env.VITE_COMMUNITY_NAME_UNSAFE
+const communityLogo = process.env.VITE_COMMUNITY_LOGO
 if (communityName) {
   contentObject.client_name = communityName
   // eslint-disable-next-line no-console

@@ -15,7 +15,7 @@ export {
 // TODO maybe we'll fetch the identity directly from the mailer, when it supports that option, so the setup will be less complicated
 if (emailNotificationsService && !emailNotificationsIdentity)
   throw new Error(
-    'Please provide webId of email notifications service in environment variable REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY',
+    'Please provide webId of email notifications service in environment variable VITE_EMAIL_NOTIFICATIONS_IDENTITY',
   )
 
 // export const wikidataLDF = 'https://query.wikidata.org/bigdata/ldf'

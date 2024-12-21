@@ -1,10 +1,15 @@
-import { ButtonLink, ExternalIconLink, Interests, Loading } from 'components'
-import { ProtectedImg } from 'components/ProtectedImg'
-import { useConfig } from 'config/hooks'
-import { useProfile } from 'hooks/data/useProfile'
-import { useAuth } from 'hooks/useAuth'
 import { FaPencilAlt } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
+import {
+  ButtonLink,
+  ExternalIconLink,
+  Interests,
+  Loading,
+} from '../../components'
+import { ProtectedImg } from '../../components/ProtectedImg'
+import { useConfig } from '../../config/hooks'
+import { useProfile } from '../../hooks/data/useProfile'
+import { useAuth } from '../../hooks/useAuth'
 import { ManageContact } from './ManageContact'
 import styles from './Profile.module.scss'
 

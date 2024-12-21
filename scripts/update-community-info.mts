@@ -5,7 +5,7 @@
 /**
  * This script fetches community info from community Solid pod and saves them as environment variables in .env.build
  * The env variables are used to populate index.html in build step
- * It expects REACT_APP_COMMUNITY environment variable present, otherwise it uses default SolidCouch name and description
+ * It expects VITE_COMMUNITY environment variable present, otherwise it uses default SolidCouch name and description
  */
 
 import { QueryAndStore, run } from '@ldhop/core'
@@ -15,7 +15,7 @@ import he from 'he'
 import type { Quad_Object } from 'n3'
 import { foaf, sioc } from 'rdf-namespaces'
 
-const communityId = process.env.REACT_APP_COMMUNITY
+const communityId = process.env.VITE_COMMUNITY
 
 const defaultName = 'SolidCouch'
 const defaultAbout =
@@ -59,11 +59,11 @@ const defaultAbout =
 
   // make sure all dangerous characters are escaped
   // create-react-app doesn't take care on its own
-  const env = `REACT_APP_COMMUNITY_LOGO='${encodeURI(logo)}'
-REACT_APP_COMMUNITY_NAME='${he.encode(name)}'
-REACT_APP_COMMUNITY_NAME_UNSAFE='${name}'
-REACT_APP_COMMUNITY_ABOUT='${he.encode(about)}'
-REACT_APP_COMMUNITY_HOMEPAGE='${encodeURI(homepage)}'
+  const env = `VITE_COMMUNITY_LOGO='${encodeURI(logo)}'
+VITE_COMMUNITY_NAME='${he.encode(name)}'
+VITE_COMMUNITY_NAME_UNSAFE='${name}'
+VITE_COMMUNITY_ABOUT='${he.encode(about)}'
+VITE_COMMUNITY_HOMEPAGE='${encodeURI(homepage)}'
 `
 
   writeFileSync('.env.build', env)

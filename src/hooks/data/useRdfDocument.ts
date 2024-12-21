@@ -20,14 +20,14 @@ import {
 import { maxBy, merge } from 'lodash'
 import { useMemo } from 'react'
 import { URI } from 'types'
-import { HttpError } from 'utils/errors'
+import { HttpError } from '../../utils/errors'
 import {
   fullFetch,
   getAllParents,
   getParent,
   removeHashFromURI,
-} from 'utils/helpers'
-import { toN3Patch } from 'utils/ldo'
+} from '../../utils/helpers'
+import { toN3Patch } from '../../utils/ldo'
 
 // do not use browser cache
 // This is a temporary fix until the bug in CSS gets fixed

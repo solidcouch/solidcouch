@@ -1,21 +1,26 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useConfig } from 'config/hooks'
-import { useAuth } from 'hooks/useAuth'
-import {
-  HospexProfileShapeType,
-  PrivateTypeIndexShapeType,
-  PublicTypeIndexShapeType,
-} from 'ldo/app.shapeTypes'
-import { PrivateTypeIndex, PublicTypeIndex } from 'ldo/app.typings'
-import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
 import { NamedNode, Quad, Writer } from 'n3'
 import { acl, foaf, ldp, rdf, solid, space } from 'rdf-namespaces'
 import { useCallback } from 'react'
 import { URI } from 'types'
-import { fullFetch, getAcl, getContainer, processAcl } from 'utils/helpers'
-import { hospex } from 'utils/rdf-namespaces'
 import { v4 as uuidv4 } from 'uuid'
+import { useConfig } from '../../config/hooks'
+import { useAuth } from '../../hooks/useAuth'
+import {
+  HospexProfileShapeType,
+  PrivateTypeIndexShapeType,
+  PublicTypeIndexShapeType,
+} from '../../ldo/app.shapeTypes'
+import { PrivateTypeIndex, PublicTypeIndex } from '../../ldo/app.typings'
+import { AuthorizationShapeType } from '../../ldo/wac.shapeTypes'
+import {
+  fullFetch,
+  getAcl,
+  getContainer,
+  processAcl,
+} from '../../utils/helpers'
+import { hospex } from '../../utils/rdf-namespaces'
 import { useReadCommunity } from './useCommunity'
 import {
   useCreateRdfContainer,

@@ -1,9 +1,9 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
-import { AccommodationShapeType } from 'ldo/app.shapeTypes'
 import { useMemo } from 'react'
 import { Accommodation, URI } from 'types'
+import { AccommodationShapeType } from '../../ldo/app.shapeTypes'
 import { readPersonAccommodationsQuery } from './queries'
 
 /**
