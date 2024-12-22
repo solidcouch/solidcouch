@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import { URI } from 'types'
-import { Avatar } from '../../components'
-import { useConfig } from '../../config/hooks'
-import { useProfile } from '../../hooks/data/useProfile'
+import { Avatar } from '../../components/index.ts'
+import { useConfig } from '../../config/hooks.ts'
+import { useProfile } from '../../hooks/data/useProfile.ts'
+import { URI } from '../../types/index.ts'
 import styles from './PersonBadge.module.scss'
 
 export const PersonBadge = ({

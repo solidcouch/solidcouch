@@ -1,1 +1,1 @@
-export { SearchHosts } from './SearchHosts'
+export { SearchHosts } from './SearchHosts.tsx'

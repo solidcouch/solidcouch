@@ -2,10 +2,10 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
-import { Message, URI } from 'types'
-import { ChatShapeShapeType } from '../../ldo/app.shapeTypes'
-import { messages as messagesQuery } from './queries'
-import { useReadMessagesFromInbox } from './useReadThreads'
+import { ChatShapeShapeType } from '../../ldo/app.shapeTypes.ts'
+import { Message, URI } from '../../types/index.ts'
+import { messages as messagesQuery } from './queries/index.ts'
+import { useReadMessagesFromInbox } from './useReadThreads.ts'
 
 export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
   const { quads, variables, isLoading } = useLDhopQuery(
@@ -79,7 +79,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
 
   // combine messages from inbox with messages, and sort them
   const combinedMessages = useMemo(() => {
-    let combined = [...messages]
+    const combined = [...messages]
 
     messagesFromInbox.forEach(inboxMessage => {
       // if message is there, update status of the message

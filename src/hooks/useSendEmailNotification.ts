@@ -1,8 +1,8 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { useConfig } from '../config/hooks'
-import { useProfile } from './data/useProfile'
+import { useConfig } from '../config/hooks.ts'
+import { useProfile } from './data/useProfile.ts'
 
 type Person = { id: string; name: string }
 type MessageNotification = { messageId: string; message: string }

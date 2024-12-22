@@ -1,10 +1,10 @@
 import { minBy } from 'lodash'
 import { useEffect, useMemo, useState } from 'react'
-import { URI } from 'types'
-import { getContainer, getParentContainer } from '../../utils/helpers'
-import { space } from '../../utils/rdf-namespaces'
-import { useSolidProfile } from './useProfile'
-import { useRdfDocuments } from './useRdfDocument'
+import { URI } from '../../types/index.ts'
+import { getContainer, getParentContainer } from '../../utils/helpers.ts'
+import { space } from '../../utils/rdf-namespaces.ts'
+import { useSolidProfile } from './useProfile.ts'
+import { useRdfDocuments } from './useRdfDocument.ts'
 
 export const useStorage = (me: URI) => {
   const [profile, queryStatus] = useSolidProfile(me)

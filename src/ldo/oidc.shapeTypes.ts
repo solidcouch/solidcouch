@@ -1,7 +1,7 @@
 import { ShapeType } from '@ldo/ldo'
-import { oidcSchema } from './oidc.schema'
-import { oidcContext } from './oidc.context'
-import { OidcIssuer } from './oidc.typings'
+import { oidcContext } from './oidc.context.ts'
+import { oidcSchema } from './oidc.schema.ts'
+import { OidcIssuer } from './oidc.typings.ts'
 
 /**
  * =============================================================================

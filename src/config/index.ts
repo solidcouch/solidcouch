@@ -1,8 +1,8 @@
 import {
   emailNotificationsIdentity,
   emailNotificationsService,
-} from './variables'
-export { tileServer } from './leaflet'
+} from './variables.ts'
+export { tileServer } from './leaflet.ts'
 export {
   communityContainer,
   communityId,
@@ -10,7 +10,7 @@ export {
   emailNotificationsService,
   emailNotificationsType,
   geoindexService,
-} from './variables'
+} from './variables.ts'
 
 // TODO maybe we'll fetch the identity directly from the mailer, when it supports that option, so the setup will be less complicated
 if (emailNotificationsService && !emailNotificationsIdentity)

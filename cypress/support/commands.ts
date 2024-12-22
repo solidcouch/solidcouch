@@ -65,6 +65,7 @@ import { ContactNotification, saveContacts } from './setup/contacts'
 import { Conversation, createConversation } from './setup/messages'
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       createAccount(options: {
@@ -81,7 +82,7 @@ declare global {
       authenticatedRequest(
         user: UserConfig,
         ...args: Parameters<typeof cy.request>
-      ): Chainable<Cypress.Response<any>>
+      ): Chainable<Cypress.Response<unknown>>
       login: typeof uiLogin
       logout: typeof uiLogout
       setupCommunity: typeof setupCommunity

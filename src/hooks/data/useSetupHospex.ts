@@ -3,31 +3,31 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { NamedNode, Quad, Writer } from 'n3'
 import { acl, foaf, ldp, rdf, solid, space } from 'rdf-namespaces'
 import { useCallback } from 'react'
-import { URI } from 'types'
 import { v4 as uuidv4 } from 'uuid'
-import { useConfig } from '../../config/hooks'
-import { useAuth } from '../../hooks/useAuth'
+import { useConfig } from '../../config/hooks.ts'
+import { useAuth } from '../../hooks/useAuth.ts'
 import {
   HospexProfileShapeType,
   PrivateTypeIndexShapeType,
   PublicTypeIndexShapeType,
-} from '../../ldo/app.shapeTypes'
-import { PrivateTypeIndex, PublicTypeIndex } from '../../ldo/app.typings'
-import { AuthorizationShapeType } from '../../ldo/wac.shapeTypes'
+} from '../../ldo/app.shapeTypes.ts'
+import { PrivateTypeIndex, PublicTypeIndex } from '../../ldo/app.typings.ts'
+import { AuthorizationShapeType } from '../../ldo/wac.shapeTypes.ts'
+import { URI } from '../../types/index.ts'
 import {
   fullFetch,
   getAcl,
   getContainer,
   processAcl,
-} from '../../utils/helpers'
-import { hospex } from '../../utils/rdf-namespaces'
-import { useReadCommunity } from './useCommunity'
+} from '../../utils/helpers.ts'
+import { hospex } from '../../utils/rdf-namespaces.ts'
+import { useReadCommunity } from './useCommunity.ts'
 import {
   useCreateRdfContainer,
   useCreateRdfDocument,
   useUpdateLdoDocument,
   useUpdateRdfDocument,
-} from './useRdfDocument'
+} from './useRdfDocument.ts'
 
 export type SetupTask =
   | 'createPublicTypeIndex'
@@ -248,7 +248,7 @@ const useAddToHospexProfile = () => {
           { webId, uri: getContainer(uri) },
           { throwOnHttpError: true },
         )
-      } catch (e) {
+      } catch {
         await updateAcl(getContainer(uri), [
           {
             operation: 'add',
@@ -559,7 +559,7 @@ const useCreateInbox = () => {
 const useInitEmailNotifications = () => {
   const { emailNotificationsService, emailNotificationsIdentity } = useConfig()
   // Define a mutation function that will handle the API request
-  const addActivity = async (requestData: any) => {
+  const addActivity = async (requestData: unknown) => {
     const response = await fetch(`${emailNotificationsService}/inbox`, {
       method: 'post',
       headers: { 'content-type': 'application/ld+json' },
@@ -635,7 +635,7 @@ const useInitEmailNotifications = () => {
 const useInitSimpleEmailNotifications = () => {
   const { emailNotificationsService } = useConfig()
   // Define a mutation function that will handle the API request
-  const addActivity = async (requestData: any) => {
+  const addActivity = async (requestData: unknown) => {
     const response = await fetch(`${emailNotificationsService}/init`, {
       method: 'post',
       headers: { 'content-type': 'application/json' },

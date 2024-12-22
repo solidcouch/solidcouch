@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
-import { Loading } from '../components'
-import { useAuth } from '../hooks/useAuth'
+import { Loading } from '../components/index.ts'
+import { useAuth } from '../hooks/useAuth.ts'
 
 export const ProfileRedirect = () => {
   const auth = useAuth()

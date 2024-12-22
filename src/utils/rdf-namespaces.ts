@@ -1,9 +1,8 @@
-/* eslint-disable import/export */
-/* eslint-disable import/no-unused-modules */
 // not sure how to resolve errors resulting from this eslint rule
 // it's because we overwrite exports from rdf-namespaces here
 import * as ns from 'rdf-namespaces'
-import { https } from './helpers'
+import { https } from './helpers.ts'
+ 
 export * from 'rdf-namespaces'
 
 const base = {
@@ -30,6 +29,7 @@ export const hospex = {
   storage: base.hospex + 'storage',
 }
 
+ 
 export const as = {
   ...(Object.fromEntries(
     Object.entries(ns.as).map(([key, value]) => [key, https(value)]),
@@ -38,12 +38,14 @@ export const as = {
   subject: https(ns.as.object.replace('object', 'subject')),
 }
 
+ 
 export const wf = {
   participation: base.wf + 'participation',
   participant: base.wf + 'participant',
   ...ns.wf,
 }
 
+ 
 export const meeting = {
   LongChat: base.meeting + 'LongChat',
   ...ns.meeting,

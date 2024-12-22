@@ -24,6 +24,6 @@ SOFTWARE.
 
 import Markdown from 'react-markdown'
 import styles from './About.module.scss'
-import { about } from './data'
+import { about } from './data.ts'
 
 export const About = () => <Markdown className={styles.text}>{about}</Markdown>

@@ -2,21 +2,21 @@ import { debounce, merge } from 'lodash'
 import { useCallback, useMemo, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import Select from 'react-select'
-import * as types from 'types'
-import { URI } from 'types'
-import { Loading } from '../../components'
+import { Loading } from '../../components/index.ts'
 import styles from '../../components/Interests/Interests.module.scss'
-import { withToast } from '../../components/withToast'
-import { useConfig } from '../../config/hooks'
+import { withToast } from '../../components/withToast.tsx'
+import { useConfig } from '../../config/hooks.ts'
 import {
   useReadInterest,
   useSearchInterests,
-} from '../../hooks/data/useInterests'
+} from '../../hooks/data/useInterests.ts'
 import {
   useAddInterest,
   useProfile,
   useRemoveInterest,
-} from '../../hooks/data/useProfile'
+} from '../../hooks/data/useProfile.ts'
+import * as types from '../../types/index.ts'
+import { URI } from '../../types/index.ts'
 
 export const EditInterests = ({ webId }: { webId: URI }) => {
   const { communityId } = useConfig()

@@ -2,15 +2,15 @@ import { login } from '@inrupt/solid-client-authn-browser'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { Button } from '../../components'
-import { guessIssuer } from '../../components/SignIn/oidcIssuer'
-import { useConfig } from '../../config/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks.ts'
+import { Button } from '../../components/index.ts'
+import { guessIssuer } from '../../components/SignIn/oidcIssuer.ts'
+import { useConfig } from '../../config/hooks.ts'
 import {
   actions,
   selectLastSelectedIssuer,
-} from '../../features/login/loginSlice'
-import { useReadCommunity } from '../../hooks/data/useCommunity'
+} from '../../features/login/loginSlice.ts'
+import { useReadCommunity } from '../../hooks/data/useCommunity.ts'
 import styles from './SignIn.module.scss'
 
 Modal.setAppElement('#root')
@@ -43,8 +43,7 @@ export const SignIn = () => {
         redirectUrl: new URL('/', window.location.href).toString(),
         clientName: community.name || 'SolidCouch',
         clientId:
-          import.meta.env.NODE_ENV === 'development' &&
-          !import.meta.env.VITE_ENABLE_DEV_CLIENT_ID
+          import.meta.env.DEV && !import.meta.env.VITE_ENABLE_DEV_CLIENT_ID
             ? undefined
             : new URL('/clientid.jsonld', window.location.href).toJSON(),
       })

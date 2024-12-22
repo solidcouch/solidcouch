@@ -1,7 +1,7 @@
-import { URI } from 'types'
-import { Avatar } from '../../components'
-import { useConfig } from '../../config/hooks'
-import { useProfile } from '../../hooks/data/useProfile'
+import { Avatar } from '../../components/index.ts'
+import { useConfig } from '../../config/hooks.ts'
+import { useProfile } from '../../hooks/data/useProfile.ts'
+import { URI } from '../../types/index.ts'
 
 export const PersonMini = ({
   webId,

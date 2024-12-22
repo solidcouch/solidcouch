@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom'
-import * as types from 'types'
-import { Loading } from '../components'
-import { PersonBadge } from '../components/PersonBadge/PersonBadge'
-import { useReadContacts } from '../hooks/data/useContacts'
-import { useAuth } from '../hooks/useAuth'
+import { Loading } from '../components/index.ts'
+import { PersonBadge } from '../components/PersonBadge/PersonBadge.tsx'
+import { useReadContacts } from '../hooks/data/useContacts.ts'
+import { useAuth } from '../hooks/useAuth.ts'
+import * as types from '../types/index.ts'
 import styles from './Contacts.module.scss'
-import { ProcessContactInvitation } from './Profile/ManageContact'
+import { ProcessContactInvitation } from './Profile/ManageContact.tsx'
 
 export const Contacts = () => {
   const personId = useParams().id as string

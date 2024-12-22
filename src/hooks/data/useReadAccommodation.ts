@@ -2,11 +2,11 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
-import { AccommodationExtended, Person, URI } from 'types'
-import { useConfig } from '../../config/hooks'
-import { AccommodationShapeType } from '../../ldo/app.shapeTypes'
-import { accommodationQuery } from './queries'
-import { useProfile } from './useProfile'
+import { useConfig } from '../../config/hooks.ts'
+import { AccommodationShapeType } from '../../ldo/app.shapeTypes.ts'
+import { AccommodationExtended, Person, URI } from '../../types/index.ts'
+import { accommodationQuery } from './queries/index.ts'
+import { useProfile } from './useProfile.ts'
 
 export const useReadAccommodation = ({
   accommodationId,

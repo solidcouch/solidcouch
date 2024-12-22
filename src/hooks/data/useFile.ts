@@ -6,8 +6,8 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { URI } from 'types'
-import { removeHashFromURI } from '../../utils/helpers'
+import { URI } from '../../types/index.ts'
+import { removeHashFromURI } from '../../utils/helpers.ts'
 
 /**
  * wrapper around react-query to fetch a single file as object url
@@ -30,7 +30,7 @@ export const useFile = (uri: URI = '') => {
 /**
  * wrapper around react-query to fetch multiple files as object urls
  */
-// eslint-disable-next-line import/no-unused-modules
+
 export const useFiles = (uris: URI[]) => {
   const params = useMemo(
     () => ({
@@ -113,7 +113,6 @@ export const useCreateFile = () => {
   return mutation
 }
 
-// eslint-disable-next-line import/no-unused-modules
 export const useUpdateFile = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({

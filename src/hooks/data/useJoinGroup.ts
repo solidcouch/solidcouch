@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
-import { URI } from 'types'
-import { solid, vcard } from '../../utils/rdf-namespaces'
-import { useUpdateRdfDocument } from './useRdfDocument'
+import { URI } from '../../types/index.ts'
+import { solid, vcard } from '../../utils/rdf-namespaces.ts'
+import { useUpdateRdfDocument } from './useRdfDocument.ts'
 
 export const useJoinGroup = () => {
   const updateMutation = useUpdateRdfDocument()

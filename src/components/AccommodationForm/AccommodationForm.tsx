@@ -4,10 +4,10 @@ import classNames from 'classnames'
 import { merge } from 'lodash'
 import { Controller, useForm } from 'react-hook-form'
 import { FaExclamationTriangle, FaLocationArrow } from 'react-icons/fa'
-import { Accommodation } from 'types'
-import { Button } from '../../components'
-import { SelectLocation } from '../../components/SelectLocation'
+import { Button } from '../../components/index.ts'
+import { SelectLocation } from '../../components/SelectLocation.tsx'
 import styles from '../../pages/MyOffers.module.scss'
+import { Accommodation } from '../../types/index.ts'
 
 const validationSchema: JSONSchemaType<
   Pick<Accommodation, 'location' | 'description'>

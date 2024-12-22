@@ -5,12 +5,12 @@ import {
   ExternalIconLink,
   Interests,
   Loading,
-} from '../../components'
-import { ProtectedImg } from '../../components/ProtectedImg'
-import { useConfig } from '../../config/hooks'
-import { useProfile } from '../../hooks/data/useProfile'
-import { useAuth } from '../../hooks/useAuth'
-import { ManageContact } from './ManageContact'
+} from '../../components/index.ts'
+import { ProtectedImg } from '../../components/ProtectedImg.tsx'
+import { useConfig } from '../../config/hooks.ts'
+import { useProfile } from '../../hooks/data/useProfile.ts'
+import { useAuth } from '../../hooks/useAuth.ts'
+import { ManageContact } from './ManageContact.tsx'
 import styles from './Profile.module.scss'
 
 export const Profile = () => {

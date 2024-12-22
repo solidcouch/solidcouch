@@ -127,15 +127,9 @@ export const getAuthenticatedRequest = (user: UserConfig) =>
     .then(authorization => getIdAndSecret({ authorization, ...user }))
     .then(getAccessToken)
     .then(({ token, dpopKey }) =>
-      cy.wrap(
-        buildAuthenticatedFetch(
-          // @ts-ignore
-          cyFetchWrapper,
-          token,
-          { dpopKey },
-        ),
-        { log: false },
-      ),
+      cy.wrap(buildAuthenticatedFetch(cyFetchWrapper, token, { dpopKey }), {
+        log: false,
+      }),
     )
     .then(authFetchWrapper => {
       const authRequest = cyUnwrapFetch(authFetchWrapper)

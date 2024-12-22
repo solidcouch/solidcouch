@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
+import fs from 'fs'
 
 // write CNAME into ./build based on BASE_URL environment variable
 // this is meant for deployment to github pages

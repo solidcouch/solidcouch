@@ -1,8 +1,8 @@
 import { createLdoDataset } from '@ldo/ldo'
-import { URI } from 'types'
-import type { IssuerConfig } from '../../config'
-import { fetchRdfDocument } from '../../hooks/data/useRdfDocument'
-import { SolidProfileShapeType } from '../../ldo/app.shapeTypes'
+import type { IssuerConfig } from '../../config/index.ts'
+import { fetchRdfDocument } from '../../hooks/data/useRdfDocument.ts'
+import { SolidProfileShapeType } from '../../ldo/app.shapeTypes.ts'
+import { URI } from '../../types/index.ts'
 
 // TODO this can be a candidate for a separate library
 

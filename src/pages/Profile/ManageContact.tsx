@@ -1,18 +1,18 @@
 import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
-import { ContactInvitation, URI } from 'types'
-import { Button, Loading } from '../../components'
-import { useConfig } from '../../config/hooks'
-import { useCheckSetup } from '../../hooks/data/useCheckSetup'
+import { Button, Loading } from '../../components/index.ts'
+import { useConfig } from '../../config/hooks.ts'
+import { useCheckSetup } from '../../hooks/data/useCheckSetup.ts'
 import {
   useConfirmContact,
   useCreateContact,
   useIgnoreContactRequest,
   useReadContacts,
-} from '../../hooks/data/useContacts'
-import { useAuth } from '../../hooks/useAuth'
-import { getContainer } from '../../utils/helpers'
+} from '../../hooks/data/useContacts.ts'
+import { useAuth } from '../../hooks/useAuth.ts'
+import { ContactInvitation, URI } from '../../types/index.ts'
+import { getContainer } from '../../utils/helpers.ts'
 
 export const ManageContact = ({ webId }: { webId: URI }) => {
   const auth = useAuth()

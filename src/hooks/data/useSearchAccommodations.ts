@@ -5,12 +5,12 @@ import { useQueries } from '@tanstack/react-query'
 import { Parser, Store } from 'n3'
 import ngeohash from 'ngeohash'
 import { useEffect, useMemo, useState } from 'react'
-import { useConfig } from '../../config/hooks'
-import { AccommodationShapeType } from '../../ldo/app.shapeTypes'
-import { HttpError } from '../../utils/errors'
-import { mergeArrays } from '../../utils/helpers'
-import { hospex } from '../../utils/rdf-namespaces'
-import { searchAccommodationsQuery } from './queries'
+import { useConfig } from '../../config/hooks.ts'
+import { AccommodationShapeType } from '../../ldo/app.shapeTypes.ts'
+import { HttpError } from '../../utils/errors.ts'
+import { mergeArrays } from '../../utils/helpers.ts'
+import { hospex } from '../../utils/rdf-namespaces.ts'
+import { searchAccommodationsQuery } from './queries/index.ts'
 
 const fetchAccommodationsByGeohash = async ({
   geohash,

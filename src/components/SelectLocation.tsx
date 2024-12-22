@@ -10,8 +10,8 @@ import {
   useMap,
   useMapEvent,
 } from 'react-leaflet'
-import { Bounds, Location } from 'types'
-import { useConfig } from '../config/hooks'
+import { useConfig } from '../config/hooks.ts'
+import { Bounds, Location } from '../types/index.ts'
 import styles from './AccommodationView/AccommodationView.module.scss'
 
 const normalizeLng = (lng: number) => (((lng % 360) - 180 * 3) % 360) + 180
@@ -75,7 +75,7 @@ export const Move = ({
 
   // this just runs as well, because 'load' doesn't typically trigger, as if the map is loaded before the hooks are hooked
   useEffect(() => {
-    map && handleLoad()
+    if (map) handleLoad()
   }, [handleLoad, map])
 
   return null

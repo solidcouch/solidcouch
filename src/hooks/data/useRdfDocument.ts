@@ -19,15 +19,15 @@ import {
 } from '@tanstack/react-query'
 import { maxBy, merge } from 'lodash'
 import { useMemo } from 'react'
-import { URI } from 'types'
-import { HttpError } from '../../utils/errors'
+import { URI } from '../../types/index.ts'
+import { HttpError } from '../../utils/errors.ts'
 import {
   fullFetch,
   getAllParents,
   getParent,
   removeHashFromURI,
-} from '../../utils/helpers'
-import { toN3Patch } from '../../utils/ldo'
+} from '../../utils/helpers.ts'
+import { toN3Patch } from '../../utils/ldo.ts'
 
 // do not use browser cache
 // This is a temporary fix until the bug in CSS gets fixed
@@ -41,7 +41,6 @@ export const fetchRdfDocument = (uri: string) =>
 /**
  * wrapper around react-query to fetch a single rdf document
  */
-// eslint-disable-next-line import/no-unused-modules
 export const useRdfDocument = (uri: URI) => {
   const doc = uri ? removeHashFromURI(uri) : uri
   const queryKey = useMemo(() => ['rdfDocument', doc], [doc])

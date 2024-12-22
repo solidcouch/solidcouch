@@ -1,21 +1,21 @@
 import dayjs from 'dayjs'
 import { useCallback } from 'react'
-import { URI } from 'types'
 import { v4 as uuidv4 } from 'uuid'
 import {
   ChatShapeShapeType,
   MessageActivityShapeType,
-} from '../../ldo/app.shapeTypes'
-import { ChatMessageShape, ChatShape } from '../../ldo/app.typings'
-import { AuthorizationShapeType } from '../../ldo/wac.shapeTypes'
-import { getAcl, getContainer } from '../../utils/helpers'
-import { acl } from '../../utils/rdf-namespaces'
+} from '../../ldo/app.shapeTypes.ts'
+import { ChatMessageShape, ChatShape } from '../../ldo/app.typings.ts'
+import { AuthorizationShapeType } from '../../ldo/wac.shapeTypes.ts'
+import { URI } from '../../types/index.ts'
+import { getAcl, getContainer } from '../../utils/helpers.ts'
+import { acl } from '../../utils/rdf-namespaces.ts'
 import {
   useCreateRdfDocument,
   useDeleteRdfDocument,
   useUpdateLdoDocument,
-} from './useRdfDocument'
-import { useSaveTypeRegistration } from './useSetupHospex'
+} from './useRdfDocument.ts'
+import { useSaveTypeRegistration } from './useSetupHospex.ts'
 
 export const useCreateMessage = () => {
   const queryMutation = useUpdateLdoDocument(ChatShapeShapeType)
@@ -79,8 +79,9 @@ export const useCreateMessageNotification = () => {
         data: {
           '@id': '',
           // TODO dealing with weird inconsistency, probably because of issue
-          // https://github.com/o-development/ldo/issues/22
-          // @ts-ignore
+          // https://github.com/o-development/ldo-legacy/issues/22
+          // potentially not relevant after update
+          // @ts-expect-error a bug described in the link above
           type: [{ '@id': 'Add' }],
           actor: { '@id': senderId },
           context: { '@id': 'https://www.pod-chat.com/LongChatMessage' },

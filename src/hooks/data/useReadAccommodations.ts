@@ -2,9 +2,9 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import { useMemo } from 'react'
-import { Accommodation, URI } from 'types'
-import { AccommodationShapeType } from '../../ldo/app.shapeTypes'
-import { readPersonAccommodationsQuery } from './queries'
+import { AccommodationShapeType } from '../../ldo/app.shapeTypes.ts'
+import { Accommodation, URI } from '../../types/index.ts'
+import { readPersonAccommodationsQuery } from './queries/index.ts'
 
 /**
  * Read accommodations of a person
