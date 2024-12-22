@@ -103,7 +103,7 @@ export const useCreateFile = () => {
   const mutation = useMutation({
     mutationFn: async ({ uri, data }: { uri: URI; data: File }) =>
       await createFile(uri, data),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['file', removeHashFromURI(variables.uri)],
       })
@@ -118,7 +118,7 @@ export const useUpdateFile = () => {
   const mutation = useMutation({
     mutationFn: async ({ uri, data }: { uri: URI; data: File }) =>
       await updateFile(uri, data),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['file', removeHashFromURI(variables.uri)],
       })
@@ -132,7 +132,7 @@ export const useDeleteFile = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: async ({ uri }: { uri: URI }) => await deleteFile(uri),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['file', removeHashFromURI(variables.uri)],
       })

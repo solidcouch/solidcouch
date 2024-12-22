@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress'
+import vitePreprocessor from 'cypress-vite'
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
@@ -20,6 +21,7 @@ export default defineConfig({
           return null
         },
       })
+      on('file:preprocessor', vitePreprocessor())
     },
   },
   env: {

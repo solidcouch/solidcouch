@@ -17,11 +17,14 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    // "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": "src"
+    "paths": {
+      // https://community.monday.com/t/type-error-with-vibe-components-in-react-typescript-project/92184/2
+      "react": ["./node_modules/@types/react"]
+    }
   },
   "include": ["src"]
 }

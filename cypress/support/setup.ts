@@ -7,8 +7,8 @@ import {
   space,
   vcard,
 } from 'rdf-namespaces'
-import { Person } from './commands'
-import { logoutUser, UserConfig } from './css-authentication'
+import { Person } from './commands.js'
+import { logoutUser, UserConfig } from './css-authentication.js'
 
 export type CommunityConfig = { community: string; group: string }
 export type SetupConfig = {

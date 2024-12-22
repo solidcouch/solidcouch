@@ -7,7 +7,7 @@ import * as config from '../../config/index.ts'
 const initialState: Partial<ConfigType> = {}
 
 export const slice = createSlice({
-  name: '../../config',
+  name: 'config',
   initialState,
   reducers: {
     setConfig: (state, action: PayloadAction<Partial<typeof config>>) => {

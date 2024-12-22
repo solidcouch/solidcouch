@@ -1,11 +1,11 @@
 import {
-  buildAuthenticatedFetch,
   createDpopHeader,
   generateDpopKeyPair,
   KeyPair,
 } from '@inrupt/solid-client-authn-core'
 import _ from 'lodash'
-import { cyFetchWrapper, cyUnwrapFetch } from './css-authentication-helpers'
+import { buildAuthenticatedFetch } from './buildAuthenticatedFetch.js'
+import { cyFetchWrapper, cyUnwrapFetch } from './css-authentication-helpers.js'
 
 export interface UserConfig {
   idp: string
@@ -104,9 +104,9 @@ const getAccessToken = ({ id, secret }: { id: string; secret: string }) => {
             method: 'POST',
             headers: {
               // The header needs to be in base64 encoding.
-              authorization: `Basic ${Buffer.from(
+              authorization: `Basic ${btoa(
                 `${encodeURIComponent(id)}:${encodeURIComponent(secret)}`,
-              ).toString('base64')}`,
+              )}`,
               'content-type': 'application/x-www-form-urlencoded',
               dpop,
             },
@@ -127,9 +127,15 @@ export const getAuthenticatedRequest = (user: UserConfig) =>
     .then(authorization => getIdAndSecret({ authorization, ...user }))
     .then(getAccessToken)
     .then(({ token, dpopKey }) =>
-      cy.wrap(buildAuthenticatedFetch(cyFetchWrapper, token, { dpopKey }), {
-        log: false,
-      }),
+      cy.wrap(
+        buildAuthenticatedFetch(token, {
+          dpopKey,
+          customFetch: cyFetchWrapper as unknown as typeof globalThis.fetch,
+        }),
+        {
+          log: false,
+        },
+      ),
     )
     .then(authFetchWrapper => {
       const authRequest = cyUnwrapFetch(authFetchWrapper)

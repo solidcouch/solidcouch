@@ -5,7 +5,8 @@
     "esModuleInterop": true,
     "target": "es5",
     "lib": ["es5", "dom", "esnext"],
-    "types": ["cypress", "node"]
+    "types": ["cypress", "node"],
+    "skipLibCheck": true
   },
   "include": ["**/*.ts", "../src/global.d.ts"]
 }

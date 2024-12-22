@@ -1,4 +1,4 @@
-import { Person } from '../support/commands'
+import { Person } from '../support/commands.js'
 
 // left, right, up, down, zoom in, zoom out
 type Move = 'l' | 'r' | 'u' | 'd' | 'i' | 'o'
