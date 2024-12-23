@@ -208,7 +208,7 @@ describe('messages with other person', () => {
         cy.login(me)
         cy.visit(`/messages/${encodeURIComponent(otherPerson.webId)}`)
         cy.contains('Messages with')
-        cy.get('[data-cy-message-from=other])').should('have.length', 2)
+        cy.get('[data-cy-message-from=other]').should('have.length', 2)
 
         // my chat should get created (but only one), and it should reference the other chat
         cy.intercept('PUT', `${me.hospexContainer}**/index.ttl`).as(

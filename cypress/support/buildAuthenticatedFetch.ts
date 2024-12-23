@@ -1,40 +1,36 @@
-//
-// Copyright Inrupt Inc.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to use,
-// copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
-// Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
+/*
+Copyright 2021 Inrupt Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal in 
+the Software without restriction, including without limitation the rights to use, 
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the 
+Software, and to permit persons to whom the Software is furnished to do so, 
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in 
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+// https://github.com/inrupt/solid-client-authn-js/blob/a7b06d69d4c77790818370a9546e5f7053c369ec/packages/core/src/authenticatedFetch/fetchFactory.ts
 
 import type { KeyPair } from '@inrupt/solid-client-authn-core'
 import {
   createDpopHeader,
   EVENTS,
   InvalidResponseError,
-  ITokenRefresher,
   OidcProviderError,
   REFRESH_BEFORE_EXPIRATION_SECONDS,
+  RefreshOptions,
 } from '@inrupt/solid-client-authn-core'
 import type { EventEmitter } from 'events'
-
-export type RefreshOptions = {
-  sessionId: string
-  refreshToken: string
-  tokenRefresher: ITokenRefresher
-}
 
 /**
  * If expires_in isn't specified for the access token, we assume its lifetime is
@@ -47,12 +43,6 @@ function isExpectedAuthError(statusCode: number): boolean {
   // a response failing because the provided credentials aren't accepted by the
   // server can get a 401 or a 403 response.
   return [401, 403].includes(statusCode)
-}
-
-export type DpopHeaderPayload = {
-  htu: string
-  htm: string
-  jti: string
 }
 
 async function buildDpopFetchOptions(
@@ -160,13 +150,13 @@ const computeRefreshDelay = (expiresIn?: number): number => {
  */
 export async function buildAuthenticatedFetch(
   accessToken: string,
-  options?: {
+  options: {
     dpopKey?: KeyPair
     refreshOptions?: RefreshOptions
     expiresIn?: number
     eventEmitter?: EventEmitter
     customFetch?: typeof globalThis.fetch
-  },
+  } = {},
 ): Promise<typeof fetch> {
   options.customFetch ??= globalThis.fetch
   let currentAccessToken = accessToken

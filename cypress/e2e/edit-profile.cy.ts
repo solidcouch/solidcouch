@@ -104,7 +104,7 @@ describe('edit profile', () => {
     )
 
     // no interests should be there, yet
-    cy.get('ul[data-cy=interests-list]')
+    cy.get('[data-cy=interests-list]')
       .should('not.contain.text', 'Sus scrofa')
       .and('not.contain.text', 'European badger')
 
@@ -113,26 +113,26 @@ describe('edit profile', () => {
     cy.contains('omnivore').click()
     cy.testToast('Adding Sus scrofa to interests')
     cy.testAndCloseToast('Sus scrofa added to interests')
-    cy.get('ul[data-cy=interests-list]').should('contain.text', 'Sus scrofa')
+    cy.get('[data-cy=interests-list]').should('contain.text', 'Sus scrofa')
 
     // add another interest
     cy.get('input#react-select-3-input').type('badger')
     cy.contains('species of carnivorans').click()
     cy.testToast('Adding European badger to interests')
     cy.testAndCloseToast('European badger added to interests')
-    cy.get('ul[data-cy=interests-list]')
+    cy.get('[data-cy=interests-list]')
       .should('contain.text', 'European badger')
       .and('contain.text', 'Sus scrofa')
 
     // check that profile contains the new interests
     cy.visit('/profile')
-    cy.get('ul[data-cy=interests-list]')
+    cy.get('[data-cy=interests-list]')
       .should('contain.text', 'European badger')
       .and('contain.text', 'Sus scrofa')
 
     // go back to editing the profile and remove one of the interests
     cy.visit('/profile/edit')
-    cy.get('ul[data-cy=interests-list]')
+    cy.get('[data-cy=interests-list]')
       .should('contain.text', 'European badger')
       .and('contain.text', 'Sus scrofa')
 
@@ -143,12 +143,12 @@ describe('edit profile', () => {
     cy.testAndCloseToast('Interest removed')
 
     // was it removed?
-    cy.get('ul[data-cy=interests-list]')
+    cy.get('[data-cy=interests-list]')
       .should('contain.text', 'European badger')
       .and('not.contain.text', 'Sus scrofa')
     // was it removed from profile, too?
     cy.visit('/profile')
-    cy.get('ul[data-cy=interests-list]')
+    cy.get('[data-cy=interests-list]')
       .should('contain.text', 'European badger')
       .and('not.contain.text', 'Sus scrofa')
   })

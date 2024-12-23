@@ -1,7 +1,11 @@
-import { LocateControl } from '@turtlesocks/react-leaflet.locatecontrol/dist/LocateControl'
 import type { LatLngTuple, Map } from 'leaflet'
+import 'leaflet.locatecontrol'
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
 import 'leaflet/dist/leaflet.css'
+// import { LocateControl } from './LocateControl'
+
+import L from 'leaflet'
+
 import React, { useCallback, useEffect, useMemo } from 'react'
 import {
   MapContainer,
@@ -81,6 +85,16 @@ export const Move = ({
   return null
 }
 
+const Locate = () => {
+  const map = useMap()
+  useEffect(() => {
+    // https://www.npmjs.com/package/leaflet.locatecontrol
+    // @ts-expect-error TODO we may want to declare this somewhere
+    L.control.locate?.().addTo(map)
+  }, [])
+  return null
+}
+
 export const SelectLocation: React.FC<{
   value: Location
   onChange: (location: Location) => void
@@ -104,7 +118,7 @@ export const SelectLocation: React.FC<{
       className={styles.mapContainer}
     >
       <TileLayer url={tileServer} />
-      <LocateControl
+      {/* <LocateControl
         strings={{ title: 'Select my location' }}
         showPopup={false}
         drawMarker={false}
@@ -113,9 +127,10 @@ export const SelectLocation: React.FC<{
           outOfView: 'setView',
           inViewNotFollowing: 'setView',
         }}
-      />
+      /> */}
       <Marker position={location} />
       <Move onChange={onChange} />
+      <Locate />
     </MapContainer>
   )
 }

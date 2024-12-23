@@ -159,7 +159,7 @@ Cypress.Commands.add(
       }
       cy.createRandomAccount().then(user => {
         cy.setupPod(user, community ?? defaultCommunity).then(setup => {
-          cy.setProfileData(user, setup, profile)
+          cy.setProfileData(user, setup, profile!)
           return cy.wrap({ ...user, ...setup, ...profile } as Person, {
             log: false,
           })
