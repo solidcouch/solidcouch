@@ -84,7 +84,7 @@ describe('Sign in to the app', () => {
     cy.visit('/')
     cy.contains('Join').click()
     cy.get('label').contains('Show me some providers!').click()
-    cy.get('[data-cy=pod-providr-signup-link]')
+    cy.get('[data-cy=pod-provider-signup-link]')
       .contains('solidcommunity.net')
       // prevent opening new window (breaks CI tests)
       .invoke('removeAttr', 'target')
