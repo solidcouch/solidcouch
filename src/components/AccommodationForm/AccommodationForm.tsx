@@ -63,6 +63,7 @@ export const AccommodationForm = ({
       onSubmit={handleFormSubmit}
       onReset={onCancel}
       className={classNames(styles.accommodationForm, styles.accommodation)}
+      data-cy="accommodation-form"
     >
       <label>
         Hosting location (click <FaLocationArrow /> or drag & zoom map)

@@ -23,7 +23,7 @@ export const Threads = () => {
         {threads.map(thread => {
           const other = thread.participants.find(p => p !== auth.webId)
           return (
-            <li key={thread.id}>
+            <li key={thread.id} data-cy="thread-list-item">
               <Link to={`/messages/${encodeURIComponent(other ?? '')}`}>
                 <Thread thread={thread} />
               </Link>

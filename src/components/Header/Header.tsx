@@ -37,7 +37,7 @@ export const Header = () => {
       {auth.isLoggedIn === true && (
         <Menu
           menuButton={
-            <MenuButton>
+            <MenuButton data-cy="menu-button">
               <Avatar photo={profile.photo} />
             </MenuButton>
           }

@@ -31,7 +31,7 @@ export const uiLogin = (user: UserConfig | `@${string}`) => {
  * Perform a logout from the application, and from the solid server
  */
 export const uiLogout = (user: UserConfig | `@${string}`) => {
-  cy.get('[class^=Header_header] button.szh-menu-button').click()
+  cy.get('[data-cy="menu-button"]').click()
   cy.contains('button', 'sign out').click()
   cy.contains('button', 'Sign in')
   cy.origin(Cypress.env('CSS_URL'), () => {

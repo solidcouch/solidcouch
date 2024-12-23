@@ -74,7 +74,7 @@ describe('Sign in to the app', () => {
       // the custom provider should be filled in
       cy.get('input[name=webIdOrIssuer]').should('have.value', user1.idp)
       // the provider should also be the first highlighted button
-      cy.get('[class^=SignIn_providers] button')
+      cy.get('[data-cy=pod-provider-button]')
         .first()
         .contains(user1.idp.slice(7, -1))
     })
@@ -84,7 +84,7 @@ describe('Sign in to the app', () => {
     cy.visit('/')
     cy.contains('Join').click()
     cy.get('label').contains('Show me some providers!').click()
-    cy.get('[class^=Join_podOptions] a ')
+    cy.get('[data-cy=pod-providr-signup-link]')
       .contains('solidcommunity.net')
       // prevent opening new window (breaks CI tests)
       .invoke('removeAttr', 'target')
@@ -97,7 +97,7 @@ describe('Sign in to the app', () => {
     cy.contains('Sign in').click()
 
     // the provider should be the first highlighted button
-    cy.get('[class^=SignIn_providers] button')
+    cy.get('[data-cy=pod-provider-button]')
       .first()
       .contains('solidcommunity.net')
   })

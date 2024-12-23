@@ -65,7 +65,7 @@ describe('threads (list of conversations)', () => {
           cy.login(me)
           cy.visit('/messages')
           cy.contains('h1', 'Conversations')
-          cy.get('ul[class^=Threads_threadList]>li')
+          cy.get('[data-cy=thread-list-item]')
             .should('have.length', 2)
             .first()
             .should('contain.text', 'message3')
@@ -116,7 +116,7 @@ describe('threads (list of conversations)', () => {
         cy.login(me)
         cy.visit('/messages')
         cy.contains('h1', 'Conversations')
-        cy.get('[class^=Threads_threadList]>li')
+        cy.get('[data-cy=thread-list-item]')
           .should('have.length', 1)
           .and('contain.html', 'Threads_unread')
           .and(
@@ -156,7 +156,7 @@ describe('threads (list of conversations)', () => {
         cy.login(me)
         cy.visit('/messages')
         cy.contains('h1', 'Conversations')
-        cy.get('[class^=Threads_threadList]>li')
+        cy.get('[data-cy=thread-list-item]')
           .should('have.length', 1)
           .and('contain.html', 'Threads_unread')
           .and(
@@ -219,7 +219,7 @@ describe('threads (list of conversations)', () => {
             ],
           })
           cy.login(me)
-          cy.get('[class^=Header_header] .szh-menu-button').click()
+          cy.get('[data-cy="menu-button"]').click()
           cy.contains('a', 'messages (3 new)').should(
             'have.attr',
             'href',

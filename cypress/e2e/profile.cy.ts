@@ -64,7 +64,7 @@ describe('view profile', () => {
     })
 
     it('[navigating through menu] should display my profile', () => {
-      cy.get('[class^=Header_header] .szh-menu-button').click()
+      cy.get('[data-cy="menu-button"]').click()
       cy.get('a[href="/profile"]').click()
       cy.get<UserConfig>('@me').then(me => {
         cy.location()

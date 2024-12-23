@@ -14,7 +14,7 @@ export const Interests = ({
   if (ids.length === 0) return null
 
   return (
-    <ul className={styles.list}>
+    <ul className={styles.list} data-cy="interests-list">
       {ids.map(id => (
         <li key={id}>
           <Interest

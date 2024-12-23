@@ -83,7 +83,11 @@ export const SignIn = () => {
         <div className={styles.providers}>
           Select your Solid identity provider
           {lastIssuer && (
-            <Button primary onClick={() => handleSelectIssuer(lastIssuer)}>
+            <Button
+              primary
+              onClick={() => handleSelectIssuer(lastIssuer)}
+              data-cy="pod-provider-button"
+            >
               {
                 // show issuer without protocol and trailing slash
                 lastIssuer

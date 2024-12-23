@@ -21,7 +21,7 @@ export const Contacts = () => {
       <h1>
         Contacts of <PersonBadge webId={personId} link />
       </h1>
-      <ul className={styles.contactList}>
+      <ul className={styles.contactList} data-cy="contact-list">
         {contacts
           .filter(
             contact =>
@@ -43,7 +43,7 @@ export const Contacts = () => {
 
 const Contact = ({ contact }: { contact: types.Contact }) => {
   return (
-    <div className={styles.contact}>
+    <div className={styles.contact} data-cy="contact">
       <PersonBadge webId={contact.webId} link />
       <span className={styles.spacer}></span>
       {contact.status === 'request_sent' && (

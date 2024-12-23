@@ -125,7 +125,7 @@
     "globals": "^15.14.0",
     "knip": "^5.41.1",
     "prettier": "^2.8.3",
-    "sass": "^1.57.1",
+    "sass-embedded": "^1.83.0",
     "start-server-and-test": "^2.0.0",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.1",
