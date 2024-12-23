@@ -113,7 +113,7 @@ describe('edit profile', () => {
     cy.contains('omnivore').click()
     cy.testToast('Adding Sus scrofa to interests')
     cy.testAndCloseToast('Sus scrofa added to interests')
-    cy.get('[data-cy=interests-list]').should('contain.text', 'Sus scrofa')
+    cy.get('[data-cy=interests-list-edit]').should('contain.text', 'Sus scrofa')
 
     // add another interest
     cy.get('input#react-select-3-input').type('badger')

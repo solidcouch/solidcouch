@@ -35,7 +35,7 @@ describe('Setup Solid pod', () => {
   context('everything is set up', () => {
     beforeEach(setupPod())
     it('should skip the setup step', () => {
-      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.login('@user1')
       cy.contains('a', 'travel')
     })
   })
@@ -43,7 +43,7 @@ describe('Setup Solid pod', () => {
   context('pim:storage is missing', () => {
     beforeEach(setupPod(['personalHospexDocument', 'storage']))
     it('should setup the pod just fine (find storage by checking parent folders)', () => {
-      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.login('@user1')
       cy.contains('button', 'Continue!').click()
       cy.contains('a', 'travel')
     })
@@ -61,7 +61,7 @@ describe('Setup Solid pod', () => {
   context('private type index is missing', () => {
     beforeEach(setupPod(['privateTypeIndex']))
     it('should create private type index with correct ACL', () => {
-      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.login('@user1')
       cy.contains('button', 'Continue!').click()
       cy.contains('a', 'travel')
     })
@@ -70,7 +70,7 @@ describe('Setup Solid pod', () => {
   context('inbox is missing', () => {
     beforeEach(setupPod(['inbox']))
     it('should create inbox with correct ACL', () => {
-      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.login('@user1')
       cy.contains('button', 'Continue!').click()
       cy.contains('a', 'travel')
     })
@@ -88,7 +88,7 @@ describe('Setup Solid pod', () => {
   context('personal hospex document for this community does not exist', () => {
     beforeEach(setupPod(['personalHospexDocument']))
     it('should create personal hospex document for this community', () => {
-      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.login('@user1')
       cy.contains('button', 'Continue!').click()
       cy.contains('a', 'travel')
     })
@@ -307,10 +307,12 @@ describe('Setup Solid pod', () => {
         ) => {
           cy.get<Cypress.Response<unknown>>(`@${response}`).then(resp => {
             if (status) expect(resp.status).to.equal(status)
-            if (access) if (access.includes('write')) access.push('append')
-            expect(resp.headers['wac-allow']).to.equal(
-              `user="${access.sort().join(' ')}"`,
-            )
+            if (access) {
+              if (access.includes('write')) access.push('append')
+              expect(resp.headers['wac-allow']).to.equal(
+                `user="${access.sort().join(' ')}"`,
+              )
+            }
           })
         }
 
@@ -490,6 +492,8 @@ describe('Setup Solid pod', () => {
               const read = acls.find(
                 acl => acl.accesses.length === 1 && acl.accesses[0] === 'Read',
               )
+
+              if (!read) throw new Error('read not found')
 
               expect(read.agentGroups)
                 .to.have.length(2)

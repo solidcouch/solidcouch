@@ -64,7 +64,7 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
 
   return (
     <div>
-      <ul className={styles.list}>
+      <ul className={styles.list} data-cy="interests-list-edit">
         {interests.map(({ id, document }) => (
           <li key={id + document}>
             <Interest id={id} onRemove={() => handleRemove({ id, document })} />
