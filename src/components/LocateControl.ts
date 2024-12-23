@@ -20,7 +20,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+* /
 
 // https://github.com/TurtIeSocks/react-leaflet.locatecontrol/blob/58e0ed76c572c6b37bde78f5f7238c5ee0fccf1e/src/LocateControl.ts
 
@@ -40,3 +40,4 @@ export const LocateControl = createControlComponent<
 >(props => {
   control.locate(props)
 })
+*/

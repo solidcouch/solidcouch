@@ -116,6 +116,7 @@ export const SelectLocation: React.FC<{
       doubleClickZoom="center"
       touchZoom="center"
       className={styles.mapContainer}
+      data-cy="accommodation-map-container-edit"
     >
       <TileLayer url={tileServer} />
       {/* <LocateControl

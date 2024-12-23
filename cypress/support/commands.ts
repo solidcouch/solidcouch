@@ -137,8 +137,8 @@ declare global {
         integrated?: boolean
         verified?: boolean
       }): void
-      testToast(message: string)
-      testAndCloseToast(message: string)
+      testToast: typeof testToast
+      testAndCloseToast: typeof testAndCloseToast
       updateAppConfig: typeof updateAppConfig
       resetAppConfig: typeof resetAppConfig
     }
@@ -209,15 +209,15 @@ Cypress.Commands.add('stubMailer', stubMailer)
 Cypress.Commands.add('updateAppConfig', updateAppConfig)
 Cypress.Commands.add('resetAppConfig', resetAppConfig)
 
-Cypress.Commands.add('testToast', (message: string) =>
-  cy.contains('div.Toastify__toast', message),
-)
-Cypress.Commands.add('testAndCloseToast', (message: string) =>
+const testToast = (message: string) =>
+  cy.contains('div.Toastify__toast', message)
+const testAndCloseToast = (message: string) =>
   cy
     .testToast(message)
     .find('button.Toastify__close-button')
-    .click({ force: true }),
-)
+    .click({ force: true })
+Cypress.Commands.add('testToast', testToast)
+Cypress.Commands.add('testAndCloseToast', testAndCloseToast)
 
 Cypress.Commands.overwrite('log', (originalFn, message, ...args) => {
   // log into cypress
