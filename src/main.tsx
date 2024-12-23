@@ -1,5 +1,16 @@
+import 'normalize.css'
+import './styles/preflight.css'
+
 import './index.scss'
-// this line intentionally left blank to load css reset stylesheets first
+
+import './styles/generic.scss'
+
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+import 'leaflet/dist/leaflet.css'
+import './styles/form.scss'
+import './styles/menu.scss'
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import { createRoot } from 'react-dom/client'

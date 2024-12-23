@@ -6,7 +6,7 @@ import ngeohash from 'ngeohash'
 import { useCallback, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
-import MarkerClusterGroup from 'react-leaflet-markercluster'
+// import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { useSearchParams } from 'react-router-dom'
 import { ProgressBar } from '../../components/ProgressBar/ProgressBar.tsx'
 import { Move } from '../../components/SelectLocation.tsx'
@@ -70,41 +70,41 @@ export const SearchHosts = () => {
               inViewNotFollowing: 'setView',
             }}
           /> */}
-          <MarkerClusterGroup maxClusterRadius={20}>
-            {offers
-              ? offers.map(offer => (
-                  <Marker
-                    key={offer.id}
-                    position={[offer.location.lat, offer.location.long]}
-                    eventHandlers={{
-                      click: () => {
-                        handleMarkerClick(offer.id)
-                      },
-                    }}
-                    icon={
-                      offer.id === selectedAccommodationId
-                        ? highlightedIcon
-                        : defaultIconGenerator(
-                            'geohash-' +
-                              ngeohash.encode(
-                                offer.location.lat,
-                                offer.location.long,
-                                10,
-                              ),
-                          )
-                    }
-                    alt={`Accommodation offer from ${
-                      offer.offeredBy?.name || offer.offeredBy?.id
-                    }`}
-                    // data-cy={ngeohash.encode(
-                    //   offer.location.lat,
-                    //   offer.location.long,
-                    //   10,
-                    // )}
-                  />
-                ))
-              : null}
-          </MarkerClusterGroup>
+          {/* <MarkerClusterGroup maxClusterRadius={20}> */}
+          {offers
+            ? offers.map(offer => (
+                <Marker
+                  key={offer.id}
+                  position={[offer.location.lat, offer.location.long]}
+                  eventHandlers={{
+                    click: () => {
+                      handleMarkerClick(offer.id)
+                    },
+                  }}
+                  icon={
+                    offer.id === selectedAccommodationId
+                      ? highlightedIcon
+                      : defaultIconGenerator(
+                          'geohash-' +
+                            ngeohash.encode(
+                              offer.location.lat,
+                              offer.location.long,
+                              10,
+                            ),
+                        )
+                  }
+                  alt={`Accommodation offer from ${
+                    offer.offeredBy?.name || offer.offeredBy?.id
+                  }`}
+                  // data-cy={ngeohash.encode(
+                  //   offer.location.lat,
+                  //   offer.location.long,
+                  //   10,
+                  // )}
+                />
+              ))
+            : null}
+          {/* </MarkerClusterGroup> */}
           <Move onUpdate={handleMapUpdate} />
         </MapContainer>
       </div>

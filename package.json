@@ -69,6 +69,7 @@
     "lodash": "^4.17.21",
     "n3": "^1.16.3",
     "ngeohash": "^0.6.3",
+    "normalize.css": "^8.0.1",
     "parse-link-header": "^2.0.0",
     "rdf-namespaces": "^1.10.1",
     "rdflib": "^2.2.32",
