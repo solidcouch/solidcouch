@@ -118,7 +118,7 @@ describe('threads (list of conversations)', () => {
         cy.contains('h1', 'Conversations')
         cy.get('[data-cy=thread-list-item]')
           .should('have.length', 1)
-          .and('contain.html', 'Threads_unread')
+          .and('contain.html', 'data-cy="thread-unread"')
           .and(
             'contain.html',
             `href="/messages/${encodeURIComponent(person1.webId)}"`,
@@ -158,7 +158,7 @@ describe('threads (list of conversations)', () => {
         cy.contains('h1', 'Conversations')
         cy.get('[data-cy=thread-list-item]')
           .should('have.length', 1)
-          .and('contain.html', 'Threads_unread')
+          .and('contain.html', 'data-cy="thread-unread"')
           .and(
             'contain.html',
             `href="/messages/${encodeURIComponent(person1.webId)}"`,
