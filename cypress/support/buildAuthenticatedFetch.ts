@@ -19,7 +19,6 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// eslint-disable-next-line no-shadow
 import type { KeyPair } from '@inrupt/solid-client-authn-core'
 import {
   createDpopHeader,
@@ -187,9 +186,9 @@ export async function buildAuthenticatedFetch(
         } = await refreshAccessToken(
           currentRefreshOptions,
           // If currentRefreshOptions is defined, options is necessarily defined too.
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
           options!.dpopKey,
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
           options!.eventEmitter,
         )
         // Update the tokens in the closure if appropriate.
@@ -205,7 +204,7 @@ export async function buildAuthenticatedFetch(
           computeRefreshDelay(expiresIn) * 1000,
         )
         // If currentRefreshOptions is defined, options is necessarily defined too.
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         options!.eventEmitter?.emit(EVENTS.TIMEOUT_SET, latestTimeout)
       } catch (e) {
         // It is possible that an underlying library throws an error on refresh flow failure.
@@ -239,20 +238,20 @@ export async function buildAuthenticatedFetch(
     latestTimeout = setTimeout(
       proactivelyRefreshToken,
       // If currentRefreshOptions is defined, options is necessarily defined too.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
       computeRefreshDelay(options!.expiresIn) * 1000,
     )
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     options!.eventEmitter?.emit(EVENTS.TIMEOUT_SET, latestTimeout)
   } else if (options !== undefined && options.eventEmitter !== undefined) {
     // If no refresh options are provided, the session expires when the access token does.
     const expirationTimeout = setTimeout(() => {
       // The event emitter is always defined in our code, and it would be tedious
       // to test for conditions when it is not.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
       options.eventEmitter!.emit(EVENTS.SESSION_EXPIRED)
     }, computeRefreshDelay(options.expiresIn) * 1000)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     options.eventEmitter!.emit(EVENTS.TIMEOUT_SET, expirationTimeout)
   }
   return async (url, requestInit?): Promise<Response> => {

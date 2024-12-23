@@ -74,5 +74,3 @@ export const oidcIssuers: IssuerConfig[] = [
     server: 'CSS',
   },
 ]
-
-export const oidcIssuerRegistrations = []

@@ -24,7 +24,8 @@
     "cy:dev": "concurrently --kill-others \"yarn cy:dev:app\" \"yarn cy:dev:css\" \"yarn cy:dev:open\"",
     "cy:dev:app": "BROWSER=none VITE_COMMUNITY=http://localhost:4000/test-community/community#us VITE_EMAIL_NOTIFICATIONS_SERVICE=http://localhost:3005 VITE_ENABLE_DEV_CLIENT_ID=true VITE_EMAIL_NOTIFICATIONS_IDENTITY=http://localhost:4000/mailbot/profile/card#me VITE_EMAIL_NOTIFICATIONS_TYPE=simple VITE_GEOINDEX= yarn dev",
     "cy:dev:css": "community-solid-server -p 4000 -l error -c ./cypress/css-config.json",
-    "cy:dev:open": "CYPRESS_COMMUNITY=\"http://localhost:4000/test-community/community#us\" CYPRESS_OTHER_COMMUNITY=\"http://localhost:4000/other-community/community#us\" CYPRESS_EMAIL_NOTIFICATIONS_IDENTITY=\"http://localhost:4000/mailbot/profile/card#me\" cypress open"
+    "cy:dev:open": "CYPRESS_COMMUNITY=\"http://localhost:4000/test-community/community#us\" CYPRESS_OTHER_COMMUNITY=\"http://localhost:4000/other-community/community#us\" CYPRESS_EMAIL_NOTIFICATIONS_IDENTITY=\"http://localhost:4000/mailbot/profile/card#me\" cypress open",
+    "knip": "knip"
   },
   "browserslist": {
     "production": [
@@ -102,6 +103,7 @@
     "@types/leaflet.locatecontrol": "^0.74.6",
     "@types/lodash": "^4.14.191",
     "@types/n3": "^1.10.4",
+    "@types/node": "^22.10.2",
     "@types/parse-link-header": "^2.0.1",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
@@ -121,6 +123,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
+    "knip": "^5.41.1",
     "prettier": "^2.8.3",
     "sass": "^1.57.1",
     "start-server-and-test": "^2.0.0",

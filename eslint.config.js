@@ -13,7 +13,6 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
-      // importPlugin.flatConfigs.recommended,
       eslintConfigPrettier,
     ],
     files: ['**/*.{ts,tsx,js,mts}'],
@@ -38,20 +37,7 @@ export default tseslint.config(
         { args: 'after-used', ignoreRestSiblings: false },
       ],
       'import/no-default-export': 'error',
-      'import/no-unused-modules': [
-        'warn',
-        {
-          unusedExports: true,
-          ignoreExports: [
-            './cypress.config.ts',
-            // TODO for now we accept mess in ldo shapes
-            // since it is a generated code, and it's in development
-            // eventually we may want to remove unused shapes
-            './src/ldo/*',
-            'eslint.config.js',
-          ],
-        },
-      ],
+      'import/no-unused-modules': ['warn'],
     },
   },
 )
