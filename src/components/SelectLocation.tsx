@@ -91,7 +91,7 @@ const Locate = () => {
     // https://www.npmjs.com/package/leaflet.locatecontrol
     // @ts-expect-error TODO we may want to declare this somewhere
     L.control.locate?.().addTo(map)
-  }, [])
+  }, [map])
   return null
 }
 

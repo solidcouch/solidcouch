@@ -38,6 +38,5 @@ export const LocateControl = createControlComponent<
   L.Control.Locate,
   LocateControlProps
 >(props => {
-  console.log(control)
   control.locate(props)
 })
