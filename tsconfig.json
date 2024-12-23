@@ -1,4 +1,9 @@
 {
+  "compilerOptions": {
+    // this part is here for cypress to work
+    // https://github.com/cypress-io/cypress/issues/30313#issuecomment-2381450268
+    "module": "ESNext"
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

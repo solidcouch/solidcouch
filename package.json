@@ -113,7 +113,7 @@
     "@vitejs/plugin-react-swc": "^3.7.2",
     "chai-subset": "^1.6.0",
     "concurrently": "^8.0.1",
-    "cypress": "^12.12.0",
+    "cypress": "^13.17.0",
     "cypress-vite": "^1.5.0",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
