@@ -27,12 +27,15 @@ export const AccommodationInfo = ({
               style={{ display: 'contents' }}
             >
               <Avatar {...accommodation.offeredBy} size={1.5} square />
-              <span className={styles.name}>
+              <span className={styles.name} data-cy="accommodation-info-name">
                 {accommodation.offeredBy.name}
               </span>
             </Link>
           </div>
-          <div className={styles.accommodation}>
+          <div
+            className={styles.accommodation}
+            data-cy="accommodation-info-description"
+          >
             {accommodation.description}
           </div>
         </>

@@ -25,12 +25,14 @@ export const Profile = () => {
   return (
     <div className={styles.container}>
       <ProtectedImg className={styles.photo} src={profile.photo} alt="" />
-      <header className={styles.name}>
+      <header className={styles.name} data-cy="profile-name">
         {profile.name} <ExternalIconLink href={personId} />
       </header>
-      <section className={styles.about}>{profile.about}</section>
+      <section className={styles.about} data-cy="profile-about">
+        {profile.about}
+      </section>
       {isMe && (
-        <ButtonLink secondary to="/profile/edit">
+        <ButtonLink secondary to="/profile/edit" data-cy="edit-profile-link">
           <FaPencilAlt /> edit profile
         </ButtonLink>
       )}

@@ -103,7 +103,11 @@ const Interest = ({ id, onRemove }: { id: URI; onRemove: () => void }) => {
   const thing = merge({}, temporaryData, data)
 
   return (
-    <span title={thing.description} className={styles.item}>
+    <span
+      title={thing.description}
+      className={styles.item}
+      data-cy="edit-interest"
+    >
       {thing.label}{' '}
       <button onClick={onRemove}>
         <FaTimes />

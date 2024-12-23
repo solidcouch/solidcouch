@@ -27,6 +27,7 @@ const RegistrationButton = ({
       onClick={() => {
         dispatch(actions.setLastSelectedIssuer(issuer))
       }}
+      data-cy="pod-provider-signup-link"
     >
       {children ?? new URL(issuer).hostname}
     </ExternalButtonLink>

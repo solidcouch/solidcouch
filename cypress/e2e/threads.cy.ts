@@ -82,7 +82,7 @@ describe('threads (list of conversations)', () => {
             .and('contain.text', 'other message 2')
             .and('contain.text', person2.name)
 
-          cy.get('[class*=Threads_unread]')
+          cy.get('[data-cy=thread-unread]')
             .should('have.length', 1)
             .and('contain.text', person1.name)
         })
@@ -290,7 +290,7 @@ describe('threads (list of conversations)', () => {
           cy.contains('a', person2.name).click()
           cy.wait('@deleteNotification', { timeout: 20000 })
           cy.wait('@deleteNotification', { timeout: 20000 })
-          cy.get('[class^=Header_logoContainer]').click()
+          cy.get('[data-cy=header-logo-link]').click()
           cy.contains('a', '(1 new)')
         })
       })

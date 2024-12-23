@@ -36,7 +36,7 @@ describe('messages with other person', () => {
         cy.login(me)
         cy.visit(`/messages/${encodeURIComponent(otherPerson.webId)}`)
         cy.contains('Messages with')
-        cy.get('[data-cy=message]:not([class^=Messages_fromMe])')
+        cy.get('[data-cy-message-from=other]')
           .should('have.length', 2)
           .first()
           .should('contain.text', 'Test message')
@@ -66,7 +66,7 @@ describe('messages with other person', () => {
       cy.get('textarea[name=message]').type(message)
       cy.contains('button', 'Send').click()
       checkAndCloseMessageInfo()
-      cy.contains('[class*=Messages_fromMe]', message, { timeout: 20000 })
+      cy.contains('[data-cy-message-from=me]', message, { timeout: 20000 })
     })
   }
 
@@ -208,10 +208,7 @@ describe('messages with other person', () => {
         cy.login(me)
         cy.visit(`/messages/${encodeURIComponent(otherPerson.webId)}`)
         cy.contains('Messages with')
-        cy.get('[data-cy=message]:not([class*=Messages_fromMe])').should(
-          'have.length',
-          2,
-        )
+        cy.get('[data-cy-message-from=other])').should('have.length', 2)
 
         // my chat should get created (but only one), and it should reference the other chat
         cy.intercept('PUT', `${me.hospexContainer}**/index.ttl`).as(
@@ -265,7 +262,7 @@ describe('messages with other person', () => {
         cy.wait('@createTodayChat')
           .its('response.statusCode')
           .should('equal', 201)
-        cy.get('[class*=Messages_fromMe]')
+        cy.get('[data-cy-message-from=me]')
           .should('have.length', 1)
           .and('contain.text', 'This is a first message')
       })

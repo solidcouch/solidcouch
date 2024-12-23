@@ -202,6 +202,7 @@ export const Messages = () => {
               status === 'unread' && styles.unread,
             )}
             data-cy="message"
+            data-cy-message-from={from === auth.webId ? 'me' : 'other'}
           >
             {message}{' '}
             <span

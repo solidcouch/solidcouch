@@ -26,16 +26,14 @@ describe('edit profile', () => {
     // through header, open profile page
     cy.get('[data-cy="menu-button"]').click()
     cy.get('a[href="/profile"]').click()
-    cy.get('[class^=Profile_container]').contains('a', 'edit profile').click()
+    cy.get('[data-cy=edit-profile-link]').click()
     cy.location().its('pathname').should('equal', '/profile/edit')
   })
 
   it('should be able to navigate to profile edit page from user menu', () => {
     // through header, open edit-profile page
     cy.get('[data-cy="menu-button"]').click()
-    cy.get('[class^=Header_header] .szh-menu')
-      .contains('a', 'edit profile')
-      .click()
+    cy.get('[data-cy="menu-item-edit-profile"]').click()
     cy.location().its('pathname').should('equal', '/profile/edit')
   })
 
@@ -63,7 +61,7 @@ describe('edit profile', () => {
         cy.intercept({
           method: 'GET',
           // intercept that we fetch the newly created image later
-          url: interception.response.headers.location as string,
+          url: interception.response?.headers.location as string,
         }).as('fetchSavedPhoto')
       })
 
@@ -74,8 +72,8 @@ describe('edit profile', () => {
       // it's kind of hard to test uri of protected photo
       // so we can at least test that we fetched the saved photo
       cy.wait('@fetchSavedPhoto')
-      cy.contains('[class^=Profile_name]', 'Mynew Name')
-      cy.contains('[class^=Profile_about]', 'this is my new description')
+      cy.contains('[data-cy=profile-name]', 'Mynew Name')
+      cy.contains('[data-cy=profile-about]', 'this is my new description')
     })
   })
 
@@ -139,7 +137,7 @@ describe('edit profile', () => {
       .and('contain.text', 'Sus scrofa')
 
     // find one interest and click its remove button
-    cy.contains('[class^=Interests_item]', 'Sus scrofa').find('button').click()
+    cy.contains('[data-cy=edit-interest]', 'Sus scrofa').find('button').click()
 
     cy.testToast('Removing interest')
     cy.testAndCloseToast('Interest removed')

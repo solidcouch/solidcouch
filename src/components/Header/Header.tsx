@@ -25,7 +25,7 @@ export const Header = () => {
 
   return (
     <nav className={styles.header}>
-      <Link className={styles.logoContainer} to="/">
+      <Link className={styles.logoContainer} to="/" data-cy="header-logo-link">
         <Logo
           logo={community.logo[0]}
           focusedLogo={community.logo[1]}
@@ -46,7 +46,9 @@ export const Header = () => {
             <Link to="profile">{profile?.name || 'profile'}</Link>
           </MenuItem>
           <MenuItem>
-            <Link to="profile/edit">edit profile</Link>
+            <Link to="profile/edit" data-cy="menu-item-edit-profile">
+              edit profile
+            </Link>
           </MenuItem>
           <MenuItem>
             <Link to="messages">

@@ -42,7 +42,10 @@ const Thread = ({ thread }: { thread: ThreadType }) => {
   const [person] = useProfile(other ?? '', communityId)
   const lastMessage = thread.messages[thread.messages.length - 1]
   return (
-    <div className={classNames(styles.thread, thread.status && styles.unread)}>
+    <div
+      className={classNames(styles.thread, thread.status && styles.unread)}
+      data-cy={thread.status && 'thread-unread'}
+    >
       <PersonMini webId={other ?? ''} className={styles.avatar} />
       <div>
         <div className={styles.name} title={person.id}>
