@@ -1,18 +1,23 @@
 import react from '@vitejs/plugin-react-swc'
 import fs from 'fs-extra'
-import { defineConfig, type PluginOption } from 'vite'
+import { defineConfig, loadEnv, type PluginOption } from 'vite'
+import { buildClientId } from './scripts/build-clientid'
 
-const serveClientId: PluginOption = {
+const serveClientId = ({
+  baseUrl: envBaseUrl,
+}: {
+  baseUrl: string
+}): PluginOption => ({
   name: 'populate-clientid.jsonld',
   configureServer: server => {
     server.middlewares.use(async (req, res, next) => {
       if (req.url === '/clientid.jsonld') {
         const port = server.config.server.port
         const a = await fs.readFile('./public/clientid.jsonld', 'utf8')
-        const baseUrl = process.env.BASE_URL ?? 'http://localhost:' + port
+        const baseUrl = envBaseUrl ?? 'http://localhost:' + port
+
         const b = a.replaceAll('%BASE_URL%', baseUrl)
-        // console.log(baseUrl)
-        // console.log(a)
+
         res.setHeader('content-type', 'application/ld+json')
         res.statusCode = 200
         res.write(b)
@@ -22,15 +27,32 @@ const serveClientId: PluginOption = {
       }
     })
   },
-}
+})
 
 // https://vite.dev/config/
 // eslint-disable-next-line import/no-default-export
-export default defineConfig({
-  plugins: [react(), serveClientId],
-  define: {
-    'process.env': process.env,
-  },
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd())
+  const baseUrl =
+    env.VITE_BASE_URL || // take environment variable
+    (env.VERCEL_BRANCH_URL && 'https://' + env.VERCEL_BRANCH_URL) // or vercel variable
+
+  return {
+    plugins: [
+      react(),
+      serveClientId({ baseUrl }),
+      {
+        name: 'post-build-script',
+        closeBundle() {
+          // This hook runs after the build is completed
+          if (mode === 'production') buildClientId({ baseUrl })
+        },
+      },
+    ],
+    define: {
+      'process.env': process.env,
+    },
+  }
 })
 
 /*

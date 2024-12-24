@@ -5,7 +5,7 @@ import fs from 'fs'
 // write CNAME into ./build based on BASE_URL environment variable
 // this is meant for deployment to github pages
 
-const baseUrl = process.env.BASE_URL
+const baseUrl = process.env.VITE_BASE_URL
 
 if (!baseUrl) throw new Error('Missing BASE_URL in environment variables!')
 

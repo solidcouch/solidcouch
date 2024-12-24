@@ -14,6 +14,7 @@ jobs:
         uses: cypress-io/github-action@v6
         env:
           CYPRESS_baseUrl: http://localhost:4173
+          VITE_BASE_URL: http://localhost:4173
           CYPRESS_COMMUNITY: http://localhost:4000/test-community/community#us'
           CYPRESS_OTHER_COMMUNITY: http://localhost:4000/other-community/community#us'
           CYPRESS_CSS_URL: http://localhost:4000
