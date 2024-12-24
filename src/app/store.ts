@@ -47,7 +47,7 @@ const rootReducer: Reducer<RootState> = (state, action) => {
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['login', '../config'],
+  whitelist: ['login', 'config'],
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
