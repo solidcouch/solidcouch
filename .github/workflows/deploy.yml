@@ -34,12 +34,12 @@ jobs:
           VITE_EMAIL_NOTIFICATIONS_SERVICE: ${{ vars.EMAIL_NOTIFICATIONS_SERVICE }}
           VITE_EMAIL_NOTIFICATIONS_IDENTITY: ${{ vars.EMAIL_NOTIFICATIONS_IDENTITY }}
           VITE_GEOINDEX: ${{ vars.GEOINDEX }}
-          BASE_URL: ${{ vars.BASE_URL }} # base url for clientid.jsonld
+          VITE_BASE_URL: ${{ vars.BASE_URL }} # base url for clientid.jsonld
 
       - name: Add CNAME
         run: yarn build:cname
         env:
-          BASE_URL: ${{ vars.BASE_URL }}
+          VITE_BASE_URL: ${{ vars.BASE_URL }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3

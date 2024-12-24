@@ -26,6 +26,6 @@ jobs:
           VITE_ENABLE_DEV_CLIENT_ID: true
           BROWSER: none
         with:
-          build: yarn build:only
+          build: yarn build
           start: yarn preview, yarn community-solid-server -p 4000 -l error -c ./cypress/css-config.json
           wait-on: 'http://localhost:4173, http://localhost:4000'
