@@ -10,6 +10,9 @@ export const buildClientId = ({ baseUrl }: { baseUrl: string }) => {
   // Replace placeholders with actual values
   content = content.replaceAll('%BASE_URL%', baseUrl)
 
+  // eslint-disable-next-line no-console
+  console.log(baseUrl)
+
   // update name and logo if available
   const contentObject = JSON.parse(content)
   const communityName = process.env.VITE_COMMUNITY_NAME_UNSAFE
@@ -28,6 +31,9 @@ export const buildClientId = ({ baseUrl }: { baseUrl: string }) => {
 
   // Write the content to the output file
   fs.writeFileSync(clientIdPath, content, 'utf8')
+
+  // eslint-disable-next-line no-console
+  console.log(content)
 
   // eslint-disable-next-line no-console
   console.log('ClientID generated successfully.')
