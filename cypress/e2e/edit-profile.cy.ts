@@ -58,20 +58,18 @@ describe('edit profile', () => {
       cy.testAndCloseToast('Profile updated')
 
       cy.wait('@savePhoto').then(interception => {
-        cy.intercept({
-          method: 'GET',
-          // intercept that we fetch the newly created image later
-          url: interception.response?.headers.location as string,
-        }).as('fetchSavedPhoto')
+        const url = interception.response?.headers.location as string
+        cy.get('[data-cy=profile-photo]').should(
+          'have.attr',
+          'data-original-src',
+          url,
+        )
       })
 
       cy.location()
         .its('pathname')
         .should('equal', `/profile/${encodeURIComponent(me.webId)}`)
 
-      // it's kind of hard to test uri of protected photo
-      // so we can at least test that we fetched the saved photo
-      cy.wait('@fetchSavedPhoto')
       cy.contains('[data-cy=profile-name]', 'Mynew Name')
       cy.contains('[data-cy=profile-about]', 'this is my new description')
     })

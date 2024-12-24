@@ -24,7 +24,12 @@ export const Profile = () => {
 
   return (
     <div className={styles.container}>
-      <ProtectedImg className={styles.photo} src={profile.photo} alt="" />
+      <ProtectedImg
+        className={styles.photo}
+        src={profile.photo}
+        alt={`Profile photo of ${profile.name}`}
+        data-cy="profile-photo"
+      />
       <header className={styles.name} data-cy="profile-name">
         {profile.name} <ExternalIconLink href={personId} />
       </header>

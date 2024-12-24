@@ -18,7 +18,7 @@ export interface UserConfig {
 
 const getAccountAuthorization = (user: UserConfig) =>
   cy
-    .request(`${Cypress.env('CSS_URL')}/.account/`, { log: false })
+    .request({ url: `${Cypress.env('CSS_URL')}/.account/`, log: false })
     .then(response =>
       cy.request({
         url: response.body.controls.password.login,
@@ -41,7 +41,8 @@ const getControls = (authorization: string) =>
       controls: {
         account: { clientCredentials: string; logout: string }
       }
-    }>(`${Cypress.env('CSS_URL')}/.account/`, {
+    }>({
+      url: `${Cypress.env('CSS_URL')}/.account/`,
       headers: { authorization: `CSS-Account-Token ${authorization}` },
       log: false,
     })
