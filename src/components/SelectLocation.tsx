@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css'
 
 import L from 'leaflet'
 
+import classNames from 'classnames'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import {
   MapContainer,
@@ -115,8 +116,11 @@ export const SelectLocation: React.FC<{
       scrollWheelZoom="center"
       doubleClickZoom="center"
       touchZoom="center"
-      className={styles.mapContainer}
-      data-cy="accommodation-map-container-edit"
+      // the string class is for targeting in CI tests
+      className={classNames(
+        styles.mapContainer,
+        'accommodation-map-container-edit',
+      )}
     >
       <TileLayer url={tileServer} />
       {/* <LocateControl

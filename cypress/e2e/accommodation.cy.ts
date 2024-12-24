@@ -15,7 +15,7 @@ const moveDict: Record<Move, string> = {
 const moveFormMap = (moves: Move[]) => {
   // form should open and map should load
   cy.get(
-    '[data-cy="accommodation-form"] [data-cy="accommodation-map-container-edit"] .leaflet-control-container',
+    '[data-cy="accommodation-form"] .accommodation-map-container-edit .leaflet-control-container',
   ).should('have.length', 1)
 
   // wait a bit to make really sure map has loaded
@@ -23,9 +23,7 @@ const moveFormMap = (moves: Move[]) => {
 
   // move the map
   const m = cy
-    .get(
-      '[data-cy="accommodation-form"] [data-cy="accommodation-map-container-edit"]',
-    )
+    .get('[data-cy="accommodation-form"] .accommodation-map-container-edit')
     .should('have.length', 1)
     .last()
     .focus()

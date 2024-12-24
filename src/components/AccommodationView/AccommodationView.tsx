@@ -36,7 +36,6 @@ export const AccommodationView = (accommodation: Accommodation) => {
         touchZoom="center"
         dragging={false}
         keyboard={false}
-        data-cy="accommodation-map-container"
       >
         <TileLayer url={tileServer} />
         <Marker position={location} />
