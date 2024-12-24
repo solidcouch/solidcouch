@@ -1,4 +1,3 @@
-// TODO fix the weird linter errors that we currently suppress above (shouldn't show up)
 /**
  * This script fetches community info from community Solid pod and saves them as environment variables in .env.build
  * The env variables are used to populate index.html in build step
