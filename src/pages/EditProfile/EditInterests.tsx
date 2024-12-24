@@ -90,6 +90,7 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
         placeholder="Search interest..."
         onInputChange={handleInputChange}
         onChange={handleSelect}
+        className="cy-select-interests"
       />
     </div>
   )
