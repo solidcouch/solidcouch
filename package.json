@@ -9,8 +9,6 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build:cname": "node scripts/add-cname.js",
-    "build:update-manifest": "dotenv -e .env.build -- node --loader ts-node/esm scripts/update-manifest.mts",
     "preanalyze": "yarn build",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md,css,scss}\" package.json \"cypress/**/*.{ts,tsx,json,md,css,scss}\" \"**/*.{yml,yaml,md,json,html}\" \"scripts/**/*.{js,mts}\"",

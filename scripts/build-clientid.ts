@@ -14,23 +14,14 @@ export const buildClientId = ({ baseUrl }: { baseUrl: string }) => {
   const contentObject = JSON.parse(content)
   const communityName = process.env.VITE_COMMUNITY_NAME_UNSAFE
   const communityLogo = process.env.VITE_COMMUNITY_LOGO
-  if (communityName) {
-    contentObject.client_name = communityName
-    // eslint-disable-next-line no-console
-    console.log('Updated name in ClientID:', communityName)
-  }
-  if (communityLogo) {
-    contentObject.logo_uri = communityLogo
-    // eslint-disable-next-line no-console
-    console.log('Updated logo in ClientID:', communityLogo)
-  }
+  if (communityName) contentObject.client_name = communityName
+
+  if (communityLogo) contentObject.logo_uri = communityLogo
+
   content = JSON.stringify(contentObject, null, 2)
 
   // Write the content to the output file
   fs.writeFileSync(clientIdPath, content, 'utf8')
-
-  // eslint-disable-next-line no-console
-  console.log('ClientID generated successfully.')
 }
 
 /**
