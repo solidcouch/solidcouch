@@ -3,7 +3,6 @@ import {
   generateDpopKeyPair,
   KeyPair,
 } from '@inrupt/solid-client-authn-core'
-import pick from 'lodash/pick'
 import { buildAuthenticatedFetch } from './buildAuthenticatedFetch'
 import { cyFetchWrapper, cyUnwrapFetch } from './css-authentication-helpers'
 
@@ -16,11 +15,21 @@ export interface UserConfig {
   email: string
 }
 
+interface Controls {
+  controls: {
+    account: { clientCredentials: string; logout: string }
+    password: { login: string }
+  }
+}
+
 const getAccountAuthorization = (user: UserConfig) =>
   cy
-    .request({ url: `${Cypress.env('CSS_URL')}/.account/`, log: false })
+    .request<Controls>({
+      url: `${Cypress.env('CSS_URL')}/.account/`,
+      log: false,
+    })
     .then(response =>
-      cy.request({
+      cy.request<{ authorization: string }>({
         url: response.body.controls.password.login,
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -31,17 +40,11 @@ const getAccountAuthorization = (user: UserConfig) =>
         log: false,
       }),
     )
-    .then(response =>
-      cy.wrap(response.body.authorization as string, { log: false }),
-    )
+    .then(response => cy.wrap(response.body.authorization, { log: false }))
 
 const getControls = (authorization: string) =>
   cy
-    .request<{
-      controls: {
-        account: { clientCredentials: string; logout: string }
-      }
-    }>({
+    .request<Controls>({
       url: `${Cypress.env('CSS_URL')}/.account/`,
       headers: { authorization: `CSS-Account-Token ${authorization}` },
       log: false,
@@ -64,7 +67,7 @@ const getIdAndSecret = ({
 }) =>
   getControls(authorization).then(controls => {
     return cy
-      .request({
+      .request<{ id: string; secret: string }>({
         url: controls.account.clientCredentials,
         method: 'POST',
         headers: {
@@ -79,68 +82,62 @@ const getIdAndSecret = ({
       })
       .then(response =>
         cy
-          .request({
+          .request<void>({
             url: controls.account.logout,
             method: 'POST',
             log: false,
           })
-          .then(() =>
-            cy.wrap(
-              pick(response.body, 'id', 'secret', 'resource') as {
-                id: string
-                secret: string
-              },
-              { log: false },
-            ),
-          ),
+          .then(() => cy.wrap(response.body, { log: false })),
       )
   })
 
 const getAccessToken = ({ id, secret }: { id: string; secret: string }) => {
   const tokenUrl = `${Cypress.env('CSS_URL')}/.oidc/token`
-  return cy.wrap(generateDpopKeyPair(), { log: false }).then(dpopKey =>
-    cy
-      .wrap(createDpopHeader(tokenUrl, 'POST', dpopKey as KeyPair), {
-        log: false,
-      })
-      .then(dpop =>
-        cy.request({
-          url: tokenUrl,
-          method: 'POST',
-          headers: {
-            // The header needs to be in base64 encoding.
-            authorization: `Basic ${btoa(
-              `${encodeURIComponent(id)}:${encodeURIComponent(secret)}`,
-            )}`,
-            'content-type': 'application/x-www-form-urlencoded',
-            dpop,
-          },
-          body: 'grant_type=client_credentials&scope=webid',
-          log: false,
-        }),
-      )
-      .then(response =>
-        cy.wrap(
-          { token: response.body.access_token as string, dpopKey },
+  return cy
+    .wrap<Promise<KeyPair>, KeyPair>(generateDpopKeyPair(), { log: false })
+    .then(dpopKey =>
+      cy
+        .wrap<Promise<string>, string>(
+          createDpopHeader(tokenUrl, 'POST', dpopKey),
           { log: false },
+        )
+        .then(dpop =>
+          cy.request<{ access_token: string }>({
+            url: tokenUrl,
+            method: 'POST',
+            headers: {
+              // The header needs to be in base64 encoding.
+              authorization: `Basic ${btoa(
+                `${encodeURIComponent(id)}:${encodeURIComponent(secret)}`,
+              )}`,
+              'content-type': 'application/x-www-form-urlencoded',
+              dpop,
+            },
+            body: 'grant_type=client_credentials&scope=webid',
+            log: false,
+          }),
+        )
+        .then(response =>
+          cy.wrap(
+            { token: response.body.access_token, dpopKey },
+            { log: false },
+          ),
         ),
-      ),
-  )
+    )
 }
 
+// TODO fix return type, related to the mess in css-authentication-helpers
 export const getAuthenticatedRequest = (user: UserConfig) =>
   getAccountAuthorization(user)
     .then(authorization => getIdAndSecret({ authorization, ...user }))
     .then(getAccessToken)
     .then(({ token, dpopKey }) =>
-      cy.wrap(
+      cy.wrap<Promise<typeof globalThis.fetch>>(
         buildAuthenticatedFetch(token, {
-          dpopKey: dpopKey as KeyPair,
+          dpopKey,
           customFetch: cyFetchWrapper as unknown as typeof globalThis.fetch,
         }),
-        {
-          log: false,
-        },
+        { log: false },
       ),
     )
     .then(authFetchWrapper => {

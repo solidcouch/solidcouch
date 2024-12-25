@@ -93,7 +93,6 @@ export const setupCommunity = ({
         }).then(response => {
           expect(response.status).to.be.within(200, 299)
           const url = response.headers['location']
-          cy.log(JSON.stringify(url))
           cy.wrap(url).as('logoUrl')
         })
       })

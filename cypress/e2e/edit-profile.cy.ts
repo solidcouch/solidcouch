@@ -59,11 +59,7 @@ describe('edit profile', () => {
 
       cy.wait('@savePhoto').then(interception => {
         const url = interception.response?.headers.location as string
-        cy.get('[data-cy=profile-photo]').should(
-          'have.attr',
-          'data-original-src',
-          url,
-        )
+        cy.get('[data-cy=profile-photo]').should('have.attr', 'data-src', url)
       })
 
       cy.location()

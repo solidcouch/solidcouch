@@ -12,9 +12,6 @@ export const usePreviousUriAfterSolidRedirect = () => {
     session.events.on(EVENTS.SESSION_RESTORED, url => {
       navigate(new URL(url).pathname, { replace: true })
     })
-    // onSessionRestore(url => {
-    //   navigate(new URL(url).pathname)
-    // })
     // we want to run this only once, but navigate makes this run multiple times, so we don't mention it in hook dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
