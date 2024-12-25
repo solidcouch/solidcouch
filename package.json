@@ -9,8 +9,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . && prettier . --check",
     "preview": "vite preview",
-    "preanalyze": "yarn build",
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "analyze": "vite-bundle-visualizer",
     "format": "prettier --write .",
     "build:ldo": "ldo build --input src/shapes --output src/ldo",
     "postbuild:ldo": "yarn format",
@@ -121,7 +120,8 @@
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.1",
     "utility-types": "^3.10.0",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "vite-bundle-visualizer": "^1.2.1"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

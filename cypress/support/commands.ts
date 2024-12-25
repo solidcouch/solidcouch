@@ -43,9 +43,9 @@
 // ***********************************************
 
 import { v4 as uuidv4 } from 'uuid'
-import { resetAppConfig, updateAppConfig } from './app-config.js'
-import { uiLogin, uiLogout } from './authentication.js'
-import { UserConfig, getAuthenticatedRequest } from './css-authentication.js'
+import { resetAppConfig, updateAppConfig } from './app-config'
+import { uiLogin, uiLogout } from './authentication'
+import { UserConfig, getAuthenticatedRequest } from './css-authentication'
 import {
   AccommodationConfig,
   AccommodationData,
@@ -60,9 +60,9 @@ import {
   setupCommunity,
   setupPod,
   stubMailer,
-} from './setup.js'
-import { ContactNotification, saveContacts } from './setup/contacts.js'
-import { Conversation, createConversation } from './setup/messages.js'
+} from './setup'
+import { ContactNotification, saveContacts } from './setup/contacts'
+import { Conversation, createConversation } from './setup/messages'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

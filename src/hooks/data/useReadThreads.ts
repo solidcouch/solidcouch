@@ -7,7 +7,7 @@ import { Message, Thread, URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import { useMemo } from 'react'
 import { inboxMessagesQuery, threads as threadsQuery } from './queries'
 

@@ -1,7 +1,7 @@
 import { URI } from '@/types'
 import { getContainer, getParentContainer } from '@/utils/helpers'
 import { space } from '@/utils/rdf-namespaces'
-import { minBy } from 'lodash'
+import minBy from 'lodash/minBy'
 import { useEffect, useMemo, useState } from 'react'
 import { useSolidProfile } from './useProfile'
 import { useRdfDocuments } from './useRdfDocument'

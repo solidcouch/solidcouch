@@ -26,7 +26,8 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import { maxBy, merge } from 'lodash'
+import maxBy from 'lodash/maxBy'
+import merge from 'lodash/merge'
 import { useMemo } from 'react'
 
 // do not use browser cache

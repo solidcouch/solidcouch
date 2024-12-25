@@ -1,4 +1,4 @@
-import { range } from 'lodash'
+import range from 'lodash/range'
 import ngeohash from 'ngeohash'
 import { Person } from '../support/commands'
 import { UserConfig } from '../support/css-authentication'

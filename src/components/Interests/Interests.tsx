@@ -1,7 +1,7 @@
 import { useReadInterest } from '@/hooks/data/useInterests'
 import { URI } from '@/types'
 import classNames from 'classnames'
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 import styles from './Interests.module.scss'
 
 export const Interests = ({

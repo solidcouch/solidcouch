@@ -5,7 +5,7 @@ import { Accommodation } from '@/types'
 import { ajvResolver } from '@hookform/resolvers/ajv'
 import { JSONSchemaType } from 'ajv'
 import classNames from 'classnames'
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 import { Controller, useForm } from 'react-hook-form'
 import { FaExclamationTriangle, FaLocationArrow } from 'react-icons/fa'
 

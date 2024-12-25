@@ -7,7 +7,7 @@ import {
   useCheckSetup,
   useCheckSimpleEmailNotifications,
 } from '@/hooks/data/useCheckSetup'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { NonUndefined } from 'utility-types'

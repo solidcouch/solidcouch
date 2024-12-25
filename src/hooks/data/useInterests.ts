@@ -1,6 +1,6 @@
 import { Interest, URI } from '@/types'
 import { useQuery } from '@tanstack/react-query'
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 
 interface WikidataSearchResult {
   search: {

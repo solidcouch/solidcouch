@@ -3,9 +3,9 @@ import {
   generateDpopKeyPair,
   KeyPair,
 } from '@inrupt/solid-client-authn-core'
-import _ from 'lodash'
-import { buildAuthenticatedFetch } from './buildAuthenticatedFetch.js'
-import { cyFetchWrapper, cyUnwrapFetch } from './css-authentication-helpers.js'
+import pick from 'lodash/pick'
+import { buildAuthenticatedFetch } from './buildAuthenticatedFetch'
+import { cyFetchWrapper, cyUnwrapFetch } from './css-authentication-helpers'
 
 export interface UserConfig {
   idp: string
@@ -86,7 +86,7 @@ const getIdAndSecret = ({
           })
           .then(() =>
             cy.wrap(
-              _.pick(response.body, 'id', 'secret', 'resource') as {
+              pick(response.body, 'id', 'secret', 'resource') as {
                 id: string
                 secret: string
               },

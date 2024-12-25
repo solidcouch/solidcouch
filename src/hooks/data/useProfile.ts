@@ -12,7 +12,7 @@ import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 import { NamedNode, Store } from 'n3'
 import { useCallback, useMemo } from 'react'
 import {
