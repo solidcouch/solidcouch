@@ -17,6 +17,14 @@ export const uiLogin = (user: UserConfig | `@${string}`) => {
     cy.contains('Sign in').click()
     cy.get('input[name=webIdOrIssuer]').clear().type(`${user.idp}{enter}`)
     cy.origin(user.idp, { args: { user } }, ({ user }) => {
+      cy.wait(6000)
+      cy.get('body')
+        .invoke('html')
+        .then(body => {
+          cy.log(body + '*****************************************************')
+          // eslint-disable-next-line no-console
+          console.log(body)
+        })
       cy.get('input[name=email]').type(user.email)
       cy.get('input[name=password]').type(`${user.password}{enter}`)
       cy.contains(user.webId)

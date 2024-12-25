@@ -25,6 +25,7 @@ jobs:
           VITE_EMAIL_NOTIFICATIONS_TYPE: simple
           VITE_ENABLE_DEV_CLIENT_ID: true
           BROWSER: none
+          DEBUG: cypress:*
         with:
           build: yarn build
           start: yarn preview, yarn community-solid-server -p 4000 -l error -c ./cypress/css-config.json

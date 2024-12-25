@@ -38,6 +38,14 @@ export const SignIn = () => {
     dispatch(actions.setLastSelectedIssuer(oidcIssuer))
 
     try {
+      const clientId =
+        import.meta.env.DEV && !import.meta.env.VITE_ENABLE_DEV_CLIENT_ID
+          ? undefined
+          : new URL('/clientid.jsonld', window.location.href).toJSON()
+
+      // eslint-disable-next-line no-console
+      console.log(clientId)
+
       await login({
         oidcIssuer,
         redirectUrl: new URL('/', window.location.href).toString(),
