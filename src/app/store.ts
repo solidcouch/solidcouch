@@ -2,13 +2,13 @@ import {
   combineReducers,
   configureStore,
   isAnyOf,
-  Reducer,
+  type Reducer,
 } from '@reduxjs/toolkit'
-import * as authSlice from 'features/auth/authSlice'
-import * as configSlice from 'features/config/configSlice'
-import * as loginSlice from 'features/login/loginSlice'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import * as authSlice from '../features/auth/authSlice.ts'
+import * as configSlice from '../features/config/configSlice.ts'
+import * as loginSlice from '../features/login/loginSlice.ts'
 
 const appReducer = combineReducers({
   auth: authSlice.reducer,
@@ -44,7 +44,11 @@ const rootReducer: Reducer<RootState> = (state, action) => {
 
 // setup redux-persist with local storage
 // to keep some data across page refresh
-const persistConfig = { key: 'root', storage, whitelist: ['login', 'config'] }
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['login', 'config'],
+}
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({ reducer: persistedReducer })

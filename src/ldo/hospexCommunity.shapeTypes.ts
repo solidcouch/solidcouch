@@ -1,7 +1,7 @@
 import { ShapeType } from '@ldo/ldo'
-import { hospexCommunitySchema } from './hospexCommunity.schema'
-import { hospexCommunityContext } from './hospexCommunity.context'
-import { HospexCommunity, HospexGroup } from './hospexCommunity.typings'
+import { hospexCommunityContext } from './hospexCommunity.context.ts'
+import { hospexCommunitySchema } from './hospexCommunity.schema.ts'
+import { HospexCommunity, HospexGroup } from './hospexCommunity.typings.ts'
 
 /**
  * =============================================================================

@@ -1,1 +1,1 @@
-export { EditProfile } from './EditProfile'
+export { EditProfile } from './EditProfile.tsx'

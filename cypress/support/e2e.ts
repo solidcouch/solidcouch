@@ -23,6 +23,31 @@ import './commands'
 import chaiSubset from 'chai-subset'
 chai.use(chaiSubset)
 
+// before(() => {
+//   // let's write our own function that checks the API using cy.request
+//   // if the API responds, we are done
+//   // otherwise, wait half a second and try again
+//   const checkApi = () => {
+//     cy.request({
+//       url: Cypress.env('CSS_URL'),
+//       failOnStatusCode: false,
+//     })
+//       .its('isOkStatusCode', { log: false })
+//       .then(ok => {
+//         if (ok) {
+//           cy.log('API is ready')
+
+//           return
+//         }
+
+//         cy.wait(1000, { log: false })
+//         checkApi()
+//       })
+//   }
+//   cy.visit('/')
+//   checkApi()
+// })
+
 // reset app configuration before every test
 beforeEach(() => cy.resetAppConfig({ waitForContent: 'Sign in' }))
 

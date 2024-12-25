@@ -1,8 +1,12 @@
-import { LocateControl } from '@turtlesocks/react-leaflet.locatecontrol/dist/LocateControl'
-import { useConfig } from 'config/hooks'
 import type { LatLngTuple, Map } from 'leaflet'
+import 'leaflet.locatecontrol'
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
 import 'leaflet/dist/leaflet.css'
+// import { LocateControl } from './LocateControl'
+
+import L from 'leaflet'
+
+import classNames from 'classnames'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import {
   MapContainer,
@@ -11,7 +15,8 @@ import {
   useMap,
   useMapEvent,
 } from 'react-leaflet'
-import { Bounds, Location } from 'types'
+import { useConfig } from '../config/hooks.ts'
+import { Bounds, Location } from '../types/index.ts'
 import styles from './AccommodationView/AccommodationView.module.scss'
 
 const normalizeLng = (lng: number) => (((lng % 360) - 180 * 3) % 360) + 180
@@ -75,9 +80,19 @@ export const Move = ({
 
   // this just runs as well, because 'load' doesn't typically trigger, as if the map is loaded before the hooks are hooked
   useEffect(() => {
-    map && handleLoad()
+    if (map) handleLoad()
   }, [handleLoad, map])
 
+  return null
+}
+
+const Locate = () => {
+  const map = useMap()
+  useEffect(() => {
+    // https://www.npmjs.com/package/leaflet.locatecontrol
+    // @ts-expect-error TODO we may want to declare this somewhere
+    L.control.locate?.().addTo(map)
+  }, [map])
   return null
 }
 
@@ -101,10 +116,14 @@ export const SelectLocation: React.FC<{
       scrollWheelZoom="center"
       doubleClickZoom="center"
       touchZoom="center"
-      className={styles.mapContainer}
+      // the string class is for targeting in CI tests
+      className={classNames(
+        styles.mapContainer,
+        'accommodation-map-container-edit',
+      )}
     >
       <TileLayer url={tileServer} />
-      <LocateControl
+      {/* <LocateControl
         strings={{ title: 'Select my location' }}
         showPopup={false}
         drawMarker={false}
@@ -113,9 +132,10 @@ export const SelectLocation: React.FC<{
           outOfView: 'setView',
           inViewNotFollowing: 'setView',
         }}
-      />
+      /> */}
       <Marker position={location} />
       <Move onChange={onChange} />
+      <Locate />
     </MapContainer>
   )
 }

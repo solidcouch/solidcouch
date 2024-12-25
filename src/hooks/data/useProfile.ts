@@ -3,24 +3,24 @@ import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
+import { merge } from 'lodash'
+import { NamedNode, Store } from 'n3'
+import { useCallback, useMemo } from 'react'
 import {
   FoafProfileShapeType,
   HospexProfileShapeType,
   SolidProfileShapeType,
-} from 'ldo/app.shapeTypes'
-import { FoafProfile, HospexProfile } from 'ldo/app.typings'
-import { merge } from 'lodash'
-import { NamedNode, Store } from 'n3'
-import { useCallback, useMemo } from 'react'
-import { Person, URI } from 'types'
-import { ldo2json } from 'utils/ldo'
-import { foaf, solid } from 'utils/rdf-namespaces'
+} from '../../ldo/app.shapeTypes.ts'
+import { FoafProfile, HospexProfile } from '../../ldo/app.typings.ts'
+import { Person, URI } from '../../types/index.ts'
+import { ldo2json } from '../../utils/ldo.ts'
+import { foaf, solid } from '../../utils/rdf-namespaces.ts'
 import {
   hospexDocumentQuery,
   profileDocuments,
   webIdProfileQuery,
-} from './queries'
-import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
+} from './queries/index.ts'
+import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument.ts'
 
 export const useProfile = (webId: URI, communityId: URI) => {
   const hospexDocumentQueryOutput = useLDhopQuery(

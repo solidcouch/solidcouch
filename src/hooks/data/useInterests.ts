@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { merge } from 'lodash'
-import { Interest, URI } from 'types'
+import { Interest, URI } from '../../types/index.ts'
 
 interface WikidataSearchResult {
   search: {
@@ -77,10 +77,12 @@ export const useReadInterest = (uri: URI, language = 'en') =>
     staleTime: Infinity,
   })
 
+type EmptyObject = Record<string, never>
+
 const readInterest = async (
   uri: URI,
   language: string,
-): Promise<Interest | {}> => {
+): Promise<Interest | EmptyObject> => {
   const id = uri.match(wikidataRegex)?.[2] ?? ''
 
   // currently, we resolve only wikidata interests

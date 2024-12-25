@@ -37,8 +37,8 @@ describe('view profile', () => {
       it(`[${name}] should show name, photo, about, interests; links to contacts, experiences, accommodation offers`, () => {
         cy.get<UserConfig>(alias).then(person => {
           cy.visit(`/profile/${encodeURIComponent(person.webId)}`)
-          cy.contains('[class^=Profile_name]', profile.name)
-          cy.contains('[class^=Profile_about]', profile.description.en)
+          cy.contains('[data-cy=profile-name]', profile.name)
+          cy.contains('[data-cy=profile-about]', profile.description.en)
           cy.contains('a', 'contacts').should(
             'have.attr',
             'href',
@@ -64,7 +64,7 @@ describe('view profile', () => {
     })
 
     it('[navigating through menu] should display my profile', () => {
-      cy.get('[class^=Header_header] .szh-menu-button').click()
+      cy.get('[data-cy="menu-button"]').click()
       cy.get('a[href="/profile"]').click()
       cy.get<UserConfig>('@me').then(me => {
         cy.location()

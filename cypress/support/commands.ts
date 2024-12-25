@@ -43,9 +43,9 @@
 // ***********************************************
 
 import { v4 as uuidv4 } from 'uuid'
-import { resetAppConfig, updateAppConfig } from './app-config'
-import { uiLogin, uiLogout } from './authentication'
-import { UserConfig, getAuthenticatedRequest } from './css-authentication'
+import { resetAppConfig, updateAppConfig } from './app-config.js'
+import { uiLogin, uiLogout } from './authentication.js'
+import { UserConfig, getAuthenticatedRequest } from './css-authentication.js'
 import {
   AccommodationConfig,
   AccommodationData,
@@ -60,11 +60,12 @@ import {
   setupCommunity,
   setupPod,
   stubMailer,
-} from './setup'
-import { ContactNotification, saveContacts } from './setup/contacts'
-import { Conversation, createConversation } from './setup/messages'
+} from './setup.js'
+import { ContactNotification, saveContacts } from './setup/contacts.js'
+import { Conversation, createConversation } from './setup/messages.js'
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       createAccount(options: {
@@ -78,10 +79,7 @@ declare global {
         email?: string
       }): Chainable<UserConfig>
       createRandomAccount(): Chainable<UserConfig>
-      authenticatedRequest(
-        user: UserConfig,
-        ...args: Parameters<typeof cy.request>
-      ): Chainable<Cypress.Response<any>>
+      authenticatedRequest: typeof authenticatedRequest
       login: typeof uiLogin
       logout: typeof uiLogout
       setupCommunity: typeof setupCommunity
@@ -139,8 +137,8 @@ declare global {
         integrated?: boolean
         verified?: boolean
       }): void
-      testToast(message: string)
-      testAndCloseToast(message: string)
+      testToast: typeof testToast
+      testAndCloseToast: typeof testAndCloseToast
       updateAppConfig: typeof updateAppConfig
       resetAppConfig: typeof resetAppConfig
     }
@@ -161,7 +159,7 @@ Cypress.Commands.add(
       }
       cy.createRandomAccount().then(user => {
         cy.setupPod(user, community ?? defaultCommunity).then(setup => {
-          cy.setProfileData(user, setup, profile)
+          cy.setProfileData(user, setup, profile!)
           return cy.wrap({ ...user, ...setup, ...profile } as Person, {
             log: false,
           })
@@ -190,12 +188,14 @@ Cypress.Commands.add('createRandomAccount', () =>
   cy.createAccount({ username: 'test-' + uuidv4() }),
 )
 
-Cypress.Commands.add(
-  'authenticatedRequest',
-  (user: UserConfig, ...args: Parameters<typeof cy.request>) => {
-    return getAuthenticatedRequest(user).then(request => request(...args))
-  },
-)
+const authenticatedRequest = (
+  user: UserConfig,
+  ...args: Parameters<typeof cy.request>
+) => {
+  return getAuthenticatedRequest(user).then(request => request(...args))
+}
+
+Cypress.Commands.add('authenticatedRequest', authenticatedRequest)
 
 Cypress.Commands.add('login', uiLogin)
 Cypress.Commands.add('logout', uiLogout)
@@ -209,15 +209,15 @@ Cypress.Commands.add('stubMailer', stubMailer)
 Cypress.Commands.add('updateAppConfig', updateAppConfig)
 Cypress.Commands.add('resetAppConfig', resetAppConfig)
 
-Cypress.Commands.add('testToast', (message: string) =>
-  cy.contains('div.Toastify__toast', message),
-)
-Cypress.Commands.add('testAndCloseToast', (message: string) =>
+const testToast = (message: string) =>
+  cy.contains('div.Toastify__toast', message)
+const testAndCloseToast = (message: string) =>
   cy
     .testToast(message)
     .find('button.Toastify__close-button')
-    .click({ force: true }),
-)
+    .click({ force: true })
+Cypress.Commands.add('testToast', testToast)
+Cypress.Commands.add('testAndCloseToast', testAndCloseToast)
 
 Cypress.Commands.overwrite('log', (originalFn, message, ...args) => {
   // log into cypress

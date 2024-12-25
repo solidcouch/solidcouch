@@ -1,7 +1,7 @@
 import { ShapeType } from '@ldo/ldo'
-import { publicTypeIndexSchema } from './publicTypeIndex.schema'
-import { publicTypeIndexContext } from './publicTypeIndex.context'
-import { PublicTypeIndex, TypeRegistration } from './publicTypeIndex.typings'
+import { publicTypeIndexContext } from './publicTypeIndex.context.ts'
+import { publicTypeIndexSchema } from './publicTypeIndex.schema.ts'
+import { PublicTypeIndex, TypeRegistration } from './publicTypeIndex.typings.ts'
 
 /**
  * =============================================================================

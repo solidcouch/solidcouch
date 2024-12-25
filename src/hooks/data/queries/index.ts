@@ -2,12 +2,12 @@ export {
   accommodationQuery,
   readPersonAccommodationsQuery,
   searchAccommodationsQuery,
-} from './accommodations'
-export { readCommunityMembersQuery, readCommunityQuery } from './community'
+} from './accommodations.ts'
+export { readCommunityMembersQuery, readCommunityQuery } from './community.ts'
 export { contactRequestsQuery, contactsQuery } from './contacts'
 export {
   hospexDocumentQuery,
   privateProfileAndHospexDocumentQuery,
-} from './hospex'
-export { inboxMessagesQuery, messages, threads } from './messages'
-export { profileDocuments, webIdProfileQuery } from './profile'
+} from './hospex.ts'
+export { inboxMessagesQuery, messages, threads } from './messages.ts'
+export { profileDocuments, webIdProfileQuery } from './profile.ts'

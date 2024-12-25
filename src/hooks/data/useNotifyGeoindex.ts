@@ -1,10 +1,10 @@
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useConfig } from 'config/hooks'
 import ngeohash from 'ngeohash'
 import { useCallback, useMemo } from 'react'
-import { Location } from 'types'
-import { HttpError } from 'utils/errors'
+import { useConfig } from '../../config/hooks.ts'
+import { Location } from '../../types/index.ts'
+import { HttpError } from '../../utils/errors.ts'
 
 type NotificationData = {
   actor: string

@@ -1,8 +1,8 @@
-import { Avatar, ButtonLink } from 'components'
-import { useReadAccommodation } from 'hooks/data/useReadAccommodation'
-import { useAuth } from 'hooks/useAuth'
 import { Link } from 'react-router-dom'
-import { URI } from 'types'
+import { Avatar, ButtonLink } from '../../components/index.ts'
+import { useReadAccommodation } from '../../hooks/data/useReadAccommodation.ts'
+import { useAuth } from '../../hooks/useAuth.ts'
+import { URI } from '../../types/index.ts'
 import styles from './AccommodationInfo.module.scss'
 
 export const AccommodationInfo = ({
@@ -27,12 +27,15 @@ export const AccommodationInfo = ({
               style={{ display: 'contents' }}
             >
               <Avatar {...accommodation.offeredBy} size={1.5} square />
-              <span className={styles.name}>
+              <span className={styles.name} data-cy="accommodation-info-name">
                 {accommodation.offeredBy.name}
               </span>
             </Link>
           </div>
-          <div className={styles.accommodation}>
+          <div
+            className={styles.accommodation}
+            data-cy="accommodation-info-description"
+          >
             {accommodation.description}
           </div>
         </>

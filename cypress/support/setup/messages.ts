@@ -143,7 +143,7 @@ const getParticipations = (
       ? []
       : {
           person: p.person.webId,
-          chat: all[current].skipReferences.includes(i)
+          chat: all[current].skipReferences?.includes(i)
             ? undefined
             : p.container + 'index.ttl#this',
         },
