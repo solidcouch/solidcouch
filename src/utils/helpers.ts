@@ -1,8 +1,8 @@
+import { URI } from '@/types/index.ts'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import * as n3 from 'n3'
 import parseLinkHeader from 'parse-link-header'
 import { acl, rdf } from 'rdf-namespaces'
-import { URI } from '../types/index.ts'
 
 const fetchWithRedirect: typeof fetch = async (url, init) => {
   // first try to find final redirect

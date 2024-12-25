@@ -1,6 +1,6 @@
+import { URI } from '@/types/index.ts'
+import { solid, vcard } from '@/utils/rdf-namespaces.ts'
 import { useCallback } from 'react'
-import { URI } from '../../types/index.ts'
-import { solid, vcard } from '../../utils/rdf-namespaces.ts'
 import { useUpdateRdfDocument } from './useRdfDocument.ts'
 
 export const useJoinGroup = () => {

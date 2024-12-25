@@ -1,5 +1,5 @@
+import { NavLayout } from '@/layouts/NavLayout.tsx'
 import { Outlet } from 'react-router-dom'
-import { NavLayout } from '../layouts/NavLayout.tsx'
 
 // const tabs = [
 //   { link: 'offers', label: 'my offers' },

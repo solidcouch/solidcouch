@@ -1,25 +1,25 @@
-import classNames from 'classnames'
-import { produce } from 'immer'
-import { useEffect, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
-import { Button, Loading } from '../components/index.ts'
-import { PersonBadge } from '../components/PersonBadge/PersonBadge.tsx'
-import { withToast } from '../components/withToast.tsx'
-import { useConfig } from '../config/hooks.ts'
-import { useCheckSetup } from '../hooks/data/useCheckSetup.ts'
+import { Button, Loading } from '@/components/index.ts'
+import { PersonBadge } from '@/components/PersonBadge/PersonBadge.tsx'
+import { withToast } from '@/components/withToast.tsx'
+import { useConfig } from '@/config/hooks.ts'
+import { useCheckSetup } from '@/hooks/data/useCheckSetup.ts'
 import {
   useCreateChat,
   useCreateMessage,
   useCreateMessageNotification,
   useProcessNotification,
-} from '../hooks/data/useCreateMessage.ts'
-import { useSolidProfile } from '../hooks/data/useProfile.ts'
-import { useReadMessages } from '../hooks/data/useReadMessages.ts'
-import { useAuth } from '../hooks/useAuth.ts'
-import { useSendEmailNotification } from '../hooks/useSendEmailNotification.ts'
-import { URI } from '../types/index.ts'
-import { getContainer } from '../utils/helpers.ts'
+} from '@/hooks/data/useCreateMessage.ts'
+import { useSolidProfile } from '@/hooks/data/useProfile.ts'
+import { useReadMessages } from '@/hooks/data/useReadMessages.ts'
+import { useAuth } from '@/hooks/useAuth.ts'
+import { useSendEmailNotification } from '@/hooks/useSendEmailNotification.ts'
+import { URI } from '@/types/index.ts'
+import { getContainer } from '@/utils/helpers.ts'
+import classNames from 'classnames'
+import { produce } from 'immer'
+import { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 import styles from './Messages.module.scss'
 
 export const Messages = () => {

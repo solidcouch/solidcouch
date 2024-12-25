@@ -1,3 +1,5 @@
+import { URI } from '@/types/index.ts'
+import { removeHashFromURI } from '@/utils/helpers.ts'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import {
   useMutation,
@@ -6,8 +8,6 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { URI } from '../../types/index.ts'
-import { removeHashFromURI } from '../../utils/helpers.ts'
 
 /**
  * wrapper around react-query to fetch a single file as object url

@@ -1,12 +1,12 @@
+import { ContactInvitationActivityShapeType } from '@/ldo/app.shapeTypes.ts'
+import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes.ts'
+import { Contact, URI } from '@/types/index.ts'
+import { getAcl, removeHashFromURI } from '@/utils/helpers.ts'
+import { acl, foaf, rdf, rdfs } from '@/utils/rdf-namespaces.ts'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { Store } from 'n3'
 import { useCallback, useMemo } from 'react'
-import { ContactInvitationActivityShapeType } from '../../ldo/app.shapeTypes.ts'
-import { AuthorizationShapeType } from '../../ldo/wac.shapeTypes.ts'
-import { Contact, URI } from '../../types/index.ts'
-import { getAcl, removeHashFromURI } from '../../utils/helpers.ts'
-import { acl, foaf, rdf, rdfs } from '../../utils/rdf-namespaces.ts'
 import { contactRequestsQuery, contactsQuery } from './queries/index.ts'
 import {
   useCreateRdfDocument,

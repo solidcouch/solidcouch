@@ -1,8 +1,8 @@
+import { getContainer } from '@/utils/helpers.ts'
+import { as, meeting, space, wf } from '@/utils/rdf-namespaces.ts'
 import type { RdfQuery } from '@ldhop/core'
 import { NamedNode, Term } from 'n3'
 import { dct, ldp, rdf, solid } from 'rdf-namespaces'
-import { getContainer } from '../../../utils/helpers.ts'
-import { as, meeting, space, wf } from '../../../utils/rdf-namespaces.ts'
 import { personInbox, profileDocuments } from './profile.ts'
 
 export const inboxMessagesQuery: RdfQuery = [

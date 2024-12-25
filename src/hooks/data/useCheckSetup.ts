@@ -1,9 +1,9 @@
+import { URI } from '@/types/index.ts'
+import { hospex, sioc } from '@/utils/rdf-namespaces.ts'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
-import { URI } from '../../types/index.ts'
-import { hospex, sioc } from '../../utils/rdf-namespaces.ts'
 import { privateProfileAndHospexDocumentQuery } from './queries/index.ts'
 import { useIsMember } from './useCommunity.ts'
 

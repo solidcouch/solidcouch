@@ -1,6 +1,6 @@
+import { URI } from '@/types/index.ts'
+import { hospex, solid } from '@/utils/rdf-namespaces.ts'
 import { useCallback } from 'react'
-import { URI } from '../../types/index.ts'
-import { hospex, solid } from '../../utils/rdf-namespaces.ts'
 import { useDeleteRdfDocument, useUpdateRdfDocument } from './useRdfDocument.ts'
 
 /**

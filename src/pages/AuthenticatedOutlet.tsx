@@ -1,7 +1,7 @@
-import { useAppSelector } from '../app/hooks.ts'
-import { Loading } from '../components/Loading/Loading.tsx'
-import { selectAuth } from '../features/auth/authSlice.ts'
-import { usePreviousUriAfterLogin } from '../hooks/usePreviousUriAfterLogin.ts'
+import { useAppSelector } from '@/app/hooks.ts'
+import { Loading } from '@/components/Loading/Loading.tsx'
+import { selectAuth } from '@/features/auth/authSlice.ts'
+import { usePreviousUriAfterLogin } from '@/hooks/usePreviousUriAfterLogin.ts'
 import { SetupOutlet } from './SetupOutlet.tsx'
 import { UnauthenticatedHome } from './UnauthenticatedHome.tsx'
 

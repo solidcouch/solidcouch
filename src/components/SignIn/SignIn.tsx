@@ -1,16 +1,16 @@
+import { useAppDispatch, useAppSelector } from '@/app/hooks.ts'
+import { Button } from '@/components/index.ts'
+import { guessIssuer } from '@/components/SignIn/oidcIssuer.ts'
+import { useConfig } from '@/config/hooks.ts'
+import {
+  actions,
+  selectLastSelectedIssuer,
+} from '@/features/login/loginSlice.ts'
+import { useReadCommunity } from '@/hooks/data/useCommunity.ts'
 import { login } from '@inrupt/solid-client-authn-browser'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'
-import { useAppDispatch, useAppSelector } from '../../app/hooks.ts'
-import { Button } from '../../components/index.ts'
-import { guessIssuer } from '../../components/SignIn/oidcIssuer.ts'
-import { useConfig } from '../../config/hooks.ts'
-import {
-  actions,
-  selectLastSelectedIssuer,
-} from '../../features/login/loginSlice.ts'
-import { useReadCommunity } from '../../hooks/data/useCommunity.ts'
 import styles from './SignIn.module.scss'
 
 Modal.setAppElement('#root')

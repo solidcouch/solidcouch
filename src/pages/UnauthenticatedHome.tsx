@@ -1,9 +1,9 @@
+import { Join } from '@/components/Join/Join.tsx'
+import { Logo } from '@/components/Logo/Logo.tsx'
+import { SignIn } from '@/components/SignIn/SignIn.tsx'
+import { useConfig } from '@/config/hooks.ts'
+import { useReadCommunity } from '@/hooks/data/useCommunity.ts'
 import { useMemo } from 'react'
-import { Join } from '../components/Join/Join.tsx'
-import { Logo } from '../components/Logo/Logo.tsx'
-import { SignIn } from '../components/SignIn/SignIn.tsx'
-import { useConfig } from '../config/hooks.ts'
-import { useReadCommunity } from '../hooks/data/useCommunity.ts'
 import styles from './UnauthenticatedHome.module.scss'
 
 export const UnauthenticatedHome = () => {

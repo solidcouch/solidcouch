@@ -1,8 +1,8 @@
+import { RootState } from '@/app/store.ts'
+import type { FoafProfile } from '@/ldo/foafProfile.typings.ts'
 import type { ISessionInfo } from '@inrupt/solid-client-authn-browser'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
-import { RootState } from '../../app/store.ts'
-import type { FoafProfile } from '../../ldo/foafProfile.typings.ts'
 
 interface AuthState {
   isLoggedIn?: boolean

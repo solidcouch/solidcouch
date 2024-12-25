@@ -1,8 +1,8 @@
+import { Avatar, ButtonLink } from '@/components/index.ts'
+import { useReadAccommodation } from '@/hooks/data/useReadAccommodation.ts'
+import { useAuth } from '@/hooks/useAuth.ts'
+import { URI } from '@/types/index.ts'
 import { Link } from 'react-router-dom'
-import { Avatar, ButtonLink } from '../../components/index.ts'
-import { useReadAccommodation } from '../../hooks/data/useReadAccommodation.ts'
-import { useAuth } from '../../hooks/useAuth.ts'
-import { URI } from '../../types/index.ts'
 import styles from './AccommodationInfo.module.scss'
 
 export const AccommodationInfo = ({

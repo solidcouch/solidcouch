@@ -6,6 +6,8 @@ import 'leaflet/dist/leaflet.css'
 
 import L from 'leaflet'
 
+import { useConfig } from '@/config/hooks.ts'
+import { Bounds, Location } from '@/types/index.ts'
 import classNames from 'classnames'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import {
@@ -15,8 +17,6 @@ import {
   useMap,
   useMapEvent,
 } from 'react-leaflet'
-import { useConfig } from '../config/hooks.ts'
-import { Bounds, Location } from '../types/index.ts'
 import styles from './AccommodationView/AccommodationView.module.scss'
 
 const normalizeLng = (lng: number) => (((lng % 360) - 180 * 3) % 360) + 180

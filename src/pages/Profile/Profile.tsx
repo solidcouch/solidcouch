@@ -1,15 +1,15 @@
-import { FaPencilAlt } from 'react-icons/fa'
-import { useParams } from 'react-router-dom'
 import {
   ButtonLink,
   ExternalIconLink,
   Interests,
   Loading,
-} from '../../components/index.ts'
-import { ProtectedImg } from '../../components/ProtectedImg.tsx'
-import { useConfig } from '../../config/hooks.ts'
-import { useProfile } from '../../hooks/data/useProfile.ts'
-import { useAuth } from '../../hooks/useAuth.ts'
+} from '@/components/index.ts'
+import { ProtectedImg } from '@/components/ProtectedImg.tsx'
+import { useConfig } from '@/config/hooks.ts'
+import { useProfile } from '@/hooks/data/useProfile.ts'
+import { useAuth } from '@/hooks/useAuth.ts'
+import { FaPencilAlt } from 'react-icons/fa'
+import { useParams } from 'react-router-dom'
 import { ManageContact } from './ManageContact.tsx'
 import styles from './Profile.module.scss'
 

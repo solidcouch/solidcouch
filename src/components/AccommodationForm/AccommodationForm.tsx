@@ -1,13 +1,13 @@
+import { Button } from '@/components/index.ts'
+import { SelectLocation } from '@/components/SelectLocation.tsx'
+import styles from '@/pages/MyOffers.module.scss'
+import { Accommodation } from '@/types/index.ts'
 import { ajvResolver } from '@hookform/resolvers/ajv'
 import { JSONSchemaType } from 'ajv'
 import classNames from 'classnames'
 import { merge } from 'lodash'
 import { Controller, useForm } from 'react-hook-form'
 import { FaExclamationTriangle, FaLocationArrow } from 'react-icons/fa'
-import { Button } from '../../components/index.ts'
-import { SelectLocation } from '../../components/SelectLocation.tsx'
-import styles from '../../pages/MyOffers.module.scss'
-import { Accommodation } from '../../types/index.ts'
 
 const validationSchema: JSONSchemaType<
   Pick<Accommodation, 'location' | 'description'>

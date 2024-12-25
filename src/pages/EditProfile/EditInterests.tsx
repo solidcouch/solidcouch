@@ -1,22 +1,22 @@
-import { debounce, merge } from 'lodash'
-import { useCallback, useMemo, useState } from 'react'
-import { FaTimes } from 'react-icons/fa'
-import Select from 'react-select'
-import { Loading } from '../../components/index.ts'
-import styles from '../../components/Interests/Interests.module.scss'
-import { withToast } from '../../components/withToast.tsx'
-import { useConfig } from '../../config/hooks.ts'
+import { Loading } from '@/components/index.ts'
+import styles from '@/components/Interests/Interests.module.scss'
+import { withToast } from '@/components/withToast.tsx'
+import { useConfig } from '@/config/hooks.ts'
 import {
   useReadInterest,
   useSearchInterests,
-} from '../../hooks/data/useInterests.ts'
+} from '@/hooks/data/useInterests.ts'
 import {
   useAddInterest,
   useProfile,
   useRemoveInterest,
-} from '../../hooks/data/useProfile.ts'
-import * as types from '../../types/index.ts'
-import { URI } from '../../types/index.ts'
+} from '@/hooks/data/useProfile.ts'
+import * as types from '@/types/index.ts'
+import { URI } from '@/types/index.ts'
+import { debounce, merge } from 'lodash'
+import { useCallback, useMemo, useState } from 'react'
+import { FaTimes } from 'react-icons/fa'
+import Select from 'react-select'
 
 export const EditInterests = ({ webId }: { webId: URI }) => {
   const { communityId } = useConfig()

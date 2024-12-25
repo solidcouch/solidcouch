@@ -1,5 +1,5 @@
+import { useFile } from '@/hooks/data/useFile.ts'
 import { ImgHTMLAttributes } from 'react'
-import { useFile } from '../hooks/data/useFile.ts'
 
 export const ProtectedImg = (props: ImgHTMLAttributes<HTMLImageElement>) => {
   const { data: image } = useFile(props.src)

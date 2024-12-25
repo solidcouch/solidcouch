@@ -22,6 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
+      "@/*": ["./src/*"],
       // https://community.monday.com/t/type-error-with-vibe-components-in-react-typescript-project/92184/2
       "react": ["./node_modules/@types/react"]
     }

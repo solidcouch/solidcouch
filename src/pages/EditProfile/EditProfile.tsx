@@ -1,23 +1,16 @@
+import { Button, Loading } from '@/components/index.ts'
+import { withToast } from '@/components/withToast.tsx'
+import { useConfig } from '@/config/hooks.ts'
+import { useCreateFile, useDeleteFile, useFile } from '@/hooks/data/useFile.ts'
+import { useProfile, useUpdateHospexProfile } from '@/hooks/data/useProfile.ts'
+import { useAuth } from '@/hooks/useAuth.ts'
+import { Person } from '@/types/index.ts'
+import { file2base64, getContainer } from '@/utils/helpers.ts'
 import { omit } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaCamera } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
-import { Button, Loading } from '../../components/index.ts'
-import { withToast } from '../../components/withToast.tsx'
-import { useConfig } from '../../config/hooks.ts'
-import {
-  useCreateFile,
-  useDeleteFile,
-  useFile,
-} from '../../hooks/data/useFile.ts'
-import {
-  useProfile,
-  useUpdateHospexProfile,
-} from '../../hooks/data/useProfile.ts'
-import { useAuth } from '../../hooks/useAuth.ts'
-import { Person } from '../../types/index.ts'
-import { file2base64, getContainer } from '../../utils/helpers.ts'
 import { EditInterests } from './EditInterests.tsx'
 import styles from './EditProfile.module.scss'
 

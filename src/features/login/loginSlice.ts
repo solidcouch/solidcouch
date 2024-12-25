@@ -1,6 +1,6 @@
+import { RootState } from '@/app/store.ts'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
-import { RootState } from '../../app/store.ts'
 
 interface LoginState {
   lastSelectedIssuer?: string

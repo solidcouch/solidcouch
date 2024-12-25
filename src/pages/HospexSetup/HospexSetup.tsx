@@ -1,18 +1,18 @@
-import { FormEventHandler, useState } from 'react'
-import { Button } from '../../components/index.ts'
-import { Loading } from '../../components/Loading/Loading.tsx'
-import { useConfig } from '../../config/hooks.ts'
-import { useReadCommunity } from '../../hooks/data/useCommunity.ts'
-import { useJoinGroup } from '../../hooks/data/useJoinGroup.ts'
+import { Button } from '@/components/index.ts'
+import { Loading } from '@/components/Loading/Loading.tsx'
+import { useConfig } from '@/config/hooks.ts'
+import { useReadCommunity } from '@/hooks/data/useCommunity.ts'
+import { useJoinGroup } from '@/hooks/data/useJoinGroup.ts'
 import {
   SetupSettings,
   SetupTask,
   useSetupHospex,
-} from '../../hooks/data/useSetupHospex.ts'
-import { useStorage } from '../../hooks/data/useStorage.ts'
-import { useAuth } from '../../hooks/useAuth.ts'
-import { URI } from '../../types/index.ts'
-import { getContainer } from '../../utils/helpers.ts'
+} from '@/hooks/data/useSetupHospex.ts'
+import { useStorage } from '@/hooks/data/useStorage.ts'
+import { useAuth } from '@/hooks/useAuth.ts'
+import { URI } from '@/types/index.ts'
+import { getContainer } from '@/utils/helpers.ts'
+import { FormEventHandler, useState } from 'react'
 import styles from './HospexSetup.module.scss'
 
 export const HospexSetup = ({

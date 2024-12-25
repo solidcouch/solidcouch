@@ -1,3 +1,12 @@
+import { URI } from '@/types/index.ts'
+import { HttpError } from '@/utils/errors.ts'
+import {
+  fullFetch,
+  getAllParents,
+  getParent,
+  removeHashFromURI,
+} from '@/utils/helpers.ts'
+import { toN3Patch } from '@/utils/ldo.ts'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { fetchRdfDocument as fetchRdfDocumentLdhop } from '@ldhop/core'
 import {
@@ -19,15 +28,6 @@ import {
 } from '@tanstack/react-query'
 import { maxBy, merge } from 'lodash'
 import { useMemo } from 'react'
-import { URI } from '../../types/index.ts'
-import { HttpError } from '../../utils/errors.ts'
-import {
-  fullFetch,
-  getAllParents,
-  getParent,
-  removeHashFromURI,
-} from '../../utils/helpers.ts'
-import { toN3Patch } from '../../utils/ldo.ts'
 
 // do not use browser cache
 // This is a temporary fix until the bug in CSS gets fixed

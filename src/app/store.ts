@@ -1,3 +1,6 @@
+import * as authSlice from '@/features/auth/authSlice.ts'
+import * as configSlice from '@/features/config/configSlice.ts'
+import * as loginSlice from '@/features/login/loginSlice.ts'
 import {
   combineReducers,
   configureStore,
@@ -6,9 +9,6 @@ import {
 } from '@reduxjs/toolkit'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import * as authSlice from '../features/auth/authSlice.ts'
-import * as configSlice from '../features/config/configSlice.ts'
-import * as loginSlice from '../features/login/loginSlice.ts'
 
 const appReducer = combineReducers({
   auth: authSlice.reducer,

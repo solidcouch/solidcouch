@@ -1,9 +1,9 @@
+import { ChatShapeShapeType } from '@/ldo/app.shapeTypes.ts'
+import { Message, URI } from '@/types/index.ts'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
-import { ChatShapeShapeType } from '../../ldo/app.shapeTypes.ts'
-import { Message, URI } from '../../types/index.ts'
 import { messages as messagesQuery } from './queries/index.ts'
 import { useReadMessagesFromInbox } from './useReadThreads.ts'
 

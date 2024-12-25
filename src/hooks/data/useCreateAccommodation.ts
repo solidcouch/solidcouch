@@ -1,9 +1,9 @@
+import { AccommodationShapeType } from '@/ldo/app.shapeTypes.ts'
+import { HospexProfile } from '@/ldo/app.typings.ts'
+import { Accommodation, URI } from '@/types/index.ts'
+import { hospex, solid } from '@/utils/rdf-namespaces.ts'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { AccommodationShapeType } from '../../ldo/app.shapeTypes.ts'
-import { HospexProfile } from '../../ldo/app.typings.ts'
-import { Accommodation, URI } from '../../types/index.ts'
-import { hospex, solid } from '../../utils/rdf-namespaces.ts'
 import { useCreateRdfDocument, useUpdateRdfDocument } from './useRdfDocument.ts'
 
 export const useCreateAccommodation = () => {

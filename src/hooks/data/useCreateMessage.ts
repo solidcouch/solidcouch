@@ -1,15 +1,15 @@
-import dayjs from 'dayjs'
-import { useCallback } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 import {
   ChatShapeShapeType,
   MessageActivityShapeType,
-} from '../../ldo/app.shapeTypes.ts'
-import { ChatMessageShape, ChatShape } from '../../ldo/app.typings.ts'
-import { AuthorizationShapeType } from '../../ldo/wac.shapeTypes.ts'
-import { URI } from '../../types/index.ts'
-import { getAcl, getContainer } from '../../utils/helpers.ts'
-import { acl } from '../../utils/rdf-namespaces.ts'
+} from '@/ldo/app.shapeTypes.ts'
+import { ChatMessageShape, ChatShape } from '@/ldo/app.typings.ts'
+import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes.ts'
+import { URI } from '@/types/index.ts'
+import { getAcl, getContainer } from '@/utils/helpers.ts'
+import { acl } from '@/utils/rdf-namespaces.ts'
+import dayjs from 'dayjs'
+import { useCallback } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import {
   useCreateRdfDocument,
   useDeleteRdfDocument,

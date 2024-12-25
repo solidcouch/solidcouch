@@ -1,10 +1,10 @@
+import highlightedIconImage from '@/highlighted-marker.svg'
+import defaultIconImage from '@/marker.svg'
 import 'leaflet'
 import * as L from 'leaflet'
 import icon2 from 'leaflet/dist/images/marker-icon-2x.png'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
-import highlightedIconImage from '../highlighted-marker.svg'
-import defaultIconImage from '../marker.svg'
 
 // @ts-expect-error _getIconUrl is not in the type
 delete L.Icon.Default.prototype._getIconUrl

@@ -1,7 +1,7 @@
+import { AccommodationShapeType } from '@/ldo/accommodation.shapeTypes.ts'
+import { Accommodation } from '@/types/index.ts'
 import { useCallback } from 'react'
 import type { Required } from 'utility-types'
-import { AccommodationShapeType } from '../../ldo/accommodation.shapeTypes.ts'
-import { Accommodation } from '../../types/index.ts'
 import { useUpdateLdoDocument } from './useRdfDocument.ts'
 
 export const useUpdateAccommodation = () => {

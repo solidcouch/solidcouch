@@ -1,6 +1,6 @@
+import { hospex, space } from '@/utils/rdf-namespaces.ts'
 import type { RdfQuery } from '@ldhop/core'
 import { dct, sioc, solid } from 'rdf-namespaces'
-import { hospex, space } from '../../../utils/rdf-namespaces.ts'
 import {
   personInbox,
   publicWebIdProfileQuery,

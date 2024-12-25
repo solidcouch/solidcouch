@@ -1,7 +1,7 @@
+import { ButtonLink } from '@/components/index.ts'
+import { useReadMessagesFromInbox } from '@/hooks/data/useReadThreads.ts'
+import { useAuth } from '@/hooks/useAuth.ts'
 import { FaDoorOpen, FaMap, FaRegComment } from 'react-icons/fa'
-import { ButtonLink } from '../components/index.ts'
-import { useReadMessagesFromInbox } from '../hooks/data/useReadThreads.ts'
-import { useAuth } from '../hooks/useAuth.ts'
 import styles from './Home.module.scss'
 
 export const Home = () => {

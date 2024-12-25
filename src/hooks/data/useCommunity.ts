@@ -1,9 +1,9 @@
+import { HospexCommunityShapeType } from '@/ldo/hospexCommunity.shapeTypes.ts'
+import { URI } from '@/types/index.ts'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import { useMemo } from 'react'
-import { HospexCommunityShapeType } from '../../ldo/hospexCommunity.shapeTypes.ts'
-import { URI } from '../../types/index.ts'
 import {
   readCommunityMembersQuery,
   readCommunityQuery,
