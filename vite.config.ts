@@ -2,6 +2,7 @@ import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { ConfigEnv, defineConfig } from 'vite'
+import checker from 'vite-plugin-checker'
 import { fetchCommunityEnv } from './plugins/fetchCommunityEnv'
 import { postbuild } from './plugins/postbuild'
 import { serveClientId } from './plugins/serveClientId'
@@ -16,6 +17,10 @@ export default defineConfig((config: ConfigEnv) => {
     plugins: [
       fetchCommunityEnv(config),
       react(),
+      checker({
+        typescript: { buildMode: true },
+        eslint: { lintCommand: 'eslint .', useFlatConfig: true },
+      }),
       serveClientId(config),
       postbuild(config),
     ],

@@ -1,5 +1,12 @@
 import { defineConfig } from 'cypress'
 import vitePreprocessor from 'cypress-vite'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const viteConfigPath = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  './vite.cypress.config.ts',
+)
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
@@ -18,7 +25,7 @@ export default defineConfig({
           return null
         },
       })
-      on('file:preprocessor', vitePreprocessor())
+      on('file:preprocessor', vitePreprocessor(viteConfigPath))
     },
   },
   env: {
