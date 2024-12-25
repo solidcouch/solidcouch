@@ -18,7 +18,7 @@ export const useCheckSetup = (userId: URI, communityId: URI) => {
   const isMember = useIsMember(userId, communityId)
   const hospexDocumentSetup = useHospexDocumentSetup(userId, communityId)
   return useMemo(
-    () => ({ isMember, ...hospexDocumentSetup } as const),
+    () => ({ isMember, ...hospexDocumentSetup }) as const,
     [hospexDocumentSetup, isMember],
   )
 }
@@ -70,8 +70,8 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     personalHospexDocumentsForCommunity.length > 0
       ? true
       : isLoading
-      ? undefined
-      : false
+        ? undefined
+        : false
   const isPublicTypeIndex =
     publicTypeIndexes.length > 0 ? true : isLoading ? undefined : false
   const isPrivateTypeIndex =

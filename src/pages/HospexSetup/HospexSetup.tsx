@@ -108,8 +108,8 @@ export const HospexSetup = ({
         hospexDocument: isHospexProfile
           ? personalHospexDocuments[0]
           : allHospex.length > 0
-          ? selectedHospexDocument
-          : newHospexDocument,
+            ? selectedHospexDocument
+            : newHospexDocument,
         email,
       }
       await setupHospex(tasks, settings)

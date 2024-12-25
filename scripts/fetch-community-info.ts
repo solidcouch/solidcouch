@@ -51,11 +51,11 @@ export const fetchCommunityInfo = async (
 
   // make sure all dangerous characters are escaped
   return {
-    logo: encodeURI(logo),
+    logo: logo && encodeURI(logo),
     name: name && he.encode(name),
     name_UNSAFE: name,
     about: about && he.encode(about),
-    homepage: encodeURI(homepage),
+    homepage: homepage && encodeURI(homepage),
   }
 }
 

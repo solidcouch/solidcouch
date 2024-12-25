@@ -235,12 +235,15 @@ export async function buildAuthenticatedFetch(
     options!.eventEmitter?.emit(EVENTS.TIMEOUT_SET, latestTimeout)
   } else if (options !== undefined && options.eventEmitter !== undefined) {
     // If no refresh options are provided, the session expires when the access token does.
-    const expirationTimeout = setTimeout(() => {
-      // The event emitter is always defined in our code, and it would be tedious
-      // to test for conditions when it is not.
+    const expirationTimeout = setTimeout(
+      () => {
+        // The event emitter is always defined in our code, and it would be tedious
+        // to test for conditions when it is not.
 
-      options.eventEmitter!.emit(EVENTS.SESSION_EXPIRED)
-    }, computeRefreshDelay(options.expiresIn) * 1000)
+        options.eventEmitter!.emit(EVENTS.SESSION_EXPIRED)
+      },
+      computeRefreshDelay(options.expiresIn) * 1000,
+    )
 
     options.eventEmitter!.emit(EVENTS.TIMEOUT_SET, expirationTimeout)
   }

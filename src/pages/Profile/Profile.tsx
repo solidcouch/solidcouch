@@ -54,7 +54,7 @@ export const Profile = () => {
         {profile.interests ? (
           <Interests
             ids={profile.interests}
-            highlighted={isMe ? [] : myProfile.interests ?? []}
+            highlighted={isMe ? [] : (myProfile.interests ?? [])}
           />
         ) : (
           <Loading>loading interests...</Loading>

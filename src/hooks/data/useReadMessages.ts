@@ -39,7 +39,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
                 from: message.maker['@id'],
                 chat: chat['@id'],
                 test: chat.participation?.map(p => p.participant['@id']),
-              } as Message),
+              }) as Message,
           ),
         ) ?? []
     ).filter(a => Boolean(a)) as Message[]
