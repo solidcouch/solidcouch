@@ -4,10 +4,7 @@ import vitePreprocessor from 'cypress-vite'
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:5173',
-    // setupNodeEvents(on, config) {
-    //   // implement node event listeners here
-    // },
+    baseUrl: 'http://localhost:4173',
     defaultCommandTimeout: 15000,
     // set mobile viewport as default, because we make mobile-first interface
     // this is screen size of iPhone 11, apparently a popular phone
@@ -26,6 +23,10 @@ export default defineConfig({
   },
   env: {
     CSS_URL: 'http://localhost:4000',
+    COMMUNITY: 'http://localhost:4000/test-community/community#us',
+    OTHER_COMMUNITY: 'http://localhost:4000/other-community/community#us',
+    EMAIL_NOTIFICATIONS_IDENTITY:
+      'http://localhost:4000/mailbot/profile/card#me',
   },
   screenshotOnRunFailure: false,
   video: false,

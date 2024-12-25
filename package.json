@@ -16,7 +16,7 @@
     "cy:dev": "concurrently --kill-others \"yarn cy:dev:app\" \"yarn preview\" \"yarn cy:dev:css\" \"yarn cy:dev:open\"",
     "cy:dev:app": "BROWSER=none VITE_COMMUNITY=http://localhost:4000/test-community/community#us VITE_EMAIL_NOTIFICATIONS_SERVICE=http://localhost:3005 VITE_ENABLE_DEV_CLIENT_ID=true VITE_EMAIL_NOTIFICATIONS_IDENTITY=http://localhost:4000/mailbot/profile/card#me VITE_EMAIL_NOTIFICATIONS_TYPE=simple VITE_GEOINDEX= yarn build --watch",
     "cy:dev:css": "community-solid-server -p 4000 -c ./cypress/css-config-no-log.json",
-    "cy:dev:open": "CYPRESS_baseUrl=\"http://localhost:4173\" CYPRESS_COMMUNITY=\"http://localhost:4000/test-community/community#us\" CYPRESS_OTHER_COMMUNITY=\"http://localhost:4000/other-community/community#us\" CYPRESS_EMAIL_NOTIFICATIONS_IDENTITY=\"http://localhost:4000/mailbot/profile/card#me\" cypress open",
+    "cy:dev:open": "cypress open",
     "knip": "knip"
   },
   "browserslist": {
