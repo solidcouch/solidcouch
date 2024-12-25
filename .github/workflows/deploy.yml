@@ -36,11 +36,6 @@ jobs:
           VITE_GEOINDEX: ${{ vars.GEOINDEX }}
           VITE_BASE_URL: ${{ vars.BASE_URL }} # base url for clientid.jsonld
 
-      - name: Add CNAME
-        run: yarn build:cname
-        env:
-          VITE_BASE_URL: ${{ vars.BASE_URL }}
-
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
