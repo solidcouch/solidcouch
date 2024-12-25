@@ -1,12 +1,12 @@
-import { URI } from '@/types/index.ts'
-import { HttpError } from '@/utils/errors.ts'
+import { URI } from '@/types'
+import { HttpError } from '@/utils/errors'
 import {
   fullFetch,
   getAllParents,
   getParent,
   removeHashFromURI,
-} from '@/utils/helpers.ts'
-import { toN3Patch } from '@/utils/ldo.ts'
+} from '@/utils/helpers'
+import { toN3Patch } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { fetchRdfDocument as fetchRdfDocumentLdhop } from '@ldhop/core'
 import {

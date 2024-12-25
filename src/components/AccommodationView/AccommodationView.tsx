@@ -1,5 +1,5 @@
-import { useConfig } from '@/config/hooks.ts'
-import type { Accommodation } from '@/types/index.ts'
+import { useConfig } from '@/config/hooks'
+import type { Accommodation } from '@/types'
 import { LatLngTuple } from 'leaflet'
 import { useEffect, useMemo } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'

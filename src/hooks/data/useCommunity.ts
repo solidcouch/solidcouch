@@ -1,13 +1,10 @@
-import { HospexCommunityShapeType } from '@/ldo/hospexCommunity.shapeTypes.ts'
-import { URI } from '@/types/index.ts'
+import { HospexCommunityShapeType } from '@/ldo/hospexCommunity.shapeTypes'
+import { URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import { useMemo } from 'react'
-import {
-  readCommunityMembersQuery,
-  readCommunityQuery,
-} from './queries/index.ts'
+import { readCommunityMembersQuery, readCommunityQuery } from './queries'
 
 export const useIsMember = (userId: URI, communityId: URI) => {
   const { variables } = useLDhopQuery(

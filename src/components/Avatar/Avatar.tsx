@@ -1,5 +1,5 @@
-import { useFile } from '@/hooks/data/useFile.ts'
-import { URI } from '@/types/index.ts'
+import { useFile } from '@/hooks/data/useFile'
+import { URI } from '@/types'
 import classNames from 'classnames'
 import { FaUserCircle } from 'react-icons/fa'
 import styles from './Avatar.module.scss'

@@ -1,15 +1,15 @@
 import {
   ChatShapeShapeType,
   MessageActivityShapeType,
-} from '@/ldo/app.shapeTypes.ts'
-import { ChatShape } from '@/ldo/app.typings.ts'
-import { Message, Thread, URI } from '@/types/index.ts'
+} from '@/ldo/app.shapeTypes'
+import { ChatShape } from '@/ldo/app.typings'
+import { Message, Thread, URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { cloneDeep } from 'lodash'
 import { useMemo } from 'react'
-import { inboxMessagesQuery, threads as threadsQuery } from './queries/index.ts'
+import { inboxMessagesQuery, threads as threadsQuery } from './queries'
 
 const useReadThreadsOnly = (webId: URI) => {
   const { quads, variables } = useLDhopQuery(

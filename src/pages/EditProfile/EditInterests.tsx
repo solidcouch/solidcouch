@@ -1,18 +1,15 @@
-import { Loading } from '@/components/index.ts'
+import { Loading } from '@/components'
 import styles from '@/components/Interests/Interests.module.scss'
 import { withToast } from '@/components/withToast.tsx'
-import { useConfig } from '@/config/hooks.ts'
-import {
-  useReadInterest,
-  useSearchInterests,
-} from '@/hooks/data/useInterests.ts'
+import { useConfig } from '@/config/hooks'
+import { useReadInterest, useSearchInterests } from '@/hooks/data/useInterests'
 import {
   useAddInterest,
   useProfile,
   useRemoveInterest,
-} from '@/hooks/data/useProfile.ts'
-import * as types from '@/types/index.ts'
-import { URI } from '@/types/index.ts'
+} from '@/hooks/data/useProfile'
+import * as types from '@/types'
+import { URI } from '@/types'
 import { debounce, merge } from 'lodash'
 import { useCallback, useMemo, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'

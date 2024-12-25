@@ -6,8 +6,8 @@ import 'leaflet/dist/leaflet.css'
 
 import L from 'leaflet'
 
-import { useConfig } from '@/config/hooks.ts'
-import { Bounds, Location } from '@/types/index.ts'
+import { useConfig } from '@/config/hooks'
+import { Bounds, Location } from '@/types'
 import classNames from 'classnames'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import {

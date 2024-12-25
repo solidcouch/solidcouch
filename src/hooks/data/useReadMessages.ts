@@ -1,11 +1,11 @@
-import { ChatShapeShapeType } from '@/ldo/app.shapeTypes.ts'
-import { Message, URI } from '@/types/index.ts'
+import { ChatShapeShapeType } from '@/ldo/app.shapeTypes'
+import { Message, URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
-import { messages as messagesQuery } from './queries/index.ts'
-import { useReadMessagesFromInbox } from './useReadThreads.ts'
+import { messages as messagesQuery } from './queries'
+import { useReadMessagesFromInbox } from './useReadThreads'
 
 export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
   const { quads, variables, isLoading } = useLDhopQuery(

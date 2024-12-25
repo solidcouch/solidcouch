@@ -1,28 +1,28 @@
-import { useConfig } from '@/config/hooks.ts'
-import { useAuth } from '@/hooks/useAuth.ts'
+import { useConfig } from '@/config/hooks'
+import { useAuth } from '@/hooks/useAuth'
 import {
   HospexProfileShapeType,
   PrivateTypeIndexShapeType,
   PublicTypeIndexShapeType,
-} from '@/ldo/app.shapeTypes.ts'
-import { PrivateTypeIndex, PublicTypeIndex } from '@/ldo/app.typings.ts'
-import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes.ts'
-import { URI } from '@/types/index.ts'
-import { fullFetch, getAcl, getContainer, processAcl } from '@/utils/helpers.ts'
-import { hospex } from '@/utils/rdf-namespaces.ts'
+} from '@/ldo/app.shapeTypes'
+import { PrivateTypeIndex, PublicTypeIndex } from '@/ldo/app.typings'
+import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
+import { URI } from '@/types'
+import { fullFetch, getAcl, getContainer, processAcl } from '@/utils/helpers'
+import { hospex } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { NamedNode, Quad, Writer } from 'n3'
 import { acl, foaf, ldp, rdf, solid, space } from 'rdf-namespaces'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { useReadCommunity } from './useCommunity.ts'
+import { useReadCommunity } from './useCommunity'
 import {
   useCreateRdfContainer,
   useCreateRdfDocument,
   useUpdateLdoDocument,
   useUpdateRdfDocument,
-} from './useRdfDocument.ts'
+} from './useRdfDocument'
 
 export type SetupTask =
   | 'createPublicTypeIndex'

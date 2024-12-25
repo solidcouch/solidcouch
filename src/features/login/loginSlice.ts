@@ -1,4 +1,4 @@
-import { RootState } from '@/app/store.ts'
+import { RootState } from '@/app/store'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 

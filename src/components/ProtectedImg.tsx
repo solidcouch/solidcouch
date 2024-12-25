@@ -1,4 +1,4 @@
-import { useFile } from '@/hooks/data/useFile.ts'
+import { useFile } from '@/hooks/data/useFile'
 import { ImgHTMLAttributes } from 'react'
 
 export const ProtectedImg = (props: ImgHTMLAttributes<HTMLImageElement>) => {

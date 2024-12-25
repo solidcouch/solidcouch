@@ -1,7 +1,7 @@
 import { ShapeType } from '@ldo/ldo'
-import { containerContext } from './container.context.ts'
-import { containerSchema } from './container.schema.ts'
-import { Container, Resource } from './container.typings.ts'
+import { containerContext } from './container.context'
+import { containerSchema } from './container.schema'
+import { Container, Resource } from './container.typings'
 
 /**
  * =============================================================================

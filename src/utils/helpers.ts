@@ -1,4 +1,4 @@
-import { URI } from '@/types/index.ts'
+import { URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import * as n3 from 'n3'
 import parseLinkHeader from 'parse-link-header'

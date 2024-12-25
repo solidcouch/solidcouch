@@ -1,15 +1,15 @@
-import { Button, Loading } from '@/components/index.ts'
-import { useConfig } from '@/config/hooks.ts'
-import { useCheckSetup } from '@/hooks/data/useCheckSetup.ts'
+import { Button, Loading } from '@/components'
+import { useConfig } from '@/config/hooks'
+import { useCheckSetup } from '@/hooks/data/useCheckSetup'
 import {
   useConfirmContact,
   useCreateContact,
   useIgnoreContactRequest,
   useReadContacts,
-} from '@/hooks/data/useContacts.ts'
-import { useAuth } from '@/hooks/useAuth.ts'
-import { ContactInvitation, URI } from '@/types/index.ts'
-import { getContainer } from '@/utils/helpers.ts'
+} from '@/hooks/data/useContacts'
+import { useAuth } from '@/hooks/useAuth'
+import { ContactInvitation, URI } from '@/types'
+import { getContainer } from '@/utils/helpers'
 import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'react-modal'

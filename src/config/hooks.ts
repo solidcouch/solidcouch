@@ -1,7 +1,7 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks.ts'
-import { actions, selectConfig } from '@/features/config/configSlice.ts'
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
+import { actions, selectConfig } from '@/features/config/configSlice'
 import { useEffect, useMemo } from 'react'
-import * as config from './index.ts'
+import * as config from '.'
 
 export type ConfigType = typeof config
 

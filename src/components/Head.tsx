@@ -1,5 +1,5 @@
-import { useConfig } from '@/config/hooks.ts'
-import { useReadCommunity } from '@/hooks/data/useCommunity.ts'
+import { useConfig } from '@/config/hooks'
+import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { useEffect, useState } from 'react'
 
 export const Head = () => {

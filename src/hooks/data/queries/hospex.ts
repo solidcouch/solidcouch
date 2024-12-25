@@ -1,11 +1,11 @@
-import { hospex, space } from '@/utils/rdf-namespaces.ts'
+import { hospex, space } from '@/utils/rdf-namespaces'
 import type { RdfQuery } from '@ldhop/core'
 import { dct, sioc, solid } from 'rdf-namespaces'
 import {
   personInbox,
   publicWebIdProfileQuery,
   webIdProfileQuery,
-} from './profile.ts'
+} from './profile'
 
 // in public type index, find all personal hospex documents of the person for a particular community, and fetch them
 const partialHospexDocumentQuery: RdfQuery = [

@@ -1,11 +1,11 @@
-import { URI } from '@/types/index.ts'
-import { hospex, sioc } from '@/utils/rdf-namespaces.ts'
+import { URI } from '@/types'
+import { hospex, sioc } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
-import { privateProfileAndHospexDocumentQuery } from './queries/index.ts'
-import { useIsMember } from './useCommunity.ts'
+import { privateProfileAndHospexDocumentQuery } from './queries'
+import { useIsMember } from './useCommunity'
 
 /**
  * Check that

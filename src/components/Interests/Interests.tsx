@@ -1,5 +1,5 @@
 import { useReadInterest } from '@/hooks/data/useInterests'
-import { URI } from '@/types/index.ts'
+import { URI } from '@/types'
 import classNames from 'classnames'
 import { merge } from 'lodash'
 import styles from './Interests.module.scss'

@@ -1,7 +1,7 @@
 import { ShapeType } from '@ldo/ldo'
-import { activityContext } from './activity.context.ts'
-import { activitySchema } from './activity.schema.ts'
-import { Activity } from './activity.typings.ts'
+import { activityContext } from './activity.context'
+import { activitySchema } from './activity.schema'
+import { Activity } from './activity.typings'
 
 /**
  * =============================================================================

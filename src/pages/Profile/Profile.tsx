@@ -1,13 +1,8 @@
-import {
-  ButtonLink,
-  ExternalIconLink,
-  Interests,
-  Loading,
-} from '@/components/index.ts'
+import { ButtonLink, ExternalIconLink, Interests, Loading } from '@/components'
 import { ProtectedImg } from '@/components/ProtectedImg.tsx'
-import { useConfig } from '@/config/hooks.ts'
-import { useProfile } from '@/hooks/data/useProfile.ts'
-import { useAuth } from '@/hooks/useAuth.ts'
+import { useConfig } from '@/config/hooks'
+import { useProfile } from '@/hooks/data/useProfile'
+import { useAuth } from '@/hooks/useAuth'
 import { FaPencilAlt } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import { ManageContact } from './ManageContact.tsx'

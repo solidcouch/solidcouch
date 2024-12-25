@@ -1,7 +1,7 @@
-import { as, rdfs } from '@/utils/rdf-namespaces.ts'
+import { as, rdfs } from '@/utils/rdf-namespaces'
 import type { RdfQuery } from '@ldhop/core'
 import { foaf, ldp, rdf } from 'rdf-namespaces'
-import { personInbox, profileDocuments } from './profile.ts'
+import { personInbox, profileDocuments } from './profile'
 
 export const contactsQuery: RdfQuery = [
   ...profileDocuments,

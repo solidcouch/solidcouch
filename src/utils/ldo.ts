@@ -1,4 +1,4 @@
-import { solid } from '@/utils/rdf-namespaces.ts'
+import { solid } from '@/utils/rdf-namespaces'
 import { LdoBase, transactionChanges } from '@ldo/ldo'
 import { datasetToString } from '@ldo/rdf-utils'
 import type { Dataset } from '@rdfjs/types'

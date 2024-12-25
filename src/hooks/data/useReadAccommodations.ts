@@ -1,10 +1,10 @@
-import { AccommodationShapeType } from '@/ldo/app.shapeTypes.ts'
-import { Accommodation, URI } from '@/types/index.ts'
+import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
+import { Accommodation, URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import { useMemo } from 'react'
-import { readPersonAccommodationsQuery } from './queries/index.ts'
+import { readPersonAccommodationsQuery } from './queries'
 
 /**
  * Read accommodations of a person

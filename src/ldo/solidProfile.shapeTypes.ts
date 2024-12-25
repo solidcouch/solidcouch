@@ -1,7 +1,7 @@
 import { ShapeType } from '@ldo/ldo'
-import { solidProfileContext } from './solidProfile.context.ts'
-import { solidProfileSchema } from './solidProfile.schema.ts'
-import { SolidProfile } from './solidProfile.typings.ts'
+import { solidProfileContext } from './solidProfile.context'
+import { solidProfileSchema } from './solidProfile.schema'
+import { SolidProfile } from './solidProfile.typings'
 
 /**
  * =============================================================================

@@ -1,6 +1,6 @@
 import { ShapeType } from '@ldo/ldo'
-import { appContext } from './app.context.ts'
-import { appSchema } from './app.schema.ts'
+import { appContext } from './app.context'
+import { appSchema } from './app.schema'
 import {
   Accommodation,
   ChatMessageListShape,
@@ -20,7 +20,7 @@ import {
   Resource,
   SolidProfile,
   TypeRegistration,
-} from './app.typings.ts'
+} from './app.typings'
 
 /**
  * =============================================================================

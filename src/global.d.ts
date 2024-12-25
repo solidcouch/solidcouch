@@ -1,4 +1,4 @@
-import type { ConfigType } from './config/hooks.ts'
+import type { ConfigType } from './config/hooks'
 
 declare global {
   interface Window {

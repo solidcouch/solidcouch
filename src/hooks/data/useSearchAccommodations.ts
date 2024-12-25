@@ -1,8 +1,8 @@
-import { useConfig } from '@/config/hooks.ts'
-import { AccommodationShapeType } from '@/ldo/app.shapeTypes.ts'
-import { HttpError } from '@/utils/errors.ts'
-import { mergeArrays } from '@/utils/helpers.ts'
-import { hospex } from '@/utils/rdf-namespaces.ts'
+import { useConfig } from '@/config/hooks'
+import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
+import { HttpError } from '@/utils/errors'
+import { mergeArrays } from '@/utils/helpers'
+import { hospex } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
@@ -10,7 +10,7 @@ import { useQueries } from '@tanstack/react-query'
 import { Parser, Store } from 'n3'
 import ngeohash from 'ngeohash'
 import { useEffect, useMemo, useState } from 'react'
-import { searchAccommodationsQuery } from './queries/index.ts'
+import { searchAccommodationsQuery } from './queries'
 
 const fetchAccommodationsByGeohash = async ({
   geohash,

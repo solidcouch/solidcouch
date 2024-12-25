@@ -1,12 +1,9 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks.ts'
-import { Button } from '@/components/index.ts'
-import { guessIssuer } from '@/components/SignIn/oidcIssuer.ts'
-import { useConfig } from '@/config/hooks.ts'
-import {
-  actions,
-  selectLastSelectedIssuer,
-} from '@/features/login/loginSlice.ts'
-import { useReadCommunity } from '@/hooks/data/useCommunity.ts'
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
+import { Button } from '@/components'
+import { guessIssuer } from '@/components/SignIn/oidcIssuer'
+import { useConfig } from '@/config/hooks'
+import { actions, selectLastSelectedIssuer } from '@/features/login/loginSlice'
+import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { login } from '@inrupt/solid-client-authn-browser'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'

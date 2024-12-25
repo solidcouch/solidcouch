@@ -1,12 +1,12 @@
 import {
   ChatShapeShapeType,
   MessageActivityShapeType,
-} from '@/ldo/app.shapeTypes.ts'
-import { ChatMessageShape, ChatShape } from '@/ldo/app.typings.ts'
-import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes.ts'
-import { URI } from '@/types/index.ts'
-import { getAcl, getContainer } from '@/utils/helpers.ts'
-import { acl } from '@/utils/rdf-namespaces.ts'
+} from '@/ldo/app.shapeTypes'
+import { ChatMessageShape, ChatShape } from '@/ldo/app.typings'
+import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
+import { URI } from '@/types'
+import { getAcl, getContainer } from '@/utils/helpers'
+import { acl } from '@/utils/rdf-namespaces'
 import dayjs from 'dayjs'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -14,8 +14,8 @@ import {
   useCreateRdfDocument,
   useDeleteRdfDocument,
   useUpdateLdoDocument,
-} from './useRdfDocument.ts'
-import { useSaveTypeRegistration } from './useSetupHospex.ts'
+} from './useRdfDocument'
+import { useSaveTypeRegistration } from './useSetupHospex'
 
 export const useCreateMessage = () => {
   const queryMutation = useUpdateLdoDocument(ChatShapeShapeType)

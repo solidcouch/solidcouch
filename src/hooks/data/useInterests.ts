@@ -1,4 +1,4 @@
-import { Interest, URI } from '@/types/index.ts'
+import { Interest, URI } from '@/types'
 import { useQuery } from '@tanstack/react-query'
 import { merge } from 'lodash'
 

@@ -1,7 +1,7 @@
 import { ShapeType } from '@ldo/ldo'
-import { hospexProfileContext } from './hospexProfile.context.ts'
-import { hospexProfileSchema } from './hospexProfile.schema.ts'
-import { HospexProfile } from './hospexProfile.typings.ts'
+import { hospexProfileContext } from './hospexProfile.context'
+import { hospexProfileSchema } from './hospexProfile.schema'
+import { HospexProfile } from './hospexProfile.typings'
 
 /**
  * =============================================================================

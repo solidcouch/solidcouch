@@ -1,7 +1,7 @@
 import { ShapeType } from '@ldo/ldo'
-import { accommodationContext } from './accommodation.context.ts'
-import { accommodationSchema } from './accommodation.schema.ts'
-import { Accommodation, Point } from './accommodation.typings.ts'
+import { accommodationContext } from './accommodation.context'
+import { accommodationSchema } from './accommodation.schema'
+import { Accommodation, Point } from './accommodation.typings'
 
 /**
  * =============================================================================

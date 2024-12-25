@@ -1,5 +1,5 @@
-import { URI } from '@/types/index.ts'
-import { removeHashFromURI } from '@/utils/helpers.ts'
+import { URI } from '@/types'
+import { removeHashFromURI } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import {
   useMutation,

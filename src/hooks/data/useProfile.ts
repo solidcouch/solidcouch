@@ -2,11 +2,11 @@ import {
   FoafProfileShapeType,
   HospexProfileShapeType,
   SolidProfileShapeType,
-} from '@/ldo/app.shapeTypes.ts'
-import { FoafProfile, HospexProfile } from '@/ldo/app.typings.ts'
-import { Person, URI } from '@/types/index.ts'
-import { ldo2json } from '@/utils/ldo.ts'
-import { foaf, solid } from '@/utils/rdf-namespaces.ts'
+} from '@/ldo/app.shapeTypes'
+import { FoafProfile, HospexProfile } from '@/ldo/app.typings'
+import { Person, URI } from '@/types'
+import { ldo2json } from '@/utils/ldo'
+import { foaf, solid } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
@@ -19,8 +19,8 @@ import {
   hospexDocumentQuery,
   profileDocuments,
   webIdProfileQuery,
-} from './queries/index.ts'
-import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument.ts'
+} from './queries'
+import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
 
 export const useProfile = (webId: URI, communityId: URI) => {
   const hospexDocumentQueryOutput = useLDhopQuery(

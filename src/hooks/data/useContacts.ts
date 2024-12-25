@@ -1,19 +1,19 @@
-import { ContactInvitationActivityShapeType } from '@/ldo/app.shapeTypes.ts'
-import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes.ts'
-import { Contact, URI } from '@/types/index.ts'
-import { getAcl, removeHashFromURI } from '@/utils/helpers.ts'
-import { acl, foaf, rdf, rdfs } from '@/utils/rdf-namespaces.ts'
+import { ContactInvitationActivityShapeType } from '@/ldo/app.shapeTypes'
+import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
+import { Contact, URI } from '@/types'
+import { getAcl, removeHashFromURI } from '@/utils/helpers'
+import { acl, foaf, rdf, rdfs } from '@/utils/rdf-namespaces'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { Store } from 'n3'
 import { useCallback, useMemo } from 'react'
-import { contactRequestsQuery, contactsQuery } from './queries/index.ts'
+import { contactRequestsQuery, contactsQuery } from './queries'
 import {
   useCreateRdfDocument,
   useDeleteRdfDocument,
   useMatchUpdateLdoDocument,
   useUpdateRdfDocument,
-} from './useRdfDocument.ts'
+} from './useRdfDocument'
 
 export const useReadContacts = (personId: URI) => {
   const { quads, variables, isLoading } = useLDhopQuery(

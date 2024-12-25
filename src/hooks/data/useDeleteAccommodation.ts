@@ -1,7 +1,7 @@
-import { URI } from '@/types/index.ts'
-import { hospex, solid } from '@/utils/rdf-namespaces.ts'
+import { URI } from '@/types'
+import { hospex, solid } from '@/utils/rdf-namespaces'
 import { useCallback } from 'react'
-import { useDeleteRdfDocument, useUpdateRdfDocument } from './useRdfDocument.ts'
+import { useDeleteRdfDocument, useUpdateRdfDocument } from './useRdfDocument'
 
 /**
  * Delete accommodation

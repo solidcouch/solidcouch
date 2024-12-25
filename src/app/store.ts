@@ -1,6 +1,6 @@
-import * as authSlice from '@/features/auth/authSlice.ts'
-import * as configSlice from '@/features/config/configSlice.ts'
-import * as loginSlice from '@/features/login/loginSlice.ts'
+import * as authSlice from '@/features/auth/authSlice'
+import * as configSlice from '@/features/config/configSlice'
+import * as loginSlice from '@/features/login/loginSlice'
 import {
   combineReducers,
   configureStore,

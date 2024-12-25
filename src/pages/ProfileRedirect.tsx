@@ -1,5 +1,5 @@
-import { Loading } from '@/components/index.ts'
-import { useAuth } from '@/hooks/useAuth.ts'
+import { Loading } from '@/components'
+import { useAuth } from '@/hooks/useAuth'
 import { Navigate } from 'react-router-dom'
 
 export const ProfileRedirect = () => {

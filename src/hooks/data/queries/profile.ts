@@ -1,4 +1,4 @@
-import { rdfs, space } from '@/utils/rdf-namespaces.ts'
+import { rdfs, space } from '@/utils/rdf-namespaces'
 import type { Match, RdfQuery } from '@ldhop/core'
 import { ldp, solid } from 'rdf-namespaces'
 
