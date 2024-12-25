@@ -20,24 +20,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-* /
-
-// https://github.com/TurtIeSocks/react-leaflet.locatecontrol/blob/58e0ed76c572c6b37bde78f5f7238c5ee0fccf1e/src/LocateControl.ts
-
-import 'leaflet.locatecontrol'
-
-import { createControlComponent } from '@react-leaflet/core'
-import L, { control } from 'leaflet'
-
-export interface LocateControlProps
-  extends Omit<L.Control.LocateOptions, 'position'> {
-  position?: L.ControlOptions['position']
-}
-
-export const LocateControl = createControlComponent<
-  L.Control.Locate,
-  LocateControlProps
->(props => {
-  control.locate(props)
-})
 */
+import { createControlComponent } from '@react-leaflet/core'
+import {
+  LocateControl as LocateControlOriginal,
+  LocateOptions,
+} from 'leaflet.locatecontrol'
+import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
+
+export const LocateControl = createControlComponent(
+  (props: LocateOptions) => new LocateControlOriginal(props),
+)

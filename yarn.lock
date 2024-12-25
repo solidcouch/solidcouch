@@ -4901,12 +4901,7 @@
   dependencies:
     "@types/node" "*"
 
-"@react-leaflet/core@^2.0.0", "@react-leaflet/core@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/@react-leaflet/core/-/core-2.1.0.tgz"
-  integrity sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==
-
-"@react-leaflet/core@^3.0.0":
+"@react-leaflet/core@^2.0.0", "@react-leaflet/core@^3.0.0":
   version "3.0.0"
   resolved "https://registry.npmjs.org/@react-leaflet/core/-/core-3.0.0.tgz#34ccc280ce7d8ac5c09f2b3d5fffded450bdf1a2"
   integrity sha512-3EWmekh4Nz+pGcr+xjf0KNyYfC3U2JjnkWsh0zcqaexYqmmB5ZhH37kz41JXGmKzpaMZCnPofBBm64i+YrEvGQ==
@@ -5568,14 +5563,7 @@
   dependencies:
     "@types/leaflet" "*"
 
-"@types/leaflet@*":
-  version "1.9.9"
-  resolved "https://registry.npmjs.org/@types/leaflet/-/leaflet-1.9.9.tgz#5e469f1443c6796b59ad8300495bd82797345356"
-  integrity sha512-o0qD9ReJzWpGNIAY0O32NkpfM6rhV4sxnwVkz7x7Ah4Zy9sP+2T9Q3byccL5la1ZX416k+qiyvt8ksBavPPY7A==
-  dependencies:
-    "@types/geojson" "*"
-
-"@types/leaflet@^1.9.15":
+"@types/leaflet@*", "@types/leaflet@^1.9.15":
   version "1.9.15"
   resolved "https://registry.npmjs.org/@types/leaflet/-/leaflet-1.9.15.tgz#5054d3cfe115da79bffb7a3a70acc6b310bd7c60"
   integrity sha512-7UuggAuAs+mva66gtf2OTB1nEhzU/9JED93TIaOEgvFMvG/dIGQaukHE7izHo1Zd+Ko1L4ETUw7TBc8yUxevpg==
@@ -11497,14 +11485,7 @@ react-leaflet-markercluster@^4.2.1:
     leaflet.markercluster "^1.5.3"
     react-leaflet "^4.0.0"
 
-react-leaflet@^4.0.0:
-  version "4.2.1"
-  resolved "https://registry.npmjs.org/react-leaflet/-/react-leaflet-4.2.1.tgz#c300e9eccaf15cb40757552e181200aa10b94780"
-  integrity sha512-p9chkvhcKrWn/H/1FFeVSqLdReGwn2qmiobOQGO3BifX+/vV/39qhY8dGqbdcPh1e6jxh/QHriLXr7a4eLFK4Q==
-  dependencies:
-    "@react-leaflet/core" "^2.1.0"
-
-react-leaflet@^5.0.0:
+react-leaflet@^4.0.0, react-leaflet@^5.0.0:
   version "5.0.0"
   resolved "https://registry.npmjs.org/react-leaflet/-/react-leaflet-5.0.0.tgz#945d40bad13b69e8606278b19446b00bab57376a"
   integrity sha512-CWbTpr5vcHw5bt9i4zSlPEVQdTVcML390TjeDG0cK59z1ylexpqC6M1PJFjV8jD7CF+ACBFsLIDs6DRMoLEofw==
