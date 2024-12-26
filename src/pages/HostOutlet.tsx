@@ -1,4 +1,4 @@
-import { NavLayout } from 'layouts/NavLayout'
+import { NavLayout } from '@/layouts/NavLayout.tsx'
 import { Outlet } from 'react-router-dom'
 
 // const tabs = [

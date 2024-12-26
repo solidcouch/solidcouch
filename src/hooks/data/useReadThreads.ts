@@ -1,14 +1,14 @@
-import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
-import { createLdoDataset } from '@ldo/ldo'
 import {
   ChatShapeShapeType,
   MessageActivityShapeType,
-} from 'ldo/app.shapeTypes'
-import { ChatShape } from 'ldo/app.typings'
-import { cloneDeep } from 'lodash'
+} from '@/ldo/app.shapeTypes'
+import { ChatShape } from '@/ldo/app.typings'
+import { Message, Thread, URI } from '@/types'
+import { fetch } from '@inrupt/solid-client-authn-browser'
+import { useLDhopQuery } from '@ldhop/react'
+import { createLdoDataset } from '@ldo/ldo'
+import cloneDeep from 'lodash/cloneDeep'
 import { useMemo } from 'react'
-import { Message, Thread, URI } from 'types'
 import { inboxMessagesQuery, threads as threadsQuery } from './queries'
 
 const useReadThreadsOnly = (webId: URI) => {

@@ -1,8 +1,8 @@
+import type { IssuerConfig } from '@/config'
+import { fetchRdfDocument } from '@/hooks/data/useRdfDocument'
+import { SolidProfileShapeType } from '@/ldo/app.shapeTypes'
+import { URI } from '@/types'
 import { createLdoDataset } from '@ldo/ldo'
-import type { IssuerConfig } from 'config'
-import { fetchRdfDocument } from 'hooks/data/useRdfDocument'
-import { SolidProfileShapeType } from 'ldo/app.shapeTypes'
-import { URI } from 'types'
 
 // TODO this can be a candidate for a separate library
 

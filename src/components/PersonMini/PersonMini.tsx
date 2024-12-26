@@ -1,7 +1,7 @@
-import { Avatar } from 'components'
-import { useConfig } from 'config/hooks'
-import { useProfile } from 'hooks/data/useProfile'
-import { URI } from 'types'
+import { Avatar } from '@/components'
+import { useConfig } from '@/config/hooks'
+import { useProfile } from '@/hooks/data/useProfile'
+import { URI } from '@/types'
 
 export const PersonMini = ({
   webId,

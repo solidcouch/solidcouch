@@ -1,11 +1,11 @@
-import { ButtonLink, ExternalIconLink, Interests, Loading } from 'components'
-import { ProtectedImg } from 'components/ProtectedImg'
-import { useConfig } from 'config/hooks'
-import { useProfile } from 'hooks/data/useProfile'
-import { useAuth } from 'hooks/useAuth'
+import { ButtonLink, ExternalIconLink, Interests, Loading } from '@/components'
+import { ProtectedImg } from '@/components/ProtectedImg.tsx'
+import { useConfig } from '@/config/hooks'
+import { useProfile } from '@/hooks/data/useProfile'
+import { useAuth } from '@/hooks/useAuth'
 import { FaPencilAlt } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
-import { ManageContact } from './ManageContact'
+import { ManageContact } from './ManageContact.tsx'
 import styles from './Profile.module.scss'
 
 export const Profile = () => {
@@ -19,13 +19,20 @@ export const Profile = () => {
 
   return (
     <div className={styles.container}>
-      <ProtectedImg className={styles.photo} src={profile.photo} alt="" />
-      <header className={styles.name}>
+      <ProtectedImg
+        className={styles.photo}
+        src={profile.photo}
+        alt={`Profile photo of ${profile.name}`}
+        data-cy="profile-photo"
+      />
+      <header className={styles.name} data-cy="profile-name">
         {profile.name} <ExternalIconLink href={personId} />
       </header>
-      <section className={styles.about}>{profile.about}</section>
+      <section className={styles.about} data-cy="profile-about">
+        {profile.about}
+      </section>
       {isMe && (
-        <ButtonLink secondary to="/profile/edit">
+        <ButtonLink secondary to="/profile/edit" data-cy="edit-profile-link">
           <FaPencilAlt /> edit profile
         </ButtonLink>
       )}
@@ -42,7 +49,7 @@ export const Profile = () => {
         {profile.interests ? (
           <Interests
             ids={profile.interests}
-            highlighted={isMe ? [] : myProfile.interests ?? []}
+            highlighted={isMe ? [] : (myProfile.interests ?? [])}
           />
         ) : (
           <Loading>loading interests...</Loading>

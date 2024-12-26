@@ -1,20 +1,20 @@
+import {
+  FoafProfileShapeType,
+  HospexProfileShapeType,
+  SolidProfileShapeType,
+} from '@/ldo/app.shapeTypes'
+import { FoafProfile, HospexProfile } from '@/ldo/app.typings'
+import { Person, URI } from '@/types'
+import { ldo2json } from '@/utils/ldo'
+import { foaf, solid } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
-import {
-  FoafProfileShapeType,
-  HospexProfileShapeType,
-  SolidProfileShapeType,
-} from 'ldo/app.shapeTypes'
-import { FoafProfile, HospexProfile } from 'ldo/app.typings'
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 import { NamedNode, Store } from 'n3'
 import { useCallback, useMemo } from 'react'
-import { Person, URI } from 'types'
-import { ldo2json } from 'utils/ldo'
-import { foaf, solid } from 'utils/rdf-namespaces'
 import {
   hospexDocumentQuery,
   profileDocuments,

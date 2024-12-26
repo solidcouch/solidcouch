@@ -1,18 +1,18 @@
-import { Button } from 'components'
-import { Loading } from 'components/Loading/Loading'
-import { useConfig } from 'config/hooks'
-import { useReadCommunity } from 'hooks/data/useCommunity'
-import { useJoinGroup } from 'hooks/data/useJoinGroup'
+import { Button } from '@/components'
+import { Loading } from '@/components/Loading/Loading.tsx'
+import { useConfig } from '@/config/hooks'
+import { useReadCommunity } from '@/hooks/data/useCommunity'
+import { useJoinGroup } from '@/hooks/data/useJoinGroup'
 import {
   SetupSettings,
   SetupTask,
   useSetupHospex,
-} from 'hooks/data/useSetupHospex'
-import { useStorage } from 'hooks/data/useStorage'
-import { useAuth } from 'hooks/useAuth'
+} from '@/hooks/data/useSetupHospex'
+import { useStorage } from '@/hooks/data/useStorage'
+import { useAuth } from '@/hooks/useAuth'
+import { URI } from '@/types'
+import { getContainer } from '@/utils/helpers'
 import { FormEventHandler, useState } from 'react'
-import { URI } from 'types'
-import { getContainer } from 'utils/helpers'
 import styles from './HospexSetup.module.scss'
 
 export const HospexSetup = ({
@@ -108,8 +108,8 @@ export const HospexSetup = ({
         hospexDocument: isHospexProfile
           ? personalHospexDocuments[0]
           : allHospex.length > 0
-          ? selectedHospexDocument
-          : newHospexDocument,
+            ? selectedHospexDocument
+            : newHospexDocument,
         email,
       }
       await setupHospex(tasks, settings)

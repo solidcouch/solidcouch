@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .button {
   padding: 0.25rem 0.5rem;
   text-align: center;
@@ -13,7 +15,7 @@
     text-decoration: none;
 
     &:hover {
-      background-color: lighten(black, 20);
+      background-color: color.adjust(black, $lightness: 20%, $space: hsl);
     }
   }
 
@@ -23,7 +25,7 @@
     text-decoration: none;
 
     &:hover {
-      background-color: darken(white, 10);
+      background-color: color.adjust(white, $lightness: -10%, $space: hsl);
     }
   }
 
@@ -39,8 +41,8 @@
     text-decoration: none;
 
     &:hover {
-      border: 2px solid darken(red, 10);
-      background-color: darken(red, 10);
+      border: 2px solid color.adjust(red, $lightness: -10%, $space: hsl);
+      background-color: color.adjust(red, $lightness: -10%, $space: hsl);
     }
   }
 }

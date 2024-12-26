@@ -1,13 +1,13 @@
+import { Button } from '@/components'
+import { SelectLocation } from '@/components/SelectLocation.tsx'
+import styles from '@/pages/MyOffers.module.scss'
+import { Accommodation } from '@/types'
 import { ajvResolver } from '@hookform/resolvers/ajv'
 import { JSONSchemaType } from 'ajv'
 import classNames from 'classnames'
-import { Button } from 'components'
-import { SelectLocation } from 'components/SelectLocation'
-import { merge } from 'lodash'
-import styles from 'pages/MyOffers.module.scss'
+import merge from 'lodash/merge'
 import { Controller, useForm } from 'react-hook-form'
 import { FaExclamationTriangle, FaLocationArrow } from 'react-icons/fa'
-import { Accommodation } from 'types'
 
 const validationSchema: JSONSchemaType<
   Pick<Accommodation, 'location' | 'description'>
@@ -63,6 +63,7 @@ export const AccommodationForm = ({
       onSubmit={handleFormSubmit}
       onReset={onCancel}
       className={classNames(styles.accommodationForm, styles.accommodation)}
+      data-cy="accommodation-form"
     >
       <label>
         Hosting location (click <FaLocationArrow /> or drag & zoom map)

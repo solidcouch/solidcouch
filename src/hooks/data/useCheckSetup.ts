@@ -1,9 +1,9 @@
+import { URI } from '@/types'
+import { hospex, sioc } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
-import { URI } from 'types'
-import { hospex, sioc } from 'utils/rdf-namespaces'
 import { privateProfileAndHospexDocumentQuery } from './queries'
 import { useIsMember } from './useCommunity'
 
@@ -18,7 +18,7 @@ export const useCheckSetup = (userId: URI, communityId: URI) => {
   const isMember = useIsMember(userId, communityId)
   const hospexDocumentSetup = useHospexDocumentSetup(userId, communityId)
   return useMemo(
-    () => ({ isMember, ...hospexDocumentSetup } as const),
+    () => ({ isMember, ...hospexDocumentSetup }) as const,
     [hospexDocumentSetup, isMember],
   )
 }
@@ -70,8 +70,8 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     personalHospexDocumentsForCommunity.length > 0
       ? true
       : isLoading
-      ? undefined
-      : false
+        ? undefined
+        : false
   const isPublicTypeIndex =
     publicTypeIndexes.length > 0 ? true : isLoading ? undefined : false
   const isPrivateTypeIndex =

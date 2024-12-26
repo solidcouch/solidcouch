@@ -1,8 +1,8 @@
+import { URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import * as n3 from 'n3'
 import parseLinkHeader from 'parse-link-header'
 import { acl, rdf } from 'rdf-namespaces'
-import { URI } from 'types'
 
 const fetchWithRedirect: typeof fetch = async (url, init) => {
   // first try to find final redirect
@@ -66,7 +66,7 @@ export const getParentContainer = (uri: URI): URI => {
 export const fullFetch: typeof fetch = async (url, init) => {
   try {
     return await fetch(url, init)
-  } catch (error) {
+  } catch {
     return await fetchWithRedirect(url, init)
   }
 }
@@ -179,7 +179,7 @@ export const processAcl = (
  * Note: the later array's object will overwrite previous matching ones
  */
 export const mergeArrays = <
-  T extends { [key in K]: string | number } & Record<string, any>,
+  T extends { [key in K]: string | number } & Record<string, unknown>,
   K extends keyof T,
 >(
   key: K,

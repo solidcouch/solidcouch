@@ -1,13 +1,13 @@
+import { solid } from '@/utils/rdf-namespaces'
 import { LdoBase, transactionChanges } from '@ldo/ldo'
 import { datasetToString } from '@ldo/rdf-utils'
-import { Dataset } from '@rdfjs/types'
-import { solid } from 'utils/rdf-namespaces'
+import type { Dataset } from '@rdfjs/types'
 
 // stringifying objects with circular reference, according to MDN:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cyclic_object_value#circular_references
 const getCircularReplacer = () => {
   const seen = new WeakSet()
-  return (key: string, value: unknown) => {
+  return (_key: string, value: unknown) => {
     if (typeof value === 'object' && value !== null) {
       if (seen.has(value)) {
         return
@@ -22,7 +22,6 @@ const getCircularReplacer = () => {
  * Stringify LDO
  * useful for logging
  */
-// eslint-disable-next-line import/no-unused-modules
 export const ldo2json = <T>(ldo: T): T =>
   JSON.parse(JSON.stringify(ldo, getCircularReplacer()))
 

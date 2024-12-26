@@ -1,6 +1,6 @@
 import { ShapeType } from '@ldo/ldo'
-import { activitySchema } from './activity.schema'
 import { activityContext } from './activity.context'
+import { activitySchema } from './activity.schema'
 import { Activity } from './activity.typings'
 
 /**

@@ -1,6 +1,6 @@
+import { hospex, space } from '@/utils/rdf-namespaces'
 import type { RdfQuery } from '@ldhop/core'
 import { dct, sioc, solid } from 'rdf-namespaces'
-import { hospex, space } from 'utils/rdf-namespaces'
 import {
   personInbox,
   publicWebIdProfileQuery,
@@ -47,7 +47,6 @@ export const hospexDocumentQuery: RdfQuery = [
   ...partialHospexDocumentQuery,
 ]
 
-// eslint-disable-next-line import/no-unused-modules
 export const privateProfileAndHospexDocumentQuery: RdfQuery = [
   ...webIdProfileQuery,
   ...partialHospexDocumentQuery,

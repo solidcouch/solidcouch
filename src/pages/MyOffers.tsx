@@ -1,19 +1,19 @@
-import { Button, Loading } from 'components'
-import { AccommodationForm } from 'components/AccommodationForm/AccommodationForm'
-import { AccommodationView } from 'components/AccommodationView/AccommodationView'
-import { withToast } from 'components/withToast'
-import { useConfig } from 'config/hooks'
-import { useHospexDocumentSetup } from 'hooks/data/useCheckSetup'
-import { useCreateAccommodation } from 'hooks/data/useCreateAccommodation'
-import { useDeleteAccommodation } from 'hooks/data/useDeleteAccommodation'
-import { useNotifyGeoindex } from 'hooks/data/useNotifyGeoindex'
-import { useReadAccommodations } from 'hooks/data/useReadAccommodations'
-import { useUpdateAccommodation } from 'hooks/data/useUpdateAccommodation'
-import { useAuth } from 'hooks/useAuth'
+import { Button, Loading } from '@/components'
+import { AccommodationForm } from '@/components/AccommodationForm/AccommodationForm.tsx'
+import { AccommodationView } from '@/components/AccommodationView/AccommodationView.tsx'
+import { withToast } from '@/components/withToast.tsx'
+import { useConfig } from '@/config/hooks'
+import { useHospexDocumentSetup } from '@/hooks/data/useCheckSetup'
+import { useCreateAccommodation } from '@/hooks/data/useCreateAccommodation'
+import { useDeleteAccommodation } from '@/hooks/data/useDeleteAccommodation'
+import { useNotifyGeoindex } from '@/hooks/data/useNotifyGeoindex'
+import { useReadAccommodations } from '@/hooks/data/useReadAccommodations'
+import { useUpdateAccommodation } from '@/hooks/data/useUpdateAccommodation'
+import { useAuth } from '@/hooks/useAuth'
+import { Accommodation, Location, URI } from '@/types'
+import { getContainer } from '@/utils/helpers'
 import { useCallback, useState } from 'react'
 import { FaDoorOpen } from 'react-icons/fa'
-import { Accommodation, Location, URI } from 'types'
-import { getContainer } from 'utils/helpers'
 import styles from './MyOffers.module.scss'
 
 export const MyOffers = () => {
@@ -175,7 +175,11 @@ export const MyOffers = () => {
               initialData={accommodation}
             />
           ) : (
-            <li key={accommodation.id} className={styles.accommodation}>
+            <li
+              key={accommodation.id}
+              className={styles.accommodation}
+              data-cy="offer-accommodation-item"
+            >
               <AccommodationView {...accommodation} />
               <div className={styles.actions}>
                 <Button

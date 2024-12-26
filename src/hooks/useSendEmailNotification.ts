@@ -1,6 +1,6 @@
+import { useConfig } from '@/config/hooks'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation } from '@tanstack/react-query'
-import { useConfig } from 'config/hooks'
 import { useCallback } from 'react'
 import { useProfile } from './data/useProfile'
 

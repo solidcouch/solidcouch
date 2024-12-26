@@ -1,9 +1,9 @@
+import { ChatShapeShapeType } from '@/ldo/app.shapeTypes'
+import { Message, URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
-import { ChatShapeShapeType } from 'ldo/app.shapeTypes'
 import { useMemo } from 'react'
-import { Message, URI } from 'types'
 import { messages as messagesQuery } from './queries'
 import { useReadMessagesFromInbox } from './useReadThreads'
 
@@ -39,7 +39,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
                 from: message.maker['@id'],
                 chat: chat['@id'],
                 test: chat.participation?.map(p => p.participant['@id']),
-              } as Message),
+              }) as Message,
           ),
         ) ?? []
     ).filter(a => Boolean(a)) as Message[]
@@ -79,7 +79,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
 
   // combine messages from inbox with messages, and sort them
   const combinedMessages = useMemo(() => {
-    let combined = [...messages]
+    const combined = [...messages]
 
     messagesFromInbox.forEach(inboxMessage => {
       // if message is there, update status of the message
