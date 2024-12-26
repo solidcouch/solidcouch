@@ -6,7 +6,7 @@
     "https://app.solidcouch.org/"
   ],
   "client_uri": "https://app.solidcouch.org/",
-  "logo_uri": "https://app.solidcouch.org/favicon.ico",
+  "logo_uri": "https://solidweb.me/solidcouch/logo.svg",
   "scope": "openid profile offline_access webid",
   "grant_types": [
     "refresh_token",
