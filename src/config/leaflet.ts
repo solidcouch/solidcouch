@@ -14,7 +14,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: iconShadow,
 })
 
-export const tileServer =
+export const tileServer: string =
   'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png'
 
 // export const defaultIcon = L.icon({

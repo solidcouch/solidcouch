@@ -14,12 +14,12 @@ const base = {
   xsd: 'http://www.w3.org/2001/XMLSchema#',
 }
 
-export const geo = {
-  Point: base.geo + 'Point',
-  location: base.geo + 'location',
-  lat: base.geo + 'lat',
-  long: base.geo + 'long',
-}
+// export const geo = {
+//   Point: base.geo + 'Point',
+//   location: base.geo + 'location',
+//   lat: base.geo + 'lat',
+//   long: base.geo + 'long',
+// }
 
 export const hospex = {
   Accommodation: base.hospex + 'Accommodation',
@@ -48,11 +48,11 @@ export const meeting = {
   ...ns.meeting,
 }
 
-export const xsd = {
-  dateTime: base.xsd + 'dateTime',
-  decimal: base.xsd + 'decimal',
-}
+// export const xsd = {
+//   dateTime: base.xsd + 'dateTime',
+//   decimal: base.xsd + 'decimal',
+// }
 
-export const ui = {
-  sharedPreferences: base.ui + 'sharedPreferences',
-}
+// export const ui = {
+//   sharedPreferences: base.ui + 'sharedPreferences',
+// }

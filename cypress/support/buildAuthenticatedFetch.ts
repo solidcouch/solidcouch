@@ -36,7 +36,7 @@ import type { EventEmitter } from 'events'
  * If expires_in isn't specified for the access token, we assume its lifetime is
  * 10 minutes.
  */
-export const DEFAULT_EXPIRATION_TIME_SECONDS = 600
+const DEFAULT_EXPIRATION_TIME_SECONDS = 600
 
 function isExpectedAuthError(statusCode: number): boolean {
   // As per https://tools.ietf.org/html/rfc7235#section-3.1 and https://tools.ietf.org/html/rfc7235#section-3.1,

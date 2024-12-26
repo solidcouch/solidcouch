@@ -1,9 +1,27 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { actions, selectConfig } from '@/features/config/configSlice'
 import { useEffect, useMemo } from 'react'
-import * as config from '.'
+import * as fullConfig from '.'
+import {
+  communityContainer,
+  communityId,
+  emailNotificationsType,
+  geoindexService,
+  oidcIssuers,
+  tileServer,
+} from '.'
 
-export type ConfigType = typeof config
+export type ConfigType = typeof fullConfig
+
+const config = {
+  ...fullConfig,
+  communityId,
+  communityContainer,
+  emailNotificationsType,
+  oidcIssuers,
+  geoindexService,
+  tileServer,
+}
 
 export const useConfig = () => {
   const configOverwrite = useAppSelector(selectConfig)

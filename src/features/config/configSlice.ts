@@ -6,7 +6,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState: Partial<ConfigType> = {}
 
-export const slice = createSlice({
+const slice = createSlice({
   name: 'config',
   initialState,
   reducers: {

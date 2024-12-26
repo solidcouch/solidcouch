@@ -12,7 +12,7 @@ interface AuthState {
 
 const initialState: AuthState = {}
 
-export const slice = createSlice({
+const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {

@@ -8,7 +8,7 @@ interface LoginState {
 
 const initialState: LoginState = {}
 
-export const slice = createSlice({
+const slice = createSlice({
   name: 'login',
   initialState,
   reducers: {
