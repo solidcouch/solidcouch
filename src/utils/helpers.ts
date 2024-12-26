@@ -1,7 +1,7 @@
 import { URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
+import LinkHeader from 'http-link-header'
 import * as n3 from 'n3'
-import parseLinkHeader from 'parse-link-header'
 import { acl, rdf } from 'rdf-namespaces'
 
 const fetchWithRedirect: typeof fetch = async (url, init) => {
@@ -117,8 +117,10 @@ const generateIteratively = <T>(
 export const getAcl = async (uri: URI) => {
   const response = await fetch(uri, { method: 'HEAD' })
   const linkHeader = response.headers.get('link')
-  const links = parseLinkHeader(linkHeader)
-  const aclUri = links?.acl?.url
+  if (!linkHeader)
+    throw new Error(`Response of ${uri} does not have any Link headers`)
+  const link = LinkHeader.parse(linkHeader)
+  const aclUri = link.rel('acl')[0]?.uri
   if (!aclUri) throw new Error(`We could not find WAC link for ${uri}`)
   // if aclUri is relative, return absolute uri
   return new URL(aclUri, uri).toString()

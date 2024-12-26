@@ -21,12 +21,12 @@ export type AccommodationExtended = Overwrite<
   { offeredBy: Person }
 >
 
-export type Community = {
-  id: URI
-  group: URI
-  name: string
-  description: string
-}
+// export type Community = {
+//   id: URI
+//   group: URI
+//   name: string
+//   description: string
+// }
 
 // WIP types
 export type Person = {
