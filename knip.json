@@ -1,0 +1,12 @@
+{
+  "vite": { "config": ["vite.config.ts", "vite.cypress.config.ts"] },
+  "project": ["**/*.{js,ts,tsx}"],
+  "entry": [
+    "src/main.tsx",
+    "src/global.d.ts",
+    "src/types/leaflet.locatecontrol.d.ts"
+  ],
+  "paths": { "@/*": ["./src/*"] },
+  "ignore": ["src/ldo/**"],
+  "ignoreDependencies": ["ajv-errors"]
+}

@@ -1,12 +1,7 @@
 import { URI } from '@/types'
 import { removeHashFromURI } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import {
-  useMutation,
-  useQueries,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
 /**
@@ -31,22 +26,22 @@ export const useFile = (uri: URI = '') => {
  * wrapper around react-query to fetch multiple files as object urls
  */
 
-export const useFiles = (uris: URI[]) => {
-  const params = useMemo(
-    () => ({
-      queries: uris
-        .map(uri => removeHashFromURI(uri))
-        .map(doc => ({
-          queryKey: ['file', doc],
-          queryFn: () => readFile(doc),
-        })),
-    }),
-    [uris],
-  )
+// export const useFiles = (uris: URI[]) => {
+//   const params = useMemo(
+//     () => ({
+//       queries: uris
+//         .map(uri => removeHashFromURI(uri))
+//         .map(doc => ({
+//           queryKey: ['file', doc],
+//           queryFn: () => readFile(doc),
+//         })),
+//     }),
+//     [uris],
+//   )
 
-  const results = useQueries(params)
-  return results
-}
+//   const results = useQueries(params)
+//   return results
+// }
 
 /**
  * Read authenticated file as object url
@@ -85,9 +80,9 @@ const createFile = async (url: URI, data: File): Promise<URI> => {
  * @param url - url to overwrite
  * @param data - file to save
  */
-const updateFile = async (url: URI, data: File) => {
-  await fetch(url, { method: 'PUT', body: data })
-}
+// const updateFile = async (url: URI, data: File) => {
+//   await fetch(url, { method: 'PUT', body: data })
+// }
 
 /**
  * Delete file from a Solid pod
@@ -113,20 +108,20 @@ export const useCreateFile = () => {
   return mutation
 }
 
-export const useUpdateFile = () => {
-  const queryClient = useQueryClient()
-  const mutation = useMutation({
-    mutationFn: async ({ uri, data }: { uri: URI; data: File }) =>
-      await updateFile(uri, data),
-    onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ['file', removeHashFromURI(variables.uri)],
-      })
-    },
-  })
+// export const useUpdateFile = () => {
+//   const queryClient = useQueryClient()
+//   const mutation = useMutation({
+//     mutationFn: async ({ uri, data }: { uri: URI; data: File }) =>
+//       await updateFile(uri, data),
+//     onSuccess: (_data, variables) => {
+//       queryClient.invalidateQueries({
+//         queryKey: ['file', removeHashFromURI(variables.uri)],
+//       })
+//     },
+//   })
 
-  return mutation
-}
+//   return mutation
+// }
 
 export const useDeleteFile = () => {
   const queryClient = useQueryClient()

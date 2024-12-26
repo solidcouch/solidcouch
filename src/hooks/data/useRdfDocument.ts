@@ -23,7 +23,6 @@ import {
   QueryClient,
   useMutation,
   useQueries,
-  useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
 import maxBy from 'lodash/maxBy'
@@ -42,17 +41,17 @@ export const fetchRdfDocument = (uri: string) =>
 /**
  * wrapper around react-query to fetch a single rdf document
  */
-export const useRdfDocument = (uri: URI) => {
-  const doc = uri ? removeHashFromURI(uri) : uri
-  const queryKey = useMemo(() => ['rdfDocument', doc], [doc])
+// export const useRdfDocument = (uri: URI) => {
+//   const doc = uri ? removeHashFromURI(uri) : uri
+//   const queryKey = useMemo(() => ['rdfDocument', doc], [doc])
 
-  const result = useQuery({
-    queryKey,
-    queryFn: () => fetchRdfDocument(doc),
-    enabled: !!uri,
-  })
-  return result
-}
+//   const result = useQuery({
+//     queryKey,
+//     queryFn: () => fetchRdfDocument(doc),
+//     enabled: !!uri,
+//   })
+//   return result
+// }
 
 /**
  * wrapper around react-query to fetch multiple rdf documents
