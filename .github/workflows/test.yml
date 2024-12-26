@@ -11,18 +11,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         env:
+          CYPRESS_baseUrl: http://localhost:4173
           CYPRESS_COMMUNITY: http://localhost:4000/test-community/community#us'
           CYPRESS_OTHER_COMMUNITY: http://localhost:4000/other-community/community#us'
           CYPRESS_CSS_URL: http://localhost:4000
           CYPRESS_EMAIL_NOTIFICATIONS_IDENTITY: http://localhost:4000/mailbot/profile/card#me
-          REACT_APP_COMMUNITY: http://localhost:4000/test-community/community#us'
-          REACT_APP_EMAIL_NOTIFICATIONS_SERVICE: http://localhost:3005
-          REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY: http://localhost:4000/mailbot/profile/card#me
-          REACT_APP_EMAIL_NOTIFICATIONS_TYPE: simple
-          REACT_APP_ENABLE_DEV_CLIENT_ID: true
+          VITE_COMMUNITY: http://localhost:4000/test-community/community#us'
+          VITE_EMAIL_NOTIFICATIONS_SERVICE: http://localhost:3005
+          VITE_EMAIL_NOTIFICATIONS_IDENTITY: http://localhost:4000/mailbot/profile/card#me
+          VITE_EMAIL_NOTIFICATIONS_TYPE: simple
+          VITE_ENABLE_DEV_CLIENT_ID: true
           BROWSER: none
         with:
-          start: yarn start, yarn community-solid-server -p 4000 -l error -c ./cypress/css-config.json
-          wait-on: 'http://localhost:3000, http://localhost:4000'
+          build: yarn build
+          start: yarn preview, yarn community-solid-server -p 4000 -c ./cypress/css-config-no-log.json
+          wait-on: 'http://localhost:4173, http://localhost:4000'

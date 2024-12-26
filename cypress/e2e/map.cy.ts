@@ -1,4 +1,4 @@
-import { range } from 'lodash'
+import range from 'lodash/range'
 import ngeohash from 'ngeohash'
 import { Person } from '../support/commands'
 import { UserConfig } from '../support/css-authentication'
@@ -79,8 +79,8 @@ describe('Map of accommodation offers', () => {
         .should('equal', `?hosting=${encodeURIComponent(accommodation.id)}`)
       cy.location().its('pathname').should('equal', '/travel/search')
     })
-    cy.get('[class^=AccommodationInfo_name]').should('contain.text', 'Name 2')
-    cy.get('[class^=AccommodationInfo_accommodation]').should(
+    cy.get('[data-cy=accommodation-info-name]').should('contain.text', 'Name 2')
+    cy.get('[data-cy=accommodation-info-description]').should(
       'contain.text',
       'accommodation of user2',
     )

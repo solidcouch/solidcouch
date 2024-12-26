@@ -60,7 +60,7 @@ describe("person's contacts", () => {
           cy.visit(`/profile/${encodeURIComponent(person1.webId)}/contacts`)
 
           // there should be contacts with person2 and person3, but not person4 (not reciprocated)
-          cy.get('[class^=Contacts_contactList]', { timeout: 15000 })
+          cy.get('[data-cy="contact-list"]', { timeout: 15000 })
             .should(
               'contain.html',
               `href="/profile/${encodeURIComponent(person2.webId)}"`,
@@ -71,7 +71,7 @@ describe("person's contacts", () => {
               `href="/profile/${encodeURIComponent(person3.webId)}"`,
             )
             .and('contain.text', person3.name)
-            .find('[class^=Contacts_contact__]')
+            .find('[data-cy="contact"]')
             .should('have.length', 2)
         })
       })

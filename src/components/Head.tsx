@@ -1,7 +1,6 @@
-import { useConfig } from 'config/hooks'
-import { useReadCommunity } from 'hooks/data/useCommunity'
+import { useConfig } from '@/config/hooks'
+import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet'
 
 export const Head = () => {
   const { communityId } = useConfig()
@@ -15,11 +14,11 @@ export const Head = () => {
       : community.logo[1]
 
   return (
-    <Helmet>
-      {logo && <link rel="icon" href={logo} />}
+    <>
       <title>{community.name}</title>
+      {logo && <link rel="icon" href={logo} />}
       <meta name="description" content={community.about} />
-    </Helmet>
+    </>
   )
 }
 

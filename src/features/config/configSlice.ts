@@ -1,8 +1,8 @@
+import { RootState } from '@/app/store'
+import * as config from '@/config'
+import { ConfigType } from '@/config/hooks'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
-import { RootState } from 'app/store'
-import * as config from 'config'
-import { ConfigType } from 'config/hooks'
 
 const initialState: Partial<ConfigType> = {}
 

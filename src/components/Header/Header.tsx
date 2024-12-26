@@ -1,16 +1,16 @@
+import { useAppSelector } from '@/app/hooks'
+import { Avatar } from '@/components'
+import { Logo } from '@/components/Logo/Logo.tsx'
+import { SignOut } from '@/components/SignOut.tsx'
+import { useConfig } from '@/config/hooks'
+import { selectAuth } from '@/features/auth/authSlice'
+import { useReadCommunity } from '@/hooks/data/useCommunity'
+import { useProfile } from '@/hooks/data/useProfile'
+import { useReadMessagesFromInbox } from '@/hooks/data/useReadThreads'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@szhsin/react-menu'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
-import { useAppSelector } from 'app/hooks'
-import { Avatar } from 'components'
-import { Logo } from 'components/Logo/Logo'
-import { useConfig } from 'config/hooks'
-import { selectAuth } from 'features/auth/authSlice'
-import { useReadCommunity } from 'hooks/data/useCommunity'
-import { useProfile } from 'hooks/data/useProfile'
-import { useReadMessagesFromInbox } from 'hooks/data/useReadThreads'
 import { Link } from 'react-router-dom'
-import { SignOut } from '../SignOut'
 import styles from './Header.module.scss'
 
 export const Header = () => {
@@ -25,7 +25,7 @@ export const Header = () => {
 
   return (
     <nav className={styles.header}>
-      <Link className={styles.logoContainer} to="/">
+      <Link className={styles.logoContainer} to="/" data-cy="header-logo-link">
         <Logo
           logo={community.logo[0]}
           focusedLogo={community.logo[1]}
@@ -37,7 +37,7 @@ export const Header = () => {
       {auth.isLoggedIn === true && (
         <Menu
           menuButton={
-            <MenuButton>
+            <MenuButton data-cy="menu-button">
               <Avatar photo={profile.photo} />
             </MenuButton>
           }
@@ -46,7 +46,9 @@ export const Header = () => {
             <Link to="profile">{profile?.name || 'profile'}</Link>
           </MenuItem>
           <MenuItem>
-            <Link to="profile/edit">edit profile</Link>
+            <Link to="profile/edit" data-cy="menu-item-edit-profile">
+              edit profile
+            </Link>
           </MenuItem>
           <MenuItem>
             <Link to="messages">

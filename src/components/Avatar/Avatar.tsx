@@ -1,7 +1,7 @@
+import { useFile } from '@/hooks/data/useFile'
+import { URI } from '@/types'
 import classNames from 'classnames'
-import { useFile } from 'hooks/data/useFile'
 import { FaUserCircle } from 'react-icons/fa'
-import { URI } from 'types'
 import styles from './Avatar.module.scss'
 
 export const Avatar = ({

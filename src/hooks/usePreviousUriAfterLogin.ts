@@ -1,5 +1,5 @@
-import { useAppSelector } from 'app/hooks'
-import { selectAuth } from 'features/auth/authSlice'
+import { useAppSelector } from '@/app/hooks'
+import { selectAuth } from '@/features/auth/authSlice'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 

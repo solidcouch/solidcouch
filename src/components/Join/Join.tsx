@@ -1,10 +1,10 @@
-import { useAppDispatch } from 'app/hooks'
-import { Button } from 'components'
-import { ExternalButtonLink } from 'components/Button/Button'
-import type { IssuerConfig } from 'config'
-import { useConfig } from 'config/hooks'
-import { actions } from 'features/login/loginSlice'
-import { useReadCommunity } from 'hooks/data/useCommunity'
+import { useAppDispatch } from '@/app/hooks'
+import { Button } from '@/components'
+import { ExternalButtonLink } from '@/components/Button/Button.tsx'
+import type { IssuerConfig } from '@/config'
+import { useConfig } from '@/config/hooks'
+import { actions } from '@/features/login/loginSlice'
+import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { ChangeEvent, Fragment, ReactNode, useMemo, useState } from 'react'
 import Modal from 'react-modal'
 import styles from './Join.module.scss'
@@ -27,6 +27,7 @@ const RegistrationButton = ({
       onClick={() => {
         dispatch(actions.setLastSelectedIssuer(issuer))
       }}
+      data-cy="pod-provider-signup-link"
     >
       {children ?? new URL(issuer).hostname}
     </ExternalButtonLink>

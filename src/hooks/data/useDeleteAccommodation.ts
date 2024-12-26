@@ -1,6 +1,6 @@
+import { URI } from '@/types'
+import { hospex, solid } from '@/utils/rdf-namespaces'
 import { useCallback } from 'react'
-import { URI } from 'types'
-import { hospex, solid } from 'utils/rdf-namespaces'
 import { useDeleteRdfDocument, useUpdateRdfDocument } from './useRdfDocument'
 
 /**

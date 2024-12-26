@@ -1,3 +1,5 @@
+import { URI } from '@/types'
+import { removeHashFromURI } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import {
   useMutation,
@@ -6,8 +8,6 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { URI } from 'types'
-import { removeHashFromURI } from 'utils/helpers'
 
 /**
  * wrapper around react-query to fetch a single file as object url
@@ -30,7 +30,7 @@ export const useFile = (uri: URI = '') => {
 /**
  * wrapper around react-query to fetch multiple files as object urls
  */
-// eslint-disable-next-line import/no-unused-modules
+
 export const useFiles = (uris: URI[]) => {
   const params = useMemo(
     () => ({
@@ -103,7 +103,7 @@ export const useCreateFile = () => {
   const mutation = useMutation({
     mutationFn: async ({ uri, data }: { uri: URI; data: File }) =>
       await createFile(uri, data),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['file', removeHashFromURI(variables.uri)],
       })
@@ -113,13 +113,12 @@ export const useCreateFile = () => {
   return mutation
 }
 
-// eslint-disable-next-line import/no-unused-modules
 export const useUpdateFile = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: async ({ uri, data }: { uri: URI; data: File }) =>
       await updateFile(uri, data),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['file', removeHashFromURI(variables.uri)],
       })
@@ -133,7 +132,7 @@ export const useDeleteFile = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: async ({ uri }: { uri: URI }) => await deleteFile(uri),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['file', removeHashFromURI(variables.uri)],
       })

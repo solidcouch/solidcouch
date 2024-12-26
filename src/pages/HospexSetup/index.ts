@@ -1,1 +1,1 @@
-export { HospexSetup } from './HospexSetup'
+export { HospexSetup } from './HospexSetup.tsx'

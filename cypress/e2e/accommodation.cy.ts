@@ -15,7 +15,7 @@ const moveDict: Record<Move, string> = {
 const moveFormMap = (moves: Move[]) => {
   // form should open and map should load
   cy.get(
-    '[class^=MyOffers_accommodationForm] [class^=AccommodationView_mapContainer] .leaflet-control-container',
+    '[data-cy="accommodation-form"] .accommodation-map-container-edit .leaflet-control-container',
   ).should('have.length', 1)
 
   // wait a bit to make really sure map has loaded
@@ -23,9 +23,7 @@ const moveFormMap = (moves: Move[]) => {
 
   // move the map
   const m = cy
-    .get(
-      '[class^=MyOffers_accommodationForm] [class^=AccommodationView_mapContainer]',
-    )
+    .get('[data-cy="accommodation-form"] .accommodation-map-container-edit')
     .should('have.length', 1)
     .last()
     .focus()
@@ -78,7 +76,7 @@ describe('accommodations offered by person', () => {
   it('should be able to navigate to my offers page from user menu', () => {
     // through header, open edit-profile page
     cy.visit('/')
-    cy.get('[class^=Header_header] .szh-menu-button').click()
+    cy.get('[data-cy="menu-button"]').click()
     cy.contains('a', 'my hosting').click()
     cy.location().its('pathname').should('equal', '/host/offers')
   })
@@ -86,7 +84,7 @@ describe('accommodations offered by person', () => {
   it('should be able to see accommodations of other person') // not sure about this
 
   it('should be able to see accommodations offered by me', () => {
-    cy.get('li[class^=MyOffers_accommodation]')
+    cy.get('[data-cy="offer-accommodation-item"]')
       .should('have.length', 3)
       .and('contain.text', 'accommodation 1')
       .and('contain.text', 'accommodation 2')
@@ -94,7 +92,7 @@ describe('accommodations offered by person', () => {
   })
 
   it('should be able to add a new accommodation', () => {
-    cy.get('li[class^=MyOffers_accommodation]').should('have.length', 3)
+    cy.get('[data-cy="offer-accommodation-item"]').should('have.length', 3)
     cy.contains('button', 'Add Accommodation').click()
 
     // move the map
@@ -109,13 +107,13 @@ describe('accommodations offered by person', () => {
     cy.testToast('Creating accommodation')
     cy.testAndCloseToast('Accommodation created')
 
-    cy.get('li[class^=MyOffers_accommodation]')
+    cy.get('[data-cy="offer-accommodation-item"]')
       .should('have.length', 4)
       .and('contain.text', 'This is a new description in English')
   })
 
   it("should encounter validation error when location hasn't been moved", () => {
-    cy.get('li[class^=MyOffers_accommodation]').should('have.length', 3)
+    cy.get('[data-cy="offer-accommodation-item"]').should('have.length', 3)
     cy.contains('button', 'Add Accommodation').click()
 
     // don't move the map
@@ -130,7 +128,7 @@ describe('accommodations offered by person', () => {
   })
 
   it('should encounter validation error when description is empty', () => {
-    cy.get('li[class^=MyOffers_accommodation]').should('have.length', 3)
+    cy.get('[data-cy="offer-accommodation-item"]').should('have.length', 3)
     cy.contains('button', 'Add Accommodation').click()
 
     moveFormMap(['l', 'u', 'i'])
@@ -140,7 +138,7 @@ describe('accommodations offered by person', () => {
   })
 
   it('should be able to edit location and description of accommodation', () => {
-    cy.contains('li[class^=MyOffers_accommodation]', 'accommodation 2')
+    cy.contains('[data-cy="offer-accommodation-item"]', 'accommodation 2')
       .contains('button', 'Edit')
       .click()
     cy.get('textarea[name="description"]')
@@ -152,7 +150,7 @@ describe('accommodations offered by person', () => {
     cy.contains('button', 'Submit').click()
     cy.testToast('Updating accommodation')
     cy.testAndCloseToast('Accommodation updated')
-    cy.get('li[class^=MyOffers_accommodation]')
+    cy.get('[data-cy="offer-accommodation-item"]')
       .should('have.length', 3)
       .and('contain.text', 'accommodation 1')
       .and('not.contain.text', 'accommodation 2')
@@ -161,12 +159,12 @@ describe('accommodations offered by person', () => {
   })
 
   it('should be able to delete accommodation', () => {
-    cy.contains('li[class^=MyOffers_accommodation]', 'accommodation 2')
+    cy.contains('[data-cy="offer-accommodation-item"]', 'accommodation 2')
       .contains('button', 'Delete')
       .click()
     cy.testToast('Deleting accommodation')
     cy.testAndCloseToast('Accommodation deleted')
-    cy.get('li[class^=MyOffers_accommodation]')
+    cy.get('[data-cy="offer-accommodation-item"]')
       .should('have.length', 2)
       .and('contain.text', 'accommodation 1')
       .and('not.contain.text', 'accommodation 2')
@@ -186,7 +184,7 @@ describe('accommodations offered by person', () => {
         cy.intercept('POST', new URL('/inbox', geoindexService).toString(), {
           statusCode: 201,
         }).as('geoindexInbox')
-        cy.get('li[class^=MyOffers_accommodation]').should('have.length', 3)
+        cy.get('[data-cy="offer-accommodation-item"]').should('have.length', 3)
         cy.contains('button', 'Add Accommodation').click()
 
         // move the map
@@ -221,7 +219,7 @@ describe('accommodations offered by person', () => {
           statusCode: 200,
         }).as('geoindexInbox')
 
-        cy.contains('li[class^=MyOffers_accommodation]', 'accommodation 2')
+        cy.contains('[data-cy="offer-accommodation-item"]', 'accommodation 2')
           .contains('button', 'Edit')
           .click()
         cy.get('textarea[name="description"]')
@@ -254,7 +252,7 @@ describe('accommodations offered by person', () => {
           statusCode: 204,
         }).as('geoindexInbox')
 
-        cy.contains('li[class^=MyOffers_accommodation]', 'accommodation 2')
+        cy.contains('[data-cy="offer-accommodation-item"]', 'accommodation 2')
           .contains('button', 'Delete')
           .click()
         cy.testToast('Deleting accommodation')

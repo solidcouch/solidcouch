@@ -28,24 +28,19 @@ jobs:
       - name: Build project
         run: yarn build
         env:
-          REACT_APP_COMMUNITY: ${{ vars.COMMUNITY }}
-          REACT_APP_COMMUNITY_CONTAINER: ${{ vars.COMMUNITY_CONTAINER }}
-          REACT_APP_EMAIL_NOTIFICATIONS_TYPE: ${{ vars.EMAIL_NOTIFICATIONS_TYPE }}
-          REACT_APP_EMAIL_NOTIFICATIONS_SERVICE: ${{ vars.EMAIL_NOTIFICATIONS_SERVICE }}
-          REACT_APP_EMAIL_NOTIFICATIONS_IDENTITY: ${{ vars.EMAIL_NOTIFICATIONS_IDENTITY }}
-          REACT_APP_GEOINDEX: ${{ vars.GEOINDEX }}
-          BASE_URL: ${{ vars.BASE_URL }} # base url for clientid.jsonld
-
-      - name: Add CNAME
-        run: yarn build:cname
-        env:
-          BASE_URL: ${{ vars.BASE_URL }}
+          VITE_COMMUNITY: ${{ vars.COMMUNITY }}
+          VITE_COMMUNITY_CONTAINER: ${{ vars.COMMUNITY_CONTAINER }}
+          VITE_EMAIL_NOTIFICATIONS_TYPE: ${{ vars.EMAIL_NOTIFICATIONS_TYPE }}
+          VITE_EMAIL_NOTIFICATIONS_SERVICE: ${{ vars.EMAIL_NOTIFICATIONS_SERVICE }}
+          VITE_EMAIL_NOTIFICATIONS_IDENTITY: ${{ vars.EMAIL_NOTIFICATIONS_IDENTITY }}
+          VITE_GEOINDEX: ${{ vars.GEOINDEX }}
+          VITE_BASE_URL: ${{ vars.BASE_URL }} # base url for clientid.jsonld
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
           name: production-files
-          path: ./build
+          path: ./dist
 
   deploy:
     name: Deploy
@@ -60,10 +55,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: production-files
-          path: ./build
+          path: ./dist
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: ./dist

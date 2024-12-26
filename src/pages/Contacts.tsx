@@ -1,11 +1,11 @@
-import { Loading } from 'components'
-import { PersonBadge } from 'components/PersonBadge/PersonBadge'
-import { useReadContacts } from 'hooks/data/useContacts'
-import { useAuth } from 'hooks/useAuth'
+import { Loading } from '@/components'
+import { PersonBadge } from '@/components/PersonBadge/PersonBadge.tsx'
+import { useReadContacts } from '@/hooks/data/useContacts'
+import { useAuth } from '@/hooks/useAuth'
+import * as types from '@/types'
 import { useParams } from 'react-router-dom'
-import * as types from 'types'
 import styles from './Contacts.module.scss'
-import { ProcessContactInvitation } from './Profile/ManageContact'
+import { ProcessContactInvitation } from './Profile/ManageContact.tsx'
 
 export const Contacts = () => {
   const personId = useParams().id as string
@@ -21,7 +21,7 @@ export const Contacts = () => {
       <h1>
         Contacts of <PersonBadge webId={personId} link />
       </h1>
-      <ul className={styles.contactList}>
+      <ul className={styles.contactList} data-cy="contact-list">
         {contacts
           .filter(
             contact =>
@@ -43,7 +43,7 @@ export const Contacts = () => {
 
 const Contact = ({ contact }: { contact: types.Contact }) => {
   return (
-    <div className={styles.contact}>
+    <div className={styles.contact} data-cy="contact">
       <PersonBadge webId={contact.webId} link />
       <span className={styles.spacer}></span>
       {contact.status === 'request_sent' && (

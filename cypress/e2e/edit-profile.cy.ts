@@ -24,18 +24,16 @@ describe('edit profile', () => {
 
   it('should be able to navigate to profile edit page from profile page', () => {
     // through header, open profile page
-    cy.get('[class^=Header_header] .szh-menu-button').click()
+    cy.get('[data-cy="menu-button"]').click()
     cy.get('a[href="/profile"]').click()
-    cy.get('[class^=Profile_container]').contains('a', 'edit profile').click()
+    cy.get('[data-cy=edit-profile-link]').click()
     cy.location().its('pathname').should('equal', '/profile/edit')
   })
 
   it('should be able to navigate to profile edit page from user menu', () => {
     // through header, open edit-profile page
-    cy.get('[class^=Header_header] .szh-menu-button').click()
-    cy.get('[class^=Header_header] .szh-menu')
-      .contains('a', 'edit profile')
-      .click()
+    cy.get('[data-cy="menu-button"]').click()
+    cy.get('[data-cy="menu-item-edit-profile"]').click()
     cy.location().its('pathname').should('equal', '/profile/edit')
   })
 
@@ -60,22 +58,16 @@ describe('edit profile', () => {
       cy.testAndCloseToast('Profile updated')
 
       cy.wait('@savePhoto').then(interception => {
-        cy.intercept({
-          method: 'GET',
-          // intercept that we fetch the newly created image later
-          url: interception.response.headers.location as string,
-        }).as('fetchSavedPhoto')
+        const url = interception.response?.headers.location as string
+        cy.get('[data-cy=profile-photo]').should('have.attr', 'data-src', url)
       })
 
       cy.location()
         .its('pathname')
         .should('equal', `/profile/${encodeURIComponent(me.webId)}`)
 
-      // it's kind of hard to test uri of protected photo
-      // so we can at least test that we fetched the saved photo
-      cy.wait('@fetchSavedPhoto')
-      cy.contains('[class^=Profile_name]', 'Mynew Name')
-      cy.contains('[class^=Profile_about]', 'this is my new description')
+      cy.contains('[data-cy=profile-name]', 'Mynew Name')
+      cy.contains('[data-cy=profile-about]', 'this is my new description')
     })
   })
 
@@ -106,51 +98,51 @@ describe('edit profile', () => {
     )
 
     // no interests should be there, yet
-    cy.get('ul[class^=Interests_list]')
+    cy.get('[data-cy=interests-list-edit]')
       .should('not.contain.text', 'Sus scrofa')
       .and('not.contain.text', 'European badger')
 
     // add one interest
-    cy.get('input#react-select-3-input').type('wild boar')
+    cy.get('.cy-select-interests input').type('wild boar')
     cy.contains('omnivore').click()
     cy.testToast('Adding Sus scrofa to interests')
     cy.testAndCloseToast('Sus scrofa added to interests')
-    cy.get('ul[class^=Interests_list]').should('contain.text', 'Sus scrofa')
+    cy.get('[data-cy=interests-list-edit]').should('contain.text', 'Sus scrofa')
 
     // add another interest
-    cy.get('input#react-select-3-input').type('badger')
+    cy.get('.cy-select-interests input').type('badger')
     cy.contains('species of carnivorans').click()
     cy.testToast('Adding European badger to interests')
     cy.testAndCloseToast('European badger added to interests')
-    cy.get('ul[class^=Interests_list]')
+    cy.get('[data-cy=interests-list-edit]')
       .should('contain.text', 'European badger')
       .and('contain.text', 'Sus scrofa')
 
     // check that profile contains the new interests
     cy.visit('/profile')
-    cy.get('ul[class^=Interests_list]')
+    cy.get('[data-cy=interests-list]')
       .should('contain.text', 'European badger')
       .and('contain.text', 'Sus scrofa')
 
     // go back to editing the profile and remove one of the interests
     cy.visit('/profile/edit')
-    cy.get('ul[class^=Interests_list]')
+    cy.get('[data-cy=interests-list-edit]')
       .should('contain.text', 'European badger')
       .and('contain.text', 'Sus scrofa')
 
     // find one interest and click its remove button
-    cy.contains('[class^=Interests_item]', 'Sus scrofa').find('button').click()
+    cy.contains('[data-cy=edit-interest]', 'Sus scrofa').find('button').click()
 
     cy.testToast('Removing interest')
     cy.testAndCloseToast('Interest removed')
 
     // was it removed?
-    cy.get('ul[class^=Interests_list]')
+    cy.get('[data-cy=interests-list-edit]')
       .should('contain.text', 'European badger')
       .and('not.contain.text', 'Sus scrofa')
     // was it removed from profile, too?
     cy.visit('/profile')
-    cy.get('ul[class^=Interests_list]')
+    cy.get('[data-cy=interests-list]')
       .should('contain.text', 'European badger')
       .and('not.contain.text', 'Sus scrofa')
   })

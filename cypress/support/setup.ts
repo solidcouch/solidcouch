@@ -10,7 +10,11 @@ import {
 import { Person } from './commands'
 import { logoutUser, UserConfig } from './css-authentication'
 
-export type CommunityConfig = { community: string; group: string }
+export type CommunityConfig = {
+  community: string
+  group: string
+  user: UserConfig
+}
 export type SetupConfig = {
   publicTypeIndex: string
   privateTypeIndex: string
@@ -89,7 +93,6 @@ export const setupCommunity = ({
         }).then(response => {
           expect(response.status).to.be.within(200, 299)
           const url = response.headers['location']
-          cy.log(JSON.stringify(url))
           cy.wrap(url).as('logoUrl')
         })
       })
@@ -614,12 +617,12 @@ export const createAccount =
     username: string
     password?: string
     email?: string
-  }): Cypress.Chainable<UserConfig> => {
+  }) => {
     password ??= 'correcthorsebatterystaple'
     email ??= username + '@example.org'
 
     return cy
-      .wrap(
+      .wrap<Promise<UserConfig>, UserConfig>(
         createAccountAsync(ifNotExist)({
           username,
           password,
@@ -627,7 +630,7 @@ export const createAccount =
           provider: Cypress.env('CSS_URL') + '/',
         }),
       )
-      .then((config: UserConfig) =>
+      .then(config =>
         logoutUser(config).then(() => cy.wrap(config, { log: false })),
       )
   }

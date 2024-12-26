@@ -1,5 +1,5 @@
+import { hospex } from '@/utils/rdf-namespaces'
 import type { RdfQuery } from '@ldhop/core'
-import { hospex } from 'utils/rdf-namespaces'
 import { readCommunityMembersQuery } from './community'
 import { hospexDocumentQuery } from './hospex'
 

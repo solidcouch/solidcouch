@@ -1,12 +1,12 @@
+import { ContactInvitationActivityShapeType } from '@/ldo/app.shapeTypes'
+import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
+import { Contact, URI } from '@/types'
+import { getAcl, removeHashFromURI } from '@/utils/helpers'
+import { acl, foaf, rdf, rdfs } from '@/utils/rdf-namespaces'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
-import { ContactInvitationActivityShapeType } from 'ldo/app.shapeTypes'
-import { AuthorizationShapeType } from 'ldo/wac.shapeTypes'
 import { Store } from 'n3'
 import { useCallback, useMemo } from 'react'
-import { Contact, URI } from 'types'
-import { getAcl, removeHashFromURI } from 'utils/helpers'
-import { acl, foaf, rdf, rdfs } from 'utils/rdf-namespaces'
 import { contactRequestsQuery, contactsQuery } from './queries'
 import {
   useCreateRdfDocument,
@@ -164,7 +164,7 @@ const useCreateContactNotification = () => {
         method: 'POST',
         data: {
           '@id': '',
-          // @ts-ignore
+          // @ts-expect-error https://github.com/o-development/ldo-legacy/issues/23
           type: [{ '@id': 'Invite' }],
           content2: message,
           actor: { '@id': me },

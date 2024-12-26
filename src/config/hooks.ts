@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { actions, selectConfig } from 'features/config/configSlice'
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
+import { actions, selectConfig } from '@/features/config/configSlice'
 import { useEffect, useMemo } from 'react'
 import * as config from '.'
 
@@ -14,7 +14,7 @@ export const useSetEditableConfig = () => {
   const dispatch = useAppDispatch()
   const config = useConfig()
   useEffect(() => {
-    // if (process.env.NODE_ENV === 'development') {
+    // if (import.meta.env.DEV) {
     window.updateAppConfig = (newConfig: Partial<ConfigType>) => {
       dispatch(actions.setConfig(newConfig))
     }

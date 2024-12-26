@@ -1,7 +1,7 @@
+import { useReadInterest } from '@/hooks/data/useInterests'
+import { URI } from '@/types'
 import classNames from 'classnames'
-import { useReadInterest } from 'hooks/data/useInterests'
-import { merge } from 'lodash'
-import { URI } from 'types'
+import merge from 'lodash/merge'
 import styles from './Interests.module.scss'
 
 export const Interests = ({
@@ -14,7 +14,7 @@ export const Interests = ({
   if (ids.length === 0) return null
 
   return (
-    <ul className={styles.list}>
+    <ul className={styles.list} data-cy="interests-list">
       {ids.map(id => (
         <li key={id}>
           <Interest

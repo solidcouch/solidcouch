@@ -1,4 +1,4 @@
-@use 'styles/media';
+@use './media';
 
 @mixin remove-page-margins {
   margin-left: -35px;

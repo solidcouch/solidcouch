@@ -1,9 +1,9 @@
-import { useAppSelector } from 'app/hooks'
-import { Loading } from 'components/Loading/Loading'
-import { selectAuth } from 'features/auth/authSlice'
-import { usePreviousUriAfterLogin } from 'hooks/usePreviousUriAfterLogin'
-import { SetupOutlet } from './SetupOutlet'
-import { UnauthenticatedHome } from './UnauthenticatedHome'
+import { useAppSelector } from '@/app/hooks'
+import { Loading } from '@/components/Loading/Loading.tsx'
+import { selectAuth } from '@/features/auth/authSlice'
+import { usePreviousUriAfterLogin } from '@/hooks/usePreviousUriAfterLogin'
+import { SetupOutlet } from './SetupOutlet.tsx'
+import { UnauthenticatedHome } from './UnauthenticatedHome.tsx'
 
 export const AuthenticatedOutlet = () => {
   usePreviousUriAfterLogin()

@@ -1,6 +1,6 @@
 import { ShapeType } from '@ldo/ldo'
-import { hospexProfileSchema } from './hospexProfile.schema'
 import { hospexProfileContext } from './hospexProfile.context'
+import { hospexProfileSchema } from './hospexProfile.schema'
 import { HospexProfile } from './hospexProfile.typings'
 
 /**
