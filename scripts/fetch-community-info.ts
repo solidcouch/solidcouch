@@ -62,4 +62,3 @@ export const fetchCommunityInfo = async (
 export const defaultName = 'SolidCouch'
 export const defaultAbout =
   "SolidCouch is a hospitality exchange community app. It's decentralized, and members own their data."
-export const defaultLogo = '/favicon.ico'
