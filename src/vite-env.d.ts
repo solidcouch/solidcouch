@@ -3,7 +3,7 @@
 interface ImportMetaEnv {
   readonly VITE_COMMUNITY: string
   readonly VITE_COMMUNITY_CONTAINER: string
-  readonly VITE_COMMUNITY_LOGO: string | undefined
+  readonly VITE_COMMUNITY_LOGO?: string
   readonly VITE_COMMUNITY_NAME: string
   readonly VITE_COMMUNITY_NAME_UNSAFE: string
   readonly VITE_COMMUNITY_ABOUT: string
