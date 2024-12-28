@@ -15,7 +15,15 @@ export const postbuild = (config: ConfigEnv): PluginOption => ({
       // if base url is explicitly given, produce CNAME (for GitHub pages)
       if (env.VITE_BASE_URL) addCname({ baseUrl })
       // We don't want the build to break when favicon generation fails. Just fall back to SolidCouch defaults
-      if (logo) await generateFavicons({ logo }).catch()
+      if (logo)
+        try {
+          await generateFavicons({ logo })
+        } catch (e) {
+          if (e instanceof Error) {
+            // eslint-disable-next-line no-console
+            console.log('Error generating favicons:', e.message)
+          } else throw e
+        }
     }
   },
 })
