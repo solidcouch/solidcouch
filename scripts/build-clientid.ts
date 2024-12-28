@@ -1,7 +1,15 @@
 import fs from 'node:fs'
 const clientIdPath = './dist/clientid.jsonld'
 
-export const buildClientId = ({ baseUrl }: { baseUrl: string }) => {
+export const buildClientId = ({
+  baseUrl,
+  name,
+  logo,
+}: {
+  baseUrl: string
+  name?: string
+  logo?: string
+}) => {
   // Read the template file
   let content = fs.readFileSync(clientIdPath, 'utf8')
 
@@ -12,12 +20,9 @@ export const buildClientId = ({ baseUrl }: { baseUrl: string }) => {
 
   // update name and logo if available
   const contentObject = JSON.parse(content)
-  const communityName = process.env.VITE_COMMUNITY_NAME_UNSAFE
-  const communityLogo = process.env.VITE_COMMUNITY_LOGO
 
-  if (communityName) contentObject.client_name = communityName
-  if (communityLogo)
-    contentObject.logo_uri = new URL(communityLogo, baseUrl).toString()
+  if (name) contentObject.client_name = name
+  if (logo) contentObject.logo_uri = new URL(logo, baseUrl).toString()
 
   content = JSON.stringify(contentObject, null, 2)
 

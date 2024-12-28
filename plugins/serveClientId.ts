@@ -1,4 +1,4 @@
-import fs from 'fs-extra'
+import fs from 'fs/promises'
 import { ConfigEnv, loadEnv, type PluginOption } from 'vite'
 
 export const serveClientId = (config: ConfigEnv): PluginOption => ({
