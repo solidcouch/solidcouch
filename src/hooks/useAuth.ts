@@ -1,5 +1,5 @@
-import { useAppSelector } from '@/app/hooks'
-import { selectAuth } from '@/features/auth/authSlice'
+import { selectAuth } from '@/redux/authSlice'
+import { useAppSelector } from '@/redux/hooks'
 
 export const useAuth = () => {
   const auth = useAppSelector(selectAuth)

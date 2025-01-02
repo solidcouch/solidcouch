@@ -1,12 +1,13 @@
-import { useAppSelector } from '@/app/hooks'
 import { Avatar } from '@/components'
 import { Logo } from '@/components/Logo/Logo.tsx'
 import { SignOut } from '@/components/SignOut.tsx'
+import { ThemeSwitch } from '@/components/ThemeSwitch'
 import { useConfig } from '@/config/hooks'
-import { selectAuth } from '@/features/auth/authSlice'
 import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { useProfile } from '@/hooks/data/useProfile'
 import { useReadMessagesFromInbox } from '@/hooks/data/useReadThreads'
+import { selectAuth } from '@/redux/authSlice'
+import { useAppSelector } from '@/redux/hooks'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@szhsin/react-menu'
 import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
@@ -34,6 +35,7 @@ export const Header = () => {
         />
       </Link>
       <div className={styles.spacer} />
+      <ThemeSwitch />
       {auth.isLoggedIn === true && (
         <Menu
           menuButton={
