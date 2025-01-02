@@ -1,6 +1,6 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import styles from './ProgressBar.module.scss'
 
 export const ProgressBar = ({ animate = false }) => (
-  <div className={classNames(styles.bar, animate && styles.animate)} />
+  <div className={clsx(styles.bar, animate && styles.animate)} />
 )

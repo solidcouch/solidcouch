@@ -1,4 +1,4 @@
-import cx from 'classnames'
+import cx from 'clsx'
 import styles from './Logo.module.scss'
 
 export const Logo = ({

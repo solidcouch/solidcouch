@@ -1,6 +1,6 @@
 import { useReadInterest } from '@/hooks/data/useInterests'
 import { URI } from '@/types'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import merge from 'lodash/merge'
 import styles from './Interests.module.scss'
 
@@ -40,7 +40,7 @@ const Interest = ({ id, highlighted }: { id: URI; highlighted?: boolean }) => {
 
   return (
     <span
-      className={classNames(styles.item, highlighted && styles.highlighted)}
+      className={clsx(styles.item, highlighted && styles.highlighted)}
       title={thing.description}
     >
       {thing.label}

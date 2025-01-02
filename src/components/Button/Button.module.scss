@@ -18,7 +18,11 @@
     text-decoration: none;
 
     &:hover {
-      background-color: color.adjust(black, $lightness: 20%, $space: hsl);
+      background-color: color-mix(
+        in srgb,
+        var(--__theme-color) 80%,
+        transparent
+      );
     }
   }
 
@@ -28,7 +32,11 @@
     text-decoration: none;
 
     &:hover {
-      background-color: color.adjust(white, $lightness: -10%, $space: hsl);
+      background-color: color-mix(
+        in srgb,
+        var(--__theme-color) 20%,
+        transparent
+      );
     }
   }
 

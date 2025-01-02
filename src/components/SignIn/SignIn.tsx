@@ -1,4 +1,5 @@
 import { Button } from '@/components'
+import { Modal } from '@/components/Modal/Modal'
 import { guessIssuer } from '@/components/SignIn/oidcIssuer'
 import { useConfig } from '@/config/hooks'
 import { useReadCommunity } from '@/hooks/data/useCommunity'
@@ -7,10 +8,7 @@ import { actions, selectLastSelectedIssuer } from '@/redux/loginSlice'
 import { login } from '@inrupt/solid-client-authn-browser'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Modal from 'react-modal'
 import styles from './SignIn.module.scss'
-
-Modal.setAppElement('#root')
 
 export const SignIn = () => {
   const { oidcIssuers, communityId } = useConfig()

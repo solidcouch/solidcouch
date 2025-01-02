@@ -7,11 +7,12 @@
   .message {
     border-radius: 2rem;
     background-color: lightgray;
+    color: black;
     padding: 0.5rem 1rem;
 
     &.fromMe {
-      background-color: black;
-      color: white;
+      background-color: var(--text-color);
+      color: var(--background-color);
       align-self: flex-end;
     }
 
@@ -28,7 +29,7 @@
 // TODO layout is horrible and the form hides bottom message
 // but there is no sense in fixing it if we don't have a design
 .messageForm {
-  background-color: white;
+  background-color: var(--background-color);
   padding: 0.5rem 0;
   display: flex;
   justify-content: stretch;

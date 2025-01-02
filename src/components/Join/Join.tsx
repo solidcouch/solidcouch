@@ -1,12 +1,12 @@
 import { Button } from '@/components'
 import { ExternalButtonLink } from '@/components/Button/Button.tsx'
+import { Modal } from '@/components/Modal/Modal'
 import type { IssuerConfig } from '@/config'
 import { useConfig } from '@/config/hooks'
 import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { useAppDispatch } from '@/redux/hooks'
 import { actions } from '@/redux/loginSlice'
 import { ChangeEvent, Fragment, ReactNode, useMemo, useState } from 'react'
-import Modal from 'react-modal'
 import styles from './Join.module.scss'
 
 const RegistrationButton = ({

@@ -4,7 +4,7 @@ import styles from '@/pages/MyOffers.module.scss'
 import { Accommodation } from '@/types'
 import { ajvResolver } from '@hookform/resolvers/ajv'
 import { JSONSchemaType } from 'ajv'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import merge from 'lodash/merge'
 import { Controller, useForm } from 'react-hook-form'
 import { FaExclamationTriangle, FaLocationArrow } from 'react-icons/fa'
@@ -62,7 +62,7 @@ export const AccommodationForm = ({
     <form
       onSubmit={handleFormSubmit}
       onReset={onCancel}
-      className={classNames(styles.accommodationForm, styles.accommodation)}
+      className={clsx(styles.accommodationForm, styles.accommodation)}
       data-cy="accommodation-form"
     >
       <label>
@@ -75,7 +75,7 @@ export const AccommodationForm = ({
         control={control}
         name="location"
         render={({ field }) => (
-          <div className={classNames(errors.location && styles.inputError)}>
+          <div className={clsx(errors.location && styles.inputError)}>
             <SelectLocation
               value={field.value}
               onChange={field.onChange}
@@ -92,7 +92,7 @@ export const AccommodationForm = ({
 
       <label htmlFor="description">About your hosting</label>
       <textarea
-        className={classNames(errors.description && styles.inputError)}
+        className={clsx(errors.description && styles.inputError)}
         id="description"
         placeholder="Tell others about your place and hosting"
         {...register('description')}

@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { Link, LinkProps } from 'react-router-dom'
@@ -21,7 +21,7 @@ export const Button = ({
 }: ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps) => {
   return (
     <button
-      className={classNames(
+      className={clsx(
         className,
         styles.button,
         primary && styles.primary,
@@ -47,7 +47,7 @@ export const ButtonLink = ({
 }: LinkProps & ButtonProps) => {
   return (
     <Link
-      className={classNames(
+      className={clsx(
         className,
         styles.button,
         primary && styles.primary,
@@ -82,7 +82,7 @@ export const ExternalButtonLink = ({
 }: AnchorHTMLAttributes<HTMLAnchorElement> & ButtonProps) => {
   return (
     <a
-      className={classNames(
+      className={clsx(
         className,
         styles.button,
         primary && styles.primary,
