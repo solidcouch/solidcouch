@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add dark theme
 
+### Fixed
+
+- Fix non-serializable value error in redux-persist
+
 ## [0.2.0] - 2025-01-01
 
 ### Added
