@@ -1,0 +1,14 @@
+.switch {
+  // align the logo
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 2rem;
+  width: 2rem;
+  border-radius: 2rem;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--text-color) 20%, transparent);
+  }
+}
