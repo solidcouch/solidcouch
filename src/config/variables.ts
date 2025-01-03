@@ -28,3 +28,8 @@ export const emailNotificationsType: 'simple' | 'solid' =
     | undefined) ?? 'simple'
 
 export const geoindexService = import.meta.env.VITE_GEOINDEX
+
+/**
+ * Should we invert logo colors in dark mode?
+ */
+export const darkModeLogoStyle = import.meta.env.VITE_DARK_MODE_LOGO_STYLE

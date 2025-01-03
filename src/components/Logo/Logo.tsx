@@ -1,4 +1,5 @@
-import cx from 'clsx'
+import { useConfig } from '@/config/hooks'
+import clsx from 'clsx'
 import styles from './Logo.module.scss'
 
 export const Logo = ({
@@ -12,14 +13,16 @@ export const Logo = ({
   name?: string
   className?: string
 }) => {
+  const { darkModeLogoStyle } = useConfig()
   if (!logo && !name) return null
   return (
     <div className={styles.logoContainer}>
       {logo && (
         <img
           src={logo}
-          className={cx(
+          className={clsx(
             styles.logo,
+            darkModeLogoStyle === 'invert' && styles.darkInvert,
             focusedLogo ? styles.unfocusedLogo : null,
             className,
           )}
@@ -29,7 +32,12 @@ export const Logo = ({
       {focusedLogo && (
         <img
           src={focusedLogo}
-          className={cx(styles.logo, styles.focusedLogo, className)}
+          className={clsx(
+            styles.logo,
+            darkModeLogoStyle && styles.darkInvert,
+            styles.focusedLogo,
+            className,
+          )}
           alt={name ? `focused logo of ${name}` : ''}
         />
       )}

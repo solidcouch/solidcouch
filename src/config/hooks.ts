@@ -5,6 +5,7 @@ import * as fullConfig from '.'
 import {
   communityContainer,
   communityId,
+  darkModeLogoStyle,
   emailNotificationsType,
   geoindexService,
   oidcIssuers,
@@ -21,6 +22,7 @@ const config = {
   oidcIssuers,
   geoindexService,
   tileServer,
+  darkModeLogoStyle,
 }
 
 export const useConfig = () => {

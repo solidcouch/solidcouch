@@ -27,5 +27,7 @@
 
 // in dark mode, invert the logo colors
 [data-theme='dark'] .logo {
-  filter: invert(100%);
+  &.darkInvert {
+    filter: invert(100%);
+  }
 }

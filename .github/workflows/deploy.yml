@@ -35,6 +35,7 @@ jobs:
           VITE_EMAIL_NOTIFICATIONS_IDENTITY: ${{ vars.EMAIL_NOTIFICATIONS_IDENTITY }}
           VITE_GEOINDEX: ${{ vars.GEOINDEX }}
           VITE_BASE_URL: ${{ vars.BASE_URL }} # base url for clientid.jsonld
+          VITE_DARK_MODE_LOGO_STYLE: ${{ vars.DARK_MODE_LOGO_STYLE }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
