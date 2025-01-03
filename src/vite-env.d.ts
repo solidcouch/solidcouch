@@ -13,6 +13,7 @@ interface ImportMetaEnv {
   readonly VITE_EMAIL_NOTIFICATIONS_IDENTITY: string
   readonly VITE_EMAIL_NOTIFICATIONS_TYPE: 'simple' | 'solid'
   readonly VITE_ENABLE_DEV_CLIENT_ID: string
+  readonly VITE_DARK_MODE_LOGO_STYLE?: 'invert'
 }
 
 interface ImportMeta {

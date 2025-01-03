@@ -15,7 +15,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSendEmailNotification } from '@/hooks/useSendEmailNotification'
 import { URI } from '@/types'
 import { getContainer } from '@/utils/helpers'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { produce } from 'immer'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -196,7 +196,7 @@ export const Messages = () => {
         {messages?.map(({ id, message, from, createdAt, status }) => (
           <div
             key={id}
-            className={classNames(
+            className={clsx(
               styles.message,
               from === auth.webId && styles.fromMe,
               status === 'unread' && styles.unread,

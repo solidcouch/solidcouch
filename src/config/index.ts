@@ -6,6 +6,7 @@ export { tileServer } from './leaflet'
 export {
   communityContainer,
   communityId,
+  darkModeLogoStyle,
   emailNotificationsIdentity,
   emailNotificationsService,
   emailNotificationsType,

@@ -1,10 +1,11 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import { actions, selectConfig } from '@/features/config/configSlice'
+import { actions, selectConfig } from '@/redux/configSlice'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useEffect, useMemo } from 'react'
 import * as fullConfig from '.'
 import {
   communityContainer,
   communityId,
+  darkModeLogoStyle,
   emailNotificationsType,
   geoindexService,
   oidcIssuers,
@@ -21,6 +22,7 @@ const config = {
   oidcIssuers,
   geoindexService,
   tileServer,
+  darkModeLogoStyle,
 }
 
 export const useConfig = () => {

@@ -1,6 +1,7 @@
-import * as authSlice from '@/features/auth/authSlice'
-import * as configSlice from '@/features/config/configSlice'
-import * as loginSlice from '@/features/login/loginSlice'
+import * as authSlice from '@/redux/authSlice'
+import * as configSlice from '@/redux/configSlice'
+import * as loginSlice from '@/redux/loginSlice'
+import * as uiSlice from '@/redux/uiSlice'
 import {
   combineReducers,
   configureStore,
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
   auth: authSlice.reducer,
   login: loginSlice.reducer,
   config: configSlice.reducer,
+  ui: uiSlice.reducer,
 })
 
 // clear redux state when signing out
@@ -47,7 +49,7 @@ const rootReducer: Reducer<RootState> = (state, action) => {
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['login', 'config'],
+  whitelist: ['login', 'config', 'ui'],
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

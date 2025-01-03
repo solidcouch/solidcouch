@@ -1,6 +1,6 @@
 import { useFile } from '@/hooks/data/useFile'
 import { URI } from '@/types'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { FaUserCircle } from 'react-icons/fa'
 import styles from './Avatar.module.scss'
 
@@ -20,15 +20,12 @@ export const Avatar = ({
 
   return photo ? (
     <img
-      className={classNames(styles.photo, square && styles.square, className)}
+      className={clsx(styles.photo, square && styles.square, className)}
       src={photo}
       alt=""
       style={{ width: `${size * 2}rem`, height: `${size * 2}rem` }}
     />
   ) : (
-    <FaUserCircle
-      className={classNames(styles.photo, className)}
-      size={size * 32}
-    />
+    <FaUserCircle className={clsx(styles.photo, className)} size={size * 32} />
   )
 }
