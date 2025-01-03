@@ -1,4 +1,5 @@
 import { Button, Loading } from '@/components'
+import { Modal } from '@/components/Modal/Modal'
 import { useConfig } from '@/config/hooks'
 import { useCheckSetup } from '@/hooks/data/useCheckSetup'
 import {
@@ -12,7 +13,6 @@ import { ContactInvitation, URI } from '@/types'
 import { getContainer } from '@/utils/helpers'
 import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Modal from 'react-modal'
 
 export const ManageContact = ({ webId }: { webId: URI }) => {
   const auth = useAuth()

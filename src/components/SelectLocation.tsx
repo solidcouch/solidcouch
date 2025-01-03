@@ -6,7 +6,7 @@ import { LocateControl } from './LocateControl'
 
 import { useConfig } from '@/config/hooks'
 import { Bounds, Location } from '@/types'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import {
   MapContainer,
@@ -105,10 +105,7 @@ export const SelectLocation: React.FC<{
       doubleClickZoom="center"
       touchZoom="center"
       // the string class is for targeting in CI tests
-      className={classNames(
-        styles.mapContainer,
-        'accommodation-map-container-edit',
-      )}
+      className={clsx(styles.mapContainer, 'accommodation-map-container-edit')}
     >
       <TileLayer url={tileServer} />
       <LocateControl

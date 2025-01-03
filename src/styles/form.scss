@@ -10,7 +10,7 @@ input[type='url'],
 input[type='datetime-local'],
 textarea,
 select {
-  border: 2px solid black;
+  border: 2px solid var(--text-color);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
 

@@ -1,5 +1,5 @@
-import { useAppDispatch } from '@/app/hooks'
-import * as authSlice from '@/features/auth/authSlice'
+import * as authSlice from '@/redux/authSlice'
+import { useAppDispatch } from '@/redux/hooks'
 import { logout } from '@inrupt/solid-client-authn-browser'
 
 export const SignOut = () => {

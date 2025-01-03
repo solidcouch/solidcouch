@@ -24,3 +24,10 @@
     }
   }
 }
+
+// in dark mode, invert the logo colors
+[data-theme='dark'] .logo {
+  &.darkInvert {
+    filter: invert(100%);
+  }
+}

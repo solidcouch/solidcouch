@@ -26,7 +26,7 @@
 
         margin: 1.5rem 0;
 
-        border-bottom: 2px solid black;
+        border-bottom: 2px solid var(--text-color);
 
         input[type='radio'] {
           opacity: 0;
@@ -41,8 +41,8 @@
 
         /* Styling for the selected tab */
         input[type='radio']:checked + label {
-          background-color: black;
-          color: white;
+          background-color: var(--text-color);
+          color: var(--background-color);
         }
       }
 

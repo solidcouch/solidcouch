@@ -1,6 +1,9 @@
 @use 'sass:color';
 
 .button {
+  --__theme-color: var(--text-color);
+  --__text-color: var(--background-color);
+
   padding: 0.25rem 0.5rem;
   text-align: center;
   display: inline-flex;
@@ -9,30 +12,38 @@
   gap: 0.25rem;
 
   &.primary {
-    border: 2px solid black;
-    background-color: black;
-    color: white;
+    border: 2px solid var(--__theme-color);
+    background-color: var(--__theme-color);
+    color: var(--__text-color);
     text-decoration: none;
 
     &:hover {
-      background-color: color.adjust(black, $lightness: 20%, $space: hsl);
+      background-color: color-mix(
+        in srgb,
+        var(--__theme-color) 80%,
+        transparent
+      );
     }
   }
 
   &.secondary {
-    border: 2px solid black;
-    color: black;
+    border: 2px solid var(--__theme-color);
+    color: var(--__theme-color);
     text-decoration: none;
 
     &:hover {
-      background-color: color.adjust(white, $lightness: -10%, $space: hsl);
+      background-color: color-mix(
+        in srgb,
+        var(--__theme-color) 20%,
+        transparent
+      );
     }
   }
 
   &.tertiary {
     text-decoration: underline;
     text-decoration-thickness: 2px;
-    text-decoration-color: black;
+    text-decoration-color: var(--__theme-color);
   }
 
   &.danger {

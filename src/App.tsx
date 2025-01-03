@@ -1,16 +1,17 @@
+import { Header as PageHeader } from '@/components'
+import { Head } from '@/components/Head.tsx'
+import { useSetEditableConfig } from '@/config/hooks'
+import { useAuth } from '@/hooks/useAuth'
+import { usePreviousUriAfterSolidRedirect } from '@/hooks/usePreviousUriAfterSolidRedirect'
+import { useTheme } from '@/hooks/useTheme.ts'
+import { Content, Header, Layout } from '@/layouts/Layout.tsx'
+import { actions } from '@/redux/authSlice.ts'
+import { useAppDispatch } from '@/redux/hooks.ts'
 import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Slide, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useAppDispatch } from './app/hooks'
-import { Header as PageHeader } from './components'
-import { Head } from './components/Head.tsx'
-import { useSetEditableConfig } from './config/hooks'
-import { actions } from './features/auth/authSlice'
-import { useAuth } from './hooks/useAuth'
-import { usePreviousUriAfterSolidRedirect } from './hooks/usePreviousUriAfterSolidRedirect'
-import { Content, Header, Layout } from './layouts/Layout.tsx'
 
 export const App = () => {
   // initialize the app, provide layout
@@ -21,6 +22,8 @@ export const App = () => {
 
   const dispatch = useAppDispatch()
   const auth = useAuth()
+
+  useTheme()
 
   useEffect(() => {
     ;(async () => {

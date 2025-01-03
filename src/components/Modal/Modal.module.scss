@@ -1,0 +1,18 @@
+.modal {
+  background-color: var(--background-color);
+  position: absolute;
+  inset: 40px;
+  overflow: auto;
+  outline: none;
+  padding: 20px;
+  // border: 1px solid color-mix(in srgb, var(--text-color) 20%, transparent);
+  overflow: auto;
+  border-radius: 4px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0px;
+  background-color: var(--background-color);
+  background-color: color-mix(in srgb, var(--text-color) 20%, transparent);
+}

@@ -5,7 +5,7 @@ import { useProfile } from '@/hooks/data/useProfile'
 import { useReadThreads } from '@/hooks/data/useReadThreads'
 import { useAuth } from '@/hooks/useAuth'
 import { Thread as ThreadType } from '@/types'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import styles from './Threads.module.scss'
 
@@ -43,7 +43,7 @@ const Thread = ({ thread }: { thread: ThreadType }) => {
   const lastMessage = thread.messages[thread.messages.length - 1]
   return (
     <div
-      className={classNames(styles.thread, thread.status && styles.unread)}
+      className={clsx(styles.thread, thread.status && styles.unread)}
       data-cy={thread.status && 'thread-unread'}
     >
       <PersonMini webId={other ?? ''} className={styles.avatar} />

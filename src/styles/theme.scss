@@ -1,0 +1,25 @@
+:root {
+  color-scheme: light dark;
+}
+
+:root,
+[data-theme='light'] {
+  --background-color: #fff;
+  --text-color: #000;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --background-color: #121212;
+  --text-color: #fff;
+  color-scheme: dark;
+}
+
+body {
+  transition:
+    background-color 0.1s ease,
+    color 0.1s ease;
+}
