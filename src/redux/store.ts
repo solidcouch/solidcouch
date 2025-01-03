@@ -8,7 +8,16 @@ import {
   isAnyOf,
   type Reducer,
 } from '@reduxjs/toolkit'
-import { persistReducer, persistStore } from 'redux-persist'
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 const appReducer = combineReducers({
@@ -53,7 +62,16 @@ const persistConfig = {
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-export const store = configureStore({ reducer: persistedReducer })
+export const store = configureStore({
+  reducer: persistedReducer,
+  // https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+})
 export const persistor = persistStore(store)
 
 // Infer the `RootState` and `AppDispatch` types from the store
