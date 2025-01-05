@@ -67,7 +67,7 @@
     "react-hook-form": "^7.43.0",
     "react-icons": "^5.4.0",
     "react-leaflet": "^5.0.0",
-    "react-leaflet-markercluster": "^4.2.1",
+    "react-leaflet-markercluster": "^5.0.0-rc.0",
     "react-modal": "^3.16.3",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.8.0",
@@ -114,10 +114,6 @@
     "vite": "^6.0.5",
     "vite-bundle-visualizer": "^1.2.1",
     "vite-plugin-checker": "^0.8.0"
-  },
-  "resolutions": {
-    "react-leaflet-markercluster/react-leaflet": "^5.0.0",
-    "react-leaflet-markercluster/@react-leaflet/core": "^3.0.0"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
