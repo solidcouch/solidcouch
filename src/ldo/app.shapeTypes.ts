@@ -1,25 +1,25 @@
 import { ShapeType } from '@ldo/ldo'
-import { appContext } from './app.context'
 import { appSchema } from './app.schema'
+import { appContext } from './app.context'
 import {
-  Accommodation,
-  ChatMessageListShape,
-  ChatMessageShape,
-  ChatParticipationShape,
-  ChatShape,
-  ContactInvitationActivity,
-  ContactRelationship,
-  Container,
+  SolidProfile,
   FoafProfile,
   HospexProfile,
+  Accommodation,
+  Point,
+  PublicTypeIndex,
+  PrivateTypeIndex,
+  TypeRegistration,
+  ChatShape,
+  ChatParticipationShape,
+  ChatMessageListShape,
+  ChatMessageShape,
+  Container,
+  Resource,
   Inbox,
   MessageActivity,
-  Point,
-  PrivateTypeIndex,
-  PublicTypeIndex,
-  Resource,
-  SolidProfile,
-  TypeRegistration,
+  ContactInvitationActivity,
+  ContactRelationship,
 } from './app.typings'
 
 /**

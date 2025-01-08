@@ -1,6 +1,7 @@
 PREFIX ex: <https://example.com/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX hospex: <http://w3id.org/hospex/ns#>
+PREFIX ldp: <http://www.w3.org/ns/ldp#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX sioc: <http://rdfs.org/sioc/ns#>
@@ -17,6 +18,7 @@ ex:HospexCommunity EXTRA a {
   foaf:logo IRI {0,2}
     // rdfs:comment "Logo of the community. If two are specified, the second one may be used for highlight of the first one";
   foaf:homepage IRI ?;
+  ldp:inbox IRI ?;
   sioc:has_usergroup @ex:HospexGroup + ;
 }
 

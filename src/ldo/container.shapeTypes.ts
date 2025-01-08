@@ -1,6 +1,6 @@
 import { ShapeType } from '@ldo/ldo'
-import { containerContext } from './container.context'
 import { containerSchema } from './container.schema'
+import { containerContext } from './container.context'
 import { Container, Resource } from './container.typings'
 
 /**

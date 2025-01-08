@@ -35,6 +35,10 @@ export const hospexCommunityContext: ContextDefinition = {
     '@id': 'http://xmlns.com/foaf/0.1/homepage',
     '@type': '@id',
   },
+  inbox: {
+    '@id': 'http://www.w3.org/ns/ldp#inbox',
+    '@type': '@id',
+  },
   hasUsergroup: {
     '@id': 'http://rdfs.org/sioc/ns#has_usergroup',
     '@type': '@id',

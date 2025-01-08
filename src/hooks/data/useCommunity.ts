@@ -73,7 +73,17 @@ export const useReadCommunity = (communityId: URI) => {
       pun,
       groups: variables.group ?? [],
       isLoading,
+      inbox: variables.inbox?.[0],
     }),
-    [about, community.logo, communityId, isLoading, name, pun, variables.group],
+    [
+      about,
+      community.logo,
+      communityId,
+      isLoading,
+      name,
+      pun,
+      variables.group,
+      variables.inbox,
+    ],
   )
 }
