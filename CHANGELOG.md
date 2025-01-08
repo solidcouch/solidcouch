@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add dark theme
 
+### Changed
+
+- Change default dev community from [dev-sleepy-bike](https://solidweb.me/dev-sleepy-bike/community#us) to [solidcouch](https://solidweb.me/solidcouch/community#us)
+
 ### Fixed
 
 - Fix non-serializable value error in redux-persist

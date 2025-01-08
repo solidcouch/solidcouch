@@ -1,6 +1,6 @@
 export const communityId =
   import.meta.env.VITE_COMMUNITY ||
-  'https://solidweb.me/dev-sleepy-bike/community#us'
+  'https://solidweb.me/solidcouch/community#us'
 
 /**
  * Name of folder in which to store person's data of this community
