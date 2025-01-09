@@ -4,6 +4,10 @@
   max-width: 100%;
 }
 
+[data-theme='dark'] .mapContainer {
+  filter: invert(90%) hue-rotate(180deg) brightness(0.8);
+}
+
 .description {
   width: 100%;
   white-space: pre-line;
