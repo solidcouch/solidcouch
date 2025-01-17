@@ -1,6 +1,6 @@
 import { ShapeType } from '@ldo/ldo'
-import { foafProfileContext } from './foafProfile.context'
 import { foafProfileSchema } from './foafProfile.schema'
+import { foafProfileContext } from './foafProfile.context'
 import { FoafProfile } from './foafProfile.typings'
 
 /**

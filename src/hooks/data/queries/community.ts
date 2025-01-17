@@ -1,5 +1,5 @@
 import type { RdfQuery } from '@ldhop/core'
-import { sioc, vcard } from 'rdf-namespaces'
+import { ldp, sioc, vcard } from 'rdf-namespaces'
 
 export const readCommunityQuery: RdfQuery = [
   {
@@ -8,6 +8,13 @@ export const readCommunityQuery: RdfQuery = [
     predicate: sioc.has_usergroup,
     pick: 'object',
     target: '?group',
+  },
+  {
+    type: 'match',
+    subject: '?community',
+    predicate: ldp.inbox,
+    pick: 'object',
+    target: '?inbox',
   },
 ]
 

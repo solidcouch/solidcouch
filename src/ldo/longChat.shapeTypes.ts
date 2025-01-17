@@ -1,11 +1,11 @@
 import { ShapeType } from '@ldo/ldo'
-import { longChatContext } from './longChat.context'
 import { longChatSchema } from './longChat.schema'
+import { longChatContext } from './longChat.context'
 import {
+  ChatShape,
+  ChatParticipationShape,
   ChatMessageListShape,
   ChatMessageShape,
-  ChatParticipationShape,
-  ChatShape,
 } from './longChat.typings'
 
 /**

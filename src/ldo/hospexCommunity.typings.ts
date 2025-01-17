@@ -38,6 +38,9 @@ export interface HospexCommunity {
   homepage?: {
     '@id': string
   }
+  inbox?: {
+    '@id': string
+  }
   hasUsergroup: HospexGroup[]
 }
 

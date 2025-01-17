@@ -1,8 +1,16 @@
 import { Parser, Store } from 'n3'
-import { sioc, solid, space } from 'rdf-namespaces'
-import { processAcl } from '../../src/utils/helpers'
-import { UserConfig } from '../support/css-authentication'
-import { CommunityConfig, SkipOptions } from '../support/setup'
+import { foaf, ldp, sioc, solid, space, vcard } from 'rdf-namespaces'
+import { processAcl, removeHashFromURI } from '../../src/utils/helpers'
+import {
+  getAuthenticatedFetch,
+  UserConfig,
+} from '../support/css-authentication'
+import { generateAcl } from '../support/helpers/acl'
+import {
+  CommunityConfig,
+  SkipOptions,
+  throwIfResponseNotOk,
+} from '../support/setup'
 
 const preparePod = () => {
   cy.createRandomAccount().as('user1')
@@ -81,6 +89,96 @@ describe('Setup Solid pod', () => {
     it('should join the community', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
       cy.contains('button', 'Continue!').click()
+      cy.contains('a', 'travel')
+    })
+  })
+
+  context('community not joined (new join service)', () => {
+    const inboxUrl = `https://inbox.community.org/inbox`
+
+    beforeEach(() => {
+      cy.get<CommunityConfig>('@community')
+        .then(com => {
+          // add an inbox to the community
+          cy.authenticatedRequest(com.user, {
+            url: com.community,
+            method: 'PATCH',
+            headers: { 'content-type': 'text/n3' },
+            body: `
+          _:addInbox a <${solid.InsertDeletePatch}>;
+          <${solid.inserts}> { <${com.community}> <${ldp.inbox}> <${inboxUrl}>. }.
+          `,
+          })
+
+          // change access rights of the group to read only
+          const resource = (() => {
+            const url = new URL(com.group)
+            url.hash = ''
+            return url.toString()
+          })()
+          const groupAcl = generateAcl(resource, [
+            {
+              permissions: ['Read', 'Write', 'Append', 'Control'],
+              agents: [com.user.webId],
+            },
+            {
+              permissions: ['Read', 'Write'],
+              agents: ['https://inbox.community.org/profile/card#bot'],
+            },
+            { permissions: ['Read'], agentClasses: [foaf.Agent] },
+          ])
+          cy.authenticatedRequest(com.user, {
+            url: resource + '.acl',
+            method: 'PUT',
+            body: groupAcl,
+            headers: { 'content-type': 'text/turtle' },
+          })
+
+          // mock requests to that inbox
+          cy.intercept<{
+            actor: { id: string }
+          }>('POST', inboxUrl, async req => {
+            const authFetch = await getAuthenticatedFetch(com.user)
+            const altRes = await authFetch(com.group, {
+              method: 'PATCH',
+              headers: { 'content-type': `text/n3` },
+              body: `_:insertPerson a <${solid.InsertDeletePatch}>;
+            <${solid.inserts}> { <${com.group}> <${vcard.hasMember}> <${req.body.actor.id}>. }.`,
+            })
+            await throwIfResponseNotOk(altRes)
+            return req.reply({
+              statusCode: 200,
+              headers: { location: com.group },
+            })
+          })
+        })
+        .as('joinActivity')
+    })
+
+    beforeEach(setupPod(['joinCommunity']))
+
+    it('should send a `Join` activity to community inbox', () => {
+      cy.get<CommunityConfig>('@community').then(community => {
+        cy.get<UserConfig>('@user1').then(user => {
+          cy.login(user)
+          cy.contains('button', 'Continue!')
+          cy.intercept('GET', removeHashFromURI(community.group)).as(
+            'groupUpdate',
+          )
+          cy.contains('button', 'Continue!').click()
+
+          // check that the activity was sent to inbox
+          cy.wait('@joinActivity')
+            .its('request.body')
+            .should('deep.nested.include', {
+              actor: { type: 'Person', id: user.webId },
+              object: { type: 'Group', id: community.community },
+            })
+
+          // check that the group was refetched afterwards
+          cy.wait('@groupUpdate')
+        })
+      })
       cy.contains('a', 'travel')
     })
   })
