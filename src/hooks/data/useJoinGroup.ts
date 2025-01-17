@@ -7,6 +7,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { useUpdateRdfDocument } from './useRdfDocument'
 
+/**
+ * Join community by appending membership triple directly to the group
+ * @deprecated This method of joining is unsafe, and will be removed in the future. Send Join activity to community inbox with `useJoinCommunity` instead.
+ */
 export const useJoinGroupLegacy = () => {
   const updateMutation = useUpdateRdfDocument()
   return useCallback(
@@ -48,17 +52,23 @@ const notifyCommunityInbox = async ({
   if (!response.ok)
     throw new HttpError('Community inbox responded with error', response)
 
-  return { ...data, status: response.status }
+  const group = response.headers.get('location')
+
+  return { ...data, status: response.status, group }
 }
 
-export const useJoinGroup = () => {
+/**
+ * Join community by sending "Join" activity to community inbox
+ */
+export const useJoinCommunity = () => {
   const queryClient = useQueryClient()
 
   const { mutateAsync } = useMutation({
     mutationFn: notifyCommunityInbox,
     onSuccess: async data => {
+      if (!data.group) return
       await queryClient.invalidateQueries({
-        queryKey: ['rdfDocument', removeHashFromURI(data.object)],
+        queryKey: ['rdfDocument', removeHashFromURI(data.group)],
       })
     },
   })

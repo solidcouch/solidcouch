@@ -172,7 +172,7 @@ describe('Setup Solid pod', () => {
             .its('request.body')
             .should('deep.nested.include', {
               actor: { type: 'Person', id: user.webId },
-              object: { type: 'Group', id: community.group },
+              object: { type: 'Group', id: community.community },
             })
 
           // check that the group was refetched afterwards
