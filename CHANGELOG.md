@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add dark theme
+- Integrate joining community via [community inbox service](https://github.com/solidcouch/community-inbox)
 
 ### Changed
 

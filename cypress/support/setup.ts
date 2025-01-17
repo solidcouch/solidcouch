@@ -530,6 +530,13 @@ export const stubMailer = ({
   }).as('simpleEmailNotification')
 }
 
+export const throwIfResponseNotOk = async (response: Response) => {
+  if (!response.ok)
+    throw new Error(
+      `Query was not successful: ${response.status} ${await response.text()}`,
+    )
+}
+
 const createAccountAsync =
   (ifNotExist?: boolean) =>
   async ({
@@ -556,15 +563,6 @@ const createAccountAsync =
     }
 
     const accountEndpoint = new URL('.account/account/', provider).toString()
-
-    const throwIfResponseNotOk = async (response: Response) => {
-      if (!response.ok)
-        throw new Error(
-          `Query was not successful: ${
-            response.status
-          } ${await response.text()}`,
-        )
-    }
 
     // create the account
     const response = await fetch(accountEndpoint, {

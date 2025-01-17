@@ -2,7 +2,7 @@ import { Button } from '@/components'
 import { Loading } from '@/components/Loading/Loading.tsx'
 import { useConfig } from '@/config/hooks'
 import { useReadCommunity } from '@/hooks/data/useCommunity'
-import { useJoinGroup } from '@/hooks/data/useJoinGroup'
+import { useJoinCommunity, useJoinGroupLegacy } from '@/hooks/data/useJoinGroup'
 import {
   SetupSettings,
   SetupTask,
@@ -57,7 +57,8 @@ export const HospexSetup = ({
   const setupHospex = useSetupHospex()
   const storage = useStorage(auth.webId ?? '')
   const community = useReadCommunity(communityId)
-  const joinGroup = useJoinGroup()
+  const joinGroupLegacy = useJoinGroupLegacy()
+  const joinCommunity = useJoinCommunity()
   const [isSaving, setIsSaving] = useState(false)
   const [email, setEmail] = useState('')
   const [selectedHospexDocument, setSelectedHospexDocument] = useState('')
@@ -116,10 +117,18 @@ export const HospexSetup = ({
       onNotificationsInitialized()
     }
     if (!isMember)
-      await joinGroup({
-        person: auth.webId as URI,
-        group: community.groups[0],
-      })
+      if (community.inbox)
+        await joinCommunity({
+          actor: auth.webId!,
+          object: community.community,
+          type: 'Join',
+          inbox: community.inbox,
+        })
+      else
+        await joinGroupLegacy({
+          person: auth.webId as URI,
+          group: community.groups[0],
+        })
     setIsSaving(false)
   }
 
