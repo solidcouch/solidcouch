@@ -9,16 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add dark theme
-- Integrate joining community via [community inbox service](https://github.com/solidcouch/community-inbox)
+- Add dark theme.
+- Integrate joining community via [community inbox service](https://github.com/solidcouch/community-inbox).
 
 ### Changed
 
-- Change default dev community from [dev-sleepy-bike](https://solidweb.me/dev-sleepy-bike/community#us) to [solidcouch](https://solidweb.me/solidcouch/community#us)
+- Change default dev community from [dev-sleepy-bike](https://solidweb.me/dev-sleepy-bike/community#us) to [solidcouch](https://solidweb.me/solidcouch/community#us).
+- Update GitHub Actions artifact to v4 due to deprecated v3.
 
 ### Fixed
 
-- Fix non-serializable value error in redux-persist
+- Fix non-serializable value error in redux-persist.
 
 ## [0.2.0] - 2025-01-01
 
