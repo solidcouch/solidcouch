@@ -104,7 +104,7 @@ export const useCreateMessageNotification = () => {
 export const useCreateChat = () => {
   const createChatMutation = useCreateRdfDocument(ChatShapeShapeType)
   const createAclMutation = useCreateRdfDocument(AuthorizationShapeType)
-  const updatePrivateIndex = useSaveTypeRegistration(true)
+  const updatePrivateIndex = useSaveTypeRegistration()
 
   return useCallback(
     async ({

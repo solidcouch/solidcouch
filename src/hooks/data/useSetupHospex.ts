@@ -5,9 +5,9 @@ import {
   PrivateTypeIndexShapeType,
   PublicTypeIndexShapeType,
 } from '@/ldo/app.shapeTypes'
-import { PrivateTypeIndex, PublicTypeIndex } from '@/ldo/app.typings'
 import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
 import { URI } from '@/types'
+import { HttpError } from '@/utils/errors'
 import { fullFetch, getAcl, getContainer, processAcl } from '@/utils/helpers'
 import { hospex } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
@@ -136,57 +136,75 @@ export const useSetupHospex = () => {
   )
 }
 
-export const useSaveTypeRegistration = (isPrivate = false) => {
-  const updatePrivateMutation = useUpdateLdoDocument(PrivateTypeIndexShapeType)
-  const updatePublicMutation = useUpdateLdoDocument(PublicTypeIndexShapeType)
-  const updateMutation = isPrivate
-    ? updatePrivateMutation
-    : updatePublicMutation
+const saveTypeRegistration = async ({
+  index,
+  type,
+  location,
+}: {
+  index: URI
+  type: URI
+  location: URI
+}) => {
+  const isForContainer = location.endsWith('/')
+  const locationPredicate = isForContainer
+    ? solid.instanceContainer
+    : solid.instance
 
-  return useCallback(
-    async ({
-      index,
-      type,
-      location,
-    }: {
-      index: URI
-      type: URI
-      location: URI
-    }) => {
-      const transform = (ldo: PublicTypeIndex | PrivateTypeIndex) => {
-        let referenceIndex =
-          ldo.references?.findIndex(ref =>
-            ref.forClass.some(fc => fc['@id'] === type),
-          ) ?? -1
-        if (referenceIndex === -1) {
-          ldo.references ??= []
-          referenceIndex =
-            ldo.references.push({
-              '@id': index + '#' + uuidv4(),
-              type: { '@id': 'TypeRegistration' },
-              forClass: [{ '@id': type }],
-            }) - 1
-        }
+  // first try to add the instance to existing type registration
+  const updateResponse = await fullFetch(index, {
+    method: 'PATCH',
+    headers: { 'content-type': 'text/n3' },
+    body: `
+    @prefix solid: <http://www.w3.org/ns/solid/terms#>.
+    _:update a solid:InsertDeletePatch;
+      solid:where {
+        ?typeRegistration
+          a solid:TypeRegistration;
+          solid:forClass <${type}>.
+      };
+      solid:inserts {
+        ?typeRegistration <${locationPredicate}> <${location}>.
+      } .`,
+  })
 
-        const isForContainer = location.endsWith('/')
-        const reference = ldo.references![referenceIndex]
-        if (isForContainer) {
-          reference.instanceContainer ??= []
-          reference.instanceContainer.push({ '@id': location })
-        } else {
-          reference.instance ??= []
-          reference.instance.push({ '@id': location })
-        }
-      }
+  // TODO this fails when there are already multiple type registrations for given class
+  // it would be nicer if it adds to one of the multiple
 
-      await updateMutation.mutateAsync({
-        uri: index,
-        subject: index,
-        transform,
-      })
+  if (updateResponse.ok) return
+  if (updateResponse.status !== 409)
+    throw new HttpError('Updating type registration failed.', updateResponse)
+
+  // if adding to existing type registration fails, create a new type registration
+  const typeRegistration = uuidv4()
+  const addResponse = await fullFetch(index, {
+    method: 'PATCH',
+    headers: { 'content-type': 'text/n3' },
+    body: `
+    @prefix solid: <http://www.w3.org/ns/solid/terms#>.
+    _:add a solid:InsertDeletePatch;
+      solid:inserts {
+        <#${typeRegistration}>
+          a solid:TypeRegistration;
+          solid:forClass <${type}>;
+          <${locationPredicate}> <${location}>.
+      } .`,
+  })
+  if (!addResponse.ok)
+    throw new HttpError('Saving type registration failed.', addResponse)
+}
+
+/**
+ * update type registration of a given type, or create a new type registration
+ */
+export const useSaveTypeRegistration = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: saveTypeRegistration,
+    onSuccess: (_, { index }) => {
+      queryClient.invalidateQueries({ queryKey: ['rdfDocument', index] })
     },
-    [updateMutation],
-  )
+  }).mutateAsync
 }
 
 const useCreatePrivateTypeIndex = () => {

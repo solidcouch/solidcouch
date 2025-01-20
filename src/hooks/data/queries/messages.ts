@@ -69,9 +69,10 @@ const chats: RdfQuery = [
   },
   {
     type: 'match',
-    subject: '?privateTypeIndex',
-    predicate: dct.references,
-    pick: 'object',
+    predicate: rdf.type,
+    object: solid.TypeRegistration,
+    graph: '?privateTypeIndex',
+    pick: 'subject',
     target: '?typeRegistration',
   },
   {

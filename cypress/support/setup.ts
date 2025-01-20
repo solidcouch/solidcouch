@@ -358,7 +358,6 @@ export const setupPod = (
       body: `
       @prefix hospex: <http://w3id.org/hospex/ns#>.
       _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
-        <> <${dct.references}> <#hospex>.
         <#hospex> a <${solid.TypeRegistration}>;
         <${solid.forClass}> hospex:PersonalHospexDocument;
         <${solid.instance}> <${hospexDocument}>.
