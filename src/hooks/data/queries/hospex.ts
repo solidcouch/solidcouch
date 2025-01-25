@@ -1,6 +1,6 @@
-import { hospex, space } from '@/utils/rdf-namespaces'
+import { hospex } from '@/utils/rdf-namespaces'
 import type { RdfQuery } from '@ldhop/core'
-import { dct, sioc, solid } from 'rdf-namespaces'
+import { rdf, sioc, solid, space } from 'rdf-namespaces'
 import {
   personInbox,
   publicWebIdProfileQuery,
@@ -11,9 +11,10 @@ import {
 const partialHospexDocumentQuery: RdfQuery = [
   {
     type: 'match',
-    subject: '?publicTypeIndex',
-    predicate: dct.references,
-    pick: 'object',
+    predicate: rdf.type,
+    object: solid.TypeRegistration,
+    graph: '?publicTypeIndex',
+    pick: 'subject',
     target: '?typeRegistration',
   },
   {

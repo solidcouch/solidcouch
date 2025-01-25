@@ -86,13 +86,11 @@ ex:Point EXTRA a {
 ex:PublicTypeIndex EXTRA a {
   a [ solid:TypeIndex ] ;
   a [ solid:ListedDocument ] ;
-  dct:references @ex:TypeRegistration* ;
 }
 
 ex:PrivateTypeIndex EXTRA a {
   a [ solid:TypeIndex ] ;
   a [ solid:UnlistedDocument ] ;
-  dct:references @ex:TypeRegistration * ;
 }
 
 ex:TypeRegistration EXTRA a {

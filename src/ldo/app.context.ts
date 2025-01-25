@@ -148,22 +148,6 @@ export const appContext: ContextDefinition = {
   },
   TypeIndex: 'http://www.w3.org/ns/solid/terms#TypeIndex',
   UnlistedDocument: 'http://www.w3.org/ns/solid/terms#UnlistedDocument',
-  TypeRegistration: 'http://www.w3.org/ns/solid/terms#TypeRegistration',
-  forClass: {
-    '@id': 'http://www.w3.org/ns/solid/terms#forClass',
-    '@type': '@id',
-    '@container': '@set',
-  },
-  instance: {
-    '@id': 'http://www.w3.org/ns/solid/terms#instance',
-    '@type': '@id',
-    '@container': '@set',
-  },
-  instanceContainer: {
-    '@id': 'http://www.w3.org/ns/solid/terms#instanceContainer',
-    '@type': '@id',
-    '@container': '@set',
-  },
   publicTypeIndex: {
     '@id': 'http://www.w3.org/ns/solid/terms#publicTypeIndex',
     '@type': '@id',
@@ -230,6 +214,22 @@ export const appContext: ContextDefinition = {
   storage2: {
     '@id': 'http://w3id.org/hospex/ns#storage',
     '@type': '@id',
+  },
+  TypeRegistration: 'http://www.w3.org/ns/solid/terms#TypeRegistration',
+  forClass: {
+    '@id': 'http://www.w3.org/ns/solid/terms#forClass',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  instance: {
+    '@id': 'http://www.w3.org/ns/solid/terms#instance',
+    '@type': '@id',
+    '@container': '@set',
+  },
+  instanceContainer: {
+    '@id': 'http://www.w3.org/ns/solid/terms#instanceContainer',
+    '@type': '@id',
+    '@container': '@set',
   },
   Resource: 'http://www.w3.org/ns/ldp#Resource',
 }
