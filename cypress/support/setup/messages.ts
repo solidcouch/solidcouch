@@ -177,7 +177,6 @@ const createChat = (config: ChatConfig) => {
     @prefix solid: <http://www.w3.org/ns/solid/terms#>.
 
     _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
-        <> dct:references <#messages>.
         <#messages>
             a solid:TypeRegistration;
             solid:forClass meeting:LongChat;
