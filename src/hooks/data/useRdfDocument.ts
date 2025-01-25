@@ -320,7 +320,7 @@ const getCachedAncestor = (uri: URI, queryClient: QueryClient) => {
 /**
  * invalidate uri and its nearest existing ancestor container
  */
-export const onSuccessInvalidate =
+const onSuccessInvalidate =
   <Data = Response>(
     queryClient: QueryClient,
     checkStatus: (data: Data) => boolean = () => true,

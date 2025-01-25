@@ -6,7 +6,7 @@ import { ChatMessageShape, ChatShape } from '@/ldo/app.typings'
 import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
 import { URI } from '@/types'
 import { getAcl, getContainer } from '@/utils/helpers'
-import { acl } from '@/utils/rdf-namespaces'
+import { acl, meeting } from '@/utils/rdf-namespaces'
 import dayjs from 'dayjs'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -182,7 +182,7 @@ export const useCreateChat = () => {
       // save to privateTypeIndex
       await updatePrivateIndex({
         index: privateTypeIndex,
-        type: 'LongChat',
+        type: meeting.LongChat,
         location: chatId,
       })
 
