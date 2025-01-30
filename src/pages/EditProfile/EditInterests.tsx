@@ -8,8 +8,8 @@ import {
   useProfile,
   useRemoveInterest,
 } from '@/hooks/data/useProfile'
-import * as types from '@/types'
-import { URI } from '@/types'
+import type { Interest, URI } from '@/types'
+import clsx from 'clsx'
 import debounce from 'lodash/debounce'
 import merge from 'lodash/merge'
 import { useCallback, useMemo, useState } from 'react'
@@ -41,7 +41,7 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
     [debouncedSetQuery],
   )
 
-  const handleSelect = async (interest: types.Interest | null) => {
+  const handleSelect = async (interest: Interest | null) => {
     if (interest) {
       await withToast(
         addInterest({
@@ -69,7 +69,7 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
           </li>
         ))}
       </ul>
-      <Select<types.Interest>
+      <Select<Interest>
         options={options}
         // show all results that were found
         filterOption={() => true}
@@ -88,7 +88,15 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
         placeholder="Search interest..."
         onInputChange={handleInputChange}
         onChange={handleSelect}
-        className="cy-select-interests"
+        className={clsx(styles.select, 'cy-select-interests')}
+        classNames={{
+          control: () => styles.control,
+          input: () => styles.input,
+          menu: () => styles.menu,
+          indicatorSeparator: () => styles.separator,
+          option: ({ isFocused }) =>
+            clsx(styles.option, isFocused && styles.focused),
+        }}
       />
     </div>
   )

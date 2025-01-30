@@ -14,3 +14,38 @@
     }
   }
 }
+
+.select {
+  .control {
+    background-color: var(--background-color);
+    border: 2px solid var(--text-color);
+    border-radius: 6px;
+  }
+  .input {
+    color: var(--text-color);
+  }
+  .menu {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    box-shadow: 0px 0px 8px var(--text-color);
+  }
+  .separator {
+    display: none;
+  }
+}
+
+[data-theme='dark'] {
+  .select {
+    .option.focused {
+      background-color: #232323;
+    }
+  }
+}
+
+[data-theme='light'] {
+  .select {
+    .option.focused {
+      background-color: #eee;
+    }
+  }
+}
