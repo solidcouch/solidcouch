@@ -33,3 +33,19 @@
     display: none;
   }
 }
+
+[data-theme='dark'] {
+  .select {
+    .option.focused {
+      background-color: #232323;
+    }
+  }
+}
+
+[data-theme='light'] {
+  .select {
+    .option.focused {
+      background-color: #eee;
+    }
+  }
+}
