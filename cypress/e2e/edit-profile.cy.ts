@@ -103,14 +103,14 @@ describe('edit profile', () => {
       .and('not.contain.text', 'European badger')
 
     // add one interest
-    cy.get('.cy-select-interests input').type('wild boar')
+    cy.get("[data-cy='interests-select'] input").type('wild boar')
     cy.contains('omnivore').click()
     cy.testToast('Adding Sus scrofa to interests')
     cy.testAndCloseToast('Sus scrofa added to interests')
     cy.get('[data-cy=interests-list-edit]').should('contain.text', 'Sus scrofa')
 
     // add another interest
-    cy.get('.cy-select-interests input').type('badger')
+    cy.get("[data-cy='interests-select'] input").type('badger')
     cy.contains('species of carnivorans').click()
     cy.testToast('Adding European badger to interests')
     cy.testAndCloseToast('European badger added to interests')
