@@ -207,7 +207,7 @@ export const useSaveTypeRegistration = () => {
   }).mutateAsync
 }
 
-const useCreatePrivateTypeIndex = () => {
+export const useCreatePrivateTypeIndex = () => {
   const createMutation = useCreateRdfDocument(PrivateTypeIndexShapeType)
   const updateMutation = useUpdateRdfDocument()
 
@@ -237,7 +237,7 @@ const useCreatePrivateTypeIndex = () => {
 }
 
 // add community to existing hospex profile
-const useAddToHospexProfile = () => {
+export const useAddToHospexProfile = () => {
   const { communityId } = useConfig()
   const updateMutation = useUpdateLdoDocument(HospexProfileShapeType)
   const createAcl = useCreateHospexProfileAcl()
@@ -306,10 +306,10 @@ const useUpdateAcl = () => {
         // find relevant access
         const auth = authorizations.find(a => {
           const expectedAccess = new Set(operation.access)
-          const actualAccess = new Set(a.accesses)
+          const actualAccess = new Set(a.modes)
 
           return expectedAccess.size === actualAccess.size &&
-            [...expectedAccess].every(aa => actualAccess.has(aa)) &&
+            Array.from(expectedAccess).every(aa => actualAccess.has(aa)) &&
             operation.default
             ? a.defaults.includes(uri)
             : a.defaults.length === 0
@@ -435,7 +435,7 @@ const useCreateHospexProfileAcl = () => {
   )
 }
 
-const useCreateHospexProfile = () => {
+export const useCreateHospexProfile = () => {
   const createMutation = useCreateRdfDocument(HospexProfileShapeType)
   const createAcl = useCreateHospexProfileAcl()
 
@@ -464,7 +464,7 @@ const useCreateHospexProfile = () => {
   )
 }
 
-const useCreatePublicTypeIndex = () => {
+export const useCreatePublicTypeIndex = () => {
   const createIndexMutation = useCreateRdfDocument(PublicTypeIndexShapeType)
   const createAclMutation = useCreateRdfDocument(AuthorizationShapeType)
   const updateMutation = useUpdateRdfDocument()
@@ -522,7 +522,7 @@ const useCreatePublicTypeIndex = () => {
   )
 }
 
-const useCreateInbox = () => {
+export const useCreateInbox = () => {
   const createContainerMutation = useCreateRdfContainer()
   const createAclMutation = useCreateRdfDocument(AuthorizationShapeType)
   const updateMutation = useUpdateRdfDocument()
@@ -569,12 +569,12 @@ const useCreateInbox = () => {
   )
 }
 
-const useInitEmailNotifications = () => {
+export const useInitEmailNotifications = () => {
   const { emailNotificationsService, emailNotificationsIdentity } = useConfig()
   // Define a mutation function that will handle the API request
   const addActivity = async (requestData: unknown) => {
     const response = await fetch(`${emailNotificationsService}/inbox`, {
-      method: 'post',
+      method: 'POST',
       headers: { 'content-type': 'application/ld+json' },
       body: JSON.stringify(requestData),
     })
@@ -635,7 +635,7 @@ const useInitEmailNotifications = () => {
         },
       })
       // initialize integration
-      await initializeIntegration({
+      initializeIntegration({
         email,
         inbox,
         webId,
@@ -645,12 +645,41 @@ const useInitEmailNotifications = () => {
   )
 }
 
+/**
+ * Send verification email for direct email notifications
+ */
+export const useVerifyEmail = () => {
+  const { emailNotificationsService } = useConfig()
+  // Define a mutation function that will handle the API request
+  const addActivity = async (requestData: { email: string }) => {
+    const response = await fetch(`${emailNotificationsService}/init`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(requestData),
+    })
+
+    if (!response.ok)
+      throw new HttpError('Sending verification email failed', response)
+  }
+
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: addActivity,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['simpleMailerIntegration'] })
+    },
+  })
+
+  return mutation
+}
+
 const useInitSimpleEmailNotifications = () => {
   const { emailNotificationsService } = useConfig()
   // Define a mutation function that will handle the API request
   const addActivity = async (requestData: unknown) => {
     const response = await fetch(`${emailNotificationsService}/init`, {
-      method: 'post',
+      method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(requestData),
     })
@@ -660,9 +689,9 @@ const useInitSimpleEmailNotifications = () => {
 
   const queryClient = useQueryClient()
   const preparePodForSimpleEmailNotifications =
-    usePreparePodForSimpleEmailNotifications()
+    usePreparePodForDirectEmailNotifications()
 
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: addActivity,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['simpleMailerIntegration'] })
@@ -670,12 +699,12 @@ const useInitSimpleEmailNotifications = () => {
   })
 
   const initializeIntegration = useCallback(
-    ({ email }: { email: string }) => {
+    async ({ email }: { email: string }) => {
       const requestData = { email }
 
-      mutate(requestData)
+      await mutateAsync(requestData)
     },
-    [mutate],
+    [mutateAsync],
   )
 
   return useCallback(
@@ -701,9 +730,7 @@ const useInitSimpleEmailNotifications = () => {
   )
 }
 
-// TODO this method runs very carelessly
-// in particular, we don't want to overwrite existing resources or data
-const usePreparePodForSimpleEmailNotifications = () => {
+export const usePreparePodForDirectEmailNotifications = () => {
   const { emailNotificationsIdentity } = useConfig()
   const updateAclMutation = useUpdateLdoDocument(AuthorizationShapeType)
   const updateMutation = useUpdateRdfDocument()
@@ -722,7 +749,7 @@ const usePreparePodForSimpleEmailNotifications = () => {
       // First find the hospex container for this community
       const hospexContainer = getContainer(hospexDocument)
       // give the mailer read access to the hospex container
-      await updateAcl(getContainer(hospexDocument), [
+      await updateAcl(hospexContainer, [
         {
           operation: 'add',
           access: ['Read'],

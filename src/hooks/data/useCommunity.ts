@@ -7,7 +7,7 @@ import { useMemo } from 'react'
 import { readCommunityMembersQuery, readCommunityQuery } from './queries'
 
 export const useIsMember = (userId: URI, communityId: URI) => {
-  const { variables } = useLDhopQuery(
+  const { variables, isLoading } = useLDhopQuery(
     useMemo(
       () => ({
         query: readCommunityMembersQuery,
@@ -17,6 +17,8 @@ export const useIsMember = (userId: URI, communityId: URI) => {
       [communityId],
     ),
   )
+
+  if (isLoading) return undefined
 
   return (variables.person ?? []).includes(userId)
 }

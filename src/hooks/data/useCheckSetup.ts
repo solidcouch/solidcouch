@@ -108,7 +108,7 @@ export const useCheckEmailNotifications = (inbox: URI, mailer: string) => {
     | 'mailer not set up'
   >({ queryKey: ['mailerIntegration'], queryFn: checkMailerIntegration })
 
-  if (data === 'mailer not set up') return true
+  if (data === 'mailer not set up') return 'unset' as const
 
   if (isLoading || !data) return undefined
   const integrations = data.integrations.filter(i => i.object === inbox)
@@ -118,29 +118,31 @@ export const useCheckEmailNotifications = (inbox: URI, mailer: string) => {
   else return 'unverified' as const
 }
 
+const checkMailerIntegration = async (webId: string, mailer: string) => {
+  if (!mailer) return 'mailer not set up'
+
+  const response = await fetch(`${mailer}/status/${encodeURIComponent(webId)}`)
+
+  if (response.status === 403) return { emailVerified: false }
+  if (!response.ok) {
+    throw new Error('Network response was not ok')
+  }
+  return response.json()
+}
+
+export const useCheckNotificationsQuery = (webId: URI, mailer: string) =>
+  useQuery<{ emailVerified: boolean } | 'mailer not set up'>({
+    queryKey: ['simpleMailerIntegration'],
+    queryFn: () => checkMailerIntegration(webId, mailer),
+  })
+
 export const useCheckSimpleEmailNotifications = (
   webId: URI,
   mailer: string,
 ) => {
-  const checkMailerIntegration = useCallback(async () => {
-    if (!mailer) return 'mailer not set up'
+  const { isLoading, data } = useCheckNotificationsQuery(webId, mailer)
 
-    const response = await fetch(
-      `${mailer}/status/${encodeURIComponent(webId)}`,
-    )
-
-    if (response.status === 403) return { emailVerified: false }
-    if (!response.ok) {
-      throw new Error('Network response was not ok')
-    }
-    return response.json()
-  }, [mailer, webId])
-
-  const { isLoading, data } = useQuery<
-    { emailVerified: boolean } | 'mailer not set up'
-  >({ queryKey: ['simpleMailerIntegration'], queryFn: checkMailerIntegration })
-
-  if (data === 'mailer not set up') return true
+  if (data === 'mailer not set up') return 'unset' as const
 
   if (isLoading || !data) return undefined
 

@@ -588,7 +588,7 @@ describe('Setup Solid pod', () => {
               const acls = processAcl(aclUrl, response.body)
 
               const read = acls.find(
-                acl => acl.accesses.length === 1 && acl.accesses[0] === 'Read',
+                acl => acl.modes.length === 1 && acl.modes[0] === 'Read',
               )
 
               if (!read) throw new Error('read not found')
