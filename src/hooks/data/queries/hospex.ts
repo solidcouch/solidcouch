@@ -76,3 +76,23 @@ export const privateProfileAndHospexDocumentQuery: RdfQuery = [
     target: '?communityName',
   },
 ]
+
+export const emailVerificationQuery: RdfQuery = [
+  ...hospexDocumentQuery,
+  {
+    type: 'match',
+    subject: '?person',
+    predicate: space.preferencesFile,
+    graph: '?hospexDocumentForCommunity',
+    pick: 'object',
+    target: '?hospexPreferencesFile',
+  },
+  {
+    type: 'match',
+    pick: 'object',
+    subject: '?person',
+    predicate: 'https://example.com/emailVerificationToken',
+    graph: '?hospexPreferencesFile',
+    target: '?emailVerificationToken',
+  },
+]

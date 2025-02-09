@@ -38,6 +38,7 @@
     "@ldhop/react": "^0.1.0",
     "@ldo/ldo": "^0.0.1-alpha.23",
     "@ldo/rdf-utils": "^0.0.1-alpha.24",
+    "@radix-ui/react-tabs": "^1.1.2",
     "@rdfjs/types": "^1.1.2",
     "@react-leaflet/core": "^3.0.0",
     "@reduxjs/toolkit": "^2.5.0",
