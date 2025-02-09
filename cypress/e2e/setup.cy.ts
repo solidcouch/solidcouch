@@ -52,7 +52,9 @@ describe('Setup Solid pod', () => {
     beforeEach(setupPod(['personalHospexDocument', 'storage']))
     it('should setup the pod just fine (find storage by checking parent folders)', () => {
       cy.login('@user1')
-      cy.contains('button', 'Continue!').click()
+      // cy.contains('button', 'Continue!').click()
+      cy.get("[data-cy='setup-step-0-continue']").click()
+      cy.get("[data-cy='setup-step-1-continue']").click()
       cy.contains('a', 'travel')
     })
   })
@@ -61,7 +63,8 @@ describe('Setup Solid pod', () => {
     beforeEach(setupPod(['publicTypeIndex']))
     it('should create public type index with correct ACL', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
-      cy.contains('button', 'Continue!').click()
+      cy.get("[data-cy='setup-step-0-continue']").click()
+      // cy.get("[data-cy='setup-step-1-continue']").click()
       cy.contains('a', 'travel')
     })
   })
@@ -70,7 +73,7 @@ describe('Setup Solid pod', () => {
     beforeEach(setupPod(['privateTypeIndex']))
     it('should create private type index with correct ACL', () => {
       cy.login('@user1')
-      cy.contains('button', 'Continue!').click()
+      cy.get("[data-cy='setup-step-0-continue']").click()
       cy.contains('a', 'travel')
     })
   })
@@ -79,7 +82,7 @@ describe('Setup Solid pod', () => {
     beforeEach(setupPod(['inbox']))
     it('should create inbox with correct ACL', () => {
       cy.login('@user1')
-      cy.contains('button', 'Continue!').click()
+      cy.get("[data-cy='setup-step-0-continue']").click()
       cy.contains('a', 'travel')
     })
   })
@@ -88,7 +91,8 @@ describe('Setup Solid pod', () => {
     beforeEach(setupPod(['joinCommunity']))
     it('should join the community', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
-      cy.contains('button', 'Continue!').click()
+      cy.get("[data-cy='setup-step-0-continue']").click()
+      cy.get("[data-cy='setup-step-1-continue']").click()
       cy.contains('a', 'travel')
     })
   })
@@ -161,11 +165,11 @@ describe('Setup Solid pod', () => {
       cy.get<CommunityConfig>('@community').then(community => {
         cy.get<UserConfig>('@user1').then(user => {
           cy.login(user)
-          cy.contains('button', 'Continue!')
+          cy.get("[data-cy='setup-step-0-continue']").click()
           cy.intercept('GET', removeHashFromURI(community.group)).as(
             'groupUpdate',
           )
-          cy.contains('button', 'Continue!').click()
+          cy.get("[data-cy='setup-step-1-continue']").click()
 
           // check that the activity was sent to inbox
           cy.wait('@joinActivity')
@@ -187,7 +191,8 @@ describe('Setup Solid pod', () => {
     beforeEach(setupPod(['personalHospexDocument']))
     it('should create personal hospex document for this community', () => {
       cy.login('@user1')
-      cy.contains('button', 'Continue!').click()
+      cy.get("[data-cy='setup-step-0-continue']").click()
+      cy.get("[data-cy='setup-step-1-continue']").click()
       cy.contains('a', 'travel')
     })
   })
@@ -215,6 +220,8 @@ describe('Setup Solid pod', () => {
             integrated: false,
           })
           cy.login(user)
+          cy.get("[data-cy='setup-step-0-continue']").click()
+          cy.get("[data-cy='setup-step-1-continue']").click()
           cy.get('input[type="email"][placeholder="Your email"]')
             .should('exist')
             .type('asdf@example.com')
@@ -225,8 +232,7 @@ describe('Setup Solid pod', () => {
           cy.intercept('POST', 'http://localhost:3005/inbox', {}).as(
             'integration',
           )
-          cy.contains('button', 'Continue!').click()
-          cy.contains('verify your email')
+          cy.contains('button', 'Send Confirmation Email').click()
           cy.wait('@integration', { timeout: 15000 })
             .its('request.body')
             .should('deep.equal', {
@@ -255,8 +261,14 @@ describe('Setup Solid pod', () => {
 
           cy.login(user)
 
-          cy.get('input[type="email"][placeholder="Your email"]')
+          cy.get("[data-cy='setup-step-0-continue']").click()
+          cy.get("[data-cy='setup-step-1-continue']").click()
+
+          cy.wait(2000)
+
+          cy.get('input[type="email"][placeholder="email address"]')
             .should('exist')
+            .should('not.be.disabled')
             .type('asdf@example.com')
 
           cy.intercept('POST', 'http://localhost:3005/init', {}).as(
@@ -266,20 +278,19 @@ describe('Setup Solid pod', () => {
       })
 
       it('should ask for email and integrate notifications', () => {
-        cy.contains('button', 'Continue!').click()
-
+        cy.contains('button', 'Send Confirmation Email').click()
         cy.wait('@integration', { timeout: 10000 })
           .its('request.body')
           .should('deep.equal', { email: 'asdf@example.com' })
 
-        cy.contains('verify your email')
+        cy.contains('confirmation email has been sent')
       })
 
       it('should prepare pod for storing email verification', () => {
-        cy.contains('button', 'Continue!').click()
+        cy.contains('button', 'Send Confirmation Email').click()
 
         cy.wait('@integration', { timeout: 15000 })
-        cy.contains('verify your email')
+        cy.contains('confirmation email has been sent')
 
         // preparation means:
         // - giving the notification bot read access to the hospex document
@@ -357,11 +368,22 @@ describe('Setup Solid pod', () => {
               )
               cy.login('@user1')
               cy.visit('/')
-              cy.contains('other-community')
-              cy.get('input[type="email"][placeholder="Your email"]')
+              cy.contains('Other Community')
+              cy.get("[data-cy='setup-step-0-continue']").click()
+              cy.get(`input[type=radio]`)
+                .should('have.length', 2)
+                .last()
+                .check()
+              cy.get("[data-cy='setup-step-1-continue']").click()
+
+              cy.wait(2000)
+
+              cy.get('input[type="email"][placeholder="email address"]')
                 .should('exist')
+                .should('not.be.disabled')
                 .type('other-email@example.com')
-              cy.contains('button', 'Continue!').click()
+              cy.contains('button', 'Send Confirmation Email').click()
+              cy.contains('confirmation email has been sent')
             })
         })
         cy.wait('@integration', { timeout: 10000 })
@@ -373,16 +395,21 @@ describe('Setup Solid pod', () => {
         // then we set up the current email service settings
         cy.resetAppConfig({ waitForContent: 'Sign in' })
         cy.login('@user1')
-        cy.contains('dev-solidcouch')
-        cy.get(`input[type=radio]`).should('have.length', 2).last().check()
-        cy.get('input[type="email"][placeholder="Your email"]')
+        cy.contains('Test Community')
+        cy.get("[data-cy='setup-step-0-continue']").click()
+        cy.get("[data-cy='setup-step-1-continue']").click()
+
+        cy.wait(2000)
+
+        cy.get('input[type="email"][placeholder="email address"]')
           .should('exist')
+          .should('not.be.disabled')
           .type('third-email@example.com')
-        cy.contains('button', 'Continue!').click()
+        cy.contains('button', 'Send Confirmation Email').click()
         cy.wait('@integration', { timeout: 10000 })
           .its('request.body')
           .should('deep.equal', { email: 'third-email@example.com' })
-        cy.contains('verify your email')
+        cy.contains('confirmation email has been sent')
 
         // now we want to check that both mail bots have access to their respective settings
 
@@ -415,7 +442,7 @@ describe('Setup Solid pod', () => {
         }
 
         cy.get<UserConfig>('@user1').then(user => {
-          const hospexUrl = `${user.podUrl}hospex/other-community/card`
+          const hospexUrl = `${user.podUrl}hospex/dev-solidcouch/card`
 
           ;['mailbot', 'mailbot2'].forEach((bot, i) => {
             accessDocument(hospexUrl, bot, 'hospexDocument' + (i + 1))
@@ -523,14 +550,22 @@ describe('Setup Solid pod', () => {
           url.hash = ''
           cy.intercept('PATCH', url.toString()).as('addUserToCommunity')
         })
-        cy.get('input[type="email"][placeholder="Your email"]')
+
+        cy.get("[data-cy='setup-step-0-continue']").click()
+        cy.get("[data-cy='setup-step-1-continue']").click()
+
+        cy.wait(3000)
+
+        cy.get('input[type="email"][placeholder="email address"]')
           .should('exist')
+          .should('not.be.disabled')
           .type('asdf@example.com')
+
         cy.intercept('POST', 'http://localhost:3005/init', {}).as('integration')
         // here we respond differently than real test (integration would be unverified)
         // but we respond it verified, to be able to check that everything was established and we entered the app
         cy.stubMailer({ person: { ...user, inbox: `${user.podUrl}inbox/` } })
-        cy.contains('button', 'Continue!').click()
+        cy.contains('button', 'Send Confirmation Email').click()
         cy.wait('@addUserToCommunity', { timeout: 15000 })
         cy.wait('@integration', { timeout: 15000 })
           .its('request.body')
@@ -560,19 +595,21 @@ describe('Setup Solid pod', () => {
 
     it('should show option to create a new community folder, and join this community just fine', () => {
       cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.get("[data-cy='setup-step-0-continue']").click()
       cy.get(`input[type=radio]`).first().check()
-      cy.contains('button', 'Continue!').click()
+      cy.get("[data-cy='setup-step-1-continue']").click()
       cy.contains('a', 'travel')
     })
 
     it('should show option to choose existing community folder, and not break it when adding the community', () => {
       cy.get<UserConfig>('@user1').then(cy.login)
+      cy.get("[data-cy='setup-step-0-continue']").click()
       cy.get<UserConfig>('@user1').then(user => {
         cy.get(
           `input[type=radio][value="${user.podUrl}hospex/other-community/card"]`,
         ).check()
       })
-      cy.contains('button', 'Continue!').click()
+      cy.get("[data-cy='setup-step-1-continue']").click()
       cy.contains('a', 'travel')
 
       // check that both communities still have access

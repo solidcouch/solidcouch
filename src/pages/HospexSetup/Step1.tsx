@@ -168,7 +168,12 @@ export const Step1 = ({
           </fieldset>
         </li>
       )}
-      <Button type="submit" primary>
+      <Button
+        type="submit"
+        primary
+        data-cy="setup-step-1-continue"
+        disabled={!publicTypeIndex}
+      >
         Continue
       </Button>
     </form>

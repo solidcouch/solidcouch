@@ -114,7 +114,7 @@ export const Step0 = ({
         )}
       </div>
 
-      <Button type="submit" primary>
+      <Button type="submit" primary data-cy="setup-step-0-continue">
         Continue
       </Button>
     </form>
