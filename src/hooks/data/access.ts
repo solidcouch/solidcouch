@@ -8,7 +8,7 @@ import { HttpError } from '@/utils/errors'
 import { parseWacAllow, processAcl, removeHashFromURI } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { fetchRdfDocument } from '@ldhop/core'
-import { useQueries, useQuery } from '@tanstack/react-query'
+import { useQueries } from '@tanstack/react-query'
 import LinkHeader from 'http-link-header'
 
 const fetchRdfDocumentOrFail = async (url: string) => {
@@ -21,6 +21,7 @@ const fetchRdfDocumentOrFail = async (url: string) => {
   return response
 }
 
+/** TODO - useful but unused code
 export const useReadAccess = (resource: string) => {
   resource = resource && removeHashFromURI(resource)
   const { data } = useQuery({
@@ -57,6 +58,7 @@ export const useReadAccess = (resource: string) => {
     acls: [{ uri: aclUri, accesses }],
   }
 }
+*/
 
 export const useReadAccesses = (resources: string[]) => {
   // Fetch RDF Documents for all resources

@@ -1,5 +1,4 @@
 import { useConfig } from '@/config/hooks'
-import { useAuth } from '@/hooks/useAuth'
 import {
   HospexProfileShapeType,
   PrivateTypeIndexShapeType,
@@ -9,7 +8,6 @@ import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
 import { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { fullFetch, getAcl, getContainer, processAcl } from '@/utils/helpers'
-import { hospex } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { NamedNode, Quad, Writer } from 'n3'
@@ -23,118 +21,6 @@ import {
   useUpdateLdoDocument,
   useUpdateRdfDocument,
 } from './useRdfDocument'
-
-export type SetupTask =
-  | 'createPublicTypeIndex'
-  | 'createPrivateTypeIndex'
-  | 'createInbox'
-  | 'createHospexProfile'
-  | 'addToHospexProfile'
-  | 'integrateEmailNotifications'
-  | 'integrateSimpleEmailNotifications'
-export type SetupSettings = {
-  person: URI
-  publicTypeIndex: URI
-  privateTypeIndex: URI
-  inbox: URI
-  hospexDocument: URI
-  email: string
-}
-
-export const useSetupHospex = () => {
-  const { communityId } = useConfig()
-  const createPrivateTypeIndex = useCreatePrivateTypeIndex()
-  const createPublicTypeIndex = useCreatePublicTypeIndex()
-  const createInbox = useCreateInbox()
-  const createHospexProfile = useCreateHospexProfile()
-  const addToHospexProfile = useAddToHospexProfile()
-  const saveTypeRegistration = useSaveTypeRegistration()
-  const initEmailNotifications = useInitEmailNotifications()
-  const initSimpleEmailNotifications = useInitSimpleEmailNotifications()
-
-  const { webId } = useAuth()
-
-  // TODO add options so users can have a choice
-  return useCallback(
-    async (
-      tasks: SetupTask[],
-      {
-        person,
-        publicTypeIndex,
-        privateTypeIndex,
-        hospexDocument,
-        inbox,
-        email,
-      }: SetupSettings,
-    ) => {
-      // create personal hospex document at hospex/{communityContainer}/card
-      // in home folder (pim:storage)
-      if (tasks.includes('createHospexProfile'))
-        await createHospexProfile({
-          uri: hospexDocument,
-          webId: person,
-          communityId,
-        })
-
-      if (tasks.includes('addToHospexProfile'))
-        await addToHospexProfile({ uri: hospexDocument, webId: person })
-
-      // create type indexes if we haven't found them
-      if (tasks.includes('createPrivateTypeIndex')) {
-        await createPrivateTypeIndex({
-          webId: person,
-          privateTypeIndex,
-        })
-      }
-      if (tasks.includes('createPublicTypeIndex')) {
-        await createPublicTypeIndex({
-          webId: person,
-          publicTypeIndex,
-        })
-      }
-
-      // create inbox
-      if (tasks.includes('createInbox')) {
-        await createInbox({
-          webId: person,
-          inbox,
-        })
-      }
-
-      // save hospex datatype to public type index
-      if (
-        tasks.includes('createHospexProfile') ||
-        tasks.includes('createPublicTypeIndex')
-      )
-        await saveTypeRegistration({
-          index: publicTypeIndex,
-          type: hospex.PersonalHospexDocument,
-          location: hospexDocument,
-        })
-
-      if (tasks.includes('integrateEmailNotifications'))
-        await initEmailNotifications({ email, inbox, webId: webId as string })
-      if (tasks.includes('integrateSimpleEmailNotifications'))
-        await initSimpleEmailNotifications({
-          email,
-          webId: webId as string,
-          hospexDocument,
-        })
-    },
-    [
-      addToHospexProfile,
-      communityId,
-      createHospexProfile,
-      createInbox,
-      createPrivateTypeIndex,
-      createPublicTypeIndex,
-      initEmailNotifications,
-      initSimpleEmailNotifications,
-      saveTypeRegistration,
-      webId,
-    ],
-  )
-}
 
 const saveTypeRegistration = async ({
   index,
@@ -672,62 +558,6 @@ export const useVerifyEmail = () => {
   })
 
   return mutation
-}
-
-const useInitSimpleEmailNotifications = () => {
-  const { emailNotificationsService } = useConfig()
-  // Define a mutation function that will handle the API request
-  const addActivity = async (requestData: unknown) => {
-    const response = await fetch(`${emailNotificationsService}/init`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(requestData),
-    })
-
-    if (!response.ok) throw new Error('not ok!')
-  }
-
-  const queryClient = useQueryClient()
-  const preparePodForSimpleEmailNotifications =
-    usePreparePodForDirectEmailNotifications()
-
-  const { mutateAsync } = useMutation({
-    mutationFn: addActivity,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['simpleMailerIntegration'] })
-    },
-  })
-
-  const initializeIntegration = useCallback(
-    async ({ email }: { email: string }) => {
-      const requestData = { email }
-
-      await mutateAsync(requestData)
-    },
-    [mutateAsync],
-  )
-
-  return useCallback(
-    async ({
-      email,
-      webId,
-      hospexDocument,
-    }: {
-      webId: URI
-      email: string
-      hospexDocument: string
-    }) => {
-      // give mailer read and write access to email settings, as needed
-      await preparePodForSimpleEmailNotifications({
-        hospexDocument,
-        webId,
-        email,
-      })
-      // initialize integration
-      await initializeIntegration({ email })
-    },
-    [initializeIntegration, preparePodForSimpleEmailNotifications],
-  )
 }
 
 export const usePreparePodForDirectEmailNotifications = () => {
