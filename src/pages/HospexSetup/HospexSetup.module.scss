@@ -1,3 +1,66 @@
+.container {
+  --__list-gap: 4rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  .list {
+    display: flex;
+    justify-content: center;
+    gap: var(--__list-gap);
+
+    .trigger {
+      position: relative;
+      border: 2px solid var(--text-color);
+      border-radius: 9999px;
+      height: 3rem;
+      aspect-ratio: 1;
+
+      &[data-state='active'] {
+        background-color: var(--text-color);
+        color: var(--background-color);
+      }
+
+      &:hover {
+        background-color: var(--text-color);
+        color: var(--background-color);
+      }
+
+      &:disabled {
+        background-color: gray;
+        color: black;
+      }
+
+      &.connect::after {
+        display: block;
+        content: '';
+        position: absolute;
+        width: calc(var(--__list-gap) + 2px); /* Line length */
+        height: 2px;
+        background-color: var(--text-color);
+        right: calc(
+          -1 * var(--__list-gap) - 3px
+        ); /* Moves it to the right of each item */
+        z-index: 5;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+      font-size: 1.25rem;
+      margin: 1rem;
+    }
+  }
+}
+
 .taskList {
   li {
     margin: 1rem;

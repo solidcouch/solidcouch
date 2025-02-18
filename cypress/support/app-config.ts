@@ -14,6 +14,10 @@ export const updateAppConfig = (
   cy.window().then(window => {
     window.updateAppConfig(config)
   })
+  cy.wait(1000)
+  // cy.window().then(window => {
+  //   cy.log(JSON.stringify(window.appConfig))
+  // })
 }
 
 /**
@@ -27,4 +31,8 @@ export const resetAppConfig = (options: { waitForContent: string }) => {
   cy.window().then(window => {
     window.resetAppConfig()
   })
+  cy.wait(1000)
+  // cy.window().then(window => {
+  //   cy.log('reset' + JSON.stringify(window.appConfig))
+  // })
 }

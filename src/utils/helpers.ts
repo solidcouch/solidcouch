@@ -126,17 +126,18 @@ export const getAcl = async (uri: URI) => {
   return new URL(aclUri, uri).toString()
 }
 
-export const processAcl = (
-  url: string,
-  content: string,
-): {
+type AccessMode = 'Read' | 'Write' | 'Append' | 'Control'
+
+interface Access {
   url: string
-  accesses: ('Read' | 'Write' | 'Append' | 'Control')[]
+  modes: AccessMode[]
   agents: string[]
   agentClasses: string[]
   agentGroups: string[]
   defaults: string[]
-}[] => {
+}
+
+export const processAcl = (url: string, content: string): Access[] => {
   const parser = new n3.Parser({ baseIRI: url })
   const quads = parser.parse(content)
   const store = new n3.Store(quads)
@@ -150,7 +151,7 @@ export const processAcl = (
   } as const
 
   return auths.map(auth => {
-    const accesses = store
+    const modes = store
       .getObjects(auth, acl.mode, null)
       .map(mode => accessDict[mode.value])
 
@@ -165,9 +166,10 @@ export const processAcl = (
     const defaults = store
       .getObjects(auth, acl.default__workaround, null)
       .map(a => a.value)
+
     return {
       url: auth.value,
-      accesses,
+      modes,
       agents,
       agentClasses,
       agentGroups,
@@ -196,4 +198,53 @@ export const mergeArrays = <
   }
 
   return Object.values(dict)
+}
+
+type EffectiveAccessMode = 'read' | 'write' | 'append' | 'control'
+
+interface EffectivePermissions {
+  [param: string]: Set<EffectiveAccessMode>
+}
+
+/**
+ * Parse WAC-Allow header
+ */
+export const parseWacAllow = (headerValue: string): EffectivePermissions => {
+  const result: EffectivePermissions = {}
+  if (!headerValue) return result
+
+  const accessParams = headerValue.split(',') // Step 2: Split by comma
+
+  accessParams.forEach(param => {
+    param = param.trim()
+    const match = param.match(/(\w+)\s*=\s*"([^"]*)"/)
+    if (match) {
+      const permissionGroup = match[1] // Step 3: Extract permission-group
+      const accessModes = match[2].split(/\s+/) as EffectiveAccessMode[] // Step 4: Split by space
+      result[permissionGroup] = new Set<EffectiveAccessMode>(accessModes)
+    }
+  })
+
+  return result
+}
+
+export function removeBaseUrl(fullUrl: string, baseUrl: string): string {
+  baseUrl = getContainer(baseUrl)
+  try {
+    const full = new URL(fullUrl).href
+    const base = new URL(baseUrl).href
+
+    // If fullUrl does not start with baseUrl, return fullUrl as is
+    if (!full.startsWith(base)) {
+      return fullUrl
+    }
+
+    // Remove the baseUrl part
+    const result = full.substring(base.length)
+
+    // Ensure a clean path, returning "/" if empty
+    return result || './'
+  } catch {
+    return fullUrl // Return original URL if there's an error
+  }
 }

@@ -24,7 +24,7 @@ export const uiLogin = (user: UserConfig | `@${string}`) => {
     })
   })
   // wait for sign-in in to finish
-  cy.contains(/(We would like to set up your Pod)|(travel)/, { timeout: 20000 })
+  cy.contains(/(Prepare Pod)|(travel)/, { timeout: 20000 })
 }
 
 /**
