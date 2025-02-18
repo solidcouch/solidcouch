@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default dev community from [dev-sleepy-bike](https://solidweb.me/dev-sleepy-bike/community#us) to [solidcouch](https://solidweb.me/solidcouch/community#us).
 - Update GitHub Actions artifact to v4 due to deprecated v3.
+- Improve UX of joining.
 
 ### Deprecated
 
