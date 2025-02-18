@@ -10,7 +10,7 @@ import {
 import { useStorage } from '@/hooks/data/useStorage'
 import { useAuth } from '@/hooks/useAuth'
 import { URI } from '@/types'
-import { getContainer } from '@/utils/helpers'
+import { removeBaseUrl } from '@/utils/helpers'
 import { hospex } from '@/utils/rdf-namespaces'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -114,8 +114,8 @@ export const Step1 = ({
         <li>
           Setup hospex document and storage:{' '}
           <Editable
-            value={getContainerPath(newHospexDocument)}
-            {...register('newHospexDocument')}
+            value={removeBaseUrl(newHospexDocument, storage)}
+            {...register('newHospexDocument', { required: true })}
           />
         </li>
       )}
@@ -129,17 +129,16 @@ export const Step1 = ({
             </legend>
             <div className={styles.option}>
               <input
-                required
                 type="radio"
                 id="new-hospex-document"
                 value="new"
-                {...register('hospexDocument')}
+                {...register('hospexDocument', { required: true })}
               />{' '}
               <label htmlFor="new-hospex-document">
                 Set up new data for this community:
                 <Editable
-                  {...register('newHospexDocument')}
-                  value={getContainerPath(watch('newHospexDocument'), storage)}
+                  {...register('newHospexDocument', { required: true })}
+                  value={removeBaseUrl(watch('newHospexDocument'), storage)}
                 />
               </label>
             </div>
@@ -160,7 +159,7 @@ export const Step1 = ({
                   />{' '}
                   <label htmlFor={`hospexDocument-${i}`}>
                     {communities.map(c => c.name ?? c.uri).join(', ')} (
-                    {getContainerPath(hospexDocument, storage)})
+                    {removeBaseUrl(hospexDocument, storage)})
                   </label>
                 </div>
               ))}
@@ -178,23 +177,4 @@ export const Step1 = ({
       </Button>
     </form>
   )
-}
-
-const getContainerPath = (url: string, baseUrl?: string) => {
-  const containerUrl = new URL(getContainer(url))
-
-  // If no baseUrl, return the full pathname
-  if (!baseUrl) {
-    return containerUrl.pathname
-  }
-
-  const base = new URL(baseUrl)
-
-  // If baseUrl doesn't match the beginning of the URL, return the full URL
-  if (!containerUrl.href.startsWith(base.href)) {
-    return containerUrl.href // Return full URL if bases don't match
-  }
-
-  // Return the relative path by removing the baseUrl part
-  return containerUrl.pathname.replace(base.pathname, '').replace(/^\/+/, '')
 }

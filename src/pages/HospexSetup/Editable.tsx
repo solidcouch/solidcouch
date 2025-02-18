@@ -11,7 +11,12 @@ export const Editable = ({
     return (
       <>
         {value}{' '}
-        <button type="button" onClick={() => setEditable(true)}>
+        <button
+          disabled
+          style={{ display: 'none' }}
+          type="button"
+          onClick={() => setEditable(true)}
+        >
           <FaPencilAlt />
         </button>
       </>

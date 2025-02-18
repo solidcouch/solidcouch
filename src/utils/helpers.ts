@@ -227,3 +227,24 @@ export const parseWacAllow = (headerValue: string): EffectivePermissions => {
 
   return result
 }
+
+export function removeBaseUrl(fullUrl: string, baseUrl: string): string {
+  baseUrl = getContainer(baseUrl)
+  try {
+    const full = new URL(fullUrl).href
+    const base = new URL(baseUrl).href
+
+    // If fullUrl does not start with baseUrl, return fullUrl as is
+    if (!full.startsWith(base)) {
+      return fullUrl
+    }
+
+    // Remove the baseUrl part
+    const result = full.substring(base.length)
+
+    // Ensure a clean path, returning "/" if empty
+    return result || './'
+  } catch {
+    return fullUrl // Return original URL if there's an error
+  }
+}

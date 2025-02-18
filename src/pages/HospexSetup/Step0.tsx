@@ -4,6 +4,7 @@ import {
   useCreatePrivateTypeIndex,
   useCreatePublicTypeIndex,
 } from '@/hooks/data/useSetupHospex'
+import { removeBaseUrl } from '@/utils/helpers'
 import { useForm } from 'react-hook-form'
 import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
@@ -82,8 +83,9 @@ export const Step0 = ({
           <>
             Create public type index:{' '}
             <Editable
-              value={watch('publicTypeIndex')}
-              {...register('publicTypeIndex')}
+              value={removeBaseUrl(watch('publicTypeIndex'), storage)}
+              {...register('publicTypeIndex', { required: true })}
+              type="url"
             />
           </>
         )}
@@ -96,8 +98,9 @@ export const Step0 = ({
             Create private type index:{' '}
             {
               <Editable
-                value={watch('privateTypeIndex')}
-                {...register('privateTypeIndex')}
+                value={removeBaseUrl(watch('privateTypeIndex'), storage)}
+                {...register('privateTypeIndex', { required: true })}
+                type="url"
               />
             }
           </>
@@ -109,7 +112,13 @@ export const Step0 = ({
         ) : (
           <>
             Create inbox:{' '}
-            {<Editable value={watch('inbox')} {...register('inbox')} />}
+            {
+              <Editable
+                value={removeBaseUrl(watch('inbox'), storage)}
+                {...register('inbox', { required: true })}
+                type="url"
+              />
+            }
           </>
         )}
       </div>
