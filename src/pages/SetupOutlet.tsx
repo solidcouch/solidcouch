@@ -1,4 +1,4 @@
-import { Loading } from '@/components'
+import { IconLoading } from '@/components/IconLoading'
 import { useConfig } from '@/config/hooks'
 import {
   useCheckEmailNotifications,
@@ -9,16 +9,20 @@ import { selectAuth } from '@/redux/authSlice'
 import { useAppSelector } from '@/redux/hooks'
 import omit from 'lodash/omit'
 import { useState } from 'react'
+import { FaCheck, FaClock, FaTimes } from 'react-icons/fa'
 import { Outlet } from 'react-router-dom'
 import { NonUndefined } from 'utility-types'
 import { HospexSetup } from './HospexSetup'
+import styles from './SetupOutlet.module.scss'
 
 export const SetupOutlet = () => {
   const { communityId, emailNotificationsService, emailNotificationsType } =
     useConfig()
   const auth = useAppSelector(selectAuth)
-  const [notificationsInitialized, setNotificationsInitialized] =
-    useState(false)
+  // const [notificationsInitialized, setNotificationsInitialized] =
+  // useState(false)
+
+  const [step, setStep] = useState(0)
 
   const setupCheck = useCheckSetup(auth.webId ?? '', communityId ?? '')
   const tasks = omit(setupCheck, [
@@ -26,6 +30,8 @@ export const SetupOutlet = () => {
     'privateTypeIndexes',
     'personalHospexDocuments',
     'allHospexDocuments',
+    'inboxes',
+    'allHospex',
   ])
 
   // set up email
@@ -40,8 +46,9 @@ export const SetupOutlet = () => {
 
   const isEverythingSetUp =
     Object.values(setupCheck).every(v => v) &&
-    isSimpleEmailNotifications === true &&
-    isEmailNotifications === true
+    (isEmailNotifications === true || isEmailNotifications === 'unset') &&
+    (isSimpleEmailNotifications === true ||
+      isSimpleEmailNotifications === 'unset')
 
   if (isEverythingSetUp) return <Outlet />
 
@@ -59,20 +66,71 @@ export const SetupOutlet = () => {
     isSimpleEmailNotifications === undefined ||
     isEmailNotifications === undefined
   )
-    return <Loading>Checking {checks.join(', ')}</Loading>
+    return (
+      <Checking
+        {...tasks}
+        isEmailNotifications={isEmailNotifications}
+        isSimpleEmailNotifications={isSimpleEmailNotifications}
+      />
+    )
 
   return (
     <HospexSetup
       {...(setupCheck as DefinedProps<typeof setupCheck>)}
       isSimpleEmailNotifications={isSimpleEmailNotifications}
       isEmailNotifications={isEmailNotifications}
-      onNotificationsInitialized={() => setNotificationsInitialized(true)}
-      onNotificationsInitializedTryAgain={() =>
-        setNotificationsInitialized(false)
-      }
-      isNotificationsInitialized={notificationsInitialized}
+      step={step}
+      onStepChange={setStep}
+
+      // onNotificationsInitialized={() => setNotificationsInitialized(true)}
+      // onNotificationsInitializedTryAgain={() =>
+      // setNotificationsInitialized(false)
+      // }
+      // isNotificationsInitialized={notificationsInitialized}
     />
   )
+}
+
+const Checking = (
+  props: Record<`is${string}`, boolean | undefined | 'unverified' | 'unset'>,
+) => {
+  const items = Object.entries(props)
+    .filter(([name, value]) => value !== 'unset' && name.startsWith('is'))
+    .map(([name, value]) => ({
+      key: name,
+      label: formatLabel(name),
+      value,
+    }))
+
+  return (
+    <div className={styles.checkingContainer}>
+      <h2>Checking your setup...</h2>
+      <p>We're verifying that everything is configured correctly.</p>
+      <ul className={styles.checklist}>
+        {items.map(item => (
+          <li key={item.key}>
+            {item.value === true ? (
+              <FaCheck />
+            ) : item.value === false ? (
+              <FaTimes />
+            ) : item.value === 'unverified' ? (
+              <FaClock />
+            ) : (
+              <IconLoading />
+            )}{' '}
+            {item.label}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+const formatLabel = (key: string): string => {
+  return key
+    .replace(/^is/, '') // Remove the "is" prefix
+    .replace(/([A-Z])/g, ' $1') // Add spaces before capital letters
+    .replace(/^./, str => str.toUpperCase())
 }
 
 type DefinedProps<T extends { [key: string]: unknown }> = {

@@ -24,7 +24,7 @@ describe('Sign in to the app', () => {
         cy.get('button#authorize').click()
       })
     })
-    cy.contains('We would like to set up your Pod')
+    cy.contains('Prepare Pod')
   })
 
   it('should sign in with webId', () => {
@@ -38,7 +38,7 @@ describe('Sign in to the app', () => {
         cy.get('button#authorize').click()
       })
     })
-    cy.contains('We would like to set up your Pod')
+    cy.contains('Prepare Pod')
   })
 
   it('should use provided ClientID for sign-in', () => {
@@ -54,7 +54,7 @@ describe('Sign in to the app', () => {
         cy.get('button#authorize').click()
       })
     })
-    cy.contains('We would like to set up your Pod')
+    cy.contains('Prepare Pod')
   })
 
   it('should remember last identity provider selected during login', () => {
@@ -65,7 +65,7 @@ describe('Sign in to the app', () => {
     cy.get<UserConfig>('@user1').then(user1 => {
       // sign in using custom provider
       cy.login(user1)
-      cy.contains('We would like to set up your Pod')
+      cy.contains('Prepare Pod')
       // sign out
       cy.logout(user1)
 
