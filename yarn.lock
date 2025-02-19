@@ -2922,22 +2922,22 @@
     koa-compose "^4.1.0"
     path-to-regexp "^6.3.0"
 
-"@ldhop/core@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/@ldhop/core/-/core-0.1.0.tgz#b67f1f3503cc4cf02d69c442e47c54db6376d32d"
-  integrity sha512-89LP9lwgKYXZWM49mcnQS5ZGkRp5cCXEirL8bopNLK9r84wBDhgQVKU9/YG5hgeJHjHcyP64dUCDwrmDcysANQ==
+"@ldhop/core@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@ldhop/core/-/core-0.1.1.tgz#1fcb77dfee52bfe91ab28b8a3c7d4d1761793a08"
+  integrity sha512-o+XJ2awjr4HWrgQ2GIdAp6va8XLKUIcuNrEseaZB7q1oT605qSyNSjg2QN2dpUa8RpWuYBOS0rZ5NiggyW547w==
   dependencies:
     "@emotion/hash" "^0.9.1"
     "@types/n3" "^1.16.4"
     n3 "^1.17.2"
     utility-types "^3.10.0"
 
-"@ldhop/react@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/@ldhop/react/-/react-0.1.0.tgz#7522e0e017bb84cca79261b0890b0137daea0d3e"
-  integrity sha512-O3+QYo32twxM0ZLZkq5XkRs5DJ7fGJ/kZwIaa9QSBCMoNI+pCylu1Ilh8Oq4lSJhxP6ltwcdwvP/yL89zi1nkQ==
+"@ldhop/react@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@ldhop/react/-/react-0.1.1.tgz#2be96a1f419522d3037746dfccfc1e9099a641bd"
+  integrity sha512-Na3qownp9AW0i+lsG7iJZzYMgDfu7by1x2nAbgsFwKRseYngKIQZ3mPpr83fBU3L4qF1Q7p2LLwspV7DKWdMsQ==
   dependencies:
-    "@ldhop/core" "^0.1.0"
+    "@ldhop/core" "^0.1.1"
     "@types/lodash" "^4.17.0"
     lodash "^4.17.21"
 
