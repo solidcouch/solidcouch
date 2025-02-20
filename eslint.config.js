@@ -8,7 +8,7 @@ import tseslint from 'typescript-eslint'
 
 // eslint-disable-next-line import/no-default-export
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'src/locales'] },
   {
     extends: [
       js.configs.recommended,

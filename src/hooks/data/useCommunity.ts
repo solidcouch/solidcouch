@@ -1,7 +1,9 @@
+import { defaultLocale } from '@/config'
 import { HospexCommunityShapeType } from '@/ldo/hospexCommunity.shapeTypes'
 import { URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
+import type { ObjectLike } from '@ldo/jsonld-dataset-proxy'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import { useMemo } from 'react'
 import { readCommunityMembersQuery, readCommunityQuery } from './queries'
@@ -23,7 +25,8 @@ export const useIsMember = (userId: URI, communityId: URI) => {
   return (variables.person ?? []).includes(userId)
 }
 
-export const useReadCommunity = (communityId: URI) => {
+export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
+  if (locales.length === 0) locales = [...locales, defaultLocale]
   const { store, variables, isLoading } = useLDhopQuery({
     query: readCommunityQuery,
     variables: useMemo(() => ({ community: [communityId] }), [communityId]),
@@ -39,32 +42,9 @@ export const useReadCommunity = (communityId: URI) => {
     return ldo
   }, [communityId, store, variables])
 
-  const name = useMemo(() => {
-    const nameLanguages = languagesOf(community, 'name')
-
-    const english = [...(nameLanguages['en']?.values() ?? [])][0]
-    const none = [...(nameLanguages['@none']?.values() ?? [])][0]
-
-    return english || none
-  }, [community])
-
-  const pun = useMemo(() => {
-    const punLanguages = languagesOf(community, 'note')
-
-    const english = [...(punLanguages['en']?.values() ?? [])][0]
-    const none = [...(punLanguages['@none']?.values() ?? [])][0]
-
-    return english || none
-  }, [community])
-
-  const about = useMemo(() => {
-    const aboutLanguages = languagesOf(community, 'about')
-
-    const english = [...(aboutLanguages['en']?.values() ?? [])][0]
-    const none = [...(aboutLanguages['@none']?.values() ?? [])][0]
-
-    return english || none
-  }, [community])
+  const name = useLanguage(community, 'name', ...locales)
+  const pun = useLanguage(community, 'note', ...locales)
+  const about = useLanguage(community, 'about', ...locales)
 
   return useMemo(
     () => ({
@@ -88,4 +68,27 @@ export const useReadCommunity = (communityId: URI) => {
       variables.inbox,
     ],
   )
+}
+
+const useLanguage = <SubjectObject extends ObjectLike>(
+  thing: SubjectObject,
+  key: keyof SubjectObject,
+  ...languages: string[]
+) => {
+  const allLangs = useMemo(() => [...languages, '@none'], [languages])
+
+  const result = useMemo(() => {
+    const resultLanguages = languagesOf(thing, key)
+
+    for (const lang of allLangs) {
+      const result = resultLanguages[lang]
+
+      if (typeof result === 'string') return result
+      if (result?.toString() === '[object LanguageSet]') {
+        const value = [...result][0]
+        if (typeof value === 'string') return value
+      }
+    }
+  }, [allLangs, key, thing])
+  return result
 }

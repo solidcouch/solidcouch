@@ -75,3 +75,5 @@ export const oidcIssuers: IssuerConfig[] = [
     server: 'CSS',
   },
 ]
+
+export { defaultLocale, locales } from './locales'

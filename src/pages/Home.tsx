@@ -1,6 +1,7 @@
 import { ButtonLink } from '@/components'
 import { useReadMessagesFromInbox } from '@/hooks/data/useReadThreads'
 import { useAuth } from '@/hooks/useAuth'
+import { Plural, Trans } from '@lingui/react/macro'
 import { FaDoorOpen, FaMap, FaRegComment } from 'react-icons/fa'
 import styles from './Home.module.scss'
 
@@ -12,14 +13,19 @@ export const Home = () => {
   return (
     <div className={styles.container}>
       <ButtonLink to="travel" secondary>
-        <FaMap size={24} /> travel
+        <FaMap size={24} /> <Trans>travel</Trans>
       </ButtonLink>
       <ButtonLink to="host" secondary>
-        <FaDoorOpen size={24} /> host
+        <FaDoorOpen size={24} /> <Trans>host</Trans>
       </ButtonLink>
       <ButtonLink to="messages" secondary>
-        <FaRegComment size={24} /> messages
-        {newMessages?.length ? ` (${newMessages.length} new)` : null}
+        <FaRegComment size={24} /> <Trans>messages</Trans>
+        {newMessages?.length ? (
+          <>
+            {' '}
+            <Plural value={newMessages.length} one="(# new)" other="(# new)" />
+          </>
+        ) : null}
       </ButtonLink>
     </div>
   )
