@@ -39,7 +39,7 @@
     "@ldhop/core": "^0.1.1",
     "@ldhop/react": "^0.1.1",
     "@ldo/jsonld-dataset-proxy": "^0.0.1-alpha.29",
-    "@ldo/ldo": "^0.0.1-alpha.23",
+    "@ldo/ldo": "^0.0.1-alpha.29",
     "@ldo/rdf-utils": "^0.0.1-alpha.24",
     "@lingui/core": "^5.2.0",
     "@lingui/react": "^5.2.0",
@@ -90,7 +90,7 @@
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@inrupt/solid-client-authn-core": "^2.3.0",
-    "@ldo/cli": "^0.0.1-alpha.23",
+    "@ldo/cli": "^0.0.1-alpha.32",
     "@lingui/cli": "^5.2.0",
     "@lingui/swc-plugin": "^5.2.0",
     "@lingui/vite-plugin": "^5.2.0",
