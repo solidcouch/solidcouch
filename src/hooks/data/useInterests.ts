@@ -1,6 +1,7 @@
 import { Interest, URI } from '@/types'
 import { useQuery } from '@tanstack/react-query'
 import merge from 'lodash/merge'
+import { QueryKey } from './types'
 
 interface WikidataSearchResult {
   search: {
@@ -44,7 +45,7 @@ interface WikidataEntitiesResult {
 
 export const useSearchInterests = (query: string, language = 'en') =>
   useQuery({
-    queryKey: ['wikidataSearch', query, language],
+    queryKey: [QueryKey.wikidataSearch, query, language],
     queryFn: () => searchInterests(query, language),
     enabled: !!query,
     refetchOnWindowFocus: false,
@@ -69,7 +70,7 @@ const searchInterests = async (
 
 export const useReadInterest = (uri: URI, language = 'en') =>
   useQuery({
-    queryKey: ['wikidataEntity', uri, language],
+    queryKey: [QueryKey.wikidataEntity, uri, language],
     queryFn: () => readInterest(uri, language),
     enabled: !!uri,
     refetchOnWindowFocus: false,

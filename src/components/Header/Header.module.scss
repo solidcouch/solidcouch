@@ -1,8 +1,14 @@
+@use '@/styles/media';
+
 .header {
   height: 4rem;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.5rem;
+
+  @include media.for-tablet-portrait-up {
+    gap: 1.5rem;
+  }
 
   .logoContainer {
     display: flex;

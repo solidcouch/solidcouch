@@ -5,6 +5,7 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import ngeohash from 'ngeohash'
 import { useCallback, useMemo } from 'react'
+import { QueryKey } from './types'
 
 type NotificationData = {
   actor: string
@@ -77,7 +78,9 @@ export const useNotifyGeoindex = () => {
 
       await Promise.allSettled(
         geohashes.map(geohash =>
-          queryClient.invalidateQueries({ queryKey: ['geoindex', geohash] }),
+          queryClient.invalidateQueries({
+            queryKey: [QueryKey.geoindex, geohash],
+          }),
         ),
       )
     },

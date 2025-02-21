@@ -1,10 +1,14 @@
+import { defaultLocale } from '@/config'
 import { useConfig } from '@/config/hooks'
 import { useReadCommunity } from '@/hooks/data/useCommunity'
+import { useAppSelector } from '@/redux/hooks'
+import { selectLocale } from '@/redux/uiSlice'
 import { useEffect, useState } from 'react'
 
 export const Head = () => {
   const { communityId } = useConfig()
-  const community = useReadCommunity(communityId)
+  const locale = useAppSelector(selectLocale)
+  const community = useReadCommunity(communityId, locale, defaultLocale)
 
   const focused = useFocus()
 

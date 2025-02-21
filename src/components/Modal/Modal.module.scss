@@ -8,6 +8,8 @@
   // border: 1px solid color-mix(in srgb, var(--text-color) 20%, transparent);
   overflow: auto;
   border-radius: 4px;
+  max-width: 600px;
+  margin: auto;
 }
 
 .overlay {

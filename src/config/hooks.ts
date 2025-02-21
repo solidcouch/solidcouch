@@ -6,6 +6,7 @@ import {
   communityContainer,
   communityId,
   darkModeLogoStyle,
+  defaultCommunityName,
   emailNotificationsType,
   geoindexService,
   oidcIssuers,
@@ -23,6 +24,7 @@ const config = {
   geoindexService,
   tileServer,
   darkModeLogoStyle,
+  defaultCommunityName,
 }
 
 export const useConfig = () => {

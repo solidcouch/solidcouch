@@ -1,0 +1,661 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-02-19 13:26+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. placeholder {0}: newMessages.length
+#: src/pages/Home.tsx:26
+#: src/components/Header/MainMenu.tsx:46
+msgid "{0, plural, one {(# new)} other {(# new)}}"
+msgstr "{0, plural, one {(# new)} other {(# new)}}"
+
+#: src/pages/EditProfile/EditInterests.tsx:57
+msgid "{label} added to interests"
+msgstr "{label} added to interests"
+
+#: src/components/Join/Join.tsx:240
+msgid "<0>Ask for help in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>"
+msgstr "<0>Ask for help in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>"
+
+#: src/pages/HospexSetup/Step2.tsx:160
+msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
+msgstr "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
+
+#: src/pages/EditProfile/EditProfile.tsx:163
+msgid "About me"
+msgstr "About me"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:100
+msgid "About your hosting"
+msgstr "About your hosting"
+
+#: src/pages/Profile/ManageContact.tsx:94
+msgid "Accept"
+msgstr "Accept"
+
+#: src/pages/MyOffers.tsx:74
+msgid "Accommodation added to indexing service"
+msgstr "Accommodation added to indexing service"
+
+#: src/pages/MyOffers.tsx:112
+msgid "Accommodation created"
+msgstr "Accommodation created"
+
+#: src/pages/MyOffers.tsx:160
+msgid "Accommodation deleted"
+msgstr "Accommodation deleted"
+
+#: src/pages/SearchHosts/SearchHosts.tsx:102
+msgid "Accommodation offer from {offeredByIdentifier}"
+msgstr "Accommodation offer from {offeredByIdentifier}"
+
+#: src/pages/MyOffers.tsx:78
+msgid "Accommodation removed from indexing service"
+msgstr "Accommodation removed from indexing service"
+
+#: src/pages/MyOffers.tsx:131
+msgid "Accommodation updated"
+msgstr "Accommodation updated"
+
+#: src/pages/MyOffers.tsx:76
+msgid "Accommodation updated in indexing service"
+msgstr "Accommodation updated in indexing service"
+
+#: src/pages/MyOffers.tsx:223
+msgid "Add Accommodation"
+msgstr "Add Accommodation"
+
+#: src/pages/Profile/ManageContact.tsx:174
+msgid "Add person as a contact"
+msgstr "Add person as a contact"
+
+#: src/pages/Profile/ManageContact.tsx:146
+msgid "Add to my contacts"
+msgstr "Add to my contacts"
+
+#: src/pages/EditProfile/EditInterests.tsx:56
+msgid "Adding {label} to interests"
+msgstr "Adding {label} to interests"
+
+#: src/pages/ProfileRedirect.tsx:12
+#: src/pages/Contacts.tsx:20
+msgid "authenticating"
+msgstr "authenticating"
+
+#: src/pages/AuthenticatedOutlet.tsx:17
+msgid "Authenticating..."
+msgstr "Authenticating..."
+
+#: src/pages/Profile/ManageContact.tsx:185
+#: src/components/AccommodationForm/AccommodationForm.tsx:116
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/pages/SetupOutlet.tsx:109
+msgid "Checking your setup..."
+msgstr "Checking your setup..."
+
+#: src/components/Join/Join.tsx:69
+msgid "Choose for me!"
+msgstr "Choose for me!"
+
+#: src/components/Join/Join.tsx:143
+msgid "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one of these providers:"
+msgstr "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one of these providers:"
+
+#: src/pages/SearchHosts/SearchHosts.tsx:51
+msgid "Close hosting preview"
+msgstr "Close hosting preview"
+
+#: src/pages/Profile/ManageContact.tsx:35
+msgid "Contact exists"
+msgstr "Contact exists"
+
+#: src/pages/Profile/ManageContact.tsx:38
+msgid "Contact request sent"
+msgstr "Contact request sent"
+
+#: src/pages/Profile/Profile.tsx:49
+#: src/components/Header/MainMenu.tsx:57
+msgid "contacts"
+msgstr "contacts"
+
+#: src/pages/Contacts.tsx:33
+msgid "Contacts of <0/>"
+msgstr "Contacts of <0/>"
+
+#: src/pages/HospexSetup/Step1.tsx:192
+#: src/pages/HospexSetup/Step0.tsx:130
+#: src/components/SignIn/SignIn.tsx:129
+msgid "Continue"
+msgstr "Continue"
+
+#: src/pages/Threads.tsx:28
+msgid "Conversations"
+msgstr "Conversations"
+
+#: src/pages/HospexSetup/Step0.tsx:117
+msgid "Create inbox:"
+msgstr "Create inbox:"
+
+#: src/pages/HospexSetup/Step0.tsx:101
+msgid "Create private type index:"
+msgstr "Create private type index:"
+
+#: src/pages/HospexSetup/Step0.tsx:87
+msgid "Create public type index:"
+msgstr "Create public type index:"
+
+#: src/pages/MyOffers.tsx:111
+msgid "Creating accommodation"
+msgstr "Creating accommodation"
+
+#: src/pages/Messages.tsx:162
+msgid "Creating message"
+msgstr "Creating message"
+
+#: src/pages/MyOffers.tsx:205
+msgid "Delete"
+msgstr "Delete"
+
+#: src/pages/MyOffers.tsx:159
+msgid "Deleting accommodation"
+msgstr "Deleting accommodation"
+
+#: src/components/Join/Join.tsx:239
+msgid "Do you have troubles joining?"
+msgstr "Do you have troubles joining?"
+
+#: src/pages/MyOffers.tsx:148
+msgid "Do you really want to delete the accommodation?"
+msgstr "Do you really want to delete the accommodation?"
+
+#: src/pages/MyOffers.tsx:202
+msgid "Edit"
+msgstr "Edit"
+
+#: src/pages/Profile/Profile.tsx:40
+#: src/components/Header/MainMenu.tsx:37
+msgid "edit profile"
+msgstr "edit profile"
+
+#: src/pages/HospexSetup/Step2.tsx:145
+msgid "email address"
+msgstr "email address"
+
+#: src/pages/Messages.tsx:189
+msgid "Email notification was sent"
+msgstr "Email notification was sent"
+
+#: src/pages/HospexSetup/Step2.tsx:252
+msgid "Email notifications are not available for this community."
+msgstr "Email notifications are not available for this community."
+
+#: src/pages/HospexSetup/Step2.tsx:142
+msgid "Enter your email address:"
+msgstr "Enter your email address:"
+
+#: src/pages/Contacts.tsx:26
+msgid "fetching contacts"
+msgstr "fetching contacts"
+
+#: src/pages/EditProfile/EditProfile.tsx:67
+msgid "Fetching profile"
+msgstr "Fetching profile"
+
+#: src/pages/HospexSetup/Step2.tsx:132
+#: src/pages/HospexSetup/Step2.tsx:175
+#: src/pages/HospexSetup/Step2.tsx:216
+#: src/pages/HospexSetup/Step2.tsx:241
+#: src/pages/HospexSetup/Step2.tsx:255
+msgid "Finish Setup"
+msgstr "Finish Setup"
+
+#: src/components/Logo/Logo.tsx:43
+msgid "focused logo of {name}"
+msgstr "focused logo of {name}"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:77
+msgid "For safety, share only approximate location"
+msgstr "For safety, share only approximate location"
+
+#: src/components/Join/Join.tsx:74
+msgid "Get a Pod at solidcommunity.net 😉"
+msgstr "Get a Pod at solidcommunity.net 😉"
+
+#: src/components/Join/Join.tsx:52
+msgid "Here are some Pod providers that work with {communityName}:"
+msgstr "Here are some Pod providers that work with {communityName}:"
+
+#: src/pages/Profile/ManageContact.tsx:164
+msgid "Hi! I'd like to add you as a contact!"
+msgstr "Hi! I'd like to add you as a contact!"
+
+#: src/pages/Profile/ManageContact.tsx:65
+#: src/pages/Profile/ManageContact.tsx:117
+msgid "hospex container not found (too soon?)"
+msgstr "hospex container not found (too soon?)"
+
+#: src/pages/EditProfile/EditProfile.tsx:34
+msgid "Hospex document not found"
+msgstr "Hospex document not found"
+
+#: src/pages/Messages.tsx:142
+msgid "Hospex not set up (should not happen)"
+msgstr "Hospex not set up (should not happen)"
+
+#: src/pages/Home.tsx:19
+msgid "host"
+msgstr "host"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:72
+msgid "Hosting location (click <0/> or drag & zoom map)"
+msgstr "Hosting location (click <0/> or drag & zoom map)"
+
+#: src/components/Join/Join.tsx:94
+msgid "I want more control"
+msgstr "I want more control"
+
+#: src/components/Join/Join.tsx:129
+msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
+msgstr "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
+
+#: src/pages/Profile/ManageContact.tsx:97
+msgid "Ignore"
+msgstr "Ignore"
+
+#: src/pages/HospexSetup/Step0.tsx:114
+msgid "Inbox is set up."
+msgstr "Inbox is set up."
+
+#: src/pages/Profile/ManageContact.tsx:119
+msgid "inbox not found (too soon?)"
+msgstr "inbox not found (too soon?)"
+
+#: src/pages/Messages.tsx:135
+msgid "Inbox of the other person not found (probably too soon)"
+msgstr "Inbox of the other person not found (probably too soon)"
+
+#: src/pages/EditProfile/EditInterests.tsx:35
+msgid "Interest removed"
+msgstr "Interest removed"
+
+#: src/pages/EditProfile/EditProfile.tsx:83
+msgid "Interests"
+msgstr "Interests"
+
+#: src/components/Join/Join.tsx:77
+msgid "It is managed by the Solid community folks, and has been migrated to a <0>modern and open-source Solid server</0>."
+msgstr "It is managed by the Solid community folks, and has been migrated to a <0>modern and open-source Solid server</0>."
+
+#: src/components/Join/Join.tsx:197
+msgid "Join"
+msgstr "Join"
+
+#: src/pages/HospexSetup/HospexSetup.tsx:78
+msgid "Join Community"
+msgstr "Join Community"
+
+#: src/pages/HospexSetup/Step1.tsx:115
+msgid "Join community {communityLabel}"
+msgstr "Join community {communityLabel}"
+
+#: src/pages/Profile/Profile.tsx:60
+#: src/pages/EditProfile/EditInterests.tsx:66
+msgid "loading interests..."
+msgstr "loading interests..."
+
+#: src/pages/Messages.tsx:236
+msgid "Loading previous messages"
+msgstr "Loading previous messages"
+
+#: src/App.tsx:47
+#: src/pages/Threads.tsx:21
+#: src/pages/MyOffers.tsx:95
+#: src/pages/Messages.tsx:205
+#: src/pages/SearchHosts/AccommodationInfo.tsx:45
+#: src/pages/Profile/ManageContact.tsx:26
+msgid "Loading..."
+msgstr "Loading..."
+
+#: src/components/Logo/Logo.tsx:31
+msgid "logo of {name}"
+msgstr "logo of {name}"
+
+#: src/pages/Messages.tsx:163
+msgid "Message was created"
+msgstr "Message was created"
+
+#: src/pages/Home.tsx:22
+#: src/components/Header/MainMenu.tsx:42
+msgid "messages"
+msgstr "messages"
+
+#: src/pages/Messages.tsx:207
+msgid "Messages with <0/>"
+msgstr "Messages with <0/>"
+
+#: src/pages/MyOffers.tsx:101
+#: src/pages/MyOffers.tsx:145
+msgid "missing variables"
+msgstr "missing variables"
+
+#: src/components/SignIn/SignIn.tsx:116
+msgid "more"
+msgstr "more"
+
+#: src/pages/MyOffers.tsx:175
+msgid "My Accommodation Offers"
+msgstr "My Accommodation Offers"
+
+#: src/components/Header/MainMenu.tsx:62
+msgid "my hosting"
+msgstr "my hosting"
+
+#: src/pages/SearchHosts/SearchHosts.tsx:66
+msgid "My location"
+msgstr "My location"
+
+#: src/pages/EditProfile/EditProfile.tsx:140
+#: src/pages/EditProfile/EditProfile.tsx:146
+msgid "Name"
+msgstr "Name"
+
+#: src/pages/Messages.tsx:131
+msgid "No authenticated user available"
+msgstr "No authenticated user available"
+
+#: src/pages/HospexSetup/Step2.tsx:102
+msgid "no hospex document for community"
+msgstr "no hospex document for community"
+
+#: src/pages/MyOffers.tsx:69
+msgid "Notifying indexing service"
+msgstr "Notifying indexing service"
+
+#: src/pages/HospexSetup/Step1.tsx:161
+msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
+msgstr "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
+
+#: src/components/Join/Join.tsx:168
+msgid "Or use your domain to host your own Solid Pod."
+msgstr "Or use your domain to host your own Solid Pod."
+
+#: src/components/SignIn/SignIn.tsx:119
+msgid "or write your own Solid identity provider, or your webId"
+msgstr "or write your own Solid identity provider, or your webId"
+
+#: src/pages/Contacts.tsx:65
+#: src/pages/Contacts.tsx:74
+msgid "pending"
+msgstr "pending"
+
+#: src/pages/EditProfile/EditProfile.tsx:149
+msgid "Photo"
+msgstr "Photo"
+
+#: src/pages/Profile/ManageContact.tsx:177
+msgid "Please invite only people you know personally."
+msgstr "Please invite only people you know personally."
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:95
+msgid "Please move map to your hosting location"
+msgstr "Please move map to your hosting location"
+
+#: src/pages/HospexSetup/Step2.tsx:239
+msgid "Please verify your email"
+msgstr "Please verify your email"
+
+#: src/pages/UnauthenticatedHome.tsx:71
+msgid "Powered by <0>SolidCouch</0>"
+msgstr "Powered by <0>SolidCouch</0>"
+
+#: src/pages/HospexSetup/HospexSetup.tsx:64
+msgid "Prepare Pod"
+msgstr "Prepare Pod"
+
+#: src/pages/HospexSetup/Step0.tsx:98
+msgid "Private type index is set up."
+msgstr "Private type index is set up."
+
+#: src/pages/Messages.tsx:144
+msgid "Private type index not set up (should not happen)"
+msgstr "Private type index not set up (should not happen)"
+
+#: src/pages/Contacts.tsx:71
+msgid "process"
+msgstr "process"
+
+#: src/components/Header/MainMenu.tsx:33
+msgid "profile"
+msgstr "profile"
+
+#: src/pages/Profile/Profile.tsx:29
+msgid "Profile photo of {name}"
+msgstr "Profile photo of {name}"
+
+#: src/pages/EditProfile/EditProfile.tsx:78
+msgid "Profile updated"
+msgstr "Profile updated"
+
+#: src/pages/HospexSetup/Step0.tsx:84
+msgid "Public type index is set up."
+msgstr "Public type index is set up."
+
+#: src/components/Join/Join.tsx:114
+msgid "Read more about <0>running your own Solid server</0>."
+msgstr "Read more about <0>running your own Solid server</0>."
+
+#: src/pages/EditProfile/EditInterests.tsx:34
+msgid "Removing interest"
+msgstr "Removing interest"
+
+#: src/pages/HospexSetup/Step2.tsx:152
+msgid "Resend Confirmation Email in {countdown}s"
+msgstr "Resend Confirmation Email in {countdown}s"
+
+#: src/pages/EditProfile/EditProfile.tsx:167
+msgid "Save changes"
+msgstr "Save changes"
+
+#: src/pages/Profile/ManageContact.tsx:85
+msgid "See contact invitation"
+msgstr "See contact invitation"
+
+#: src/components/SelectLocation.tsx:114
+msgid "Select my location"
+msgstr "Select my location"
+
+#: src/components/SignIn/SignIn.tsx:84
+msgid "Select your Solid identity provider"
+msgstr "Select your Solid identity provider"
+
+#: src/pages/Messages.tsx:251
+msgid "Send"
+msgstr "Send"
+
+#: src/pages/HospexSetup/Step2.tsx:154
+#: src/pages/HospexSetup/Step2.tsx:233
+msgid "Send Confirmation Email"
+msgstr "Send Confirmation Email"
+
+#: src/pages/Profile/ManageContact.tsx:182
+msgid "Send contact invitation"
+msgstr "Send contact invitation"
+
+#: src/pages/Messages.tsx:188
+msgid "Sending email notification"
+msgstr "Sending email notification"
+
+#: src/pages/Messages.tsx:177
+msgid "Sending Solid notification"
+msgstr "Sending Solid notification"
+
+#: src/pages/HospexSetup/Step1.tsx:152
+msgid "Set up new data for this community:"
+msgstr "Set up new data for this community:"
+
+#: src/pages/HospexSetup/HospexSetup.tsx:90
+msgid "Set Up Notifications"
+msgstr "Set Up Notifications"
+
+#: src/pages/HospexSetup/HospexSetup.tsx:114
+msgid "Setup"
+msgstr "Setup"
+
+#: src/pages/HospexSetup/Step2.tsx:225
+msgid "Setup email notifications"
+msgstr "Setup email notifications"
+
+#: src/pages/HospexSetup/Step1.tsx:134
+msgid "Setup hospex document and storage"
+msgstr "Setup hospex document and storage"
+
+#: src/pages/HospexSetup/Step1.tsx:124
+msgid "Setup hospex document and storage:"
+msgstr "Setup hospex document and storage:"
+
+#: src/components/Join/Join.tsx:49
+msgid "Show me some providers!"
+msgstr "Show me some providers!"
+
+#: src/components/SignIn/SignIn.tsx:75
+msgid "Sign in"
+msgstr "Sign in"
+
+#: src/components/SignOut.tsx:15
+msgid "sign out"
+msgstr "sign out"
+
+#: src/pages/Messages.tsx:178
+msgid "Solid notification was sent"
+msgstr "Solid notification was sent"
+
+#: src/pages/HospexSetup/Step0.tsx:60
+msgid "Something is not resolved (unexpected error)"
+msgstr "Something is not resolved (unexpected error)"
+
+#: src/components/withToast.tsx:20
+msgid "Something went wrong."
+msgstr "Something went wrong."
+
+#: src/components/SignIn/SignIn.tsx:59
+#: src/components/SignIn/SignIn.tsx:68
+msgid ""
+"Something went wrong.\n"
+"Error: {e}"
+msgstr ""
+"Something went wrong.\n"
+"Error: {e}"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:119
+msgid "Submit"
+msgstr "Submit"
+
+#: src/components/ThemeSwitch/ThemeSwitch.tsx:21
+msgid "Switch to dark theme"
+msgstr "Switch to dark theme"
+
+#: src/components/ThemeSwitch/ThemeSwitch.tsx:21
+msgid "Switch to light theme"
+msgstr "Switch to light theme"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:105
+msgid "Tell others about your place and hosting"
+msgstr "Tell others about your place and hosting"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:110
+msgid "This field is required"
+msgstr "This field is required"
+
+#: src/pages/Messages.tsx:243
+msgid "This is a start of your conversation"
+msgstr "This is a start of your conversation"
+
+#: src/components/Join/Join.tsx:161
+msgid "To complete the process, you must prove that the WebID on your domain belongs to you. Afterwards, the WebID must point to your Profile Document. (This may need more explanation.)"
+msgstr "To complete the process, you must prove that the WebID on your domain belongs to you. Afterwards, the WebID must point to your Profile Document. (This may need more explanation.)"
+
+#: src/components/Join/Join.tsx:207
+msgid "To join {communityName}, you need a <0>Solid Pod</0>."
+msgstr "To join {communityName}, you need a <0>Solid Pod</0>."
+
+#: src/pages/Home.tsx:16
+msgid "travel"
+msgstr "travel"
+
+#: src/pages/MyOffers.tsx:80
+msgid "Unexpected status code from indexing service"
+msgstr "Unexpected status code from indexing service"
+
+#: src/pages/MyOffers.tsx:130
+msgid "Updating accommodation"
+msgstr "Updating accommodation"
+
+#: src/pages/EditProfile/EditProfile.tsx:77
+msgid "Updating profile"
+msgstr "Updating profile"
+
+#: src/components/SignIn/SignIn.tsx:55
+msgid ""
+"We didn't succeed with redirecting to the issuer at {oidcIssuer}.\n"
+"Have you provided correct webId or OIDCIssuer? Or is it down?\n"
+"\n"
+"Reason: {message}\n"
+"\n"
+"Error: {errorString}"
+msgstr ""
+"We didn't succeed with redirecting to the issuer at {oidcIssuer}.\n"
+"Have you provided correct webId or OIDCIssuer? Or is it down?\n"
+"\n"
+"Reason: {message}\n"
+"\n"
+"Error: {errorString}"
+
+#: src/pages/SetupOutlet.tsx:112
+msgid "We're verifying that everything is configured correctly."
+msgstr "We're verifying that everything is configured correctly."
+
+#: src/pages/UnauthenticatedHome.tsx:68
+msgid "WIP"
+msgstr "WIP"
+
+#: src/pages/SearchHosts/AccommodationInfo.tsx:53
+#: src/pages/Profile/Profile.tsx:45
+msgid "Write a message"
+msgstr "Write a message"
+
+#: src/pages/HospexSetup/Step1.tsx:138
+msgid "You already seem to be a member of some hospitality exchange communities. Would you like to:"
+msgstr "You already seem to be a member of some hospitality exchange communities. Would you like to:"
+
+#: src/pages/HospexSetup/Step1.tsx:119
+msgid "You are already a member of {communityLabel}"
+msgstr "You are already a member of {communityLabel}"
+
+#: src/components/Join/Join.tsx:98
+msgid "You can <0>host your Pod</0>. This will give you full control over your data. However, it's more complicated to set up, and requires maintenance. We recommend <1>Community Solid Server</1>."
+msgstr "You can <0>host your Pod</0>. This will give you full control over your data. However, it's more complicated to set up, and requires maintenance. We recommend <1>Community Solid Server</1>."
+
+#: src/pages/HospexSetup/Step2.tsx:228
+msgid "Your email"
+msgstr "Your email"
+
+#: src/pages/HospexSetup/Step2.tsx:130
+#: src/pages/HospexSetup/Step2.tsx:214
+msgid "Your email notifications are set up."
+msgstr "Your email notifications are set up."
+
+#: src/components/SignIn/SignIn.tsx:125
+msgid "Your webId or provider"
+msgstr "Your webId or provider"

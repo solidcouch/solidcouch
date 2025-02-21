@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/react/macro'
 import { ToastOptions, ToastPromiseParams, toast } from 'react-toastify'
 
 const withToast = async <
@@ -16,7 +17,7 @@ const withToast = async <
       error: error ?? {
         render: ({ data: e }) => (
           <>
-            Something went wrong
+            <Trans>Something went wrong.</Trans>
             <br />
             {e.message}
           </>

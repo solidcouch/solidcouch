@@ -4,9 +4,10 @@
   "entry": [
     "src/main.tsx",
     "src/global.d.ts",
-    "src/types/leaflet.locatecontrol.d.ts"
+    "src/types/leaflet.locatecontrol.d.ts",
+    "lingui.config.ts"
   ],
   "paths": { "@/*": ["./src/*"] },
-  "ignore": ["src/ldo/**"],
-  "ignoreDependencies": ["ajv-errors"]
+  "ignore": ["src/ldo/**", "src/locales/*.ts"],
+  "ignoreDependencies": ["ajv-errors", "@lingui/swc-plugin"]
 }

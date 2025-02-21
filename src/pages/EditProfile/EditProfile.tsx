@@ -6,6 +6,7 @@ import { useProfile, useUpdateHospexProfile } from '@/hooks/data/useProfile'
 import { useAuth } from '@/hooks/useAuth'
 import { Person } from '@/types'
 import { file2base64, getContainer } from '@/utils/helpers'
+import { Trans, useLingui } from '@lingui/react/macro'
 import omit from 'lodash/omit'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -18,9 +19,10 @@ export const EditProfile = () => {
   const { communityId } = useConfig()
   const auth = useAuth()
   const navigate = useNavigate()
+  const { t } = useLingui()
 
   const [, , hospexDocument, , hospexProfile] = useProfile(
-    auth.webId as string,
+    auth.webId!,
     communityId,
   )
 
@@ -29,8 +31,7 @@ export const EditProfile = () => {
   const createFile = useCreateFile()
 
   const handleSaveProfile = async (data: PersonPayload) => {
-    if (!auth.webId) throw new Error('Not signed in (should not happen)')
-    if (!hospexDocument) throw new Error('Hospex document not found')
+    if (!hospexDocument) throw new Error(t`Hospex document not found`)
 
     const photo = data.photo?.[0]
     let photoUri: string | undefined
@@ -46,8 +47,9 @@ export const EditProfile = () => {
     // update profile
     await updateHospexProfile({
       hospexDocument,
-      personId: auth.webId,
+      personId: auth.webId!,
       data: { ...data, photo: photoUri },
+      // eslint-disable-next-line lingui/no-unlocalized-strings
       language: 'en',
     })
 
@@ -59,9 +61,12 @@ export const EditProfile = () => {
     navigate('..')
   }
 
-  if (!auth.webId) throw new Error('Not signed in (should not happen)')
-
-  if (!hospexProfile) return <Loading>Fetching profile</Loading>
+  if (!hospexProfile)
+    return (
+      <Loading>
+        <Trans>Fetching profile</Trans>
+      </Loading>
+    )
 
   return (
     <div className={styles.container}>
@@ -69,13 +74,15 @@ export const EditProfile = () => {
         initialData={hospexProfile}
         onSubmit={data =>
           withToast(handleSaveProfile(data), {
-            pending: 'Updating profile',
-            success: 'Profile updated',
+            pending: t`Updating profile`,
+            success: t`Profile updated`,
           })
         }
       />
-      <label>Interests</label>
-      <EditInterests webId={auth.webId} />
+      <label>
+        <Trans>Interests</Trans>
+      </label>
+      <EditInterests webId={auth.webId!} />
     </div>
   )
 }
@@ -91,6 +98,7 @@ const EditProfileForm = ({
   initialData: Partial<Pick<Person, 'name' | 'photo' | 'about'>>
   onSubmit: (data: PersonPayload) => unknown
 }) => {
+  const { t } = useLingui()
   const { register, handleSubmit, watch, setValue } = useForm<PersonPayload>({
     defaultValues: omit(initialData, 'photo'),
   })
@@ -128,9 +136,18 @@ const EditProfileForm = ({
 
   return (
     <form onSubmit={handleFormSubmit}>
-      <label htmlFor="name">Name</label>
-      <input id="name" type="text" {...register('name')} placeholder="Name" />
-      <label htmlFor="photo">Photo</label>
+      <label htmlFor="name">
+        <Trans>Name</Trans>
+      </label>
+      <input
+        id="name"
+        type="text"
+        {...register('name')}
+        placeholder={t`Name`}
+      />
+      <label htmlFor="photo">
+        <Trans>Photo</Trans>
+      </label>
       <label
         tabIndex={0}
         htmlFor="photo"
@@ -142,9 +159,13 @@ const EditProfileForm = ({
         <FaCamera />
         <input id="photo" type="file" {...register('photo')} accept="image/*" />
       </label>
-      <label htmlFor="about">About me</label>
+      <label htmlFor="about">
+        <Trans>About me</Trans>
+      </label>
       <textarea id="about" {...register('about')} />
-      <Button primary>Save changes</Button>
+      <Button primary>
+        <Trans>Save changes</Trans>
+      </Button>
     </form>
   )
 }

@@ -3,13 +3,14 @@ import { removeHashFromURI } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
+import { QueryKey } from './types'
 
 /**
  * wrapper around react-query to fetch a single file as object url
  */
 export const useFile = (uri: URI = '') => {
   const doc = uri ? removeHashFromURI(uri) : uri
-  const queryKey = useMemo(() => ['file', doc], [doc])
+  const queryKey = useMemo(() => [QueryKey.file, doc], [doc])
 
   const result = useQuery({
     queryKey,
@@ -32,7 +33,7 @@ export const useFile = (uri: URI = '') => {
 //       queries: uris
 //         .map(uri => removeHashFromURI(uri))
 //         .map(doc => ({
-//           queryKey: ['file', doc],
+//           queryKey: [QueryKey.file, doc],
 //           queryFn: () => readFile(doc),
 //         })),
 //     }),
@@ -100,7 +101,7 @@ export const useCreateFile = () => {
       await createFile(uri, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ['file', removeHashFromURI(variables.uri)],
+        queryKey: [QueryKey.file, removeHashFromURI(variables.uri)],
       })
     },
   })
@@ -115,7 +116,7 @@ export const useCreateFile = () => {
 //       await updateFile(uri, data),
 //     onSuccess: (_data, variables) => {
 //       queryClient.invalidateQueries({
-//         queryKey: ['file', removeHashFromURI(variables.uri)],
+//         queryKey: [QueryKey.file, removeHashFromURI(variables.uri)],
 //       })
 //     },
 //   })
@@ -129,7 +130,7 @@ export const useDeleteFile = () => {
     mutationFn: async ({ uri }: { uri: URI }) => await deleteFile(uri),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ['file', removeHashFromURI(variables.uri)],
+        queryKey: [QueryKey.file, removeHashFromURI(variables.uri)],
       })
     },
   })

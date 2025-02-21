@@ -3,6 +3,7 @@ import { SelectLocation } from '@/components/SelectLocation.tsx'
 import styles from '@/pages/MyOffers.module.scss'
 import { Accommodation } from '@/types'
 import { ajvResolver } from '@hookform/resolvers/ajv'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { JSONSchemaType } from 'ajv'
 import clsx from 'clsx'
 import merge from 'lodash/merge'
@@ -41,6 +42,8 @@ export const AccommodationForm = ({
   onSubmit: (data: Accommodation) => void
   onCancel: () => void
 }) => {
+  const { t } = useLingui()
+
   const {
     handleSubmit,
     register,
@@ -66,9 +69,12 @@ export const AccommodationForm = ({
       data-cy="accommodation-form"
     >
       <label>
-        Hosting location (click <FaLocationArrow /> or drag & zoom map)
+        <Trans>
+          Hosting location (click <FaLocationArrow /> or drag & zoom map)
+        </Trans>
         <br />
-        <FaExclamationTriangle /> For safety, share only approximate location{' '}
+        <FaExclamationTriangle />{' '}
+        <Trans>For safety, share only approximate location</Trans>{' '}
         <FaExclamationTriangle />
       </label>
       <Controller
@@ -86,27 +92,31 @@ export const AccommodationForm = ({
       />
       {errors.location && (
         <div className={styles.errorMessage}>
-          Please move map to your hosting location
+          <Trans>Please move map to your hosting location</Trans>
         </div>
       )}
 
-      <label htmlFor="description">About your hosting</label>
+      <label htmlFor="description">
+        <Trans>About your hosting</Trans>
+      </label>
       <textarea
         className={clsx(errors.description && styles.inputError)}
         id="description"
-        placeholder="Tell others about your place and hosting"
+        placeholder={t`Tell others about your place and hosting`}
         {...register('description')}
       />
       {errors.description && (
-        <div className={styles.errorMessage}>This field is required</div>
+        <div className={styles.errorMessage}>
+          <Trans>This field is required</Trans>
+        </div>
       )}
 
       <div className={styles.actions}>
         <Button type="reset" secondary>
-          Cancel
+          <Trans>Cancel</Trans>
         </Button>
         <Button type="submit" primary>
-          Submit
+          <Trans>Submit</Trans>
         </Button>
       </div>
     </form>

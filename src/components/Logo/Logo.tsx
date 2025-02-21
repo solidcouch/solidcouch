@@ -1,4 +1,5 @@
 import { useConfig } from '@/config/hooks'
+import { useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
 import styles from './Logo.module.scss'
 
@@ -14,6 +15,7 @@ export const Logo = ({
   className?: string
 }) => {
   const { darkModeLogoStyle } = useConfig()
+  const { t } = useLingui()
   if (!logo && !name) return null
   return (
     <div className={styles.logoContainer}>
@@ -26,7 +28,7 @@ export const Logo = ({
             focusedLogo ? styles.unfocusedLogo : null,
             className,
           )}
-          alt={name ? `logo of ${name}` : ''}
+          alt={name ? t`logo of ${name}` : ''}
         />
       )}
       {focusedLogo && (
@@ -38,7 +40,7 @@ export const Logo = ({
             styles.focusedLogo,
             className,
           )}
-          alt={name ? `focused logo of ${name}` : ''}
+          alt={name ? t`focused logo of ${name}` : ''}
         />
       )}
       {name ? <span>{name}</span> : null}

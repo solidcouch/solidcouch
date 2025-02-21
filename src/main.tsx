@@ -18,8 +18,9 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
-import { persistor, store } from './redux/store.ts'
+import { LinguiProvider } from './components/LinguiProvider.tsx'
 import './config/index.ts'
+import { persistor, store } from './redux/store.ts'
 import { reportWebVitals } from './reportWebVitals'
 import { router } from './router.tsx'
 
@@ -33,7 +34,9 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
+          <LinguiProvider>
+            <RouterProvider router={router} />
+          </LinguiProvider>
         </QueryClientProvider>
       </PersistGate>
     </Provider>

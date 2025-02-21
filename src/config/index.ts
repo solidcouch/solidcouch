@@ -7,6 +7,7 @@ export {
   communityContainer,
   communityId,
   darkModeLogoStyle,
+  defaultCommunityName,
   emailNotificationsIdentity,
   emailNotificationsService,
   emailNotificationsType,
@@ -75,3 +76,5 @@ export const oidcIssuers: IssuerConfig[] = [
     server: 'CSS',
   },
 ]
+
+export { defaultLocale, locales } from './locales'
