@@ -10,6 +10,7 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import { fetchRdfDocument } from '@ldhop/core'
 import { useQueries } from '@tanstack/react-query'
 import LinkHeader from 'http-link-header'
+import { QueryKey } from './types'
 
 const fetchRdfDocumentOrFail = async (url: string) => {
   url = removeHashFromURI(url)
@@ -25,7 +26,7 @@ const fetchRdfDocumentOrFail = async (url: string) => {
 export const useReadAccess = (resource: string) => {
   resource = resource && removeHashFromURI(resource)
   const { data } = useQuery({
-    queryKey: ['rdfDocument', resource],
+    queryKey: [QueryKey.rdfDocument, resource],
     queryFn: async () => fetchRdfDocumentOrFail(resource),
     enabled: Boolean(resource),
   })
@@ -43,7 +44,7 @@ export const useReadAccess = (resource: string) => {
   const effectivePermissions = wacAllow ? parseWacAllow(wacAllow) : undefined
 
   const { data: aclData } = useQuery({
-    queryKey: ['rdfDocument', aclUri],
+    queryKey: [QueryKey.rdfDocument, aclUri],
     queryFn: () => fetchRdfDocumentOrFail(aclUri ?? ''),
     enabled: Boolean(aclUri) && effectivePermissions?.user?.has('control'),
   })
@@ -64,7 +65,7 @@ export const useReadAccesses = (resources: string[]) => {
   // Fetch RDF Documents for all resources
   const resourceQueries = useQueries({
     queries: resources.map(resource => ({
-      queryKey: ['rdfDocument', resource],
+      queryKey: [QueryKey.rdfDocument, resource],
       queryFn: async () => fetchRdfDocumentOrFail(resource),
       enabled: Boolean(resource),
     })),
@@ -96,7 +97,7 @@ export const useReadAccesses = (resources: string[]) => {
   // Fetch ACL Documents for all resources with valid ACL URIs
   const aclQueries = useQueries({
     queries: resourceAccessData.map(({ aclUri, effectivePermissions }) => ({
-      queryKey: ['rdfDocument', aclUri],
+      queryKey: [QueryKey.rdfDocument, aclUri],
       queryFn: async () => fetchRdfDocumentOrFail(aclUri ?? ''),
       // it's only meaningful to fetch acl if user has control permission
       enabled: Boolean(aclUri) && effectivePermissions?.user?.has('control'),

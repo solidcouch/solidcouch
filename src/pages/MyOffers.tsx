@@ -12,6 +12,7 @@ import { useUpdateAccommodation } from '@/hooks/data/useUpdateAccommodation'
 import { useAuth } from '@/hooks/useAuth'
 import { Accommodation, Location, URI } from '@/types'
 import { getContainer } from '@/utils/helpers'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { useCallback, useState } from 'react'
 import { FaDoorOpen } from 'react-icons/fa'
 import styles from './MyOffers.module.scss'
@@ -19,8 +20,13 @@ import styles from './MyOffers.module.scss'
 export const MyOffers = () => {
   const { communityId } = useConfig()
   const auth = useAuth()
+  const { t } = useLingui()
 
-  const [editing, setEditing] = useState<URI | 'new'>()
+  enum EditingOption {
+    new = 'new',
+  }
+
+  const [editing, setEditing] = useState<URI | EditingOption.new>()
 
   const { personalHospexDocuments } = useHospexDocumentSetup(
     auth.webId ?? '',
@@ -60,34 +66,39 @@ export const MyOffers = () => {
             currentLocation,
           }),
           {
-            pending: 'Notifying indexing service',
+            pending: t`Notifying indexing service`,
             success: {
               render: ({ data }) => {
                 switch (data.status) {
                   case 201:
-                    return <>Accommodation added to indexing service</>
+                    return t`Accommodation added to indexing service`
                   case 200:
-                    return <>Accommodation updated in indexing service</>
+                    return t`Accommodation updated in indexing service`
                   case 204:
-                    return <>Accommodation removed from indexing service</>
+                    return t`Accommodation removed from indexing service`
                   default:
-                    return <>Unexpected status code from indexing service</>
+                    return t`Unexpected status code from indexing service`
                 }
               },
             },
           },
         )
     },
-    [auth.webId, isGeoindexSetUp, notifyGeoindex],
+    [auth.webId, isGeoindexSetUp, notifyGeoindex, t],
   )
 
   if (typeof auth.webId !== 'string') return null
 
-  if (!accommodations) return <Loading>Loading...</Loading>
+  if (!accommodations)
+    return (
+      <Loading>
+        <Trans>Loading...</Trans>
+      </Loading>
+    )
 
   const handleCreate = async (accommodation: Omit<Accommodation, 'id'>) => {
     if (!(auth.webId && personalHospexDocuments?.[0]))
-      throw new Error('missing variables')
+      throw new Error(t`missing variables`)
 
     const { uri } = await withToast(
       createAccommodation({
@@ -97,8 +108,8 @@ export const MyOffers = () => {
         hospexContainer: getContainer(personalHospexDocuments[0]),
       }),
       {
-        pending: 'Creating accommodation',
-        success: 'Accommodation created',
+        pending: t`Creating accommodation`,
+        success: t`Accommodation created`,
       },
     )
 
@@ -116,8 +127,8 @@ export const MyOffers = () => {
     previousAccommodation: Accommodation,
   ) => {
     await withToast(updateAccommodation({ data: accommodation }), {
-      pending: 'Updating accommodation',
-      success: 'Accommodation updated',
+      pending: t`Updating accommodation`,
+      success: t`Accommodation updated`,
     })
     setEditing(undefined)
 
@@ -131,10 +142,10 @@ export const MyOffers = () => {
 
   const handleDelete = async ({ id, location }: Accommodation) => {
     if (!(auth.webId && personalHospexDocuments?.[0]))
-      throw new Error('missing variables')
+      throw new Error(t`missing variables`)
 
     const isConfirmed = globalThis.confirm(
-      'Do you really want to delete the accommodation?',
+      t`Do you really want to delete the accommodation?`,
     )
 
     if (isConfirmed) {
@@ -145,8 +156,8 @@ export const MyOffers = () => {
           hospexDocument: personalHospexDocuments[0],
         }),
         {
-          pending: 'Deleting accommodation',
-          success: 'Accommodation deleted',
+          pending: t`Deleting accommodation`,
+          success: t`Accommodation deleted`,
         },
       )
 
@@ -161,7 +172,7 @@ export const MyOffers = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>
-        <FaDoorOpen size={32} /> My Accommodation Offers
+        <FaDoorOpen size={32} /> <Trans>My Accommodation Offers</Trans>
       </h1>
       <ul style={{ display: 'contents' }}>
         {accommodations.map(accommodation =>
@@ -188,17 +199,17 @@ export const MyOffers = () => {
                     setEditing(accommodation.id)
                   }}
                 >
-                  Edit
+                  <Trans>Edit</Trans>
                 </Button>
                 <Button danger onClick={() => handleDelete(accommodation)}>
-                  Delete
+                  <Trans>Delete</Trans>
                 </Button>
               </div>
             </li>
           ),
         )}
       </ul>
-      {editing === 'new' ? (
+      {editing === EditingOption.new ? (
         <AccommodationForm
           onSubmit={handleCreate}
           onCancel={() => setEditing(undefined)}
@@ -206,10 +217,10 @@ export const MyOffers = () => {
       ) : (
         <Button
           primary
-          onClick={() => setEditing('new')}
+          onClick={() => setEditing(EditingOption.new)}
           className={styles.addAccommodationButton}
         >
-          Add Accommodation
+          <Trans>Add Accommodation</Trans>
         </Button>
       )}
     </div>

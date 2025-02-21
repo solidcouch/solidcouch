@@ -21,6 +21,7 @@ export const LinguiProvider = ({ children }: { children: ReactNode }) => {
  * @param locale any locale string
  */
 async function dynamicActivate(locale: string) {
+  // eslint-disable-next-line lingui/no-unlocalized-strings
   const { messages } = await import(`../locales/${locale}.ts`)
   i18n.load(locale, messages)
   i18n.activate(locale)

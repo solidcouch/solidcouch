@@ -36,11 +36,11 @@ const RegistrationButton = ({
 }
 
 const useTabs = () => {
-  const { oidcIssuers, communityId } = useConfig()
+  const { oidcIssuers, communityId, defaultCommunityName } = useConfig()
   const { t } = useLingui()
 
   const community = useReadCommunity(communityId)
-  const communityName = community.name || 'SolidCouch'
+  const communityName = community.name || defaultCommunityName
 
   const tabs = useMemo(
     () => [
@@ -181,9 +181,9 @@ export const Join = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedTab, setSelectedTab] = useState<string>()
 
-  const { communityId } = useConfig()
+  const { communityId, defaultCommunityName } = useConfig()
   const community = useReadCommunity(communityId)
-  const communityName = community.name || 'SolidCouch'
+  const communityName = community.name || defaultCommunityName
 
   const handleTabChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedTab(event.target.value)
@@ -231,7 +231,7 @@ export const Join = () => {
                 ))}
               </div>
               <div className={styles.tabContent}>
-                <p>{tabs.find(tab => tab.id === selectedTab)?.content}</p>
+                <div>{tabs.find(tab => tab.id === selectedTab)?.content}</div>
               </div>
             </div>
           </div>
@@ -239,7 +239,7 @@ export const Join = () => {
             <Trans>Do you have troubles joining?</Trans>{' '}
             <Trans>
               <a
-                href="https://matrix.to/#/#ohn:matrix.org"
+                href="https://matrix.to/#/#solidcouch:matrix.org"
                 target="_blank"
                 rel="noopener noreferrer"
               >

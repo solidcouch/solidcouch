@@ -12,11 +12,13 @@ import { useAuth } from '@/hooks/useAuth'
 import { URI } from '@/types'
 import { removeBaseUrl } from '@/utils/helpers'
 import { hospex } from '@/utils/rdf-namespaces'
+import { Trans } from '@lingui/react/macro'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
 import styles from './HospexSetup.module.scss'
+import { SetupStatusKey } from './types'
 
 export const Step1 = ({
   onSuccess,
@@ -25,8 +27,8 @@ export const Step1 = ({
   allHospex,
   publicTypeIndex,
 }: StepProps & {
-  isMember: boolean
-  isHospexProfile: boolean
+  [SetupStatusKey.isMember]: boolean
+  [SetupStatusKey.isHospexProfile]: boolean
   allHospex: {
     hospexDocument: URI
     communities: { uri: string; name: string }[]
@@ -44,6 +46,7 @@ export const Step1 = ({
   const saveTypeRegistration = useSaveTypeRegistration()
 
   const defaultHospexDocument =
+    // eslint-disable-next-line lingui/no-unlocalized-strings
     storage && `${storage}hospex/${communityContainer}/card`
 
   const { handleSubmit, register, watch, setValue } = useForm<{
@@ -103,16 +106,22 @@ export const Step1 = ({
     },
   )
 
+  const communityLabel = community.name || communityId
+
   return (
     <form onSubmit={handleFormSubmit}>
       {!isMember ? (
-        <li>Join community {community.name || communityId}</li>
+        <li>
+          <Trans>Join community {communityLabel}</Trans>
+        </li>
       ) : (
-        <li>You are already a member of {community.name || communityId}</li>
+        <li>
+          <Trans>You are already a member of {communityLabel}</Trans>
+        </li>
       )}
       {!isHospexProfile && allHospex.length === 0 && (
         <li>
-          Setup hospex document and storage:{' '}
+          <Trans>Setup hospex document and storage:</Trans>{' '}
           <Editable
             value={removeBaseUrl(newHospexDocument, storage)}
             {...register('newHospexDocument', { required: true })}
@@ -121,21 +130,26 @@ export const Step1 = ({
       )}
       {!isHospexProfile && allHospex.length > 0 && (
         <li>
-          <legend>Setup hospex document and storage</legend>
+          <legend>
+            <Trans>Setup hospex document and storage</Trans>
+          </legend>
           <fieldset className={styles.storageOptions}>
             <legend>
-              You already seem to be a member of some hospitality exchange
-              communities. Would you like to:
+              <Trans>
+                You already seem to be a member of some hospitality exchange
+                communities. Would you like to:
+              </Trans>
             </legend>
             <div className={styles.option}>
               <input
                 type="radio"
                 id="new-hospex-document"
+                // eslint-disable-next-line lingui/no-unlocalized-strings
                 value="new"
                 {...register('hospexDocument', { required: true })}
               />{' '}
               <label htmlFor="new-hospex-document">
-                Set up new data for this community:
+                <Trans>Set up new data for this community:</Trans>
                 <Editable
                   {...register('newHospexDocument', { required: true })}
                   value={removeBaseUrl(watch('newHospexDocument'), storage)}
@@ -144,9 +158,11 @@ export const Step1 = ({
             </div>
             <div>
               <legend>
-                Or use data (profile, hosting offers, etc.) from one of your
-                existing communities?{' '}
-                <i>(Recommended for similar communities)</i>
+                <Trans>
+                  Or use data (profile, hosting offers, etc.) from one of your
+                  existing communities?{' '}
+                  <i>(Recommended for similar communities)</i>
+                </Trans>
               </legend>
               {allHospex.map(({ hospexDocument, communities }, i) => (
                 <div key={hospexDocument} className={styles.option}>
@@ -173,7 +189,7 @@ export const Step1 = ({
         data-cy="setup-step-1-continue"
         disabled={!publicTypeIndex}
       >
-        Continue
+        <Trans>Continue</Trans>
       </Button>
     </form>
   )

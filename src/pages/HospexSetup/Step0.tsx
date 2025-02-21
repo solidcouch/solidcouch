@@ -5,9 +5,11 @@ import {
   useCreatePublicTypeIndex,
 } from '@/hooks/data/useSetupHospex'
 import { removeBaseUrl } from '@/utils/helpers'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { useForm } from 'react-hook-form'
 import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
+import { SetupStatusKey } from './types'
 
 interface Step0Data {
   publicTypeIndex: string
@@ -23,12 +25,13 @@ export const Step0 = ({
   webId,
   storage,
 }: StepProps & {
-  isPublicTypeIndex: boolean
-  isPrivateTypeIndex: boolean
-  isInbox: boolean
+  [SetupStatusKey.isPublicTypeIndex]: boolean
+  [SetupStatusKey.isPrivateTypeIndex]: boolean
+  [SetupStatusKey.isInbox]: boolean
   webId: string
   storage: string
 }) => {
+  const { t } = useLingui()
   const createPublicTypeIndex = useCreatePublicTypeIndex()
   const createPrivateTypeIndex = useCreatePrivateTypeIndex()
   const createInbox = useCreateInbox()
@@ -54,7 +57,7 @@ export const Step0 = ({
         isPrivateTypeIndex === undefined ||
         isInbox === undefined
       )
-        throw new Error('Something is not resolved (unexpected error)')
+        throw new Error(t`Something is not resolved (unexpected error)`)
 
       if (isPublicTypeIndex === false)
         await createPublicTypeIndex({
@@ -78,10 +81,10 @@ export const Step0 = ({
     <form onSubmit={handleFormSubmit}>
       <div>
         {isPublicTypeIndex ? (
-          <>Public type index is set up.</>
+          <Trans>Public type index is set up.</Trans>
         ) : (
           <>
-            Create public type index:{' '}
+            <Trans>Create public type index:</Trans>{' '}
             <Editable
               value={removeBaseUrl(watch('publicTypeIndex'), storage)}
               {...register('publicTypeIndex', { required: true })}
@@ -92,10 +95,10 @@ export const Step0 = ({
       </div>
       <div>
         {isPrivateTypeIndex ? (
-          <>Private type index is set up.</>
+          <Trans>Private type index is set up.</Trans>
         ) : (
           <>
-            Create private type index:{' '}
+            <Trans>Create private type index:</Trans>{' '}
             {
               <Editable
                 value={removeBaseUrl(watch('privateTypeIndex'), storage)}
@@ -108,10 +111,10 @@ export const Step0 = ({
       </div>
       <div>
         {isInbox ? (
-          <>Inbox is set up.</>
+          <Trans>Inbox is set up.</Trans>
         ) : (
           <>
-            Create inbox:{' '}
+            <Trans>Create inbox:</Trans>{' '}
             {
               <Editable
                 value={removeBaseUrl(watch('inbox'), storage)}
@@ -124,7 +127,7 @@ export const Step0 = ({
       </div>
 
       <Button type="submit" primary data-cy="setup-step-0-continue">
-        Continue
+        <Trans>Continue</Trans>
       </Button>
     </form>
   )

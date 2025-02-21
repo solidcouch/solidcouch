@@ -5,6 +5,7 @@ import { useProfile } from '@/hooks/data/useProfile'
 import { useReadThreads } from '@/hooks/data/useReadThreads'
 import { useAuth } from '@/hooks/useAuth'
 import { Thread as ThreadType } from '@/types'
+import { Trans } from '@lingui/react/macro'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import styles from './Threads.module.scss'
@@ -14,11 +15,18 @@ export const Threads = () => {
 
   const { data: threads } = useReadThreads(auth.webId ?? '')
 
-  if (!threads) return <Loading>Loading...</Loading>
+  if (!threads)
+    return (
+      <Loading>
+        <Trans>Loading...</Trans>
+      </Loading>
+    )
 
   return (
     <div>
-      <h1>Conversations</h1>
+      <h1>
+        <Trans>Conversations</Trans>
+      </h1>
       <ul className={styles.threadList}>
         {threads.map(thread => {
           const other = thread.participants.find(p => p !== auth.webId)

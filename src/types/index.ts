@@ -1,3 +1,4 @@
+import { ContactStatus } from '@/hooks/data/useContacts'
 import { Overwrite } from 'utility-types'
 
 export type URI = string
@@ -57,12 +58,12 @@ export type Thread = {
 }
 
 export type Contact =
-  | { webId: URI; status: 'confirmed' | 'request_sent' }
+  | { webId: URI; status: ContactStatus.confirmed | ContactStatus.requestSent }
   | ContactInvitation
 
 export type ContactInvitation = {
   webId: URI
-  status: 'request_received'
+  status: ContactStatus.requestReceived
   invitation: string // only valid for request_received
   notification: URI
 }

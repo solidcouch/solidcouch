@@ -7,12 +7,8 @@ import { EditProfile } from './pages/EditProfile'
 import { Home } from './pages/Home.tsx'
 import { HostOutlet } from './pages/HostOutlet.tsx'
 import { HostRedirect } from './pages/HostRedirect.tsx'
-import { InvitePeople } from './pages/InvitePeople.tsx'
 import { Messages } from './pages/Messages.tsx'
-import { MyGuests } from './pages/MyGuests.tsx'
-import { MyHosts } from './pages/MyHosts.tsx'
 import { MyOffers } from './pages/MyOffers.tsx'
-import { MyTravelPlans } from './pages/MyTravelPlans.tsx'
 import { NotFound } from './pages/NotFound.tsx'
 import { Profile } from './pages/Profile'
 import { ProfileRedirect } from './pages/ProfileRedirect.tsx'
@@ -53,8 +49,8 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <HostRedirect /> },
               { path: 'offers', element: <MyOffers /> },
-              { path: 'invite', element: <InvitePeople /> },
-              { path: 'guests', element: <MyGuests /> },
+              // { path: 'invite', element: <InvitePeople /> },
+              // { path: 'guests', element: <MyGuests /> },
             ],
           },
           {
@@ -63,8 +59,8 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <TravelRedirect /> },
               { path: 'search', element: <SearchHosts /> },
-              { path: 'plans', element: <MyTravelPlans /> },
-              { path: 'hosts', element: <MyHosts /> },
+              // { path: 'plans', element: <MyTravelPlans /> },
+              // { path: 'hosts', element: <MyHosts /> },
             ],
           },
         ],

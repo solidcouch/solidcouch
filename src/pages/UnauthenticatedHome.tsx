@@ -64,7 +64,9 @@ export const UnauthenticatedHome = () => {
       </section>
       <div className={styles.spacer} />
       <footer className={styles.footer}>
-        <div className={styles.footerInfo}>WIP</div>
+        <div className={styles.footerInfo}>
+          <Trans>WIP</Trans>
+        </div>
         <div className={styles.attribution}>
           <Trans>
             Powered by <a href="https://github.com/solidcouch">SolidCouch</a>

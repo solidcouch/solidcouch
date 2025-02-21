@@ -3,6 +3,7 @@ import { Modal } from '@/components/Modal/Modal'
 import { useConfig } from '@/config/hooks'
 import { useCheckSetup } from '@/hooks/data/useCheckSetup'
 import {
+  ContactStatus,
   useConfirmContact,
   useCreateContact,
   useIgnoreContactRequest,
@@ -11,6 +12,7 @@ import {
 import { useAuth } from '@/hooks/useAuth'
 import { ContactInvitation, URI } from '@/types'
 import { getContainer } from '@/utils/helpers'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -18,16 +20,23 @@ export const ManageContact = ({ webId }: { webId: URI }) => {
   const auth = useAuth()
   const [contacts] = useReadContacts(auth.webId!)
 
-  if (!contacts) return <Loading>loading...</Loading>
+  if (!contacts)
+    return (
+      <Loading>
+        <Trans>Loading...</Trans>
+      </Loading>
+    )
 
   const contact = contacts.find(c => c.webId === webId)
 
   if (!contact) return <AddContact webId={webId} />
 
-  if (contact.status === 'confirmed') return <>Contact exists</>
+  if (contact.status === ContactStatus.confirmed)
+    return <Trans>Contact exists</Trans>
 
-  if (contact.status === 'request_sent') return <>Contact request sent</>
-  if (contact.status === 'request_received')
+  if (contact.status === ContactStatus.requestSent)
+    return <Trans>Contact request sent</Trans>
+  if (contact.status === ContactStatus.requestReceived)
     return <ProcessContactInvitation contact={contact} />
 
   return null
@@ -40,6 +49,7 @@ export const ProcessContactInvitation = ({
   contact: ContactInvitation
   children?: ReactNode
 }) => {
+  const { t } = useLingui()
   const { communityId } = useConfig()
   const [modalOpen, setModalOpen] = useState(false)
   const auth = useAuth()
@@ -50,12 +60,11 @@ export const ProcessContactInvitation = ({
   const setup = useCheckSetup(auth.webId!, communityId)
 
   const handleConfirm = async () => {
-    if (!auth.webId) throw new Error('unauthenticated')
     const hospexContainer = getContainer(setup.personalHospexDocuments[0])
     if (!hospexContainer)
-      throw new Error('hospex container not set up (too soon?)')
+      throw new Error(t`hospex container not found (too soon?)`)
     await confirmContact({
-      me: auth.webId,
+      me: auth.webId!,
       other: contact.webId,
       notification: contact.notification,
       hospexContainer,
@@ -63,7 +72,7 @@ export const ProcessContactInvitation = ({
     setModalOpen(false)
   }
   const handleIgnore = async () => {
-    if (!auth.webId) throw new Error('unauthenticated')
+    // if (!auth.webId) throw new Error(`unauthenticated`)
     await ignoreContact({
       notification: contact.notification,
     })
@@ -73,7 +82,7 @@ export const ProcessContactInvitation = ({
   return (
     <>
       <Button primary onClick={() => setModalOpen(true)}>
-        {children ?? 'See contact invitation'}
+        {children ?? <Trans>See contact invitation</Trans>}
       </Button>
       <Modal isOpen={modalOpen} onRequestClose={() => setModalOpen(false)}>
         <div>{contact.invitation}</div>
@@ -82,10 +91,10 @@ export const ProcessContactInvitation = ({
           onClick={handleConfirm}
           disabled={setup.personalHospexDocuments.length === 0}
         >
-          Accept
+          <Trans>Accept</Trans>
         </Button>
         <Button secondary onClick={handleIgnore}>
-          Ignore
+          <Trans>Ignore</Trans>
         </Button>
       </Modal>
     </>
@@ -93,6 +102,7 @@ export const ProcessContactInvitation = ({
 }
 
 const AddContact = ({ webId }: { webId: URI }) => {
+  const { t } = useLingui()
   const { communityId } = useConfig()
   const [modalOpen, setModalOpen] = useState(false)
   const auth = useAuth()
@@ -102,15 +112,14 @@ const AddContact = ({ webId }: { webId: URI }) => {
   const otherSetup = useCheckSetup(webId, communityId)
 
   const handleSubmit = async ({ invitation }: { invitation: string }) => {
-    if (!auth.webId) throw new Error('unauthenticated')
     const hospexContainer = getContainer(mySetup.personalHospexDocuments[0])
     if (!hospexContainer)
-      throw new Error('hospex container not found (too soon?)')
+      throw new Error(t`hospex container not found (too soon?)`)
     const inbox = getContainer(otherSetup.inboxes[0])
-    if (!inbox) throw new Error('inbox not found (too soon?)')
+    if (!inbox) throw new Error(t`inbox not found (too soon?)`)
 
     await createContact2({
-      me: auth.webId,
+      me: auth.webId!,
       other: webId,
       message: invitation,
       hospexContainer,
@@ -134,7 +143,7 @@ const AddContact = ({ webId }: { webId: URI }) => {
           otherSetup.inboxes.length === 0
         }
       >
-        Add to my contacts
+        <Trans>Add to my contacts</Trans>
       </Button>
       <Modal isOpen={modalOpen} onRequestClose={() => setModalOpen(false)}>
         <AddContactForm onSubmit={handleSubmit} onCancel={handleCancel} />
@@ -150,8 +159,9 @@ const AddContactForm = ({
   onSubmit: (data: { invitation: string }) => Promise<void>
   onCancel: () => Promise<void>
 }) => {
+  const { t } = useLingui()
   const { register, handleSubmit } = useForm<{ invitation: string }>({
-    defaultValues: { invitation: "Hi! I'd like to add you as a contact!" },
+    defaultValues: { invitation: t`Hi! I'd like to add you as a contact!` },
   })
 
   const handleFormSubmit = handleSubmit(async data => {
@@ -160,15 +170,19 @@ const AddContactForm = ({
 
   return (
     <div>
-      <h1>Add person as a contact</h1>
-      <div>Please invite only people you know personally.</div>
+      <h1>
+        <Trans>Add person as a contact</Trans>
+      </h1>
+      <div>
+        <Trans>Please invite only people you know personally.</Trans>
+      </div>
       <form onSubmit={handleFormSubmit} onReset={onCancel}>
         <textarea {...register('invitation')} />
         <Button primary type="submit">
-          Send contact invitation
+          <Trans>Send contact invitation</Trans>
         </Button>
         <Button secondary type="reset">
-          Cancel
+          <Trans>Cancel</Trans>
         </Button>
       </form>
     </div>

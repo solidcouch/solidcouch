@@ -2,6 +2,7 @@ import { Button } from '@/components'
 import { IconLoading } from '@/components/IconLoading'
 import { useConfig } from '@/config/hooks'
 import { useReadEmailVerificationSetup } from '@/hooks/data/emailNotifications'
+import { AccessMode, QueryKey } from '@/hooks/data/types'
 import { useCheckNotificationsQuery } from '@/hooks/data/useCheckSetup'
 import {
   useInitEmailNotifications,
@@ -9,11 +10,13 @@ import {
   useVerifyEmail,
 } from '@/hooks/data/useSetupHospex'
 import { useAuth } from '@/hooks/useAuth'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
 import { StepProps } from './HospexSetup'
+import { SetupStatusKey } from './types'
 
 export const Step2 = ({
   onSuccess,
@@ -22,8 +25,8 @@ export const Step2 = ({
   hospexDocument,
   inbox,
 }: StepProps & {
-  isEmailNotifications: boolean | 'unset' | 'unverified'
-  isSimpleEmailNotifications: boolean | 'unset'
+  [SetupStatusKey.isEmailNotifications]: boolean | 'unset' | 'unverified'
+  [SetupStatusKey.isSimpleEmailNotifications]: boolean | 'unset'
   hospexDocument?: string
   inbox: string
 }) => {
@@ -64,6 +67,7 @@ const DirectEmailNotifications = ({
   const preparePod = usePreparePodForDirectEmailNotifications()
   const verifyEmailMutation = useVerifyEmail()
   const { webId } = useAuth()
+  const { t } = useLingui()
   const { emailNotificationsIdentity, emailNotificationsService } = useConfig()
 
   const { results } = useReadEmailVerificationSetup()
@@ -73,8 +77,9 @@ const DirectEmailNotifications = ({
       result.permissions.acls[0].accesses?.some(
         value =>
           value.agents.includes(emailNotificationsIdentity) &&
-          (value.modes.includes('Write') || value.modes.includes('Append')) &&
-          value.modes.includes('Read'),
+          (value.modes.includes(AccessMode.Write) ||
+            value.modes.includes(AccessMode.Append)) &&
+          value.modes.includes(AccessMode.Read),
       ),
   )
 
@@ -94,7 +99,7 @@ const DirectEmailNotifications = ({
     setSending(true)
 
     try {
-      if (!hospexDocument) throw new Error('no hospex document for community')
+      if (!hospexDocument) throw new Error(t`no hospex document for community`)
       if (!isEmailNotifications) {
         if (!isNotificationsInitialized)
           await preparePod({ hospexDocument, webId: webId!, email })
@@ -113,16 +118,18 @@ const DirectEmailNotifications = ({
   const queryClient = useQueryClient()
 
   const handleFinish = () => {
-    queryClient.invalidateQueries({ queryKey: ['simpleMailerIntegration'] })
+    queryClient.invalidateQueries({
+      queryKey: [QueryKey.simpleMailerIntegration],
+    })
   }
 
   if (isEmailNotifications)
     return (
       <div>
         <FaCheck />
-        Your email notifications are set up.
+        <Trans>Your email notifications are set up.</Trans>
         <Button primary onClick={onSuccess}>
-          Finish Setup
+          <Trans>Finish Setup</Trans>
         </Button>
       </div>
     )
@@ -132,27 +139,29 @@ const DirectEmailNotifications = ({
       {!isEmailNotifications && (
         <div>
           <div>
-            Enter your email address:{' '}
+            <Trans>Enter your email address:</Trans>{' '}
             <input
               required
-              placeholder="email address"
+              placeholder={t`email address`}
               {...register('email')}
               type="email"
               disabled={sent}
             />
             <Button type="submit" secondary disabled={sending || countdown > 0}>
               {countdown > 0 ? (
-                <>Resend Confirmation Email in {countdown}s</>
+                <Trans>Resend Confirmation Email in {countdown}s</Trans>
               ) : (
-                <>Send Confirmation Email</>
+                <Trans>Send Confirmation Email</Trans>
               )}
             </Button>
           </div>
           {sent && !sending && (
             <div>
-              A confirmation email has been sent to {sentToEmail}.<br />
-              Please check your inbox (and spam folder) and follow the
-              instructions.
+              <Trans>
+                A confirmation email has been sent to {sentToEmail}.<br />
+                Please check your inbox (and spam folder) and follow the
+                instructions.
+              </Trans>
             </div>
           )}
         </div>
@@ -163,7 +172,7 @@ const DirectEmailNotifications = ({
         disabled={!sent || checkQuery.isRefetching}
         onClick={handleFinish}
       >
-        Finish Setup {checkQuery.isRefetching && <IconLoading />}
+        <Trans>Finish Setup</Trans> {checkQuery.isRefetching && <IconLoading />}
       </Button>
     </form>
   )
@@ -180,13 +189,14 @@ const WebhookEmailNotifications = ({
   isEmailNotifications: boolean | 'unverified'
   inbox: string
 }) => {
+  const { t } = useLingui()
   const initEmailNotifications = useInitEmailNotifications()
   const { handleSubmit, register } = useForm<{ email: string }>()
   const { webId } = useAuth()
 
   const queryClient = useQueryClient()
   const handleFinish = () => {
-    queryClient.invalidateQueries({ queryKey: ['mailerIntegration'] })
+    queryClient.invalidateQueries({ queryKey: [QueryKey.mailerIntegration] })
   }
 
   const handleFormSubmit = handleSubmit(({ email }) => {
@@ -201,9 +211,9 @@ const WebhookEmailNotifications = ({
     return (
       <div>
         <FaCheck />
-        Your email notifications are set up.
+        <Trans>Your email notifications are set up.</Trans>
         <Button primary onClick={onSuccess}>
-          Finish Setup
+          <Trans>Finish Setup</Trans>
         </Button>
       </div>
     )
@@ -212,23 +222,23 @@ const WebhookEmailNotifications = ({
     <form onSubmit={handleFormSubmit}>
       {!isEmailNotifications && (
         <div>
-          Setup email notifications{' '}
+          <Trans>Setup email notifications</Trans>{' '}
           <input
             type="email"
-            placeholder="Your email"
+            placeholder={t`Your email`}
             {...register('email')}
             required
           />
           <Button type="submit" primary>
-            Send Confirmation Email
+            <Trans>Send Confirmation Email</Trans>
           </Button>
         </div>
       )}
       {isEmailNotifications === 'unverified' && (
         <div>
-          Please verify your email
+          <Trans>Please verify your email</Trans>
           <Button type="button" primary onClick={handleFinish}>
-            Finish Setup
+            <Trans>Finish Setup</Trans>
           </Button>
         </div>
       )}
@@ -238,10 +248,11 @@ const WebhookEmailNotifications = ({
 
 const NoEmailNotifications = ({ onSuccess }: StepProps) => (
   <div>
-    <FaCheck /> Email notifications are not available for this community.
+    <FaCheck />{' '}
+    <Trans>Email notifications are not available for this community.</Trans>
     <div>
       <Button primary onClick={onSuccess}>
-        Finish Setup
+        <Trans>Finish Setup</Trans>
       </Button>
     </div>
   </div>

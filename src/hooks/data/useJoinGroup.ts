@@ -5,6 +5,7 @@ import { solid, vcard } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
+import { QueryKey } from './types'
 import { useUpdateRdfDocument } from './useRdfDocument'
 
 /**
@@ -68,7 +69,7 @@ export const useJoinCommunity = () => {
     onSuccess: async data => {
       if (!data.group) return
       await queryClient.invalidateQueries({
-        queryKey: ['rdfDocument', removeHashFromURI(data.group)],
+        queryKey: [QueryKey.rdfDocument, removeHashFromURI(data.group)],
       })
     },
   })

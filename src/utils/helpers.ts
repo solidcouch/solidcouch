@@ -3,6 +3,7 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import LinkHeader from 'http-link-header'
 import * as n3 from 'n3'
 import { acl, rdf } from 'rdf-namespaces'
+import { AccessMode } from '../hooks/data/types'
 
 const fetchWithRedirect: typeof fetch = async (url, init) => {
   // first try to find final redirect
@@ -126,8 +127,6 @@ export const getAcl = async (uri: URI) => {
   return new URL(aclUri, uri).toString()
 }
 
-type AccessMode = 'Read' | 'Write' | 'Append' | 'Control'
-
 interface Access {
   url: string
   modes: AccessMode[]
@@ -144,10 +143,10 @@ export const processAcl = (url: string, content: string): Access[] => {
   const auths = store.getSubjects(rdf.type, acl.Authorization, null)
 
   const accessDict = {
-    [acl.Read]: 'Read',
-    [acl.Write]: 'Write',
-    [acl.Append]: 'Append',
-    [acl.Control]: 'Control',
+    [acl.Read]: AccessMode.Read,
+    [acl.Write]: AccessMode.Write,
+    [acl.Append]: AccessMode.Append,
+    [acl.Control]: AccessMode.Control,
   } as const
 
   return auths.map(auth => {

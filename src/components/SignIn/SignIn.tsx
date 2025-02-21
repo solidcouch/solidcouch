@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form'
 import styles from './SignIn.module.scss'
 
 export const SignIn = () => {
-  const { oidcIssuers, communityId } = useConfig()
+  const { oidcIssuers, communityId, defaultCommunityName } = useConfig()
   const [modalOpen, setModalOpen] = useState(false)
   const [longList, setLongList] = useState(false)
 
@@ -39,7 +39,7 @@ export const SignIn = () => {
       await login({
         oidcIssuer,
         redirectUrl: new URL('/', window.location.href).toString(),
-        clientName: community.name || 'SolidCouch',
+        clientName: community.name || defaultCommunityName,
         clientId:
           import.meta.env.DEV && !import.meta.env.VITE_ENABLE_DEV_CLIENT_ID
             ? undefined
@@ -49,10 +49,12 @@ export const SignIn = () => {
       // if login redirect was unsuccessful, revert to previous issuer
       dispatch(actions.setLastSelectedIssuer(prevIssuer))
       if (e instanceof TypeError) {
+        const message = e.message
+        const errorString = e.toString()
         alert(
           t`We didn't succeed with redirecting to the issuer at ${oidcIssuer}.\nHave you provided correct webId or OIDCIssuer? Or is it down?\n\nReason: ${
-            e.message
-          }\n\nError: ${e.toString()}`,
+            message
+          }\n\nError: ${errorString}`,
         )
       } else alert(t`Something went wrong.\nError: ${e}`)
     }

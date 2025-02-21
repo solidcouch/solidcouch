@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import eslintConfigPrettier from 'eslint-config-prettier'
 import importPlugin from 'eslint-plugin-import'
+import pluginLingui from 'eslint-plugin-lingui'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import globals from 'globals'
@@ -13,6 +14,7 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
+      pluginLingui.configs['flat/recommended'],
       eslintConfigPrettier,
     ],
     files: ['**/*.{ts,tsx,js,mts}'],
@@ -38,6 +40,48 @@ export default tseslint.config(
       ],
       'import/no-default-export': 'error',
       'import/no-unused-modules': ['warn'],
+    },
+  },
+  {
+    files: ['src/**/*.tsx'],
+    ignores: ['src/router.tsx'],
+    rules: {
+      'lingui/no-unlocalized-strings': [
+        'warn',
+        {
+          ignoreNames: [
+            'type',
+            'name',
+            'required',
+            'to',
+            'scrollWheelZoom',
+            'doubleClickZoom',
+            'touchZoom',
+            'data-cy',
+            'id',
+            'target',
+            'rel',
+            'className',
+            'clickBehavior',
+            'style',
+          ],
+          ignoreFunctions: [
+            'register',
+            'omit',
+            'checks.push',
+            '*.startsWith',
+            '*.addEventListener',
+            '*.removeEventListener',
+            'useMapEvent',
+            'clsx',
+            'URL',
+            '*.getElementById',
+            'setValue',
+            'watch',
+            'searchParams.get',
+          ],
+        },
+      ],
     },
   },
 )

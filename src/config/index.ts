@@ -7,6 +7,7 @@ export {
   communityContainer,
   communityId,
   darkModeLogoStyle,
+  defaultCommunityName,
   emailNotificationsIdentity,
   emailNotificationsService,
   emailNotificationsType,

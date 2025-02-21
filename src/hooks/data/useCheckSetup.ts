@@ -5,6 +5,7 @@ import { useLDhopQuery } from '@ldhop/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { privateProfileAndHospexDocumentQuery } from './queries'
+import { QueryKey } from './types'
 import { useIsMember } from './useCommunity'
 
 /**
@@ -106,7 +107,7 @@ export const useCheckEmailNotifications = (inbox: URI, mailer: string) => {
         integrations: { object: URI; target: URI; verified: boolean }[]
       }
     | 'mailer not set up'
-  >({ queryKey: ['mailerIntegration'], queryFn: checkMailerIntegration })
+  >({ queryKey: [QueryKey.mailerIntegration], queryFn: checkMailerIntegration })
 
   if (data === 'mailer not set up') return 'unset' as const
 
@@ -132,7 +133,7 @@ const checkMailerIntegration = async (webId: string, mailer: string) => {
 
 export const useCheckNotificationsQuery = (webId: URI, mailer: string) =>
   useQuery<{ emailVerified: boolean } | 'mailer not set up'>({
-    queryKey: ['simpleMailerIntegration'],
+    queryKey: [QueryKey.simpleMailerIntegration],
     queryFn: () => checkMailerIntegration(webId, mailer),
   })
 

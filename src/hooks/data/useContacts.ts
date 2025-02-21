@@ -8,12 +8,19 @@ import { createLdoDataset } from '@ldo/ldo'
 import { Store } from 'n3'
 import { useCallback, useMemo } from 'react'
 import { contactRequestsQuery, contactsQuery } from './queries'
+import { AccessMode } from './types'
 import {
   useCreateRdfDocument,
   useDeleteRdfDocument,
   useMatchUpdateLdoDocument,
   useUpdateRdfDocument,
 } from './useRdfDocument'
+
+export enum ContactStatus {
+  confirmed = 'confirmed',
+  requestSent = 'request_sent',
+  requestReceived = 'request_received',
+}
 
 export const useReadContacts = (personId: URI) => {
   const { quads, variables, isLoading } = useLDhopQuery(
@@ -54,8 +61,8 @@ export const useReadContacts = (personId: URI) => {
         webId: otherPerson,
         status:
           knowsPersonal.length + knowsExtended.length > 0
-            ? 'confirmed'
-            : 'request_sent',
+            ? ContactStatus.confirmed
+            : ContactStatus.requestSent,
       }
     })
   }, [personId, quads, variables.otherPerson])
@@ -101,7 +108,7 @@ const useReadContactNotifications = (me: URI) => {
       )
       .map(n => ({
         webId: n.actor?.['@id'] as unknown as URI,
-        status: 'request_received',
+        status: ContactStatus.requestReceived,
         notification: n['@id']!,
         invitation: n.content2,
       }))
@@ -271,7 +278,7 @@ const useGrantHospexAccess = () => {
               ldoo.accessTo.length === 1 &&
               ldoo.accessTo[0]['@id'] === hospexContainer &&
               ldoo.mode?.length === 1 &&
-              ldoo.mode[0]['@id'] === 'Read',
+              ldoo.mode[0]['@id'] === AccessMode.Read,
           )
           if (!ldo) throw new Error('subject not found')
           return ldo

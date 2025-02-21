@@ -28,6 +28,7 @@ import {
 import maxBy from 'lodash/maxBy'
 import merge from 'lodash/merge'
 import { useMemo } from 'react'
+import { QueryKey } from './types'
 
 // do not use browser cache
 // This is a temporary fix until the bug in CSS gets fixed
@@ -43,7 +44,7 @@ export const fetchRdfDocument = (uri: string) =>
  */
 // export const useRdfDocument = (uri: URI) => {
 //   const doc = uri ? removeHashFromURI(uri) : uri
-//   const queryKey = useMemo(() => ['rdfDocument', doc], [doc])
+//   const queryKey = useMemo(() => [QueryKey.rdfDocument, doc], [doc])
 
 //   const result = useQuery({
 //     queryKey,
@@ -62,7 +63,7 @@ export const useRdfDocuments = (uris: URI[]) => {
       queries: uris
         .map(uri => removeHashFromURI(uri))
         .map(doc => ({
-          queryKey: ['rdfDocument', doc],
+          queryKey: [QueryKey.rdfDocument, doc],
           queryFn: () => fetchRdfDocument(doc),
         })),
     }),
@@ -308,7 +309,7 @@ const getCachedAncestor = (uri: URI, queryClient: QueryClient) => {
     .getAll()
     .filter(
       query =>
-        query.queryKey[0] === 'rdfDocument' &&
+        query.queryKey[0] === QueryKey.rdfDocument &&
         typeof query.queryKey[1] === 'string' &&
         parents.includes(query.queryKey[1]),
     )
@@ -327,16 +328,18 @@ const onSuccessInvalidate =
   ) =>
   <Variables extends { uri: URI }>(data: Data, variables: Variables) => {
     const uri = removeHashFromURI(variables.uri)
-    queryClient.invalidateQueries({ queryKey: ['rdfDocument', uri] })
+    queryClient.invalidateQueries({ queryKey: [QueryKey.rdfDocument, uri] })
     // TODO this may not be necessary
-    queryClient.invalidateQueries({ queryKey: ['rdfDocument', getParent(uri)] })
+    queryClient.invalidateQueries({
+      queryKey: [QueryKey.rdfDocument, getParent(uri)],
+    })
 
     // when stuff is created, containing folder is also changed
     if (checkStatus(data)) {
       const cachedAncestor = getCachedAncestor(uri, queryClient)
       if (cachedAncestor)
         queryClient.invalidateQueries({
-          queryKey: ['rdfDocument', cachedAncestor],
+          queryKey: [QueryKey.rdfDocument, cachedAncestor],
         })
     }
   }

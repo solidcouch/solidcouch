@@ -1,7 +1,8 @@
-import { Avatar, ButtonLink } from '@/components'
+import { Avatar, ButtonLink, Loading } from '@/components'
 import { useReadAccommodation } from '@/hooks/data/useReadAccommodation'
 import { useAuth } from '@/hooks/useAuth'
 import { URI } from '@/types'
+import { Trans } from '@lingui/react/macro'
 import { Link } from 'react-router-dom'
 import styles from './AccommodationInfo.module.scss'
 
@@ -40,14 +41,16 @@ export const AccommodationInfo = ({
           </div>
         </>
       ) : (
-        'loading...'
+        <Loading>
+          <Trans>Loading...</Trans>
+        </Loading>
       )}
       {isOther ? (
         <ButtonLink
           primary
           to={`/messages/${encodeURIComponent(accommodation.offeredBy.id)}`}
         >
-          Write a message
+          <Trans>Write a message</Trans>
         </ButtonLink>
       ) : null}
     </div>
