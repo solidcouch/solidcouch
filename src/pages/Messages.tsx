@@ -15,6 +15,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSendEmailNotification } from '@/hooks/useSendEmailNotification'
 import { URI } from '@/types'
 import { getContainer } from '@/utils/helpers'
+import { Trans, useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
 import { produce } from 'immer'
 import { useEffect, useRef, useState } from 'react'
@@ -22,11 +23,18 @@ import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import styles from './Messages.module.scss'
 
+enum NotificationStatus {
+  processing = 'processing',
+  processed = 'processed',
+  errored = 'errored',
+}
+
 export const Messages = () => {
   const { communityId, emailNotificationsService, emailNotificationsType } =
     useConfig()
   const personId = useParams().id as string
   const auth = useAuth()
+  const { t } = useLingui()
 
   const [isSaving, setIsSaving] = useState(false)
 
@@ -59,7 +67,7 @@ export const Messages = () => {
   // keep status of notification processing in a dict
   // key will be message uri
   const [notificationStatuses, setNotificationStatuses] = useState<{
-    [key: URI]: 'processing' | 'processed' | 'errored'
+    [key: URI]: NotificationStatus
   }>({})
 
   // process notifications of unread messages
@@ -78,7 +86,7 @@ export const Messages = () => {
             notificationsInProcess.current.add(message.id)
             setNotificationStatuses(
               produce(draft => {
-                draft[message.id] = 'processing'
+                draft[message.id] = NotificationStatus.processing
               }),
             )
             try {
@@ -90,13 +98,13 @@ export const Messages = () => {
               })
               setNotificationStatuses(
                 produce(draft => {
-                  draft[message.id] = 'processed'
+                  draft[message.id] = NotificationStatus.processed
                 }),
               )
             } catch {
               setNotificationStatuses(
                 produce(draft => {
-                  draft[message.id] = 'errored'
+                  draft[message.id] = NotificationStatus.errored
                 }),
               )
             }
@@ -120,18 +128,20 @@ export const Messages = () => {
   const { register, handleSubmit, reset } = useForm<{ message: string }>()
 
   const handleFormSubmit = handleSubmit(async data => {
-    if (!auth.webId) throw new Error('No authenticated user available')
+    if (!auth.webId) throw new Error(t`No authenticated user available`)
     setIsSaving(true)
     if (!otherInbox)
-      throw new Error('Inbox of the other person not found (probably too soon)')
+      throw new Error(
+        t`Inbox of the other person not found (probably too soon)`,
+      )
 
     let chat: string | undefined = chats[0]?.myChat
 
     if (!chat) {
       if (!personalHospexDocuments[0])
-        throw new Error('Hospex not set up (should not happen)')
+        throw new Error(t`Hospex not set up (should not happen)`)
       if (!privateTypeIndexes[0])
-        throw new Error('Private type index not set up (should not happen)')
+        throw new Error(t`Private type index not set up (should not happen)`)
       ;({ chatId: chat } = await createChat({
         me: auth.webId,
         otherPerson: personId,
@@ -148,7 +158,10 @@ export const Messages = () => {
         message: data.message,
         chat,
       }),
-      { pending: 'Creating message', success: 'Message was created' },
+      {
+        pending: t`Creating message`,
+        success: t`Message was created`,
+      },
     )
 
     await withToast(
@@ -161,8 +174,8 @@ export const Messages = () => {
         content: data.message,
       }),
       {
-        pending: 'Sending Solid notification',
-        success: 'Solid notification was sent',
+        pending: t`Sending Solid notification`,
+        success: t`Solid notification was sent`,
       },
     )
 
@@ -172,8 +185,8 @@ export const Messages = () => {
     // send email notification
     if (emailNotificationsService && emailNotificationsType === 'simple') {
       await withToast(sendNotification({ messageId, message: data.message }), {
-        pending: 'Sending email notification',
-        success: 'Email notification was sent',
+        pending: t`Sending email notification`,
+        success: t`Email notification was sent`,
       })
     }
   })
@@ -188,10 +201,12 @@ export const Messages = () => {
   return (
     <div>
       <pre>
-        {(fetchingStatus.isLoading || notificationsFetchingStatus.isLoading) &&
-          'Loading'}
+        {(fetchingStatus.isLoading ||
+          notificationsFetchingStatus.isLoading) && <Trans>Loading...</Trans>}
       </pre>
-      Messages with <PersonBadge webId={personId} link />
+      <Trans>
+        Messages with <PersonBadge webId={personId} link />
+      </Trans>
       <div className={styles.messages}>
         {messages?.map(({ id, message, from, createdAt, status }) => (
           <div
@@ -217,13 +232,15 @@ export const Messages = () => {
           </div>
         )) ?? (
           <div>
-            <Loading>Loading previous messages</Loading>
+            <Loading>
+              <Trans>Loading previous messages</Trans>
+            </Loading>
           </div>
         )}
       </div>
       {isInitialConversation && (
         <>
-          This is a start of your conversation
+          <Trans>This is a start of your conversation</Trans>
           {/* {' '}<Button secondary>Ignore (not implemented)</Button> */}
         </>
       )}
@@ -231,7 +248,7 @@ export const Messages = () => {
         <fieldset disabled={isFormDisabled}>
           <textarea {...register('message', { required: true })} />
           <Button primary type="submit" disabled={isFormDisabled}>
-            Send
+            <Trans>Send</Trans>
           </Button>
         </fieldset>
       </form>

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Implement i18n with [lingui](https://lingui.dev).
+
 ## [0.3.0] - 2025-02-19
 
 ### Added

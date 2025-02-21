@@ -1,4 +1,6 @@
 import { useReadInterest } from '@/hooks/data/useInterests'
+import { useAppSelector } from '@/redux/hooks'
+import { selectLocale } from '@/redux/uiSlice'
 import { URI } from '@/types'
 import clsx from 'clsx'
 import merge from 'lodash/merge'
@@ -28,7 +30,8 @@ export const Interests = ({
 }
 
 const Interest = ({ id, highlighted }: { id: URI; highlighted?: boolean }) => {
-  const { data } = useReadInterest(id)
+  const locale = useAppSelector(selectLocale)
+  const { data } = useReadInterest(id, locale)
 
   const temporaryData = {
     id,

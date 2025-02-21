@@ -1,3 +1,4 @@
+import { lingui } from '@lingui/vite-plugin'
 import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -16,7 +17,20 @@ export default defineConfig((config: ConfigEnv) => {
   return {
     plugins: [
       fetchCommunityEnv(config),
-      react(),
+      react({
+        plugins: [
+          [
+            '@lingui/swc-plugin',
+            {
+              runtimeModules: {
+                i18n: ['@lingui/core', 'i18n'],
+                trans: ['@lingui/react', 'Trans'],
+              },
+            },
+          ],
+        ],
+      }),
+      lingui(),
       checker({
         typescript: { buildMode: true },
         eslint: { lintCommand: 'eslint .', useFlatConfig: true },

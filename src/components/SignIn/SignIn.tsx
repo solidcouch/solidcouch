@@ -6,14 +6,17 @@ import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { actions, selectLastSelectedIssuer } from '@/redux/loginSlice'
 import { login } from '@inrupt/solid-client-authn-browser'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from './SignIn.module.scss'
 
 export const SignIn = () => {
-  const { oidcIssuers, communityId } = useConfig()
+  const { oidcIssuers, communityId, defaultCommunityName } = useConfig()
   const [modalOpen, setModalOpen] = useState(false)
   const [longList, setLongList] = useState(false)
+
+  const { t } = useLingui()
 
   const lastIssuer = useAppSelector(selectLastSelectedIssuer)
   const isListedIssuer = oidcIssuers.some(iss => iss.issuer === lastIssuer)
@@ -36,7 +39,7 @@ export const SignIn = () => {
       await login({
         oidcIssuer,
         redirectUrl: new URL('/', window.location.href).toString(),
-        clientName: community.name || 'SolidCouch',
+        clientName: community.name || defaultCommunityName,
         clientId:
           import.meta.env.DEV && !import.meta.env.VITE_ENABLE_DEV_CLIENT_ID
             ? undefined
@@ -46,12 +49,14 @@ export const SignIn = () => {
       // if login redirect was unsuccessful, revert to previous issuer
       dispatch(actions.setLastSelectedIssuer(prevIssuer))
       if (e instanceof TypeError) {
+        const message = e.message
+        const errorString = e.toString()
         alert(
-          `We didn't succeed with redirecting to the issuer at ${oidcIssuer}.\nHave you provided correct webId or OIDCIssuer? Or is it down?\n\nReason: ${
-            e.message
-          }\n\nError: ${e.toString()}`,
+          t`We didn't succeed with redirecting to the issuer at ${oidcIssuer}.\nHave you provided correct webId or OIDCIssuer? Or is it down?\n\nReason: ${
+            message
+          }\n\nError: ${errorString}`,
         )
-      } else alert(`Something went wrong.\nError: ${e}`)
+      } else alert(t`Something went wrong.\nError: ${e}`)
     }
   }
 
@@ -60,14 +65,14 @@ export const SignIn = () => {
       const issuer = await guessIssuer(webIdOrIssuer, oidcIssuers)
       await handleSelectIssuer(issuer)
     } catch (e) {
-      alert(`Something went wrong.\nError: ${e}`)
+      alert(t`Something went wrong.\nError: ${e}`)
     }
   })
 
   return (
     <>
       <Button secondary onClick={() => setModalOpen(true)}>
-        Sign in
+        <Trans>Sign in</Trans>
       </Button>
       <Modal
         isOpen={modalOpen}
@@ -76,7 +81,7 @@ export const SignIn = () => {
         onRequestClose={() => setModalOpen(false)}
       >
         <div className={styles.providers}>
-          Select your Solid identity provider
+          <Trans>Select your Solid identity provider</Trans>
           {lastIssuer && (
             <Button
               primary
@@ -108,18 +113,20 @@ export const SignIn = () => {
             ))}
           {!longList && (
             <Button tertiary onClick={() => setLongList(true)}>
-              more
+              <Trans>more</Trans>
             </Button>
           )}
-          or write your own Solid identity provider, or your webId
+          <Trans>
+            or write your own Solid identity provider, or your webId
+          </Trans>
           <form className={styles.webIdForm} onSubmit={handleFormSubmit}>
             <input
               type="text"
-              placeholder="Your webId or provider"
+              placeholder={t`Your webId or provider`}
               {...register('webIdOrIssuer', { required: 'required' })}
             />
             <Button primary type="submit">
-              Continue
+              <Trans>Continue</Trans>
             </Button>
           </form>
         </div>

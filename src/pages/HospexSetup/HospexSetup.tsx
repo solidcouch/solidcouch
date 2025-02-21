@@ -1,6 +1,7 @@
 import { useConfig } from '@/config/hooks'
 import { useStorage } from '@/hooks/data/useStorage'
 import { useAuth } from '@/hooks/useAuth'
+import { Trans } from '@lingui/react/macro'
 import * as Tabs from '@radix-ui/react-tabs'
 import clsx from 'clsx'
 import pick from 'lodash/pick'
@@ -9,15 +10,16 @@ import styles from './HospexSetup.module.scss'
 import { Step0 } from './Step0'
 import { Step1 } from './Step1'
 import { Step2 } from './Step2'
+import { SetupStatusKey } from './types'
 
 interface SetupStatus {
-  isMember: boolean
-  isHospexProfile: boolean
-  isPublicTypeIndex: boolean
-  isPrivateTypeIndex: boolean
-  isInbox: boolean
-  isSimpleEmailNotifications: boolean | 'unset'
-  isEmailNotifications: boolean | 'unverified' | 'unset'
+  [SetupStatusKey.isMember]: boolean
+  [SetupStatusKey.isHospexProfile]: boolean
+  [SetupStatusKey.isPublicTypeIndex]: boolean
+  [SetupStatusKey.isPrivateTypeIndex]: boolean
+  [SetupStatusKey.isInbox]: boolean
+  [SetupStatusKey.isSimpleEmailNotifications]: boolean | 'unset'
+  [SetupStatusKey.isEmailNotifications]: boolean | 'unverified' | 'unset'
 }
 
 interface SetupConfig {
@@ -32,9 +34,16 @@ interface SetupConfig {
 }
 
 const stepStatusKeys: (keyof SetupStatus)[][] = [
-  ['isPublicTypeIndex', 'isPrivateTypeIndex', 'isInbox'],
-  ['isMember', 'isHospexProfile'],
-  ['isEmailNotifications', 'isSimpleEmailNotifications'],
+  [
+    SetupStatusKey.isPublicTypeIndex,
+    SetupStatusKey.isPrivateTypeIndex,
+    SetupStatusKey.isInbox,
+  ],
+  [SetupStatusKey.isMember, SetupStatusKey.isHospexProfile],
+  [
+    SetupStatusKey.isEmailNotifications,
+    SetupStatusKey.isSimpleEmailNotifications,
+  ],
 ]
 
 export const HospexSetup = (
@@ -52,7 +61,7 @@ export const HospexSetup = (
   const steps = useMemo(
     () => [
       {
-        title: 'Prepare Pod',
+        title: <Trans>Prepare Pod</Trans>,
         content:
           storage && auth.webId ? (
             <Step0
@@ -66,7 +75,7 @@ export const HospexSetup = (
           ) : null,
       },
       {
-        title: 'Join Community',
+        title: <Trans>Join Community</Trans>,
         content: (
           <Step1
             onSuccess={() => props.onStepChange(2)}
@@ -78,7 +87,7 @@ export const HospexSetup = (
         ),
       },
       {
-        title: 'Set Up Notifications',
+        title: <Trans>Set Up Notifications</Trans>,
         content: (
           <Step2
             isEmailNotifications={props.isEmailNotifications}
@@ -101,7 +110,9 @@ export const HospexSetup = (
 
   return (
     <div className={styles.container}>
-      <h1>Setup</h1>
+      <h1>
+        <Trans>Setup</Trans>
+      </h1>
       <Tabs.Root
         value={String(props.step)}
         onValueChange={value => props.onStepChange(+value)}

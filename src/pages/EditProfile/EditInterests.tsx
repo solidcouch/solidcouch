@@ -9,6 +9,7 @@ import {
   useRemoveInterest,
 } from '@/hooks/data/useProfile'
 import type { Interest, URI } from '@/types'
+import { Trans, useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
 import debounce from 'lodash/debounce'
 import merge from 'lodash/merge'
@@ -17,6 +18,7 @@ import { FaTimes } from 'react-icons/fa'
 import Select from 'react-select'
 
 export const EditInterests = ({ webId }: { webId: URI }) => {
+  const { t } = useLingui()
   const { communityId } = useConfig()
   const [, isLoading, , interests] = useProfile(webId, communityId)
 
@@ -29,8 +31,8 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
 
   const handleRemove = async ({ id, document }: { id: URI; document: URI }) => {
     await withToast(removeInterest({ interest: id, document, person: webId }), {
-      pending: 'Removing interest',
-      success: 'Interest removed',
+      pending: t`Removing interest`,
+      success: t`Interest removed`,
     })
   }
 
@@ -43,6 +45,7 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
 
   const handleSelect = async (interest: Interest | null) => {
     if (interest) {
+      const label = interest.label
       await withToast(
         addInterest({
           interest: interest.id,
@@ -50,15 +53,19 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
           document: webId,
         }),
         {
-          pending: `Adding ${interest.label} to interests`,
-          success: `${interest.label} added to interests`,
+          pending: t`Adding ${label} to interests`,
+          success: t`${label} added to interests`,
         },
       )
     }
   }
 
   if (isLoading || isLoading === undefined)
-    return <Loading>loading interests</Loading>
+    return (
+      <Loading>
+        <Trans>loading interests...</Trans>
+      </Loading>
+    )
 
   return (
     <div>

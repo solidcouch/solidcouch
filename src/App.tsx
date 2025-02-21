@@ -8,6 +8,7 @@ import { Content, Header, Layout } from '@/layouts/Layout.tsx'
 import { actions } from '@/redux/authSlice.ts'
 import { useAppDispatch } from '@/redux/hooks.ts'
 import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser'
+import { Trans } from '@lingui/react/macro'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Slide, ToastContainer } from 'react-toastify'
@@ -43,7 +44,7 @@ export const App = () => {
         <PageHeader />
       </Header>
       <Content>
-        {auth.isLoggedIn === undefined ? <>Loading...</> : <Outlet />}
+        {auth.isLoggedIn === undefined ? <Trans>Loading...</Trans> : <Outlet />}
       </Content>
     </Layout>
   )

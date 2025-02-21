@@ -6,6 +6,7 @@ import { LocateControl } from './LocateControl'
 
 import { useConfig } from '@/config/hooks'
 import { Bounds, Location } from '@/types'
+import { useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import {
@@ -95,6 +96,7 @@ export const SelectLocation: React.FC<{
     [value.lat, value.long],
   )
   const { tileServer } = useConfig()
+  const { t } = useLingui()
 
   return (
     <MapContainer
@@ -109,7 +111,7 @@ export const SelectLocation: React.FC<{
     >
       <TileLayer url={tileServer} />
       <LocateControl
-        strings={{ title: 'Select my location' }}
+        strings={{ title: t`Select my location` }}
         showPopup={false}
         drawMarker={false}
         clickBehavior={{

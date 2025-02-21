@@ -5,6 +5,7 @@ import { useConfig } from '@/config/hooks'
 import { defaultIconGenerator, highlightedIcon } from '@/config/leaflet'
 import { useSearchAccommodations } from '@/hooks/data/useSearchAccommodations'
 import { Bounds, URI } from '@/types'
+import { useLingui } from '@lingui/react/macro'
 import 'leaflet/dist/leaflet.css'
 import isEqual from 'lodash/isEqual'
 import ngeohash from 'ngeohash'
@@ -17,6 +18,7 @@ import { AccommodationInfo } from './AccommodationInfo.tsx'
 import styles from './SearchHosts.module.scss'
 
 export const SearchHosts = () => {
+  const { t } = useLingui()
   const { communityId, tileServer } = useConfig()
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedAccommodationId = searchParams.get('hosting')
@@ -46,7 +48,7 @@ export const SearchHosts = () => {
                 setSearchParams({})
               }}
               className={styles.closeButton}
-              aria-label="Close hosting preview"
+              aria-label={t`Close hosting preview`}
             >
               <FaTimes />
             </button>
@@ -61,7 +63,7 @@ export const SearchHosts = () => {
         >
           <TileLayer url={tileServer} />
           <LocateControl
-            strings={{ title: 'My location' }}
+            strings={{ title: t`My location` }}
             showPopup={false}
             clickBehavior={{
               inView: 'stop',
@@ -71,37 +73,41 @@ export const SearchHosts = () => {
           />
           <MarkerClusterGroup maxClusterRadius={20}>
             {offers
-              ? offers.map(offer => (
-                  <Marker
-                    key={offer.id}
-                    position={[offer.location.lat, offer.location.long]}
-                    eventHandlers={{
-                      click: () => {
-                        handleMarkerClick(offer.id)
-                      },
-                    }}
-                    icon={
-                      offer.id === selectedAccommodationId
-                        ? highlightedIcon
-                        : defaultIconGenerator(
-                            'geohash-' +
-                              ngeohash.encode(
-                                offer.location.lat,
-                                offer.location.long,
-                                10,
-                              ),
-                          )
-                    }
-                    alt={`Accommodation offer from ${
-                      offer.offeredBy?.name || offer.offeredBy?.id
-                    }`}
-                    // data-cy={ngeohash.encode(
-                    //   offer.location.lat,
-                    //   offer.location.long,
-                    //   10,
-                    // )}
-                  />
-                ))
+              ? offers.map(offer => {
+                  const offeredByIdentifier =
+                    offer.offeredBy?.name || offer.offeredBy?.id
+
+                  return (
+                    <Marker
+                      key={offer.id}
+                      position={[offer.location.lat, offer.location.long]}
+                      eventHandlers={{
+                        click: () => {
+                          handleMarkerClick(offer.id)
+                        },
+                      }}
+                      icon={
+                        offer.id === selectedAccommodationId
+                          ? highlightedIcon
+                          : defaultIconGenerator(
+                              // eslint-disable-next-line lingui/no-unlocalized-strings
+                              'geohash-' +
+                                ngeohash.encode(
+                                  offer.location.lat,
+                                  offer.location.long,
+                                  10,
+                                ),
+                            )
+                      }
+                      alt={t`Accommodation offer from ${offeredByIdentifier}`}
+                      // data-cy={ngeohash.encode(
+                      //   offer.location.lat,
+                      //   offer.location.long,
+                      //   10,
+                      // )}
+                    />
+                  )
+                })
               : null}
           </MarkerClusterGroup>
           <Move onUpdate={handleMapUpdate} />

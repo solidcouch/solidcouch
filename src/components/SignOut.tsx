@@ -1,6 +1,7 @@
 import * as authSlice from '@/redux/authSlice'
 import { useAppDispatch } from '@/redux/hooks'
 import { logout } from '@inrupt/solid-client-authn-browser'
+import { Trans } from '@lingui/react/macro'
 
 export const SignOut = () => {
   const dispatch = useAppDispatch()
@@ -9,5 +10,9 @@ export const SignOut = () => {
     dispatch(authSlice.actions.signout())
   }
 
-  return <button onClick={handleSignout}>sign out</button>
+  return (
+    <button onClick={handleSignout}>
+      <Trans>sign out</Trans>
+    </button>
+  )
 }

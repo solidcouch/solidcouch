@@ -7,6 +7,7 @@ import {
 } from '@/hooks/data/useCheckSetup'
 import { selectAuth } from '@/redux/authSlice'
 import { useAppSelector } from '@/redux/hooks'
+import { Trans } from '@lingui/react/macro'
 import omit from 'lodash/omit'
 import { useState } from 'react'
 import { FaCheck, FaClock, FaTimes } from 'react-icons/fa'
@@ -104,8 +105,12 @@ const Checking = (
 
   return (
     <div className={styles.checkingContainer}>
-      <h2>Checking your setup...</h2>
-      <p>We're verifying that everything is configured correctly.</p>
+      <h2>
+        <Trans>Checking your setup...</Trans>
+      </h2>
+      <p>
+        <Trans>We're verifying that everything is configured correctly.</Trans>
+      </p>
       <ul className={styles.checklist}>
         {items.map(item => (
           <li key={item.key}>

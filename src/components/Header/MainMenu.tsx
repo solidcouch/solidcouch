@@ -6,6 +6,7 @@ import { useReadMessagesFromInbox } from '@/hooks/data/useReadThreads'
 import { selectAuth } from '@/redux/authSlice'
 import { useAppSelector } from '@/redux/hooks'
 import { selectTheme } from '@/redux/uiSlice'
+import { Plural, Trans } from '@lingui/react/macro'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@szhsin/react-menu'
 import { Link } from 'react-router-dom'
 
@@ -25,29 +26,41 @@ export const MainMenu = () => {
           <Avatar photo={profile.photo} />
         </MenuButton>
       }
+      // eslint-disable-next-line lingui/no-unlocalized-strings
       theming={theme === 'dark' ? 'dark' : undefined}
     >
       <MenuItem>
-        <Link to="profile">{profile?.name || 'profile'}</Link>
+        <Link to="profile">{profile?.name || <Trans>profile</Trans>}</Link>
       </MenuItem>
       <MenuItem>
         <Link to="profile/edit" data-cy="menu-item-edit-profile">
-          edit profile
+          <Trans>edit profile</Trans>
         </Link>
       </MenuItem>
       <MenuItem>
         <Link to="messages">
-          messages
-          {newMessages?.length ? ` (${newMessages.length} new)` : null}
+          <Trans>messages</Trans>
+          {newMessages?.length ? (
+            <>
+              {' '}
+              <Plural
+                value={newMessages.length}
+                one="(# new)"
+                other="(# new)"
+              />
+            </>
+          ) : null}
         </Link>
       </MenuItem>
       <MenuItem>
         <Link to={`profile/${encodeURIComponent(auth.webId!)}/contacts`}>
-          contacts
+          <Trans>contacts</Trans>
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to="host/offers">my hosting</Link>
+        <Link to="host/offers">
+          <Trans>my hosting</Trans>
+        </Link>
       </MenuItem>
       <MenuDivider />
       <MenuItem>

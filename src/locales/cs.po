@@ -1,0 +1,661 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-02-19 13:26+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: cs\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. placeholder {0}: newMessages.length
+#: src/pages/Home.tsx:26
+#: src/components/Header/MainMenu.tsx:46
+msgid "{0, plural, one {(# new)} other {(# new)}}"
+msgstr "{0, plural, one {(# nová)} few {(# nové)} other {(# nových)}}"
+
+#: src/pages/EditProfile/EditInterests.tsx:57
+msgid "{label} added to interests"
+msgstr "{label} byl přidán do zájmů"
+
+#: src/components/Join/Join.tsx:240
+msgid "<0>Ask for help in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>"
+msgstr "<0>Požádejte o pomoc v našich projektových prostorech</0> nebo nám napište e-mail na <1>\"support at solidcouch dot org\"</1>"
+
+#: src/pages/HospexSetup/Step2.tsx:160
+msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
+msgstr "Potvrzovací e-mail byl odeslán na adresu {sentToEmail}.<0/>Zkontrolujte prosím svou schránku (i složku nevyžádané pošty) a postupujte podle pokynů."
+
+#: src/pages/EditProfile/EditProfile.tsx:163
+msgid "About me"
+msgstr "O mně"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:100
+msgid "About your hosting"
+msgstr "O vašem ubytování"
+
+#: src/pages/Profile/ManageContact.tsx:94
+msgid "Accept"
+msgstr "Přijmout"
+
+#: src/pages/MyOffers.tsx:74
+msgid "Accommodation added to indexing service"
+msgstr "Ubytování přidáno do indexační služby"
+
+#: src/pages/MyOffers.tsx:112
+msgid "Accommodation created"
+msgstr "Ubytování vytvořeno"
+
+#: src/pages/MyOffers.tsx:160
+msgid "Accommodation deleted"
+msgstr "Ubytování odstraněno"
+
+#: src/pages/SearchHosts/SearchHosts.tsx:102
+msgid "Accommodation offer from {offeredByIdentifier}"
+msgstr "Nabídka ubytování od {offeredByIdentifier}"
+
+#: src/pages/MyOffers.tsx:78
+msgid "Accommodation removed from indexing service"
+msgstr "Ubytování odebráno z indexační služby"
+
+#: src/pages/MyOffers.tsx:131
+msgid "Accommodation updated"
+msgstr "Ubytování aktualizováno"
+
+#: src/pages/MyOffers.tsx:76
+msgid "Accommodation updated in indexing service"
+msgstr "Ubytování aktualizováno v indexační službě"
+
+#: src/pages/MyOffers.tsx:223
+msgid "Add Accommodation"
+msgstr "Přidat ubytování"
+
+#: src/pages/Profile/ManageContact.tsx:174
+msgid "Add person as a contact"
+msgstr "Přidat osobu do kontaktů"
+
+#: src/pages/Profile/ManageContact.tsx:146
+msgid "Add to my contacts"
+msgstr "Přidat do mých kontaktů"
+
+#: src/pages/EditProfile/EditInterests.tsx:56
+msgid "Adding {label} to interests"
+msgstr "Přidávání {label} do zájmů"
+
+#: src/pages/ProfileRedirect.tsx:12
+#: src/pages/Contacts.tsx:20
+msgid "authenticating"
+msgstr "ověřování"
+
+#: src/pages/AuthenticatedOutlet.tsx:17
+msgid "Authenticating..."
+msgstr "Ověřování..."
+
+#: src/pages/Profile/ManageContact.tsx:185
+#: src/components/AccommodationForm/AccommodationForm.tsx:116
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: src/pages/SetupOutlet.tsx:109
+msgid "Checking your setup..."
+msgstr "Kontroluji vaše nastavení..."
+
+#: src/components/Join/Join.tsx:69
+msgid "Choose for me!"
+msgstr "Vyberte za mě!"
+
+#: src/components/Join/Join.tsx:143
+msgid "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one of these providers:"
+msgstr "Vyberte možnost <0>\"Použít moje existující WebID pro přístup k mému Podu\"</0> u jednoho z těchto poskytovatelů:"
+
+#: src/pages/SearchHosts/SearchHosts.tsx:51
+msgid "Close hosting preview"
+msgstr "Zavřít náhled hostingu"
+
+#: src/pages/Profile/ManageContact.tsx:35
+msgid "Contact exists"
+msgstr "Kontakt již existuje"
+
+#: src/pages/Profile/ManageContact.tsx:38
+msgid "Contact request sent"
+msgstr "Pozvánka odeslána"
+
+#: src/pages/Profile/Profile.tsx:49
+#: src/components/Header/MainMenu.tsx:57
+msgid "contacts"
+msgstr "kontakty"
+
+#: src/pages/Contacts.tsx:33
+msgid "Contacts of <0/>"
+msgstr "Kontakty <0/>"
+
+#: src/pages/HospexSetup/Step1.tsx:192
+#: src/pages/HospexSetup/Step0.tsx:130
+#: src/components/SignIn/SignIn.tsx:129
+msgid "Continue"
+msgstr "Pokračovat"
+
+#: src/pages/Threads.tsx:28
+msgid "Conversations"
+msgstr "Konverzace"
+
+#: src/pages/HospexSetup/Step0.tsx:117
+msgid "Create inbox:"
+msgstr "Vytvořit schránku:"
+
+#: src/pages/HospexSetup/Step0.tsx:101
+msgid "Create private type index:"
+msgstr "Vytvořit soukromý index typů:"
+
+#: src/pages/HospexSetup/Step0.tsx:87
+msgid "Create public type index:"
+msgstr "Vytvořit veřejný index typů:"
+
+#: src/pages/MyOffers.tsx:111
+msgid "Creating accommodation"
+msgstr "Vytváření ubytování"
+
+#: src/pages/Messages.tsx:162
+msgid "Creating message"
+msgstr "Vytváření zprávy"
+
+#: src/pages/MyOffers.tsx:205
+msgid "Delete"
+msgstr "Smazat"
+
+#: src/pages/MyOffers.tsx:159
+msgid "Deleting accommodation"
+msgstr "Mazání ubytování"
+
+#: src/components/Join/Join.tsx:239
+msgid "Do you have troubles joining?"
+msgstr "Máte potíže s připojením?"
+
+#: src/pages/MyOffers.tsx:148
+msgid "Do you really want to delete the accommodation?"
+msgstr "Opravdu chcete smazat ubytování?"
+
+#: src/pages/MyOffers.tsx:202
+msgid "Edit"
+msgstr "Upravit"
+
+#: src/pages/Profile/Profile.tsx:40
+#: src/components/Header/MainMenu.tsx:37
+msgid "edit profile"
+msgstr "upravit profil"
+
+#: src/pages/HospexSetup/Step2.tsx:145
+msgid "email address"
+msgstr "e-mailová adresa"
+
+#: src/pages/Messages.tsx:189
+msgid "Email notification was sent"
+msgstr "E-mailové upozornění bylo odesláno"
+
+#: src/pages/HospexSetup/Step2.tsx:252
+msgid "Email notifications are not available for this community."
+msgstr "E-mailová upozornění nejsou pro tuto komunitu dostupná."
+
+#: src/pages/HospexSetup/Step2.tsx:142
+msgid "Enter your email address:"
+msgstr "Zadejte svou e-mailovou adresu:"
+
+#: src/pages/Contacts.tsx:26
+msgid "fetching contacts"
+msgstr "načítání kontaktů"
+
+#: src/pages/EditProfile/EditProfile.tsx:67
+msgid "Fetching profile"
+msgstr "načítání profilu"
+
+#: src/pages/HospexSetup/Step2.tsx:132
+#: src/pages/HospexSetup/Step2.tsx:175
+#: src/pages/HospexSetup/Step2.tsx:216
+#: src/pages/HospexSetup/Step2.tsx:241
+#: src/pages/HospexSetup/Step2.tsx:255
+msgid "Finish Setup"
+msgstr "Dokončit nastavení"
+
+#: src/components/Logo/Logo.tsx:43
+msgid "focused logo of {name}"
+msgstr "zdůrazněné logo {name}"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:77
+msgid "For safety, share only approximate location"
+msgstr "Kvůli bezpečí sdílejte pouze přibližnou polohu"
+
+#: src/components/Join/Join.tsx:74
+msgid "Get a Pod at solidcommunity.net 😉"
+msgstr "Získejte Pod na solidcommunity.net 😉"
+
+#: src/components/Join/Join.tsx:52
+msgid "Here are some Pod providers that work with {communityName}:"
+msgstr "Tady jsou poskytovatelé Podů, které fungují s {communityName}:"
+
+#: src/pages/Profile/ManageContact.tsx:164
+msgid "Hi! I'd like to add you as a contact!"
+msgstr "Ahoj! Rád(a) bych tě přidal(a) do kontaktů!"
+
+#: src/pages/Profile/ManageContact.tsx:65
+#: src/pages/Profile/ManageContact.tsx:117
+msgid "hospex container not found (too soon?)"
+msgstr "hospex kontejner nebyl nalezen (možná příliš brzy?)"
+
+#: src/pages/EditProfile/EditProfile.tsx:34
+msgid "Hospex document not found"
+msgstr "Hospex dokument nebyl nalezen"
+
+#: src/pages/Messages.tsx:142
+msgid "Hospex not set up (should not happen)"
+msgstr "Hospex není nastaven (nemělo by se to stát)"
+
+#: src/pages/Home.tsx:19
+msgid "host"
+msgstr "hostit"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:72
+msgid "Hosting location (click <0/> or drag & zoom map)"
+msgstr "Lokalita hostování (klikněte na <0/> nebo přetáhněte a přibližte mapu)"
+
+#: src/components/Join/Join.tsx:94
+msgid "I want more control"
+msgstr "Chci mít větší kontrolu"
+
+#: src/components/Join/Join.tsx:129
+msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
+msgstr "Pokud vlastníte <0>doménu</0>, můžete mít své <1>WebID</1> na své doméně. To vám dává větší kontrolu nad vaší Solid identitou."
+
+#: src/pages/Profile/ManageContact.tsx:97
+msgid "Ignore"
+msgstr "Ignorovat"
+
+#: src/pages/HospexSetup/Step0.tsx:114
+msgid "Inbox is set up."
+msgstr "Schránka je nastavena."
+
+#: src/pages/Profile/ManageContact.tsx:119
+msgid "inbox not found (too soon?)"
+msgstr "schránka nebyla nalezena (možná příliš brzy?)"
+
+#: src/pages/Messages.tsx:135
+msgid "Inbox of the other person not found (probably too soon)"
+msgstr "Schránka druhé osoby nebyla nalezena (pravděpodobně příliš brzy)"
+
+#: src/pages/EditProfile/EditInterests.tsx:35
+msgid "Interest removed"
+msgstr "Zájem odstraněn"
+
+#: src/pages/EditProfile/EditProfile.tsx:83
+msgid "Interests"
+msgstr "Zájmy"
+
+#: src/components/Join/Join.tsx:77
+msgid "It is managed by the Solid community folks, and has been migrated to a <0>modern and open-source Solid server</0>."
+msgstr "Spravuje to komunita Solid a bylo to přesunuto na <0>moderní a open-source Solid server</0>."
+
+#: src/components/Join/Join.tsx:197
+msgid "Join"
+msgstr "Připojit se"
+
+#: src/pages/HospexSetup/HospexSetup.tsx:78
+msgid "Join Community"
+msgstr "Připojit se ke komunitě"
+
+#: src/pages/HospexSetup/Step1.tsx:115
+msgid "Join community {communityLabel}"
+msgstr "Připojit se ke komunitě {communityLabel}"
+
+#: src/pages/Profile/Profile.tsx:60
+#: src/pages/EditProfile/EditInterests.tsx:66
+msgid "loading interests..."
+msgstr "načítání zájmů..."
+
+#: src/pages/Messages.tsx:236
+msgid "Loading previous messages"
+msgstr "Načítání předchozích zpráv"
+
+#: src/App.tsx:47
+#: src/pages/Threads.tsx:21
+#: src/pages/MyOffers.tsx:95
+#: src/pages/Messages.tsx:205
+#: src/pages/SearchHosts/AccommodationInfo.tsx:45
+#: src/pages/Profile/ManageContact.tsx:26
+msgid "Loading..."
+msgstr "Načítání..."
+
+#: src/components/Logo/Logo.tsx:31
+msgid "logo of {name}"
+msgstr "logo {name}"
+
+#: src/pages/Messages.tsx:163
+msgid "Message was created"
+msgstr "Zpráva byla vytvořena"
+
+#: src/pages/Home.tsx:22
+#: src/components/Header/MainMenu.tsx:42
+msgid "messages"
+msgstr "zprávy"
+
+#: src/pages/Messages.tsx:207
+msgid "Messages with <0/>"
+msgstr "Zprávy s <0/>"
+
+#: src/pages/MyOffers.tsx:101
+#: src/pages/MyOffers.tsx:145
+msgid "missing variables"
+msgstr "chybějící proměnné"
+
+#: src/components/SignIn/SignIn.tsx:116
+msgid "more"
+msgstr "více"
+
+#: src/pages/MyOffers.tsx:175
+msgid "My Accommodation Offers"
+msgstr "Moje nabídky ubytování"
+
+#: src/components/Header/MainMenu.tsx:62
+msgid "my hosting"
+msgstr "mé ubytování"
+
+#: src/pages/SearchHosts/SearchHosts.tsx:66
+msgid "My location"
+msgstr "Moje poloha"
+
+#: src/pages/EditProfile/EditProfile.tsx:140
+#: src/pages/EditProfile/EditProfile.tsx:146
+msgid "Name"
+msgstr "Jméno"
+
+#: src/pages/Messages.tsx:131
+msgid "No authenticated user available"
+msgstr "Není dostupný žádný autentizovaný uživatel"
+
+#: src/pages/HospexSetup/Step2.tsx:102
+msgid "no hospex document for community"
+msgstr "pro komunitu nebyl nalezen hospex dokument"
+
+#: src/pages/MyOffers.tsx:69
+msgid "Notifying indexing service"
+msgstr "Probíhá oznámení indexační službě"
+
+#: src/pages/HospexSetup/Step1.tsx:161
+msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
+msgstr "Nebo použít data (profil, nabídky ubytování, atd.) z jedné z vašich existujících komunit? <0>(Doporučeno pro podobné komunity)</0>"
+
+#: src/components/Join/Join.tsx:168
+msgid "Or use your domain to host your own Solid Pod."
+msgstr "Nebo využijte svou doménu k hostování vlastního Solid Podu."
+
+#: src/components/SignIn/SignIn.tsx:119
+msgid "or write your own Solid identity provider, or your webId"
+msgstr "nebo zadejte vlastního poskytovatele Solid identity, nebo své WebID"
+
+#: src/pages/Contacts.tsx:65
+#: src/pages/Contacts.tsx:74
+msgid "pending"
+msgstr "čeká"
+
+#: src/pages/EditProfile/EditProfile.tsx:149
+msgid "Photo"
+msgstr "Fotka"
+
+#: src/pages/Profile/ManageContact.tsx:177
+msgid "Please invite only people you know personally."
+msgstr "Pozvěte prosím pouze lidi, které osobně znáte."
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:95
+msgid "Please move map to your hosting location"
+msgstr "Prosím, přesuňte mapu na místo vašeho hostování."
+
+#: src/pages/HospexSetup/Step2.tsx:239
+msgid "Please verify your email"
+msgstr "Ověřte prosím svůj e-mail"
+
+#: src/pages/UnauthenticatedHome.tsx:71
+msgid "Powered by <0>SolidCouch</0>"
+msgstr "Postaveno na <0>SolidCouch</0>"
+
+#: src/pages/HospexSetup/HospexSetup.tsx:64
+msgid "Prepare Pod"
+msgstr "Připravte Pod"
+
+#: src/pages/HospexSetup/Step0.tsx:98
+msgid "Private type index is set up."
+msgstr "Soukromý index typu je nastaven."
+
+#: src/pages/Messages.tsx:144
+msgid "Private type index not set up (should not happen)"
+msgstr "Soukromý index typu není nastaven (nemělo by se to stát)."
+
+#: src/pages/Contacts.tsx:71
+msgid "process"
+msgstr "zpracování"
+
+#: src/components/Header/MainMenu.tsx:33
+msgid "profile"
+msgstr "profil"
+
+#: src/pages/Profile/Profile.tsx:29
+msgid "Profile photo of {name}"
+msgstr "Profilová fotka {name}"
+
+#: src/pages/EditProfile/EditProfile.tsx:78
+msgid "Profile updated"
+msgstr "Profil aktualizován"
+
+#: src/pages/HospexSetup/Step0.tsx:84
+msgid "Public type index is set up."
+msgstr "Veřejný index typu je nastaven."
+
+#: src/components/Join/Join.tsx:114
+msgid "Read more about <0>running your own Solid server</0>."
+msgstr "Přečtěte si více o <0>provozu vlastního Solid serveru</0>."
+
+#: src/pages/EditProfile/EditInterests.tsx:34
+msgid "Removing interest"
+msgstr "Odstraňování zájmu"
+
+#: src/pages/HospexSetup/Step2.tsx:152
+msgid "Resend Confirmation Email in {countdown}s"
+msgstr "Za {countdown}s znovu odeslat potvrzovací e-mail"
+
+#: src/pages/EditProfile/EditProfile.tsx:167
+msgid "Save changes"
+msgstr "Uložit změny"
+
+#: src/pages/Profile/ManageContact.tsx:85
+msgid "See contact invitation"
+msgstr "Zobrazit pozvánku ke kontaktu"
+
+#: src/components/SelectLocation.tsx:114
+msgid "Select my location"
+msgstr "Vyberte mou polohu"
+
+#: src/components/SignIn/SignIn.tsx:84
+msgid "Select your Solid identity provider"
+msgstr "Vyberte svého poskytovatele Solid identity"
+
+#: src/pages/Messages.tsx:251
+msgid "Send"
+msgstr "Odeslat"
+
+#: src/pages/HospexSetup/Step2.tsx:154
+#: src/pages/HospexSetup/Step2.tsx:233
+msgid "Send Confirmation Email"
+msgstr "Odeslat potvrzovací e-mail"
+
+#: src/pages/Profile/ManageContact.tsx:182
+msgid "Send contact invitation"
+msgstr "Odeslat pozvánku ke kontaktu"
+
+#: src/pages/Messages.tsx:188
+msgid "Sending email notification"
+msgstr "Probíhá odesílání e-mailového upozornění"
+
+#: src/pages/Messages.tsx:177
+msgid "Sending Solid notification"
+msgstr "Probíhá odesílání Solid upozornění"
+
+#: src/pages/HospexSetup/Step1.tsx:152
+msgid "Set up new data for this community:"
+msgstr "Nastavit nová data pro tuto komunitu:"
+
+#: src/pages/HospexSetup/HospexSetup.tsx:90
+msgid "Set Up Notifications"
+msgstr "Nastavit oznámení"
+
+#: src/pages/HospexSetup/HospexSetup.tsx:114
+msgid "Setup"
+msgstr "Nastavit"
+
+#: src/pages/HospexSetup/Step2.tsx:225
+msgid "Setup email notifications"
+msgstr "Nastavit e-mailová upozornění"
+
+#: src/pages/HospexSetup/Step1.tsx:134
+msgid "Setup hospex document and storage"
+msgstr "Nastavit hospex dokument a úložiště"
+
+#: src/pages/HospexSetup/Step1.tsx:124
+msgid "Setup hospex document and storage:"
+msgstr "Nastavit hospex dokument a úložiště:"
+
+#: src/components/Join/Join.tsx:49
+msgid "Show me some providers!"
+msgstr "Ukázat poskytovatele!"
+
+#: src/components/SignIn/SignIn.tsx:75
+msgid "Sign in"
+msgstr "Přihlásit se"
+
+#: src/components/SignOut.tsx:15
+msgid "sign out"
+msgstr "odhlásit se"
+
+#: src/pages/Messages.tsx:178
+msgid "Solid notification was sent"
+msgstr "Solid upozornění bylo odesláno"
+
+#: src/pages/HospexSetup/Step0.tsx:60
+msgid "Something is not resolved (unexpected error)"
+msgstr "Něco není vyřešeno (neočekávaná chyba)"
+
+#: src/components/withToast.tsx:20
+msgid "Something went wrong."
+msgstr "Něco se nepovedlo."
+
+#: src/components/SignIn/SignIn.tsx:59
+#: src/components/SignIn/SignIn.tsx:68
+msgid ""
+"Something went wrong.\n"
+"Error: {e}"
+msgstr ""
+"Něco se pokazilo.\n"
+"Chyba: {e}"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:119
+msgid "Submit"
+msgstr "Odeslat"
+
+#: src/components/ThemeSwitch/ThemeSwitch.tsx:21
+msgid "Switch to dark theme"
+msgstr "Přepnout na tmavé téma"
+
+#: src/components/ThemeSwitch/ThemeSwitch.tsx:21
+msgid "Switch to light theme"
+msgstr "Přepnout na světlé téma"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:105
+msgid "Tell others about your place and hosting"
+msgstr "Povězte ostatním o svém místě a hostování"
+
+#: src/components/AccommodationForm/AccommodationForm.tsx:110
+msgid "This field is required"
+msgstr "Toto pole je povinné"
+
+#: src/pages/Messages.tsx:243
+msgid "This is a start of your conversation"
+msgstr "Toto je začátek vaší konverzace"
+
+#: src/components/Join/Join.tsx:161
+msgid "To complete the process, you must prove that the WebID on your domain belongs to you. Afterwards, the WebID must point to your Profile Document. (This may need more explanation.)"
+msgstr "K dokončení procesu musíte prokázat, že WebID na vaší doméně vám patří. Poté musí WebID směřovat na váš profilový dokument. (Toto může vyžadovat další vysvětlení.)"
+
+#: src/components/Join/Join.tsx:207
+msgid "To join {communityName}, you need a <0>Solid Pod</0>."
+msgstr "Pro připojení k {communityName} potřebujete <0>Solid Pod</0>."
+
+#: src/pages/Home.tsx:16
+msgid "travel"
+msgstr "cestovat"
+
+#: src/pages/MyOffers.tsx:80
+msgid "Unexpected status code from indexing service"
+msgstr "Neočekávaný stavový kód od indexační služby"
+
+#: src/pages/MyOffers.tsx:130
+msgid "Updating accommodation"
+msgstr "Aktualizuji ubytování"
+
+#: src/pages/EditProfile/EditProfile.tsx:77
+msgid "Updating profile"
+msgstr "Aktualizuji profil"
+
+#: src/components/SignIn/SignIn.tsx:55
+msgid ""
+"We didn't succeed with redirecting to the issuer at {oidcIssuer}.\n"
+"Have you provided correct webId or OIDCIssuer? Or is it down?\n"
+"\n"
+"Reason: {message}\n"
+"\n"
+"Error: {errorString}"
+msgstr ""
+"Něpodařilo se nám přesměrovat na poskytovatele ({oidcIssuer}).\n"
+"Zkontrolujte, zda jste zadali správné WebID nebo OIDCIssuer, nebo jestli není nedostupný.\n"
+"\n"
+"Důvod: {message}\n"
+"\n"
+"Chyba: {errorString}"
+
+#: src/pages/SetupOutlet.tsx:112
+msgid "We're verifying that everything is configured correctly."
+msgstr "Ověřujeme, že je vše správně nastaveno."
+
+#: src/pages/UnauthenticatedHome.tsx:68
+msgid "WIP"
+msgstr "Pracujeme na tom"
+
+#: src/pages/SearchHosts/AccommodationInfo.tsx:53
+#: src/pages/Profile/Profile.tsx:45
+msgid "Write a message"
+msgstr "Napsat zprávu"
+
+#: src/pages/HospexSetup/Step1.tsx:138
+msgid "You already seem to be a member of some hospitality exchange communities. Would you like to:"
+msgstr "Zdá se, že již jste členem některých komunit pro výměnu pohostinnosti. Chcete raději:"
+
+#: src/pages/HospexSetup/Step1.tsx:119
+msgid "You are already a member of {communityLabel}"
+msgstr "Již jste členem {communityLabel}"
+
+#: src/components/Join/Join.tsx:98
+msgid "You can <0>host your Pod</0>. This will give you full control over your data. However, it's more complicated to set up, and requires maintenance. We recommend <1>Community Solid Server</1>."
+msgstr "Můžete <0>hostovat svůj Pod</0>, čímž získáte plnou kontrolu nad svými daty. Nastavení je však složitější a vyžaduje údržbu. Doporučujeme <1>Community Solid Server</1>."
+
+#: src/pages/HospexSetup/Step2.tsx:228
+msgid "Your email"
+msgstr "Váš e-mail"
+
+#: src/pages/HospexSetup/Step2.tsx:130
+#: src/pages/HospexSetup/Step2.tsx:214
+msgid "Your email notifications are set up."
+msgstr "Vaše e-mailová upozornění jsou nastavena."
+
+#: src/components/SignIn/SignIn.tsx:125
+msgid "Your webId or provider"
+msgstr "Vaše WebID nebo poskytovatel"

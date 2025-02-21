@@ -11,6 +11,7 @@ import { Parser, Store } from 'n3'
 import ngeohash from 'ngeohash'
 import { useEffect, useMemo, useState } from 'react'
 import { searchAccommodationsQuery } from './queries'
+import { QueryKey } from './types'
 
 const fetchAccommodationsByGeohash = async ({
   geohash,
@@ -83,7 +84,7 @@ export const useSearchAccommodations = (
   const geoindexQueries = useMemo(
     () =>
       geohashes.map(h => ({
-        queryKey: ['geoindex', h],
+        queryKey: [QueryKey.geoindex, h],
         queryFn: () =>
           fetchAccommodationsByGeohash({
             geohash: h,

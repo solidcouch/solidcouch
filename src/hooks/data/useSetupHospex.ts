@@ -14,6 +14,7 @@ import { NamedNode, Quad, Writer } from 'n3'
 import { acl, foaf, ldp, rdf, solid, space } from 'rdf-namespaces'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { AccessMode, QueryKey } from './types'
 import { useReadCommunity } from './useCommunity'
 import {
   useCreateRdfContainer,
@@ -88,7 +89,7 @@ export const useSaveTypeRegistration = () => {
   return useMutation({
     mutationFn: saveTypeRegistration,
     onSuccess: (_, { index }) => {
-      queryClient.invalidateQueries({ queryKey: ['rdfDocument', index] })
+      queryClient.invalidateQueries({ queryKey: [QueryKey.rdfDocument, index] })
     },
   }).mutateAsync
 }
@@ -151,7 +152,7 @@ export const useAddToHospexProfile = () => {
         await updateAcl(getContainer(uri), [
           {
             operation: 'add',
-            access: ['Read'],
+            access: [AccessMode.Read],
             agentGroups: community.groups,
             default: true,
           },
@@ -171,7 +172,7 @@ const useUpdateAcl = () => {
       operations: {
         // operations to perform
         operation: 'add'
-        access: ('Read' | 'Append' | 'Write' | 'Control')[] // add to this access
+        access: AccessMode[] // add to this access
         default?: boolean
         agentGroups?: URI[]
         agents?: URI[]
@@ -473,7 +474,7 @@ export const useInitEmailNotifications = () => {
   const { mutate } = useMutation({
     mutationFn: addActivity,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['mailerIntegration'] })
+      queryClient.invalidateQueries({ queryKey: [QueryKey.mailerIntegration] })
     },
   })
 
@@ -553,7 +554,9 @@ export const useVerifyEmail = () => {
   const mutation = useMutation({
     mutationFn: addActivity,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['simpleMailerIntegration'] })
+      queryClient.invalidateQueries({
+        queryKey: [QueryKey.simpleMailerIntegration],
+      })
     },
   })
 
@@ -582,7 +585,7 @@ export const usePreparePodForDirectEmailNotifications = () => {
       await updateAcl(hospexContainer, [
         {
           operation: 'add',
-          access: ['Read'],
+          access: [AccessMode.Read],
           agents: [emailNotificationsIdentity],
           default: true,
         },
