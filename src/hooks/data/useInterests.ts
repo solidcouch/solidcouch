@@ -1,4 +1,5 @@
 import { Interest, URI } from '@/types'
+import { HttpError } from '@/utils/errors'
 import { useQuery } from '@tanstack/react-query'
 import merge from 'lodash/merge'
 import { QueryKey } from './types'
@@ -22,19 +23,19 @@ interface WikidataEntitiesResult {
       claims: {
         P18?: {
           mainsnak: {
-            datavalue: { value: string }
+            datavalue?: { value: string }
             datatype: 'commonsMedia'
           }
         }[]
         P154?: {
           mainsnak: {
-            datavalue: { value: string }
+            datavalue?: { value: string }
             datatype: 'commonsMedia'
           }
         }[]
         P856?: {
           mainsnak: {
-            datavalue: { value: string }
+            datavalue?: { value: string }
             datatype: 'url'
           }
         }[]
@@ -92,7 +93,11 @@ const readInterest = async (
   const res = await fetch(
     `https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${id}&languages=${language}&format=json&origin=*`,
   )
+
+  if (!res.ok) throw new HttpError('Fetching interest failed', res)
+
   const data: WikidataEntitiesResult = await res.json()
+
   if (!data || !data.entities) return {}
 
   const entity = data.entities[id]
@@ -102,10 +107,10 @@ const readInterest = async (
   const label = entity.labels[language]?.value ?? ''
   const description = entity.descriptions[language]?.value ?? ''
   const imageString = (entity.claims.P18 ?? []).map(
-    p => p.mainsnak.datavalue.value,
+    p => p.mainsnak.datavalue?.value,
   )[0]
   const logoImageString = (entity.claims.P154 ?? []).map(
-    p => p.mainsnak.datavalue.value,
+    p => p.mainsnak.datavalue?.value,
   )[0]
   const image =
     imageString &&
@@ -119,7 +124,7 @@ const readInterest = async (
       logoImageString,
     )}?width=300`
   const officialWebsite = (entity.claims.P856 ?? []).map(
-    p => p.mainsnak.datavalue.value,
+    p => p.mainsnak.datavalue?.value,
   )[0]
   const aliases = (entity.aliases[language] ?? []).map(({ value }) => value)
 
