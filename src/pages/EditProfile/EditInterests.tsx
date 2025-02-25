@@ -75,7 +75,7 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
         {interests.map(({ id, document }) => (
           <li key={id + document}>
             <Interest
-              id={id}
+              uri={id}
               onRemove={() => handleRemove({ id, document })}
               locale={locale}
               data-cy="edit-interest"

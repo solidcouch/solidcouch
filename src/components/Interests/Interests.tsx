@@ -20,7 +20,7 @@ export const Interests = ({
       {ids.map(id => (
         <li key={id}>
           <Interest
-            id={id}
+            uri={id}
             highlighted={highlighted && highlighted.includes(id)}
             locale={locale}
           />

@@ -6,22 +6,36 @@ import { ComponentProps } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import styles from './Interests.module.scss'
 
+/**
+ * This component shows a tag with wikidata data.
+ *
+ * It accepts url of wikidata entity, and displays a tag with localized label.
+ * @param {string} props.uri - uri of wikidata entity
+ * @param {boolean} [props.highlighted] - whether the tag should be highlighted
+ * @param {() => void} [props.onRemove] - callback when clicking (x) button, (x) button is closed when onRemove is defined
+ * @param {string} props.locale - language code to use for label etc.
+ * @param ...rest - all the other parameters acceptable by `span`
+ */
 export const Interest = ({
-  id,
+  uri,
   highlighted,
   onRemove,
   locale,
   className,
   ...rest
 }: {
-  id: URI
+  uri: URI
   highlighted?: boolean
   onRemove?: () => void
-  locale?: string
+  locale: string
 } & ComponentProps<'span'>) => {
-  const { data } = useReadInterest(id, locale)
+  const { data } = useReadInterest(uri, locale)
 
-  const temporaryData = { id, label: id.split('/').pop(), description: id }
+  const temporaryData = {
+    id: uri,
+    label: uri.split('/').pop(),
+    description: uri,
+  }
 
   const thing = merge({}, temporaryData, data)
 
