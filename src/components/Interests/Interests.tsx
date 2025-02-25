@@ -1,9 +1,7 @@
-import { useReadInterest } from '@/hooks/data/useInterests'
 import { useAppSelector } from '@/redux/hooks'
 import { selectLocale } from '@/redux/uiSlice'
 import { URI } from '@/types'
-import clsx from 'clsx'
-import merge from 'lodash/merge'
+import { Interest } from './Interest'
 import styles from './Interests.module.scss'
 
 export const Interests = ({
@@ -13,6 +11,8 @@ export const Interests = ({
   ids: URI[]
   highlighted?: URI[]
 }) => {
+  const locale = useAppSelector(selectLocale)
+
   if (ids.length === 0) return null
 
   return (
@@ -22,31 +22,10 @@ export const Interests = ({
           <Interest
             id={id}
             highlighted={highlighted && highlighted.includes(id)}
+            locale={locale}
           />
         </li>
       ))}
     </ul>
-  )
-}
-
-const Interest = ({ id, highlighted }: { id: URI; highlighted?: boolean }) => {
-  const locale = useAppSelector(selectLocale)
-  const { data } = useReadInterest(id, locale)
-
-  const temporaryData = {
-    id,
-    label: id.split('/').pop(),
-    description: id,
-  }
-
-  const thing = merge({}, temporaryData, data)
-
-  return (
-    <span
-      className={clsx(styles.item, highlighted && styles.highlighted)}
-      title={thing.description}
-    >
-      {thing.label}
-    </span>
   )
 }
