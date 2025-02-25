@@ -97,10 +97,10 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
         onChange={handleSelect}
         className={clsx(styles.select, 'cy-select-interests')}
         classNames={{
-          control: () => styles.control,
-          input: () => styles.input,
-          menu: () => styles.menu,
-          indicatorSeparator: () => styles.separator,
+          control: () => styles.control ?? '',
+          input: () => styles.input ?? '',
+          menu: () => styles.menu ?? '',
+          indicatorSeparator: () => styles.separator ?? '',
           option: ({ isFocused }) =>
             clsx(styles.option, isFocused && styles.focused),
         }}

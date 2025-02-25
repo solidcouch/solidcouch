@@ -138,7 +138,7 @@ export const useSearchAccommodations = (
       .matchObject(null, hospex.offers)
       .filter(a => a.location)
       .map(a => ({
-        id: a['@id'] ?? '',
+        id: a['@id'],
         description: a.description?.[0] ?? '',
         // TODO this is an inconsistency fix
         // https://github.com/o-development/ldo/issues/22#issuecomment-1590228592
@@ -151,6 +151,12 @@ export const useSearchAccommodations = (
           name: a.offeredBy?.name ?? '',
         },
       }))
+      .filter(
+        (a): a is Accommodation =>
+          a.location.lat !== undefined &&
+          a.location.long !== undefined &&
+          a.id !== undefined,
+      )
 
     return [accommodations, isMissing] as const
   }, [isMissing, quads])
@@ -181,4 +187,11 @@ export const useSearchAccommodations = (
   }, [indexedAccommodations, slowAccommodations])
 
   return mergedResults
+}
+
+interface Accommodation {
+  id: string
+  description: string
+  location: { lat: number; long: number }
+  offeredBy: { id: string; name: string }
 }

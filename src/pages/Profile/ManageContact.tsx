@@ -60,7 +60,7 @@ export const ProcessContactInvitation = ({
   const setup = useCheckSetup(auth.webId!, communityId)
 
   const handleConfirm = async () => {
-    const hospexContainer = getContainer(setup.personalHospexDocuments[0])
+    const hospexContainer = getContainer(setup.personalHospexDocuments[0]!)
     if (!hospexContainer)
       throw new Error(t`hospex container not found (too soon?)`)
     await confirmContact({
@@ -112,10 +112,10 @@ const AddContact = ({ webId }: { webId: URI }) => {
   const otherSetup = useCheckSetup(webId, communityId)
 
   const handleSubmit = async ({ invitation }: { invitation: string }) => {
-    const hospexContainer = getContainer(mySetup.personalHospexDocuments[0])
+    const hospexContainer = getContainer(mySetup.personalHospexDocuments[0]!)
     if (!hospexContainer)
       throw new Error(t`hospex container not found (too soon?)`)
-    const inbox = getContainer(otherSetup.inboxes[0])
+    const inbox = getContainer(otherSetup.inboxes[0]!)
     if (!inbox) throw new Error(t`inbox not found (too soon?)`)
 
     await createContact2({

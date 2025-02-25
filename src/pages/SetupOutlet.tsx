@@ -41,7 +41,7 @@ export const SetupOutlet = () => {
     emailNotificationsType === 'simple' ? emailNotificationsService : '',
   )
   const isEmailNotifications = useCheckEmailNotifications(
-    setupCheck.inboxes[0],
+    setupCheck.inboxes[0] ?? '',
     emailNotificationsType === 'solid' ? emailNotificationsService : '',
   )
 

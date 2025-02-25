@@ -38,7 +38,7 @@ beforeEach(() => {
 // set up email notifications Solid identity
 beforeEach(() => {
   const url = Cypress.env('EMAIL_NOTIFICATIONS_IDENTITY')
-  const username = new URL(url).pathname.split('/')[1]
+  const username = new URL(url).pathname.split('/')[1]!
   cy.createAccountIfNotExist({
     username,
     password: 'correcthorsebatterystaple',

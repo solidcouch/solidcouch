@@ -55,7 +55,7 @@ export const saveContacts = ({
     sendContactNotification({
       ...rest,
       from: person,
-      to: contacts[contactIndex],
+      to: contacts[contactIndex]!,
     })
   }
 }
