@@ -236,7 +236,7 @@ export const useProcessNotification = () => {
 
             if (
               participation.references?.length === 1 &&
-              participation.references[0]['@id'] === otherChat
+              participation.references[0]!['@id'] === otherChat
             )
               throw new Error('already updated')
 

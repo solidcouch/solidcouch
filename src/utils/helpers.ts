@@ -153,6 +153,7 @@ export const processAcl = (url: string, content: string): Access[] => {
     const modes = store
       .getObjects(auth, acl.mode, null)
       .map(mode => accessDict[mode.value])
+      .filter((mode): mode is AccessMode => typeof mode !== 'undefined')
 
     const agents = store.getObjects(auth, acl.agent, null).map(q => q.value)
     const agentClasses = store
@@ -218,8 +219,8 @@ export const parseWacAllow = (headerValue: string): EffectivePermissions => {
     param = param.trim()
     const match = param.match(/(\w+)\s*=\s*"([^"]*)"/)
     if (match) {
-      const permissionGroup = match[1] // Step 3: Extract permission-group
-      const accessModes = match[2].split(/\s+/) as EffectiveAccessMode[] // Step 4: Split by space
+      const permissionGroup = match[1]! // Step 3: Extract permission-group
+      const accessModes = match[2]!.split(/\s+/) as EffectiveAccessMode[] // Step 4: Split by space
       result[permissionGroup] = new Set<EffectiveAccessMode>(accessModes)
     }
   })

@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Implement i18n with [lingui](https://lingui.dev).
 
+### Changed
+
+- Enable `noUncheckedIndexedAccess` in tsconfig to improve type safety when accessing array and object properties.
+
 ### Fixed
 
 - Fix a bug in wikidata data parsing.

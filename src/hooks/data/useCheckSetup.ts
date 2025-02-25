@@ -54,7 +54,7 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
             .map(({ value }) => ({
               uri: value,
               // TODO handle with language
-              name: store.getObjects(value, sioc.name, null)[0]?.value,
+              name: store.getObjects(value, sioc.name, null)[0]?.value ?? '',
             }))
           const hospexContainers = store.getObjects(userId, hospex.storage, hd)
 

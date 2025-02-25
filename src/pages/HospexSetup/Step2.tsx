@@ -28,7 +28,7 @@ export const Step2 = ({
   [SetupStatusKey.isEmailNotifications]: boolean | 'unset' | 'unverified'
   [SetupStatusKey.isSimpleEmailNotifications]: boolean | 'unset'
   hospexDocument?: string
-  inbox: string
+  inbox?: string
 }) => {
   if (isSimpleEmailNotifications !== 'unset')
     return (
@@ -74,7 +74,7 @@ const DirectEmailNotifications = ({
   const isNotificationsInitialized = results.some(
     result =>
       result.url &&
-      result.permissions.acls[0].accesses?.some(
+      result.permissions.acls[0]?.accesses?.some(
         value =>
           value.agents.includes(emailNotificationsIdentity) &&
           (value.modes.includes(AccessMode.Write) ||
@@ -187,7 +187,7 @@ const WebhookEmailNotifications = ({
   inbox,
 }: StepProps & {
   isEmailNotifications: boolean | 'unverified'
-  inbox: string
+  inbox?: string
 }) => {
   const { t } = useLingui()
   const initEmailNotifications = useInitEmailNotifications()
@@ -200,6 +200,8 @@ const WebhookEmailNotifications = ({
   }
 
   const handleFormSubmit = handleSubmit(({ email }) => {
+    if (!inbox) throw new Error(t`Inbox is not set up`)
+
     initEmailNotifications({
       email,
       webId: webId!,

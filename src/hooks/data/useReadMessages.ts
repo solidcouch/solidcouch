@@ -59,7 +59,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
         ch['@id']
           ? {
               myChat: ch['@id'],
-              otherChats: ch.participation?.[0].references?.flatMap(
+              otherChats: ch.participation?.[0]?.references?.flatMap(
                 och => och['@id'] ?? [],
               ),
             }

@@ -139,9 +139,9 @@ export const useProfile = (webId: URI, communityId: URI) => {
       hospexProfiles.length > 0
         ? {
             id: webId,
-            name: hospexProfiles[0].name ?? '',
-            photo: hospexProfiles[0].hasPhoto?.['@id'],
-            about: hospexProfiles[0].note?.[0],
+            name: hospexProfiles[0]?.name ?? '',
+            photo: hospexProfiles[0]?.hasPhoto?.['@id'],
+            about: hospexProfiles[0]?.note?.[0],
           }
         : undefined,
     [hospexProfiles, webId],
