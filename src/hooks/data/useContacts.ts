@@ -276,9 +276,9 @@ const useGrantHospexAccess = () => {
           const ldo = ldos.find(
             ldoo =>
               ldoo.accessTo.length === 1 &&
-              ldoo.accessTo[0]['@id'] === hospexContainer &&
+              ldoo.accessTo[0]?.['@id'] === hospexContainer &&
               ldoo.mode?.length === 1 &&
-              ldoo.mode[0]['@id'] === AccessMode.Read,
+              ldoo.mode[0]?.['@id'] === AccessMode.Read,
           )
           if (!ldo) throw new Error('subject not found')
           return ldo

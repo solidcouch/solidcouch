@@ -21,6 +21,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+    "noUncheckedIndexedAccess": true,
     "paths": {
       "@/*": ["./src/*"],
       // https://community.monday.com/t/type-error-with-vibe-components-in-react-typescript-project/92184/2

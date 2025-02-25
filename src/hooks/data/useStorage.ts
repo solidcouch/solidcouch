@@ -45,5 +45,5 @@ const useRootStorage = (me: URI) => {
     !results.every(r => r.isSuccess || r.isError) ||
     results.length < resources.length
 
-  return [storage, inProgress]
+  return [storage, inProgress] as const
 }

@@ -58,10 +58,10 @@ export const createConversation = (conversation: Conversation) => {
 
   // create messages in their chats
   for (const message of conversation.messages) {
-    const { creator, container, chat } = chatConfigs[message.chat]
+    const { creator, container, chat } = chatConfigs[message.chat]!
     const uri = saveMessage({ ...message, creator, container, chat })
     for (const n of message.notifications) {
-      const inbox = chatConfigs[n].creator.inbox
+      const inbox = chatConfigs[n]!.creator.inbox
       saveNotification(inbox, { ...message, id: uri, creator, container, chat })
     }
 
@@ -137,13 +137,13 @@ const getParticipations = (
   participations: (Participation & { container: string })[],
 ): ChatConfig['participations'] => {
   // if chat is not set up, return empty array
-  if (!participations[current].setupChat) return []
+  if (!participations[current]?.setupChat) return []
   const chatParticipations = participations.flatMap((p, i, all) =>
     i === current
       ? []
       : {
           person: p.person.webId,
-          chat: all[current].skipReferences?.includes(i)
+          chat: all[current]?.skipReferences?.includes(i)
             ? undefined
             : p.container + 'index.ttl#this',
         },

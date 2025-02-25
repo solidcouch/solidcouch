@@ -20,7 +20,7 @@ const readOidcIssuer = async (webId: URI): Promise<string[]> => {
 const guessIssuerFromWebID = async (webIdOrIssuer: URI): Promise<URI> => {
   try {
     const oidcIssuers = await readOidcIssuer(webIdOrIssuer)
-    if (oidcIssuers.length === 0) throw new Error('OIDC issuer not found')
+    if (oidcIssuers[0] === undefined) throw new Error('OIDC issuer not found')
     return oidcIssuers[0]
   } catch {
     return webIdOrIssuer

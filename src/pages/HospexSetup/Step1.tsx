@@ -12,7 +12,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { URI } from '@/types'
 import { removeBaseUrl } from '@/utils/helpers'
 import { hospex } from '@/utils/rdf-namespaces'
-import { Trans } from '@lingui/react/macro'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Editable } from './Editable'
@@ -33,11 +33,12 @@ export const Step1 = ({
     hospexDocument: URI
     communities: { uri: string; name: string }[]
   }[]
-  publicTypeIndex: string
+  publicTypeIndex?: string
 }) => {
   const { communityContainer, communityId } = useConfig()
   const auth = useAuth()
-  const storage = useStorage(auth.webId ?? '')
+  const { t } = useLingui()
+  const storage = useStorage(auth.webId ?? '')!
   const community = useReadCommunity(communityId)
   const joinGroupLegacy = useJoinGroupLegacy()
   const joinCommunity = useJoinCommunity()
@@ -67,6 +68,8 @@ export const Step1 = ({
   if (!storage || !newHospexDocument) return <>...</>
   const handleFormSubmit = handleSubmit(
     async ({ hospexDocument, newHospexDocument }) => {
+      if (!publicTypeIndex) throw new Error(t`Public type index is not set up`)
+
       if (!isHospexProfile) {
         const isNew = allHospex.length === 0 || hospexDocument === 'new'
 
@@ -97,11 +100,14 @@ export const Step1 = ({
             type: 'Join',
             inbox: community.inbox,
           })
-        else
+        else {
+          if (!community.groups[0])
+            throw new Error(t`Community does not have a group`)
           await joinGroupLegacy({
             person: auth.webId as URI,
             group: community.groups[0],
           })
+        }
       onSuccess()
     },
   )

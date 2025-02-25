@@ -40,7 +40,7 @@ export const setupCommunity = ({
   }
 }): Cypress.Chainable<CommunityConfig> => {
   const url = new URL(communityUri)
-  const username = url.pathname.split('/')[1]
+  const username = url.pathname.split('/')[1]!
   url.hash = ''
   const communityDoc = url.toString()
   url.pathname += '.acl'

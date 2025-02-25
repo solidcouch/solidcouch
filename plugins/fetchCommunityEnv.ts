@@ -14,6 +14,12 @@ export const fetchCommunityEnv = (config: ConfigEnv): PluginOption => ({
   config: async () => {
     const env = loadEnv(config.mode, process.cwd())
     const communityUri = env.VITE_COMMUNITY
+
+    if (!communityUri)
+      throw new Error(
+        'Please specify VITE_COMMUNITY environment variable (community URI)',
+      )
+
     const info = await fetchCommunityInfo(communityUri)
 
     process.env.VITE_COMMUNITY_NAME = info.name ?? defaultName
