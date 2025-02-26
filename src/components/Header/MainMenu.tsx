@@ -19,6 +19,8 @@ export const MainMenu = () => {
 
   const theme = useAppSelector(selectTheme)
 
+  const messageCount = newMessages.length
+
   return (
     <Menu
       menuButton={
@@ -40,14 +42,10 @@ export const MainMenu = () => {
       <MenuItem>
         <Link to="messages">
           <Trans>messages</Trans>
-          {newMessages?.length ? (
+          {messageCount ? (
             <>
               {' '}
-              <Plural
-                value={newMessages.length}
-                one="(# new)"
-                other="(# new)"
-              />
+              <Plural value={messageCount} one="(# new)" other="(# new)" />
             </>
           ) : null}
         </Link>

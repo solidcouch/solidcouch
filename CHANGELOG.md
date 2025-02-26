@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implement i18n with [lingui](https://lingui.dev).
 - Localize wikidata interests.
 - Add popover to interests.
+- Add lint-staged with husky pre-commit hook.
 
 ### Changed
 
