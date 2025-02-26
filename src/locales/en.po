@@ -13,7 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#. placeholder {0}: newMessages.length
 #: src/pages/Home.tsx:26
 #: src/components/Header/MainMenu.tsx:46
 msgid "{0, plural, one {(# new)} other {(# new)}}"
