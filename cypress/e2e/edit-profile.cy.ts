@@ -131,7 +131,9 @@ describe('edit profile', () => {
       .and('contain.text', 'Sus scrofa')
 
     // find one interest and click its remove button
-    cy.contains('[data-cy=edit-interest]', 'Sus scrofa').find('button').click()
+    cy.contains('[data-cy=edit-interest]', 'Sus scrofa')
+      .find('button:last-child')
+      .click()
 
     cy.testToast('Removing interest')
     cy.testAndCloseToast('Interest removed')

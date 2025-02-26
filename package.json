@@ -43,6 +43,7 @@
     "@ldo/rdf-utils": "^0.0.1-alpha.24",
     "@lingui/core": "^5.2.0",
     "@lingui/react": "^5.2.0",
+    "@radix-ui/react-popover": "^1.1.6",
     "@radix-ui/react-tabs": "^1.1.2",
     "@rdfjs/types": "^1.1.2",
     "@react-leaflet/core": "^3.0.0",

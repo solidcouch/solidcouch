@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
+import { IconType } from 'react-icons/lib'
 import { Link, LinkProps } from 'react-router-dom'
 import styles from './Button.module.scss'
 
@@ -63,11 +64,12 @@ export const ButtonLink = ({
 /**
  * External link as icon, with target blank
  */
-export const ExternalIconLink = (
-  props: AnchorHTMLAttributes<HTMLAnchorElement>,
-) => (
+export const ExternalIconLink = ({
+  icon: Icon = FaExternalLinkAlt,
+  ...props
+}: AnchorHTMLAttributes<HTMLAnchorElement> & { icon?: IconType }) => (
   <a target="_blank" rel="noopener noreferrer" {...props}>
-    <FaExternalLinkAlt />
+    <Icon />
   </a>
 )
 
