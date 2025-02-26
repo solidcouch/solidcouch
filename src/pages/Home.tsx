@@ -10,6 +10,8 @@ export const Home = () => {
 
   const { data: newMessages } = useReadMessagesFromInbox(auth.webId!)
 
+  const messageCount = newMessages.length
+
   return (
     <div className={styles.container}>
       <ButtonLink to="travel" secondary>
@@ -20,10 +22,10 @@ export const Home = () => {
       </ButtonLink>
       <ButtonLink to="messages" secondary>
         <FaRegComment size={24} /> <Trans>messages</Trans>
-        {newMessages?.length ? (
+        {messageCount ? (
           <>
             {' '}
-            <Plural value={newMessages.length} one="(# new)" other="(# new)" />
+            <Plural value={messageCount} one="(# new)" other="(# new)" />
           </>
         ) : null}
       </ButtonLink>

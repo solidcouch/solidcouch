@@ -13,15 +13,14 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#. placeholder {0}: newMessages.length
-#: src/pages/Home.tsx:26
-#: src/components/Header/MainMenu.tsx:46
-msgid "{0, plural, one {(# new)} other {(# new)}}"
-msgstr "{0, plural, one {(# new)} other {(# new)}}"
-
 #: src/pages/EditProfile/EditInterests.tsx:59
 msgid "{label} added to interests"
 msgstr "{label} added to interests"
+
+#: src/pages/Home.tsx:28
+#: src/components/Header/MainMenu.tsx:48
+msgid "{messageCount, plural, one {(# new)} other {(# new)}}"
+msgstr "{messageCount, plural, one {(# new)} other {(# new)}}"
 
 #: src/components/Join/Join.tsx:240
 msgid "<0>Ask for help in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>"
@@ -134,7 +133,7 @@ msgid "Contact request sent"
 msgstr "Contact request sent"
 
 #: src/pages/Profile/Profile.tsx:49
-#: src/components/Header/MainMenu.tsx:57
+#: src/components/Header/MainMenu.tsx:55
 msgid "contacts"
 msgstr "contacts"
 
@@ -193,7 +192,7 @@ msgid "Edit"
 msgstr "Edit"
 
 #: src/pages/Profile/Profile.tsx:40
-#: src/components/Header/MainMenu.tsx:37
+#: src/components/Header/MainMenu.tsx:39
 msgid "edit profile"
 msgstr "edit profile"
 
@@ -262,7 +261,7 @@ msgstr "Hospex document not found"
 msgid "Hospex not set up (should not happen)"
 msgstr "Hospex not set up (should not happen)"
 
-#: src/pages/Home.tsx:19
+#: src/pages/Home.tsx:21
 msgid "host"
 msgstr "host"
 
@@ -348,8 +347,8 @@ msgstr "logo of {name}"
 msgid "Message was created"
 msgstr "Message was created"
 
-#: src/pages/Home.tsx:22
-#: src/components/Header/MainMenu.tsx:42
+#: src/pages/Home.tsx:24
+#: src/components/Header/MainMenu.tsx:44
 msgid "messages"
 msgstr "messages"
 
@@ -370,7 +369,7 @@ msgstr "more"
 msgid "My Accommodation Offers"
 msgstr "My Accommodation Offers"
 
-#: src/components/Header/MainMenu.tsx:62
+#: src/components/Header/MainMenu.tsx:60
 msgid "my hosting"
 msgstr "my hosting"
 
@@ -448,7 +447,7 @@ msgstr "Private type index not set up (should not happen)"
 msgid "process"
 msgstr "process"
 
-#: src/components/Header/MainMenu.tsx:33
+#: src/components/Header/MainMenu.tsx:35
 msgid "profile"
 msgstr "profile"
 
@@ -606,7 +605,7 @@ msgstr "To complete the process, you must prove that the WebID on your domain be
 msgid "To join {communityName}, you need a <0>Solid Pod</0>."
 msgstr "To join {communityName}, you need a <0>Solid Pod</0>."
 
-#: src/pages/Home.tsx:16
+#: src/pages/Home.tsx:18
 msgid "travel"
 msgstr "travel"
 
