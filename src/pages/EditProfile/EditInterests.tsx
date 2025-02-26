@@ -50,7 +50,7 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
       const label = interest.label
       await withToast(
         addInterest({
-          interest: interest.id,
+          interest: interest.uri,
           person: webId,
           document: webId,
         }),
