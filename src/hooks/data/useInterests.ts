@@ -65,7 +65,7 @@ const searchInterests = async (
   )
   const data: WikidataSearchResult = await res.json()
   return data.search.map(({ concepturi, ...rest }) =>
-    merge({ aliases: [], photos: [] }, { ...rest, id: concepturi }),
+    merge({ aliases: [], photos: [] }, { ...rest, uri: concepturi }),
   )
 }
 
@@ -130,6 +130,7 @@ const readInterest = async (
 
   return {
     id,
+    uri,
     label,
     aliases,
     description,

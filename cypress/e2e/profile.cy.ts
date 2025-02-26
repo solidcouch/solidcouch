@@ -47,6 +47,8 @@ describe('view profile', () => {
         })
       })
 
+      it('should show detail when clicking an interest')
+
       it('TODO photo, interests; links to experiences, accommodation offers')
     })
   })

@@ -69,7 +69,8 @@ export type ContactInvitation = {
 }
 
 export type Interest = {
-  id: URI
+  id?: string
+  uri: URI
   label?: string
   description?: string
   aliases: string[]
