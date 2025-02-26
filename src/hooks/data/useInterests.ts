@@ -104,8 +104,8 @@ const readInterest = async (
 
   if (!entity) return {}
 
-  const label = entity.labels[language]?.value ?? ''
-  const description = entity.descriptions[language]?.value ?? ''
+  const label = entity.labels[language]?.value
+  const description = entity.descriptions[language]?.value
   const imageString = (entity.claims.P18 ?? []).map(
     p => p.mainsnak.datavalue?.value,
   )[0]

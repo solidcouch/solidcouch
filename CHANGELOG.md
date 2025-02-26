@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Implement i18n with [lingui](https://lingui.dev).
+- Localize wikidata interests.
 
 ### Changed
 

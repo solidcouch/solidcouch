@@ -70,8 +70,8 @@ export type ContactInvitation = {
 
 export type Interest = {
   id: URI
-  label: string
-  description: string
+  label?: string
+  description?: string
   aliases: string[]
   image?: URI
   officialWebsite?: URI
