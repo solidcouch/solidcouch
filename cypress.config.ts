@@ -18,18 +18,6 @@ export default defineConfig({
     viewportWidth: 375,
     viewportHeight: 812,
     setupNodeEvents(on) {
-      // https://github.com/cypress-io/cypress/issues/14600#issuecomment-1614013583
-      on('before:browser:launch', (browser, launchOptions) => {
-        if (browser.family === 'firefox') {
-          // launchOptions.preferences is a map of preference names to values
-          // login is not working in firefox when testing_localhost_is_secure_when_hijacked is false
-          launchOptions.preferences[
-            'network.proxy.testing_localhost_is_secure_when_hijacked'
-          ] = true
-        }
-
-        return launchOptions
-      })
       on('task', {
         log(message) {
           // eslint-disable-next-line no-console
