@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add popover to interests.
 - Add lint-staged with husky pre-commit hook.
 - Add i18n to profile description
+- Add i18n to accommodation description
 
 ### Changed
 

@@ -1,5 +1,6 @@
 import { useConfig } from '@/config/hooks'
 import { LanguageString } from '@/types'
+import { preferentialSort } from '@/utils/helpers'
 import { ajvResolver } from '@hookform/resolvers/ajv'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { JSONSchemaType } from 'ajv'
@@ -29,9 +30,14 @@ export const LocaleTextInput = ({
   onBlur,
   ref,
   initialData,
-}: LocaleTextInputProps) => {
+  className,
+  ...rest
+}: Omit<ComponentProps<'textarea'>, 'value'> & LocaleTextInputProps) => {
   const locales = useMemo(
-    () => [...new Set([...Object.keys(value), locale])],
+    () =>
+      [...new Set([...Object.keys(value), locale])].sort(
+        preferentialSort([locale]),
+      ),
     [locale, value],
   )
 
@@ -87,10 +93,10 @@ export const LocaleTextInput = ({
                 [loc]: e.target.value,
               })
             }}
-            rows={5}
-            className={styles.input}
+            className={clsx(styles.input, className)}
             onBlur={onBlur}
             ref={ref}
+            {...rest}
           />
         </Tabs.Content>
       ))}

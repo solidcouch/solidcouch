@@ -1,10 +1,14 @@
+import { LanguageString } from '@/types'
 import { solid } from '@/utils/rdf-namespaces'
-import { LdoBase, transactionChanges } from '@ldo/ldo'
+import { LanguageSetMap } from '@ldo/jsonld-dataset-proxy'
+import { languagesOf, LdoBase, transactionChanges } from '@ldo/ldo'
 import { datasetToString } from '@ldo/rdf-utils'
 import type { Dataset } from '@rdfjs/types'
 
-// stringifying objects with circular reference, according to MDN:
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cyclic_object_value#circular_references
+/**
+ * stringifying objects with circular reference, according to MDN:
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cyclic_object_value#circular_references
+ */
 const getCircularReplacer = () => {
   const seen = new WeakSet()
   return (_key: string, value: unknown) => {
@@ -44,4 +48,40 @@ export async function toN3Patch(ldo: LdoBase): Promise<string> {
   const patch = parts.join(';\n') + '.'
 
   return patch
+}
+
+/**
+ * TODO this function could be generalized to accept both LanguageMap and LanguageSetMap[]
+ */
+export const getLanguages = <K extends string>(
+  obj: { [P in K]?: string[] },
+  key: K,
+): LanguageString => {
+  const languageSetMap = languagesOf(obj, key) as LanguageSetMap
+  return transformSetMapToDict(languageSetMap)
+}
+
+const transformSetMapToDict = (
+  setMap: LanguageSetMap,
+): { [langCode: string]: string } => {
+  const result: { [langCode: string]: string } = {}
+
+  for (const lang in setMap) {
+    result[lang] = [...setMap[lang]!][0]!
+  }
+
+  return result
+}
+
+export const addLanguagesToLdo = <K extends string>(
+  textDict: { [lang: string]: string },
+  obj: { [P in K]?: string[] },
+  key: K,
+): void => {
+  const langs = languagesOf(obj, key) as LanguageSetMap
+  if (textDict)
+    Object.entries(textDict).forEach(([lang, text]) => {
+      langs[lang]?.clear()
+      if (text.trim()) langs[lang]?.add(text.trim())
+    })
 }

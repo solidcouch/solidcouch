@@ -34,7 +34,7 @@ msgstr "A confirmation email has been sent to {sentToEmail}.<0/>Please check you
 msgid "About me"
 msgstr "About me"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:100
+#: src/components/AccommodationForm/AccommodationForm.tsx:125
 msgid "About your hosting"
 msgstr "About your hosting"
 
@@ -70,11 +70,11 @@ msgstr "Accommodation updated"
 msgid "Accommodation updated in indexing service"
 msgstr "Accommodation updated in indexing service"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:190
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:196
 msgid "Add {locale}"
 msgstr "Add {locale}"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:147
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:153
 msgid "Add a language"
 msgstr "Add a language"
 
@@ -104,8 +104,8 @@ msgid "Authenticating..."
 msgstr "Authenticating..."
 
 #: src/pages/Profile/ManageContact.tsx:185
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:182
-#: src/components/AccommodationForm/AccommodationForm.tsx:116
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:188
+#: src/components/AccommodationForm/AccommodationForm.tsx:150
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -129,7 +129,7 @@ msgstr "Close"
 msgid "Close hosting preview"
 msgstr "Close hosting preview"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:173
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:179
 msgid "code"
 msgstr "code"
 
@@ -245,7 +245,7 @@ msgstr "Finish Setup"
 msgid "focused logo of {name}"
 msgstr "focused logo of {name}"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:77
+#: src/components/AccommodationForm/AccommodationForm.tsx:102
 msgid "For safety, share only approximate location"
 msgstr "For safety, share only approximate location"
 
@@ -278,7 +278,7 @@ msgstr "Hospex not set up (should not happen)"
 msgid "host"
 msgstr "host"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:72
+#: src/components/AccommodationForm/AccommodationForm.tsx:97
 msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Hosting location (click <0/> or drag & zoom map)"
 
@@ -347,7 +347,7 @@ msgstr "Loading previous messages"
 #: src/pages/Threads.tsx:21
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Messages.tsx:205
-#: src/pages/SearchHosts/AccommodationInfo.tsx:45
+#: src/pages/SearchHosts/AccommodationInfo.tsx:50
 #: src/pages/Profile/ManageContact.tsx:26
 msgid "Loading..."
 msgstr "Loading..."
@@ -432,7 +432,7 @@ msgstr "Photo"
 msgid "Please invite only people you know personally."
 msgstr "Please invite only people you know personally."
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:95
+#: src/components/AccommodationForm/AccommodationForm.tsx:120
 msgid "Please move map to your hosting location"
 msgstr "Please move map to your hosting location"
 
@@ -492,7 +492,11 @@ msgstr "Removing interest"
 msgid "Resend Confirmation Email in {countdown}s"
 msgstr "Resend Confirmation Email in {countdown}s"
 
-#: src/pages/EditProfile/EditProfile.tsx:182
+#: src/components/AccommodationForm/AccommodationForm.tsx:153
+msgid "Save"
+msgstr "Save"
+
+#: src/pages/EditProfile/EditProfile.tsx:183
 msgid "Save changes"
 msgstr "Save changes"
 
@@ -586,10 +590,6 @@ msgstr ""
 "Something went wrong.\n"
 "Error: {e}"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:119
-msgid "Submit"
-msgstr "Submit"
-
 #: src/components/ThemeSwitch/ThemeSwitch.tsx:21
 msgid "Switch to dark theme"
 msgstr "Switch to dark theme"
@@ -598,11 +598,11 @@ msgstr "Switch to dark theme"
 msgid "Switch to light theme"
 msgstr "Switch to light theme"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:105
+#: src/components/AccommodationForm/AccommodationForm.tsx:134
 msgid "Tell others about your place and hosting"
 msgstr "Tell others about your place and hosting"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:110
+#: src/components/AccommodationForm/AccommodationForm.tsx:144
 msgid "This field is required"
 msgstr "This field is required"
 
@@ -658,7 +658,7 @@ msgstr "We're verifying that everything is configured correctly."
 msgid "WIP"
 msgstr "WIP"
 
-#: src/pages/SearchHosts/AccommodationInfo.tsx:53
+#: src/pages/SearchHosts/AccommodationInfo.tsx:58
 #: src/pages/Profile/Profile.tsx:52
 msgid "Write a message"
 msgstr "Write a message"
