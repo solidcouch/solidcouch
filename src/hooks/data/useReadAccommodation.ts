@@ -1,6 +1,7 @@
 import { useConfig } from '@/config/hooks'
 import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
-import { AccommodationExtended, Person, URI } from '@/types'
+import { Accommodation, Person, URI } from '@/types'
+import { getLanguages } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
@@ -25,7 +26,7 @@ export const useReadAccommodation = ({
     ),
   )
 
-  const [profile, , , , hospexProfile] = useProfile(
+  const [profile, , isProfileLoading, , hospexProfile] = useProfile(
     variables.person?.[0] ?? '',
     communityId,
   )
@@ -38,22 +39,28 @@ export const useReadAccommodation = ({
     return offer
   }, [accommodationId, quads])
 
-  const accommodation: AccommodationExtended | undefined = useMemo(() => {
-    if (!offer) return undefined
-    const lat = offer?.location?.lat
-    const long = offer?.location?.long
+  const accommodationAndPerson: {
+    accommodation?: Accommodation
+    person?: Person
+  } = useMemo(() => {
+    if (!offer) return {}
+    const lat = offer.location?.lat
+    const long = offer.location?.long
 
-    const accommodation = {
+    const accommodation: Accommodation = {
       id: offer['@id'] ?? '',
-      description: offer.description?.[0] ?? '',
+      description: getLanguages(offer, 'description'),
       location: { lat, long },
-      offeredBy: (profile ?? hospexProfile ?? {}) as Person,
+      offeredBy: offer.offeredBy?.['@id'] ?? '',
     }
-    return accommodation
+
+    const person = profile ?? hospexProfile
+
+    return { accommodation, person }
   }, [hospexProfile, offer, profile])
 
   return useMemo(
-    () => [accommodation, { isLoading }] as const,
-    [accommodation, isLoading],
+    () => [accommodationAndPerson, { isLoading, isProfileLoading }] as const,
+    [accommodationAndPerson, isLoading, isProfileLoading],
   )
 }

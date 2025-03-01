@@ -1,6 +1,7 @@
 import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
 import { HospexProfile } from '@/ldo/app.typings'
 import { Accommodation, URI } from '@/types'
+import { addLanguagesToLdo } from '@/utils/ldo'
 import { hospex, solid } from '@/utils/rdf-namespaces'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -32,7 +33,7 @@ export const useCreateAccommodation = () => {
         data: {
           '@id': id,
           type: [{ '@id': 'Accommodation' }, { '@id': 'Accommodation2' }],
-          description: [data.description],
+          description: [],
           location: {
             '@id': `${uri}#location`,
             type: { '@id': 'Point' },
@@ -40,6 +41,10 @@ export const useCreateAccommodation = () => {
             long: data.location.long,
           },
           offeredBy: { '@id': personId } as HospexProfile,
+        },
+        transform: ldo => {
+          // save languages of description
+          addLanguagesToLdo(data.description, ldo, 'description')
         },
       })
       await updateMutation.mutateAsync({

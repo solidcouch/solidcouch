@@ -1,9 +1,12 @@
 import { useConfig } from '@/config/hooks'
+import { useAppSelector } from '@/redux/hooks'
+import { selectLocale } from '@/redux/uiSlice'
 import type { Accommodation } from '@/types'
 import { LatLngTuple } from 'leaflet'
 import { useEffect, useMemo } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
+import { LocaleText } from '../LocaleText/LocaleText'
 import styles from './AccommodationView.module.scss'
 
 const CenterNewLocation = ({ location }: { location: LatLngTuple }) => {
@@ -18,6 +21,7 @@ const CenterNewLocation = ({ location }: { location: LatLngTuple }) => {
 
 export const AccommodationView = (accommodation: Accommodation) => {
   const { tileServer } = useConfig()
+  const locale = useAppSelector(selectLocale)
 
   const location: LatLngTuple = useMemo(
     () => [accommodation.location.lat, accommodation.location.long],
@@ -42,12 +46,16 @@ export const AccommodationView = (accommodation: Accommodation) => {
         <CenterNewLocation location={location} />
       </MapContainer>
 
-      <div className={styles.description}>
-        {accommodation.description}{' '}
-        <a href={accommodation.id} target="_blank" rel="noopener noreferrer">
-          <FaExternalLinkAlt />
-        </a>
-      </div>
+      <LocaleText
+        className={styles.description}
+        text={accommodation.description}
+        locale={locale}
+        as="div"
+      />
+
+      <a href={accommodation.id} target="_blank" rel="noopener noreferrer">
+        <FaExternalLinkAlt />
+      </a>
     </>
   )
 }

@@ -173,6 +173,7 @@ const EditProfileForm = ({
           <LocaleTextInput
             initialData={initialData.about}
             locale={locale}
+            rows={5}
             {...field}
           />
         )}

@@ -66,6 +66,7 @@ export default tseslint.config(
             'clickBehavior',
             'style',
             'form',
+            'as',
           ],
           ignoreFunctions: [
             'register',

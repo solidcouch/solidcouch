@@ -1,6 +1,9 @@
 import { Avatar, ButtonLink, Loading } from '@/components'
+import { LocaleText } from '@/components/LocaleText/LocaleText'
 import { useReadAccommodation } from '@/hooks/data/useReadAccommodation'
 import { useAuth } from '@/hooks/useAuth'
+import { useAppSelector } from '@/redux/hooks'
+import { selectLocale } from '@/redux/uiSlice'
 import { URI } from '@/types'
 import { Trans } from '@lingui/react/macro'
 import { Link } from 'react-router-dom'
@@ -12,11 +15,12 @@ export const AccommodationInfo = ({
   accommodationId: URI
 }) => {
   const { webId } = useAuth()
+  const locale = useAppSelector(selectLocale)
 
-  const [accommodation] = useReadAccommodation({ accommodationId })
+  const [{ accommodation, person }] = useReadAccommodation({ accommodationId })
 
   const isOther =
-    webId && accommodation?.offeredBy && webId !== accommodation.offeredBy.id
+    webId && accommodation?.offeredBy && webId !== accommodation.offeredBy
 
   return (
     <div className={styles.container}>
@@ -24,21 +28,22 @@ export const AccommodationInfo = ({
         <>
           <div className={styles.person}>
             <Link
-              to={`/profile/${encodeURIComponent(accommodation.offeredBy.id)}`}
+              to={`/profile/${encodeURIComponent(accommodation.offeredBy)}`}
               style={{ display: 'contents' }}
             >
-              <Avatar {...accommodation.offeredBy} size={1.5} square />
+              <Avatar {...person} size={1.5} square />
               <span className={styles.name} data-cy="accommodation-info-name">
-                {accommodation.offeredBy.name}
+                {person?.name}
               </span>
             </Link>
           </div>
-          <div
+          <LocaleText
+            text={accommodation.description}
+            locale={locale}
+            as="div"
             className={styles.accommodation}
             data-cy="accommodation-info-description"
-          >
-            {accommodation.description}
-          </div>
+          />
         </>
       ) : (
         <Loading>
@@ -48,7 +53,7 @@ export const AccommodationInfo = ({
       {isOther ? (
         <ButtonLink
           primary
-          to={`/messages/${encodeURIComponent(accommodation.offeredBy.id)}`}
+          to={`/messages/${encodeURIComponent(accommodation.offeredBy)}`}
         >
           <Trans>Write a message</Trans>
         </ButtonLink>
