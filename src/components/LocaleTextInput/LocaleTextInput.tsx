@@ -5,52 +5,47 @@ import { Trans, useLingui } from '@lingui/react/macro'
 import { JSONSchemaType } from 'ajv'
 import clsx from 'clsx'
 import { Dialog, Tabs, ToggleGroup } from 'radix-ui'
-import { ComponentProps, useEffect, useState } from 'react'
-import {
-  Controller,
-  FieldValues,
-  Path,
-  PathValue,
-  useForm,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch,
-} from 'react-hook-form'
+import { ComponentProps, useEffect, useMemo, useState } from 'react'
+import { Controller, Noop, RefCallBack, useForm } from 'react-hook-form'
 import { Button } from '../Button/Button'
 import tabStyles from '../LocaleText/LocaleText.module.scss'
 import styles from './LocaleTextInput.module.scss'
 
-interface LocaleTextInputProps<T extends FieldValues> {
-  name: Path<T> // Ensures name matches the form fields
+interface LocaleTextInputProps {
+  name: string
   locale: string
-  register: UseFormRegister<T>
-  watch: UseFormWatch<T>
-  setValue: UseFormSetValue<T>
+  value: LanguageString
+  onChange: (value: LanguageString) => void
+  ref?: RefCallBack
+  onBlur?: Noop
   initialData?: LanguageString
 }
 
-export const LocaleTextInput = <T extends FieldValues>({
+export const LocaleTextInput = ({
   name,
   locale,
-  register,
-  watch,
-  setValue,
+  value,
+  onChange,
+  onBlur,
+  ref,
   initialData,
-}: LocaleTextInputProps<T>) => {
-  const localeDict = watch(name) as Record<string, string>
-  const locales = [...new Set([...Object.keys(localeDict), locale])]
+}: LocaleTextInputProps) => {
+  const locales = useMemo(
+    () => [...new Set([...Object.keys(value), locale])],
+    [locale, value],
+  )
 
   const [selectedLocale, setSelectedLocale] = useState(locale)
 
-  // Ensure the default locale has an empty string if undefined
+  // Ensure the locale has an empty string if undefined
   useEffect(() => {
-    if (!watch(name)?.[selectedLocale]) {
-      setValue(
-        `${name}.${selectedLocale}` as Path<T>,
-        '' as PathValue<T, Path<T>>,
-      )
+    if (value?.[selectedLocale] === undefined) {
+      onChange({
+        [selectedLocale]: '',
+        ...value,
+      })
     }
-  }, [selectedLocale, name, setValue, watch])
+  }, [onChange, selectedLocale, value])
 
   return (
     <Tabs.Root value={selectedLocale} onValueChange={setSelectedLocale}>
@@ -61,9 +56,9 @@ export const LocaleTextInput = <T extends FieldValues>({
             value={loc}
             className={clsx(tabStyles.trigger, {
               [tabStyles.edited!]: initialData?.[loc]
-                ? localeDict[loc] !== initialData[loc]
-                : localeDict[loc],
-              [tabStyles.empty!]: !localeDict[loc],
+                ? value[loc] !== initialData[loc]
+                : value[loc],
+              [tabStyles.empty!]: !value[loc],
             })}
           >
             {loc}
@@ -71,22 +66,31 @@ export const LocaleTextInput = <T extends FieldValues>({
         ))}
         <AddLanguage
           className={tabStyles.trigger}
-          onConfirm={value => {
-            if (value && !locales.includes(value))
-              setValue(
-                `${name}.${value}` as Path<T>,
-                '' as PathValue<T, Path<T>>,
-              )
-            if (value) setSelectedLocale(value)
+          onConfirm={lang => {
+            if (lang && !locales.includes(lang))
+              onChange({
+                [lang]: '',
+                ...value,
+              })
+            if (lang) setSelectedLocale(lang)
           }}
         />
       </Tabs.List>
       {locales.map(loc => (
         <Tabs.Content key={loc} value={loc}>
           <textarea
-            {...register(`${name}.${loc}` as Path<T>)}
+            name={`${name}.${loc}`}
+            value={value[loc]}
+            onChange={e => {
+              onChange({
+                ...value,
+                [loc]: e.target.value,
+              })
+            }}
             rows={5}
             className={styles.input}
+            onBlur={onBlur}
+            ref={ref}
           />
         </Tabs.Content>
       ))}

@@ -13,7 +13,7 @@ import { Trans, useLingui } from '@lingui/react/macro'
 import merge from 'lodash/merge'
 import omit from 'lodash/omit'
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { FaCamera } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { EditInterests } from './EditInterests.tsx'
@@ -101,7 +101,7 @@ const EditProfileForm = ({
   onSubmit: (data: PersonPayload) => unknown
 }) => {
   const { t } = useLingui()
-  const { register, handleSubmit, watch, setValue, getValues } =
+  const { register, handleSubmit, watch, setValue, getValues, control } =
     useForm<PersonPayload>({
       defaultValues: omit(initialData, 'photo'),
     })
@@ -166,14 +166,18 @@ const EditProfileForm = ({
       <label htmlFor="about">
         <Trans>About me</Trans>
       </label>
-      <LocaleTextInput
+      <Controller
+        control={control}
         name="about"
-        initialData={initialData.about}
-        locale={locale}
-        register={register}
-        watch={watch}
-        setValue={setValue}
+        render={({ field }) => (
+          <LocaleTextInput
+            initialData={initialData.about}
+            locale={locale}
+            {...field}
+          />
+        )}
       />
+
       <Button primary>
         <Trans>Save changes</Trans>
       </Button>

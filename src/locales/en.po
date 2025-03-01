@@ -70,11 +70,11 @@ msgstr "Accommodation updated"
 msgid "Accommodation updated in indexing service"
 msgstr "Accommodation updated in indexing service"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:186
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:190
 msgid "Add {locale}"
 msgstr "Add {locale}"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:143
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:147
 msgid "Add a language"
 msgstr "Add a language"
 
@@ -104,7 +104,7 @@ msgid "Authenticating..."
 msgstr "Authenticating..."
 
 #: src/pages/Profile/ManageContact.tsx:185
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:178
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:182
 #: src/components/AccommodationForm/AccommodationForm.tsx:116
 msgid "Cancel"
 msgstr "Cancel"
@@ -129,7 +129,7 @@ msgstr "Close"
 msgid "Close hosting preview"
 msgstr "Close hosting preview"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:169
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:173
 msgid "code"
 msgstr "code"
 
@@ -492,7 +492,7 @@ msgstr "Removing interest"
 msgid "Resend Confirmation Email in {countdown}s"
 msgstr "Resend Confirmation Email in {countdown}s"
 
-#: src/pages/EditProfile/EditProfile.tsx:178
+#: src/pages/EditProfile/EditProfile.tsx:182
 msgid "Save changes"
 msgstr "Save changes"
 

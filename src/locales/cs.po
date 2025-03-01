@@ -70,11 +70,11 @@ msgstr "Ubytování aktualizováno"
 msgid "Accommodation updated in indexing service"
 msgstr "Ubytování aktualizováno v indexační službě"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:186
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:190
 msgid "Add {locale}"
 msgstr ""
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:143
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:147
 msgid "Add a language"
 msgstr ""
 
@@ -104,7 +104,7 @@ msgid "Authenticating..."
 msgstr "Ověřování..."
 
 #: src/pages/Profile/ManageContact.tsx:185
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:178
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:182
 #: src/components/AccommodationForm/AccommodationForm.tsx:116
 msgid "Cancel"
 msgstr "Zrušit"
@@ -129,7 +129,7 @@ msgstr ""
 msgid "Close hosting preview"
 msgstr "Zavřít náhled hostingu"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:169
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:173
 msgid "code"
 msgstr ""
 
@@ -492,7 +492,7 @@ msgstr "Odstraňování zájmu"
 msgid "Resend Confirmation Email in {countdown}s"
 msgstr "Za {countdown}s znovu odeslat potvrzovací e-mail"
 
-#: src/pages/EditProfile/EditProfile.tsx:178
+#: src/pages/EditProfile/EditProfile.tsx:182
 msgid "Save changes"
 msgstr "Uložit změny"
 
