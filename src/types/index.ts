@@ -30,15 +30,15 @@ export type AccommodationExtended = Overwrite<
 // }
 
 // WIP types
-export type Person = {
+export interface Person {
   id: URI
   photo?: URI
   name: string
-  about?: string
+  about: LanguageString
   interests?: URI[]
 }
 
-export type Message = {
+export interface Message {
   id: URI
   message: string
   createdAt: number // timestamp
@@ -76,4 +76,8 @@ export type Interest = {
   aliases: string[]
   image?: URI
   officialWebsite?: URI
+}
+
+export interface LanguageString {
+  [langCode: string]: string
 }

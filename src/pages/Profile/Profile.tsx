@@ -1,8 +1,11 @@
 import { ButtonLink, ExternalIconLink, Interests, Loading } from '@/components'
+import { LocaleText } from '@/components/LocaleText/LocaleText.tsx'
 import { ProtectedImg } from '@/components/ProtectedImg.tsx'
 import { useConfig } from '@/config/hooks'
 import { useProfile } from '@/hooks/data/useProfile'
 import { useAuth } from '@/hooks/useAuth'
+import { useAppSelector } from '@/redux/hooks.ts'
+import { selectLocale } from '@/redux/uiSlice.ts'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { FaPencilAlt } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
@@ -15,6 +18,7 @@ export const Profile = () => {
   const personId = useParams().id as string
   const auth = useAuth()
   const isMe = personId && auth.webId ? personId === auth.webId : undefined
+  const locale = useAppSelector(selectLocale)
 
   const [profile] = useProfile(personId, communityId)
   const [myProfile] = useProfile(auth.webId as string, communityId)
@@ -32,9 +36,12 @@ export const Profile = () => {
       <header className={styles.name} data-cy="profile-name">
         {profile.name} <ExternalIconLink href={personId} />
       </header>
-      <section className={styles.about} data-cy="profile-about">
-        {profile.about}
-      </section>
+      <LocaleText
+        text={profile.about}
+        locale={locale}
+        className={styles.about}
+        data-cy={`profile-about`}
+      />
       {isMe && (
         <ButtonLink secondary to="/profile/edit" data-cy="edit-profile-link">
           <FaPencilAlt /> <Trans>edit profile</Trans>

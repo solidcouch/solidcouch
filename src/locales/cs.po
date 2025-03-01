@@ -30,7 +30,7 @@ msgstr "<0>Požádejte o pomoc v našich projektových prostorech</0> nebo nám 
 msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 msgstr "Potvrzovací e-mail byl odeslán na adresu {sentToEmail}.<0/>Zkontrolujte prosím svou schránku (i složku nevyžádané pošty) a postupujte podle pokynů."
 
-#: src/pages/EditProfile/EditProfile.tsx:163
+#: src/pages/EditProfile/EditProfile.tsx:167
 msgid "About me"
 msgstr "O mně"
 
@@ -70,6 +70,14 @@ msgstr "Ubytování aktualizováno"
 msgid "Accommodation updated in indexing service"
 msgstr "Ubytování aktualizováno v indexační službě"
 
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:186
+msgid "Add {locale}"
+msgstr ""
+
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:143
+msgid "Add a language"
+msgstr ""
+
 #: src/pages/MyOffers.tsx:223
 msgid "Add Accommodation"
 msgstr "Přidat ubytování"
@@ -96,6 +104,7 @@ msgid "Authenticating..."
 msgstr "Ověřování..."
 
 #: src/pages/Profile/ManageContact.tsx:185
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:178
 #: src/components/AccommodationForm/AccommodationForm.tsx:116
 msgid "Cancel"
 msgstr "Zrušit"
@@ -120,6 +129,10 @@ msgstr ""
 msgid "Close hosting preview"
 msgstr "Zavřít náhled hostingu"
 
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:169
+msgid "code"
+msgstr ""
+
 #: src/pages/HospexSetup/Step1.tsx:105
 msgid "Community does not have a group"
 msgstr ""
@@ -132,7 +145,7 @@ msgstr "Kontakt již existuje"
 msgid "Contact request sent"
 msgstr "Pozvánka odeslána"
 
-#: src/pages/Profile/Profile.tsx:49
+#: src/pages/Profile/Profile.tsx:56
 #: src/components/Header/MainMenu.tsx:55
 msgid "contacts"
 msgstr "kontakty"
@@ -191,7 +204,7 @@ msgstr "Opravdu chcete smazat ubytování?"
 msgid "Edit"
 msgstr "Upravit"
 
-#: src/pages/Profile/Profile.tsx:40
+#: src/pages/Profile/Profile.tsx:47
 #: src/components/Header/MainMenu.tsx:39
 msgid "edit profile"
 msgstr "upravit profil"
@@ -216,7 +229,7 @@ msgstr "Zadejte svou e-mailovou adresu:"
 msgid "fetching contacts"
 msgstr "načítání kontaktů"
 
-#: src/pages/EditProfile/EditProfile.tsx:67
+#: src/pages/EditProfile/EditProfile.tsx:69
 msgid "Fetching profile"
 msgstr "načítání profilu"
 
@@ -253,7 +266,7 @@ msgstr "Ahoj! Rád(a) bych tě přidal(a) do kontaktů!"
 msgid "hospex container not found (too soon?)"
 msgstr "hospex kontejner nebyl nalezen (možná příliš brzy?)"
 
-#: src/pages/EditProfile/EditProfile.tsx:34
+#: src/pages/EditProfile/EditProfile.tsx:38
 msgid "Hospex document not found"
 msgstr "Hospex dokument nebyl nalezen"
 
@@ -301,7 +314,7 @@ msgstr "Schránka druhé osoby nebyla nalezena (pravděpodobně příliš brzy)"
 msgid "Interest removed"
 msgstr "Zájem odstraněn"
 
-#: src/pages/EditProfile/EditProfile.tsx:83
+#: src/pages/EditProfile/EditProfile.tsx:85
 msgid "Interests"
 msgstr "Zájmy"
 
@@ -321,7 +334,7 @@ msgstr "Připojit se ke komunitě"
 msgid "Join community {communityLabel}"
 msgstr "Připojit se ke komunitě {communityLabel}"
 
-#: src/pages/Profile/Profile.tsx:60
+#: src/pages/Profile/Profile.tsx:67
 #: src/pages/EditProfile/EditInterests.tsx:68
 msgid "loading interests..."
 msgstr "načítání zájmů..."
@@ -377,8 +390,8 @@ msgstr "mé ubytování"
 msgid "My location"
 msgstr "Moje poloha"
 
-#: src/pages/EditProfile/EditProfile.tsx:140
-#: src/pages/EditProfile/EditProfile.tsx:146
+#: src/pages/EditProfile/EditProfile.tsx:144
+#: src/pages/EditProfile/EditProfile.tsx:150
 msgid "Name"
 msgstr "Jméno"
 
@@ -411,7 +424,7 @@ msgstr "nebo zadejte vlastního poskytovatele Solid identity, nebo své WebID"
 msgid "pending"
 msgstr "čeká"
 
-#: src/pages/EditProfile/EditProfile.tsx:149
+#: src/pages/EditProfile/EditProfile.tsx:153
 msgid "Photo"
 msgstr "Fotka"
 
@@ -451,11 +464,11 @@ msgstr "zpracování"
 msgid "profile"
 msgstr "profil"
 
-#: src/pages/Profile/Profile.tsx:29
+#: src/pages/Profile/Profile.tsx:33
 msgid "Profile photo of {name}"
 msgstr "Profilová fotka {name}"
 
-#: src/pages/EditProfile/EditProfile.tsx:78
+#: src/pages/EditProfile/EditProfile.tsx:80
 msgid "Profile updated"
 msgstr "Profil aktualizován"
 
@@ -479,7 +492,7 @@ msgstr "Odstraňování zájmu"
 msgid "Resend Confirmation Email in {countdown}s"
 msgstr "Za {countdown}s znovu odeslat potvrzovací e-mail"
 
-#: src/pages/EditProfile/EditProfile.tsx:167
+#: src/pages/EditProfile/EditProfile.tsx:178
 msgid "Save changes"
 msgstr "Uložit změny"
 
@@ -617,7 +630,7 @@ msgstr "Neočekávaný stavový kód od indexační služby"
 msgid "Updating accommodation"
 msgstr "Aktualizuji ubytování"
 
-#: src/pages/EditProfile/EditProfile.tsx:77
+#: src/pages/EditProfile/EditProfile.tsx:79
 msgid "Updating profile"
 msgstr "Aktualizuji profil"
 
@@ -646,7 +659,7 @@ msgid "WIP"
 msgstr "Pracujeme na tom"
 
 #: src/pages/SearchHosts/AccommodationInfo.tsx:53
-#: src/pages/Profile/Profile.tsx:45
+#: src/pages/Profile/Profile.tsx:52
 msgid "Write a message"
 msgstr "Napsat zprávu"
 

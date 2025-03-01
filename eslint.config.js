@@ -53,6 +53,7 @@ export default tseslint.config(
             'type',
             'name',
             'required',
+            'pattern',
             'to',
             'scrollWheelZoom',
             'doubleClickZoom',
@@ -64,6 +65,7 @@ export default tseslint.config(
             'className',
             'clickBehavior',
             'style',
+            'form',
           ],
           ignoreFunctions: [
             'register',
@@ -77,6 +79,7 @@ export default tseslint.config(
             'URL',
             '*.getElementById',
             'setValue',
+            'getValues',
             'watch',
             'searchParams.get',
           ],

@@ -1,0 +1,69 @@
+.input {
+  width: 100%;
+}
+
+.dialogOverlay {
+  background-color: #000a;
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  background-color: var(--background-color);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 500px;
+  width: 90vw;
+  max-height: 85vh;
+  padding: 25px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:focus {
+    outline: none;
+  }
+
+  .localeToggleGroup {
+    display: flex;
+    gap: 0.5rem;
+
+    .item {
+      &[data-state='on'] {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+// these are copy-pasted from radix-ui docs
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

@@ -44,10 +44,19 @@ describe('edit profile', () => {
         .should('have.value', profile.name)
         .clear()
         .type('Mynew Name')
-      cy.get('textarea[name=about]')
+      cy.get("textarea[name='about.en']")
         .should('have.value', profile.description.en)
         .clear()
         .type('this is my new description{enter}{enter}and it is multiline')
+
+      // add description in another language
+      cy.get('button').contains('+').click()
+      cy.get('input[name=locale]').type('cs')
+      cy.get('button').contains('Add cs').click()
+      cy.get("textarea[name='about.cs']")
+        .should('have.value', '')
+        .type('Nový popis')
+
       cy.get('input[name=photo]').parent().selectFile('cypress/e2e/image.png')
 
       // intercept that the photo was saved
@@ -68,6 +77,8 @@ describe('edit profile', () => {
 
       cy.contains('[data-cy=profile-name]', 'Mynew Name')
       cy.contains('[data-cy=profile-about]', 'this is my new description')
+      cy.get('button').contains('cs').click()
+      cy.contains('[data-cy=profile-about]', 'Nový popis')
     })
   })
 

@@ -1,12 +1,16 @@
 import { Button, Loading } from '@/components'
+import { LocaleTextInput } from '@/components/LocaleTextInput/LocaleTextInput.tsx'
 import { withToast } from '@/components/withToast.tsx'
 import { useConfig } from '@/config/hooks'
 import { useCreateFile, useDeleteFile, useFile } from '@/hooks/data/useFile'
 import { useProfile, useUpdateHospexProfile } from '@/hooks/data/useProfile'
 import { useAuth } from '@/hooks/useAuth'
+import { useAppSelector } from '@/redux/hooks.ts'
+import { selectLocale } from '@/redux/uiSlice.ts'
 import { Person } from '@/types'
 import { file2base64, getContainer } from '@/utils/helpers'
 import { Trans, useLingui } from '@lingui/react/macro'
+import merge from 'lodash/merge'
 import omit from 'lodash/omit'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -49,8 +53,6 @@ export const EditProfile = () => {
       hospexDocument,
       personId: auth.webId!,
       data: { ...data, photo: photoUri },
-      // eslint-disable-next-line lingui/no-unlocalized-strings
-      language: 'en',
     })
 
     // delete previous photo if changed
@@ -99,18 +101,20 @@ const EditProfileForm = ({
   onSubmit: (data: PersonPayload) => unknown
 }) => {
   const { t } = useLingui()
-  const { register, handleSubmit, watch, setValue } = useForm<PersonPayload>({
-    defaultValues: omit(initialData, 'photo'),
-  })
+  const { register, handleSubmit, watch, setValue, getValues } =
+    useForm<PersonPayload>({
+      defaultValues: omit(initialData, 'photo'),
+    })
+  const locale = useAppSelector(selectLocale)
 
   // when data are loaded, update the form
   useEffect(() => {
     if (typeof initialData.name === 'string') setValue('name', initialData.name)
   }, [initialData.name, setValue])
   useEffect(() => {
-    if (typeof initialData.about === 'string')
-      setValue('about', initialData.about)
-  }, [initialData.about, setValue])
+    if (initialData.about)
+      setValue('about', merge({}, initialData.about, getValues('about')))
+  }, [getValues, initialData.about, locale, setValue])
 
   const { data: photo } = useFile(initialData.photo)
 
@@ -162,7 +166,14 @@ const EditProfileForm = ({
       <label htmlFor="about">
         <Trans>About me</Trans>
       </label>
-      <textarea id="about" {...register('about')} />
+      <LocaleTextInput
+        name="about"
+        initialData={initialData.about}
+        locale={locale}
+        register={register}
+        watch={watch}
+        setValue={setValue}
+      />
       <Button primary>
         <Trans>Save changes</Trans>
       </Button>
