@@ -34,7 +34,7 @@ msgstr "Potvrzovací e-mail byl odeslán na adresu {sentToEmail}.<0/>Zkontrolujt
 msgid "About me"
 msgstr "O mně"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:100
+#: src/components/AccommodationForm/AccommodationForm.tsx:125
 msgid "About your hosting"
 msgstr "O vašem ubytování"
 
@@ -70,13 +70,13 @@ msgstr "Ubytování aktualizováno"
 msgid "Accommodation updated in indexing service"
 msgstr "Ubytování aktualizováno v indexační službě"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:190
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:196
 msgid "Add {locale}"
-msgstr ""
+msgstr "Přidat {locale}"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:147
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:153
 msgid "Add a language"
-msgstr ""
+msgstr "Přidat jazyk"
 
 #: src/pages/MyOffers.tsx:223
 msgid "Add Accommodation"
@@ -104,8 +104,8 @@ msgid "Authenticating..."
 msgstr "Ověřování..."
 
 #: src/pages/Profile/ManageContact.tsx:185
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:182
-#: src/components/AccommodationForm/AccommodationForm.tsx:116
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:188
+#: src/components/AccommodationForm/AccommodationForm.tsx:150
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -123,19 +123,19 @@ msgstr "Vyberte možnost <0>\"Použít moje existující WebID pro přístup k m
 
 #: src/components/Interests/Interest.tsx:72
 msgid "Close"
-msgstr ""
+msgstr "Zavřít"
 
 #: src/pages/SearchHosts/SearchHosts.tsx:51
 msgid "Close hosting preview"
 msgstr "Zavřít náhled hostingu"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:173
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:179
 msgid "code"
-msgstr ""
+msgstr "kód"
 
 #: src/pages/HospexSetup/Step1.tsx:105
 msgid "Community does not have a group"
-msgstr ""
+msgstr "Komunita nemá žádnou skupinu"
 
 #: src/pages/Profile/ManageContact.tsx:35
 msgid "Contact exists"
@@ -245,7 +245,7 @@ msgstr "Dokončit nastavení"
 msgid "focused logo of {name}"
 msgstr "zdůrazněné logo {name}"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:77
+#: src/components/AccommodationForm/AccommodationForm.tsx:102
 msgid "For safety, share only approximate location"
 msgstr "Kvůli bezpečí sdílejte pouze přibližnou polohu"
 
@@ -278,7 +278,7 @@ msgstr "Hospex není nastaven (nemělo by se to stát)"
 msgid "host"
 msgstr "hostit"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:72
+#: src/components/AccommodationForm/AccommodationForm.tsx:97
 msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Lokalita hostování (klikněte na <0/> nebo přetáhněte a přibližte mapu)"
 
@@ -296,7 +296,7 @@ msgstr "Ignorovat"
 
 #: src/pages/HospexSetup/Step2.tsx:203
 msgid "Inbox is not set up"
-msgstr ""
+msgstr "Schránka není nastavena."
 
 #: src/pages/HospexSetup/Step0.tsx:114
 msgid "Inbox is set up."
@@ -347,7 +347,7 @@ msgstr "Načítání předchozích zpráv"
 #: src/pages/Threads.tsx:21
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Messages.tsx:205
-#: src/pages/SearchHosts/AccommodationInfo.tsx:45
+#: src/pages/SearchHosts/AccommodationInfo.tsx:50
 #: src/pages/Profile/ManageContact.tsx:26
 msgid "Loading..."
 msgstr "Načítání..."
@@ -432,7 +432,7 @@ msgstr "Fotka"
 msgid "Please invite only people you know personally."
 msgstr "Pozvěte prosím pouze lidi, které osobně znáte."
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:95
+#: src/components/AccommodationForm/AccommodationForm.tsx:120
 msgid "Please move map to your hosting location"
 msgstr "Prosím, přesuňte mapu na místo vašeho hostování."
 
@@ -474,11 +474,11 @@ msgstr "Profil aktualizován"
 
 #: src/pages/HospexSetup/Step1.tsx:71
 msgid "Public type index is not set up"
-msgstr ""
+msgstr "Veřejný index typů není nastaven"
 
 #: src/pages/HospexSetup/Step0.tsx:84
 msgid "Public type index is set up."
-msgstr "Veřejný index typu je nastaven."
+msgstr "Veřejný index typů je nastaven."
 
 #: src/components/Join/Join.tsx:114
 msgid "Read more about <0>running your own Solid server</0>."
@@ -492,7 +492,11 @@ msgstr "Odstraňování zájmu"
 msgid "Resend Confirmation Email in {countdown}s"
 msgstr "Za {countdown}s znovu odeslat potvrzovací e-mail"
 
-#: src/pages/EditProfile/EditProfile.tsx:182
+#: src/components/AccommodationForm/AccommodationForm.tsx:153
+msgid "Save"
+msgstr "Uložit"
+
+#: src/pages/EditProfile/EditProfile.tsx:183
 msgid "Save changes"
 msgstr "Uložit změny"
 
@@ -586,10 +590,6 @@ msgstr ""
 "Něco se pokazilo.\n"
 "Chyba: {e}"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:119
-msgid "Submit"
-msgstr "Odeslat"
-
 #: src/components/ThemeSwitch/ThemeSwitch.tsx:21
 msgid "Switch to dark theme"
 msgstr "Přepnout na tmavé téma"
@@ -598,11 +598,11 @@ msgstr "Přepnout na tmavé téma"
 msgid "Switch to light theme"
 msgstr "Přepnout na světlé téma"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:105
+#: src/components/AccommodationForm/AccommodationForm.tsx:134
 msgid "Tell others about your place and hosting"
 msgstr "Povězte ostatním o svém místě a hostování"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:110
+#: src/components/AccommodationForm/AccommodationForm.tsx:144
 msgid "This field is required"
 msgstr "Toto pole je povinné"
 
@@ -643,7 +643,7 @@ msgid ""
 "\n"
 "Error: {errorString}"
 msgstr ""
-"Něpodařilo se nám přesměrovat na poskytovatele ({oidcIssuer}).\n"
+"Nepodařilo se nám přesměrovat na poskytovatele ({oidcIssuer}).\n"
 "Zkontrolujte, zda jste zadali správné WebID nebo OIDCIssuer, nebo jestli není nedostupný.\n"
 "\n"
 "Důvod: {message}\n"
@@ -658,7 +658,7 @@ msgstr "Ověřujeme, že je vše správně nastaveno."
 msgid "WIP"
 msgstr "Pracujeme na tom"
 
-#: src/pages/SearchHosts/AccommodationInfo.tsx:53
+#: src/pages/SearchHosts/AccommodationInfo.tsx:58
 #: src/pages/Profile/Profile.tsx:52
 msgid "Write a message"
 msgstr "Napsat zprávu"

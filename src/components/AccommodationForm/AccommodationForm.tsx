@@ -1,6 +1,8 @@
 import { Button } from '@/components'
 import { SelectLocation } from '@/components/SelectLocation.tsx'
 import styles from '@/pages/MyOffers.module.scss'
+import { useAppSelector } from '@/redux/hooks'
+import { selectLocale } from '@/redux/uiSlice'
 import { Accommodation } from '@/types'
 import { ajvResolver } from '@hookform/resolvers/ajv'
 import { Trans, useLingui } from '@lingui/react/macro'
@@ -9,6 +11,7 @@ import clsx from 'clsx'
 import merge from 'lodash/merge'
 import { Controller, useForm } from 'react-hook-form'
 import { FaExclamationTriangle, FaLocationArrow } from 'react-icons/fa'
+import { LocaleTextInput } from '../LocaleTextInput/LocaleTextInput'
 
 const validationSchema: JSONSchemaType<
   Pick<Accommodation, 'location' | 'description'>
@@ -29,7 +32,26 @@ const validationSchema: JSONSchemaType<
         },
       ],
     },
-    description: { type: 'string', minLength: 1 },
+    // at least one description must be longer than 0
+    description: {
+      type: 'object',
+      minProperties: 1,
+      patternProperties: {
+        '.*': { type: 'string' },
+      },
+      additionalProperties: false,
+      not: {
+        type: 'object',
+        minProperties: 1,
+        patternProperties: {
+          '.*': {
+            type: 'string',
+            pattern: '^[\\s]*$',
+          },
+        },
+      },
+      required: [],
+    },
   },
 }
 
@@ -43,14 +65,17 @@ export const AccommodationForm = ({
   onCancel: () => void
 }) => {
   const { t } = useLingui()
+  const locale = useAppSelector(selectLocale)
 
   const {
     handleSubmit,
-    register,
     control,
     formState: { errors },
   } = useForm<Accommodation>({
-    defaultValues: merge({ location: { lat: 0, long: 0 } }, initialData),
+    defaultValues: merge(
+      { location: { lat: 0, long: 0 }, description: { [locale]: '' } },
+      initialData,
+    ),
     resolver:
       ajvResolver<Pick<Accommodation, 'description' | 'location'>>(
         validationSchema,
@@ -99,11 +124,20 @@ export const AccommodationForm = ({
       <label htmlFor="description">
         <Trans>About your hosting</Trans>
       </label>
-      <textarea
-        className={clsx(errors.description && styles.inputError)}
-        id="description"
-        placeholder={t`Tell others about your place and hosting`}
-        {...register('description')}
+      <Controller
+        control={control}
+        name="description"
+        render={({ field }) => (
+          <LocaleTextInput
+            className={clsx(errors.description && styles.inputError)}
+            id="description"
+            placeholder={t`Tell others about your place and hosting`}
+            initialData={initialData?.description}
+            locale={locale}
+            {...field}
+            rows={5}
+          />
+        )}
       />
       {errors.description && (
         <div className={styles.errorMessage}>
@@ -116,7 +150,7 @@ export const AccommodationForm = ({
           <Trans>Cancel</Trans>
         </Button>
         <Button type="submit" primary>
-          <Trans>Submit</Trans>
+          <Trans>Save</Trans>
         </Button>
       </div>
     </form>

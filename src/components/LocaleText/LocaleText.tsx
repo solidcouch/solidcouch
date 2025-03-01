@@ -1,4 +1,5 @@
 import { LanguageString } from '@/types'
+import { preferentialSort } from '@/utils/helpers'
 import { Tabs } from 'radix-ui'
 import {
   ComponentProps,
@@ -12,7 +13,6 @@ import styles from './LocaleText.module.scss'
 export const LocaleText = <C extends ElementType = 'section'>({
   text,
   locale,
-  // eslint-disable-next-line lingui/no-unlocalized-strings
   as: Component = 'section',
   ...rest
 }: {
@@ -24,8 +24,9 @@ export const LocaleText = <C extends ElementType = 'section'>({
     () =>
       Object.keys(text)
         // show only locales with non-empty text
-        .filter(lang => typeof text[lang] === 'string' && text[lang].trim()),
-    [text],
+        .filter(lang => typeof text[lang] === 'string' && text[lang].trim())
+        .sort(preferentialSort([locale])),
+    [locale, text],
   )
   const [selectedLocale, setSelectedLocale] = useState(
     // eslint-disable-next-line lingui/no-unlocalized-strings

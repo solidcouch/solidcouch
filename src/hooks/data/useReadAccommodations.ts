@@ -1,19 +1,16 @@
 import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
 import { Accommodation, URI } from '@/types'
+import { getLanguages } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
-import { createLdoDataset, languagesOf } from '@ldo/ldo'
+import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
 import { readPersonAccommodationsQuery } from './queries'
 
 /**
  * Read accommodations of a person
  */
-export const useReadAccommodations = (
-  personId: URI,
-  communityId: URI,
-  language = 'en',
-) => {
+export const useReadAccommodations = (personId: URI, communityId: URI) => {
   const { variables, quads, isLoading } = useLDhopQuery({
     query: readPersonAccommodationsQuery,
     variables: useMemo(
@@ -35,9 +32,7 @@ export const useReadAccommodations = (
         a => a?.location?.lat !== undefined && a?.location?.long !== undefined,
       )
       .map(a => {
-        const descriptionLanguages = a && languagesOf(a, 'description')
-        const description =
-          descriptionLanguages?.[language]?.values().next().value ?? ''
+        const description = getLanguages(a, 'description')
         // TODO this is an inconsistency fix
         // https://github.com/o-development/ldo/issues/22#issuecomment-1590228592
         const lat = [a.location.lat].flat()[0] ?? 0
@@ -51,5 +46,5 @@ export const useReadAccommodations = (
       })
 
     return [accommodations, isLoading] as const
-  }, [isLoading, language, quads, variables.offer])
+  }, [isLoading, quads, variables.offer])
 }

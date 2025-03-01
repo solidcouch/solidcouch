@@ -110,12 +110,14 @@ export const useCreateRdfDocument = <S extends LdoBase>(
     mutationFn: async ({
       uri,
       data,
+      transform,
       language = 'en',
       method = 'PUT',
       throwOnHttpError = false,
     }: {
       uri: URI
       data: S | S[]
+      transform?: (ldo: S) => void // transform should modify the original input, not clone it
       language?: string
       method?: 'POST' | 'PUT'
       throwOnHttpError?: boolean
@@ -126,11 +128,13 @@ export const useCreateRdfDocument = <S extends LdoBase>(
           const ldo = ldoDataset.usingType(shapeType).fromSubject(datum['@id'])
           setLanguagePreferences(language).using(ldo)
           merge(ldo, datum)
+          transform?.(ldo)
         })
       } else {
         const ldo = ldoDataset.usingType(shapeType).fromSubject(data['@id'])
         setLanguagePreferences(language).using(ldo)
         merge(ldo, data)
+        transform?.(ldo)
       }
 
       // For license and copyright purposes, please refer to https://github.com/solidcouch/solidcouch/pull/88/commits/5c3e71bd98b505e386c6f48f62fce409ccfd9d6f for authorship of the following lines.

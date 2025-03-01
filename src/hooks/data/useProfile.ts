@@ -5,12 +5,11 @@ import {
 } from '@/ldo/app.shapeTypes'
 import { FoafProfile, HospexProfile } from '@/ldo/app.typings'
 import { Person, URI } from '@/types'
-import { ldo2json } from '@/utils/ldo'
+import { addLanguagesToLdo, getLanguages, ldo2json } from '@/utils/ldo'
 import { foaf, solid } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
-import { LanguageSetMap } from '@ldo/jsonld-dataset-proxy'
-import { createLdoDataset, languagesOf } from '@ldo/ldo'
+import { createLdoDataset } from '@ldo/ldo'
 import merge from 'lodash/merge'
 import { NamedNode, Store } from 'n3'
 import { useCallback, useMemo } from 'react'
@@ -109,15 +108,9 @@ export const useProfile = (webId: URI, communityId: URI) => {
       ),
     [foafProfile, hospexProfiles],
   )
-  const descriptionLanguages = useMemo(
-    () =>
-      hospexProfiles.map(hospexProfile => languagesOf(hospexProfile, 'note')),
+  const about = useMemo(
+    () => (hospexProfiles[0] ? getLanguages(hospexProfiles[0], 'note') : {}),
     [hospexProfiles],
-  )
-
-  const aboutDict = useMemo(
-    () => transformSetMapToDict(descriptionLanguages),
-    [descriptionLanguages],
   )
 
   const profile: Person = useMemo(
@@ -125,11 +118,11 @@ export const useProfile = (webId: URI, communityId: URI) => {
       id: webId,
       name: mergedProfile.name ?? '',
       photo: mergedProfile.hasPhoto?.['@id'],
-      about: aboutDict,
+      about,
       interests: mergedProfile.topicInterest?.map(i => i['@id']) ?? [],
     }),
     [
-      aboutDict,
+      about,
       mergedProfile.hasPhoto,
       mergedProfile.name,
       mergedProfile.topicInterest,
@@ -144,10 +137,10 @@ export const useProfile = (webId: URI, communityId: URI) => {
             id: webId,
             name: hospexProfiles[0]?.name ?? '',
             photo: hospexProfiles[0]?.hasPhoto?.['@id'],
-            about: aboutDict,
+            about,
           }
         : undefined,
-    [aboutDict, hospexProfiles, webId],
+    [about, hospexProfiles, webId],
   )
 
   const interestsWithDocuments = useMemo(
@@ -227,17 +220,7 @@ export const useUpdateHospexProfile = () => {
         transform: person => {
           if (data.name) person.name = data.name
           // update all languages of note (about)
-          const langs = languagesOf(person, 'note')
-          Object.entries(data.about ?? {}).forEach(([lang, text]) => {
-            if (!langs[lang]?.size) {
-              // add new language
-              if (text.trim()) langs[lang]?.add(text.trim())
-            } else if (langs[lang].size > 0) {
-              // replace existing language
-              langs[lang].clear()
-              if (text.trim()) langs[lang].add(text.trim())
-            }
-          })
+          if (data.about) addLanguagesToLdo(data.about, person, 'note')
           if (data.photo) person.hasPhoto = { '@id': data.photo }
         },
       })
@@ -287,18 +270,4 @@ export const useRemoveInterest = () => {
     },
     [updateMutation],
   )
-}
-
-const transformSetMapToDict = (
-  setMapArray: LanguageSetMap[],
-): { [langCode: string]: string } => {
-  const result: { [langCode: string]: string } = {}
-
-  setMapArray.forEach(setMap => {
-    for (const lang in setMap) {
-      result[lang] = [...setMap[lang]!][0]!
-    }
-  })
-
-  return result
 }

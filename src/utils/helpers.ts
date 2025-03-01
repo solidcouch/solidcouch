@@ -248,3 +248,19 @@ export function removeBaseUrl(fullUrl: string, baseUrl: string): string {
     return fullUrl // Return original URL if there's an error
   }
 }
+
+/**
+ * Provide an array of preferred elements and get array with preferred elements at the beginning.
+ * usage: [1, 2, 3, 4, 5, 6].sort(preferentialSort([4, 7, 2]))
+ * => [4, 2, 1, 3, 5, 6]
+ */
+export const preferentialSort =
+  <T>(preferred: T[]) =>
+  (a: T, b: T) => {
+    const indexA = preferred.indexOf(a)
+    const indexB = preferred.indexOf(b)
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB
+    if (indexA !== -1) return -1
+    if (indexB !== -1) return 1
+    return 0
+  }

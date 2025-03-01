@@ -1,5 +1,4 @@
 import { ContactStatus } from '@/hooks/data/useContacts'
-import { Overwrite } from 'utility-types'
 
 export type URI = string
 
@@ -12,15 +11,10 @@ export type Bounds = { n: number; s: number; e: number; w: number }
 
 export interface Accommodation {
   id: URI
-  description: string
+  description: LanguageString
   location: Location
   offeredBy: URI
 }
-
-export type AccommodationExtended = Overwrite<
-  Accommodation,
-  { offeredBy: Person }
->
 
 // export type Community = {
 //   id: URI
