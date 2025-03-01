@@ -99,10 +99,10 @@ describe('accommodations offered by person', () => {
     moveFormMap(['l', 'u', 'i', 'l', 'l'])
 
     // write some description
-    cy.get('textarea[name=description]').type(
+    cy.get("textarea[name='description.en']").type(
       'This is a new description in English',
     )
-    cy.contains('button', 'Submit').click()
+    cy.contains('button', 'Save').click()
 
     cy.testToast('Creating accommodation')
     cy.testAndCloseToast('Accommodation created')
@@ -120,10 +120,10 @@ describe('accommodations offered by person', () => {
     moveFormMap([])
 
     // write some description
-    cy.get('textarea[name=description]').type(
+    cy.get("textarea[name='description.en']").type(
       'This is a new description in English',
     )
-    cy.contains('button', 'Submit').click()
+    cy.contains('button', 'Save').click()
     cy.contains('Please move map to your hosting location')
   })
 
@@ -133,7 +133,7 @@ describe('accommodations offered by person', () => {
 
     moveFormMap(['l', 'u', 'i'])
 
-    cy.contains('button', 'Submit').click()
+    cy.contains('button', 'Save').click()
     cy.contains('This field is required')
   })
 
@@ -141,13 +141,13 @@ describe('accommodations offered by person', () => {
     cy.contains('[data-cy="offer-accommodation-item"]', 'accommodation 2')
       .contains('button', 'Edit')
       .click()
-    cy.get('textarea[name="description"]')
+    cy.get("textarea[name='description.en']")
       .clear()
       .type('changed second accommodation')
 
     moveFormMap(['o', 'o', 'l', 'd'])
 
-    cy.contains('button', 'Submit').click()
+    cy.contains('button', 'Save').click()
     cy.testToast('Updating accommodation')
     cy.testAndCloseToast('Accommodation updated')
     cy.get('[data-cy="offer-accommodation-item"]')
@@ -191,10 +191,10 @@ describe('accommodations offered by person', () => {
         moveFormMap(['l', 'u', 'i', 'l', 'l'])
 
         // write some description
-        cy.get('textarea[name=description]').type(
+        cy.get("textarea[name='description.en']").type(
           'This is a new description in English',
         )
-        cy.contains('button', 'Submit').click()
+        cy.contains('button', 'Save').click()
 
         cy.testToast('Creating accommodation')
         cy.testToast('Notifying indexing service')
@@ -222,13 +222,13 @@ describe('accommodations offered by person', () => {
         cy.contains('[data-cy="offer-accommodation-item"]', 'accommodation 2')
           .contains('button', 'Edit')
           .click()
-        cy.get('textarea[name="description"]')
+        cy.get("textarea[name='description.en']")
           .clear()
           .type('changed second accommodation')
 
         moveFormMap(['o', 'o', 'l', 'd'])
 
-        cy.contains('button', 'Submit').click()
+        cy.contains('button', 'Save').click()
         cy.testToast('Updating accommodation')
         cy.testToast('Notifying indexing service')
         cy.testAndCloseToast('Accommodation updated')
