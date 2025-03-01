@@ -9,6 +9,7 @@ import { ldo2json } from '@/utils/ldo'
 import { foaf, solid } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
+import { LanguageSetMap } from '@ldo/jsonld-dataset-proxy'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import merge from 'lodash/merge'
 import { NamedNode, Store } from 'n3'
@@ -113,20 +114,22 @@ export const useProfile = (webId: URI, communityId: URI) => {
       hospexProfiles.map(hospexProfile => languagesOf(hospexProfile, 'note')),
     [hospexProfiles],
   )
-  const [about] = useMemo(
-    () => descriptionLanguages.map(dl => dl?.en?.values().next().value ?? ''),
+
+  const aboutDict = useMemo(
+    () => transformSetMapToDict(descriptionLanguages),
     [descriptionLanguages],
   )
+
   const profile: Person = useMemo(
     () => ({
       id: webId,
       name: mergedProfile.name ?? '',
       photo: mergedProfile.hasPhoto?.['@id'],
-      about,
+      about: aboutDict,
       interests: mergedProfile.topicInterest?.map(i => i['@id']) ?? [],
     }),
     [
-      about,
+      aboutDict,
       mergedProfile.hasPhoto,
       mergedProfile.name,
       mergedProfile.topicInterest,
@@ -141,10 +144,10 @@ export const useProfile = (webId: URI, communityId: URI) => {
             id: webId,
             name: hospexProfiles[0]?.name ?? '',
             photo: hospexProfiles[0]?.hasPhoto?.['@id'],
-            about: hospexProfiles[0]?.note?.[0],
+            about: aboutDict,
           }
         : undefined,
-    [hospexProfiles, webId],
+    [aboutDict, hospexProfiles, webId],
   )
 
   const interestsWithDocuments = useMemo(
@@ -212,20 +215,29 @@ export const useUpdateHospexProfile = () => {
       personId,
       hospexDocument,
       data,
-      language = 'en',
     }: {
       personId: URI
       hospexDocument: URI
       data: Partial<Pick<Person, 'name' | 'photo' | 'about'>>
-      language: string
     }) => {
       await updateHospexProfileMutation.mutateAsync({
         uri: hospexDocument,
         subject: personId,
-        language,
+        language: 'en',
         transform: person => {
           if (data.name) person.name = data.name
-          if (data.about) person.note = [data.about]
+          // update all languages of note (about)
+          const langs = languagesOf(person, 'note')
+          Object.entries(data.about ?? {}).forEach(([lang, text]) => {
+            if (!langs[lang]?.size) {
+              // add new language
+              if (text.trim()) langs[lang]?.add(text.trim())
+            } else if (langs[lang].size > 0) {
+              // replace existing language
+              langs[lang].clear()
+              if (text.trim()) langs[lang].add(text.trim())
+            }
+          })
           if (data.photo) person.hasPhoto = { '@id': data.photo }
         },
       })
@@ -275,4 +287,18 @@ export const useRemoveInterest = () => {
     },
     [updateMutation],
   )
+}
+
+const transformSetMapToDict = (
+  setMapArray: LanguageSetMap[],
+): { [langCode: string]: string } => {
+  const result: { [langCode: string]: string } = {}
+
+  setMapArray.forEach(setMap => {
+    for (const lang in setMap) {
+      result[lang] = [...setMap[lang]!][0]!
+    }
+  })
+
+  return result
 }

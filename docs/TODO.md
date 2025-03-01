@@ -3,7 +3,7 @@
 ## Tasks and features
 
 - [ ] make nicer dropdown with radix-ui
-- [ ]
+- [ ] speed up initial email check by sending the token directly
 
 ---
 

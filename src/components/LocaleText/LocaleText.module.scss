@@ -1,0 +1,20 @@
+.list {
+  display: flex;
+  gap: 0.5rem;
+
+  .trigger {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+
+    &[data-state='active'] {
+      font-weight: bold;
+    }
+
+    &.edited {
+      font-style: italic;
+    }
+    &.empty {
+      text-decoration: line-through;
+    }
+  }
+}
