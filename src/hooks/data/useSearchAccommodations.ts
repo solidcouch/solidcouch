@@ -1,7 +1,9 @@
 import { useConfig } from '@/config/hooks'
 import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
+import { LanguageString } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { mergeArrays } from '@/utils/helpers'
+import { getLanguages } from '@/utils/ldo'
 import { hospex } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
@@ -139,7 +141,7 @@ export const useSearchAccommodations = (
       .filter(a => a.location)
       .map(a => ({
         id: a['@id'],
-        description: a.description?.[0] ?? '',
+        description: getLanguages(a, 'description'),
         // TODO this is an inconsistency fix
         // https://github.com/o-development/ldo/issues/22#issuecomment-1590228592
         location: {
@@ -191,7 +193,7 @@ export const useSearchAccommodations = (
 
 interface Accommodation {
   id: string
-  description: string
+  description: LanguageString
   location: { lat: number; long: number }
   offeredBy: { id: string; name: string }
 }

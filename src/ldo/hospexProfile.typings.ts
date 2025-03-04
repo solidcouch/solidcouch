@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,11 +11,11 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface HospexProfile {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'Person'
   }
-  note?: string[]
+  note?: LdSet<string>
   name?: string
   hasPhoto?: {
     '@id': string
@@ -23,7 +23,7 @@ export interface HospexProfile {
   /**
    * Accommodation that the person offers
    */
-  offers?: {
+  offers?: LdSet<{
     '@id': string
-  }[]
+  }>
 }

@@ -1,6 +1,6 @@
 import { LanguageString } from '@/types'
 import { solid } from '@/utils/rdf-namespaces'
-import { LanguageSetMap } from '@ldo/jsonld-dataset-proxy'
+import { LanguageSetMap, LdSet } from '@ldo/jsonld-dataset-proxy'
 import { languagesOf, LdoBase, transactionChanges } from '@ldo/ldo'
 import { datasetToString } from '@ldo/rdf-utils'
 import type { Dataset } from '@rdfjs/types'
@@ -54,7 +54,7 @@ export async function toN3Patch(ldo: LdoBase): Promise<string> {
  * TODO this function could be generalized to accept both LanguageMap and LanguageSetMap[]
  */
 export const getLanguages = <K extends string>(
-  obj: { [P in K]?: string[] },
+  obj: { [P in K]?: LdSet<string> },
   key: K,
 ): LanguageString => {
   const languageSetMap = languagesOf(obj, key) as LanguageSetMap
@@ -75,7 +75,7 @@ const transformSetMapToDict = (
 
 export const addLanguagesToLdo = <K extends string>(
   textDict: { [lang: string]: string },
-  obj: { [P in K]?: string[] },
+  obj: { [P in K]?: LdSet<string> },
   key: K,
 ): void => {
   const langs = languagesOf(obj, key) as LanguageSetMap

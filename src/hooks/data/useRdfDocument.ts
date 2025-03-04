@@ -10,8 +10,8 @@ import { toN3Patch } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { fetchRdfDocument as fetchRdfDocumentLdhop } from '@ldhop/core'
 import {
+  LdSet,
   LdoBase,
-  LdoBuilder,
   ShapeType,
   createLdoDataset,
   parseRdf,
@@ -210,7 +210,7 @@ export const useUpdateLdoDocument = <S extends LdoBase>(
           uri: URI
           subject?: undefined
           matchSubject: { predicate: string; object?: string; graph?: string }
-          transform: (ldo: S[]) => void // transform should modify the original input, not clone it
+          transform: (ldo: LdSet<S>) => void // transform should modify the original input, not clone it
           language?: string
         }) => {
       const originalResponse = await fullFetch(uri)
@@ -252,45 +252,45 @@ export const useUpdateLdoDocument = <S extends LdoBase>(
   })
 }
 
-export const useMatchUpdateLdoDocument = <S extends LdoBase>(
-  shapeType: ShapeType<S>,
-) => {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: async ({
-      uri,
-      match,
-      transform,
-      language = 'en',
-    }: {
-      uri: URI
-      match: (builder: LdoBuilder<S>) => S
-      transform: (ldo: S) => void // transform should modify the original input, not clone it
-      language?: string
-    }) => {
-      const originalResponse = await fullFetch(uri)
-      let originalData = ''
-      if (originalResponse.ok) originalData = await originalResponse.text()
-      const ldoDataset = await parseRdf(originalData, { baseIRI: uri })
-      const builder = ldoDataset.usingType(shapeType)
+// export const useMatchUpdateLdoDocument = <S extends LdoBase>(
+//   shapeType: ShapeType<S>,
+// ) => {
+//   const queryClient = useQueryClient()
+//   return useMutation({
+//     mutationFn: async ({
+//       uri,
+//       match,
+//       transform,
+//       language = 'en',
+//     }: {
+//       uri: URI
+//       match: (builder: LdoBuilder<S>) => S
+//       transform: (ldo: S) => void // transform should modify the original input, not clone it
+//       language?: string
+//     }) => {
+//       const originalResponse = await fullFetch(uri)
+//       let originalData = ''
+//       if (originalResponse.ok) originalData = await originalResponse.text()
+//       const ldoDataset = await parseRdf(originalData, { baseIRI: uri })
+//       const builder = ldoDataset.usingType(shapeType)
 
-      const ldo = match(builder)
+//       const ldo = match(builder)
 
-      setLanguagePreferences(language).using(ldo)
+//       setLanguagePreferences(language).using(ldo)
 
-      startTransaction(ldo)
-      transform(ldo)
+//       startTransaction(ldo)
+//       transform(ldo)
 
-      const patch = await toN3Patch(ldo)
-      return await fullFetch(uri, {
-        method: 'PATCH',
-        body: patch,
-        headers: { 'content-type': 'text/n3' },
-      })
-    },
-    onSuccess: onSuccessInvalidate(queryClient, data => data.status === 201),
-  })
-}
+//       const patch = await toN3Patch(ldo)
+//       return await fullFetch(uri, {
+//         method: 'PATCH',
+//         body: patch,
+//         headers: { 'content-type': 'text/n3' },
+//       })
+//     },
+//     onSuccess: onSuccessInvalidate(queryClient, data => data.status === 201),
+//   })
+// }
 
 export const useDeleteRdfDocument = () => {
   const queryClient = useQueryClient()

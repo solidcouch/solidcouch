@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,11 +11,11 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface OidcIssuer {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * Solid OIDC issuer for a webId.
    */
-  oidcIssuer: {
+  oidcIssuer: LdSet<{
     '@id': string
-  }[]
+  }>
 }

@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,37 +11,37 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface HospexCommunity {
   '@id'?: string
-  '@context'?: ContextDefinition
-  type: (
+  '@context'?: LdoJsonldContext
+  type: LdSet<
     | {
         '@id': 'Community'
       }
     | {
         '@id': 'Community2'
       }
-  )[]
+  >
   /**
    * Name of the community. One name per language.
    */
-  name: string[]
-  about: string[]
+  name: LdSet<string>
+  about: LdSet<string>
   /**
    * A teaser, tagline, pun for the community
    */
-  note?: string[]
+  note?: LdSet<string>
   /**
    * Logo of the community. If two are specified, the second one may be used for highlight of the first one
    */
-  logo?: {
+  logo?: LdSet<{
     '@id': string
-  }[]
+  }>
   homepage?: {
     '@id': string
   }
   inbox?: {
     '@id': string
   }
-  hasUsergroup: HospexGroup[]
+  hasUsergroup: LdSet<HospexGroup>
 }
 
 /**
@@ -49,19 +49,19 @@ export interface HospexCommunity {
  */
 export interface HospexGroup {
   '@id'?: string
-  '@context'?: ContextDefinition
-  type: (
+  '@context'?: LdoJsonldContext
+  type: LdSet<
     | {
         '@id': 'Group'
       }
     | {
         '@id': 'Usergroup'
       }
-  )[]
+  >
   usergroupOf: {
     '@id': string
   }
-  hasMember?: {
+  hasMember?: LdSet<{
     '@id': string
-  }[]
+  }>
 }

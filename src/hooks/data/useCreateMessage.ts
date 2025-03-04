@@ -7,6 +7,7 @@ import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
 import { URI } from '@/types'
 import { getAcl, getContainer } from '@/utils/helpers'
 import { acl, meeting } from '@/utils/rdf-namespaces'
+import { BasicLdSet } from '@ldo/jsonld-dataset-proxy'
 import dayjs from 'dayjs'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -38,8 +39,7 @@ export const useCreateMessage = () => {
         uri: getContainer(chat) + dayjs().format('YYYY/MM/DD') + '/chat.ttl',
         subject: chat,
         transform: ldo => {
-          ldo.message ??= []
-          ldo.message.push({
+          ldo.message?.add({
             '@id': id,
             created: createdAt,
             content: message,
@@ -133,21 +133,53 @@ export const useCreateChat = () => {
           '@id': chatId,
           type: { '@id': 'LongChat' },
           author: { '@id': me },
-          created2: date,
+          created: date,
           title: 'Hospex chat channel',
-          participation: [
-            {
+          // participation: new BasicLdSet([
+          //   {
+          //     '@id': `${chatFile}#${uuidv4()}`,
+          //     dtstart: date,
+          //     participant: { '@id': me },
+          //   },
+          //   {
+          //     '@id': `${chatFile}#${uuidv4()}`,
+          //     dtstart: date,
+          //     participant: { '@id': otherPerson },
+          //     references:
+          //       otherChat !== undefined ? { '@id': otherChat } : undefined,
+          //     // references: new BasicLdSet([{ '@id': otherChat } as ChatShape]),
+          //     // references: otherChat
+          //     //   ? new BasicLdSet([{ '@id': otherChat }])
+          //     //   : new BasicLdSet([]),
+          //     // references: otherChat ? [{ '@id': otherChat } as ChatShape] : [],
+          //   },
+          // ]),
+        },
+        transform: ldo => {
+          ldo.participation
+            ?.add({
               '@id': `${chatFile}#${uuidv4()}`,
               dtstart: date,
               participant: { '@id': me },
-            },
-            {
+            })
+            .add({
               '@id': `${chatFile}#${uuidv4()}`,
               dtstart: date,
               participant: { '@id': otherPerson },
-              references: otherChat ? [{ '@id': otherChat } as ChatShape] : [],
-            },
-          ],
+              // references:
+              //   otherChat !== undefined ? { '@id': otherChat } : undefined,
+              // // references: new BasicLdSet([{ '@id': otherChat } as ChatShape]),
+              // // references: otherChat
+              // //   ? new BasicLdSet([{ '@id': otherChat }])
+              // //   : new BasicLdSet([]),
+              // // references: otherChat ? [{ '@id': otherChat } as ChatShape] : [],
+            })
+          if (otherChat)
+            ldo.participation
+              ?.filter(p => p.participant['@id'] === otherPerson)
+              .forEach(p =>
+                p.references?.add({ '@id': otherChat } as ChatShape),
+              )
         },
       })
       // set permissions
@@ -159,22 +191,22 @@ export const useCreateChat = () => {
           {
             '@id': aclUri + '#ReadWriteControl',
             type: { '@id': 'Authorization' },
-            agent: [{ '@id': me }],
-            accessTo: [{ '@id': chatContainer }],
+            agent: new BasicLdSet([{ '@id': me }]),
+            accessTo: new BasicLdSet([{ '@id': chatContainer }]),
             default: { '@id': chatContainer },
-            mode: [
+            mode: new BasicLdSet([
               { '@id': acl.Read },
               { '@id': acl.Write },
               { '@id': acl.Control },
-            ],
+            ]),
           },
           {
             '@id': aclUri + '#Read',
             type: { '@id': 'Authorization' },
-            agent: [{ '@id': otherPerson }],
-            accessTo: [{ '@id': chatContainer }],
+            agent: new BasicLdSet([{ '@id': otherPerson }]),
+            accessTo: new BasicLdSet([{ '@id': chatContainer }]),
             default: { '@id': chatContainer },
-            mode: [{ '@id': acl.Read }],
+            mode: new BasicLdSet([{ '@id': acl.Read }]),
           },
         ],
       })
@@ -223,32 +255,29 @@ export const useProcessNotification = () => {
           subject: chat,
           transform: ldo => {
             if (!ldo.participation) throw new Error('no participation')
-            if (ldo.participation && ldo.participation.length > 2)
+            if (ldo.participation && ldo.participation.size > 2)
               throw new Error(
                 'too much participation (only 2 people supported!)',
               )
-            const participation = ldo.participation?.find(
-              p => p.participant?.['@id'] === otherPerson,
-            )
+            const participation = ldo.participation
+              ?.toArray()
+              .find(p => p.participant?.['@id'] === otherPerson)
 
             if (!participation)
               throw new Error("other person's participation not found")
 
             if (
-              participation.references?.length === 1 &&
-              participation.references[0]!['@id'] === otherChat
+              participation.references?.size === 1 &&
+              participation.references.toArray()[0]!['@id'] === otherChat
             )
               throw new Error('already updated')
 
-            if (
-              participation.references &&
-              participation.references?.length > 0
-            )
+            if (participation.references && participation.references.size > 0)
               throw new Error(
                 'participation already references some other chat',
               )
 
-            participation.references = [{ '@id': otherChat } as ChatShape]
+            participation.references?.add({ '@id': otherChat } as ChatShape)
           },
         })
       } catch (error) {
