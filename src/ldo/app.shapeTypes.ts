@@ -9,6 +9,7 @@ import {
   Point,
   PublicTypeIndex,
   PrivateTypeIndex,
+  Preferences,
   TypeRegistration,
   ChatShape,
   ChatParticipationShape,
@@ -88,6 +89,15 @@ export const PublicTypeIndexShapeType: ShapeType<PublicTypeIndex> = {
 export const PrivateTypeIndexShapeType: ShapeType<PrivateTypeIndex> = {
   schema: appSchema,
   shape: 'https://example.com/PrivateTypeIndex',
+  context: appContext,
+}
+
+/**
+ * Preferences ShapeType
+ */
+export const PreferencesShapeType: ShapeType<Preferences> = {
+  schema: appSchema,
+  shape: 'https://example.com/Preferences',
   context: appContext,
 }
 

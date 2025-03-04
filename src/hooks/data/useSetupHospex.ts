@@ -95,6 +95,71 @@ export const useSaveTypeRegistration = () => {
   }).mutateAsync
 }
 
+/**
+ * create settings container if it doesn't exist, with access to owner
+ * create preferences file inside settings container and link it from webId document
+ * add link private type index in preferencesFile if it's provided
+ */
+export const useCreatePreferences = () => {
+  const createSettings = useCreateRdfContainer()
+  const createSettingsAcl = useUpdateAcl()
+  const createPreferencesFilePatch = useUpdateRdfDocument()
+  const saveLinkToWebId = useUpdateRdfDocument()
+
+  return useCallback(
+    async ({
+      preferencesFile,
+      webId,
+      privateTypeIndex,
+    }: {
+      preferencesFile: URI
+      webId: URI
+      privateTypeIndex?: URI
+    }) => {
+      // create settings container
+      const settingsContainer = getContainer(preferencesFile)
+      await createSettings.mutateAsync({
+        uri: settingsContainer,
+      })
+      // create acl for settings container
+      await createSettingsAcl(settingsContainer, [
+        {
+          operation: 'add',
+          access: [AccessMode.Read, AccessMode.Write, AccessMode.Control],
+          default: true,
+          agents: [webId],
+        },
+      ])
+
+      // create preferences file (including private type index if provided)
+      await createPreferencesFilePatch.mutateAsync({
+        uri: preferencesFile,
+        patch: `
+        @prefix pim: <http://www.w3.org/ns/pim/space#> .
+        _:mutate a <${solid.InsertDeletePatch}>;
+          <${solid.inserts}> {
+            <> a pim:ConfigurationFile.
+            ${privateTypeIndex ? `<${webId}> <${solid.privateTypeIndex}> <${privateTypeIndex}>.` : ''}
+          }.`,
+      })
+
+      // save preferences link to webId
+      await saveLinkToWebId.mutateAsync({
+        uri: webId,
+        patch: `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+          <${webId}> <${space.preferencesFile}> <${preferencesFile}>.
+        }.`,
+      })
+    },
+    [
+      createPreferencesFilePatch,
+      createSettings,
+      createSettingsAcl,
+      saveLinkToWebId,
+    ],
+  )
+}
+
 export const useCreatePrivateTypeIndex = () => {
   const createMutation = useCreateRdfDocument(PrivateTypeIndexShapeType)
   const updateMutation = useUpdateRdfDocument()
@@ -103,9 +168,11 @@ export const useCreatePrivateTypeIndex = () => {
     async ({
       webId,
       privateTypeIndex,
+      preferencesFile,
     }: {
       webId: URI
       privateTypeIndex: URI
+      preferencesFile: string
     }) => {
       await createMutation.mutateAsync({
         uri: privateTypeIndex,
@@ -121,7 +188,7 @@ export const useCreatePrivateTypeIndex = () => {
       const patch = `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> { <${webId}> <${solid.privateTypeIndex}> <${privateTypeIndex}>. }.`
 
       // create private type index
-      await updateMutation.mutateAsync({ uri: webId, patch })
+      await updateMutation.mutateAsync({ uri: preferencesFile, patch })
     },
     [createMutation, updateMutation],
   )
