@@ -7,6 +7,7 @@ import {
   space,
   vcard,
 } from 'rdf-namespaces'
+import { getContainer } from '../../src/utils/helpers'
 import { Person } from './commands'
 import { logoutUser, UserConfig } from './css-authentication'
 
@@ -190,11 +191,12 @@ export const setupCommunity = ({
 }
 
 export type SkipOptions =
-  | 'personalHospexDocument'
+  | 'preferences'
   | 'publicTypeIndex'
   | 'privateTypeIndex'
-  | 'joinCommunity'
   | 'inbox'
+  | 'personalHospexDocument'
+  | 'joinCommunity'
 
 export const setupPod = (
   user: UserConfig,
@@ -204,6 +206,7 @@ export const setupPod = (
     hospexContainerName = 'test-community',
   }: { skip?: SkipOptions[]; hospexContainerName?: string } = {},
 ) => {
+  const preferencesFileUri = `${user.podUrl}settings/preferences.ttl`
   const publicTypeIndexUri = `${user.podUrl}settings/publicTypeIndex.ttl`
   const privateTypeIndexUri = `${user.podUrl}settings/privateTypeIndex.ttl`
   const hospexContainer = `${user.podUrl}hospex/${hospexContainerName}/`
@@ -247,6 +250,45 @@ export const setupPod = (
       body: `
       _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
         <${user.webId}> <${ldp.inbox}> <${inboxUri}>.
+      }.`,
+    })
+  }
+  // create preferences file
+  if (!skip.includes('preferences')) {
+    // save preferences file
+    cy.authenticatedRequest(user, {
+      url: preferencesFileUri,
+      method: 'PUT',
+      headers: { 'content-type': 'text/turtle' },
+      body: `
+      @prefix pim: <http://www.w3.org/ns/pim/space#>.
+      <> a pim:ConfigurationFile .`,
+    })
+    // save private acl to folder
+    const settingsContainer = getContainer(preferencesFileUri)
+    cy.authenticatedRequest(user, {
+      url: settingsContainer + '.acl',
+      method: 'PUT',
+      headers: { 'content-type': 'text/turtle' },
+      body: `
+      @prefix acl: <http://www.w3.org/ns/auth/acl#>.
+      @prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+      <#owner> a acl:Authorization;
+        acl:agent <${user.webId}>;
+        acl:accessTo <${settingsContainer}>;
+        acl:default <${settingsContainer}>;
+        acl:mode acl:Read, acl:Write, acl:Control.
+      `,
+    })
+    // link in webId profile
+    cy.authenticatedRequest(user, {
+      url: user.webId,
+      method: 'PATCH',
+      headers: { 'content-type': 'text/n3' },
+      body: `
+      _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+        <${user.webId}> <${space.preferencesFile}> <${preferencesFileUri}>.
       }.`,
     })
   }
@@ -311,7 +353,7 @@ export const setupPod = (
         acl:mode acl:Read, acl:Write, acl:Control.`,
     })
     cy.authenticatedRequest(user, {
-      url: user.webId,
+      url: skip.includes('preferences') ? user.webId : preferencesFileUri,
       method: 'PATCH',
       headers: { 'content-type': 'text/n3' },
       body: `

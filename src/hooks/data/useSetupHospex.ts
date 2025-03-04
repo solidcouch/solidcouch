@@ -101,7 +101,6 @@ export const useSaveTypeRegistration = () => {
  * add link private type index in preferencesFile if it's provided
  */
 export const useCreatePreferences = () => {
-  const createSettings = useCreateRdfContainer()
   const createSettingsAcl = useUpdateAcl()
   const createPreferencesFilePatch = useUpdateRdfDocument()
   const saveLinkToWebId = useUpdateRdfDocument()
@@ -116,21 +115,6 @@ export const useCreatePreferences = () => {
       webId: URI
       privateTypeIndex?: URI
     }) => {
-      // create settings container
-      const settingsContainer = getContainer(preferencesFile)
-      await createSettings.mutateAsync({
-        uri: settingsContainer,
-      })
-      // create acl for settings container
-      await createSettingsAcl(settingsContainer, [
-        {
-          operation: 'add',
-          access: [AccessMode.Read, AccessMode.Write, AccessMode.Control],
-          default: true,
-          agents: [webId],
-        },
-      ])
-
       // create preferences file (including private type index if provided)
       await createPreferencesFilePatch.mutateAsync({
         uri: preferencesFile,
@@ -143,6 +127,17 @@ export const useCreatePreferences = () => {
           }.`,
       })
 
+      // create acl for settings container
+      const settingsContainer = getContainer(preferencesFile)
+      await createSettingsAcl(settingsContainer, [
+        {
+          operation: 'add',
+          access: [AccessMode.Read, AccessMode.Write, AccessMode.Control],
+          default: true,
+          agents: [webId],
+        },
+      ])
+
       // save preferences link to webId
       await saveLinkToWebId.mutateAsync({
         uri: webId,
@@ -151,12 +146,7 @@ export const useCreatePreferences = () => {
         }.`,
       })
     },
-    [
-      createPreferencesFilePatch,
-      createSettings,
-      createSettingsAcl,
-      saveLinkToWebId,
-    ],
+    [createPreferencesFilePatch, createSettingsAcl, saveLinkToWebId],
   )
 }
 

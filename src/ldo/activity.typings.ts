@@ -1,4 +1,4 @@
-import { LdoJsonldContext, LdSet } from '@ldo/ldo'
+import { LdoJsonldContext } from '@ldo/ldo'
 
 /**
  * =============================================================================
