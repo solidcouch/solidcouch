@@ -109,7 +109,7 @@ msgstr "Authenticating..."
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/pages/SetupOutlet.tsx:109
+#: src/pages/SetupOutlet.tsx:110
 msgid "Checking your setup..."
 msgstr "Checking your setup..."
 
@@ -155,7 +155,7 @@ msgid "Contacts of <0/>"
 msgstr "Contacts of <0/>"
 
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/HospexSetup/Step0.tsx:130
+#: src/pages/HospexSetup/Step0.tsx:177
 #: src/components/SignIn/SignIn.tsx:129
 msgid "Continue"
 msgstr "Continue"
@@ -164,15 +164,19 @@ msgstr "Continue"
 msgid "Conversations"
 msgstr "Conversations"
 
-#: src/pages/HospexSetup/Step0.tsx:117
+#: src/pages/HospexSetup/Step0.tsx:164
 msgid "Create inbox:"
 msgstr "Create inbox:"
 
-#: src/pages/HospexSetup/Step0.tsx:101
+#: src/pages/HospexSetup/Step0.tsx:120
+msgid "Create preferences file:"
+msgstr "Create preferences file:"
+
+#: src/pages/HospexSetup/Step0.tsx:148
 msgid "Create private type index:"
 msgstr "Create private type index:"
 
-#: src/pages/HospexSetup/Step0.tsx:87
+#: src/pages/HospexSetup/Step0.tsx:134
 msgid "Create public type index:"
 msgstr "Create public type index:"
 
@@ -298,7 +302,7 @@ msgstr "Ignore"
 msgid "Inbox is not set up"
 msgstr "Inbox is not set up"
 
-#: src/pages/HospexSetup/Step0.tsx:114
+#: src/pages/HospexSetup/Step0.tsx:161
 msgid "Inbox is set up."
 msgstr "Inbox is set up."
 
@@ -326,7 +330,7 @@ msgstr "It is managed by the Solid community folks, and has been migrated to a <
 msgid "Join"
 msgstr "Join"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:78
+#: src/pages/HospexSetup/HospexSetup.tsx:84
 msgid "Join Community"
 msgstr "Join Community"
 
@@ -444,11 +448,15 @@ msgstr "Please verify your email"
 msgid "Powered by <0>SolidCouch</0>"
 msgstr "Powered by <0>SolidCouch</0>"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:64
+#: src/pages/HospexSetup/Step0.tsx:117
+msgid "Preferences file is set up."
+msgstr "Preferences file is set up."
+
+#: src/pages/HospexSetup/HospexSetup.tsx:66
 msgid "Prepare Pod"
 msgstr "Prepare Pod"
 
-#: src/pages/HospexSetup/Step0.tsx:98
+#: src/pages/HospexSetup/Step0.tsx:145
 msgid "Private type index is set up."
 msgstr "Private type index is set up."
 
@@ -476,7 +484,7 @@ msgstr "Profile updated"
 msgid "Public type index is not set up"
 msgstr "Public type index is not set up"
 
-#: src/pages/HospexSetup/Step0.tsx:84
+#: src/pages/HospexSetup/Step0.tsx:131
 msgid "Public type index is set up."
 msgstr "Public type index is set up."
 
@@ -537,11 +545,11 @@ msgstr "Sending Solid notification"
 msgid "Set up new data for this community:"
 msgstr "Set up new data for this community:"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:90
+#: src/pages/HospexSetup/HospexSetup.tsx:96
 msgid "Set Up Notifications"
 msgstr "Set Up Notifications"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:114
+#: src/pages/HospexSetup/HospexSetup.tsx:120
 msgid "Setup"
 msgstr "Setup"
 
@@ -573,7 +581,7 @@ msgstr "sign out"
 msgid "Solid notification was sent"
 msgstr "Solid notification was sent"
 
-#: src/pages/HospexSetup/Step0.tsx:60
+#: src/pages/HospexSetup/Step0.tsx:82
 msgid "Something is not resolved (unexpected error)"
 msgstr "Something is not resolved (unexpected error)"
 
@@ -650,7 +658,7 @@ msgstr ""
 "\n"
 "Error: {errorString}"
 
-#: src/pages/SetupOutlet.tsx:112
+#: src/pages/SetupOutlet.tsx:113
 msgid "We're verifying that everything is configured correctly."
 msgstr "We're verifying that everything is configured correctly."
 

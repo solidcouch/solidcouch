@@ -59,6 +59,15 @@ describe('Setup Solid pod', () => {
     })
   })
 
+  context('preferences file is missing', () => {
+    beforeEach(setupPod(['preferences']))
+    it('should create preferences file', () => {
+      cy.get<UserConfig>('@user1').then(user => cy.login(user))
+      cy.get("[data-cy='setup-step-0-continue']").click()
+      cy.contains('a', 'travel')
+    })
+  })
+
   context('public type index is missing', () => {
     beforeEach(setupPod(['publicTypeIndex']))
     it('should create public type index with correct ACL', () => {

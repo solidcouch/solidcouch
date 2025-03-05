@@ -17,6 +17,7 @@ interface SetupStatus {
   [SetupStatusKey.isHospexProfile]: boolean
   [SetupStatusKey.isPublicTypeIndex]: boolean
   [SetupStatusKey.isPrivateTypeIndex]: boolean
+  [SetupStatusKey.isPreferencesFile]: boolean
   [SetupStatusKey.isInbox]: boolean
   [SetupStatusKey.isSimpleEmailNotifications]: boolean | 'unset'
   [SetupStatusKey.isEmailNotifications]: boolean | 'unverified' | 'unset'
@@ -26,6 +27,7 @@ interface SetupConfig {
   personalHospexDocuments: string[]
   publicTypeIndexes: string[]
   privateTypeIndexes: string[]
+  preferencesFiles: string[]
   inboxes: string[]
   allHospex: {
     hospexDocument: string
@@ -68,9 +70,13 @@ export const HospexSetup = (
               onSuccess={() => props.onStepChange(1)}
               isPublicTypeIndex={props.isPublicTypeIndex}
               isPrivateTypeIndex={props.isPrivateTypeIndex}
+              isPreferencesFile={props.isPreferencesFile}
               isInbox={props.isInbox}
               storage={storage}
               webId={auth.webId}
+              preferencesFile={props.preferencesFiles[0]}
+              publicTypeIndex={props.preferencesFiles[0]}
+              privateTypeIndex={props.privateTypeIndexes[0]}
             />
           ) : null,
       },

@@ -493,6 +493,7 @@ export const appContext: LdoJsonldContext = {
     '@id': 'http://w3id.org/hospex/ns#storage',
     '@type': '@id',
   },
+  ConfigurationFile: 'http://www.w3.org/ns/pim/space#ConfigurationFile',
   TypeRegistration: {
     '@id': 'http://www.w3.org/ns/solid/terms#TypeRegistration',
     '@context': {
