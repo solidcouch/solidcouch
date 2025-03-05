@@ -39,6 +39,7 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
 
   const publicTypeIndexes = variables.publicTypeIndex ?? []
   const privateTypeIndexes = variables.privateTypeIndex ?? []
+  const preferencesFiles = variables.preferencesFile ?? []
   const inboxes = variables.inbox ?? []
 
   const personalHospexDocumentsForCommunity =
@@ -77,15 +78,19 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     publicTypeIndexes.length > 0 ? true : isLoading ? undefined : false
   const isPrivateTypeIndex =
     privateTypeIndexes.length > 0 ? true : isLoading ? undefined : false
+  const isPreferencesFile =
+    preferencesFiles.length > 0 ? true : isLoading ? undefined : false
   const isInbox = inboxes.length > 0 ? true : isLoading ? undefined : false
   return {
     isHospexProfile,
     isPublicTypeIndex,
     isPrivateTypeIndex,
+    isPreferencesFile,
     isInbox,
     personalHospexDocuments: personalHospexDocumentsForCommunity,
     publicTypeIndexes,
     privateTypeIndexes,
+    preferencesFiles,
     inboxes,
     allHospex: hospexDocuments,
   } as const

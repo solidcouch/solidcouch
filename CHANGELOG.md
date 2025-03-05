@@ -23,7 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix a bug in wikidata data parsing.
-- Fix tests running in firefox
+- Fix tests running in firefox.
+- Save preferences file during setup.
 
 ## [0.3.0] - 2025-02-19
 

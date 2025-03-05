@@ -183,6 +183,17 @@ export interface PrivateTypeIndex {
 }
 
 /**
+ * Preferences Type
+ */
+export interface Preferences {
+  '@id'?: string
+  '@context'?: LdoJsonldContext
+  type: {
+    '@id': 'ConfigurationFile'
+  }
+}
+
+/**
  * TypeRegistration Type
  */
 export interface TypeRegistration {

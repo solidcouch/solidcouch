@@ -3,6 +3,7 @@ export enum SetupStatusKey {
   isHospexProfile = 'isHospexProfile',
   isPublicTypeIndex = 'isPublicTypeIndex',
   isPrivateTypeIndex = 'isPrivateTypeIndex',
+  isPreferencesFile = 'isPreferencesFile',
   isInbox = 'isInbox',
   isSimpleEmailNotifications = 'isSimpleEmailNotifications',
   isEmailNotifications = 'isEmailNotifications',

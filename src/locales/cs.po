@@ -109,7 +109,7 @@ msgstr "Ověřování..."
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: src/pages/SetupOutlet.tsx:109
+#: src/pages/SetupOutlet.tsx:110
 msgid "Checking your setup..."
 msgstr "Kontroluji vaše nastavení..."
 
@@ -155,7 +155,7 @@ msgid "Contacts of <0/>"
 msgstr "Kontakty <0/>"
 
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/HospexSetup/Step0.tsx:130
+#: src/pages/HospexSetup/Step0.tsx:177
 #: src/components/SignIn/SignIn.tsx:129
 msgid "Continue"
 msgstr "Pokračovat"
@@ -164,15 +164,19 @@ msgstr "Pokračovat"
 msgid "Conversations"
 msgstr "Konverzace"
 
-#: src/pages/HospexSetup/Step0.tsx:117
+#: src/pages/HospexSetup/Step0.tsx:164
 msgid "Create inbox:"
 msgstr "Vytvořit schránku:"
 
-#: src/pages/HospexSetup/Step0.tsx:101
+#: src/pages/HospexSetup/Step0.tsx:120
+msgid "Create preferences file:"
+msgstr "Vytvořit soubor předvoleb:"
+
+#: src/pages/HospexSetup/Step0.tsx:148
 msgid "Create private type index:"
 msgstr "Vytvořit soukromý index typů:"
 
-#: src/pages/HospexSetup/Step0.tsx:87
+#: src/pages/HospexSetup/Step0.tsx:134
 msgid "Create public type index:"
 msgstr "Vytvořit veřejný index typů:"
 
@@ -298,7 +302,7 @@ msgstr "Ignorovat"
 msgid "Inbox is not set up"
 msgstr "Schránka není nastavena."
 
-#: src/pages/HospexSetup/Step0.tsx:114
+#: src/pages/HospexSetup/Step0.tsx:161
 msgid "Inbox is set up."
 msgstr "Schránka je nastavena."
 
@@ -326,7 +330,7 @@ msgstr "Spravuje to komunita Solid a bylo to přesunuto na <0>moderní a open-so
 msgid "Join"
 msgstr "Připojit se"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:78
+#: src/pages/HospexSetup/HospexSetup.tsx:84
 msgid "Join Community"
 msgstr "Připojit se ke komunitě"
 
@@ -444,11 +448,15 @@ msgstr "Ověřte prosím svůj e-mail"
 msgid "Powered by <0>SolidCouch</0>"
 msgstr "Postaveno na <0>SolidCouch</0>"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:64
+#: src/pages/HospexSetup/Step0.tsx:117
+msgid "Preferences file is set up."
+msgstr "Soubor předvoleb je nastaven."
+
+#: src/pages/HospexSetup/HospexSetup.tsx:66
 msgid "Prepare Pod"
 msgstr "Připravte Pod"
 
-#: src/pages/HospexSetup/Step0.tsx:98
+#: src/pages/HospexSetup/Step0.tsx:145
 msgid "Private type index is set up."
 msgstr "Soukromý index typu je nastaven."
 
@@ -476,7 +484,7 @@ msgstr "Profil aktualizován"
 msgid "Public type index is not set up"
 msgstr "Veřejný index typů není nastaven"
 
-#: src/pages/HospexSetup/Step0.tsx:84
+#: src/pages/HospexSetup/Step0.tsx:131
 msgid "Public type index is set up."
 msgstr "Veřejný index typů je nastaven."
 
@@ -537,11 +545,11 @@ msgstr "Probíhá odesílání Solid upozornění"
 msgid "Set up new data for this community:"
 msgstr "Nastavit nová data pro tuto komunitu:"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:90
+#: src/pages/HospexSetup/HospexSetup.tsx:96
 msgid "Set Up Notifications"
 msgstr "Nastavit oznámení"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:114
+#: src/pages/HospexSetup/HospexSetup.tsx:120
 msgid "Setup"
 msgstr "Nastavit"
 
@@ -573,7 +581,7 @@ msgstr "odhlásit se"
 msgid "Solid notification was sent"
 msgstr "Solid upozornění bylo odesláno"
 
-#: src/pages/HospexSetup/Step0.tsx:60
+#: src/pages/HospexSetup/Step0.tsx:82
 msgid "Something is not resolved (unexpected error)"
 msgstr "Něco není vyřešeno (neočekávaná chyba)"
 
@@ -650,7 +658,7 @@ msgstr ""
 "\n"
 "Chyba: {errorString}"
 
-#: src/pages/SetupOutlet.tsx:112
+#: src/pages/SetupOutlet.tsx:113
 msgid "We're verifying that everything is configured correctly."
 msgstr "Ověřujeme, že je vše správně nastaveno."
 

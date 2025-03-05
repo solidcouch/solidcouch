@@ -93,6 +93,11 @@ ex:PrivateTypeIndex EXTRA a {
   a [ solid:UnlistedDocument ] ;
 }
 
+ex:Preferences EXTRA a {
+  a [ pim:ConfigurationFile ] ;
+}
+
+
 ex:TypeRegistration EXTRA a {
   a [ solid:TypeRegistration ] ;
   solid:forClass IRI + ;

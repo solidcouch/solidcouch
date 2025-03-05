@@ -31,6 +31,7 @@ export const SetupOutlet = () => {
     'privateTypeIndexes',
     'personalHospexDocuments',
     'allHospexDocuments',
+    'preferencesFiles',
     'inboxes',
     'allHospex',
   ])
