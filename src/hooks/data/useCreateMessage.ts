@@ -9,6 +9,7 @@ import { getAcl, getContainer } from '@/utils/helpers'
 import { acl, meeting } from '@/utils/rdf-namespaces'
 import { BasicLdSet } from '@ldo/jsonld-dataset-proxy'
 import dayjs from 'dayjs'
+import { as } from 'rdf-namespaces'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import {
@@ -83,7 +84,7 @@ export const useCreateMessageNotification = () => {
           context: { '@id': 'https://www.pod-chat.com/LongChatMessage' },
           object: {
             '@id': messageId,
-            type: [{ '@id': 'Note' }],
+            type: { '@id': as.Note },
             created: updated,
             content,
             maker: { '@id': senderId },
@@ -131,25 +132,6 @@ export const useCreateChat = () => {
           author: { '@id': me },
           created: date,
           title: 'Hospex chat channel',
-          // participation: new BasicLdSet([
-          //   {
-          //     '@id': `${chatFile}#${uuidv4()}`,
-          //     dtstart: date,
-          //     participant: { '@id': me },
-          //   },
-          //   {
-          //     '@id': `${chatFile}#${uuidv4()}`,
-          //     dtstart: date,
-          //     participant: { '@id': otherPerson },
-          //     references:
-          //       otherChat !== undefined ? { '@id': otherChat } : undefined,
-          //     // references: new BasicLdSet([{ '@id': otherChat } as ChatShape]),
-          //     // references: otherChat
-          //     //   ? new BasicLdSet([{ '@id': otherChat }])
-          //     //   : new BasicLdSet([]),
-          //     // references: otherChat ? [{ '@id': otherChat } as ChatShape] : [],
-          //   },
-          // ]),
         },
         transform: ldo => {
           ldo.participation
@@ -162,13 +144,6 @@ export const useCreateChat = () => {
               '@id': `${chatFile}#${uuidv4()}`,
               dtstart: date,
               participant: { '@id': otherPerson },
-              // references:
-              //   otherChat !== undefined ? { '@id': otherChat } : undefined,
-              // // references: new BasicLdSet([{ '@id': otherChat } as ChatShape]),
-              // // references: otherChat
-              // //   ? new BasicLdSet([{ '@id': otherChat }])
-              // //   : new BasicLdSet([]),
-              // // references: otherChat ? [{ '@id': otherChat } as ChatShape] : [],
             })
           if (otherChat)
             ldo.participation
