@@ -13,7 +13,9 @@ const readOidcIssuer = async (webId: URI): Promise<string[]> => {
     .usingType(SolidProfileShapeType)
     .fromSubject(webId)
 
-  return ldo.oidcIssuer.flatMap(issuer => issuer['@id'] ?? [])
+  return ldo.oidcIssuer.map(value => value['@id'] ?? []).flat()
+
+  //.flatMap(issuer => issuer['@id'] ?? [])
 }
 
 // Tries to guess the issuer from a WebID or returns the input if it's an issuer.

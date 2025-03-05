@@ -1,15 +1,43 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext } from '@ldo/ldo'
 
 /**
  * =============================================================================
  * longChatContext: JSONLD Context for longChat
  * =============================================================================
  */
-export const longChatContext: ContextDefinition = {
+export const longChatContext: LdoJsonldContext = {
   type: {
     '@id': '@type',
   },
-  LongChat: 'http://www.w3.org/ns/pim/meeting#LongChat',
+  LongChat: {
+    '@id': 'http://www.w3.org/ns/pim/meeting#LongChat',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      author: {
+        '@id': 'http://purl.org/dc/elements/1.1/author',
+        '@type': '@id',
+      },
+      created: {
+        '@id': 'http://purl.org/dc/elements/1.1/created',
+        '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+      },
+      title: {
+        '@id': 'http://purl.org/dc/elements/1.1/title',
+        '@type': 'http://www.w3.org/2001/XMLSchema#string',
+      },
+      participation: {
+        '@id': 'http://www.w3.org/2005/01/wf/flow#participation',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      sharedPreferences: {
+        '@id': 'http://www.w3.org/ns/ui#sharedPreferences',
+        '@type': '@id',
+      },
+    },
+  },
   author: {
     '@id': 'http://purl.org/dc/elements/1.1/author',
     '@type': '@id',
@@ -25,7 +53,7 @@ export const longChatContext: ContextDefinition = {
   participation: {
     '@id': 'http://www.w3.org/2005/01/wf/flow#participation',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   dtstart: {
     '@id': 'http://www.w3.org/2002/12/cal/ical#dtstart',
@@ -50,7 +78,7 @@ export const longChatContext: ContextDefinition = {
   message: {
     '@id': 'http://www.w3.org/2005/01/wf/flow#message',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   created2: {
     '@id': 'http://purl.org/dc/terms/created',

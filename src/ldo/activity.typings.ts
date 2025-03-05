@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,7 +11,7 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface Activity {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'Add'
   }

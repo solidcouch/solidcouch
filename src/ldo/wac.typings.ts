@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,26 +11,26 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface Authorization {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'Authorization'
   }
-  accessTo: {
+  accessTo: LdSet<{
     '@id': string
-  }[]
+  }>
   default?: {
     '@id': string
   }
-  agent?: {
+  agent?: LdSet<{
     '@id': string
-  }[]
-  agentClass?: {
+  }>
+  agentClass?: LdSet<{
     '@id': string
-  }[]
-  agentGroup?: {
+  }>
+  agentGroup?: LdSet<{
     '@id': string
-  }[]
-  mode?: (
+  }>
+  mode?: LdSet<
     | {
         '@id': string
       }
@@ -46,8 +46,8 @@ export interface Authorization {
     | {
         '@id': 'Append'
       }
-  )[]
-  origin?: {
+  >
+  origin?: LdSet<{
     '@id': string
-  }[]
+  }>
 }

@@ -1,19 +1,60 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext } from '@ldo/ldo'
 
 /**
  * =============================================================================
  * wacContext: JSONLD Context for wac
  * =============================================================================
  */
-export const wacContext: ContextDefinition = {
+export const wacContext: LdoJsonldContext = {
   type: {
     '@id': '@type',
   },
-  Authorization: 'http://www.w3.org/ns/auth/acl#Authorization',
+  Authorization: {
+    '@id': 'http://www.w3.org/ns/auth/acl#Authorization',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      accessTo: {
+        '@id': 'http://www.w3.org/ns/auth/acl#accessTo',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      default: {
+        '@id': 'http://www.w3.org/ns/auth/acl#default',
+        '@type': '@id',
+      },
+      agent: {
+        '@id': 'http://www.w3.org/ns/auth/acl#agent',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      agentClass: {
+        '@id': 'http://www.w3.org/ns/auth/acl#agentClass',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      agentGroup: {
+        '@id': 'http://www.w3.org/ns/auth/acl#agentGroup',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      mode: {
+        '@id': 'http://www.w3.org/ns/auth/acl#mode',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      origin: {
+        '@id': 'http://www.w3.org/ns/auth/acl#origin',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+    },
+  },
   accessTo: {
     '@id': 'http://www.w3.org/ns/auth/acl#accessTo',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   default: {
     '@id': 'http://www.w3.org/ns/auth/acl#default',
@@ -22,22 +63,22 @@ export const wacContext: ContextDefinition = {
   agent: {
     '@id': 'http://www.w3.org/ns/auth/acl#agent',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   agentClass: {
     '@id': 'http://www.w3.org/ns/auth/acl#agentClass',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   agentGroup: {
     '@id': 'http://www.w3.org/ns/auth/acl#agentGroup',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   mode: {
     '@id': 'http://www.w3.org/ns/auth/acl#mode',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   Read: 'http://www.w3.org/ns/auth/acl#Read',
   Write: 'http://www.w3.org/ns/auth/acl#Write',
@@ -46,6 +87,6 @@ export const wacContext: ContextDefinition = {
   origin: {
     '@id': 'http://www.w3.org/ns/auth/acl#origin',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
 }

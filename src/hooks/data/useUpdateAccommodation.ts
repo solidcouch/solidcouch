@@ -20,8 +20,15 @@ export const useUpdateAccommodation = () => {
         subject: id,
         language,
         transform: ldo => {
-          if (data.description)
+          if (data.description) {
+            // const langs = languagesOf(ldo, 'description')
+            // Object.entries(data.description).forEach(([lang, text]) => {
+            //   langs[lang]?.clear()
+            //   if (text.trim()) langs[lang]?.add(text.trim())
+            // })
             addLanguagesToLdo(data.description, ldo, 'description')
+          }
+          // addLanguagesToLdo(data.description, ldo, 'description')
           if (data.location) {
             ldo.location.lat = data.location.lat
             ldo.location.long = data.location.long

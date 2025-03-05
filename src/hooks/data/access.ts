@@ -4,13 +4,25 @@
 // we may want the inherited acl - default part
 // and return all the access control items for the resource
 
+import { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
-import { parseWacAllow, processAcl, removeHashFromURI } from '@/utils/helpers'
+import {
+  fullFetch,
+  getAcl,
+  parseWacAllow,
+  processAcl,
+  removeHashFromURI,
+} from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { fetchRdfDocument } from '@ldhop/core'
 import { useQueries } from '@tanstack/react-query'
 import LinkHeader from 'http-link-header'
-import { QueryKey } from './types'
+import { NamedNode, Quad, Writer } from 'n3'
+import { acl, rdf } from 'rdf-namespaces'
+import { useCallback } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+import { AccessMode, QueryKey } from './types'
+import { useUpdateRdfDocument } from './useRdfDocument'
 
 const fetchRdfDocumentOrFail = async (url: string) => {
   url = removeHashFromURI(url)
@@ -121,4 +133,118 @@ export const useReadAccesses = (resources: string[]) => {
       acls: [{ uri: accessData.aclUri, accesses: accesses[i] }],
     })),
   }
+}
+export const useUpdateAcl = () => {
+  const updateAclMutation = useUpdateRdfDocument()
+
+  return useCallback(
+    async (
+      uri: string, // uri of the document or container whose acl we want to update
+      operations: {
+        // operations to perform
+        operation: 'add'
+        access: AccessMode[] // add to this access
+        default?: boolean
+        agentGroups?: URI[]
+        agents?: URI[]
+      }[],
+    ) => {
+      const aclUri = await getAcl(uri)
+      const aclResponse = await fullFetch(aclUri)
+      const aclBody = await aclResponse.text()
+
+      const authorizations = processAcl(aclUri, aclBody)
+
+      const writer = new Writer({ format: 'N-Triples' })
+
+      for (const operation of operations) {
+        operation.agents ??= []
+        operation.agentGroups ??= []
+        // find relevant access
+        const auth = authorizations.find(a => {
+          const expectedAccess = new Set(operation.access)
+          const actualAccess = new Set(a.modes)
+
+          return expectedAccess.size === actualAccess.size &&
+            Array.from(expectedAccess).every(aa => actualAccess.has(aa)) &&
+            operation.default
+            ? a.defaults.includes(uri)
+            : a.defaults.length === 0
+        })
+
+        const getNewAuthUrl = (uri: string) => {
+          const newAuthURL = new URL(uri)
+          newAuthURL.hash = uuidv4()
+          return newAuthURL.toString()
+        }
+
+        const authUrl = auth?.url ?? getNewAuthUrl(aclUri)
+
+        const authNode = new NamedNode(authUrl)
+
+        writer.addQuads(
+          operation.agentGroups.map(
+            ag =>
+              new Quad(
+                authNode,
+                new NamedNode(acl.agentGroup),
+                new NamedNode(ag),
+              ),
+          ),
+        )
+        writer.addQuads(
+          operation.agents.map(
+            a => new Quad(authNode, new NamedNode(acl.agent), new NamedNode(a)),
+          ),
+        )
+
+        if (!auth) {
+          // untested!
+          writer.addQuads([
+            new Quad(
+              authNode,
+              new NamedNode(rdf.type),
+              new NamedNode(acl.Authorization),
+            ),
+            new Quad(authNode, new NamedNode(acl.accessTo), new NamedNode(uri)),
+            ...operation.access.map(
+              a =>
+                new Quad(
+                  authNode,
+                  new NamedNode(acl.mode),
+                  new NamedNode(acl[a]),
+                ),
+            ),
+          ])
+          if (operation.default)
+            writer.addQuads([
+              new Quad(
+                authNode,
+                new NamedNode(acl.default__workaround),
+                new NamedNode(uri),
+              ),
+            ])
+        }
+      }
+
+      const insertions = await new Promise<string>((resolve, reject) => {
+        writer.end((error, result) => {
+          if (error) reject(error)
+          else resolve(result)
+        })
+      })
+
+      await updateAclMutation.mutateAsync({
+        uri: aclUri,
+        patch: `
+        @prefix foaf: <http://xmlns.com/foaf/0.1/>.
+        @prefix solid: <http://www.w3.org/ns/solid/terms#>.
+        _:mutation a solid:InsertDeletePatch;
+          solid:inserts {
+            ${insertions}
+          } .`,
+      })
+    },
+    [updateAclMutation],
+  )
 }
