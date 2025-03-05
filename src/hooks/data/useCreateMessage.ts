@@ -78,11 +78,7 @@ export const useCreateMessageNotification = () => {
         method: 'POST',
         data: {
           '@id': '',
-          // TODO dealing with weird inconsistency, probably because of issue
-          // https://github.com/o-development/ldo-legacy/issues/22
-          // potentially not relevant after update
-          // @ts-expect-error a bug described in the link above
-          type: [{ '@id': 'Add' }],
+          type: { '@id': 'Add' },
           actor: { '@id': senderId },
           context: { '@id': 'https://www.pod-chat.com/LongChatMessage' },
           object: {

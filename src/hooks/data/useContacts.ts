@@ -170,9 +170,8 @@ const useCreateContactNotification = () => {
         method: 'POST',
         data: {
           '@id': '',
-          // @ts-expect-error https://github.com/o-development/ldo-legacy/issues/23
-          type: [{ '@id': 'Invite' }],
-          content2: message,
+          type: { '@id': 'Invite' },
+          content: message,
           actor: { '@id': me },
           object: {
             type: { '@id': 'Relationship' },
