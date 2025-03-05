@@ -151,7 +151,13 @@ export const useUpdateAcl = () => {
     ) => {
       const aclUri = await getAcl(uri)
       const aclResponse = await fullFetch(aclUri)
-      const aclBody = await aclResponse.text()
+
+      const expected = aclResponse.ok || aclResponse.status === 404
+
+      if (!expected)
+        throw new HttpError('Acl could not be resolved', aclResponse)
+
+      const aclBody = aclResponse.status === 404 ? '' : await aclResponse.text()
 
       const authorizations = processAcl(aclUri, aclBody)
 
