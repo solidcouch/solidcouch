@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,7 +11,7 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface SolidProfile {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * Defines the node as a Person (from foaf)
    */
@@ -33,9 +33,9 @@ export interface SolidProfile {
   /**
    * The location of a Solid storage server related to this WebId
    */
-  storage?: {
+  storage?: LdSet<{
     '@id': string
-  }[]
+  }>
   /**
    * The user's account
    */
@@ -45,13 +45,13 @@ export interface SolidProfile {
   /**
    * A registry of all types used on the user's Pod (for private access only)
    */
-  privateTypeIndex?: {
+  privateTypeIndex?: LdSet<{
     '@id': string
-  }[]
+  }>
   /**
    * A registry of all types used on the user's Pod (for public access)
    */
-  publicTypeIndex?: {
+  publicTypeIndex?: LdSet<{
     '@id': string
-  }[]
+  }>
 }

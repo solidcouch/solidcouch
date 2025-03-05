@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,15 +11,15 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface PublicTypeIndex {
   '@id'?: string
-  '@context'?: ContextDefinition
-  type: (
+  '@context'?: LdoJsonldContext
+  type: LdSet<
     | {
         '@id': 'TypeIndex'
       }
     | {
         '@id': 'ListedDocument'
       }
-  )[]
+  >
 }
 
 /**
@@ -27,17 +27,17 @@ export interface PublicTypeIndex {
  */
 export interface TypeRegistration {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'TypeRegistration'
   }
-  forClass: {
+  forClass: LdSet<{
     '@id': string
-  }[]
-  instance?: {
+  }>
+  instance?: LdSet<{
     '@id': string
-  }[]
-  instanceContainer?: {
+  }>
+  instanceContainer?: LdSet<{
     '@id': string
-  }[]
+  }>
 }

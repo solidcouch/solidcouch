@@ -1,35 +1,115 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext } from '@ldo/ldo'
 
 /**
  * =============================================================================
  * hospexCommunityContext: JSONLD Context for hospexCommunity
  * =============================================================================
  */
-export const hospexCommunityContext: ContextDefinition = {
+export const hospexCommunityContext: LdoJsonldContext = {
   type: {
     '@id': '@type',
   },
-  Community: 'http://w3id.org/hospex/ns#Community',
-  Community2: 'http://rdfs.org/sioc/ns#Community',
+  Community: {
+    '@id': 'http://w3id.org/hospex/ns#Community',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      name: {
+        '@id': 'http://rdfs.org/sioc/ns#name',
+        '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+        '@isCollection': true,
+      },
+      about: {
+        '@id': 'http://rdfs.org/sioc/ns#about',
+        '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+        '@isCollection': true,
+      },
+      note: {
+        '@id': 'http://rdfs.org/sioc/ns#note',
+        '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+        '@isCollection': true,
+      },
+      logo: {
+        '@id': 'http://xmlns.com/foaf/0.1/logo',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      homepage: {
+        '@id': 'http://xmlns.com/foaf/0.1/homepage',
+        '@type': '@id',
+      },
+      inbox: {
+        '@id': 'http://www.w3.org/ns/ldp#inbox',
+        '@type': '@id',
+      },
+      hasUsergroup: {
+        '@id': 'http://rdfs.org/sioc/ns#has_usergroup',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+    },
+  },
+  Community2: {
+    '@id': 'http://rdfs.org/sioc/ns#Community',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      name: {
+        '@id': 'http://rdfs.org/sioc/ns#name',
+        '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+        '@isCollection': true,
+      },
+      about: {
+        '@id': 'http://rdfs.org/sioc/ns#about',
+        '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+        '@isCollection': true,
+      },
+      note: {
+        '@id': 'http://rdfs.org/sioc/ns#note',
+        '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+        '@isCollection': true,
+      },
+      logo: {
+        '@id': 'http://xmlns.com/foaf/0.1/logo',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      homepage: {
+        '@id': 'http://xmlns.com/foaf/0.1/homepage',
+        '@type': '@id',
+      },
+      inbox: {
+        '@id': 'http://www.w3.org/ns/ldp#inbox',
+        '@type': '@id',
+      },
+      hasUsergroup: {
+        '@id': 'http://rdfs.org/sioc/ns#has_usergroup',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+    },
+  },
   name: {
     '@id': 'http://rdfs.org/sioc/ns#name',
     '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
-    '@container': '@set',
+    '@isCollection': true,
   },
   about: {
     '@id': 'http://rdfs.org/sioc/ns#about',
     '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
-    '@container': '@set',
+    '@isCollection': true,
   },
   note: {
     '@id': 'http://rdfs.org/sioc/ns#note',
     '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
-    '@container': '@set',
+    '@isCollection': true,
   },
   logo: {
     '@id': 'http://xmlns.com/foaf/0.1/logo',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   homepage: {
     '@id': 'http://xmlns.com/foaf/0.1/homepage',
@@ -42,10 +122,42 @@ export const hospexCommunityContext: ContextDefinition = {
   hasUsergroup: {
     '@id': 'http://rdfs.org/sioc/ns#has_usergroup',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
-  Group: 'http://www.w3.org/2006/vcard/ns#Group',
-  Usergroup: 'http://rdfs.org/sioc/ns#Usergroup',
+  Group: {
+    '@id': 'http://www.w3.org/2006/vcard/ns#Group',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      usergroupOf: {
+        '@id': 'http://rdfs.org/sioc/ns#usergroup_of',
+        '@type': '@id',
+      },
+      hasMember: {
+        '@id': 'http://www.w3.org/2006/vcard/ns#hasMember',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+    },
+  },
+  Usergroup: {
+    '@id': 'http://rdfs.org/sioc/ns#Usergroup',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      usergroupOf: {
+        '@id': 'http://rdfs.org/sioc/ns#usergroup_of',
+        '@type': '@id',
+      },
+      hasMember: {
+        '@id': 'http://www.w3.org/2006/vcard/ns#hasMember',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+    },
+  },
   usergroupOf: {
     '@id': 'http://rdfs.org/sioc/ns#usergroup_of',
     '@type': '@id',
@@ -53,6 +165,6 @@ export const hospexCommunityContext: ContextDefinition = {
   hasMember: {
     '@id': 'http://www.w3.org/2006/vcard/ns#hasMember',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
 }

@@ -3281,13 +3281,13 @@
     "@types/lodash" "^4.17.0"
     lodash "^4.17.21"
 
-"@ldo/cli@^0.0.1-alpha.32":
-  version "0.0.1-alpha.32"
-  resolved "https://registry.npmjs.org/@ldo/cli/-/cli-0.0.1-alpha.32.tgz#26e2722d77fb64452c568fdbf7065dbc29871bdb"
-  integrity sha512-EUmhZrlEx8IW2M0e6zp7j19iGfRsehHZFz6Cz+qdo3PxSYVLkrUIS/6ZuPt7xFJXPCbkGOnmkcJykCJeIbflVg==
+"@ldo/cli@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@ldo/cli/-/cli-1.0.0-alpha.1.tgz#9219215ff4f7c996b3369891d998aa6a70523bf0"
+  integrity sha512-Wmpu4T7CuhZnX4nQJAeJrJEYJQPfaxkvZFVHLjQEEAHwx2QD8wbw9A0QqoR2m3bvNYvgozIMFeIrgoeKj4PokQ==
   dependencies:
-    "@ldo/ldo" "^0.0.1-alpha.29"
-    "@ldo/schema-converter-shex" "^0.0.1-alpha.29"
+    "@ldo/ldo" "^1.0.0-alpha.1"
+    "@ldo/schema-converter-shex" "^1.0.0-alpha.1"
     "@shexjs/parser" "^1.0.0-alpha.24"
     child-process-promise "^2.2.1"
     commander "^9.3.0"
@@ -3299,76 +3299,76 @@
     ts-morph "^24.0.0"
     type-fest "^2.19.0"
 
-"@ldo/dataset@^0.0.1-alpha.24":
-  version "0.0.1-alpha.24"
-  resolved "https://registry.npmjs.org/@ldo/dataset/-/dataset-0.0.1-alpha.24.tgz#276b0d779a1575ea167f6b72b9ac5c9f4e1ec14e"
-  integrity sha512-Jlh6DjvLN4gOOT8SYCKQaHZB8taeHvoriQRbF3s5CtYFf8Ne20job+02cToE1kVcBCinBrjZ/qnZ777wje+Z7A==
+"@ldo/dataset@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@ldo/dataset/-/dataset-1.0.0-alpha.1.tgz#357b27d1dc103941e67de63b923825dee8acf2a9"
+  integrity sha512-9cjNSjn4GvIb/CCkZrZt63MN0JJnw/OGlZiTMLROKk10RXz0+jdQX9WNbl6aFSB2aCj1yl4O7jQxz3Y7uqTggw==
   dependencies:
-    "@ldo/rdf-utils" "^0.0.1-alpha.24"
+    "@ldo/rdf-utils" "^1.0.0-alpha.1"
     "@rdfjs/dataset" "^1.1.0"
     buffer "^6.0.3"
     readable-stream "^4.2.0"
 
-"@ldo/jsonld-dataset-proxy@^0.0.1-alpha.29":
-  version "0.0.1-alpha.29"
-  resolved "https://registry.npmjs.org/@ldo/jsonld-dataset-proxy/-/jsonld-dataset-proxy-0.0.1-alpha.29.tgz#eaaf332b410fa059975afc36196ba6704338cd7a"
-  integrity sha512-6r1tn/t82aJ6vjxEGyNSJTzQJgz1Z4Pu875o4EolXXJZCu7TiXBdsW6HyAuloqiIV5b6A2b+M6G0mOuObndooA==
+"@ldo/jsonld-dataset-proxy@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@ldo/jsonld-dataset-proxy/-/jsonld-dataset-proxy-1.0.0-alpha.1.tgz#f4180ea331707ae7ab5c6358578c51ba24f9b9be"
+  integrity sha512-6GLPcGuGkc4k03KlwU0B4x1FL4qXEDU263MS0dwxfnLGo/GbcizRgcJoQIr7U6ughcBiyxWy17/YxTPFI3Mjiw==
   dependencies:
-    "@ldo/rdf-utils" "^0.0.1-alpha.24"
-    "@ldo/subscribable-dataset" "^0.0.1-alpha.24"
+    "@ldo/rdf-utils" "^1.0.0-alpha.1"
+    "@ldo/subscribable-dataset" "^1.0.0-alpha.1"
     "@rdfjs/data-model" "^1.2.0"
     "@rdfjs/dataset" "^1.1.0"
     jsonld2graphobject "^0.0.4"
 
-"@ldo/ldo@^0.0.1-alpha.29":
-  version "0.0.1-alpha.29"
-  resolved "https://registry.npmjs.org/@ldo/ldo/-/ldo-0.0.1-alpha.29.tgz#fc48ec9438cac9998d519f69c25c7c5d956ba13c"
-  integrity sha512-eci3e2FlaSoOWN5vzLQaJhrmznuuK89yTr/ZLvmWIK2bvsY8QOArAx8EiGgwvvrzvHpG7ezaoW1ThS/53QFiqQ==
+"@ldo/ldo@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@ldo/ldo/-/ldo-1.0.0-alpha.1.tgz#d0af2cbf3662216959d4cca9bcea97967123de8e"
+  integrity sha512-xIiAOmnpnG/1knRGI9EHuDRUE8/rEcDIAkgm616POlMHvvEtbOsuBPdLWr9vT808gxHwGNZ2p3buTTVyz0vWWg==
   dependencies:
-    "@ldo/dataset" "^0.0.1-alpha.24"
-    "@ldo/jsonld-dataset-proxy" "^0.0.1-alpha.29"
-    "@ldo/subscribable-dataset" "^0.0.1-alpha.24"
+    "@ldo/dataset" "^1.0.0-alpha.1"
+    "@ldo/jsonld-dataset-proxy" "^1.0.0-alpha.1"
+    "@ldo/subscribable-dataset" "^1.0.0-alpha.1"
     "@rdfjs/data-model" "^1.2.0"
     buffer "^6.0.3"
     readable-stream "^4.3.0"
 
-"@ldo/rdf-utils@^0.0.1-alpha.24":
-  version "0.0.1-alpha.24"
-  resolved "https://registry.npmjs.org/@ldo/rdf-utils/-/rdf-utils-0.0.1-alpha.24.tgz#f9a425b3e4f54f0b7e8f9f37d4699da8d44de7b6"
-  integrity sha512-L6gV/pS7107ODinnvvD4sUBb9VM/7IuVeFWZnN0Jmyk7XBiviPLVUvReO18UB7mambXweLS7efl+Z0W2NnsH1A==
+"@ldo/rdf-utils@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@ldo/rdf-utils/-/rdf-utils-1.0.0-alpha.1.tgz#f6ce488496ae7f4ec8678fad5af2881e0e4c3e0e"
+  integrity sha512-+8UrCJqYmX3WVdZ1fKoCZGaB07hASHq2CXfxjcx7T7gYLHEHAL16Q5HJq3fvtjdynIsGFqiuS0K0CY65YKDK8w==
   dependencies:
     "@rdfjs/data-model" "^1.2.0"
     n3 "^1.17.1"
     rdf-string "^1.6.3"
 
-"@ldo/schema-converter-shex@^0.0.1-alpha.29":
-  version "0.0.1-alpha.29"
-  resolved "https://registry.npmjs.org/@ldo/schema-converter-shex/-/schema-converter-shex-0.0.1-alpha.29.tgz#9019a359657c97972335d863a40d30a4d3c62051"
-  integrity sha512-P4586piB+b3mGJLg2vWxn2SWnATu+2R5zqO+RZGljqmngQdwGBap+7UebcXYq53G9UTpFXoTjU159rQG8EuXSQ==
+"@ldo/schema-converter-shex@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@ldo/schema-converter-shex/-/schema-converter-shex-1.0.0-alpha.1.tgz#f4b05c4191576192ef3c0bc336feaf35e78b38e3"
+  integrity sha512-f0kIgMLuYN0Q7ch5FtpqoWrsanfaYKVRanNEUPHG2Td/wnZMposDB7vDJX+wiWbHJUN4XUluI7rJNaVMTaZk/Q==
   dependencies:
-    "@ldo/traverser-shexj" "^0.0.1-alpha.29"
+    "@ldo/traverser-shexj" "^1.0.0-alpha.1"
     dts-dom "~3.6.0"
     jsonld2graphobject "^0.0.5"
 
-"@ldo/subscribable-dataset@^0.0.1-alpha.24":
-  version "0.0.1-alpha.24"
-  resolved "https://registry.npmjs.org/@ldo/subscribable-dataset/-/subscribable-dataset-0.0.1-alpha.24.tgz#4c5df4e1baf1a3fe9c24c7844c49799c601c4264"
-  integrity sha512-grQ0/pzdx4euBOTxMHqQqebOYBqrBbNS9Jk8sYFR4u/dEg8e6nIGz0E4beI83dHp/hT8fT18gs/gV4UxZzmphQ==
+"@ldo/subscribable-dataset@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@ldo/subscribable-dataset/-/subscribable-dataset-1.0.0-alpha.1.tgz#c4e8a9f62f97f0692c1baa109ba1063d46dcb2df"
+  integrity sha512-O+is0LGmaHILlMnzRepl2GdlyZossSrTAIte7bbAYhZU3J3BbfI+iYuzgsALfG9e4Ww5A+o854xbWQoKGX1CCg==
   dependencies:
-    "@ldo/dataset" "^0.0.1-alpha.24"
-    "@ldo/rdf-utils" "^0.0.1-alpha.24"
+    "@ldo/dataset" "^1.0.0-alpha.1"
+    "@ldo/rdf-utils" "^1.0.0-alpha.1"
 
-"@ldo/traverser-shexj@^0.0.1-alpha.29":
-  version "0.0.1-alpha.29"
-  resolved "https://registry.npmjs.org/@ldo/traverser-shexj/-/traverser-shexj-0.0.1-alpha.29.tgz#cacc7f56c286093de5fcf0ebe560d30abe035a08"
-  integrity sha512-YdcyCcbqpO9WyV7uKQ4/P87UU1k78saOmfneVS4LrDHskuIqMruL7ot1jdqISb3rOGSIIABfZe6OPsDJnTJ2Ow==
+"@ldo/traverser-shexj@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@ldo/traverser-shexj/-/traverser-shexj-1.0.0-alpha.1.tgz#a80322abb5f686e66fcea14a2f557ebc4a36ffe0"
+  integrity sha512-JtvfWGuvJpBkDCSlCzNc19Nx52Z/DcTEkl1ba58BO7rygbbdVNQM7SfxqNfCtp9VRRGuQ+yoazgQroM9coPRng==
   dependencies:
-    "@ldo/type-traverser" "^0.0.1-alpha.29"
+    "@ldo/type-traverser" "^1.0.0-alpha.1"
 
-"@ldo/type-traverser@^0.0.1-alpha.29":
-  version "0.0.1-alpha.29"
-  resolved "https://registry.npmjs.org/@ldo/type-traverser/-/type-traverser-0.0.1-alpha.29.tgz#51517296f8e2427fae4f79fcb38bdec94245ff84"
-  integrity sha512-ZZU0xFwSYBPpMrLRVzWBVsus1ROxEC3Ix1Ebl+mQ76PbO4zGWZefwdWpGza3GbNOxgIbk0FL2mAja0y9qlT0bw==
+"@ldo/type-traverser@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@ldo/type-traverser/-/type-traverser-1.0.0-alpha.1.tgz#3c308d9d3284e7bffba593034141795e29538d05"
+  integrity sha512-J582Y5jyqSq3slewnDEJFOuePLfwlHJrnFXl0ClKAu3WvykZaGduvZ+A/6kXWYLSo/FuCpBc2+CppEgnJuMkpA==
   dependencies:
     uuid "^8.3.2"
 
@@ -4803,7 +4803,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/jsonld@^1.5.13", "@types/jsonld@^1.5.6":
+"@types/jsonld@^1.5.6":
   version "1.5.13"
   resolved "https://registry.npmjs.org/@types/jsonld/-/jsonld-1.5.13.tgz"
   integrity sha512-n7fUU6W4kSYK8VQlf/LsE9kddBHPKhODoVOjsZswmve+2qLwBy6naWxs/EiuSZN9NU0N06Ra01FR+j87C62T0A==

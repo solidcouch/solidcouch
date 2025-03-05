@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,7 +11,7 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface SolidProfile {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * Defines the node as a Person (from foaf)
    */
@@ -31,9 +31,9 @@ export interface SolidProfile {
   /**
    * The location of a Solid storage server related to this WebId
    */
-  storage?: {
+  storage?: LdSet<{
     '@id': string
-  }[]
+  }>
   /**
    * The user's account
    */
@@ -43,17 +43,17 @@ export interface SolidProfile {
   /**
    * A registry of all types used on the user's Pod (for private access only)
    */
-  privateTypeIndex?: PrivateTypeIndex[]
+  privateTypeIndex?: LdSet<PrivateTypeIndex>
   /**
    * A registry of all types used on the user's Pod (for public access)
    */
-  publicTypeIndex?: PublicTypeIndex[]
+  publicTypeIndex?: LdSet<PublicTypeIndex>
   /**
    * Solid OIDC issuer for a webId.
    */
-  oidcIssuer: {
+  oidcIssuer: LdSet<{
     '@id': string
-  }[]
+  }>
 }
 
 /**
@@ -61,7 +61,7 @@ export interface SolidProfile {
  */
 export interface FoafProfile {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * Defines the node as a Person (from foaf)
    */
@@ -71,13 +71,13 @@ export interface FoafProfile {
   /**
    * A list of WebIds for all the people this user knows.
    */
-  knows?: FoafProfile[]
+  knows?: LdSet<FoafProfile>
   /**
    * A list of person's interests.
    */
-  topicInterest?: {
+  topicInterest?: LdSet<{
     '@id': string
-  }[]
+  }>
 }
 
 /**
@@ -85,11 +85,11 @@ export interface FoafProfile {
  */
 export interface HospexProfile {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * Text about person, in different languages
    */
-  note?: string[]
+  note?: LdSet<string>
   name?: string
   hasPhoto?: {
     '@id': string
@@ -97,10 +97,10 @@ export interface HospexProfile {
   /**
    * Accommodation that the person offers
    */
-  offers?: Accommodation[]
-  memberOf?: {
+  offers?: LdSet<Accommodation>
+  memberOf?: LdSet<{
     '@id': string
-  }[]
+  }>
   storage2: {
     '@id': string
   }
@@ -111,19 +111,19 @@ export interface HospexProfile {
  */
 export interface Accommodation {
   '@id'?: string
-  '@context'?: ContextDefinition
-  type: (
+  '@context'?: LdoJsonldContext
+  type: LdSet<
     | {
         '@id': 'Accommodation'
       }
     | {
         '@id': 'Accommodation2'
       }
-  )[]
+  >
   /**
    * Text about the accommodation
    */
-  description?: string[]
+  description?: LdSet<string>
   /**
    * Location of the accommodation
    */
@@ -136,7 +136,7 @@ export interface Accommodation {
  */
 export interface Point {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'Point'
   }
@@ -155,15 +155,15 @@ export interface Point {
  */
 export interface PublicTypeIndex {
   '@id'?: string
-  '@context'?: ContextDefinition
-  type: (
+  '@context'?: LdoJsonldContext
+  type: LdSet<
     | {
         '@id': 'TypeIndex'
       }
     | {
         '@id': 'ListedDocument'
       }
-  )[]
+  >
 }
 
 /**
@@ -171,15 +171,15 @@ export interface PublicTypeIndex {
  */
 export interface PrivateTypeIndex {
   '@id'?: string
-  '@context'?: ContextDefinition
-  type: (
+  '@context'?: LdoJsonldContext
+  type: LdSet<
     | {
         '@id': 'TypeIndex'
       }
     | {
         '@id': 'UnlistedDocument'
       }
-  )[]
+  >
 }
 
 /**
@@ -187,22 +187,22 @@ export interface PrivateTypeIndex {
  */
 export interface TypeRegistration {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'TypeRegistration'
   }
-  forClass: {
+  forClass: LdSet<{
     '@id': string
-  }[]
-  instance?: (
+  }>
+  instance?: LdSet<
     | {
         '@id': string
       }
     | ChatShape
-  )[]
-  instanceContainer?: {
+  >
+  instanceContainer?: LdSet<{
     '@id': string
-  }[]
+  }>
 }
 
 /**
@@ -210,7 +210,7 @@ export interface TypeRegistration {
  */
 export interface ChatShape {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * Defines the type of the chat as a LongChat
    */
@@ -226,7 +226,7 @@ export interface ChatShape {
   /**
    * The date and time the chat was created
    */
-  created2: string
+  created: string
   /**
    * The title of the chat
    */
@@ -234,14 +234,14 @@ export interface ChatShape {
   /**
    * A list of people participating in this chat
    */
-  participation?: ChatParticipationShape[]
+  participation?: LdSet<ChatParticipationShape>
   /**
    * Chat preferences
    */
   sharedPreferences?: {
     '@id': string
   }
-  message?: ChatMessageShape[]
+  message?: LdSet<ChatMessageShape>
 }
 
 /**
@@ -249,7 +249,7 @@ export interface ChatShape {
  */
 export interface ChatParticipationShape {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * The date and time this individual began participating in the chat.
    */
@@ -267,7 +267,7 @@ export interface ChatParticipationShape {
   /**
    * Part of this chat belonging to this participant
    */
-  references?: ChatShape[]
+  references?: LdSet<ChatShape>
 }
 
 /**
@@ -275,11 +275,11 @@ export interface ChatParticipationShape {
  */
 export interface ChatMessageListShape {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * A list of messages in the chat
    */
-  message?: ChatMessageShape[]
+  message?: LdSet<ChatMessageShape>
 }
 
 /**
@@ -287,7 +287,7 @@ export interface ChatMessageListShape {
  */
 export interface ChatMessageShape {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * The date and time this message was posted.
    */
@@ -309,16 +309,16 @@ export interface ChatMessageShape {
  */
 export interface Container {
   '@id'?: string
-  '@context'?: ContextDefinition
-  type: (
+  '@context'?: LdoJsonldContext
+  type: LdSet<
     | {
         '@id': 'Container'
       }
     | {
         '@id': 'BasicContainer'
       }
-  )[]
-  contains?: (Resource | Container)[]
+  >
+  contains?: LdSet<Resource | Container>
   modified: string
   mtime: number
   size: number
@@ -329,7 +329,7 @@ export interface Container {
  */
 export interface Resource {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'Resource'
   }
@@ -343,16 +343,16 @@ export interface Resource {
  */
 export interface Inbox {
   '@id'?: string
-  '@context'?: ContextDefinition
-  type: (
+  '@context'?: LdoJsonldContext
+  type: LdSet<
     | {
         '@id': 'Container'
       }
     | {
         '@id': 'BasicContainer'
       }
-  )[]
-  contains?: (MessageActivity | ContactInvitationActivity)[]
+  >
+  contains?: LdSet<MessageActivity | ContactInvitationActivity>
   modified: string
   mtime: number
   size: number
@@ -363,7 +363,7 @@ export interface Inbox {
  */
 export interface MessageActivity {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'Add'
   }
@@ -383,14 +383,14 @@ export interface MessageActivity {
  */
 export interface ContactInvitationActivity {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'Invite'
   }
   actor: {
     '@id': string
   }
-  content2: string
+  content: string
   object: ContactRelationship
   target: {
     '@id': string
@@ -403,7 +403,7 @@ export interface ContactInvitationActivity {
  */
 export interface ContactRelationship {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'Relationship'
   }

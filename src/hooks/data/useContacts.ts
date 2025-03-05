@@ -1,18 +1,17 @@
 import { ContactInvitationActivityShapeType } from '@/ldo/app.shapeTypes'
-import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
 import { Contact, URI } from '@/types'
-import { getAcl, removeHashFromURI } from '@/utils/helpers'
-import { acl, foaf, rdf, rdfs } from '@/utils/rdf-namespaces'
+import { removeHashFromURI } from '@/utils/helpers'
+import { foaf, rdfs } from '@/utils/rdf-namespaces'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { Store } from 'n3'
 import { useCallback, useMemo } from 'react'
+import { useUpdateAcl } from './access'
 import { contactRequestsQuery, contactsQuery } from './queries'
 import { AccessMode } from './types'
 import {
   useCreateRdfDocument,
   useDeleteRdfDocument,
-  useMatchUpdateLdoDocument,
   useUpdateRdfDocument,
 } from './useRdfDocument'
 
@@ -110,7 +109,7 @@ const useReadContactNotifications = (me: URI) => {
         webId: n.actor?.['@id'] as unknown as URI,
         status: ContactStatus.requestReceived,
         notification: n['@id']!,
-        invitation: n.content2,
+        invitation: n.content,
       }))
   }, [quads, variables.inviteNotification])
 
@@ -171,9 +170,8 @@ const useCreateContactNotification = () => {
         method: 'POST',
         data: {
           '@id': '',
-          // @ts-expect-error https://github.com/o-development/ldo-legacy/issues/23
-          type: [{ '@id': 'Invite' }],
-          content2: message,
+          type: { '@id': 'Invite' },
+          content: message,
           actor: { '@id': me },
           object: {
             type: { '@id': 'Relationship' },
@@ -255,9 +253,7 @@ const useAddContact = () => {
 }
 
 const useGrantHospexAccess = () => {
-  const grantHospexAccessMutation = useMatchUpdateLdoDocument(
-    AuthorizationShapeType,
-  )
+  const updateAcl = useUpdateAcl()
 
   return useCallback(
     async ({
@@ -267,28 +263,15 @@ const useGrantHospexAccess = () => {
       person: URI
       hospexContainer: URI
     }) => {
-      const accessList = await getAcl(hospexContainer)
-      // grant direct access to hospex data
-      await grantHospexAccessMutation.mutateAsync({
-        uri: accessList,
-        match: builder => {
-          const ldos = builder.matchSubject(rdf.type, acl.Authorization)
-          const ldo = ldos.find(
-            ldoo =>
-              ldoo.accessTo.length === 1 &&
-              ldoo.accessTo[0]?.['@id'] === hospexContainer &&
-              ldoo.mode?.length === 1 &&
-              ldoo.mode[0]?.['@id'] === AccessMode.Read,
-          )
-          if (!ldo) throw new Error('subject not found')
-          return ldo
+      await updateAcl(hospexContainer, [
+        {
+          operation: 'add',
+          access: [AccessMode.Read],
+          default: true,
+          agents: [person],
         },
-        transform: ldo => {
-          ldo.agent ??= []
-          ldo.agent.push({ '@id': person })
-        },
-      })
+      ])
     },
-    [grantHospexAccessMutation],
+    [updateAcl],
   )
 }

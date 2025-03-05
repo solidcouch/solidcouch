@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,16 +11,16 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface Container {
   '@id'?: string
-  '@context'?: ContextDefinition
-  type: (
+  '@context'?: LdoJsonldContext
+  type: LdSet<
     | {
         '@id': 'Container'
       }
     | {
         '@id': 'BasicContainer'
       }
-  )[]
-  contains?: (Resource | Container)[]
+  >
+  contains?: LdSet<Resource | Container>
   modified: string
   mtime: number
   size: number
@@ -31,7 +31,7 @@ export interface Container {
  */
 export interface Resource {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'Resource'
   }

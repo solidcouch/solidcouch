@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,19 +11,19 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface Accommodation {
   '@id'?: string
-  '@context'?: ContextDefinition
-  type: (
+  '@context'?: LdoJsonldContext
+  type: LdSet<
     | {
         '@id': 'Accommodation'
       }
     | {
         '@id': 'Accommodation2'
       }
-  )[]
+  >
   /**
    * Text about the accommodation
    */
-  description?: string[]
+  description?: LdSet<string>
   /**
    * Location of the accommodation
    */
@@ -38,7 +38,7 @@ export interface Accommodation {
  */
 export interface Point {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   type: {
     '@id': 'Point'
   }

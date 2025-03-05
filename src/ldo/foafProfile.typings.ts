@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,7 +11,7 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface FoafProfile {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * Defines the node as a Person (from foaf)
    */
@@ -35,5 +35,5 @@ export interface FoafProfile {
   /**
    * A list of WebIds for all the people this user knows.
    */
-  knows?: FoafProfile[]
+  knows?: LdSet<FoafProfile>
 }

@@ -1,27 +1,151 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext } from '@ldo/ldo'
 
 /**
  * =============================================================================
  * appContext: JSONLD Context for app
  * =============================================================================
  */
-export const appContext: ContextDefinition = {
+export const appContext: LdoJsonldContext = {
   type: {
     '@id': '@type',
   },
-  Person: 'http://xmlns.com/foaf/0.1/Person',
+  Person: {
+    '@id': 'http://xmlns.com/foaf/0.1/Person',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      inbox: {
+        '@id': 'http://www.w3.org/ns/ldp#inbox',
+        '@type': '@id',
+      },
+      preferencesFile: {
+        '@id': 'http://www.w3.org/ns/pim/space#preferencesFile',
+        '@type': '@id',
+      },
+      storage: {
+        '@id': 'http://www.w3.org/ns/pim/space#storage',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      account: {
+        '@id': 'http://www.w3.org/ns/solid/terms#account',
+        '@type': '@id',
+      },
+      privateTypeIndex: {
+        '@id': 'http://www.w3.org/ns/solid/terms#privateTypeIndex',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      publicTypeIndex: {
+        '@id': 'http://www.w3.org/ns/solid/terms#publicTypeIndex',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      oidcIssuer: {
+        '@id': 'http://www.w3.org/ns/solid/terms#oidcIssuer',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      knows: {
+        '@id': 'http://xmlns.com/foaf/0.1/knows',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      topicInterest: {
+        '@id': 'http://xmlns.com/foaf/0.1/topic_interest',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+    },
+  },
   inbox: {
     '@id': 'http://www.w3.org/ns/ldp#inbox',
     '@type': '@id',
   },
-  Container: 'http://www.w3.org/ns/ldp#Container',
-  BasicContainer: 'http://www.w3.org/ns/ldp#BasicContainer',
+  Container: {
+    '@id': 'http://www.w3.org/ns/ldp#Container',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      contains: {
+        '@id': 'http://www.w3.org/ns/ldp#contains',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      modified: {
+        '@id': 'http://purl.org/dc/terms/modified',
+        '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+      },
+      mtime: {
+        '@id': 'http://www.w3.org/ns/posix/stat#mtime',
+        '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
+      },
+      size: {
+        '@id': 'http://www.w3.org/ns/posix/stat#size',
+        '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
+      },
+    },
+  },
+  BasicContainer: {
+    '@id': 'http://www.w3.org/ns/ldp#BasicContainer',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      contains: {
+        '@id': 'http://www.w3.org/ns/ldp#contains',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      modified: {
+        '@id': 'http://purl.org/dc/terms/modified',
+        '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+      },
+      mtime: {
+        '@id': 'http://www.w3.org/ns/posix/stat#mtime',
+        '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
+      },
+      size: {
+        '@id': 'http://www.w3.org/ns/posix/stat#size',
+        '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
+      },
+    },
+  },
   contains: {
     '@id': 'http://www.w3.org/ns/ldp#contains',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
-  Add: 'https://www.w3.org/ns/activitystreams#Add',
+  Add: {
+    '@id': 'https://www.w3.org/ns/activitystreams#Add',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      actor: {
+        '@id': 'https://www.w3.org/ns/activitystreams#actor',
+        '@type': '@id',
+      },
+      context: {
+        '@id': 'https://www.w3.org/ns/activitystreams#context',
+        '@type': '@id',
+      },
+      object: {
+        '@id': 'https://www.w3.org/ns/activitystreams#object',
+        '@type': '@id',
+      },
+      target: {
+        '@id': 'https://www.w3.org/ns/activitystreams#target',
+        '@type': '@id',
+      },
+      updated: {
+        '@id': 'https://www.w3.org/ns/activitystreams#updated',
+        '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+      },
+    },
+  },
   actor: {
     '@id': 'https://www.w3.org/ns/activitystreams#actor',
     '@type': '@id',
@@ -50,7 +174,40 @@ export const appContext: ContextDefinition = {
     '@id': 'https://www.w3.org/ns/activitystreams#target',
     '@type': '@id',
   },
-  LongChat: 'http://www.w3.org/ns/pim/meeting#LongChat',
+  LongChat: {
+    '@id': 'http://www.w3.org/ns/pim/meeting#LongChat',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      author: {
+        '@id': 'http://purl.org/dc/elements/1.1/author',
+        '@type': '@id',
+      },
+      created: {
+        '@id': 'http://purl.org/dc/elements/1.1/created',
+        '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+      },
+      title: {
+        '@id': 'http://purl.org/dc/elements/1.1/title',
+        '@type': 'http://www.w3.org/2001/XMLSchema#string',
+      },
+      participation: {
+        '@id': 'http://www.w3.org/2005/01/wf/flow#participation',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      sharedPreferences: {
+        '@id': 'http://www.w3.org/ns/ui#sharedPreferences',
+        '@type': '@id',
+      },
+      message: {
+        '@id': 'http://www.w3.org/2005/01/wf/flow#message',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+    },
+  },
   author: {
     '@id': 'http://purl.org/dc/elements/1.1/author',
     '@type': '@id',
@@ -66,7 +223,7 @@ export const appContext: ContextDefinition = {
   participation: {
     '@id': 'http://www.w3.org/2005/01/wf/flow#participation',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   dtstart: {
     '@id': 'http://www.w3.org/2002/12/cal/ical#dtstart',
@@ -83,7 +240,7 @@ export const appContext: ContextDefinition = {
   references: {
     '@id': 'http://purl.org/dc/terms/references',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   sharedPreferences: {
     '@id': 'http://www.w3.org/ns/ui#sharedPreferences',
@@ -92,18 +249,63 @@ export const appContext: ContextDefinition = {
   message: {
     '@id': 'http://www.w3.org/2005/01/wf/flow#message',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   updated: {
     '@id': 'https://www.w3.org/ns/activitystreams#updated',
     '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
   },
-  Invite: 'https://www.w3.org/ns/activitystreams#Invite',
+  Invite: {
+    '@id': 'https://www.w3.org/ns/activitystreams#Invite',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      actor: {
+        '@id': 'https://www.w3.org/ns/activitystreams#actor',
+        '@type': '@id',
+      },
+      content: {
+        '@id': 'https://www.w3.org/ns/activitystreams#content',
+        '@type': 'http://www.w3.org/2001/XMLSchema#string',
+      },
+      object: {
+        '@id': 'https://www.w3.org/ns/activitystreams#object',
+        '@type': '@id',
+      },
+      target: {
+        '@id': 'https://www.w3.org/ns/activitystreams#target',
+        '@type': '@id',
+      },
+      updated: {
+        '@id': 'https://www.w3.org/ns/activitystreams#updated',
+        '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+      },
+    },
+  },
   content2: {
     '@id': 'https://www.w3.org/ns/activitystreams#content',
     '@type': 'http://www.w3.org/2001/XMLSchema#string',
   },
-  Relationship: 'https://www.w3.org/ns/activitystreams#Relationship',
+  Relationship: {
+    '@id': 'https://www.w3.org/ns/activitystreams#Relationship',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      subject: {
+        '@id': 'https://www.w3.org/ns/activitystreams#subject',
+        '@type': '@id',
+      },
+      relationship: {
+        '@id': 'https://www.w3.org/ns/activitystreams#relationship',
+      },
+      object: {
+        '@id': 'https://www.w3.org/ns/activitystreams#object',
+        '@type': '@id',
+      },
+    },
+  },
   subject: {
     '@id': 'https://www.w3.org/ns/activitystreams#subject',
     '@type': '@id',
@@ -114,7 +316,7 @@ export const appContext: ContextDefinition = {
   knows: {
     '@id': 'http://xmlns.com/foaf/0.1/knows',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   modified: {
     '@id': 'http://purl.org/dc/terms/modified',
@@ -135,7 +337,7 @@ export const appContext: ContextDefinition = {
   storage: {
     '@id': 'http://www.w3.org/ns/pim/space#storage',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   account: {
     '@id': 'http://www.w3.org/ns/solid/terms#account',
@@ -144,30 +346,51 @@ export const appContext: ContextDefinition = {
   privateTypeIndex: {
     '@id': 'http://www.w3.org/ns/solid/terms#privateTypeIndex',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
-  TypeIndex: 'http://www.w3.org/ns/solid/terms#TypeIndex',
-  UnlistedDocument: 'http://www.w3.org/ns/solid/terms#UnlistedDocument',
+  TypeIndex: {
+    '@id': 'http://www.w3.org/ns/solid/terms#TypeIndex',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+    },
+  },
+  UnlistedDocument: {
+    '@id': 'http://www.w3.org/ns/solid/terms#UnlistedDocument',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+    },
+  },
   publicTypeIndex: {
     '@id': 'http://www.w3.org/ns/solid/terms#publicTypeIndex',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
-  ListedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',
+  ListedDocument: {
+    '@id': 'http://www.w3.org/ns/solid/terms#ListedDocument',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+    },
+  },
   oidcIssuer: {
     '@id': 'http://www.w3.org/ns/solid/terms#oidcIssuer',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   topicInterest: {
     '@id': 'http://xmlns.com/foaf/0.1/topic_interest',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   note: {
     '@id': 'http://www.w3.org/2006/vcard/ns#note',
     '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
-    '@container': '@set',
+    '@isCollection': true,
   },
   name: {
     '@id': 'http://xmlns.com/foaf/0.1/name',
@@ -180,20 +403,75 @@ export const appContext: ContextDefinition = {
   offers: {
     '@id': 'http://w3id.org/hospex/ns#offers',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
-  Accommodation: 'http://w3id.org/hospex/ns#Accommodation',
-  Accommodation2: 'https://schema.org/Accommodation',
+  Accommodation: {
+    '@id': 'http://w3id.org/hospex/ns#Accommodation',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      description: {
+        '@id': 'http://purl.org/dc/terms/description',
+        '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+        '@isCollection': true,
+      },
+      location: {
+        '@id': 'http://www.w3.org/2003/01/geo/wgs84_pos#location',
+        '@type': '@id',
+      },
+      offeredBy: {
+        '@id': 'http://w3id.org/hospex/ns#offeredBy',
+        '@type': '@id',
+      },
+    },
+  },
+  Accommodation2: {
+    '@id': 'https://schema.org/Accommodation',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      description: {
+        '@id': 'http://purl.org/dc/terms/description',
+        '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+        '@isCollection': true,
+      },
+      location: {
+        '@id': 'http://www.w3.org/2003/01/geo/wgs84_pos#location',
+        '@type': '@id',
+      },
+      offeredBy: {
+        '@id': 'http://w3id.org/hospex/ns#offeredBy',
+        '@type': '@id',
+      },
+    },
+  },
   description: {
     '@id': 'http://purl.org/dc/terms/description',
     '@type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
-    '@container': '@set',
+    '@isCollection': true,
   },
   location: {
     '@id': 'http://www.w3.org/2003/01/geo/wgs84_pos#location',
     '@type': '@id',
   },
-  Point: 'http://www.w3.org/2003/01/geo/wgs84_pos#Point',
+  Point: {
+    '@id': 'http://www.w3.org/2003/01/geo/wgs84_pos#Point',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      lat: {
+        '@id': 'http://www.w3.org/2003/01/geo/wgs84_pos#lat',
+        '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
+      },
+      long: {
+        '@id': 'http://www.w3.org/2003/01/geo/wgs84_pos#long',
+        '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
+      },
+    },
+  },
   lat: {
     '@id': 'http://www.w3.org/2003/01/geo/wgs84_pos#lat',
     '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
@@ -209,27 +487,68 @@ export const appContext: ContextDefinition = {
   memberOf: {
     '@id': 'http://rdfs.org/sioc/ns#member_of',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   storage2: {
     '@id': 'http://w3id.org/hospex/ns#storage',
     '@type': '@id',
   },
-  TypeRegistration: 'http://www.w3.org/ns/solid/terms#TypeRegistration',
+  TypeRegistration: {
+    '@id': 'http://www.w3.org/ns/solid/terms#TypeRegistration',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      forClass: {
+        '@id': 'http://www.w3.org/ns/solid/terms#forClass',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      instance: {
+        '@id': 'http://www.w3.org/ns/solid/terms#instance',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+      instanceContainer: {
+        '@id': 'http://www.w3.org/ns/solid/terms#instanceContainer',
+        '@type': '@id',
+        '@isCollection': true,
+      },
+    },
+  },
   forClass: {
     '@id': 'http://www.w3.org/ns/solid/terms#forClass',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   instance: {
     '@id': 'http://www.w3.org/ns/solid/terms#instance',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
   instanceContainer: {
     '@id': 'http://www.w3.org/ns/solid/terms#instanceContainer',
     '@type': '@id',
-    '@container': '@set',
+    '@isCollection': true,
   },
-  Resource: 'http://www.w3.org/ns/ldp#Resource',
+  Resource: {
+    '@id': 'http://www.w3.org/ns/ldp#Resource',
+    '@context': {
+      type: {
+        '@id': '@type',
+      },
+      modified: {
+        '@id': 'http://purl.org/dc/terms/modified',
+        '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+      },
+      mtime: {
+        '@id': 'http://www.w3.org/ns/posix/stat#mtime',
+        '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
+      },
+      size: {
+        '@id': 'http://www.w3.org/ns/posix/stat#size',
+        '@type': 'http://www.w3.org/2001/XMLSchema#decimal',
+      },
+    },
+  },
 }

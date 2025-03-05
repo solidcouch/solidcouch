@@ -1,4 +1,4 @@
-import { ContextDefinition } from 'jsonld'
+import { LdoJsonldContext, LdSet } from '@ldo/ldo'
 
 /**
  * =============================================================================
@@ -11,7 +11,7 @@ import { ContextDefinition } from 'jsonld'
  */
 export interface ChatShape {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * Defines the type of the chat as a LongChat
    */
@@ -35,7 +35,7 @@ export interface ChatShape {
   /**
    * A list of people participating in this chat
    */
-  participation?: ChatParticipationShape[]
+  participation?: LdSet<ChatParticipationShape>
   /**
    * Chat preferences
    */
@@ -49,7 +49,7 @@ export interface ChatShape {
  */
 export interface ChatParticipationShape {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * The date and time this individual began participating in the chat.
    */
@@ -77,11 +77,11 @@ export interface ChatParticipationShape {
  */
 export interface ChatMessageListShape {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * A list of messages in the chat
    */
-  message?: ChatMessageShape[]
+  message?: LdSet<ChatMessageShape>
 }
 
 /**
@@ -89,7 +89,7 @@ export interface ChatMessageListShape {
  */
 export interface ChatMessageShape {
   '@id'?: string
-  '@context'?: ContextDefinition
+  '@context'?: LdoJsonldContext
   /**
    * The date and time this message was posted.
    */

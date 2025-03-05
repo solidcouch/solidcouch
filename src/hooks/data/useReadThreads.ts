@@ -6,7 +6,7 @@ import { ChatShape } from '@/ldo/app.typings'
 import { Message, Thread, URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
-import { createLdoDataset } from '@ldo/ldo'
+import { createLdoDataset, LdSet } from '@ldo/ldo'
 import cloneDeep from 'lodash/cloneDeep'
 import { useMemo } from 'react'
 import { inboxMessagesQuery, threads as threadsQuery } from './queries'
@@ -35,21 +35,25 @@ const useReadThreadsOnly = (webId: URI) => {
           const id = chat['@id'] as URI
           // referenced chat uris
           const related =
-            chat.participation?.flatMap(
-              p =>
-                p.references
-                  ?.flatMap(r => r['@id'] ?? [])
-                  .filter(a => Boolean(a)) ?? [],
-            ) ?? []
+            chat.participation
+              ?.map(
+                p =>
+                  p.references
+                    ?.map(r => r['@id'] ?? [])
+                    .flat()
+                    .filter(a => Boolean(a)) ?? [],
+              )
+              .flat() ?? []
           // people who participate in the chat
           const participants =
             chat.participation?.map(p => p.participant['@id']) ?? []
           // memssages from all referenced chats
           const messages = [
             chat,
-            ...((chat.participation?.flatMap(p => p.references) ?? []).filter(
-              a => a,
-            ) as ChatShape[]),
+            ...(chat.participation?.map(p => p.references).flat() ?? [])
+              .filter((a): a is LdSet<ChatShape> => Boolean(a))
+              .map(a => [...a])
+              .flat(),
           ].flatMap(chat =>
             (chat.message ?? [])
               .map(msg => ({
@@ -102,9 +106,9 @@ export const useReadMessagesFromInbox = (webId: URI) => {
           createdAt: new Date(ldo.object?.created ?? ldo.updated).getTime(),
           from: ldo.object.maker?.['@id'] ?? ldo.actor?.['@id'],
           chat: ldo.target['@id'] ?? '',
-          otherChats: ldo.target.participation?.flatMap(
-            p => p.references?.flatMap(r => r['@id'] ?? []) ?? [],
-          ),
+          otherChats: ldo.target.participation
+            ?.map(p => p.references?.map(r => r['@id'] ?? []).flat() ?? [])
+            .flat(),
           notification: ldo['@id'],
           status: 'unread',
         }

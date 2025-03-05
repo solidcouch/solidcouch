@@ -27,20 +27,22 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
         .concat(variables.otherChat ?? [])
         .map(c => dataset.fromSubject(c))
         .filter(
-          chat => chat.participation?.length && chat.participation.length <= 2,
+          chat => chat.participation?.size && chat.participation.size <= 2,
         )
         .flatMap(chat =>
-          chat?.message?.flatMap(
-            message =>
-              ({
-                id: message['@id'],
-                message: message.content,
-                createdAt: new Date(message.created).getTime(),
-                from: message.maker['@id'],
-                chat: chat['@id'],
-                test: chat.participation?.map(p => p.participant['@id']),
-              }) as Message,
-          ),
+          chat?.message
+            ?.map(
+              message =>
+                ({
+                  id: message['@id'],
+                  message: message.content,
+                  createdAt: new Date(message.created).getTime(),
+                  from: message.maker['@id'],
+                  chat: chat['@id'],
+                  test: chat.participation?.map(p => p.participant['@id']),
+                }) as Message,
+            )
+            .flat(),
         ) ?? []
     ).filter(a => Boolean(a)) as Message[]
 
@@ -52,16 +54,15 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
 
     const chats = (variables.chatWithOtherPerson ?? [])
       .map(c => dataset.fromSubject(c))
-      .filter(
-        chat => chat.participation?.length && chat.participation.length <= 2,
-      )
+      .filter(chat => chat.participation?.size && chat.participation.size <= 2)
       .flatMap(ch =>
         ch['@id']
           ? {
               myChat: ch['@id'],
-              otherChats: ch.participation?.[0]?.references?.flatMap(
-                och => och['@id'] ?? [],
-              ),
+              otherChats: ch.participation
+                ?.toArray()?.[0]
+                ?.references?.map(och => och['@id'] ?? [])
+                .flat(),
             }
           : [],
       )
