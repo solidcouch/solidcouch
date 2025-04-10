@@ -1,6 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { App } from './App.tsx'
-import { About } from './pages/About.tsx'
 import { AuthenticatedOutlet } from './pages/AuthenticatedOutlet.tsx'
 import { Contacts } from './pages/Contacts.tsx'
 import { EditProfile } from './pages/EditProfile'
@@ -65,7 +64,6 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      { path: 'about', element: <About /> },
       { path: '*', element: <NotFound /> },
     ],
   },
