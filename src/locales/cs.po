@@ -444,9 +444,9 @@ msgstr "Prosím, přesuňte mapu na místo vašeho hostování."
 msgid "Please verify your email"
 msgstr "Ověřte prosím svůj e-mail"
 
-#: src/pages/UnauthenticatedHome.tsx:71
-msgid "Powered by <0>SolidCouch</0>"
-msgstr "Postaveno na <0>SolidCouch</0>"
+#: src/pages/UnauthenticatedHome.tsx:72
+msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
+msgstr "Postaveno na <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 
 #: src/pages/HospexSetup/Step0.tsx:117
 msgid "Preferences file is set up."
@@ -662,7 +662,7 @@ msgstr ""
 msgid "We're verifying that everything is configured correctly."
 msgstr "Ověřujeme, že je vše správně nastaveno."
 
-#: src/pages/UnauthenticatedHome.tsx:68
+#: src/pages/UnauthenticatedHome.tsx:69
 msgid "WIP"
 msgstr "Pracujeme na tom"
 

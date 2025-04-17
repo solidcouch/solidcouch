@@ -35,3 +35,10 @@ export const geoindexService = import.meta.env.VITE_GEOINDEX
 export const darkModeLogoStyle = import.meta.env.VITE_DARK_MODE_LOGO_STYLE
 
 export const defaultCommunityName: string = 'SolidCouch'
+
+/**
+ * App version and commit
+ */
+export const version = __APP_VERSION__
+export const commitHash = __APP_COMMIT__
+export const commitHashShort = commitHash?.slice(0, 7)
