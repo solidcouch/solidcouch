@@ -3,6 +3,7 @@ import { Logo } from '@/components/Logo/Logo.tsx'
 import { SignIn } from '@/components/SignIn/SignIn.tsx'
 import { defaultLocale } from '@/config'
 import { useConfig } from '@/config/hooks'
+import { commitHash, commitHashShort, version } from '@/config/variables'
 import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { useAppSelector } from '@/redux/hooks'
 import { selectLocale } from '@/redux/uiSlice'
@@ -69,7 +70,14 @@ export const UnauthenticatedHome = () => {
         </div>
         <div className={styles.attribution}>
           <Trans>
-            Powered by <a href="https://github.com/solidcouch">SolidCouch</a>
+            Powered by <a href="https://github.com/solidcouch">SolidCouch</a> v
+            {version} (
+            <a
+              href={`https://github.com/solidcouch/solidcouch/commit/${commitHash}`}
+            >
+              {commitHashShort}
+            </a>
+            )
           </Trans>
         </div>
       </footer>

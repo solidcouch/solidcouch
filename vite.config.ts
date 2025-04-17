@@ -1,15 +1,25 @@
 import { lingui } from '@lingui/vite-plugin'
 import react from '@vitejs/plugin-react-swc'
+import { execSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { ConfigEnv, defineConfig } from 'vite'
 import checker from 'vite-plugin-checker'
+import { version } from './package.json'
 import { fetchCommunityEnv } from './plugins/fetchCommunityEnv'
 import { postbuild } from './plugins/postbuild'
 import { serveClientId } from './plugins/serveClientId'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+let commit: string = ''
+try {
+  commit = execSync('git rev-parse HEAD').toString().trim()
+} catch {
+  // eslint-disable-next-line no-console
+  console.warn("Couldn't get the commit hash")
+}
 
 // https://vite.dev/config/
 // eslint-disable-next-line import/no-default-export
@@ -40,6 +50,8 @@ export default defineConfig((config: ConfigEnv) => {
     ],
     define: {
       'process.env': process.env,
+      __APP_VERSION__: JSON.stringify(version),
+      __APP_COMMIT__: JSON.stringify(commit),
     },
     resolve: {
       alias: {
