@@ -573,7 +573,7 @@ msgstr "Ukázat poskytovatele!"
 msgid "Sign in"
 msgstr "Přihlásit se"
 
-#: src/components/SignOut.tsx:15
+#: src/components/SignOut.tsx:18
 msgid "sign out"
 msgstr "odhlásit se"
 
