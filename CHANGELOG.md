@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix a bug in wikidata data parsing.
 - Fix tests running in firefox.
 - Save preferences file during setup.
+- Redirect to root after signout.
 
 ## [0.3.0] - 2025-02-19
 

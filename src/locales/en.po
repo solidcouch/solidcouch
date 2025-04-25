@@ -573,7 +573,7 @@ msgstr "Show me some providers!"
 msgid "Sign in"
 msgstr "Sign in"
 
-#: src/components/SignOut.tsx:15
+#: src/components/SignOut.tsx:18
 msgid "sign out"
 msgstr "sign out"
 
