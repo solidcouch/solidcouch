@@ -208,7 +208,7 @@ export const Messages = () => {
         Messages with <PersonBadge webId={personId} link />
       </Trans>
       <div className={styles.messages}>
-        {messages?.map(({ id, message, from, createdAt, status }) => (
+        {messages?.map(({ id, message, from, createdAt, status }, i) => (
           <div
             key={id}
             className={clsx(
@@ -219,7 +219,11 @@ export const Messages = () => {
             data-cy="message"
             data-cy-message-from={from === auth.webId ? 'me' : 'other'}
           >
-            {message}{' '}
+            <span
+              data-testid={`message${i}-from-${from === auth.webId ? 'me' : 'other'}`}
+            >
+              {message}
+            </span>
             <span
               className={styles.time}
               title={new Date(createdAt).toLocaleString()}

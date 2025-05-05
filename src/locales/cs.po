@@ -343,7 +343,7 @@ msgstr "Připojit se ke komunitě {communityLabel}"
 msgid "loading interests..."
 msgstr "načítání zájmů..."
 
-#: src/pages/Messages.tsx:236
+#: src/pages/Messages.tsx:240
 msgid "Loading previous messages"
 msgstr "Načítání předchozích zpráv"
 
@@ -368,6 +368,10 @@ msgstr "Zpráva byla vytvořena"
 #: src/components/Header/MainMenu.tsx:44
 msgid "messages"
 msgstr "zprávy"
+
+#: src/pages/Threads.tsx:54
+msgid "Messages with {personLabel}"
+msgstr "Zprávy s {personLabel}"
 
 #: src/pages/Messages.tsx:207
 msgid "Messages with <0/>"
@@ -520,7 +524,7 @@ msgstr "Vyberte mou polohu"
 msgid "Select your Solid identity provider"
 msgstr "Vyberte svého poskytovatele Solid identity"
 
-#: src/pages/Messages.tsx:251
+#: src/pages/Messages.tsx:255
 msgid "Send"
 msgstr "Odeslat"
 
@@ -614,7 +618,7 @@ msgstr "Povězte ostatním o svém místě a hostování"
 msgid "This field is required"
 msgstr "Toto pole je povinné"
 
-#: src/pages/Messages.tsx:243
+#: src/pages/Messages.tsx:247
 msgid "This is a start of your conversation"
 msgstr "Toto je začátek vaší konverzace"
 
