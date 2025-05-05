@@ -1,15 +1,16 @@
-name: Run e2e tests
+name: Cypress Tests
 on: push
 jobs:
-  cypress-run:
-    runs-on: ubuntu-22.04
+  test:
+    name: Run e2e tests
+    runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Cypress run
         uses: cypress-io/github-action@v6
         env:
