@@ -343,7 +343,7 @@ msgstr "Join community {communityLabel}"
 msgid "loading interests..."
 msgstr "loading interests..."
 
-#: src/pages/Messages.tsx:236
+#: src/pages/Messages.tsx:240
 msgid "Loading previous messages"
 msgstr "Loading previous messages"
 
@@ -368,6 +368,10 @@ msgstr "Message was created"
 #: src/components/Header/MainMenu.tsx:44
 msgid "messages"
 msgstr "messages"
+
+#: src/pages/Threads.tsx:54
+msgid "Messages with {personLabel}"
+msgstr "Messages with {personLabel}"
 
 #: src/pages/Messages.tsx:207
 msgid "Messages with <0/>"
@@ -520,7 +524,7 @@ msgstr "Select my location"
 msgid "Select your Solid identity provider"
 msgstr "Select your Solid identity provider"
 
-#: src/pages/Messages.tsx:251
+#: src/pages/Messages.tsx:255
 msgid "Send"
 msgstr "Send"
 
@@ -614,7 +618,7 @@ msgstr "Tell others about your place and hosting"
 msgid "This field is required"
 msgstr "This field is required"
 
-#: src/pages/Messages.tsx:243
+#: src/pages/Messages.tsx:247
 msgid "This is a start of your conversation"
 msgstr "This is a start of your conversation"
 

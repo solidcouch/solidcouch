@@ -3,13 +3,13 @@ import { acl } from 'rdf-namespaces'
 interface AclConfig {
   permissions: ('Read' | 'Write' | 'Append' | 'Control')[]
   identifier?: string
-  agents?: string[]
-  agentGroups?: string[]
-  agentClasses?: string[]
+  agents?: (string | URL)[]
+  agentGroups?: (string | URL)[]
+  agentClasses?: (string | URL)[]
   isDefault?: boolean
 }
 
-const generateAuthorization = (resource: string, config: AclConfig) => {
+const generateAuthorization = (resource: string | URL, config: AclConfig) => {
   config.identifier ??= config.permissions.join('')
   const {
     permissions,
@@ -41,5 +41,5 @@ const generateAuthorization = (resource: string, config: AclConfig) => {
     <${acl.mode}> ${permissions.map(p => `<${acl[p]}>`).join(', ')}.`
 }
 
-export const generateAcl = (resource: string, acls: AclConfig[]) =>
+export const generateAcl = (resource: string | URL, acls: AclConfig[]) =>
   acls.map(config => generateAuthorization(resource, config)).join('\n\n')

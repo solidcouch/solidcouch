@@ -28,5 +28,5 @@
       "react": ["./node_modules/@types/react"]
     }
   },
-  "include": ["src", "cypress"]
+  "include": ["src", "cypress", "src/global.d.ts"]
 }
