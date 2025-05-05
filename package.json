@@ -35,8 +35,8 @@
     ]
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.3.4",
-    "@inrupt/solid-client-authn-browser": "^2.3.0",
+    "@hookform/resolvers": "^5.0.1",
+    "@inrupt/solid-client-authn-browser": "^2.4.1",
     "@ldhop/core": "^0.1.1",
     "@ldhop/react": "^0.1.1",
     "@ldo/jsonld-dataset-proxy": "^1.0.0-alpha.1",
@@ -71,7 +71,7 @@
     "rdf-namespaces": "^1.10.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.43.0",
+    "react-hook-form": "^7.56.2",
     "react-icons": "^5.4.0",
     "react-leaflet": "^5.0.0",
     "react-leaflet-markercluster": "^5.0.0-rc.0",
@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
-    "@inrupt/solid-client-authn-core": "^2.3.0",
+    "@inrupt/solid-client-authn-core": "^2.4.1",
     "@ldo/cli": "^1.0.0-alpha.1",
     "@lingui/cli": "^5.2.0",
     "@lingui/swc-plugin": "^5.2.0",
