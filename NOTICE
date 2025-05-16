@@ -2,8 +2,16 @@ NOTICE
 
 This repository is licensed under the MIT License.
 
-However, please note that the logos, trademarks, and designs included in this repository
-are not covered by this license. They are the property of their respective owners and may
-not be used without permission.
+However, please note that the logos, trademarks, and designs included in
+this repository are not covered by this license. They are the property of
+their respective owners and may not be used without permission.
 
-This codebase was originally developed as part of the Open Hospitality Network (OHN) and has been subsequently relicensed to SolidCouch under the current license (MIT). Any remaining files that are still licensed under OHN retain their original license (MIT), and these files are clearly marked with the original OHN license.
+This codebase was originally developed as part of the Open Hospitality
+Network (OHN) and has been subsequently relicensed to SolidCouch under
+the current license (MIT). Any remaining files that are still licensed
+under OHN retain their original license (MIT), and these files are
+clearly marked with the original OHN license.
+
+Some code and files in this repository were copied from other open-source
+projects under permissive, MIT-compatible licenses, and each affected
+file includes the original license text.

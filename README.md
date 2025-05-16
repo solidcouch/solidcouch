@@ -48,7 +48,7 @@ To start the tests, run `yarn cy:dev`, wait a bit, and Cypress will open. Select
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) and [NOTICE](NOTICE) files for details.
 
 **Note:** The logos, trademarks, and designs included in this repository are not covered by the MIT License.
 They are the property of their respective owners and may not be used without permission.
