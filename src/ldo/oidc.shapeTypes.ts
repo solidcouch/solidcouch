@@ -1,7 +1,7 @@
-import { ShapeType } from '@ldo/ldo'
-import { oidcSchema } from './oidc.schema'
-import { oidcContext } from './oidc.context'
-import { OidcIssuer } from './oidc.typings'
+import { ShapeType } from "@ldo/ldo";
+import { oidcSchema } from "./oidc.schema";
+import { oidcContext } from "./oidc.context";
+import { OidcIssuer } from "./oidc.typings";
 
 /**
  * =============================================================================
@@ -14,6 +14,6 @@ import { OidcIssuer } from './oidc.typings'
  */
 export const OidcIssuerShapeType: ShapeType<OidcIssuer> = {
   schema: oidcSchema,
-  shape: 'https://example.com/OidcIssuer',
+  shape: "https://example.com/OidcIssuer",
   context: oidcContext,
-}
+};

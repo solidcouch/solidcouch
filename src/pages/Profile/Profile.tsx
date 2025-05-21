@@ -49,7 +49,10 @@ export const Profile = () => {
         </ButtonLink>
       )}
       {isMe === false && (
-        <ButtonLink secondary to={`/messages/${encodeURIComponent(personId)}`}>
+        <ButtonLink
+          secondary
+          to={`/messages-with/${encodeURIComponent(personId)}`}
+        >
           <Trans>Write a message</Trans>
         </ButtonLink>
       )}

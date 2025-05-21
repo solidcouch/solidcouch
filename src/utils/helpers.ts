@@ -3,6 +3,7 @@ import { fetch } from '@inrupt/solid-client-authn-browser'
 import LinkHeader from 'http-link-header'
 import * as n3 from 'n3'
 import { acl, rdf } from 'rdf-namespaces'
+import { useEffect, useState } from 'react'
 import { AccessMode } from '../hooks/data/types'
 
 const fetchWithRedirect: typeof fetch = async (url, init) => {
@@ -271,3 +272,15 @@ export const preferentialSort =
     if (indexB !== -1) return 1
     return 0
   }
+
+export const useStableValue = <T>(value: T) => {
+  const [stableValue, setStableValue] = useState(value)
+
+  useEffect(() => {
+    setStableValue(prevValue =>
+      JSON.stringify(prevValue) === JSON.stringify(value) ? prevValue : value,
+    )
+  }, [value])
+
+  return stableValue
+}

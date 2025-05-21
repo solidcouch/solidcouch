@@ -5,7 +5,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 ex:Authorization EXTRA a {
   a [ acl:Authorization ] ;
-  acl:accessTo IRI+ ;
+  acl:accessTo IRI ;
   acl:default IRI? ;
   acl:agent IRI* ;
   acl:agentClass IRI* ;

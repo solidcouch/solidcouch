@@ -9,7 +9,7 @@ import tseslint from 'typescript-eslint'
 
 // eslint-disable-next-line import/no-default-export
 export default tseslint.config(
-  { ignores: ['dist', 'src/locales'] },
+  { ignores: ['dist', 'src/locales', 'playwright-report', 'src/ldo'] },
   {
     extends: [
       js.configs.recommended,
@@ -83,6 +83,8 @@ export default tseslint.config(
             'getValues',
             'watch',
             'searchParams.get',
+            'navigate',
+            'graphOf',
           ],
         },
       ],

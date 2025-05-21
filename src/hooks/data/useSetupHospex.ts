@@ -24,7 +24,7 @@ import {
   useUpdateRdfDocument,
 } from './useRdfDocument'
 
-const saveTypeRegistration = async ({
+export const saveTypeRegistration = async ({
   index,
   type,
   location,

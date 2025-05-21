@@ -13,11 +13,7 @@ import merge from 'lodash/merge'
 import { NamedNode, Store } from 'n3'
 import { foaf, solid } from 'rdf-namespaces'
 import { useCallback, useMemo } from 'react'
-import {
-  hospexDocumentQuery,
-  profileDocuments,
-  webIdProfileQuery,
-} from './queries'
+import { hospexDocumentQuery, webIdProfileQuery } from './queries'
 import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
 
 export const useProfile = (webId: URI, communityId: URI) => {
@@ -179,7 +175,7 @@ export const useSolidProfile = (person: URI) => {
   const { quads, isFetched } = useLDhopQuery(
     useMemo(
       () => ({
-        query: profileDocuments,
+        query: webIdProfileQuery,
         variables: { person: [person] },
         fetch,
         getAdditionalData: results => ({

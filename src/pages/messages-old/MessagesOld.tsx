@@ -21,7 +21,7 @@ import { produce } from 'immer'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router'
-import styles from './Messages.module.scss'
+import styles from './MessagesOld.module.scss'
 
 enum NotificationStatus {
   processing = 'processing',
@@ -29,7 +29,7 @@ enum NotificationStatus {
   errored = 'errored',
 }
 
-export const Messages = () => {
+export const MessagesOld = () => {
   const { communityId, emailNotificationsService, emailNotificationsType } =
     useConfig()
   const personId = useParams().id as string

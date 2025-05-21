@@ -1,6 +1,6 @@
-import { ShapeType } from '@ldo/ldo'
-import { appSchema } from './app.schema'
-import { appContext } from './app.context'
+import { ShapeType } from "@ldo/ldo";
+import { appSchema } from "./app.schema";
+import { appContext } from "./app.context";
 import {
   SolidProfile,
   FoafProfile,
@@ -13,15 +13,15 @@ import {
   TypeRegistration,
   ChatShape,
   ChatParticipationShape,
-  ChatMessageListShape,
   ChatMessageShape,
   Container,
   Resource,
   Inbox,
+  MessageActivityDeprecated,
   MessageActivity,
   ContactInvitationActivity,
   ContactRelationship,
-} from './app.typings'
+} from "./app.typings";
 
 /**
  * =============================================================================
@@ -34,90 +34,90 @@ import {
  */
 export const SolidProfileShapeType: ShapeType<SolidProfile> = {
   schema: appSchema,
-  shape: 'https://example.com/SolidProfile',
+  shape: "https://example.com/SolidProfile",
   context: appContext,
-}
+};
 
 /**
  * FoafProfile ShapeType
  */
 export const FoafProfileShapeType: ShapeType<FoafProfile> = {
   schema: appSchema,
-  shape: 'https://example.com/FoafProfile',
+  shape: "https://example.com/FoafProfile",
   context: appContext,
-}
+};
 
 /**
  * HospexProfile ShapeType
  */
 export const HospexProfileShapeType: ShapeType<HospexProfile> = {
   schema: appSchema,
-  shape: 'https://example.com/HospexProfile',
+  shape: "https://example.com/HospexProfile",
   context: appContext,
-}
+};
 
 /**
  * Accommodation ShapeType
  */
 export const AccommodationShapeType: ShapeType<Accommodation> = {
   schema: appSchema,
-  shape: 'https://example.com/Accommodation',
+  shape: "https://example.com/Accommodation",
   context: appContext,
-}
+};
 
 /**
  * Point ShapeType
  */
 export const PointShapeType: ShapeType<Point> = {
   schema: appSchema,
-  shape: 'https://example.com/Point',
+  shape: "https://example.com/Point",
   context: appContext,
-}
+};
 
 /**
  * PublicTypeIndex ShapeType
  */
 export const PublicTypeIndexShapeType: ShapeType<PublicTypeIndex> = {
   schema: appSchema,
-  shape: 'https://example.com/PublicTypeIndex',
+  shape: "https://example.com/PublicTypeIndex",
   context: appContext,
-}
+};
 
 /**
  * PrivateTypeIndex ShapeType
  */
 export const PrivateTypeIndexShapeType: ShapeType<PrivateTypeIndex> = {
   schema: appSchema,
-  shape: 'https://example.com/PrivateTypeIndex',
+  shape: "https://example.com/PrivateTypeIndex",
   context: appContext,
-}
+};
 
 /**
  * Preferences ShapeType
  */
 export const PreferencesShapeType: ShapeType<Preferences> = {
   schema: appSchema,
-  shape: 'https://example.com/Preferences',
+  shape: "https://example.com/Preferences",
   context: appContext,
-}
+};
 
 /**
  * TypeRegistration ShapeType
  */
 export const TypeRegistrationShapeType: ShapeType<TypeRegistration> = {
   schema: appSchema,
-  shape: 'https://example.com/TypeRegistration',
+  shape: "https://example.com/TypeRegistration",
   context: appContext,
-}
+};
 
 /**
  * ChatShape ShapeType
  */
 export const ChatShapeShapeType: ShapeType<ChatShape> = {
   schema: appSchema,
-  shape: 'https://example.com/ChatShape',
+  shape: "https://example.com/ChatShape",
   context: appContext,
-}
+};
 
 /**
  * ChatParticipationShape ShapeType
@@ -125,63 +125,64 @@ export const ChatShapeShapeType: ShapeType<ChatShape> = {
 export const ChatParticipationShapeShapeType: ShapeType<ChatParticipationShape> =
   {
     schema: appSchema,
-    shape: 'https://example.com/ChatParticipationShape',
+    shape: "https://example.com/ChatParticipationShape",
     context: appContext,
-  }
-
-/**
- * ChatMessageListShape ShapeType
- */
-export const ChatMessageListShapeShapeType: ShapeType<ChatMessageListShape> = {
-  schema: appSchema,
-  shape: 'https://example.com/ChatMessageListShape',
-  context: appContext,
-}
+  };
 
 /**
  * ChatMessageShape ShapeType
  */
 export const ChatMessageShapeShapeType: ShapeType<ChatMessageShape> = {
   schema: appSchema,
-  shape: 'https://example.com/ChatMessageShape',
+  shape: "https://example.com/ChatMessageShape",
   context: appContext,
-}
+};
 
 /**
  * Container ShapeType
  */
 export const ContainerShapeType: ShapeType<Container> = {
   schema: appSchema,
-  shape: 'https://example.com/Container',
+  shape: "https://example.com/Container",
   context: appContext,
-}
+};
 
 /**
  * Resource ShapeType
  */
 export const ResourceShapeType: ShapeType<Resource> = {
   schema: appSchema,
-  shape: 'https://example.com/Resource',
+  shape: "https://example.com/Resource",
   context: appContext,
-}
+};
 
 /**
  * Inbox ShapeType
  */
 export const InboxShapeType: ShapeType<Inbox> = {
   schema: appSchema,
-  shape: 'https://example.com/Inbox',
+  shape: "https://example.com/Inbox",
   context: appContext,
-}
+};
+
+/**
+ * MessageActivityDeprecated ShapeType
+ */
+export const MessageActivityDeprecatedShapeType: ShapeType<MessageActivityDeprecated> =
+  {
+    schema: appSchema,
+    shape: "https://example.com/MessageActivityDeprecated",
+    context: appContext,
+  };
 
 /**
  * MessageActivity ShapeType
  */
 export const MessageActivityShapeType: ShapeType<MessageActivity> = {
   schema: appSchema,
-  shape: 'https://example.com/MessageActivity',
+  shape: "https://example.com/MessageActivity",
   context: appContext,
-}
+};
 
 /**
  * ContactInvitationActivity ShapeType
@@ -189,15 +190,15 @@ export const MessageActivityShapeType: ShapeType<MessageActivity> = {
 export const ContactInvitationActivityShapeType: ShapeType<ContactInvitationActivity> =
   {
     schema: appSchema,
-    shape: 'https://example.com/ContactInvitationActivity',
+    shape: "https://example.com/ContactInvitationActivity",
     context: appContext,
-  }
+  };
 
 /**
  * ContactRelationship ShapeType
  */
 export const ContactRelationshipShapeType: ShapeType<ContactRelationship> = {
   schema: appSchema,
-  shape: 'https://example.com/ContactRelationship',
+  shape: "https://example.com/ContactRelationship",
   context: appContext,
-}
+};

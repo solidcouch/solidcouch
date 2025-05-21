@@ -1,4 +1,4 @@
-import { LdoJsonldContext, LdSet } from '@ldo/ldo'
+import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -10,20 +10,20 @@ import { LdoJsonldContext, LdSet } from '@ldo/ldo'
  * HospexProfile Type
  */
 export interface HospexProfile {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'Person'
-  }
-  note?: LdSet<string>
-  name?: string
+    "@id": "Person";
+  };
+  note?: LdSet<string>;
+  name?: string;
   hasPhoto?: {
-    '@id': string
-  }
+    "@id": string;
+  };
   /**
    * Accommodation that the person offers
    */
   offers?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
 }

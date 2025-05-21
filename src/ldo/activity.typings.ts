@@ -1,4 +1,4 @@
-import { LdoJsonldContext } from '@ldo/ldo'
+import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -10,22 +10,22 @@ import { LdoJsonldContext } from '@ldo/ldo'
  * Activity Type
  */
 export interface Activity {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'Add'
-  }
+    "@id": "Add";
+  };
   actor: {
-    '@id': string
-  }
+    "@id": string;
+  };
   context: {
-    '@id': string
-  }
+    "@id": string;
+  };
   object: {
-    '@id': string
-  }
+    "@id": string;
+  };
   target: {
-    '@id': string
-  }
-  updated: string
+    "@id": string;
+  };
+  updated: string;
 }

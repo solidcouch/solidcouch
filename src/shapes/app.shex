@@ -5,13 +5,13 @@ PREFIX ex: <https://example.com/>
 PREFIX flow: <http://www.w3.org/2005/01/wf/flow#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX hospex: <http://w3id.org/hospex/ns#>
-PREFIX ic: <http://www.w3.org/2002/12/cal/ical#>
+PREFIX cal: <http://www.w3.org/2002/12/cal/ical#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
-PREFIX mee: <http://www.w3.org/ns/pim/meeting#>
+PREFIX meeting: <http://www.w3.org/ns/pim/meeting#>
 PREFIX pim: <http://www.w3.org/ns/pim/space#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX schema: <https://schema.org/>
+PREFIX schema: <http://schema.org/>
 PREFIX sioc: <http://rdfs.org/sioc/ns#>
 PREFIX solid: <http://www.w3.org/ns/solid/terms#>
 PREFIX stat: <http://www.w3.org/ns/posix/stat#>
@@ -107,7 +107,7 @@ ex:TypeRegistration EXTRA a {
 }
 
 ex:ChatShape EXTRA a {
-  a [ mee:LongChat ]
+  a [ meeting:LongChat ]
     // rdfs:comment  "Defines the type of the chat as a LongChat" ;
   dc:author IRI
     // rdfs:comment  "The WebId of the entity that created this chat" ;
@@ -120,10 +120,13 @@ ex:ChatShape EXTRA a {
   ui:sharedPreferences IRI ?
     // rdfs:comment  "Chat preferences" ;
   flow:message @ex:ChatMessageShape *
+    // rdfs:comment "deprecated" ;
+  meeting:message @ex:ChatMessageShape *
+    // rdfs:comment  "A list of messages in the chat" ;
 }
 
 ex:ChatParticipationShape {
-  ic:dtstart xsd:dateTime
+  cal:dtstart xsd:dateTime
     // rdfs:comment  "The date and time this individual began participating in the chat." ;
   flow:participant IRI
     // rdfs:comment  "The WebId of the participant" ;
@@ -137,12 +140,8 @@ ex:ChatParticipationShape {
     // rdfs:comment "Part of this chat belonging to this participant"
 }
 
-ex:ChatMessageListShape {
-  flow:message @ex:ChatMessageShape *
-    // rdfs:comment  "A list of messages in the chat" ;
-}
-
 ex:ChatMessageShape {
+  a [schema:Message] ?;
   dct:created xsd:dateTime
     // rdfs:comment  "The date and time this message was posted." ;
   sioc:content xsd:string
@@ -178,13 +177,22 @@ ex:Inbox EXTRA a {
   stat:size xsd:decimal
 }
 
-ex:MessageActivity EXTRA a {
+# @deprecated
+ex:MessageActivityDeprecated EXTRA a {
   a [as:Add] ;
   as:actor IRI ;
   as:context IRI ;
   as:object @ex:ChatMessageShape ;
   as:target @ex:ChatShape ;
   as:updated xsd:dateTime
+}
+
+ex:MessageActivity EXTRA a {
+  a [as:Create] ;
+  as:actor IRI ;
+  as:object @ex:ChatMessageShape ;
+  as:target @ex:ChatShape ;
+  as:to IRI *;
 }
 
 ex:ContactInvitationActivity EXTRA a {

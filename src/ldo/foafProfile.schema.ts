@@ -1,4 +1,4 @@
-import { Schema } from 'shexj'
+import { Schema } from "shexj";
 
 /**
  * =============================================================================
@@ -6,46 +6,46 @@ import { Schema } from 'shexj'
  * =============================================================================
  */
 export const foafProfileSchema: Schema = {
-  type: 'Schema',
+  type: "Schema",
   shapes: [
     {
-      id: 'https://example.com/FoafProfile',
-      type: 'ShapeDecl',
+      id: "https://example.com/FoafProfile",
+      type: "ShapeDecl",
       shapeExpr: {
-        type: 'Shape',
+        type: "Shape",
         expression: {
-          type: 'EachOf',
+          type: "EachOf",
           expressions: [
             {
-              type: 'TripleConstraint',
-              predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
               valueExpr: {
-                type: 'NodeConstraint',
-                values: ['http://xmlns.com/foaf/0.1/Person'],
+                type: "NodeConstraint",
+                values: ["http://xmlns.com/foaf/0.1/Person"],
               },
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
-                    value: 'Defines the node as a Person (from foaf)',
+                    value: "Defines the node as a Person (from foaf)",
                   },
                 },
               ],
             },
             {
-              type: 'TripleConstraint',
-              predicate: 'http://xmlns.com/foaf/0.1/name',
+              type: "TripleConstraint",
+              predicate: "http://xmlns.com/foaf/0.1/name",
               valueExpr: {
-                type: 'NodeConstraint',
-                datatype: 'http://www.w3.org/2001/XMLSchema#string',
+                type: "NodeConstraint",
+                datatype: "http://www.w3.org/2001/XMLSchema#string",
               },
               min: 0,
               max: 1,
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
                     value: "Define a person's name.",
                   },
@@ -53,37 +53,37 @@ export const foafProfileSchema: Schema = {
               ],
             },
             {
-              type: 'TripleConstraint',
-              predicate: 'http://xmlns.com/foaf/0.1/img',
+              type: "TripleConstraint",
+              predicate: "http://xmlns.com/foaf/0.1/img",
               valueExpr: {
-                type: 'NodeConstraint',
-                datatype: 'http://www.w3.org/2001/XMLSchema#string',
+                type: "NodeConstraint",
+                datatype: "http://www.w3.org/2001/XMLSchema#string",
               },
               min: 0,
               max: 1,
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
-                    value: 'Photo link but in string form',
+                    value: "Photo link but in string form",
                   },
                 },
               ],
             },
             {
-              type: 'TripleConstraint',
-              predicate: 'http://www.w3.org/2006/vcard/ns#hasPhoto',
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/2006/vcard/ns#hasPhoto",
               valueExpr: {
-                type: 'NodeConstraint',
-                nodeKind: 'iri',
+                type: "NodeConstraint",
+                nodeKind: "iri",
               },
               min: 0,
               max: 1,
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
                     value: "A link to the person's photo",
                   },
@@ -91,26 +91,26 @@ export const foafProfileSchema: Schema = {
               ],
             },
             {
-              type: 'TripleConstraint',
-              predicate: 'http://xmlns.com/foaf/0.1/knows',
-              valueExpr: 'https://example.com/FoafProfile',
+              type: "TripleConstraint",
+              predicate: "http://xmlns.com/foaf/0.1/knows",
+              valueExpr: "https://example.com/FoafProfile",
               min: 0,
               max: -1,
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
                     value:
-                      'A list of WebIds for all the people this user knows.',
+                      "A list of WebIds for all the people this user knows.",
                   },
                 },
               ],
             },
           ],
         },
-        extra: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
+        extra: ["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"],
       },
     },
   ],
-}
+};
