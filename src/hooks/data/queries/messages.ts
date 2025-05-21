@@ -2,51 +2,103 @@ import { getContainer } from '@/utils/helpers'
 import { as, meeting, space, wf } from '@/utils/rdf-namespaces'
 import type { RdfQuery } from '@ldhop/core'
 import { NamedNode, Term } from 'n3'
-import { dct, ldp, rdf, solid } from 'rdf-namespaces'
+import { dct, ldp, rdf, schema, schema_https, solid } from 'rdf-namespaces'
 import { personInbox, profileDocuments } from './profile'
+
+export enum Variables {
+  inbox = '?inbox',
+  notification = '?notification',
+  createNotification = '?createNotification',
+  messageNotification = '?messageNotification',
+  object = '?object',
+  messageObject = '?messageObject',
+  message = '?message',
+  chat = '?chat',
+}
 
 export const inboxMessagesQuery: RdfQuery = [
   ...profileDocuments,
   personInbox,
   {
     type: 'match',
-    subject: '?inbox',
+    subject: Variables.inbox,
     predicate: ldp.contains,
     pick: 'object',
-    target: '?notification',
+    target: Variables.notification,
   },
   {
+    // deprecated
     type: 'match',
-    subject: '?notification',
+    subject: Variables.notification,
     predicate: rdf.type,
     object: as.Add,
     pick: 'subject',
-    target: '?addNotification',
+    target: Variables.createNotification,
   },
   {
+    // deprecated
     type: 'match',
-    subject: '?addNotification',
+    subject: Variables.notification,
+    predicate: rdf.type,
+    object: as.Create,
+    pick: 'subject',
+    target: Variables.createNotification,
+  },
+  {
+    // deprecated
+    type: 'match',
+    subject: Variables.createNotification,
     predicate: as.context,
     object: 'https://www.pod-chat.com/LongChatMessage',
     pick: 'subject',
-    target: '?longChatNotification',
+    target: Variables.messageNotification,
   },
   {
     type: 'match',
-    subject: '?longChatNotification',
+    subject: Variables.createNotification,
     predicate: as.object,
     pick: 'object',
-    target: '?message',
+    target: Variables.object,
   },
-  { type: 'add resources', variable: '?message' },
   {
     type: 'match',
-    subject: '?longChatNotification',
+    subject: Variables.object,
+    predicate: rdf.type,
+    object: schema.Message,
+    pick: 'subject',
+    target: Variables.messageObject,
+  },
+  {
+    type: 'match',
+    subject: Variables.object,
+    predicate: rdf.type,
+    object: schema_https.Message,
+    pick: 'subject',
+    target: Variables.messageObject,
+  },
+  {
+    type: 'match',
+    predicate: as.object,
+    object: Variables.messageObject,
+    pick: 'subject',
+    target: Variables.messageNotification,
+  },
+  {
+    type: 'match',
+    subject: Variables.messageNotification,
+    predicate: as.object,
+    pick: 'object',
+    target: Variables.message,
+  },
+  { type: 'add resources', variable: Variables.message },
+  {
+    type: 'match',
+    subject: Variables.messageNotification,
     predicate: as.target,
     pick: 'object',
-    target: '?chat',
+    target: Variables.chat,
   },
-  { type: 'add resources', variable: '?chat' },
+  { type: 'add resources', variable: Variables.chat },
 ]
 
 const chats: RdfQuery = [
@@ -99,16 +151,16 @@ const chats: RdfQuery = [
   },
 ]
 
-const threadsQuery: RdfQuery = [
-  ...chats,
-  {
-    type: 'match',
-    subject: '?participation',
-    predicate: dct.references,
-    pick: 'object',
-    target: '?otherChat',
-  },
-]
+// const threadsQuery: RdfQuery = [
+//   ...chats,
+//   {
+//     type: 'match',
+//     subject: '?participation',
+//     predicate: dct.references,
+//     pick: 'object',
+//     target: '?otherChat',
+//   },
+// ]
 
 const chatsWithPerson: RdfQuery = [
   ...chats,
@@ -227,19 +279,19 @@ export const messages: RdfQuery = [
   ...messageTree,
 ]
 
-export const threads: RdfQuery = [
-  ...threadsQuery,
-  {
-    type: 'transform variable',
-    source: '?chat',
-    target: '?chatContainer',
-    transform: getContainerNode,
-  },
-  {
-    type: 'transform variable',
-    source: '?otherChat',
-    target: '?chatContainer',
-    transform: getContainerNode,
-  },
-  ...messageTree,
-]
+// export const threads: RdfQuery = [
+//   ...threadsQuery,
+//   {
+//     type: 'transform variable',
+//     source: '?chat',
+//     target: '?chatContainer',
+//     transform: getContainerNode,
+//   },
+//   {
+//     type: 'transform variable',
+//     source: '?otherChat',
+//     target: '?chatContainer',
+//     transform: getContainerNode,
+//   },
+//   ...messageTree,
+// ]

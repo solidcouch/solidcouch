@@ -1,4 +1,4 @@
-import { Schema } from 'shexj'
+import { Schema } from "shexj";
 
 /**
  * =============================================================================
@@ -6,28 +6,28 @@ import { Schema } from 'shexj'
  * =============================================================================
  */
 export const oidcSchema: Schema = {
-  type: 'Schema',
+  type: "Schema",
   shapes: [
     {
-      id: 'https://example.com/OidcIssuer',
-      type: 'ShapeDecl',
+      id: "https://example.com/OidcIssuer",
+      type: "ShapeDecl",
       shapeExpr: {
-        type: 'Shape',
+        type: "Shape",
         expression: {
-          type: 'TripleConstraint',
-          predicate: 'http://www.w3.org/ns/solid/terms#oidcIssuer',
+          type: "TripleConstraint",
+          predicate: "http://www.w3.org/ns/solid/terms#oidcIssuer",
           valueExpr: {
-            type: 'NodeConstraint',
-            nodeKind: 'iri',
+            type: "NodeConstraint",
+            nodeKind: "iri",
           },
           min: 1,
           max: -1,
           annotations: [
             {
-              type: 'Annotation',
-              predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+              type: "Annotation",
+              predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
               object: {
-                value: 'Solid OIDC issuer for a webId.',
+                value: "Solid OIDC issuer for a webId.",
               },
             },
           ],
@@ -35,4 +35,4 @@ export const oidcSchema: Schema = {
       },
     },
   ],
-}
+};

@@ -1,4 +1,4 @@
-import { LdoJsonldContext, LdSet } from '@ldo/ldo'
+import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -10,421 +10,438 @@ import { LdoJsonldContext, LdSet } from '@ldo/ldo'
  * SolidProfile Type
  */
 export interface SolidProfile {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   /**
    * Defines the node as a Person (from foaf)
    */
   type: {
-    '@id': 'Person'
-  }
+    "@id": "Person";
+  };
   /**
    * The user's LDP inbox to which apps can post notifications
    */
-  inbox: Inbox
+  inbox: Inbox;
   /**
    * The user's preferences
    */
   preferencesFile?: {
-    '@id': string
-  }
+    "@id": string;
+  };
   /**
    * The location of a Solid storage server related to this WebId
    */
   storage?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
   /**
    * The user's account
    */
   account?: {
-    '@id': string
-  }
+    "@id": string;
+  };
   /**
    * A registry of all types used on the user's Pod (for private access only)
    */
-  privateTypeIndex?: LdSet<PrivateTypeIndex>
+  privateTypeIndex?: LdSet<PrivateTypeIndex>;
   /**
    * A registry of all types used on the user's Pod (for public access)
    */
-  publicTypeIndex?: LdSet<PublicTypeIndex>
+  publicTypeIndex?: LdSet<PublicTypeIndex>;
   /**
    * Solid OIDC issuer for a webId.
    */
   oidcIssuer: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
 }
 
 /**
  * FoafProfile Type
  */
 export interface FoafProfile {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   /**
    * Defines the node as a Person (from foaf)
    */
   type: {
-    '@id': 'Person'
-  }
+    "@id": "Person";
+  };
   /**
    * A list of WebIds for all the people this user knows.
    */
-  knows?: LdSet<FoafProfile>
+  knows?: LdSet<FoafProfile>;
   /**
    * A list of person's interests.
    */
   topicInterest?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
 }
 
 /**
  * HospexProfile Type
  */
 export interface HospexProfile {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   /**
    * Text about person, in different languages
    */
-  note?: LdSet<string>
-  name?: string
+  note?: LdSet<string>;
+  name?: string;
   hasPhoto?: {
-    '@id': string
-  }
+    "@id": string;
+  };
   /**
    * Accommodation that the person offers
    */
-  offers?: LdSet<Accommodation>
+  offers?: LdSet<Accommodation>;
   memberOf?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
   storage2: {
-    '@id': string
-  }
+    "@id": string;
+  };
 }
 
 /**
  * Accommodation Type
  */
 export interface Accommodation {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: LdSet<
     | {
-        '@id': 'Accommodation'
+        "@id": "Accommodation";
       }
     | {
-        '@id': 'Accommodation2'
+        "@id": "Accommodation2";
       }
-  >
+  >;
   /**
    * Text about the accommodation
    */
-  description?: LdSet<string>
+  description?: LdSet<string>;
   /**
    * Location of the accommodation
    */
-  location: Point
-  offeredBy: HospexProfile
+  location: Point;
+  offeredBy: HospexProfile;
 }
 
 /**
  * Point Type
  */
 export interface Point {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'Point'
-  }
+    "@id": "Point";
+  };
   /**
    * Latitude of the location in WGS84
    */
-  lat: number
+  lat: number;
   /**
    * Longitude of the location in WGS84
    */
-  long: number
+  long: number;
 }
 
 /**
  * PublicTypeIndex Type
  */
 export interface PublicTypeIndex {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: LdSet<
     | {
-        '@id': 'TypeIndex'
+        "@id": "TypeIndex";
       }
     | {
-        '@id': 'ListedDocument'
+        "@id": "ListedDocument";
       }
-  >
+  >;
 }
 
 /**
  * PrivateTypeIndex Type
  */
 export interface PrivateTypeIndex {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: LdSet<
     | {
-        '@id': 'TypeIndex'
+        "@id": "TypeIndex";
       }
     | {
-        '@id': 'UnlistedDocument'
+        "@id": "UnlistedDocument";
       }
-  >
+  >;
 }
 
 /**
  * Preferences Type
  */
 export interface Preferences {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'ConfigurationFile'
-  }
+    "@id": "ConfigurationFile";
+  };
 }
 
 /**
  * TypeRegistration Type
  */
 export interface TypeRegistration {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'TypeRegistration'
-  }
+    "@id": "TypeRegistration";
+  };
   forClass: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
   instance?: LdSet<
     | {
-        '@id': string
+        "@id": string;
       }
     | ChatShape
-  >
+  >;
   instanceContainer?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
 }
 
 /**
  * ChatShape Type
  */
 export interface ChatShape {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   /**
    * Defines the type of the chat as a LongChat
    */
   type: {
-    '@id': 'LongChat'
-  }
+    "@id": "LongChat";
+  };
   /**
    * The WebId of the entity that created this chat
    */
   author: {
-    '@id': string
-  }
+    "@id": string;
+  };
   /**
    * The date and time the chat was created
    */
-  created: string
+  created: string;
   /**
    * The title of the chat
    */
-  title: string
+  title: string;
   /**
    * A list of people participating in this chat
    */
-  participation?: LdSet<ChatParticipationShape>
+  participation?: LdSet<ChatParticipationShape>;
   /**
    * Chat preferences
    */
   sharedPreferences?: {
-    '@id': string
-  }
-  message?: LdSet<ChatMessageShape>
+    "@id": string;
+  };
+  /**
+   * deprecated
+   */
+  message?: LdSet<ChatMessageShape>;
+  /**
+   * A list of messages in the chat
+   */
+  message2?: LdSet<ChatMessageShape>;
 }
 
 /**
  * ChatParticipationShape Type
  */
 export interface ChatParticipationShape {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   /**
    * The date and time this individual began participating in the chat.
    */
-  dtstart: string
+  dtstart: string;
   /**
    * The WebId of the participant
    */
   participant: {
-    '@id': string
-  }
+    "@id": string;
+  };
   /**
    * The background color of the participant's chat bubbles
    */
-  backgroundColor?: string
+  backgroundColor?: string;
   /**
    * Part of this chat belonging to this participant
    */
-  references?: LdSet<ChatShape>
-}
-
-/**
- * ChatMessageListShape Type
- */
-export interface ChatMessageListShape {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
-  /**
-   * A list of messages in the chat
-   */
-  message?: LdSet<ChatMessageShape>
+  references?: LdSet<ChatShape>;
 }
 
 /**
  * ChatMessageShape Type
  */
 export interface ChatMessageShape {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
+  type?: {
+    "@id": "Message";
+  };
   /**
    * The date and time this message was posted.
    */
-  created: string
+  created: string;
   /**
    * The text content of the message
    */
-  content: string
+  content: string;
   /**
    * The WebId of the person who sent the message.
    */
   maker: {
-    '@id': string
-  }
+    "@id": string;
+  };
 }
 
 /**
  * Container Type
  */
 export interface Container {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: LdSet<
     | {
-        '@id': 'Container'
+        "@id": "Container";
       }
     | {
-        '@id': 'BasicContainer'
+        "@id": "BasicContainer";
       }
-  >
-  contains?: LdSet<Resource | Container>
-  modified: string
-  mtime: number
-  size: number
+  >;
+  contains?: LdSet<Resource | Container>;
+  modified: string;
+  mtime: number;
+  size: number;
 }
 
 /**
  * Resource Type
  */
 export interface Resource {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'Resource'
-  }
-  modified: string
-  mtime: number
-  size: number
+    "@id": "Resource";
+  };
+  modified: string;
+  mtime: number;
+  size: number;
 }
 
 /**
  * Inbox Type
  */
 export interface Inbox {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: LdSet<
     | {
-        '@id': 'Container'
+        "@id": "Container";
       }
     | {
-        '@id': 'BasicContainer'
+        "@id": "BasicContainer";
       }
-  >
-  contains?: LdSet<MessageActivity | ContactInvitationActivity>
-  modified: string
-  mtime: number
-  size: number
+  >;
+  contains?: LdSet<MessageActivity | ContactInvitationActivity>;
+  modified: string;
+  mtime: number;
+  size: number;
+}
+
+/**
+ * MessageActivityDeprecated Type
+ */
+export interface MessageActivityDeprecated {
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
+  type: {
+    "@id": "Add";
+  };
+  actor: {
+    "@id": string;
+  };
+  context: {
+    "@id": string;
+  };
+  object: ChatMessageShape;
+  target: ChatShape;
+  updated: string;
 }
 
 /**
  * MessageActivity Type
  */
 export interface MessageActivity {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'Add'
-  }
+    "@id": "Create";
+  };
   actor: {
-    '@id': string
-  }
-  context: {
-    '@id': string
-  }
-  object: ChatMessageShape
-  target: ChatShape
-  updated: string
+    "@id": string;
+  };
+  object: ChatMessageShape;
+  target: ChatShape;
+  to?: LdSet<{
+    "@id": string;
+  }>;
 }
 
 /**
  * ContactInvitationActivity Type
  */
 export interface ContactInvitationActivity {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'Invite'
-  }
+    "@id": "Invite";
+  };
   actor: {
-    '@id': string
-  }
-  content: string
-  object: ContactRelationship
+    "@id": string;
+  };
+  content: string;
+  object: ContactRelationship;
   target: {
-    '@id': string
-  }
-  updated: string
+    "@id": string;
+  };
+  updated: string;
 }
 
 /**
  * ContactRelationship Type
  */
 export interface ContactRelationship {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'Relationship'
-  }
+    "@id": "Relationship";
+  };
   subject: {
-    '@id': string
-  }
+    "@id": string;
+  };
   relationship: {
-    '@id': 'knows'
-  }
+    "@id": "knows";
+  };
   object: {
-    '@id': string
-  }
+    "@id": string;
+  };
 }

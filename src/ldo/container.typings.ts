@@ -1,4 +1,4 @@
-import { LdoJsonldContext, LdSet } from '@ldo/ldo'
+import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -10,32 +10,32 @@ import { LdoJsonldContext, LdSet } from '@ldo/ldo'
  * Container Type
  */
 export interface Container {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: LdSet<
     | {
-        '@id': 'Container'
+        "@id": "Container";
       }
     | {
-        '@id': 'BasicContainer'
+        "@id": "BasicContainer";
       }
-  >
-  contains?: LdSet<Resource | Container>
-  modified: string
-  mtime: number
-  size: number
+  >;
+  contains?: LdSet<Resource | Container>;
+  modified: string;
+  mtime: number;
+  size: number;
 }
 
 /**
  * Resource Type
  */
 export interface Resource {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'Resource'
-  }
-  modified: string
-  mtime: number
-  size: number
+    "@id": "Resource";
+  };
+  modified: string;
+  mtime: number;
+  size: number;
 }

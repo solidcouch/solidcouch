@@ -22,7 +22,11 @@ srs:ChatShape EXTRA a {
   flow:participation @srs:ChatParticipationShape *
     // rdfs:comment  "A list of people participating in this chat" ;
   ui:sharedPreferences IRI ?
-    // rdfs:comment  "Chat preferences" 
+    // rdfs:comment  "Chat preferences" ;
+  flow:message @srs:ChatMessageShape *
+    // rdfs:comment "deprecated" ;
+  mee:message @srs:ChatMessageShape *
+    // rdfs:comment  "A list of messages in the chat" ;
 }
 
 srs:ChatParticipationShape {
@@ -38,11 +42,6 @@ srs:ChatParticipationShape {
   # It's not provided by shaperepo.com, but added afterwards
   terms:references IRI ?
     // rdfs:comment "Part of this chat belonging to this participant"
-}
-
-srs:ChatMessageListShape {
-  flow:message @srs:ChatMessageShape *
-    // rdfs:comment  "A list of messages in the chat" ;
 }
 
 srs:ChatMessageShape {
