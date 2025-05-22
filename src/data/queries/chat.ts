@@ -1,7 +1,8 @@
 import { inboxMessagesQuery } from '@/hooks/data/queries'
 import { getTypeIndexQuery } from '@/hooks/data/queries/typeIndex'
-import { ldp, meeting, wf } from '@/utils/rdf-namespaces'
+import { meeting, wf } from '@/utils/rdf-namespaces'
 import { RdfQuery } from '@ldhop/core'
+import { ldp } from 'rdf-namespaces'
 
 export enum Variables {
   root = '?root',
@@ -54,6 +55,14 @@ export const getChatMessagesQuery = (variables: {
     pick: 'object',
     target: variables.message,
   },
+  // deprecated - for backwards compatibility
+  {
+    type: 'match',
+    subject: variables.channel,
+    predicate: wf.message, // deprecated predicate
+    pick: 'object',
+    target: variables.message,
+  },
 ]
 
 export const getTypeIndexChatQuery = (): RdfQuery => [
@@ -86,7 +95,7 @@ export const getChatParticipantsQuery = (variables: {
   },
 ]
 
-export const getThreadsQuery = (): RdfQuery => [
+export const threadsQuery: RdfQuery = [
   ...getTypeIndexQuery({ forClass: meeting.LongChat }),
   {
     type: 'match',

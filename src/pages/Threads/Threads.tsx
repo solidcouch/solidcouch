@@ -1,11 +1,9 @@
-import { Loading } from '@/components'
 import { PersonMini } from '@/components/PersonMini/PersonMini.tsx'
-import { getThreadsQuery } from '@/data/queries/chat'
+import { threadsQuery } from '@/data/queries/chat'
 import { useAuth } from '@/hooks/useAuth'
 import { ChatShapeShapeType } from '@/ldo/app.shapeTypes'
 import { ChatShape } from '@/ldo/app.typings'
 import { type Thread } from '@/types'
-import { meeting, rdf } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
@@ -22,7 +20,7 @@ export const Threads = () => {
   const threadsResults = useLDhopQuery(
     useMemo(
       () => ({
-        query: getThreadsQuery(),
+        query: threadsQuery,
         variables: { person: [auth.webId!] },
         fetch,
       }),
@@ -30,16 +28,15 @@ export const Threads = () => {
     ),
   )
 
-  const threads = createLdoDataset(threadsResults.quads)
-    .usingType(ChatShapeShapeType)
-    .matchSubject(rdf.type, meeting.LongChat)
+  const channelUris = threadsResults.variables.channel ?? []
+  const inboxChannelUris = threadsResults.variables.chat ?? []
+  const connectedChannelUris = threadsResults.variables.instance ?? []
 
-  if (!threads)
-    return (
-      <Loading>
-        <Trans>Loading...</Trans>
-      </Loading>
-    )
+  const dataset = createLdoDataset(threadsResults.quads)
+
+  const threads = channelUris.map(uri =>
+    dataset.usingType(ChatShapeShapeType).fromSubject(uri),
+  )
 
   return (
     <div>
@@ -48,9 +45,15 @@ export const Threads = () => {
       </h1>
       <ul className={styles.threadList}>
         {threads.map(thread => {
+          const unread = inboxChannelUris?.includes(thread['@id']!)
+          const disconnected = !connectedChannelUris?.includes(thread['@id']!)
           return (
             <li key={thread['@id']} data-cy="thread-list-item">
-              <Thread thread={thread} />
+              <Thread
+                thread={thread}
+                unread={unread}
+                disconnected={disconnected}
+              />
             </li>
           )
         })}
@@ -59,7 +62,15 @@ export const Threads = () => {
   )
 }
 
-const Thread = ({ thread }: { thread: ChatShape }) => {
+const Thread = ({
+  thread,
+  unread,
+  disconnected,
+}: {
+  thread: ChatShape
+  unread?: boolean
+  disconnected?: boolean
+}) => {
   const { t } = useLingui()
   const auth = useAuth()
   const others =
@@ -67,8 +78,11 @@ const Thread = ({ thread }: { thread: ChatShape }) => {
 
   const [profiles] = useProfiles(others.map(o => o.participant['@id']))
 
-  const lastMessage = thread.message2
-    ?.toArray()
+  const msg = thread.message2?.toArray() ?? []
+  const msgLegacy = thread.message?.toArray() ?? []
+
+  const lastMessage = msg
+    .concat(msgLegacy)
     .sort(
       (a, b) => new Date(a.created).getTime() - new Date(b.created).getTime(),
     )
@@ -83,8 +97,11 @@ const Thread = ({ thread }: { thread: ChatShape }) => {
       aria-label={t`Messages with ${personLabel}`}
     >
       <div
-        className={clsx(styles.thread /*, thread.status && styles.unread*/)}
-        // data-cy={thread.status && 'thread-unread'}
+        className={clsx(
+          styles.thread,
+          (unread || disconnected) && styles.unread,
+        )}
+        data-cy={(unread || disconnected) && 'thread-unread'}
       >
         {profiles.map(profile => (
           <PersonMini

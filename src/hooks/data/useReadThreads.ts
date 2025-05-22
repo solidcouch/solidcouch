@@ -5,7 +5,6 @@ import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
 import { inboxMessagesQuery } from './queries'
-import { Variables } from './queries/messages'
 
 export const useReadMessagesFromInbox = (webId: URI) => {
   const { quads, variables, isLoading } = useLDhopQuery(
@@ -22,26 +21,24 @@ export const useReadMessagesFromInbox = (webId: URI) => {
 
   const messages: Message[] = useMemo(
     () =>
-      (variables[Variables.messageNotification.slice(1)] ?? []).map(
-        notification => {
-          const ldo = createLdoDataset(quads)
-            .usingType(MessageActivityShapeType)
-            .fromSubject(notification)
+      (variables['messageNotification'] ?? []).map(notification => {
+        const ldo = createLdoDataset(quads)
+          .usingType(MessageActivityShapeType)
+          .fromSubject(notification)
 
-          return {
-            id: ldo.object['@id'] ?? '',
-            message: ldo.object.content,
-            createdAt: new Date(ldo.object.created).getTime(),
-            from: ldo.object.maker?.['@id'] ?? ldo.actor?.['@id'],
-            chat: ldo.target['@id'] ?? '',
-            otherChats: ldo.target.participation
-              ?.map(p => p.references?.map(r => r['@id'] ?? []).flat() ?? [])
-              .flat(),
-            notification: ldo['@id'],
-            status: 'unread',
-          }
-        },
-      ),
+        return {
+          id: ldo.object['@id'] ?? '',
+          message: ldo.object.content,
+          createdAt: new Date(ldo.object.created).getTime(),
+          from: ldo.object.maker?.['@id'] ?? ldo.actor?.['@id'],
+          chat: ldo.target['@id'] ?? '',
+          otherChats: ldo.target.participation
+            ?.map(p => p.references?.map(r => r['@id'] ?? []).flat() ?? [])
+            .flat(),
+          notification: ldo['@id'],
+          status: 'unread',
+        }
+      }),
     [quads, variables],
   )
 

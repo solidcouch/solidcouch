@@ -165,8 +165,7 @@ msgstr "Contacts of <0/>"
 msgid "Continue"
 msgstr "Continue"
 
-#: src/pages/Threads.tsx:29
-#: src/pages/Threads/Threads.tsx:47
+#: src/pages/Threads/Threads.tsx:44
 msgid "Conversations"
 msgstr "Conversations"
 
@@ -376,8 +375,6 @@ msgstr "Loading previous messages"
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26
 #: src/pages/SearchHosts/AccommodationInfo.tsx:51
-#: src/pages/Threads.tsx:22
-#: src/pages/Threads/Threads.tsx:40
 msgid "Loading..."
 msgstr "Loading..."
 
@@ -399,8 +396,7 @@ msgstr "Message was created"
 msgid "messages"
 msgstr "messages"
 
-#: src/pages/Threads.tsx:55
-#: src/pages/Threads/Threads.tsx:83
+#: src/pages/Threads/Threads.tsx:97
 msgid "Messages with {personLabel}"
 msgstr "Messages with {personLabel}"
 

@@ -17,7 +17,7 @@ type Participation = {
   skipReferences?: number[]
 }
 
-export type Conversation = {
+type Conversation = {
   participations: Participation[]
   messages: Message[]
 }
@@ -67,6 +67,8 @@ export const createConversation = (conversation: Conversation) => {
 
     // create notifications for some messages and participants
   }
+
+  return cy.wrap(chatConfigs)
 }
 
 const saveMessage = (message: {
