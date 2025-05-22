@@ -54,6 +54,14 @@ export const getChatMessagesQuery = (variables: {
     pick: 'object',
     target: variables.message,
   },
+  // deprecated - for backwards compatibility
+  {
+    type: 'match',
+    subject: variables.channel,
+    predicate: wf.message, // deprecated predicate
+    pick: 'object',
+    target: variables.message,
+  },
 ]
 
 export const getTypeIndexChatQuery = (): RdfQuery => [

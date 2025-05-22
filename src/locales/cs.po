@@ -165,7 +165,7 @@ msgstr "Kontakty <0/>"
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/pages/Threads/Threads.tsx:47
+#: src/pages/Threads/Threads.tsx:44
 msgid "Conversations"
 msgstr "Konverzace"
 
@@ -373,7 +373,6 @@ msgstr "Načítání předchozích zpráv"
 #: src/App.tsx:47
 #: src/pages/MyOffers.tsx:95
 #: src/pages/messages-old/MessagesOld.tsx:205
-#: src/pages/Threads/Threads.tsx:40
 #: src/pages/SearchHosts/AccommodationInfo.tsx:50
 #: src/pages/Profile/ManageContact.tsx:26
 msgid "Loading..."
@@ -397,7 +396,7 @@ msgstr "Zpráva byla vytvořena"
 msgid "messages"
 msgstr "zprávy"
 
-#: src/pages/Threads/Threads.tsx:83
+#: src/pages/Threads/Threads.tsx:97
 msgid "Messages with {personLabel}"
 msgstr "Zprávy s {personLabel}"
 

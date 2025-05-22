@@ -62,7 +62,7 @@ import {
   stubMailer,
 } from './setup'
 import { ContactNotification, saveContacts } from './setup/contacts'
-import { Conversation, createConversation } from './setup/messages'
+import { createConversation } from './setup/messages'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -109,7 +109,7 @@ declare global {
        * @param conversation.messages - list of messages to create
        *   numeric parameters relate message to conversation.participations elements
        */
-      createConversation(conversation: Conversation): void
+      createConversation: typeof createConversation
       /**
        * Create random account, setup pod and set profile data
        * all in one command
