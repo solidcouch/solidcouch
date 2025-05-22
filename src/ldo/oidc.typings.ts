@@ -1,4 +1,4 @@
-import { LdoJsonldContext, LdSet } from '@ldo/ldo'
+import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -10,12 +10,12 @@ import { LdoJsonldContext, LdSet } from '@ldo/ldo'
  * OidcIssuer Type
  */
 export interface OidcIssuer {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   /**
    * Solid OIDC issuer for a webId.
    */
   oidcIssuer: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
 }

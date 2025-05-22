@@ -1,4 +1,4 @@
-import { Schema } from 'shexj'
+import { Schema } from "shexj";
 
 /**
  * =============================================================================
@@ -6,44 +6,44 @@ import { Schema } from 'shexj'
  * =============================================================================
  */
 export const solidProfileSchema: Schema = {
-  type: 'Schema',
+  type: "Schema",
   shapes: [
     {
-      id: 'https://example.com/SolidProfile',
-      type: 'ShapeDecl',
+      id: "https://example.com/SolidProfile",
+      type: "ShapeDecl",
       shapeExpr: {
-        type: 'Shape',
+        type: "Shape",
         expression: {
-          type: 'EachOf',
+          type: "EachOf",
           expressions: [
             {
-              type: 'TripleConstraint',
-              predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
               valueExpr: {
-                type: 'NodeConstraint',
-                values: ['http://xmlns.com/foaf/0.1/Person'],
+                type: "NodeConstraint",
+                values: ["http://xmlns.com/foaf/0.1/Person"],
               },
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
-                    value: 'Defines the node as a Person (from foaf)',
+                    value: "Defines the node as a Person (from foaf)",
                   },
                 },
               ],
             },
             {
-              type: 'TripleConstraint',
-              predicate: 'http://www.w3.org/ns/ldp#inbox',
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/ns/ldp#inbox",
               valueExpr: {
-                type: 'NodeConstraint',
-                nodeKind: 'iri',
+                type: "NodeConstraint",
+                nodeKind: "iri",
               },
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
                     value:
                       "The user's LDP inbox to which apps can post notifications",
@@ -52,18 +52,18 @@ export const solidProfileSchema: Schema = {
               ],
             },
             {
-              type: 'TripleConstraint',
-              predicate: 'http://www.w3.org/ns/pim/space#preferencesFile',
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/ns/pim/space#preferencesFile",
               valueExpr: {
-                type: 'NodeConstraint',
-                nodeKind: 'iri',
+                type: "NodeConstraint",
+                nodeKind: "iri",
               },
               min: 0,
               max: 1,
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
                     value: "The user's preferences",
                   },
@@ -71,38 +71,38 @@ export const solidProfileSchema: Schema = {
               ],
             },
             {
-              type: 'TripleConstraint',
-              predicate: 'http://www.w3.org/ns/pim/space#storage',
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/ns/pim/space#storage",
               valueExpr: {
-                type: 'NodeConstraint',
-                nodeKind: 'iri',
+                type: "NodeConstraint",
+                nodeKind: "iri",
               },
               min: 0,
               max: -1,
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
                     value:
-                      'The location of a Solid storage server related to this WebId',
+                      "The location of a Solid storage server related to this WebId",
                   },
                 },
               ],
             },
             {
-              type: 'TripleConstraint',
-              predicate: 'http://www.w3.org/ns/solid/terms#account',
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/ns/solid/terms#account",
               valueExpr: {
-                type: 'NodeConstraint',
-                nodeKind: 'iri',
+                type: "NodeConstraint",
+                nodeKind: "iri",
               },
               min: 0,
               max: 1,
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
                     value: "The user's account",
                   },
@@ -110,18 +110,18 @@ export const solidProfileSchema: Schema = {
               ],
             },
             {
-              type: 'TripleConstraint',
-              predicate: 'http://www.w3.org/ns/solid/terms#privateTypeIndex',
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/ns/solid/terms#privateTypeIndex",
               valueExpr: {
-                type: 'NodeConstraint',
-                nodeKind: 'iri',
+                type: "NodeConstraint",
+                nodeKind: "iri",
               },
               min: 0,
               max: -1,
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
                     value:
                       "A registry of all types used on the user's Pod (for private access only)",
@@ -130,18 +130,18 @@ export const solidProfileSchema: Schema = {
               ],
             },
             {
-              type: 'TripleConstraint',
-              predicate: 'http://www.w3.org/ns/solid/terms#publicTypeIndex',
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/ns/solid/terms#publicTypeIndex",
               valueExpr: {
-                type: 'NodeConstraint',
-                nodeKind: 'iri',
+                type: "NodeConstraint",
+                nodeKind: "iri",
               },
               min: 0,
               max: -1,
               annotations: [
                 {
-                  type: 'Annotation',
-                  predicate: 'http://www.w3.org/2000/01/rdf-schema#comment',
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
                     value:
                       "A registry of all types used on the user's Pod (for public access)",
@@ -151,8 +151,8 @@ export const solidProfileSchema: Schema = {
             },
           ],
         },
-        extra: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
+        extra: ["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"],
       },
     },
   ],
-}
+};

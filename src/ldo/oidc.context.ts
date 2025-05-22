@@ -1,4 +1,4 @@
-import { LdoJsonldContext } from '@ldo/ldo'
+import { LdoJsonldContext } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -7,8 +7,8 @@ import { LdoJsonldContext } from '@ldo/ldo'
  */
 export const oidcContext: LdoJsonldContext = {
   oidcIssuer: {
-    '@id': 'http://www.w3.org/ns/solid/terms#oidcIssuer',
-    '@type': '@id',
-    '@isCollection': true,
+    "@id": "http://www.w3.org/ns/solid/terms#oidcIssuer",
+    "@type": "@id",
+    "@isCollection": true,
   },
-}
+};

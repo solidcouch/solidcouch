@@ -45,6 +45,7 @@ export const wf = {
 
 export const meeting = {
   LongChat: base.meeting + 'LongChat',
+  message: base.meeting + 'message',
   ...ns.meeting,
 }
 

@@ -1,4 +1,4 @@
-import { LdoJsonldContext, LdSet } from '@ldo/ldo'
+import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -10,58 +10,58 @@ import { LdoJsonldContext, LdSet } from '@ldo/ldo'
  * HospexCommunity Type
  */
 export interface HospexCommunity {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: LdSet<
     | {
-        '@id': 'Community'
+        "@id": "Community";
       }
     | {
-        '@id': 'Community2'
+        "@id": "Community2";
       }
-  >
+  >;
   /**
    * Name of the community. One name per language.
    */
-  name: LdSet<string>
-  about: LdSet<string>
+  name: LdSet<string>;
+  about: LdSet<string>;
   /**
    * A teaser, tagline, pun for the community
    */
-  note?: LdSet<string>
+  note?: LdSet<string>;
   /**
    * Logo of the community. If two are specified, the second one may be used for highlight of the first one
    */
   logo?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
   homepage?: {
-    '@id': string
-  }
+    "@id": string;
+  };
   inbox?: {
-    '@id': string
-  }
-  hasUsergroup: LdSet<HospexGroup>
+    "@id": string;
+  };
+  hasUsergroup: LdSet<HospexGroup>;
 }
 
 /**
  * HospexGroup Type
  */
 export interface HospexGroup {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: LdSet<
     | {
-        '@id': 'Group'
+        "@id": "Group";
       }
     | {
-        '@id': 'Usergroup'
+        "@id": "Usergroup";
       }
-  >
+  >;
   usergroupOf: {
-    '@id': string
-  }
+    "@id": string;
+  };
   hasMember?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
 }

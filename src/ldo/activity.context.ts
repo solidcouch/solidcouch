@@ -1,4 +1,4 @@
-import { LdoJsonldContext } from '@ldo/ldo'
+import { LdoJsonldContext } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -7,54 +7,54 @@ import { LdoJsonldContext } from '@ldo/ldo'
  */
 export const activityContext: LdoJsonldContext = {
   type: {
-    '@id': '@type',
+    "@id": "@type",
   },
   Add: {
-    '@id': 'https://www.w3.org/ns/activitystreams#Add',
-    '@context': {
+    "@id": "https://www.w3.org/ns/activitystreams#Add",
+    "@context": {
       type: {
-        '@id': '@type',
+        "@id": "@type",
       },
       actor: {
-        '@id': 'https://www.w3.org/ns/activitystreams#actor',
-        '@type': '@id',
+        "@id": "https://www.w3.org/ns/activitystreams#actor",
+        "@type": "@id",
       },
       context: {
-        '@id': 'https://www.w3.org/ns/activitystreams#context',
-        '@type': '@id',
+        "@id": "https://www.w3.org/ns/activitystreams#context",
+        "@type": "@id",
       },
       object: {
-        '@id': 'https://www.w3.org/ns/activitystreams#object',
-        '@type': '@id',
+        "@id": "https://www.w3.org/ns/activitystreams#object",
+        "@type": "@id",
       },
       target: {
-        '@id': 'https://www.w3.org/ns/activitystreams#target',
-        '@type': '@id',
+        "@id": "https://www.w3.org/ns/activitystreams#target",
+        "@type": "@id",
       },
       updated: {
-        '@id': 'https://www.w3.org/ns/activitystreams#updated',
-        '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+        "@id": "https://www.w3.org/ns/activitystreams#updated",
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
       },
     },
   },
   actor: {
-    '@id': 'https://www.w3.org/ns/activitystreams#actor',
-    '@type': '@id',
+    "@id": "https://www.w3.org/ns/activitystreams#actor",
+    "@type": "@id",
   },
   context: {
-    '@id': 'https://www.w3.org/ns/activitystreams#context',
-    '@type': '@id',
+    "@id": "https://www.w3.org/ns/activitystreams#context",
+    "@type": "@id",
   },
   object: {
-    '@id': 'https://www.w3.org/ns/activitystreams#object',
-    '@type': '@id',
+    "@id": "https://www.w3.org/ns/activitystreams#object",
+    "@type": "@id",
   },
   target: {
-    '@id': 'https://www.w3.org/ns/activitystreams#target',
-    '@type': '@id',
+    "@id": "https://www.w3.org/ns/activitystreams#target",
+    "@type": "@id",
   },
   updated: {
-    '@id': 'https://www.w3.org/ns/activitystreams#updated',
-    '@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+    "@id": "https://www.w3.org/ns/activitystreams#updated",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
   },
-}
+};

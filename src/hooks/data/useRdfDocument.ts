@@ -187,67 +187,75 @@ export const useUpdateRdfDocument = () => {
   return mutation
 }
 
+export const updateLdoDocument =
+  <S extends LdoBase>(shapeType: ShapeType<S>) =>
+  async ({
+    uri,
+    subject,
+    matchSubject,
+    transform,
+    language = 'en',
+  }:
+    | {
+        uri: URI
+        subject: URI
+        matchSubject?: undefined
+        transform: (ldo: S) => void // transform should modify the original input, not clone it
+        language?: string
+      }
+    | {
+        uri: URI
+        subject?: undefined
+        matchSubject: { predicate: string; object?: string; graph?: string }
+        transform: (ldo: LdSet<S>) => void // transform should modify the original input, not clone it
+        language?: string
+      }) => {
+    const originalResponse = await fullFetch(uri)
+    let originalData = ''
+    if (originalResponse.ok) originalData = await originalResponse.text()
+    const ldoDataset = await parseRdf(originalData, { baseIRI: uri })
+    const ldoBuilder = ldoDataset.usingType(shapeType)
+
+    let patch = ''
+    if (subject) {
+      const ldo = ldoBuilder.fromSubject(subject)
+      setLanguagePreferences(language).using(ldo)
+
+      startTransaction(ldo)
+      transform(ldo)
+
+      patch = await toN3Patch(ldo)
+    } else if (matchSubject) {
+      const ldo = ldoBuilder.matchSubject(
+        matchSubject.predicate,
+        matchSubject.object,
+        matchSubject.graph,
+      )
+      setLanguagePreferences(language).using(ldo)
+
+      startTransaction(ldo)
+      transform(ldo)
+
+      patch = await toN3Patch(ldo)
+    }
+
+    const response = await fullFetch(uri, {
+      method: 'PATCH',
+      body: patch,
+      headers: { 'content-type': 'text/n3' },
+    })
+
+    if (!response.ok) throw new HttpError(response.statusText, response)
+
+    return response
+  }
+
 export const useUpdateLdoDocument = <S extends LdoBase>(
   shapeType: ShapeType<S>,
 ) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async ({
-      uri,
-      subject,
-      matchSubject,
-      transform,
-      language = 'en',
-    }:
-      | {
-          uri: URI
-          subject: URI
-          matchSubject?: undefined
-          transform: (ldo: S) => void // transform should modify the original input, not clone it
-          language?: string
-        }
-      | {
-          uri: URI
-          subject?: undefined
-          matchSubject: { predicate: string; object?: string; graph?: string }
-          transform: (ldo: LdSet<S>) => void // transform should modify the original input, not clone it
-          language?: string
-        }) => {
-      const originalResponse = await fullFetch(uri)
-      let originalData = ''
-      if (originalResponse.ok) originalData = await originalResponse.text()
-      const ldoDataset = await parseRdf(originalData, { baseIRI: uri })
-      const ldoBuilder = ldoDataset.usingType(shapeType)
-
-      let patch = ''
-      if (subject) {
-        const ldo = ldoBuilder.fromSubject(subject)
-        setLanguagePreferences(language).using(ldo)
-
-        startTransaction(ldo)
-        transform(ldo)
-
-        patch = await toN3Patch(ldo)
-      } else if (matchSubject) {
-        const ldo = ldoBuilder.matchSubject(
-          matchSubject.predicate,
-          matchSubject.object,
-          matchSubject.graph,
-        )
-        setLanguagePreferences(language).using(ldo)
-
-        startTransaction(ldo)
-        transform(ldo)
-
-        patch = await toN3Patch(ldo)
-      }
-
-      return await fullFetch(uri, {
-        method: 'PATCH',
-        body: patch,
-        headers: { 'content-type': 'text/n3' },
-      })
-    },
+    mutationFn: updateLdoDocument<S>(shapeType),
     onSuccess: onSuccessInvalidate(queryClient, data => data.status === 201),
   })
 }

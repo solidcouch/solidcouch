@@ -1,4 +1,4 @@
-import { LdoJsonldContext, LdSet } from '@ldo/ldo'
+import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -10,34 +10,34 @@ import { LdoJsonldContext, LdSet } from '@ldo/ldo'
  * PublicTypeIndex Type
  */
 export interface PublicTypeIndex {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: LdSet<
     | {
-        '@id': 'TypeIndex'
+        "@id": "TypeIndex";
       }
     | {
-        '@id': 'ListedDocument'
+        "@id": "ListedDocument";
       }
-  >
+  >;
 }
 
 /**
  * TypeRegistration Type
  */
 export interface TypeRegistration {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'TypeRegistration'
-  }
+    "@id": "TypeRegistration";
+  };
   forClass: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
   instance?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
   instanceContainer?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
 }

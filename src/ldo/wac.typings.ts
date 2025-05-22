@@ -1,4 +1,4 @@
-import { LdoJsonldContext, LdSet } from '@ldo/ldo'
+import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -10,44 +10,44 @@ import { LdoJsonldContext, LdSet } from '@ldo/ldo'
  * Authorization Type
  */
 export interface Authorization {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   type: {
-    '@id': 'Authorization'
-  }
+    "@id": "Authorization";
+  };
   accessTo: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
   default?: {
-    '@id': string
-  }
+    "@id": string;
+  };
   agent?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
   agentClass?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
   agentGroup?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
   mode?: LdSet<
     | {
-        '@id': string
+        "@id": string;
       }
     | {
-        '@id': 'Read'
+        "@id": "Read";
       }
     | {
-        '@id': 'Write'
+        "@id": "Write";
       }
     | {
-        '@id': 'Control'
+        "@id": "Control";
       }
     | {
-        '@id': 'Append'
+        "@id": "Append";
       }
-  >
+  >;
   origin?: LdSet<{
-    '@id': string
-  }>
+    "@id": string;
+  }>;
 }
