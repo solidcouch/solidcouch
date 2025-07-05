@@ -3135,13 +3135,13 @@
   resolved "https://registry.npmjs.org/@img/sharp-win32-x64/-/sharp-win32-x64-0.33.5.tgz#56f00962ff0c4e0eb93d34a047d29fa995e3e342"
   integrity sha512-MpY/o8/8kj+EcnxwvrP4aTJSWw/aZ7JIGR4aBeZkZw5B7/Jn+tY9/VNwtcoGmdT7GfggGIU4kygOMSbYnOrAbg==
 
-"@inrupt/oidc-client-ext@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.npmjs.org/@inrupt/oidc-client-ext/-/oidc-client-ext-2.4.1.tgz#7ef57b4d408b6aa5d7ac16acc79c01d6ee8746db"
-  integrity sha512-DyPVYgsreWn0ila+CCDXOdPNINJHpFpvpqNaiMxzJftD+DDw/m1Dg8pPr1H/afFZmmMyf1KTrcdvZd4d+yahRw==
+"@inrupt/oidc-client-ext@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/@inrupt/oidc-client-ext/-/oidc-client-ext-3.0.0.tgz#63af408babc2baea0cefb1154e2f11f6ab1e5f22"
+  integrity sha512-eVmNBFueN/eM0u3B8QHqtr/qlMVN3BXJa9zZONhPGa3UKYwjXD6SgwDHPIvU+//kY2aUYxOpEdSKMbvyDpMZMw==
   dependencies:
     "@inrupt/oidc-client" "^1.11.6"
-    "@inrupt/solid-client-authn-core" "^2.4.1"
+    "@inrupt/solid-client-authn-core" "^3.0.0"
     jose "^5.1.3"
     uuid "^11.1.0"
 
@@ -3156,13 +3156,13 @@
     crypto-js "^4.0.0"
     serialize-javascript "^4.0.0"
 
-"@inrupt/solid-client-authn-browser@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.npmjs.org/@inrupt/solid-client-authn-browser/-/solid-client-authn-browser-2.4.1.tgz#2c8956bb101279243036278c2787230ac0eae9e6"
-  integrity sha512-oUA9I0+o6ICypvJ4YuvWJznFKeqo6h/C7uxXSouqJXzqF45tA6z4ZtTzlE/gvDT7WTTEFtHFTcx+poCEg1BNLw==
+"@inrupt/solid-client-authn-browser@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/@inrupt/solid-client-authn-browser/-/solid-client-authn-browser-3.0.0.tgz#e4cd466ae6c612e7465e5b501b4530e874d1e52b"
+  integrity sha512-rA0mIqWRatCfEQ5fog7IxJAdga7cTCZyUWdFYFeSRnI/vTr4bQ4aGu0VEOdT00UJv1AqQcIKStHdJG3F23xDvA==
   dependencies:
-    "@inrupt/oidc-client-ext" "^2.4.1"
-    "@inrupt/solid-client-authn-core" "^2.4.1"
+    "@inrupt/oidc-client-ext" "^3.0.0"
+    "@inrupt/solid-client-authn-core" "^3.0.0"
     events "^3.3.0"
     jose "^5.1.3"
     uuid "^11.1.0"
@@ -3177,10 +3177,10 @@
     jose "^4.15.4"
     uuid "^9.0.1"
 
-"@inrupt/solid-client-authn-core@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.npmjs.org/@inrupt/solid-client-authn-core/-/solid-client-authn-core-2.4.1.tgz#1cb4aab72ae367c2885ded98dae429b707005bb4"
-  integrity sha512-px0O5m4xTIgV/uFmfR956F+ZVBaoCzpRlaGjThhgPrUqy5obI6X4A/qXv3Cil6Hkmc2Ip/whiq77OQUmRbvYog==
+"@inrupt/solid-client-authn-core@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/@inrupt/solid-client-authn-core/-/solid-client-authn-core-3.0.0.tgz#16be38dddea34a0ae35ab043ffc09592ada9b4e0"
+  integrity sha512-x5AovRam09qEKjIxGbYRmNUXXlQyWXUmVf5515RxiOPwfAlfp3PQpgoB0UU2u9SIToMOjb1wc6cAsFxZmy0qQw==
   dependencies:
     events "^3.3.0"
     jose "^5.1.3"
@@ -12077,12 +12077,7 @@ uuid@^8.3.2:
   resolved "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
-uuid@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.npmjs.org/uuid/-/uuid-9.0.0.tgz"
-  integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
-
-uuid@^9.0.1:
+uuid@^9.0.0, uuid@^9.0.1:
   version "9.0.1"
   resolved "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
   integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
