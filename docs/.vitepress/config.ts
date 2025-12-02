@@ -26,6 +26,8 @@ export default defineConfig({
       { icon: 'matrix', link: 'https://matrix.to/#/#solidcouch:matrix.org' },
       { icon: 'github', link: 'https://github.com/solidcouch/solidcouch' },
     ],
+
+    logo: 'logo.svg',
   },
   head: [['link', { rel: 'icon', href: 'logo.svg' }]],
   ignoreDeadLinks: 'localhostLinks',
