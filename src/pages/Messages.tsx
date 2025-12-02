@@ -20,7 +20,7 @@ import clsx from 'clsx'
 import { produce } from 'immer'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import styles from './Messages.module.scss'
 
 enum NotificationStatus {

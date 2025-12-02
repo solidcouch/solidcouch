@@ -7,6 +7,8 @@ import {
   communityId,
   darkModeLogoStyle,
   defaultCommunityName,
+  emailNotificationsIdentity,
+  emailNotificationsService,
   emailNotificationsType,
   geoindexService,
   oidcIssuers,
@@ -17,6 +19,8 @@ export type ConfigType = typeof fullConfig
 
 const config = {
   ...fullConfig,
+  emailNotificationsService,
+  emailNotificationsIdentity,
   communityId,
   communityContainer,
   emailNotificationsType,

@@ -2,7 +2,7 @@ import * as authSlice from '@/redux/authSlice'
 import { useAppDispatch } from '@/redux/hooks'
 import { logout } from '@inrupt/solid-client-authn-browser'
 import { Trans } from '@lingui/react/macro'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 export const SignOut = () => {
   const dispatch = useAppDispatch()

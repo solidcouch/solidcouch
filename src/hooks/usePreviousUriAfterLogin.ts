@@ -1,7 +1,7 @@
 import { selectAuth } from '@/redux/authSlice'
 import { useAppSelector } from '@/redux/hooks'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 export const usePreviousUriAfterLogin = () => {
   const auth = useAppSelector(selectAuth)

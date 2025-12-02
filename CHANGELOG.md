@@ -22,12 +22,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Enable `noUncheckedIndexedAccess` in tsconfig to improve type safety when accessing array and object properties.
 
+### Removed
+
+- **BREAKING_CHANGE**: Remove support for Node v20. Node v22 is the only supported version.
+
 ### Fixed
 
 - Fix a bug in wikidata data parsing.
 - Fix tests running in firefox.
 - Save preferences file during setup.
 - Redirect to root after signout.
+- Replace `encodeURIComponent` with `strict-uri-encode`. This may slightly change uris.
 
 ## [0.3.0] - 2025-02-19
 

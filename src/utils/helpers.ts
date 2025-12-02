@@ -81,11 +81,11 @@ export const removeHashFromURI = (uri: URI): URI => {
 /**
  * Convert (http) uri to uri with https://
  */
-export const https = (uri: URI): URI => {
-  const url = new URL(uri)
-  url.protocol = 'https'
-  return url.toString()
-}
+// export const https = (uri: URI): URI => {
+//   const url = new URL(uri)
+//   url.protocol = 'https'
+//   return url.toString()
+// }
 
 /**
  * Find repeated values in a sequence generated based on a starting value and a generator function.
@@ -136,6 +136,13 @@ interface Access {
   defaults: string[]
 }
 
+const aclModes = [acl.Read, acl.Write, acl.Append, acl.Control] as const
+type AclMode = (typeof aclModes)[number]
+
+function isMode(mode: string): mode is AclMode {
+  return aclModes.includes(mode as AclMode)
+}
+
 export const processAcl = (url: string, content: string): Access[] => {
   const parser = new n3.Parser({ baseIRI: url })
   const quads = parser.parse(content)
@@ -152,7 +159,7 @@ export const processAcl = (url: string, content: string): Access[] => {
   return auths.map(auth => {
     const modes = store
       .getObjects(auth, acl.mode, null)
-      .map(mode => accessDict[mode.value])
+      .map(mode => (isMode(mode.value) ? accessDict[mode.value] : undefined))
       .filter((mode): mode is AccessMode => typeof mode !== 'undefined')
 
     const agents = store.getObjects(auth, acl.agent, null).map(q => q.value)

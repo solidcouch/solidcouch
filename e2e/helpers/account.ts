@@ -27,26 +27,23 @@ export const createRandomAccount = async () => {
   })
 
   const authenticatedFetch = async (...props: Parameters<typeof fetch>) => {
-    const authFetch = await v7.getAuthenticatedFetch({
-      ...account,
-      provider: account.idp,
-    })
+    const authFetch = await v7.getAuthenticatedFetch(account)
     return authFetch(...props)
   }
 
-  return { ...account, provider: account.idp, authFetch: authenticatedFetch }
+  return { ...account, authFetch: authenticatedFetch }
 }
 
 export const signIn = async (
   page: Page,
-  account: { email: string; password: string; idp: string },
+  account: { email: string; password: string; oidcIssuer: string },
 ) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'Sign in' }).click()
   await page.getByRole('textbox', { name: 'Your webId or provider' }).click()
   await page
     .getByRole('textbox', { name: 'Your webId or provider' })
-    .fill(account.idp)
+    .fill(account.oidcIssuer)
   await page.getByRole('button', { name: 'Continue' }).click()
   try {
     await page

@@ -7,7 +7,8 @@ import { useAuth } from '@/hooks/useAuth'
 import { Thread as ThreadType } from '@/types'
 import { Trans, useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
+import encodeURIComponent from 'strict-uri-encode'
 import styles from './Threads.module.scss'
 
 export const Threads = () => {

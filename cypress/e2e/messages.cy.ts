@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import { as, dct } from 'rdf-namespaces'
+import encodeURIComponent from 'strict-uri-encode'
 import { Person } from '../support/commands'
 import { UserConfig } from '../support/css-authentication'
 

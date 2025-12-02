@@ -15,7 +15,7 @@ import omit from 'lodash/omit'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { FaCamera } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { EditInterests } from './EditInterests.tsx'
 import styles from './EditProfile.module.scss'
 
@@ -175,6 +175,7 @@ const EditProfileForm = ({
             locale={locale}
             rows={5}
             {...field}
+            value={field.value!}
           />
         )}
       />

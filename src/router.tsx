@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router'
 import { App } from './App.tsx'
 import { About } from './pages/About/About.tsx'
 import { AuthenticatedOutlet } from './pages/AuthenticatedOutlet.tsx'

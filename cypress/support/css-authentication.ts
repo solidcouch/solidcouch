@@ -3,12 +3,13 @@ import {
   generateDpopKeyPair,
   KeyPair,
 } from '@inrupt/solid-client-authn-core'
+import { v7 } from 'css-authn'
+import encodeURIComponent from 'strict-uri-encode'
 import { buildAuthenticatedFetch } from './buildAuthenticatedFetch'
 import { cyFetchWrapper, cyUnwrapFetch } from './css-authentication-helpers'
-import { throwIfResponseNotOk } from './setup'
 
 export interface UserConfig {
-  idp: string
+  oidcIssuer: string
   podUrl: string
   webId: string
   username: string
@@ -146,67 +147,4 @@ export const getAuthenticatedRequest = (user: UserConfig) =>
       return cy.wrap(authRequest, { log: false })
     })
 
-// TODO replace with css-authn when it works in browser again
-export const getAuthenticatedFetch = async (user: UserConfig) => {
-  const res1 = await fetch(new URL('/.account/', user.idp))
-  await throwIfResponseNotOk(res1)
-  const loginEndpoint = (await res1.json()).controls.password.login as string
-  const res2 = await fetch(loginEndpoint, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ email: user.email, password: user.password }),
-  })
-  await throwIfResponseNotOk(res2)
-  const authorization = (await res2.json()).authorization
-
-  const res3 = await fetch(new URL('/.account/', user.idp), {
-    headers: { authorization: `CSS-Account-Token ${authorization}` },
-  })
-  await throwIfResponseNotOk(res3)
-
-  const controls = (await res3.json()).controls
-
-  const res4 = await fetch(controls.account.clientCredentials, {
-    method: 'POST',
-    headers: {
-      authorization: `CSS-Account-Token ${authorization}`,
-      'content-type': 'application/json',
-    },
-    // The name field will be used when generating the ID of your token.
-    // The WebID field determines which WebID you will identify as when using the token.
-    // Only WebIDs linked to your account can be used.
-    body: JSON.stringify({ name: 'cypress-login-token', webId: user.webId }),
-  })
-  await throwIfResponseNotOk(res4)
-
-  const { id, secret } = await res4.json()
-
-  const tokenUrl = new URL('/.oidc/token', user.idp)
-  const dpopKey = await generateDpopKeyPair()
-  const dpop = await createDpopHeader(tokenUrl.toString(), 'POST', dpopKey)
-  const res5 = await fetch(tokenUrl, {
-    method: 'POST',
-    headers: {
-      // The header needs to be in base64 encoding.
-      authorization: `Basic ${btoa(
-        `${encodeURIComponent(id)}:${encodeURIComponent(secret)}`,
-      )}`,
-      'content-type': 'application/x-www-form-urlencoded',
-      dpop,
-    },
-    body: 'grant_type=client_credentials&scope=webid',
-  })
-  await throwIfResponseNotOk(res5)
-
-  const token = (await res5.json()).access_token
-
-  const authFetch = await buildAuthenticatedFetch(token, { dpopKey })
-
-  const resLogout = await fetch(controls.account.logout, {
-    method: 'POST',
-    headers: { authorization: `CSS-Account-Token ${authorization}` },
-  })
-  await throwIfResponseNotOk(resLogout)
-
-  return authFetch
-}
+export const getAuthenticatedFetch = v7.getAuthenticatedFetch

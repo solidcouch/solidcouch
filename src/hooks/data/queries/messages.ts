@@ -1,11 +1,19 @@
 import { getContainer } from '@/utils/helpers'
-import { as, meeting, space, wf } from '@/utils/rdf-namespaces'
-import type { RdfQuery } from '@ldhop/core'
+import { meeting, wf } from '@/utils/rdf-namespaces'
+import type { Constant, LdhopQuery } from '@ldhop/core'
 import { NamedNode, Term } from 'n3'
-import { dct, ldp, rdf, solid } from 'rdf-namespaces'
-import { personInbox, profileDocuments } from './profile'
+import { as, dct, ldp, rdf, solid, space } from 'rdf-namespaces'
+import { LdhopQueryVars, personInbox, profileDocuments } from './profile'
 
-export const inboxMessagesQuery: RdfQuery = [
+export const inboxMessagesQuery: LdhopQuery<
+  | LdhopQueryVars<typeof profileDocuments>
+  | '?inbox'
+  | '?notification'
+  | '?addNotification'
+  | '?longChatNotification'
+  | '?message'
+  | '?chat'
+> = [
   ...profileDocuments,
   personInbox,
   {
@@ -49,7 +57,16 @@ export const inboxMessagesQuery: RdfQuery = [
   { type: 'add resources', variable: '?chat' },
 ]
 
-const chats: RdfQuery = [
+const chats: LdhopQuery<
+  | '?person'
+  | '?profileDocument'
+  | '?preferencesFile'
+  | '?typeRegistration'
+  | '?privateTypeIndex'
+  | '?typeRegistrationForChat'
+  | '?chat'
+  | '?participation'
+> = [
   ...profileDocuments,
   {
     type: 'match',
@@ -93,13 +110,13 @@ const chats: RdfQuery = [
   {
     type: 'match',
     subject: '?chat',
-    predicate: wf.participation,
+    predicate: wf.participation as Constant,
     pick: 'object',
     target: '?participation',
   },
 ]
 
-const threadsQuery: RdfQuery = [
+const threadsQuery: LdhopQuery<LdhopQueryVars<typeof chats> | '?otherChat'> = [
   ...chats,
   {
     type: 'match',
@@ -110,7 +127,15 @@ const threadsQuery: RdfQuery = [
   },
 ]
 
-const chatsWithPerson: RdfQuery = [
+const chatsWithPerson: LdhopQuery<
+  | LdhopQueryVars<typeof chats>
+  | '?otherPerson'
+  | '?otherPersonParticipation'
+  | '?participant'
+  | '?chatWithOtherPerson'
+  | '?chatWithOtherPersonParticipation'
+  | '?otherChat'
+> = [
   ...chats,
   {
     type: 'match',
@@ -159,7 +184,16 @@ const chatsWithPerson: RdfQuery = [
   },
 ]
 
-const messageTree: RdfQuery = [
+const messageTree: LdhopQuery<
+  | '?chatContainer'
+  | '?year'
+  | '?month'
+  | '?day'
+  | '?messageDoc'
+  | '?chat'
+  | '?otherChat'
+  | '?message'
+> = [
   {
     type: 'match',
     subject: '?chatContainer',
@@ -210,7 +244,9 @@ const getContainerNode = (term: Term) =>
     ? new NamedNode(getContainer(term.value))
     : undefined
 
-export const messages: RdfQuery = [
+export const messages: LdhopQuery<
+  LdhopQueryVars<typeof chatsWithPerson> | LdhopQueryVars<typeof messageTree>
+> = [
   ...chatsWithPerson,
   {
     type: 'transform variable',
@@ -227,7 +263,9 @@ export const messages: RdfQuery = [
   ...messageTree,
 ]
 
-export const threads: RdfQuery = [
+export const threads: LdhopQuery<
+  LdhopQueryVars<typeof threadsQuery> | LdhopQueryVars<typeof messageTree>
+> = [
   ...threadsQuery,
   {
     type: 'transform variable',

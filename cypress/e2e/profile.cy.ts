@@ -1,3 +1,4 @@
+import encodeURIComponent from 'strict-uri-encode'
 import { Person } from '../support/commands'
 import { UserConfig } from '../support/css-authentication'
 

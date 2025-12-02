@@ -13,7 +13,7 @@ import { useCallback, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import { AccommodationInfo } from './AccommodationInfo.tsx'
 import styles from './SearchHosts.module.scss'
 

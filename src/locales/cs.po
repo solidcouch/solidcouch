@@ -17,8 +17,8 @@ msgstr ""
 msgid "{label} added to interests"
 msgstr "{label} byl přidán do zájmů"
 
+#: src/components/Header/MainMenu.tsx:49
 #: src/pages/Home.tsx:28
-#: src/components/Header/MainMenu.tsx:48
 msgid "{messageCount, plural, one {(# new)} other {(# new)}}"
 msgstr "{messageCount, plural, one {(# nová)} few {(# nové)} other {(# nových)}}"
 
@@ -94,8 +94,8 @@ msgstr "Přidat do mých kontaktů"
 msgid "Adding {label} to interests"
 msgstr "Přidávání {label} do zájmů"
 
-#: src/pages/ProfileRedirect.tsx:12
 #: src/pages/Contacts.tsx:20
+#: src/pages/ProfileRedirect.tsx:13
 msgid "authenticating"
 msgstr "ověřování"
 
@@ -103,9 +103,9 @@ msgstr "ověřování"
 msgid "Authenticating..."
 msgstr "Ověřování..."
 
-#: src/pages/Profile/ManageContact.tsx:185
+#: src/components/AccommodationForm/AccommodationForm.tsx:151
 #: src/components/LocaleTextInput/LocaleTextInput.tsx:188
-#: src/components/AccommodationForm/AccommodationForm.tsx:150
+#: src/pages/Profile/ManageContact.tsx:185
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -145,8 +145,8 @@ msgstr "Kontakt již existuje"
 msgid "Contact request sent"
 msgstr "Pozvánka odeslána"
 
-#: src/pages/Profile/Profile.tsx:56
-#: src/components/Header/MainMenu.tsx:55
+#: src/components/Header/MainMenu.tsx:56
+#: src/pages/Profile/Profile.tsx:60
 msgid "contacts"
 msgstr "kontakty"
 
@@ -154,13 +154,13 @@ msgstr "kontakty"
 msgid "Contacts of <0/>"
 msgstr "Kontakty <0/>"
 
-#: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/HospexSetup/Step0.tsx:177
 #: src/components/SignIn/SignIn.tsx:129
+#: src/pages/HospexSetup/Step0.tsx:177
+#: src/pages/HospexSetup/Step1.tsx:198
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/pages/Threads.tsx:28
+#: src/pages/Threads.tsx:29
 msgid "Conversations"
 msgstr "Konverzace"
 
@@ -208,8 +208,8 @@ msgstr "Opravdu chcete smazat ubytování?"
 msgid "Edit"
 msgstr "Upravit"
 
-#: src/pages/Profile/Profile.tsx:47
-#: src/components/Header/MainMenu.tsx:39
+#: src/components/Header/MainMenu.tsx:40
+#: src/pages/Profile/Profile.tsx:48
 msgid "edit profile"
 msgstr "upravit profil"
 
@@ -338,8 +338,8 @@ msgstr "Připojit se ke komunitě"
 msgid "Join community {communityLabel}"
 msgstr "Připojit se ke komunitě {communityLabel}"
 
-#: src/pages/Profile/Profile.tsx:67
 #: src/pages/EditProfile/EditInterests.tsx:68
+#: src/pages/Profile/Profile.tsx:71
 msgid "loading interests..."
 msgstr "načítání zájmů..."
 
@@ -348,11 +348,11 @@ msgid "Loading previous messages"
 msgstr "Načítání předchozích zpráv"
 
 #: src/App.tsx:47
-#: src/pages/Threads.tsx:21
-#: src/pages/MyOffers.tsx:95
 #: src/pages/Messages.tsx:205
-#: src/pages/SearchHosts/AccommodationInfo.tsx:50
+#: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26
+#: src/pages/SearchHosts/AccommodationInfo.tsx:51
+#: src/pages/Threads.tsx:22
 msgid "Loading..."
 msgstr "Načítání..."
 
@@ -364,12 +364,12 @@ msgstr "logo {name}"
 msgid "Message was created"
 msgstr "Zpráva byla vytvořena"
 
+#: src/components/Header/MainMenu.tsx:45
 #: src/pages/Home.tsx:24
-#: src/components/Header/MainMenu.tsx:44
 msgid "messages"
 msgstr "zprávy"
 
-#: src/pages/Threads.tsx:54
+#: src/pages/Threads.tsx:55
 msgid "Messages with {personLabel}"
 msgstr "Zprávy s {personLabel}"
 
@@ -390,7 +390,7 @@ msgstr "více"
 msgid "My Accommodation Offers"
 msgstr "Moje nabídky ubytování"
 
-#: src/components/Header/MainMenu.tsx:60
+#: src/components/Header/MainMenu.tsx:61
 msgid "my hosting"
 msgstr "mé ubytování"
 
@@ -472,11 +472,11 @@ msgstr "Soukromý index typu není nastaven (nemělo by se to stát)."
 msgid "process"
 msgstr "zpracování"
 
-#: src/components/Header/MainMenu.tsx:35
+#: src/components/Header/MainMenu.tsx:36
 msgid "profile"
 msgstr "profil"
 
-#: src/pages/Profile/Profile.tsx:33
+#: src/pages/Profile/Profile.tsx:34
 msgid "Profile photo of {name}"
 msgstr "Profilová fotka {name}"
 
@@ -504,11 +504,11 @@ msgstr "Odstraňování zájmu"
 msgid "Resend Confirmation Email in {countdown}s"
 msgstr "Za {countdown}s znovu odeslat potvrzovací e-mail"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:153
+#: src/components/AccommodationForm/AccommodationForm.tsx:154
 msgid "Save"
 msgstr "Uložit"
 
-#: src/pages/EditProfile/EditProfile.tsx:183
+#: src/pages/EditProfile/EditProfile.tsx:184
 msgid "Save changes"
 msgstr "Uložit změny"
 
@@ -614,7 +614,7 @@ msgstr "Přepnout na světlé téma"
 msgid "Tell others about your place and hosting"
 msgstr "Povězte ostatním o svém místě a hostování"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:144
+#: src/components/AccommodationForm/AccommodationForm.tsx:145
 msgid "This field is required"
 msgstr "Toto pole je povinné"
 
@@ -670,8 +670,8 @@ msgstr "Ověřujeme, že je vše správně nastaveno."
 msgid "WIP"
 msgstr "Pracujeme na tom"
 
-#: src/pages/SearchHosts/AccommodationInfo.tsx:58
-#: src/pages/Profile/Profile.tsx:52
+#: src/pages/Profile/Profile.tsx:53
+#: src/pages/SearchHosts/AccommodationInfo.tsx:59
 msgid "Write a message"
 msgstr "Napsat zprávu"
 
