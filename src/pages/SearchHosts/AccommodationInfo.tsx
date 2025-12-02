@@ -7,6 +7,7 @@ import { selectLocale } from '@/redux/uiSlice'
 import { URI } from '@/types'
 import { Trans } from '@lingui/react/macro'
 import { Link } from 'react-router-dom'
+import encodeURIComponent from 'strict-uri-encode'
 import styles from './AccommodationInfo.module.scss'
 
 export const AccommodationInfo = ({

@@ -17,7 +17,7 @@ msgstr ""
 msgid "{label} added to interests"
 msgstr "{label} added to interests"
 
-#: src/components/Header/MainMenu.tsx:48
+#: src/components/Header/MainMenu.tsx:49
 #: src/pages/Home.tsx:28
 msgid "{messageCount, plural, one {(# new)} other {(# new)}}"
 msgstr "{messageCount, plural, one {(# new)} other {(# new)}}"
@@ -95,7 +95,7 @@ msgid "Adding {label} to interests"
 msgstr "Adding {label} to interests"
 
 #: src/pages/Contacts.tsx:20
-#: src/pages/ProfileRedirect.tsx:12
+#: src/pages/ProfileRedirect.tsx:13
 msgid "authenticating"
 msgstr "authenticating"
 
@@ -145,8 +145,8 @@ msgstr "Contact exists"
 msgid "Contact request sent"
 msgstr "Contact request sent"
 
-#: src/components/Header/MainMenu.tsx:55
-#: src/pages/Profile/Profile.tsx:56
+#: src/components/Header/MainMenu.tsx:56
+#: src/pages/Profile/Profile.tsx:57
 msgid "contacts"
 msgstr "contacts"
 
@@ -160,7 +160,7 @@ msgstr "Contacts of <0/>"
 msgid "Continue"
 msgstr "Continue"
 
-#: src/pages/Threads.tsx:28
+#: src/pages/Threads.tsx:29
 msgid "Conversations"
 msgstr "Conversations"
 
@@ -208,8 +208,8 @@ msgstr "Do you really want to delete the accommodation?"
 msgid "Edit"
 msgstr "Edit"
 
-#: src/components/Header/MainMenu.tsx:39
-#: src/pages/Profile/Profile.tsx:47
+#: src/components/Header/MainMenu.tsx:40
+#: src/pages/Profile/Profile.tsx:48
 msgid "edit profile"
 msgstr "edit profile"
 
@@ -339,7 +339,7 @@ msgid "Join community {communityLabel}"
 msgstr "Join community {communityLabel}"
 
 #: src/pages/EditProfile/EditInterests.tsx:68
-#: src/pages/Profile/Profile.tsx:67
+#: src/pages/Profile/Profile.tsx:68
 msgid "loading interests..."
 msgstr "loading interests..."
 
@@ -351,8 +351,8 @@ msgstr "Loading previous messages"
 #: src/pages/Messages.tsx:205
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26
-#: src/pages/SearchHosts/AccommodationInfo.tsx:50
-#: src/pages/Threads.tsx:21
+#: src/pages/SearchHosts/AccommodationInfo.tsx:51
+#: src/pages/Threads.tsx:22
 msgid "Loading..."
 msgstr "Loading..."
 
@@ -364,12 +364,12 @@ msgstr "logo of {name}"
 msgid "Message was created"
 msgstr "Message was created"
 
-#: src/components/Header/MainMenu.tsx:44
+#: src/components/Header/MainMenu.tsx:45
 #: src/pages/Home.tsx:24
 msgid "messages"
 msgstr "messages"
 
-#: src/pages/Threads.tsx:54
+#: src/pages/Threads.tsx:55
 msgid "Messages with {personLabel}"
 msgstr "Messages with {personLabel}"
 
@@ -390,7 +390,7 @@ msgstr "more"
 msgid "My Accommodation Offers"
 msgstr "My Accommodation Offers"
 
-#: src/components/Header/MainMenu.tsx:60
+#: src/components/Header/MainMenu.tsx:61
 msgid "my hosting"
 msgstr "my hosting"
 
@@ -472,11 +472,11 @@ msgstr "Private type index not set up (should not happen)"
 msgid "process"
 msgstr "process"
 
-#: src/components/Header/MainMenu.tsx:35
+#: src/components/Header/MainMenu.tsx:36
 msgid "profile"
 msgstr "profile"
 
-#: src/pages/Profile/Profile.tsx:33
+#: src/pages/Profile/Profile.tsx:34
 msgid "Profile photo of {name}"
 msgstr "Profile photo of {name}"
 
@@ -670,8 +670,8 @@ msgstr "We're verifying that everything is configured correctly."
 msgid "WIP"
 msgstr "WIP"
 
-#: src/pages/Profile/Profile.tsx:52
-#: src/pages/SearchHosts/AccommodationInfo.tsx:58
+#: src/pages/Profile/Profile.tsx:53
+#: src/pages/SearchHosts/AccommodationInfo.tsx:59
 msgid "Write a message"
 msgstr "Write a message"
 

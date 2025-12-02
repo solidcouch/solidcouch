@@ -3,6 +3,7 @@ import { useConfig } from '@/config/hooks'
 import { useProfile } from '@/hooks/data/useProfile'
 import { URI } from '@/types'
 import { Link } from 'react-router-dom'
+import encodeURIComponent from 'strict-uri-encode'
 import styles from './PersonBadge.module.scss'
 
 export const PersonBadge = ({

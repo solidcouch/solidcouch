@@ -7,6 +7,7 @@ import {
   space,
   vcard,
 } from 'rdf-namespaces'
+import encodeURIComponent from 'strict-uri-encode'
 import { getContainer } from '../../src/utils/helpers'
 import { Person } from './commands'
 import { logoutUser, UserConfig } from './css-authentication'

@@ -9,6 +9,7 @@ import { selectTheme } from '@/redux/uiSlice'
 import { Plural, Trans } from '@lingui/react/macro'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@szhsin/react-menu'
 import { Link } from 'react-router-dom'
+import encodeURIComponent from 'strict-uri-encode'
 
 export const MainMenu = () => {
   const { communityId } = useConfig()

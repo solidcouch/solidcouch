@@ -1,4 +1,5 @@
 import { expect, Page, test } from '@playwright/test'
+import encodeURIComponent from 'strict-uri-encode'
 import { createPerson, signIn, signOut } from './helpers/account'
 import { setupCommunity } from './helpers/community'
 import { stubMailer } from './helpers/mailer'

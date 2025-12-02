@@ -9,6 +9,7 @@ import { selectLocale } from '@/redux/uiSlice.ts'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { FaPencilAlt } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
+import encodeURIComponent from 'strict-uri-encode'
 import { ManageContact } from './ManageContact.tsx'
 import styles from './Profile.module.scss'
 

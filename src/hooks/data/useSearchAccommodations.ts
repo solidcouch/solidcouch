@@ -12,6 +12,7 @@ import { useQueries } from '@tanstack/react-query'
 import { Parser, Store } from 'n3'
 import ngeohash from 'ngeohash'
 import { useEffect, useMemo, useState } from 'react'
+import encodeURIComponent from 'strict-uri-encode'
 import { searchAccommodationsQuery } from './queries'
 import { QueryKey } from './types'
 

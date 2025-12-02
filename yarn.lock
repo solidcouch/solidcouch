@@ -7747,6 +7747,11 @@
   dependencies:
     "@rdfjs/types" ">=1.0.0"
 
+"@types/strict-uri-encode@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/@types/strict-uri-encode/-/strict-uri-encode-2.0.2.tgz#a7a04d82defe95219fe99bd91f3b1a0af437b77b"
+  integrity sha512-kC6ZIzFuf4UFsVFCJEHtVB4YUyTHfZiYQ5fE79MdlWvLzsWb/fDIC8oU1qRv4qLdK4532dkyALDb45yd1ddyeg==
+
 "@types/triple-beam@^1.3.2":
   version "1.3.5"
   resolved "https://registry.npmjs.org/@types/triple-beam/-/triple-beam-1.3.5.tgz#74fef9ffbaa198eb8b588be029f38b00299caa2c"
@@ -13877,6 +13882,11 @@ streamify-array@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/streamify-array/-/streamify-array-1.0.1.tgz#741cd1e7eaf1d451a0da484e5dc986a76dfa479c"
   integrity sha512-ZnswaBcC6B1bhPLSQOlC6CdaDUSzU0wr2lvvHpbHNms8V7+DLd8uEAzDAWpsjxbFkijBHhuObFO/qqu52DZUMA==
+
+strict-uri-encode@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz#b9c7330c7042862f6b142dc274bbcc5866ce3546"
+  integrity sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==
 
 string-argv@^0.3.2:
   version "0.3.2"
