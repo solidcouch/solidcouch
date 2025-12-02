@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { IconType } from 'react-icons/lib'
-import { Link, LinkProps } from 'react-router-dom'
+import { Link, LinkProps } from 'react-router'
 import styles from './Button.module.scss'
 
 type ButtonProps = {
@@ -36,7 +36,7 @@ export const Button = ({
 }
 
 /**
- * A react-router-dom Link styled to look like button
+ * A react-router Link styled to look like button
  */
 export const ButtonLink = ({
   primary,

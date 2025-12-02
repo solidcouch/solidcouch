@@ -146,7 +146,7 @@ msgid "Contact request sent"
 msgstr "Pozvánka odeslána"
 
 #: src/components/Header/MainMenu.tsx:56
-#: src/pages/Profile/Profile.tsx:57
+#: src/pages/Profile/Profile.tsx:60
 msgid "contacts"
 msgstr "kontakty"
 
@@ -339,7 +339,7 @@ msgid "Join community {communityLabel}"
 msgstr "Připojit se ke komunitě {communityLabel}"
 
 #: src/pages/EditProfile/EditInterests.tsx:68
-#: src/pages/Profile/Profile.tsx:68
+#: src/pages/Profile/Profile.tsx:71
 msgid "loading interests..."
 msgstr "načítání zájmů..."
 

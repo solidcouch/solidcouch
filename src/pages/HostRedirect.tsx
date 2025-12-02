@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router'
 
 export const HostRedirect = () => {
   return <Navigate to="offers" replace />

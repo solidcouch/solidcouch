@@ -8,7 +8,7 @@ import { useAppSelector } from '@/redux/hooks.ts'
 import { selectLocale } from '@/redux/uiSlice.ts'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { FaPencilAlt } from 'react-icons/fa'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import encodeURIComponent from 'strict-uri-encode'
 import { ManageContact } from './ManageContact.tsx'
 import styles from './Profile.module.scss'
@@ -53,7 +53,10 @@ export const Profile = () => {
           <Trans>Write a message</Trans>
         </ButtonLink>
       )}
-      <ButtonLink tertiary to="contacts">
+      <ButtonLink
+        tertiary
+        to={`/profile/${encodeURIComponent(personId)}/contacts`}
+      >
         <Trans>contacts</Trans>
       </ButtonLink>
       {isMe === false && <ManageContact webId={personId} />}

@@ -1,7 +1,7 @@
 import { Loading } from '@/components'
 import { useAuth } from '@/hooks/useAuth'
 import { Trans } from '@lingui/react/macro'
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router'
 import encodeURIComponent from 'strict-uri-encode'
 
 export const ProfileRedirect = () => {

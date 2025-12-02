@@ -4,7 +4,7 @@ import { ContactStatus, useReadContacts } from '@/hooks/data/useContacts'
 import { useAuth } from '@/hooks/useAuth'
 import * as types from '@/types'
 import { Trans } from '@lingui/react/macro'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import styles from './Contacts.module.scss'
 import { ProcessContactInvitation } from './Profile/ManageContact.tsx'
 
