@@ -4,27 +4,43 @@ import { defineConfig } from 'vitepress'
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
   title: 'SolidCouch',
-  description: 'Open Your Doors, Own Your Data.',
+  description:
+    'Open Your Doors, Own Your Data: Decentralized hospitality exchange built on Solid Protocol.',
+  cleanUrls: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' },
-    ],
+    nav: [{ text: 'Tired Bike', link: 'https://tired.bike' }],
 
     sidebar: [
       {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' },
-        ],
+        text: 'About',
+        link: '/about',
+      },
+      {
+        text: 'Instances',
+        link: '/instances',
+      },
+      {
+        text: 'Contribute',
+        link: '/contribute',
+      },
+      {
+        text: 'Configuration',
+        link: '/configuration',
+      },
+      {
+        text: 'Internationalization',
+        link: '/i18n',
+      },
+      {
+        text: 'Personas',
+        link: '/personas',
       },
     ],
 
     socialLinks: [
       { icon: 'matrix', link: 'https://matrix.to/#/#solidcouch:matrix.org' },
-      { icon: 'github', link: 'https://github.com/solidcouch/solidcouch' },
+      { icon: 'github', link: 'https://github.com/solidcouch' },
     ],
 
     logo: 'logo.svg',

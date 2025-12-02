@@ -12,7 +12,7 @@
 - [ ] show errors
 - [x] better accommodation search algorithm (show found accommodations sooner)
 - [x] fix wasteful queries
-- [ ] save about me in multiple languages
+- [x] save about me in multiple languages
 - [x] testing - WIP
 - [ ] fix compatibility issues among different Solid servers
 - [x] setup inbox if it's missing
@@ -45,14 +45,3 @@
 
 - upload travel plans and invite travellers
 - references
-
-## Bugs
-
-- fix the redirect error: Sometimes the app redirects to identity provider, but identity provider fails with
-  (i think it happened with solidcommunity.net, which runs NodeSolidServer)
-  ```json
-  {
-    "error": "invalid_request",
-    "error_description": "Mismatching redirect uri"
-  }
-  ```

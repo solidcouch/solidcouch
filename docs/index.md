@@ -11,17 +11,20 @@ hero:
     alt: SolidCouch
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Join!
+      link: /instances
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Read more
+      link: /about
+    - theme: alt
+      text: Contribute
+      link: /contribute
 
-features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+#features:
+#  - title: Map with Hosts
+#    icon: 🌐
+#  - title: Profile and Contacts
+#    icon: 🧑‍🦱
+#  - title: Work in Progress
+#    icon: 👷🏼‍♀️
 ---
