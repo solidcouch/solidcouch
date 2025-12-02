@@ -175,6 +175,7 @@ const EditProfileForm = ({
             locale={locale}
             rows={5}
             {...field}
+            value={field.value!}
           />
         )}
       />

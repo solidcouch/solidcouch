@@ -19,10 +19,6 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-// include chai-subset
-import chaiSubset from 'chai-subset'
-chai.use(chaiSubset)
-
 // reset app configuration before every test
 beforeEach(() => cy.resetAppConfig({ waitForContent: 'Sign in' }))
 

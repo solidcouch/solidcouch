@@ -1,9 +1,9 @@
 import { LanguageString } from '@/types'
-import { solid } from '@/utils/rdf-namespaces'
 import { LanguageSetMap, LdSet } from '@ldo/jsonld-dataset-proxy'
 import { languagesOf, LdoBase, transactionChanges } from '@ldo/ldo'
 import { datasetToString } from '@ldo/rdf-utils'
 import type { Dataset } from '@rdfjs/types'
+import { solid } from 'rdf-namespaces'
 
 /**
  * stringifying objects with circular reference, according to MDN:

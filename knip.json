@@ -9,5 +9,5 @@
   ],
   "paths": { "@/*": ["./src/*"] },
   "ignore": ["src/ldo/**", "src/locales/*.ts"],
-  "ignoreDependencies": ["ajv-errors", "@lingui/swc-plugin"]
+  "ignoreDependencies": ["ajv-errors", "@lingui/swc-plugin", "ajv-formats"]
 }

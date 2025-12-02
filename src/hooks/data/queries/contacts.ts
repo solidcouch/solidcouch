@@ -1,9 +1,17 @@
-import { as, rdfs } from '@/utils/rdf-namespaces'
-import type { RdfQuery } from '@ldhop/core'
-import { foaf, ldp, rdf } from 'rdf-namespaces'
-import { personInbox, profileDocuments } from './profile'
+import type { LdhopQuery } from '@ldhop/core'
+import { as, foaf, ldp, rdf, rdfs } from 'rdf-namespaces'
+import {
+  LdhopQueryVars,
+  MatchVar,
+  personInbox,
+  profileDocuments,
+} from './profile'
 
-export const contactsQuery: RdfQuery = [
+export const contactsQuery: LdhopQuery<
+  | LdhopQueryVars<typeof profileDocuments>
+  | '?otherPerson'
+  | '?otherProfileDocument'
+> = [
   ...profileDocuments,
   {
     type: 'match',
@@ -23,7 +31,12 @@ export const contactsQuery: RdfQuery = [
   { type: 'add resources', variable: '?otherProfileDocument' },
 ]
 
-export const contactRequestsQuery: RdfQuery = [
+export const contactRequestsQuery: LdhopQuery<
+  | LdhopQueryVars<typeof profileDocuments>
+  | MatchVar<typeof personInbox>
+  | '?notification'
+  | '?inviteNotification'
+> = [
   ...profileDocuments,
   personInbox,
   {

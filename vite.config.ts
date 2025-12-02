@@ -49,7 +49,13 @@ export default defineConfig((config: ConfigEnv) => {
       postbuild(config),
     ],
     define: {
-      'process.env': process.env,
+      'process.env': {
+        VITE_COMMUNITY_NAME: process.env.VITE_COMMUNITY_NAME,
+        VITE_COMMUNITY_ABOUT: process.env.VITE_COMMUNITY_ABOUT,
+        VITE_COMMUNITY_LOGO: process.env.VITE_COMMUNITY_LOGO,
+        VITE_COMMUNITY_NAME_UNSAFE: process.env.VITE_COMMUNITY_NAME_UNSAFE,
+        VITE_COMMUNITY_HOMEPAGE: process.env.VITE_COMMUNITY_HOMEPAGE,
+      },
       __APP_VERSION__: JSON.stringify(version),
       __APP_COMMIT__: JSON.stringify(commit),
     },

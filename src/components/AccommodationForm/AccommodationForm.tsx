@@ -108,7 +108,7 @@ export const AccommodationForm = ({
         render={({ field }) => (
           <div className={clsx(errors.location && styles.inputError)}>
             <SelectLocation
-              value={field.value}
+              value={field.value!}
               onChange={field.onChange}
               isInitial={!initialData}
             />
@@ -135,6 +135,7 @@ export const AccommodationForm = ({
             initialData={initialData?.description}
             locale={locale}
             {...field}
+            value={field.value!}
             rows={5}
           />
         )}

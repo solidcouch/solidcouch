@@ -6,12 +6,12 @@ import {
 import { FoafProfile, HospexProfile } from '@/ldo/app.typings'
 import { Person, URI } from '@/types'
 import { addLanguagesToLdo, getLanguages, ldo2json } from '@/utils/ldo'
-import { foaf, solid } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import merge from 'lodash/merge'
 import { NamedNode, Store } from 'n3'
+import { foaf, solid } from 'rdf-namespaces'
 import { useCallback, useMemo } from 'react'
 import {
   hospexDocumentQuery,
