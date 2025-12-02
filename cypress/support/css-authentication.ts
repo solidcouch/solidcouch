@@ -3,12 +3,12 @@ import {
   generateDpopKeyPair,
   KeyPair,
 } from '@inrupt/solid-client-authn-core'
+import { v7 } from 'css-authn'
 import { buildAuthenticatedFetch } from './buildAuthenticatedFetch'
 import { cyFetchWrapper, cyUnwrapFetch } from './css-authentication-helpers'
-import { throwIfResponseNotOk } from './setup'
 
 export interface UserConfig {
-  idp: string
+  oidcIssuer: string
   podUrl: string
   webId: string
   username: string
@@ -147,8 +147,11 @@ export const getAuthenticatedRequest = (user: UserConfig) =>
     })
 
 // TODO replace with css-authn when it works in browser again
-export const getAuthenticatedFetch = async (user: UserConfig) => {
-  const res1 = await fetch(new URL('/.account/', user.idp))
+export const getAuthenticatedFetch = v7.getAuthenticatedFetch
+
+/*
+async (user: UserConfig) => {
+  const res1 = await fetch(new URL('/.account/', user.oidcIssuer))
   await throwIfResponseNotOk(res1)
   const loginEndpoint = (await res1.json()).controls.password.login as string
   const res2 = await fetch(loginEndpoint, {
@@ -159,7 +162,7 @@ export const getAuthenticatedFetch = async (user: UserConfig) => {
   await throwIfResponseNotOk(res2)
   const authorization = (await res2.json()).authorization
 
-  const res3 = await fetch(new URL('/.account/', user.idp), {
+  const res3 = await fetch(new URL('/.account/', user.oidcIssuer), {
     headers: { authorization: `CSS-Account-Token ${authorization}` },
   })
   await throwIfResponseNotOk(res3)
@@ -181,7 +184,7 @@ export const getAuthenticatedFetch = async (user: UserConfig) => {
 
   const { id, secret } = await res4.json()
 
-  const tokenUrl = new URL('/.oidc/token', user.idp)
+  const tokenUrl = new URL('/.oidc/token', user.oidcIssuer)
   const dpopKey = await generateDpopKeyPair()
   const dpop = await createDpopHeader(tokenUrl.toString(), 'POST', dpopKey)
   const res5 = await fetch(tokenUrl, {
@@ -210,3 +213,4 @@ export const getAuthenticatedFetch = async (user: UserConfig) => {
 
   return authFetch
 }
+*/

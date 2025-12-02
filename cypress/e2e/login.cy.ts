@@ -16,8 +16,8 @@ describe('Sign in to the app', () => {
     cy.visit('/')
     cy.contains('Sign in').click()
     cy.get<UserConfig>('@user1').then(user1 => {
-      cy.get('input[name=webIdOrIssuer]').type(`${user1.idp}{enter}`)
-      cy.origin(user1.idp, { args: { user1 } }, ({ user1 }) => {
+      cy.get('input[name=webIdOrIssuer]').type(`${user1.oidcIssuer}{enter}`)
+      cy.origin(user1.oidcIssuer, { args: { user1 } }, ({ user1 }) => {
         cy.get('input[name=email]').type(user1.email)
         cy.get('input[name=password]').type(`${user1.password}{enter}`)
         cy.contains(user1.webId)
@@ -32,7 +32,7 @@ describe('Sign in to the app', () => {
     cy.contains('Sign in').click()
     cy.get<UserConfig>('@user1').then(user1 => {
       cy.get('input[name=webIdOrIssuer]').type(`${user1.webId}{enter}`)
-      cy.origin(user1.idp, { args: { user1 } }, ({ user1 }) => {
+      cy.origin(user1.oidcIssuer, { args: { user1 } }, ({ user1 }) => {
         cy.get('input[name=email]').type(user1.email)
         cy.get('input[name=password]').type(`${user1.password}{enter}`)
         cy.get('button#authorize').click()
@@ -45,8 +45,8 @@ describe('Sign in to the app', () => {
     cy.visit('/')
     cy.contains('Sign in').click()
     cy.get<UserConfig>('@user1').then(user1 => {
-      cy.get('input[name=webIdOrIssuer]').type(`${user1.idp}{enter}`)
-      cy.origin(user1.idp, { args: { user1 } }, ({ user1 }) => {
+      cy.get('input[name=webIdOrIssuer]').type(`${user1.oidcIssuer}{enter}`)
+      cy.origin(user1.oidcIssuer, { args: { user1 } }, ({ user1 }) => {
         cy.get('input[name=email]').type(user1.email)
         cy.get('input[name=password]').type(`${user1.password}{enter}`)
         // check that clientid.jsonld is used as ID
@@ -72,11 +72,11 @@ describe('Sign in to the app', () => {
       cy.visit('/')
       cy.contains('Sign in').click()
       // the custom provider should be filled in
-      cy.get('input[name=webIdOrIssuer]').should('have.value', user1.idp)
+      cy.get('input[name=webIdOrIssuer]').should('have.value', user1.oidcIssuer)
       // the provider should also be the first highlighted button
       cy.get('[data-cy=pod-provider-button]')
         .first()
-        .contains(user1.idp.slice(7, -1))
+        .contains(user1.oidcIssuer.slice(7, -1))
     })
   })
 
@@ -108,8 +108,8 @@ describe('Sign in to the app', () => {
     cy.contains('Sign in').click()
     cy.get<Person>('@person').then(person => {
       cy.stubMailer({ person })
-      cy.get('input[name=webIdOrIssuer]').type(`${person.idp}{enter}`)
-      cy.origin(person.idp, { args: { person } }, ({ person }) => {
+      cy.get('input[name=webIdOrIssuer]').type(`${person.oidcIssuer}{enter}`)
+      cy.origin(person.oidcIssuer, { args: { person } }, ({ person }) => {
         cy.get('input[name=email]').type(person.email)
         cy.get('input[name=password]').type(`${person.password}{enter}`)
         cy.get('button#authorize').click()

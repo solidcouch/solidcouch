@@ -584,26 +584,26 @@ const createAccountAsync =
     username,
     password,
     email,
-    provider,
+    oidcIssuer,
   }: {
     username: string
     password?: string
     email?: string
-    provider: string
+    oidcIssuer: string
   }) => {
     password ??= 'correcthorsebatterystaple'
     email ??= username + '@example.org'
 
     const config = {
-      idp: new URL('./', provider).toString(),
-      podUrl: new URL(`${username}/`, provider).toString(),
-      webId: new URL(`${username}/profile/card#me`, provider).toString(),
+      oidcIssuer: new URL('./', oidcIssuer).toString(),
+      podUrl: new URL(`${username}/`, oidcIssuer).toString(),
+      webId: new URL(`${username}/profile/card#me`, oidcIssuer).toString(),
       username,
       password,
       email,
     }
 
-    const accountEndpoint = new URL('.account/account/', provider).toString()
+    const accountEndpoint = new URL('.account/account/', oidcIssuer).toString()
 
     // create the account
     const response = await fetch(accountEndpoint, {
@@ -614,7 +614,7 @@ const createAccountAsync =
     await throwIfResponseNotOk(response)
 
     // get account handles
-    const response2 = await fetch(new URL('.account/', provider).toString(), {
+    const response2 = await fetch(new URL('.account/', oidcIssuer).toString(), {
       credentials: 'include',
     })
     await throwIfResponseNotOk(response2)
@@ -666,7 +666,7 @@ export const createAccount =
           username,
           password,
           email,
-          provider: Cypress.env('CSS_URL') + '/',
+          oidcIssuer: Cypress.env('CSS_URL') + '/',
         }),
       )
       .then(config =>
