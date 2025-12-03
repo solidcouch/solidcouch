@@ -49,8 +49,14 @@ export default defineConfig({
   },
   head: [
     ['link', { rel: 'icon', href: 'logo.svg' }],
-    ['meta', { name: 'og:image', content: '/logo.svg' }],
-    ['meta', { name: 'twitter:image', content: '/logo.svg' }],
+    [
+      'meta',
+      { property: 'og:image', content: 'https://solidcouch.org/logo.png' },
+    ],
+    [
+      'meta',
+      { name: 'twitter:image', content: 'https://solidcouch.org/logo.png' },
+    ],
   ],
   ignoreDeadLinks: 'localhostLinks',
 })
