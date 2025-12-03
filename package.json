@@ -20,7 +20,10 @@
     "cy:dev:css": "community-solid-server -p 4000 -c ./cypress/css-config-no-log.json",
     "cy:dev:open": "cypress open",
     "knip": "knip",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "browserslist": {
     "production": [
@@ -133,7 +136,8 @@
     "utility-types": "^3.11.0",
     "vite": "^7.2.6",
     "vite-bundle-visualizer": "^1.2.1",
-    "vite-plugin-checker": "^0.11.0"
+    "vite-plugin-checker": "^0.11.0",
+    "vitepress": "^2.0.0-alpha.15"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

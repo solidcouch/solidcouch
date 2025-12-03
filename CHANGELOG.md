@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add i18n to accommodation description.
 - Show version and commit hash on homepage.
 - Setup e2e tests with Playwright.
+- Add and deploy Vitepress documentation
 
 ### Changed
 
