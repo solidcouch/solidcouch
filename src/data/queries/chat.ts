@@ -1,7 +1,8 @@
 import { inboxMessagesQuery } from '@/hooks/data/queries'
+import { LdhopQueryVar } from '@/hooks/data/queries/profile'
 import { getTypeIndexQuery } from '@/hooks/data/queries/typeIndex'
 import { meeting, wf } from '@/utils/rdf-namespaces'
-import { RdfQuery } from '@ldhop/core'
+import { LdhopQuery, Variable } from '@ldhop/core'
 import { ldp } from 'rdf-namespaces'
 
 export enum Variables {
@@ -16,9 +17,9 @@ export enum Variables {
 
 type Vars = keyof typeof Variables
 
-export const getChatMessagesQuery = (variables: {
-  [K in Vars]: `?${string}`
-}): RdfQuery => [
+export const getChatMessagesQuery = <T extends Variable>(variables: {
+  [K in Vars]: T
+}): LdhopQuery<T> => [
   {
     type: 'match',
     subject: variables.root,
@@ -65,7 +66,9 @@ export const getChatMessagesQuery = (variables: {
   },
 ]
 
-export const getTypeIndexChatQuery = (): RdfQuery => [
+export const getTypeIndexChatQuery = <T extends never>(): LdhopQuery<
+  LdhopQueryVar<ReturnType<typeof getTypeIndexQuery>> | '?participation' | T
+> => [
   ...getTypeIndexQuery({ forClass: meeting.LongChat }),
   {
     type: 'match',
@@ -76,9 +79,9 @@ export const getTypeIndexChatQuery = (): RdfQuery => [
   },
 ]
 
-export const getChatParticipantsQuery = (variables: {
-  [K in Vars]: `?${string}`
-}): RdfQuery => [
+export const getChatParticipantsQuery = <T extends Variable>(variables: {
+  channel: T
+}): LdhopQuery<T | '?participation' | '?participant'> => [
   {
     type: 'match',
     subject: variables.channel,
@@ -95,7 +98,13 @@ export const getChatParticipantsQuery = (variables: {
   },
 ]
 
-export const threadsQuery: RdfQuery = [
+export const threadsQuery: LdhopQuery<
+  | LdhopQueryVar<ReturnType<typeof getTypeIndexQuery>>
+  | Variables
+  | LdhopQueryVar<typeof inboxMessagesQuery>
+  | LdhopQueryVar<ReturnType<typeof getChatMessagesQuery<Variables>>>
+  | LdhopQueryVar<ReturnType<typeof getChatParticipantsQuery<Variables>>>
+> = [
   ...getTypeIndexQuery({ forClass: meeting.LongChat }),
   {
     type: 'match',

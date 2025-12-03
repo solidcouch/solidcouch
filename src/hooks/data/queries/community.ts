@@ -1,6 +1,6 @@
 import type { LdhopQuery } from '@ldhop/core'
 import { ldp, sioc, vcard } from 'rdf-namespaces'
-import { LdhopQueryVars } from './profile'
+import { LdhopQueryVar } from './profile'
 
 export const readCommunityQuery: LdhopQuery<
   '?community' | '?group' | '?inbox'
@@ -22,7 +22,7 @@ export const readCommunityQuery: LdhopQuery<
 ]
 
 export const readCommunityMembersQuery: LdhopQuery<
-  LdhopQueryVars<typeof readCommunityQuery> | '?person'
+  LdhopQueryVar<typeof readCommunityQuery> | '?person'
 > = [
   ...readCommunityQuery,
   {

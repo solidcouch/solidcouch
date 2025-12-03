@@ -9,7 +9,7 @@ export const personInbox: Match<'?person' | '?inbox'> = {
   target: '?inbox',
 }
 
-export type LdhopQueryVars<T> = T extends LdhopQuery<infer V> ? V : never
+export type LdhopQueryVar<T> = T extends LdhopQuery<infer V> ? V : never
 export type MatchVar<T> = T extends Match<infer V> ? V : never
 export const profileDocuments: LdhopQuery<'?person' | '?profileDocument'> = [
   {
@@ -24,7 +24,7 @@ export const profileDocuments: LdhopQuery<'?person' | '?profileDocument'> = [
 ]
 
 export const publicWebIdProfileQuery: LdhopQuery<
-  LdhopQueryVars<typeof profileDocuments> | '?publicTypeIndex'
+  LdhopQueryVar<typeof profileDocuments> | '?publicTypeIndex'
 > = [
   ...profileDocuments,
   // find public type index
@@ -40,7 +40,7 @@ export const publicWebIdProfileQuery: LdhopQuery<
 // find person and their profile documents
 // https://solid.github.io/webid-profile/#discovery
 export const webIdProfileQuery: LdhopQuery<
-  | LdhopQueryVars<typeof publicWebIdProfileQuery>
+  | LdhopQueryVar<typeof publicWebIdProfileQuery>
   | MatchVar<typeof personInbox>
   | '?preferencesFile'
   | '?privateTypeIndex'

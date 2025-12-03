@@ -4,12 +4,24 @@ import importPlugin from 'eslint-plugin-import'
 import pluginLingui from 'eslint-plugin-lingui'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import { defineConfig } from 'eslint/config'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 // eslint-disable-next-line import/no-default-export
-export default tseslint.config(
-  { ignores: ['dist', 'src/locales', 'playwright-report', 'src/ldo'] },
+export default defineConfig(
+  js.configs.recommended,
+  tseslint.configs.recommended,
+  {
+    ignores: [
+      'dist',
+      'src/locales',
+      'playwright-report',
+      'src/ldo',
+      'docs/.vitepress/dist',
+      'docs/.vitepress/cache',
+    ],
+  },
   {
     extends: [
       js.configs.recommended,

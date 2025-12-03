@@ -12,10 +12,10 @@ import {
   solid,
   space,
 } from 'rdf-namespaces'
-import { LdhopQueryVars, personInbox, profileDocuments } from './profile'
+import { LdhopQueryVar, personInbox, profileDocuments } from './profile'
 
 export const inboxMessagesQuery: LdhopQuery<
-  | LdhopQueryVars<typeof profileDocuments>
+  | LdhopQueryVar<typeof profileDocuments>
   | '?inbox'
   | '?notification'
   | '?message'
@@ -178,19 +178,9 @@ const chats: LdhopQuery<
 //     target: '?otherChat',
 //   },
 // ]
-// const threadsQuery: RdfQuery = [
-//   ...chats,
-//   {
-//     type: 'match',
-//     subject: '?participation',
-//     predicate: dct.references,
-//     pick: 'object',
-//     target: '?otherChat',
-//   },
-// ]
 
 const chatsWithPerson: LdhopQuery<
-  | LdhopQueryVars<typeof chats>
+  | LdhopQueryVar<typeof chats>
   | '?otherPerson'
   | '?otherPersonParticipation'
   | '?participant'
@@ -307,7 +297,7 @@ const getContainerNode = (term: Term) =>
     : undefined
 
 export const messages: LdhopQuery<
-  LdhopQueryVars<typeof chatsWithPerson> | LdhopQueryVars<typeof messageTree>
+  LdhopQueryVar<typeof chatsWithPerson> | LdhopQueryVar<typeof messageTree>
 > = [
   ...chatsWithPerson,
   {
@@ -328,22 +318,6 @@ export const messages: LdhopQuery<
 // export const threads: LdhopQuery<
 //   LdhopQueryVars<typeof threadsQuery> | LdhopQueryVars<typeof messageTree>
 // > = [
-//   ...threadsQuery,
-//   {
-//     type: 'transform variable',
-//     source: '?chat',
-//     target: '?chatContainer',
-//     transform: getContainerNode,
-//   },
-//   {
-//     type: 'transform variable',
-//     source: '?otherChat',
-//     target: '?chatContainer',
-//     transform: getContainerNode,
-//   },
-//   ...messageTree,
-// ]
-// export const threads: RdfQuery = [
 //   ...threadsQuery,
 //   {
 //     type: 'transform variable',

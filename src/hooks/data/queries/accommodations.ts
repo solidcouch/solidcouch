@@ -2,10 +2,10 @@ import { hospex } from '@/utils/rdf-namespaces'
 import type { LdhopQuery } from '@ldhop/core'
 import { readCommunityMembersQuery } from './community'
 import { hospexDocumentQuery } from './hospex'
-import { LdhopQueryVars } from './profile'
+import { LdhopQueryVar } from './profile'
 
 export const readPersonAccommodationsQuery: LdhopQuery<
-  LdhopQueryVars<typeof hospexDocumentQuery> | '?offer'
+  LdhopQueryVar<typeof hospexDocumentQuery> | '?offer'
 > = [
   ...hospexDocumentQuery,
   {
@@ -25,8 +25,8 @@ export const readPersonAccommodationsQuery: LdhopQuery<
  * we should make sure that accommodation is offered by the user who offers it (check both directions of the relationship)
  */
 export const searchAccommodationsQuery: LdhopQuery<
-  | LdhopQueryVars<typeof readCommunityMembersQuery>
-  | LdhopQueryVars<typeof readPersonAccommodationsQuery>
+  | LdhopQueryVar<typeof readCommunityMembersQuery>
+  | LdhopQueryVar<typeof readPersonAccommodationsQuery>
 > = [...readCommunityMembersQuery, ...readPersonAccommodationsQuery]
 
 export const accommodationQuery: LdhopQuery<'?offer' | '?person'> = [

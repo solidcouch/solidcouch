@@ -1,59 +1,55 @@
-import { URI } from '@/types'
-import { rdf, solid } from '@/utils/rdf-namespaces'
-import { RdfQuery } from '@ldhop/core'
-import { webIdProfileQuery } from './profile'
+import { Constant, LdhopQuery } from '@ldhop/core'
+import { rdf, solid } from 'rdf-namespaces'
+import { LdhopQueryVar, webIdProfileQuery } from './profile'
 
-enum Variables {
-  publicTypeIndex = '?publicTypeIndex',
-  privateTypeIndex = '?privateTypeIndex',
-  typeRegistration = '?typeRegistration',
-  typeRegistrationForClass = '?typeRegistrationForClass',
-  instance = '?instance',
-  instanceContainer = '?instanceContainer',
-}
-
-export const getTypeIndexQuery = ({
+export const getTypeIndexQuery = <C extends Constant>({
   forClass,
 }: {
-  forClass: URI
-}): RdfQuery => [
+  forClass: C
+}): LdhopQuery<
+  | LdhopQueryVar<typeof webIdProfileQuery>
+  | '?typeRegistration'
+  | '?typeRegistrationForClass'
+  | '?instance'
+  | '?instanceContainer'
+> => [
   ...webIdProfileQuery,
   {
     type: 'match',
     predicate: rdf.type,
     object: solid.TypeRegistration,
-    graph: Variables.privateTypeIndex,
+    graph: `?privateTypeIndex`,
     pick: 'subject',
-    target: Variables.typeRegistration,
+    target: `?typeRegistration`,
   },
   {
     type: 'match',
     predicate: rdf.type,
     object: solid.TypeRegistration,
-    graph: Variables.publicTypeIndex,
+    graph: `?publicTypeIndex`,
     pick: 'subject',
-    target: Variables.typeRegistration,
+    target: `?typeRegistration`,
   },
   {
     type: 'match',
-    subject: Variables.typeRegistration,
+    subject: `?typeRegistration`,
     predicate: solid.forClass,
     object: forClass,
     pick: 'subject',
-    target: Variables.typeRegistrationForClass,
+    target: `?typeRegistrationForClass`,
   },
   {
     type: 'match',
-    subject: Variables.typeRegistrationForClass,
+    subject: `?typeRegistrationForClass`,
     predicate: solid.instance,
     pick: 'object',
-    target: Variables.instance,
+    target: `?instance`,
   },
   {
     type: 'match',
-    subject: Variables.typeRegistrationForClass,
+    subject: `?typeRegistrationForClass`,
     predicate: solid.instanceContainer,
     pick: 'object',
-    target: Variables.instanceContainer,
+    target: `?instanceContainer`,
   },
 ]
