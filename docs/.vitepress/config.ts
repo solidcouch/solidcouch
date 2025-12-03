@@ -11,6 +11,8 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [{ text: 'Tired Bike', link: 'https://tired.bike' }],
 
+    search: { provider: 'local' },
+
     sidebar: [
       {
         text: 'About',
@@ -45,6 +47,10 @@ export default defineConfig({
 
     logo: 'logo.svg',
   },
-  head: [['link', { rel: 'icon', href: 'logo.svg' }]],
+  head: [
+    ['link', { rel: 'icon', href: 'logo.svg' }],
+    ['meta', { name: 'og:image', content: '/logo.svg' }],
+    ['meta', { name: 'twitter:image', content: '/logo.svg' }],
+  ],
   ignoreDeadLinks: 'localhostLinks',
 })
