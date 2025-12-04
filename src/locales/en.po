@@ -161,7 +161,7 @@ msgstr "Contacts of <0/>"
 #: src/components/SignIn/SignIn.tsx:129
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:275
+#: src/pages/messages/Messages.tsx:292
 msgid "Continue"
 msgstr "Continue"
 
@@ -307,7 +307,7 @@ msgstr "I want more control"
 msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 msgstr "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 
-#: src/pages/messages/Messages.tsx:278
+#: src/pages/messages/Messages.tsx:295
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignore"
@@ -357,7 +357,7 @@ msgid "Linked Data Notification was sent."
 msgstr "Linked Data Notification was sent."
 
 #: src/pages/messages-new/NewChat.tsx:74
-#: src/pages/messages/Messages.tsx:270
+#: src/pages/messages/Messages.tsx:287
 msgid "Loading"
 msgstr "Loading"
 
@@ -553,11 +553,11 @@ msgstr "Select your Solid identity provider"
 
 #: src/pages/messages-new/NewChat.tsx:122
 #: src/pages/messages-old/MessagesOld.tsx:255
-#: src/pages/messages/Messages.tsx:318
+#: src/pages/messages/Messages.tsx:336
 msgid "Send"
 msgstr "Send"
 
-#: src/pages/messages/Messages.tsx:316
+#: src/pages/messages/Messages.tsx:334
 msgid "Send a message…"
 msgstr "Send a message…"
 

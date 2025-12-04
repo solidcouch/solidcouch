@@ -1,5 +1,4 @@
 import { Button } from '@/components'
-import { PersonBadge } from '@/components/PersonBadge/PersonBadge'
 import {
   getChatMessagesQuery,
   getChatParticipantsQuery,
@@ -28,7 +27,7 @@ import { createLdoDataset, graphOf } from '@ldo/ldo'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { JSONSchemaType } from 'ajv'
-import { useMemo } from 'react'
+import { useLayoutEffect, useMemo, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaPaperPlane } from 'react-icons/fa'
 import { useParams } from 'react-router'
@@ -42,6 +41,8 @@ export const Messages = () => {
   const channelUri = useParams().channel!
   const auth = useAuth()
   const locale = useLocale()
+  const firstLoad = useRef(true)
+  const listRef = useRef<HTMLUListElement>(null)
 
   const results = useLDhopQuery(
     useMemo(
@@ -64,6 +65,16 @@ export const Messages = () => {
         .fromSubject(channelUri),
     [channelUri, results.quads],
   )
+
+  // scroll to bottom when messages first load
+  useLayoutEffect(() => {
+    if (!listRef.current) return
+    if (!firstLoad.current) return
+    if (!results.isMissing && !results.isLoading && channel.message2?.size) {
+      listRef.current.scrollTop = listRef.current.scrollHeight
+      firstLoad.current = false
+    }
+  }, [channel.message2?.size, results.isLoading, results.isMissing])
 
   const typeIndexChatResults = useLDhopQuery(
     useMemo(
@@ -91,17 +102,17 @@ export const Messages = () => {
   )
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2>{channel.title}</h2>
-      {channelUri}
+      {/* {channelUri}
 
       <ul>
         {channel.participation?.map(p => (
           <li key={p.participant['@id']}>{p.participant['@id']}</li>
         ))}
-      </ul>
+      </ul> */}
 
-      <ul>
+      <ul className={styles.messagesContainer} ref={listRef}>
         {channel.message2
           ?.map(msg => ({ ...msg }))
           .sort(
@@ -117,22 +128,27 @@ export const Messages = () => {
               i > 0 && messages[i - 1]!.maker['@id'] === msg.maker['@id']
 
             const showBadge = !isSameDateAsPrevious || !isSameMakerAsPrevious
+            const msgDate = new Date(msg.created).toLocaleDateString(locale)
 
             return (
               <>
                 {!isSameDateAsPrevious && (
-                  <>
-                    <hr />
-                    {new Date(msg.created).toLocaleDateString(locale)}
-                  </>
+                  <li
+                    key={`date-${msgDate}`}
+                    role="separator"
+                    className={styles.daySeparator}
+                  >
+                    {msgDate}
+                  </li>
                 )}
                 <li
                   key={msg['@id']}
                   data-testid={`message-${i}-${msg.maker['@id'] === auth.webId ? 'from' : 'to'}-me`}
                   id={msg['@id']}
                 >
-                  {showBadge && <PersonBadge webId={msg.maker['@id']} />}
                   <Message
+                    webid={msg.maker['@id']}
+                    showBadge={showBadge}
                     message={msg.content}
                     created={new Date(msg.created)}
                   />
@@ -147,9 +163,10 @@ export const Messages = () => {
       {isJoined && (
         <SendMessageForm
           disabled={!isReady}
-          onSendMessage={message =>
-            handleSendMessage({ message, channel: channelUri })
-          }
+          onSendMessage={async message => {
+            firstLoad.current = true
+            await handleSendMessage({ message, channel: channelUri })
+          }}
         />
       )}
     </div>
@@ -310,6 +327,7 @@ const SendMessageForm = ({
   return (
     <form onSubmit={handleFormSubmit} className={styles.sendForm}>
       <textarea
+        autoFocus
         required
         className={styles.messageInput}
         {...register('message')}
