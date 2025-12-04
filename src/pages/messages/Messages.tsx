@@ -13,6 +13,7 @@ import { useSolidProfile } from '@/hooks/data/useProfile'
 import { useDeleteRdfDocument } from '@/hooks/data/useRdfDocument'
 import { saveTypeRegistration } from '@/hooks/data/useSetupHospex'
 import { useAuth } from '@/hooks/useAuth'
+import { useLocale } from '@/hooks/useLocale'
 import {
   ChatShapeShapeType,
   MessageActivityShapeType,
@@ -20,14 +21,19 @@ import {
 import { URI } from '@/types'
 import { getContainer, removeHashFromURI } from '@/utils/helpers'
 import { meeting } from '@/utils/rdf-namespaces'
+import { ajvResolver } from '@hookform/resolvers/ajv'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, graphOf } from '@ldo/ldo'
-import { Trans } from '@lingui/react/macro'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { JSONSchemaType } from 'ajv'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
+import { FaPaperPlane } from 'react-icons/fa'
 import { useParams } from 'react-router'
+import { Message } from './Message'
+import styles from './Messages.module.scss'
 import { useSendMessage } from './useSendMessage'
 
 const chatMessagesQuery = getChatMessagesQuery(Variables)
@@ -35,6 +41,7 @@ const chatMessagesQuery = getChatMessagesQuery(Variables)
 export const Messages = () => {
   const channelUri = useParams().channel!
   const auth = useAuth()
+  const locale = useLocale()
 
   const results = useLDhopQuery(
     useMemo(
@@ -83,11 +90,6 @@ export const Messages = () => {
     ),
   )
 
-  const { handleSubmit, register } = useForm<{ message: string }>()
-  const handleFormSubmit = handleSubmit(async data => {
-    await handleSendMessage({ message: data.message, channel: channelUri })
-  })
-
   return (
     <div>
       <h2>{channel.title}</h2>
@@ -106,28 +108,49 @@ export const Messages = () => {
             (a, b) =>
               new Date(a.created).getTime() - new Date(b.created).getTime(),
           )
-          .map((msg, i) => (
-            <li
-              key={msg['@id']}
-              data-testid={`message-${i}-${msg.maker['@id'] === auth.webId ? 'from' : 'to'}-me`}
-              id={msg['@id']}
-            >
-              <PersonBadge webId={msg.maker['@id']} />
-              {msg.content}
-              {msg.created}
-            </li>
-          ))}
+          .map((msg, i, messages) => {
+            const isSameDateAsPrevious =
+              i > 0 &&
+              new Date(messages[i - 1]!.created).toLocaleDateString() ===
+                new Date(msg.created).toLocaleDateString()
+            const isSameMakerAsPrevious =
+              i > 0 && messages[i - 1]!.maker['@id'] === msg.maker['@id']
+
+            const showBadge = !isSameDateAsPrevious || !isSameMakerAsPrevious
+
+            return (
+              <>
+                {!isSameDateAsPrevious && (
+                  <>
+                    <hr />
+                    {new Date(msg.created).toLocaleDateString(locale)}
+                  </>
+                )}
+                <li
+                  key={msg['@id']}
+                  data-testid={`message-${i}-${msg.maker['@id'] === auth.webId ? 'from' : 'to'}-me`}
+                  id={msg['@id']}
+                >
+                  {showBadge && <PersonBadge webId={msg.maker['@id']} />}
+                  <Message
+                    message={msg.content}
+                    created={new Date(msg.created)}
+                  />
+                </li>
+              </>
+            )
+          })}
       </ul>
 
       <NewChatConfirmation uri={channelUri} />
 
       {isJoined && (
-        <form onSubmit={handleFormSubmit}>
-          <textarea {...register('message')} />
-          <button disabled={!isReady}>
-            <Trans>Send</Trans>
-          </button>
-        </form>
+        <SendMessageForm
+          disabled={!isReady}
+          onSendMessage={message =>
+            handleSendMessage({ message, channel: channelUri })
+          }
+        />
       )}
     </div>
   )
@@ -256,4 +279,45 @@ const NewChatConfirmation = ({ uri }: { uri: URI }) => {
       </Button>
     </div>
   ) : null
+}
+
+const validationSchema: JSONSchemaType<{ message: string }> = {
+  type: 'object',
+  required: ['message'],
+  properties: {
+    message: { type: 'string', minLength: 1, pattern: '\\S' },
+  },
+}
+
+const SendMessageForm = ({
+  disabled,
+  onSendMessage,
+}: {
+  disabled?: boolean
+  onSendMessage?: (message: string) => void
+}) => {
+  const { t } = useLingui()
+
+  const {
+    handleSubmit,
+    register,
+    formState: { isValid },
+  } = useForm<{ message: string }>({
+    resolver: ajvResolver<{ message: string }>(validationSchema),
+  })
+  const handleFormSubmit = handleSubmit(data => onSendMessage?.(data.message))
+
+  return (
+    <form onSubmit={handleFormSubmit} className={styles.sendForm}>
+      <textarea
+        required
+        className={styles.messageInput}
+        {...register('message')}
+        placeholder={t`Send a message…`}
+      />
+      <Button disabled={disabled || !isValid} aria-label={t`Send`} primary>
+        <FaPaperPlane />
+      </Button>
+    </form>
+  )
 }

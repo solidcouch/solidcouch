@@ -18,7 +18,7 @@ export const PersonBadge = ({
 
   const badge = (
     <div className={styles.container}>
-      <Avatar photo={person.photo} size={1} />
+      <Avatar photo={person.photo} size={1} name={person.name} />
       {person?.name}
     </div>
   )

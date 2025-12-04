@@ -26,7 +26,7 @@ export const MainMenu = () => {
     <Menu
       menuButton={
         <MenuButton data-cy="menu-button">
-          <Avatar photo={profile.photo} />
+          <Avatar photo={profile.photo} name={profile.name} />
         </MenuButton>
       }
       // eslint-disable-next-line lingui/no-unlocalized-strings
