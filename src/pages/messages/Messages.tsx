@@ -27,7 +27,7 @@ import { createLdoDataset, graphOf } from '@ldo/ldo'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { JSONSchemaType } from 'ajv'
-import { useLayoutEffect, useMemo, useRef } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaPaperPlane } from 'react-icons/fa'
 import { useParams } from 'react-router'
@@ -126,8 +126,16 @@ export const Messages = () => {
                 new Date(msg.created).toLocaleDateString()
             const isSameMakerAsPrevious =
               i > 0 && messages[i - 1]!.maker['@id'] === msg.maker['@id']
+            const notEnoughTimeElapsed =
+              i > 0 &&
+              new Date(msg.created).getTime() -
+                new Date(messages[i - 1]!.created).getTime() <
+                5 * 60 * 1000
 
-            const showBadge = !isSameDateAsPrevious || !isSameMakerAsPrevious
+            const showBadge =
+              !isSameDateAsPrevious ||
+              !isSameMakerAsPrevious ||
+              !notEnoughTimeElapsed
             const msgDate = new Date(msg.created).toLocaleDateString(locale)
 
             return (
@@ -311,29 +319,44 @@ const SendMessageForm = ({
   onSendMessage,
 }: {
   disabled?: boolean
-  onSendMessage?: (message: string) => void
+  onSendMessage?: (message: string) => void | Promise<void>
 }) => {
   const { t } = useLingui()
+  const [submitting, setSubmitting] = useState(false)
 
   const {
     handleSubmit,
     register,
     formState: { isValid },
+    reset,
   } = useForm<{ message: string }>({
     resolver: ajvResolver<{ message: string }>(validationSchema),
   })
-  const handleFormSubmit = handleSubmit(data => onSendMessage?.(data.message))
+  const handleFormSubmit = handleSubmit(async data => {
+    setSubmitting(true)
+    try {
+      await onSendMessage?.(data.message)
+      reset({ message: '' })
+    } finally {
+      setSubmitting(false)
+    }
+  })
 
   return (
     <form onSubmit={handleFormSubmit} className={styles.sendForm}>
       <textarea
+        disabled={submitting}
         autoFocus
         required
         className={styles.messageInput}
         {...register('message')}
         placeholder={t`Send a message…`}
       />
-      <Button disabled={disabled || !isValid} aria-label={t`Send`} primary>
+      <Button
+        disabled={disabled || !isValid || submitting}
+        aria-label={t`Send`}
+        primary
+      >
         <FaPaperPlane />
       </Button>
     </form>
