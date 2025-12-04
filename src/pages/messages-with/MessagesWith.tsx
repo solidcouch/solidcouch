@@ -4,16 +4,22 @@
  */
 
 import { t } from '@lingui/core/macro'
-import { Link } from 'react-router'
+import { Link, useParams } from 'react-router'
+import strict_uri_encode from 'strict-uri-encode'
 
 export const MessagesWith = () => {
+  const webId = useParams().webId as string
+
   const chats: { url: string }[] = []
 
   return (
     // eslint-disable-next-line lingui/no-unlocalized-strings
     <>
       Messages With Person
-      <Link to="./new" aria-label={t`Start a new conversation`}>
+      <Link
+        to={`/messages-with/${strict_uri_encode(webId)}/new`}
+        aria-label={t`Start a new conversation`}
+      >
         +
       </Link>
       <ul>
