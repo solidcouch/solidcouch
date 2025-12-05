@@ -20,19 +20,16 @@ import {
 import { URI } from '@/types'
 import { getContainer, removeHashFromURI } from '@/utils/helpers'
 import { meeting } from '@/utils/rdf-namespaces'
-import { ajvResolver } from '@hookform/resolvers/ajv'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, graphOf } from '@ldo/ldo'
-import { Trans, useLingui } from '@lingui/react/macro'
+import { Trans } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { JSONSchemaType } from 'ajv'
-import { useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { FaPaperPlane } from 'react-icons/fa'
+import { useLayoutEffect, useMemo, useRef } from 'react'
 import { useParams } from 'react-router'
 import { Message } from './Message'
 import styles from './Messages.module.scss'
+import { SendMessageForm } from './SendMessageForm'
 import { useSendMessage } from './useSendMessage'
 
 const chatMessagesQuery = getChatMessagesQuery(Variables)
@@ -171,7 +168,7 @@ export const Messages = () => {
       {isJoined && (
         <SendMessageForm
           disabled={!isReady}
-          onSendMessage={async message => {
+          onSendMessage={async ({ message }) => {
             firstLoad.current = true
             await handleSendMessage({ message, channel: channelUri })
           }}
@@ -304,61 +301,4 @@ const NewChatConfirmation = ({ uri }: { uri: URI }) => {
       </Button>
     </div>
   ) : null
-}
-
-const validationSchema: JSONSchemaType<{ message: string }> = {
-  type: 'object',
-  required: ['message'],
-  properties: {
-    message: { type: 'string', minLength: 1, pattern: '\\S' },
-  },
-}
-
-const SendMessageForm = ({
-  disabled,
-  onSendMessage,
-}: {
-  disabled?: boolean
-  onSendMessage?: (message: string) => void | Promise<void>
-}) => {
-  const { t } = useLingui()
-  const [submitting, setSubmitting] = useState(false)
-
-  const {
-    handleSubmit,
-    register,
-    formState: { isValid },
-    reset,
-  } = useForm<{ message: string }>({
-    resolver: ajvResolver<{ message: string }>(validationSchema),
-  })
-  const handleFormSubmit = handleSubmit(async data => {
-    setSubmitting(true)
-    try {
-      await onSendMessage?.(data.message)
-      reset({ message: '' })
-    } finally {
-      setSubmitting(false)
-    }
-  })
-
-  return (
-    <form onSubmit={handleFormSubmit} className={styles.sendForm}>
-      <textarea
-        disabled={submitting}
-        autoFocus
-        required
-        className={styles.messageInput}
-        {...register('message')}
-        placeholder={t`Send a message…`}
-      />
-      <Button
-        disabled={disabled || !isValid || submitting}
-        aria-label={t`Send`}
-        primary
-      >
-        <FaPaperPlane />
-      </Button>
-    </form>
-  )
 }

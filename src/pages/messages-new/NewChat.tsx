@@ -1,3 +1,4 @@
+import { PersonBadge } from '@/components/PersonBadge/PersonBadge'
 import { createChatChannel } from '@/hooks/data/mutations/chat'
 import { QueryKey } from '@/hooks/data/types'
 import { useSolidProfile } from '@/hooks/data/useProfile'
@@ -9,15 +10,10 @@ import { t } from '@lingui/core/macro'
 import { Trans } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router'
 import { toast } from 'react-toastify'
+import { SendMessageForm } from '../messages/SendMessageForm'
 import { useSendMessage } from '../messages/useSendMessage'
-
-interface NewChatData {
-  title: string
-  message: string
-}
 
 export const NewChat = () => {
   const auth = useAuth()
@@ -28,8 +24,6 @@ export const NewChat = () => {
     useSolidProfile(auth.webId!)
   const myPrivateTypeIndex =
     mySolidProfile.privateTypeIndex?.toArray()[0]?.['@id']
-
-  const { handleSubmit, register } = useForm<NewChatData>()
 
   const navigate = useNavigate()
 
@@ -74,7 +68,7 @@ export const NewChat = () => {
     return <Trans>Loading</Trans>
   }
 
-  const handleFormSubmit = handleSubmit(async data => {
+  const handleSubmit = async (data: { title: string; message: string }) => {
     const { channel } = await channelMutation.mutateAsync({
       title: data.title,
       owner: myWebId,
@@ -109,18 +103,23 @@ export const NewChat = () => {
     //   },
     // })
     navigate(`/messages/${encodeURIComponent(channel)}`)
-  })
+  }
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <input type="text" {...register('title')} placeholder={t`Title`} />
-      <textarea {...register('message')} placeholder={t`Message`} />
-      <button
-        type="submit"
+    <div>
+      <h1>
+        <Trans>
+          New conversation with <PersonBadge webId={personWebId} />
+        </Trans>
+      </h1>
+
+      <SendMessageForm
+        isNewChat
         disabled={!isSendMessageReady || !isMySolidProfileFetched}
-      >
-        <Trans>Send</Trans>
-      </button>
-    </form>
+        onSendMessage={data =>
+          handleSubmit({ ...data, title: data.title ?? '' })
+        }
+      />
+    </div>
   )
 }

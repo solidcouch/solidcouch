@@ -109,7 +109,7 @@ msgstr "Ověřování..."
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: src/pages/messages-new/NewChat.tsx:39
+#: src/pages/messages-new/NewChat.tsx:33
 msgid "Chat channel was created"
 msgstr ""
 
@@ -161,7 +161,7 @@ msgstr "Kontakty <0/>"
 #: src/components/SignIn/SignIn.tsx:129
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:300
+#: src/pages/messages/Messages.tsx:297
 msgid "Continue"
 msgstr "Pokračovat"
 
@@ -189,7 +189,7 @@ msgstr "Vytvořit veřejný index typů:"
 msgid "Creating accommodation"
 msgstr "Vytváření ubytování"
 
-#: src/pages/messages-new/NewChat.tsx:43
+#: src/pages/messages-new/NewChat.tsx:37
 msgid "Creating channel failed"
 msgstr ""
 
@@ -307,7 +307,7 @@ msgstr "Chci mít větší kontrolu"
 msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 msgstr "Pokud vlastníte <0>doménu</0>, můžete mít své <1>WebID</1> na své doméně. To vám dává větší kontrolu nad vaší Solid identitou."
 
-#: src/pages/messages/Messages.tsx:303
+#: src/pages/messages/Messages.tsx:300
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignorovat"
@@ -356,8 +356,8 @@ msgstr "Připojit se ke komunitě {communityLabel}"
 msgid "Linked Data Notification was sent."
 msgstr ""
 
-#: src/pages/messages-new/NewChat.tsx:74
-#: src/pages/messages/Messages.tsx:295
+#: src/pages/messages-new/NewChat.tsx:68
+#: src/pages/messages/Messages.tsx:292
 msgid "Loading"
 msgstr ""
 
@@ -383,8 +383,8 @@ msgid "logo of {name}"
 msgstr "logo {name}"
 
 #: src/pages/messages-new/NewChat.tsx:117
-msgid "Message"
-msgstr ""
+#~ msgid "Message"
+#~ msgstr ""
 
 #: src/pages/messages-old/MessagesOld.tsx:163
 #: src/pages/messages/useSendMessage.ts:75
@@ -403,6 +403,10 @@ msgstr "Zprávy s {personLabel}"
 #: src/pages/messages-old/MessagesOld.tsx:207
 msgid "Messages with <0/>"
 msgstr "Zprávy s <0/>"
+
+#: src/pages/messages-with/MessagesWith.tsx:20
+msgid "Messages With <0/>"
+msgstr ""
 
 #: src/pages/MyOffers.tsx:101
 #: src/pages/MyOffers.tsx:145
@@ -429,6 +433,10 @@ msgstr "Moje poloha"
 #: src/pages/EditProfile/EditProfile.tsx:150
 msgid "Name"
 msgstr "Jméno"
+
+#: src/pages/messages-new/NewChat.tsx:111
+msgid "New conversation with <0/>"
+msgstr ""
 
 #: src/pages/messages-old/MessagesOld.tsx:131
 msgid "No authenticated user available"
@@ -551,13 +559,12 @@ msgstr "Vyberte mou polohu"
 msgid "Select your Solid identity provider"
 msgstr "Vyberte svého poskytovatele Solid identity"
 
-#: src/pages/messages-new/NewChat.tsx:122
 #: src/pages/messages-old/MessagesOld.tsx:255
-#: src/pages/messages/Messages.tsx:357
+#: src/pages/messages/SendMessageForm.tsx:85
 msgid "Send"
 msgstr "Odeslat"
 
-#: src/pages/messages/Messages.tsx:353
+#: src/pages/messages/SendMessageForm.tsx:81
 msgid "Send a message…"
 msgstr ""
 
@@ -647,7 +654,11 @@ msgstr ""
 "Něco se pokazilo.\n"
 "Chyba: {e}"
 
-#: src/pages/messages-with/MessagesWith.tsx:21
+#: src/pages/messages-with/MessagesWith.tsx:28
+msgid "Start a conversation"
+msgstr ""
+
+#: src/pages/messages-with/MessagesWith.tsx:26
 msgid "Start a new conversation"
 msgstr ""
 
@@ -671,7 +682,7 @@ msgstr "Toto pole je povinné"
 msgid "This is a start of your conversation"
 msgstr "Toto je začátek vaší konverzace"
 
-#: src/pages/messages-new/NewChat.tsx:116
+#: src/pages/messages/SendMessageForm.tsx:72
 msgid "Title"
 msgstr ""
 
