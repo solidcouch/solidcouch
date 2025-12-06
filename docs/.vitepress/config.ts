@@ -38,6 +38,10 @@ export default defineConfig({
         text: 'Personas',
         link: '/personas',
       },
+      {
+        text: 'Architecture',
+        items: [{ text: 'Messages', link: '/architecture/messages' }],
+      },
     ],
 
     socialLinks: [
