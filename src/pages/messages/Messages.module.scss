@@ -6,6 +6,12 @@
   .messagesHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
+    .participants {
+      display: flex;
+      gap: 0.25rem;
+    }
   }
 
   .messagesContainer {
@@ -14,11 +20,13 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+
     .daySeparator {
       display: flex;
       align-items: center;
       text-align: center;
       gap: 10px;
+
       &::before,
       &::after {
         content: '';

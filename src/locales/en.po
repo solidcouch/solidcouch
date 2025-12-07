@@ -18,7 +18,7 @@ msgid "{label} added to interests"
 msgstr "{label} added to interests"
 
 #: src/components/Header/MainMenu.tsx:49
-#: src/pages/Home.tsx:28
+#: src/pages/Home.tsx:31
 msgid "{messageCount, plural, one {(# new)} other {(# new)}}"
 msgstr "{messageCount, plural, one {(# new)} other {(# new)}}"
 
@@ -161,7 +161,7 @@ msgstr "Contacts of <0/>"
 #: src/components/SignIn/SignIn.tsx:129
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:297
+#: src/pages/messages/Messages.tsx:364
 msgid "Continue"
 msgstr "Continue"
 
@@ -291,7 +291,7 @@ msgstr "Hospex document not found"
 msgid "Hospex not set up (should not happen)"
 msgstr "Hospex not set up (should not happen)"
 
-#: src/pages/Home.tsx:21
+#: src/pages/Home.tsx:22
 msgid "host"
 msgstr "host"
 
@@ -307,7 +307,7 @@ msgstr "I want more control"
 msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 msgstr "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 
-#: src/pages/messages/Messages.tsx:300
+#: src/pages/messages/Messages.tsx:367
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignore"
@@ -357,7 +357,7 @@ msgid "Linked Data Notification was sent."
 msgstr "Linked Data Notification was sent."
 
 #: src/pages/messages-new/NewChat.tsx:68
-#: src/pages/messages/Messages.tsx:292
+#: src/pages/messages/Messages.tsx:359
 msgid "Loading"
 msgstr "Loading"
 
@@ -392,7 +392,7 @@ msgid "Message was created"
 msgstr "Message was created"
 
 #: src/components/Header/MainMenu.tsx:45
-#: src/pages/Home.tsx:24
+#: src/pages/Home.tsx:25
 msgid "messages"
 msgstr "messages"
 
@@ -694,7 +694,7 @@ msgstr "To complete the process, you must prove that the WebID on your domain be
 msgid "To join {communityName}, you need a <0>Solid Pod</0>."
 msgstr "To join {communityName}, you need a <0>Solid Pod</0>."
 
-#: src/pages/Home.tsx:18
+#: src/pages/Home.tsx:19
 msgid "travel"
 msgstr "travel"
 

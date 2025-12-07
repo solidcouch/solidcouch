@@ -6,7 +6,7 @@
   overflow: hidden;
   user-select: none;
   border-radius: 100%;
-  background-color: #0003;
+  background-color: var(--background-color-raised);
 
   &.square {
     border-radius: 0;

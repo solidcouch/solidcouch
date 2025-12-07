@@ -1,4 +1,5 @@
 import { ButtonLink } from '@/components'
+import { IconLoading } from '@/components/IconLoading'
 import { useReadMessagesFromInbox } from '@/hooks/data/useReadThreads'
 import { useAuth } from '@/hooks/useAuth'
 import { Plural, Trans } from '@lingui/react/macro'
@@ -8,7 +9,7 @@ import styles from './Home.module.scss'
 export const Home = () => {
   const auth = useAuth()
 
-  const { data: newMessages } = useReadMessagesFromInbox(auth.webId!)
+  const { data: newMessages, isLoading } = useReadMessagesFromInbox(auth.webId!)
 
   const messageCount = newMessages.length
 
@@ -22,7 +23,9 @@ export const Home = () => {
       </ButtonLink>
       <ButtonLink to="messages" secondary>
         <FaRegComment size={24} /> <Trans>messages</Trans>
-        {messageCount ? (
+        {isLoading ? (
+          <IconLoading data-testid="message-count-loading" />
+        ) : messageCount ? (
           <>
             {' '}
             <Plural value={messageCount} one="(# new)" other="(# new)" />

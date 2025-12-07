@@ -3,6 +3,7 @@ import { useConfig } from '@/config/hooks'
 import { useProfile } from '@/hooks/data/useProfile'
 import { useLocale } from '@/hooks/useLocale'
 import { URI } from '@/types'
+import clsx from 'clsx'
 import styles from './Message.module.scss'
 
 export const Message = ({
@@ -10,17 +11,17 @@ export const Message = ({
   created,
   webid,
   showBadge,
+  isUnread,
 }: {
   message: string
   created: Date
   webid: URI
   showBadge?: boolean
+  isUnread?: boolean
 }) => {
   const locale = useLocale()
   const time = created.toLocaleTimeString(locale, {
-    // eslint-disable-next-line lingui/no-unlocalized-strings
     hour: 'numeric',
-    // eslint-disable-next-line lingui/no-unlocalized-strings
     minute: 'numeric',
   })
   const datetime = created.toLocaleString(locale)
@@ -34,7 +35,7 @@ export const Message = ({
           <div className={styles.name}>{person.name}</div>
         </div>
       )}
-      <div className={styles.message}>
+      <div className={clsx(styles.message, isUnread && styles.unread)}>
         <div title={datetime} className={styles.time}>
           {time}
         </div>

@@ -1,4 +1,5 @@
 import { Button } from '@/components'
+import { PersonMini } from '@/components/PersonMini/PersonMini'
 import {
   getChatMessagesQuery,
   getChatParticipantsQuery,
@@ -25,7 +26,7 @@ import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, graphOf } from '@ldo/ldo'
 import { Trans } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useLayoutEffect, useMemo, useRef } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router'
 import { Message } from './Message'
 import styles from './Messages.module.scss'
@@ -63,6 +64,37 @@ export const Messages = () => {
     [channelUri, results.quads],
   )
 
+  const notificationResults = useLDhopQuery(
+    useMemo(
+      () => ({
+        query: inboxMessagesQuery,
+        variables: { person: [auth.webId!] },
+        fetch,
+      }),
+      [auth.webId],
+    ),
+  )
+
+  const channelNotifications = useMemo(
+    () =>
+      notificationResults.variables.messageNotification
+        ?.map(msgn =>
+          createLdoDataset(notificationResults.quads)
+            .usingType(MessageActivityShapeType)
+            .fromSubject(msgn),
+        )
+        .filter(n => n?.target?.['@id'] === channelUri)
+        .flatMap(n => ({
+          messageUri: n.object['@id'],
+          graphUri: graphOf(n, 'type')[0]?.value,
+        })) ?? [],
+    [
+      notificationResults.quads,
+      notificationResults.variables.messageNotification,
+      channelUri,
+    ],
+  )
+
   // scroll to bottom when messages first load
   useLayoutEffect(() => {
     if (!listRef.current) return
@@ -98,16 +130,50 @@ export const Messages = () => {
     ),
   )
 
+  // unread messages
+  const [unread, setUnread] = useState(new Set<URI>())
+  const deleteNotification = useDeleteRdfDocument()
+
+  useEffect(() => {
+    for (const { messageUri } of channelNotifications) {
+      // remember message URI
+      if (messageUri)
+        setUnread(unr => {
+          if (unr.has(messageUri)) return unr
+          const nextSet = new Set(unr)
+          nextSet.add(messageUri)
+          return nextSet
+        })
+    }
+  }, [channelNotifications])
+
+  const processed = useRef(new Set<string>())
+
+  useEffect(() => {
+    if (isJoined) {
+      for (const n of channelNotifications) {
+        if (n.graphUri && !processed.current.has(n.graphUri)) {
+          deleteNotification.mutate({ uri: n.graphUri })
+          processed.current.add(n.graphUri)
+        }
+      }
+    }
+  }, [channelNotifications, deleteNotification, isJoined])
+
   return (
     <div className={styles.container}>
-      <h2>{channel.title}</h2>
-      {/* {channelUri}
-
-      <ul>
-        {channel.participation?.map(p => (
-          <li key={p.participant['@id']}>{p.participant['@id']}</li>
-        ))}
-      </ul> */}
+      <h2 className={styles.messagesHeader}>
+        {channel.title}
+        {
+          <ul className={styles.participants}>
+            {channel.participation?.map(p => (
+              <li key={p.participant['@id']}>
+                <PersonMini webId={p.participant['@id']} size={1} />
+              </li>
+            ))}
+          </ul>
+        }
+      </h2>
 
       <ul className={styles.messagesContainer} ref={listRef}>
         {channel.message2
@@ -152,6 +218,7 @@ export const Messages = () => {
                   id={msg['@id']}
                 >
                   <Message
+                    isUnread={Boolean(msg['@id'] && unread.has(msg['@id']))}
                     webid={msg.maker['@id']}
                     showBadge={showBadge}
                     message={msg.content}
@@ -163,7 +230,7 @@ export const Messages = () => {
           })}
       </ul>
 
-      <NewChatConfirmation uri={channelUri} />
+      <NewChatConfirmation channelUri={channelUri} />
 
       {isJoined && (
         <SendMessageForm
@@ -178,7 +245,7 @@ export const Messages = () => {
   )
 }
 
-const NewChatConfirmation = ({ uri }: { uri: URI }) => {
+const NewChatConfirmation = ({ channelUri }: { channelUri: URI }) => {
   const auth = useAuth()
 
   let loading = false
@@ -228,12 +295,12 @@ const NewChatConfirmation = ({ uri }: { uri: URI }) => {
             .usingType(MessageActivityShapeType)
             .fromSubject(msgn),
         )
-        .filter(n => n?.target?.['@id'] === uri)
+        .filter(n => n?.target?.['@id'] === channelUri)
         .flatMap(n => graphOf(n, 'type')) ?? [],
     [
       notificationResults.quads,
       notificationResults.variables.messageNotification,
-      uri,
+      channelUri,
     ],
   )
 
@@ -262,12 +329,12 @@ const NewChatConfirmation = ({ uri }: { uri: URI }) => {
   const isNew =
     !typeIndexChatResults.isMissing &&
     !typeIndexChatResults.isLoading &&
-    !typeIndexChatResults.variables.instance?.includes(uri)
+    !typeIndexChatResults.variables.instance?.includes(channelUri)
 
   const handleContinue = async () => {
     // add self as participant to chat
     await addParticipantMutation.mutateAsync({
-      channel: uri,
+      channel: channelUri,
       participant: auth.webId!,
     })
 
@@ -275,12 +342,12 @@ const NewChatConfirmation = ({ uri }: { uri: URI }) => {
     await saveToPrivateTypeIndex.mutateAsync({
       index: privateTypeIndex!,
       type: meeting.LongChat,
-      location: uri,
+      location: channelUri,
     })
     // delete related notifications from inbox
-    for (const n of channelNotifications!) {
-      await deleteNotification.mutateAsync({ uri: n.value })
-    }
+    // for (const n of channelNotifications!) {
+    //   await deleteNotification.mutateAsync({ uri: n.value })
+    // }
   }
   const handleIgnore = async () => {
     // delete related notifications from inbox

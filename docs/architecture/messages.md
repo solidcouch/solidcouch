@@ -41,3 +41,7 @@ Message SHOULD be signed with the message author's key.
 ### Unread messages
 
 The messages that have corresponding `Create` notification in the inbox SHOULD be marked in the UI as unread. When the message gets read, the corresponding notification SHOULD be deleted. The UI MAY keep showing the message as unread until the next refresh, or change to read. Particular way of distinguishing unread and read messages is not mandated.
+
+### Discovery
+
+Every participant adds the chat URI into their private type index.

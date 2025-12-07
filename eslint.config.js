@@ -79,6 +79,7 @@ export default defineConfig(
             'style',
             'form',
             'as',
+            'data-testid',
           ],
           ignoreFunctions: [
             'register',
@@ -97,6 +98,7 @@ export default defineConfig(
             'searchParams.get',
             'navigate',
             'graphOf',
+            '*.toLocaleTimeString',
           ],
         },
       ],
