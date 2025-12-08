@@ -126,7 +126,7 @@ test.describe('Messages', () => {
     )
   })
 
-  test('unread messages', async ({ page }) => {
+  test('show unread messages and mark as read', async ({ page }) => {
     test.setTimeout(360_000)
     const [person0, person1] = people
     await signIn(page, person0.account)
@@ -220,6 +220,13 @@ test.describe('Messages', () => {
     await expect(
       page.getByRole('link', { name: 'messages' }),
     ).not.toContainText('new')
+  })
+
+  test('Not a chat URL', async ({ page }) => {
+    const [person0, person1] = people
+    await signIn(page, person0.account)
+    await page.goto(`/messages/${strict_uri_encode(person1.account.webId)}`)
+    await expect(page.getByTestId('not-a-chat-message')).toBeVisible()
   })
 })
 

@@ -115,7 +115,16 @@ export const Messages = () => {
       [auth.webId],
     ),
   )
-  const isJoined = typeIndexChatResults.variables.instance?.includes(channelUri)
+
+  // do i have the channel in my type indexes?
+  const isSavedInTypeIndex =
+    typeIndexChatResults.variables.instance?.includes(channelUri)
+  // is the url a chat channel?
+  const isChat = channel.type?.['@id'] === 'LongChat'
+  // am i a participant?
+  const isParticipant =
+    isChat &&
+    channel.participation?.some(p => p.participant['@id'] === auth.webId)
 
   const [handleSendMessage, { isReady }] = useSendMessage(
     useMemo(
@@ -150,7 +159,7 @@ export const Messages = () => {
   const processed = useRef(new Set<string>())
 
   useEffect(() => {
-    if (isJoined) {
+    if (isSavedInTypeIndex) {
       for (const n of channelNotifications) {
         if (n.graphUri && !processed.current.has(n.graphUri)) {
           deleteNotification.mutate({ uri: n.graphUri })
@@ -158,7 +167,14 @@ export const Messages = () => {
         }
       }
     }
-  }, [channelNotifications, deleteNotification, isJoined])
+  }, [channelNotifications, deleteNotification, isSavedInTypeIndex])
+
+  if (!isChat)
+    return (
+      <div data-testid="not-a-chat-message">
+        <Trans>There doesn't seem to be a chat here.</Trans>
+      </div>
+    )
 
   return (
     <div className={styles.container}>
@@ -232,7 +248,7 @@ export const Messages = () => {
 
       <NewChatConfirmation channelUri={channelUri} />
 
-      {isJoined && (
+      {isSavedInTypeIndex && isParticipant && (
         <SendMessageForm
           disabled={!isReady}
           onSendMessage={async ({ message }) => {

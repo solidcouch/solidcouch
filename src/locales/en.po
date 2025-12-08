@@ -161,7 +161,7 @@ msgstr "Contacts of <0/>"
 #: src/components/SignIn/SignIn.tsx:129
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:364
+#: src/pages/messages/Messages.tsx:380
 msgid "Continue"
 msgstr "Continue"
 
@@ -307,7 +307,7 @@ msgstr "I want more control"
 msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 msgstr "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 
-#: src/pages/messages/Messages.tsx:367
+#: src/pages/messages/Messages.tsx:383
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignore"
@@ -357,7 +357,7 @@ msgid "Linked Data Notification was sent."
 msgstr "Linked Data Notification was sent."
 
 #: src/pages/messages-new/NewChat.tsx:68
-#: src/pages/messages/Messages.tsx:359
+#: src/pages/messages/Messages.tsx:375
 msgid "Loading"
 msgstr "Loading"
 
@@ -674,6 +674,14 @@ msgstr "Switch to light theme"
 msgid "Tell others about your place and hosting"
 msgstr "Tell others about your place and hosting"
 
+#: src/pages/messages/Messages.tsx:175
+msgid "There doesn't seem to be a chat here."
+msgstr "There doesn't seem to be a chat here."
+
+#: src/pages/messages/Messages.tsx:175
+#~ msgid "There doesn't seem to be a chat."
+#~ msgstr "There doesn't seem to be a chat."
+
 #: src/components/AccommodationForm/AccommodationForm.tsx:145
 msgid "This field is required"
 msgstr "This field is required"
@@ -681,6 +689,10 @@ msgstr "This field is required"
 #: src/pages/messages-old/MessagesOld.tsx:247
 msgid "This is a start of your conversation"
 msgstr "This is a start of your conversation"
+
+#: src/pages/messages/Messages.tsx:175
+#~ msgid "This is not a chat."
+#~ msgstr "This is not a chat."
 
 #: src/pages/messages/SendMessageForm.tsx:72
 msgid "Title"
