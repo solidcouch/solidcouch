@@ -1,4 +1,4 @@
-import { Button, Loading } from '@/components'
+import { Button } from '@/components'
 import { PersonMini } from '@/components/PersonMini/PersonMini'
 import {
   getChatMessagesQuery,
@@ -56,7 +56,7 @@ export const Messages = () => {
     ),
   )
 
-  const isInProgress = results.isLoading || results.isMissing
+  // const isInProgress = results.isLoading || results.isMissing
 
   const channel = useMemo(
     () =>
@@ -172,9 +172,7 @@ export const Messages = () => {
   }, [channelNotifications, deleteNotification, isSavedInTypeIndex])
 
   if (!isChat)
-    return isInProgress ? (
-      <Loading>...</Loading>
-    ) : (
+    return (
       <div data-testid="not-a-chat-message">
         <Trans>There doesn't seem to be a chat here.</Trans>
       </div>

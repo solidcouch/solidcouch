@@ -1,3 +1,4 @@
+import { Avatar } from '@/components'
 import { PersonMini } from '@/components/PersonMini/PersonMini'
 import { threadsQuery } from '@/data/queries/chat'
 import { useAuth } from '@/hooks/useAuth'
@@ -57,6 +58,11 @@ export const ChatList = () => {
                       key={p.participant['@id']}
                     />
                   ))}
+                {!thread.participation?.filter(
+                  p => p.participant['@id'] !== auth.webId,
+                ).size ? (
+                  <Avatar size={1.5} />
+                ) : null}
                 {unread && <FaCircle />}
                 {disconnected && <FaExclamation />}
               </Link>
