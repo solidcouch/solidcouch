@@ -3,6 +3,7 @@ import { createChatChannel } from '@/hooks/data/mutations/chat'
 import { QueryKey } from '@/hooks/data/types'
 import { useSolidProfile } from '@/hooks/data/useProfile'
 import { saveTypeRegistration } from '@/hooks/data/useSetupHospex'
+import { useStorage } from '@/hooks/data/useStorage'
 import { useAuth } from '@/hooks/useAuth'
 import { meeting } from '@/utils/rdf-namespaces'
 import { SolidLeafUri } from '@ldo/connected-solid'
@@ -26,6 +27,8 @@ export const NewChat = () => {
     mySolidProfile.privateTypeIndex?.toArray()[0]?.['@id']
 
   const navigate = useNavigate()
+
+  const rootStorage = useStorage(auth.webId!)
 
   const channelMutation = useMutation({
     mutationFn: createChatChannel,
@@ -73,6 +76,7 @@ export const NewChat = () => {
       title: data.title,
       owner: myWebId,
       participants: [myWebId, personWebId],
+      rootStorage: rootStorage,
     })
     await saveToPrivateTypeIndex.mutateAsync({
       index: myPrivateTypeIndex,

@@ -109,7 +109,7 @@ msgstr "Ověřování..."
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: src/pages/messages-new/NewChat.tsx:33
+#: src/pages/messages-new/NewChat.tsx:36
 msgid "Chat channel was created"
 msgstr ""
 
@@ -161,7 +161,7 @@ msgstr "Kontakty <0/>"
 #: src/components/SignIn/SignIn.tsx:129
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:380
+#: src/pages/messages/Messages.tsx:384
 msgid "Continue"
 msgstr "Pokračovat"
 
@@ -189,7 +189,7 @@ msgstr "Vytvořit veřejný index typů:"
 msgid "Creating accommodation"
 msgstr "Vytváření ubytování"
 
-#: src/pages/messages-new/NewChat.tsx:37
+#: src/pages/messages-new/NewChat.tsx:40
 msgid "Creating channel failed"
 msgstr ""
 
@@ -307,7 +307,7 @@ msgstr "Chci mít větší kontrolu"
 msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 msgstr "Pokud vlastníte <0>doménu</0>, můžete mít své <1>WebID</1> na své doméně. To vám dává větší kontrolu nad vaší Solid identitou."
 
-#: src/pages/messages/Messages.tsx:383
+#: src/pages/messages/Messages.tsx:387
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignorovat"
@@ -356,8 +356,8 @@ msgstr "Připojit se ke komunitě {communityLabel}"
 msgid "Linked Data Notification was sent."
 msgstr ""
 
-#: src/pages/messages-new/NewChat.tsx:68
-#: src/pages/messages/Messages.tsx:375
+#: src/pages/messages-new/NewChat.tsx:71
+#: src/pages/messages/Messages.tsx:379
 msgid "Loading"
 msgstr ""
 
@@ -434,7 +434,7 @@ msgstr "Moje poloha"
 msgid "Name"
 msgstr "Jméno"
 
-#: src/pages/messages-new/NewChat.tsx:111
+#: src/pages/messages-new/NewChat.tsx:115
 msgid "New conversation with <0/>"
 msgstr ""
 
@@ -674,7 +674,7 @@ msgstr "Přepnout na světlé téma"
 msgid "Tell others about your place and hosting"
 msgstr "Povězte ostatním o svém místě a hostování"
 
-#: src/pages/messages/Messages.tsx:175
+#: src/pages/messages/Messages.tsx:179
 msgid "There doesn't seem to be a chat here."
 msgstr ""
 

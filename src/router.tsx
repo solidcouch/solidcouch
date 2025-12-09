@@ -10,6 +10,7 @@ import { HostRedirect } from './pages/HostRedirect.tsx'
 import { NewChat } from './pages/messages-new/NewChat.tsx'
 import { MessagesOld } from './pages/messages-old/MessagesOld.tsx'
 import { MessagesWith } from './pages/messages-with/MessagesWith.tsx'
+import { ChatLayout } from './pages/messages/ChatLayout.tsx'
 import { Messages } from './pages/messages/Messages.tsx'
 import { MyOffers } from './pages/MyOffers.tsx'
 import { NotFound } from './pages/NotFound.tsx'
@@ -61,6 +62,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'messages',
+            element: <ChatLayout />,
             children: [
               { index: true, element: <Threads /> },
               { path: ':channel', element: <Messages /> },

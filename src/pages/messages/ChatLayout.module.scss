@@ -1,0 +1,14 @@
+.container {
+  height: calc(100vh - 4rem);
+  display: flex;
+  // position: relative;
+
+  .chatList {
+    // height: 100%;
+    overflow-y: auto;
+  }
+
+  .content {
+    flex: 1;
+  }
+}

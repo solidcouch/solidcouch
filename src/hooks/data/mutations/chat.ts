@@ -21,22 +21,21 @@ export const createChatChannel = async ({
   title,
   owner,
   participants,
+  rootStorage,
 }: {
   title: string
   owner: SolidLeafUri
   participants: SolidLeafUri[]
+  rootStorage?: URI
 }) => {
   // https://solid.github.io/chat/#channel
   const solidLdoDataset = createSolidLdoDataset()
   solidLdoDataset.setContext('solid', { fetch })
 
-  const profile = solidLdoDataset.getResource(owner)
-  const rootContainer = await profile.getRootContainer()
-  if (rootContainer.isError) throw rootContainer
-
-  const rootUri = rootContainer.uri
-
-  const channelRoot = new URL(`hospex/messages/${v4()}/`, rootUri).toString()
+  const channelRoot = new URL(
+    `hospex/messages/${v4()}/`,
+    rootStorage,
+  ).toString()
   const channelUri = new URL(`index.ttl#this`, channelRoot).toString()
 
   const channelLdo = createLdoDataset()
