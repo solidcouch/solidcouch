@@ -88,12 +88,12 @@ export const Messages = () => {
         .filter(n => n?.target?.['@id'] === channelUri)
         .flatMap(n => ({
           messageUri: n.object['@id'],
-          graphUri: graphOf(n, 'type')[0]?.value,
+          graphUri: graphOf(n, 'type', { '@id': 'Create' })[0]?.value,
         })) ?? [],
     [
+      channelUri,
       notificationResults.quads,
       notificationResults.variables.messageNotification,
-      channelUri,
     ],
   )
 
@@ -314,7 +314,7 @@ const NewChatConfirmation = ({ channelUri }: { channelUri: URI }) => {
             .fromSubject(msgn),
         )
         .filter(n => n?.target?.['@id'] === channelUri)
-        .flatMap(n => graphOf(n, 'type')) ?? [],
+        .flatMap(n => graphOf(n, 'object')) ?? [],
     [
       notificationResults.quads,
       notificationResults.variables.messageNotification,

@@ -1,8 +1,10 @@
-import { Avatar } from '@/components'
 import { PersonMini } from '@/components/PersonMini/PersonMini'
 import { threadsQuery } from '@/data/queries/chat'
+import { useReadAccesses } from '@/hooks/data/access'
+import { AccessMode } from '@/hooks/data/types'
 import { useAuth } from '@/hooks/useAuth'
 import { ChatShapeShapeType } from '@/ldo/app.shapeTypes'
+import { getContainer } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
@@ -32,37 +34,49 @@ export const ChatList = () => {
 
   const dataset = createLdoDataset(threadsResults.quads)
 
-  const threads = channelUris.map(uri =>
+  const chats = channelUris.map(uri =>
     dataset.usingType(ChatShapeShapeType).fromSubject(uri),
   )
+
+  const chatAccesses = useReadAccesses(
+    useMemo(() => chats.map(ch => getContainer(ch['@id']!)), [chats]),
+  )
+
+  const accessParticipantsFromAcl = useMemo(() => {
+    const agents = chatAccesses.results.map(a =>
+      getAgentsWithModes(a!, [AccessMode.Write, AccessMode.Append]),
+    )
+    return agents
+  }, [chatAccesses.results])
 
   return (
     <nav>
       <ul className={styles.chatList}>
-        {threads.map(thread => {
-          const unread = inboxChannelUris?.includes(thread['@id']!)
-          const disconnected = !connectedChannelUris?.includes(thread['@id']!)
-          if (!thread['@id']) return null
+        {chats.map((chat, i) => {
+          const unread = inboxChannelUris?.includes(chat['@id']!)
+          const disconnected = !connectedChannelUris?.includes(chat['@id']!)
+          const explicitParticipants =
+            chat.participation?.map(p => p.participant['@id']) ?? []
+          const aclParticipants = accessParticipantsFromAcl[i] ?? []
+
+          const participants = new Set([
+            ...explicitParticipants,
+            ...aclParticipants,
+          ])
+          const otherParticipants = [...participants].filter(
+            p => p !== auth.webId,
+          )
+          if (!chat['@id']) return null
           return (
             <li
-              key={thread['@id']}
+              key={chat['@id']}
               data-cy="thread-list-item"
               className={styles.chatItem}
             >
-              <Link to={`/messages/${strict_uri_encode(thread['@id'])}`}>
-                {thread.participation
-                  ?.filter(p => p.participant['@id'] !== auth.webId)
-                  .map(p => (
-                    <PersonMini
-                      webId={p.participant['@id']}
-                      key={p.participant['@id']}
-                    />
-                  ))}
-                {!thread.participation?.filter(
-                  p => p.participant['@id'] !== auth.webId,
-                ).size ? (
-                  <Avatar size={1.5} />
-                ) : null}
+              <Link to={`/messages/${strict_uri_encode(chat['@id'])}`}>
+                {otherParticipants.map(participant => (
+                  <PersonMini webId={participant} key={participant} />
+                ))}
                 {unread && <FaCircle />}
                 {disconnected && <FaExclamation />}
               </Link>
@@ -72,4 +86,56 @@ export const ChatList = () => {
       </ul>
     </nav>
   )
+}
+
+interface AccessBlock {
+  url?: string
+  modes: AccessMode[]
+  agents: string[]
+  agentClasses: string[]
+  agentGroups: string[]
+  defaults: string[]
+}
+
+interface AclFile {
+  accesses?: AccessBlock[]
+}
+
+interface AccessControlData {
+  acls: AclFile[]
+}
+
+/**
+ * Extracts unique agents that possess ANY of the specified access modes.
+ *
+ * @param data - The AccessControlData object.
+ * @param targetModes - An array of modes to check for (e.g., ['Read', 'Write']).
+ * @returns An array of unique agent URIs.
+ */
+function getAgentsWithModes(
+  data: AccessControlData,
+  targetModes: AccessMode[],
+): string[] {
+  // Use a Set to automatically handle deduplication of agents
+  const foundAgents = new Set<string>()
+
+  // Use a Set for targetModes for O(1) lookup complexity if the list is long,
+  // though for simple permissions an array.includes is negligible.
+  const targetModeSet = new Set(targetModes)
+
+  // Iterate safely through the structure
+  data.acls?.forEach(acl => {
+    acl.accesses?.forEach(access => {
+      // Check if the current access block contains ANY of the target modes
+      const hasMatchingMode = access.modes.some(mode => targetModeSet.has(mode))
+
+      if (hasMatchingMode) {
+        access.agents.forEach(agent => {
+          foundAgents.add(agent)
+        })
+      }
+    })
+  })
+
+  return Array.from(foundAgents)
 }
