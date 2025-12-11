@@ -94,14 +94,8 @@ export const useSendMessage = ({
         ),
       )
     },
-    onError: (error, variables, context) => {
-      toast.error(
-        t`Sending message failed` +
-          error.name +
-          error.message +
-          variables +
-          context,
-      )
+    onError: error => {
+      toast.error(t`Sending message failed: ` + error.name + error.message)
     },
   })
 

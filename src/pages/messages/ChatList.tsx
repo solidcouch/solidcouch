@@ -28,15 +28,38 @@ export const ChatList = () => {
     ),
   )
 
-  const channelUris = threadsResults.variables.channel ?? []
+  const channelUris = useMemo(
+    () => threadsResults.variables.channel ?? [],
+    [threadsResults.variables.channel],
+  )
   const inboxChannelUris = threadsResults.variables.chat ?? []
   const connectedChannelUris = threadsResults.variables.instance ?? []
 
   const dataset = createLdoDataset(threadsResults.quads)
 
-  const chats = channelUris.map(uri =>
-    dataset.usingType(ChatShapeShapeType).fromSubject(uri),
-  )
+  const chats = useMemo(
+    () =>
+      channelUris
+        .map(uri => {
+          const chat = dataset.usingType(ChatShapeShapeType).fromSubject(uri)
+          // Pre-calculate the latest timestamp once
+          const timestamps = [
+            chat.message2
+              ? [...chat.message2].map(m => new Date(m.created).getTime())
+              : [],
+            // @deprecated This message is included for backwards compatibility only
+            chat.message
+              ? [...chat.message].map(m => new Date(m.created).getTime())
+              : [],
+          ].flat()
+          const latestActivity = Math.max(...timestamps)
+
+          return { chat, latestActivity }
+        })
+        .sort((a, b) => b.latestActivity - a.latestActivity) // Descending
+        .map(item => item.chat),
+    [channelUris, dataset],
+  ) // Extract original object
 
   const chatAccesses = useReadAccesses(
     useMemo(() => chats.map(ch => getContainer(ch['@id']!)), [chats]),

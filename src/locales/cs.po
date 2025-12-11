@@ -230,7 +230,7 @@ msgstr "e-mailová adresa"
 msgid "Email notification was sent"
 msgstr "E-mailové upozornění bylo odesláno"
 
-#: src/pages/messages/useSendMessage.ts:127
+#: src/pages/messages/useSendMessage.ts:121
 msgid "Email Notification was sent."
 msgstr ""
 
@@ -352,7 +352,7 @@ msgstr "Připojit se ke komunitě"
 msgid "Join community {communityLabel}"
 msgstr "Připojit se ke komunitě {communityLabel}"
 
-#: src/pages/messages/useSendMessage.ts:111
+#: src/pages/messages/useSendMessage.ts:105
 msgid "Linked Data Notification was sent."
 msgstr ""
 
@@ -581,16 +581,20 @@ msgstr "Odeslat pozvánku ke kontaktu"
 msgid "Sending email notification"
 msgstr "Probíhá odesílání e-mailového upozornění"
 
-#: src/pages/messages/useSendMessage.ts:131
+#: src/pages/messages/useSendMessage.ts:125
 msgid "Sending Email Notification failed."
 msgstr ""
 
-#: src/pages/messages/useSendMessage.ts:115
+#: src/pages/messages/useSendMessage.ts:109
 msgid "Sending Linked Data Notification failed."
 msgstr ""
 
 #: src/pages/messages/useSendMessage.ts:99
-msgid "Sending message failed"
+#~ msgid "Sending message failed"
+#~ msgstr ""
+
+#: src/pages/messages/useSendMessage.ts:98
+msgid "Sending message failed: "
 msgstr ""
 
 #: src/pages/messages-old/MessagesOld.tsx:177

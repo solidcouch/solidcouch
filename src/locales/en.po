@@ -230,7 +230,7 @@ msgstr "email address"
 msgid "Email notification was sent"
 msgstr "Email notification was sent"
 
-#: src/pages/messages/useSendMessage.ts:127
+#: src/pages/messages/useSendMessage.ts:121
 msgid "Email Notification was sent."
 msgstr "Email Notification was sent."
 
@@ -352,7 +352,7 @@ msgstr "Join Community"
 msgid "Join community {communityLabel}"
 msgstr "Join community {communityLabel}"
 
-#: src/pages/messages/useSendMessage.ts:111
+#: src/pages/messages/useSendMessage.ts:105
 msgid "Linked Data Notification was sent."
 msgstr "Linked Data Notification was sent."
 
@@ -581,17 +581,21 @@ msgstr "Send contact invitation"
 msgid "Sending email notification"
 msgstr "Sending email notification"
 
-#: src/pages/messages/useSendMessage.ts:131
+#: src/pages/messages/useSendMessage.ts:125
 msgid "Sending Email Notification failed."
 msgstr "Sending Email Notification failed."
 
-#: src/pages/messages/useSendMessage.ts:115
+#: src/pages/messages/useSendMessage.ts:109
 msgid "Sending Linked Data Notification failed."
 msgstr "Sending Linked Data Notification failed."
 
 #: src/pages/messages/useSendMessage.ts:99
-msgid "Sending message failed"
-msgstr "Sending message failed"
+#~ msgid "Sending message failed"
+#~ msgstr "Sending message failed"
+
+#: src/pages/messages/useSendMessage.ts:98
+msgid "Sending message failed: "
+msgstr "Sending message failed: "
 
 #: src/pages/messages-old/MessagesOld.tsx:177
 msgid "Sending Solid notification"

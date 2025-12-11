@@ -194,7 +194,7 @@ export const Messages = () => {
       </h2>
 
       <ul className={styles.messagesContainer} ref={listRef}>
-        {channel.message2
+        {[...(channel.message2 ?? []), ...(channel.message ?? [])]
           ?.map(msg => ({ ...msg }))
           .sort(
             (a, b) =>

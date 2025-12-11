@@ -1,8 +1,10 @@
 import { inboxMessagesQuery } from '@/hooks/data/queries'
 import { LdhopQueryVar } from '@/hooks/data/queries/profile'
 import { getTypeIndexQuery } from '@/hooks/data/queries/typeIndex'
+import { getContainer } from '@/utils/helpers'
 import { meeting, wf } from '@/utils/rdf-namespaces'
 import { LdhopQuery, Variable } from '@ldhop/core'
+import { NamedNode } from 'n3'
 import { ldp } from 'rdf-namespaces'
 
 export enum Variables {
@@ -118,6 +120,12 @@ export const threadsQuery: LdhopQuery<
     object: '?chat',
     pick: 'object',
     target: Variables.channel,
+  },
+  {
+    type: 'transform variable',
+    source: Variables.channel,
+    target: Variables.root,
+    transform: term => new NamedNode(getContainer(term.value)),
   },
   ...getChatMessagesQuery(Variables),
   ...getChatParticipantsQuery(Variables),
