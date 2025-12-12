@@ -12,9 +12,9 @@ import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 export interface Activity {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Add";
-  };
+  }>;
   actor: {
     "@id": string;
   };

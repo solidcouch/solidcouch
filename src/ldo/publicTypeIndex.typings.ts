@@ -28,9 +28,9 @@ export interface PublicTypeIndex {
 export interface TypeRegistration {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "TypeRegistration";
-  };
+  }>;
   forClass: LdSet<{
     "@id": string;
   }>;

@@ -15,9 +15,9 @@ export interface SolidProfile {
   /**
    * Defines the node as a Person (from foaf)
    */
-  type: {
+  type: LdSet<{
     "@id": "Person";
-  };
+  }>;
   /**
    * The user's LDP inbox to which apps can post notifications
    */
@@ -65,9 +65,9 @@ export interface FoafProfile {
   /**
    * Defines the node as a Person (from foaf)
    */
-  type: {
+  type: LdSet<{
     "@id": "Person";
-  };
+  }>;
   /**
    * A list of WebIds for all the people this user knows.
    */
@@ -137,9 +137,9 @@ export interface Accommodation {
 export interface Point {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Point";
-  };
+  }>;
   /**
    * Latitude of the location in WGS84
    */
@@ -188,9 +188,9 @@ export interface PrivateTypeIndex {
 export interface Preferences {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "ConfigurationFile";
-  };
+  }>;
 }
 
 /**
@@ -199,9 +199,9 @@ export interface Preferences {
 export interface TypeRegistration {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "TypeRegistration";
-  };
+  }>;
   forClass: LdSet<{
     "@id": string;
   }>;
@@ -209,7 +209,7 @@ export interface TypeRegistration {
     | {
         "@id": string;
       }
-    | ChatShape
+    | Chat
   >;
   instanceContainer?: LdSet<{
     "@id": string;
@@ -217,17 +217,17 @@ export interface TypeRegistration {
 }
 
 /**
- * ChatShape Type
+ * Chat Type
  */
-export interface ChatShape {
+export interface Chat {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
   /**
    * Defines the type of the chat as a LongChat
    */
-  type: {
+  type: LdSet<{
     "@id": "LongChat";
-  };
+  }>;
   /**
    * The WebId of the entity that created this chat
    */
@@ -245,7 +245,7 @@ export interface ChatShape {
   /**
    * A list of people participating in this chat
    */
-  participation?: LdSet<ChatParticipationShape>;
+  participation?: LdSet<ChatParticipation>;
   /**
    * Chat preferences
    */
@@ -255,17 +255,17 @@ export interface ChatShape {
   /**
    * deprecated
    */
-  message?: LdSet<ChatMessageShape>;
+  message?: LdSet<ChatMessage>;
   /**
    * A list of messages in the chat
    */
-  message2?: LdSet<ChatMessageShape>;
+  message2?: LdSet<ChatMessage>;
 }
 
 /**
- * ChatParticipationShape Type
+ * ChatParticipation Type
  */
-export interface ChatParticipationShape {
+export interface ChatParticipation {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
   /**
@@ -285,18 +285,18 @@ export interface ChatParticipationShape {
   /**
    * Part of this chat belonging to this participant
    */
-  references?: LdSet<ChatShape>;
+  references?: LdSet<Chat>;
 }
 
 /**
- * ChatMessageShape Type
+ * ChatMessage Type
  */
-export interface ChatMessageShape {
+export interface ChatMessage {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type?: {
+  type?: LdSet<{
     "@id": "Message";
-  };
+  }>;
   /**
    * The date and time this message was posted.
    */
@@ -339,9 +339,9 @@ export interface Container {
 export interface Resource {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Resource";
-  };
+  }>;
   modified: string;
   mtime: number;
   size: number;
@@ -373,17 +373,17 @@ export interface Inbox {
 export interface MessageActivityDeprecated {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Add";
-  };
+  }>;
   actor: {
     "@id": string;
   };
   context: {
     "@id": string;
   };
-  object: ChatMessageShape;
-  target: ChatShape;
+  object: ChatMessage;
+  target: Chat;
   updated: string;
 }
 
@@ -393,14 +393,14 @@ export interface MessageActivityDeprecated {
 export interface MessageActivity {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Create";
-  };
+  }>;
   actor: {
     "@id": string;
   };
-  object: ChatMessageShape;
-  target: ChatShape;
+  object: ChatMessage;
+  target: Chat;
   to?: LdSet<{
     "@id": string;
   }>;
@@ -412,9 +412,9 @@ export interface MessageActivity {
 export interface ContactInvitationActivity {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Invite";
-  };
+  }>;
   actor: {
     "@id": string;
   };
@@ -432,9 +432,9 @@ export interface ContactInvitationActivity {
 export interface ContactRelationship {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Relationship";
-  };
+  }>;
   subject: {
     "@id": string;
   };

@@ -8,12 +8,14 @@ import { LdoJsonldContext } from "@ldo/ldo";
 export const hospexCommunityContext: LdoJsonldContext = {
   type: {
     "@id": "@type",
+    "@isCollection": true,
   },
   Community: {
     "@id": "http://w3id.org/hospex/ns#Community",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       name: {
         "@id": "http://rdfs.org/sioc/ns#name",
@@ -55,6 +57,7 @@ export const hospexCommunityContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       name: {
         "@id": "http://rdfs.org/sioc/ns#name",
@@ -129,6 +132,7 @@ export const hospexCommunityContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       usergroupOf: {
         "@id": "http://rdfs.org/sioc/ns#usergroup_of",
@@ -146,6 +150,7 @@ export const hospexCommunityContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       usergroupOf: {
         "@id": "http://rdfs.org/sioc/ns#usergroup_of",

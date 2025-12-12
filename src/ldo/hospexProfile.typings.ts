@@ -12,9 +12,9 @@ import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 export interface HospexProfile {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Person";
-  };
+  }>;
   note?: LdSet<string>;
   name?: string;
   hasPhoto?: {

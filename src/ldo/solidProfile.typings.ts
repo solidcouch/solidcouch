@@ -15,9 +15,9 @@ export interface SolidProfile {
   /**
    * Defines the node as a Person (from foaf)
    */
-  type: {
+  type: LdSet<{
     "@id": "Person";
-  };
+  }>;
   /**
    * The user's LDP inbox to which apps can post notifications
    */

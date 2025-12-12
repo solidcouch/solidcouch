@@ -8,12 +8,14 @@ import { LdoJsonldContext } from "@ldo/ldo";
 export const appContext: LdoJsonldContext = {
   type: {
     "@id": "@type",
+    "@isCollection": true,
   },
   Person: {
     "@id": "http://xmlns.com/foaf/0.1/Person",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       inbox: {
         "@id": "http://www.w3.org/ns/ldp#inbox",
@@ -68,6 +70,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       contains: {
         "@id": "http://www.w3.org/ns/ldp#contains",
@@ -93,6 +96,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       contains: {
         "@id": "http://www.w3.org/ns/ldp#contains",
@@ -123,6 +127,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       actor: {
         "@id": "https://www.w3.org/ns/activitystreams#actor",
@@ -156,6 +161,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       created: {
         "@id": "http://purl.org/dc/terms/created",
@@ -192,6 +198,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       author: {
         "@id": "http://purl.org/dc/elements/1.1/author",
@@ -284,6 +291,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       actor: {
         "@id": "https://www.w3.org/ns/activitystreams#actor",
@@ -316,6 +324,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       subject: {
         "@id": "https://www.w3.org/ns/activitystreams#subject",
@@ -381,6 +390,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
     },
   },
@@ -389,6 +399,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
     },
   },
@@ -402,6 +413,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
     },
   },
@@ -438,6 +450,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       description: {
         "@id": "http://purl.org/dc/terms/description",
@@ -459,6 +472,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       description: {
         "@id": "http://purl.org/dc/terms/description",
@@ -489,6 +503,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       lat: {
         "@id": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
@@ -521,12 +536,21 @@ export const appContext: LdoJsonldContext = {
     "@id": "http://w3id.org/hospex/ns#storage",
     "@type": "@id",
   },
-  ConfigurationFile: "http://www.w3.org/ns/pim/space#ConfigurationFile",
+  ConfigurationFile: {
+    "@id": "http://www.w3.org/ns/pim/space#ConfigurationFile",
+    "@context": {
+      type: {
+        "@id": "@type",
+        "@isCollection": true,
+      },
+    },
+  },
   TypeRegistration: {
     "@id": "http://www.w3.org/ns/solid/terms#TypeRegistration",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       forClass: {
         "@id": "http://www.w3.org/ns/solid/terms#forClass",
@@ -565,6 +589,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       modified: {
         "@id": "http://purl.org/dc/terms/modified",
@@ -585,6 +610,7 @@ export const appContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       actor: {
         "@id": "https://www.w3.org/ns/activitystreams#actor",

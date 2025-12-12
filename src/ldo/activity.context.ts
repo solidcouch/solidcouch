@@ -8,12 +8,14 @@ import { LdoJsonldContext } from "@ldo/ldo";
 export const activityContext: LdoJsonldContext = {
   type: {
     "@id": "@type",
+    "@isCollection": true,
   },
   Add: {
     "@id": "https://www.w3.org/ns/activitystreams#Add",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       actor: {
         "@id": "https://www.w3.org/ns/activitystreams#actor",

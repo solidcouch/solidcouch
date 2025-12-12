@@ -8,12 +8,14 @@ import { LdoJsonldContext } from "@ldo/ldo";
 export const hospexProfileContext: LdoJsonldContext = {
   type: {
     "@id": "@type",
+    "@isCollection": true,
   },
   Person: {
     "@id": "http://xmlns.com/foaf/0.1/Person",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       note: {
         "@id": "http://www.w3.org/2006/vcard/ns#note",

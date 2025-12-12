@@ -12,12 +12,12 @@ import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 export interface Authorization {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Authorization";
-  };
-  accessTo: LdSet<{
-    "@id": string;
   }>;
+  accessTo: {
+    "@id": string;
+  };
   default?: {
     "@id": string;
   };
@@ -31,9 +31,6 @@ export interface Authorization {
     "@id": string;
   }>;
   mode?: LdSet<
-    | {
-        "@id": string;
-      }
     | {
         "@id": "Read";
       }

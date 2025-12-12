@@ -8,12 +8,14 @@ import { LdoJsonldContext } from "@ldo/ldo";
 export const publicTypeIndexContext: LdoJsonldContext = {
   type: {
     "@id": "@type",
+    "@isCollection": true,
   },
   TypeIndex: {
     "@id": "http://www.w3.org/ns/solid/terms#TypeIndex",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
     },
   },
@@ -22,6 +24,7 @@ export const publicTypeIndexContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
     },
   },
@@ -30,6 +33,7 @@ export const publicTypeIndexContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       forClass: {
         "@id": "http://www.w3.org/ns/solid/terms#forClass",

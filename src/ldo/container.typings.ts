@@ -32,9 +32,9 @@ export interface Container {
 export interface Resource {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Resource";
-  };
+  }>;
   modified: string;
   mtime: number;
   size: number;

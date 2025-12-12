@@ -8,12 +8,14 @@ import { LdoJsonldContext } from "@ldo/ldo";
 export const longChatContext: LdoJsonldContext = {
   type: {
     "@id": "@type",
+    "@isCollection": true,
   },
   LongChat: {
     "@id": "http://www.w3.org/ns/pim/meeting#LongChat",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       author: {
         "@id": "http://purl.org/dc/elements/1.1/author",

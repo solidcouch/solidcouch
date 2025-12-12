@@ -8,12 +8,14 @@ import { LdoJsonldContext } from "@ldo/ldo";
 export const accommodationContext: LdoJsonldContext = {
   type: {
     "@id": "@type",
+    "@isCollection": true,
   },
   Accommodation: {
     "@id": "http://w3id.org/hospex/ns#Accommodation",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       description: {
         "@id": "http://purl.org/dc/terms/description",
@@ -35,6 +37,7 @@ export const accommodationContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       description: {
         "@id": "http://purl.org/dc/terms/description",
@@ -65,6 +68,7 @@ export const accommodationContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       lat: {
         "@id": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",

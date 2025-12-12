@@ -8,12 +8,14 @@ import { LdoJsonldContext } from "@ldo/ldo";
 export const containerContext: LdoJsonldContext = {
   type: {
     "@id": "@type",
+    "@isCollection": true,
   },
   Container: {
     "@id": "http://www.w3.org/ns/ldp#Container",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       contains: {
         "@id": "http://www.w3.org/ns/ldp#contains",
@@ -39,6 +41,7 @@ export const containerContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       contains: {
         "@id": "http://www.w3.org/ns/ldp#contains",
@@ -69,6 +72,7 @@ export const containerContext: LdoJsonldContext = {
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       modified: {
         "@id": "http://purl.org/dc/terms/modified",
