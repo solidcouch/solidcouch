@@ -5,7 +5,7 @@ import { getContainer } from '@/utils/helpers'
 import { meeting, wf } from '@/utils/rdf-namespaces'
 import { LdhopQuery, Variable } from '@ldhop/core'
 import { NamedNode } from 'n3'
-import { ldp } from 'rdf-namespaces'
+import { dct, ldp } from 'rdf-namespaces'
 
 export enum Variables {
   root = '?root',
@@ -97,6 +97,25 @@ export const getChatParticipantsQuery = <T extends Variable>(variables: {
     predicate: wf.participant,
     pick: 'object',
     target: '?participant',
+  },
+]
+
+export const getChatLegacyLinkQuery = <T extends Variable>(variables: {
+  channel: T
+  root: T
+}): LdhopQuery<T | '?participation'> => [
+  {
+    type: 'match',
+    subject: '?participation',
+    predicate: dct.references,
+    pick: 'object',
+    target: variables.channel,
+  },
+  {
+    type: 'transform variable',
+    source: variables.channel,
+    target: variables.root,
+    transform: term => new NamedNode(getContainer(term.value)),
   },
 ]
 

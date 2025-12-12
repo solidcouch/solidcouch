@@ -36,4 +36,11 @@
       }
     }
   }
+
+  .info {
+    padding: 0.75rem;
+    &:empty {
+      display: none;
+    }
+  }
 }

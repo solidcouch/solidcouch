@@ -1,6 +1,7 @@
 import { Button } from '@/components'
 import { PersonMini } from '@/components/PersonMini/PersonMini'
 import {
+  getChatLegacyLinkQuery,
   getChatMessagesQuery,
   getChatParticipantsQuery,
   getTypeIndexChatQuery,
@@ -32,13 +33,22 @@ import { createLdoDataset, graphOf } from '@ldo/ldo'
 import { Trans } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
+import strict_uri_encode from 'strict-uri-encode'
 import { Message } from './Message'
 import styles from './Messages.module.scss'
 import { SendMessageForm } from './SendMessageForm'
 import { useSendMessage } from './useSendMessage'
 
-const chatMessagesQuery = getChatMessagesQuery(Variables)
+const chatQuery = [
+  ...getChatMessagesQuery(Variables),
+  ...getChatParticipantsQuery(Variables),
+  ...getChatLegacyLinkQuery(Variables),
+]
+
+/**
+ * There is also a legacy format for the chat. This old format references other parts of the chat elsewhere. TODO we could render that differently, read-only.
+ */
 
 export const Messages = () => {
   const channelUri = useParams().channel!
@@ -50,7 +60,7 @@ export const Messages = () => {
   const results = useLDhopQuery(
     useMemo(
       () => ({
-        query: [...chatMessagesQuery, ...getChatParticipantsQuery(Variables)],
+        query: chatQuery,
         variables: {
           channel: [channelUri],
           root: [getContainer(channelUri)],
@@ -70,6 +80,10 @@ export const Messages = () => {
         .fromSubject(channelUri),
     [channelUri, results.quads],
   )
+
+  const isLegacy =
+    channel.participation?.some(p => p.references?.size ?? 0 > 0) ||
+    (channel.message?.size ?? 0) > 0
 
   const notificationResults = useLDhopQuery(
     useMemo(
@@ -187,6 +201,16 @@ export const Messages = () => {
     }
   }, [channelNotifications, deleteNotification, isSavedInTypeIndex])
 
+  const participants = channel.participation?.map(p => p.participant['@id'])
+  const otherParticipants = participants?.filter(p => p !== auth.webId)
+
+  const legacyReferencedMessages =
+    channel.participation
+      ?.map(
+        p => p.references?.map(r => Array.from(r.message ?? [])).flat() ?? [],
+      )
+      .flat() ?? []
+
   if (!isChat)
     return (
       <div data-testid="not-a-chat-message">
@@ -200,9 +224,9 @@ export const Messages = () => {
         {channel.title}
         {
           <ul className={styles.participants}>
-            {channel.participation?.map(p => (
-              <li key={p.participant['@id']}>
-                <PersonMini webId={p.participant['@id']} size={1} />
+            {participants?.map(p => (
+              <li key={p}>
+                <PersonMini webId={p} size={1} />
               </li>
             ))}
           </ul>
@@ -210,7 +234,11 @@ export const Messages = () => {
       </h2>
 
       <ul className={styles.messagesContainer} ref={listRef}>
-        {[...(channel.message2 ?? []), ...(channel.message ?? [])]
+        {[
+          ...(channel.message2 ?? []),
+          ...(channel.message ?? []),
+          ...legacyReferencedMessages,
+        ]
           ?.map(msg => ({ ...msg }))
           .sort(
             (a, b) =>
@@ -266,7 +294,7 @@ export const Messages = () => {
 
       <NewChatConfirmation channelUri={channelUri} />
 
-      {isSavedInTypeIndex && isParticipant && canAppend && (
+      {isSavedInTypeIndex && isParticipant && canAppend && !isLegacy && (
         <SendMessageForm
           disabled={!isReady}
           onSendMessage={async ({ message }) => {
@@ -276,7 +304,23 @@ export const Messages = () => {
         />
       )}
 
-      {!canAppend && canRead && <Trans>You can only read this chat.</Trans>}
+      <div className={styles.info}>
+        {!canAppend && canRead && <Trans>You can only read this chat.</Trans>}
+        {isLegacy && <Trans>This chat has outdated format.</Trans>}{' '}
+        {isLegacy &&
+          otherParticipants &&
+          (otherParticipants?.length ?? 0) === 1 && (
+            <Trans>
+              Please{' '}
+              <Link
+                to={`/messages-with/${strict_uri_encode(otherParticipants[0]!)}/new`}
+              >
+                start a new one
+              </Link>
+              .
+            </Trans>
+          )}
+      </div>
     </div>
   )
 }
