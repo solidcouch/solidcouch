@@ -161,7 +161,7 @@ msgstr "Kontakty <0/>"
 #: src/components/SignIn/SignIn.tsx:129
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:382
+#: src/pages/messages/Messages.tsx:400
 msgid "Continue"
 msgstr "Pokračovat"
 
@@ -307,7 +307,7 @@ msgstr "Chci mít větší kontrolu"
 msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 msgstr "Pokud vlastníte <0>doménu</0>, můžete mít své <1>WebID</1> na své doméně. To vám dává větší kontrolu nad vaší Solid identitou."
 
-#: src/pages/messages/Messages.tsx:385
+#: src/pages/messages/Messages.tsx:403
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignorovat"
@@ -357,7 +357,7 @@ msgid "Linked Data Notification was sent."
 msgstr ""
 
 #: src/pages/messages-new/NewChat.tsx:71
-#: src/pages/messages/Messages.tsx:377
+#: src/pages/messages/Messages.tsx:395
 msgid "Loading"
 msgstr ""
 
@@ -678,7 +678,7 @@ msgstr "Přepnout na světlé téma"
 msgid "Tell others about your place and hosting"
 msgstr "Povězte ostatním o svém místě a hostování"
 
-#: src/pages/messages/Messages.tsx:177
+#: src/pages/messages/Messages.tsx:193
 msgid "There doesn't seem to be a chat here."
 msgstr ""
 
@@ -766,6 +766,10 @@ msgstr "Již jste členem {communityLabel}"
 #: src/components/Join/Join.tsx:98
 msgid "You can <0>host your Pod</0>. This will give you full control over your data. However, it's more complicated to set up, and requires maintenance. We recommend <1>Community Solid Server</1>."
 msgstr "Můžete <0>hostovat svůj Pod</0>, čímž získáte plnou kontrolu nad svými daty. Nastavení je však složitější a vyžaduje údržbu. Doporučujeme <1>Community Solid Server</1>."
+
+#: src/pages/messages/Messages.tsx:279
+msgid "You can only read this chat."
+msgstr ""
 
 #: src/pages/HospexSetup/Step2.tsx:230
 msgid "Your email"

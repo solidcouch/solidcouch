@@ -6,6 +6,7 @@ import {
   getTypeIndexChatQuery,
   Variables,
 } from '@/data/queries/chat'
+import { useReadAccesses } from '@/hooks/data/access'
 import { addParticipant } from '@/hooks/data/mutations/chat'
 import { inboxMessagesQuery } from '@/hooks/data/queries'
 import { QueryKey } from '@/hooks/data/types'
@@ -19,7 +20,11 @@ import {
   MessageActivityShapeType,
 } from '@/ldo/app.shapeTypes'
 import { URI } from '@/types'
-import { getContainer, removeHashFromURI } from '@/utils/helpers'
+import {
+  EffectiveAccessMode,
+  getContainer,
+  removeHashFromURI,
+} from '@/utils/helpers'
 import { meeting } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
@@ -127,6 +132,17 @@ export const Messages = () => {
   const isParticipant =
     isChat &&
     channel.participation?.some(p => p.participant['@id'] === auth.webId)
+
+  const {
+    results: [access],
+  } = useReadAccesses([channelUri])
+
+  const canRead =
+    access?.effectivePermissions?.user?.has(EffectiveAccessMode.read) ||
+    access?.effectivePermissions?.public?.has(EffectiveAccessMode.read)
+  const canAppend =
+    access?.effectivePermissions?.user?.has(EffectiveAccessMode.append) ||
+    access?.effectivePermissions?.public?.has(EffectiveAccessMode.append)
 
   const [handleSendMessage, { isReady }] = useSendMessage(
     useMemo(
@@ -250,7 +266,7 @@ export const Messages = () => {
 
       <NewChatConfirmation channelUri={channelUri} />
 
-      {isSavedInTypeIndex && isParticipant && (
+      {isSavedInTypeIndex && isParticipant && canAppend && (
         <SendMessageForm
           disabled={!isReady}
           onSendMessage={async ({ message }) => {
@@ -259,6 +275,8 @@ export const Messages = () => {
           }}
         />
       )}
+
+      {!canAppend && canRead && <Trans>You can only read this chat.</Trans>}
     </div>
   )
 }

@@ -208,7 +208,12 @@ export const mergeArrays = <
   return Object.values(dict)
 }
 
-type EffectiveAccessMode = 'read' | 'write' | 'append' | 'control'
+export enum EffectiveAccessMode {
+  read = 'read',
+  write = 'write',
+  append = 'append',
+  control = 'control',
+}
 
 interface EffectivePermissions {
   [param: string]: Set<EffectiveAccessMode>

@@ -7,6 +7,7 @@
 import { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import {
+  EffectiveAccessMode,
   fullFetch,
   getAcl,
   parseWacAllow,
@@ -112,7 +113,9 @@ export const useReadAccesses = (resources: string[]) => {
       queryKey: [QueryKey.rdfDocument, aclUri],
       queryFn: async () => fetchRdfDocumentOrFail(aclUri ?? ''),
       // it's only meaningful to fetch acl if user has control permission
-      enabled: Boolean(aclUri) && effectivePermissions?.user?.has('control'),
+      enabled:
+        Boolean(aclUri) &&
+        effectivePermissions?.user?.has(EffectiveAccessMode.control),
     })),
   })
 
