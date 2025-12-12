@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate } from 'react-router'
 import { App } from './App.tsx'
 import { About } from './pages/About/About.tsx'
 import { AuthenticatedOutlet } from './pages/AuthenticatedOutlet.tsx'
@@ -7,13 +7,17 @@ import { EditProfile } from './pages/EditProfile'
 import { Home } from './pages/Home.tsx'
 import { HostOutlet } from './pages/HostOutlet.tsx'
 import { HostRedirect } from './pages/HostRedirect.tsx'
-import { Messages } from './pages/Messages.tsx'
+import { NewChat } from './pages/messages-new/NewChat.tsx'
+import { MessagesOld } from './pages/messages-old/MessagesOld.tsx'
+import { MessagesWith } from './pages/messages-with/MessagesWith.tsx'
+import { ChatLayout } from './pages/messages/ChatLayout.tsx'
+import { Messages } from './pages/messages/Messages.tsx'
 import { MyOffers } from './pages/MyOffers.tsx'
 import { NotFound } from './pages/NotFound.tsx'
 import { Profile } from './pages/Profile'
 import { ProfileRedirect } from './pages/ProfileRedirect.tsx'
 import { SearchHosts } from './pages/SearchHosts'
-import { Threads } from './pages/Threads.tsx'
+import { Threads } from './pages/Threads/Threads.tsx'
 import { TravelOutlet } from './pages/TravelOutlet.tsx'
 import { TravelRedirect } from './pages/TravelRedirect.tsx'
 
@@ -37,10 +41,31 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            path: 'messages',
+            path: 'messages-old',
             children: [
               { index: true, element: <Threads /> },
-              { path: ':id', element: <Messages /> },
+              { path: ':id', element: <MessagesOld /> },
+            ],
+          },
+          {
+            path: 'messages-with',
+            children: [
+              { index: true, element: <Navigate to="/messages" /> },
+              {
+                path: ':webId',
+                children: [
+                  { index: true, element: <MessagesWith /> },
+                  { path: 'new', element: <NewChat /> },
+                ],
+              },
+            ],
+          },
+          {
+            path: 'messages',
+            element: <ChatLayout />,
+            children: [
+              { index: true, element: <Threads /> },
+              { path: ':channel', element: <Messages /> },
             ],
           },
           {

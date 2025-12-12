@@ -54,7 +54,7 @@ export const AccommodationInfo = ({
       {isOther ? (
         <ButtonLink
           primary
-          to={`/messages/${encodeURIComponent(accommodation.offeredBy)}`}
+          to={`/messages-with/${encodeURIComponent(accommodation.offeredBy)}`}
         >
           <Trans>Write a message</Trans>
         </ButtonLink>

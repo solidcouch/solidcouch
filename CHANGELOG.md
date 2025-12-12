@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Enable `noUncheckedIndexedAccess` in tsconfig to improve type safety when accessing array and object properties.
+- **BREAKING_CHANGE**: Implement messages according to https://solid.github.io/chat/. The legacy format is available for read-only.
 
 ### Removed
 

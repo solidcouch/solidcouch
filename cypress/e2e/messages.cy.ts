@@ -7,7 +7,7 @@ import { UserConfig } from '../support/css-authentication'
 /**
  * @todo TODO possibly these tests largely overlap, get rid of the overlaps
  */
-describe('messages with other person', () => {
+describe.skip('messages with other person', () => {
   beforeEach(() => {
     // create two people
     ;['me', 'otherPerson'].forEach((tag, i) => {

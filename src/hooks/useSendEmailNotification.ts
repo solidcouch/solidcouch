@@ -1,4 +1,5 @@
 import { useConfig } from '@/config/hooks'
+import { HttpError } from '@/utils/errors'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation } from '@tanstack/react-query'
 import { useCallback } from 'react'
@@ -21,26 +22,14 @@ const getMessageNotificationBody = ({
 }: MessageNotificationData) => ({
   '@context': 'https://www.w3.org/ns/activitystreams',
   type: 'Create',
-  actor: {
-    type: 'Person',
-    id: from.id,
-    name: from.name,
-  },
-  object: {
-    type: 'Note',
-    id: messageId,
-    content: message,
-  },
-  target: {
-    type: 'Person',
-    id: to.id,
-    name: to.name,
-  },
+  actor: { type: 'Person', id: from.id, name: from.name },
+  object: { type: 'Note', id: messageId, content: message },
+  target: { type: 'Person', id: to.id, name: to.name },
 })
 
 // TODO make also notification for contact request, contact confirmation, ...
 
-const sendNotification =
+export const sendNotification =
   (emailNotificationsService: string) =>
   async ({ data }: { type: 'message'; data: MessageNotificationData }) => {
     const response = await fetch(
@@ -51,7 +40,7 @@ const sendNotification =
         headers: { 'content-type': 'application/ld+json' },
       },
     )
-    if (!response.ok) throw new Error('not ok!')
+    if (!response.ok) throw new HttpError('not ok!', response)
   }
 
 export const useSendEmailNotification = ({

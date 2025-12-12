@@ -1,7 +1,7 @@
-import { ShapeType } from '@ldo/ldo'
-import { solidProfileSchema } from './solidProfile.schema'
-import { solidProfileContext } from './solidProfile.context'
-import { SolidProfile } from './solidProfile.typings'
+import { ShapeType } from "@ldo/ldo";
+import { solidProfileSchema } from "./solidProfile.schema";
+import { solidProfileContext } from "./solidProfile.context";
+import { SolidProfile } from "./solidProfile.typings";
 
 /**
  * =============================================================================
@@ -14,6 +14,6 @@ import { SolidProfile } from './solidProfile.typings'
  */
 export const SolidProfileShapeType: ShapeType<SolidProfile> = {
   schema: solidProfileSchema,
-  shape: 'https://example.com/SolidProfile',
+  shape: "https://example.com/SolidProfile",
   context: solidProfileContext,
-}
+};

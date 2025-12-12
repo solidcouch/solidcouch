@@ -1,14 +1,14 @@
 import type { LdhopQuery } from '@ldhop/core'
 import { as, foaf, ldp, rdf, rdfs } from 'rdf-namespaces'
 import {
-  LdhopQueryVars,
+  LdhopQueryVar,
   MatchVar,
   personInbox,
   profileDocuments,
 } from './profile'
 
 export const contactsQuery: LdhopQuery<
-  | LdhopQueryVars<typeof profileDocuments>
+  | LdhopQueryVar<typeof profileDocuments>
   | '?otherPerson'
   | '?otherProfileDocument'
 > = [
@@ -32,7 +32,7 @@ export const contactsQuery: LdhopQuery<
 ]
 
 export const contactRequestsQuery: LdhopQuery<
-  | LdhopQueryVars<typeof profileDocuments>
+  | LdhopQueryVar<typeof profileDocuments>
   | MatchVar<typeof personInbox>
   | '?notification'
   | '?inviteNotification'

@@ -1,4 +1,4 @@
-import { LdoJsonldContext } from '@ldo/ldo'
+import { LdoJsonldContext } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -7,86 +7,86 @@ import { LdoJsonldContext } from '@ldo/ldo'
  */
 export const wacContext: LdoJsonldContext = {
   type: {
-    '@id': '@type',
+    "@id": "@type",
   },
   Authorization: {
-    '@id': 'http://www.w3.org/ns/auth/acl#Authorization',
-    '@context': {
+    "@id": "http://www.w3.org/ns/auth/acl#Authorization",
+    "@context": {
       type: {
-        '@id': '@type',
+        "@id": "@type",
       },
       accessTo: {
-        '@id': 'http://www.w3.org/ns/auth/acl#accessTo',
-        '@type': '@id',
-        '@isCollection': true,
+        "@id": "http://www.w3.org/ns/auth/acl#accessTo",
+        "@type": "@id",
+        "@isCollection": true,
       },
       default: {
-        '@id': 'http://www.w3.org/ns/auth/acl#default',
-        '@type': '@id',
+        "@id": "http://www.w3.org/ns/auth/acl#default",
+        "@type": "@id",
       },
       agent: {
-        '@id': 'http://www.w3.org/ns/auth/acl#agent',
-        '@type': '@id',
-        '@isCollection': true,
+        "@id": "http://www.w3.org/ns/auth/acl#agent",
+        "@type": "@id",
+        "@isCollection": true,
       },
       agentClass: {
-        '@id': 'http://www.w3.org/ns/auth/acl#agentClass',
-        '@type': '@id',
-        '@isCollection': true,
+        "@id": "http://www.w3.org/ns/auth/acl#agentClass",
+        "@type": "@id",
+        "@isCollection": true,
       },
       agentGroup: {
-        '@id': 'http://www.w3.org/ns/auth/acl#agentGroup',
-        '@type': '@id',
-        '@isCollection': true,
+        "@id": "http://www.w3.org/ns/auth/acl#agentGroup",
+        "@type": "@id",
+        "@isCollection": true,
       },
       mode: {
-        '@id': 'http://www.w3.org/ns/auth/acl#mode',
-        '@type': '@id',
-        '@isCollection': true,
+        "@id": "http://www.w3.org/ns/auth/acl#mode",
+        "@type": "@id",
+        "@isCollection": true,
       },
       origin: {
-        '@id': 'http://www.w3.org/ns/auth/acl#origin',
-        '@type': '@id',
-        '@isCollection': true,
+        "@id": "http://www.w3.org/ns/auth/acl#origin",
+        "@type": "@id",
+        "@isCollection": true,
       },
     },
   },
   accessTo: {
-    '@id': 'http://www.w3.org/ns/auth/acl#accessTo',
-    '@type': '@id',
-    '@isCollection': true,
+    "@id": "http://www.w3.org/ns/auth/acl#accessTo",
+    "@type": "@id",
+    "@isCollection": true,
   },
   default: {
-    '@id': 'http://www.w3.org/ns/auth/acl#default',
-    '@type': '@id',
+    "@id": "http://www.w3.org/ns/auth/acl#default",
+    "@type": "@id",
   },
   agent: {
-    '@id': 'http://www.w3.org/ns/auth/acl#agent',
-    '@type': '@id',
-    '@isCollection': true,
+    "@id": "http://www.w3.org/ns/auth/acl#agent",
+    "@type": "@id",
+    "@isCollection": true,
   },
   agentClass: {
-    '@id': 'http://www.w3.org/ns/auth/acl#agentClass',
-    '@type': '@id',
-    '@isCollection': true,
+    "@id": "http://www.w3.org/ns/auth/acl#agentClass",
+    "@type": "@id",
+    "@isCollection": true,
   },
   agentGroup: {
-    '@id': 'http://www.w3.org/ns/auth/acl#agentGroup',
-    '@type': '@id',
-    '@isCollection': true,
+    "@id": "http://www.w3.org/ns/auth/acl#agentGroup",
+    "@type": "@id",
+    "@isCollection": true,
   },
   mode: {
-    '@id': 'http://www.w3.org/ns/auth/acl#mode',
-    '@type': '@id',
-    '@isCollection': true,
+    "@id": "http://www.w3.org/ns/auth/acl#mode",
+    "@type": "@id",
+    "@isCollection": true,
   },
-  Read: 'http://www.w3.org/ns/auth/acl#Read',
-  Write: 'http://www.w3.org/ns/auth/acl#Write',
-  Control: 'http://www.w3.org/ns/auth/acl#Control',
-  Append: 'http://www.w3.org/ns/auth/acl#Append',
+  Read: "http://www.w3.org/ns/auth/acl#Read",
+  Write: "http://www.w3.org/ns/auth/acl#Write",
+  Control: "http://www.w3.org/ns/auth/acl#Control",
+  Append: "http://www.w3.org/ns/auth/acl#Append",
   origin: {
-    '@id': 'http://www.w3.org/ns/auth/acl#origin',
-    '@type': '@id',
-    '@isCollection': true,
+    "@id": "http://www.w3.org/ns/auth/acl#origin",
+    "@type": "@id",
+    "@isCollection": true,
   },
-}
+};

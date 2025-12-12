@@ -1,6 +1,6 @@
 import {
   ChatShapeShapeType,
-  MessageActivityShapeType,
+  MessageActivityDeprecatedShapeType,
 } from '@/ldo/app.shapeTypes'
 import { ChatMessageShape, ChatShape } from '@/ldo/app.typings'
 import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
@@ -56,7 +56,7 @@ export const useCreateMessage = () => {
 }
 
 export const useCreateMessageNotification = () => {
-  const queryMutation = useCreateRdfDocument(MessageActivityShapeType)
+  const queryMutation = useCreateRdfDocument(MessageActivityDeprecatedShapeType)
   return useCallback(
     async ({
       inbox,
@@ -88,7 +88,7 @@ export const useCreateMessageNotification = () => {
             created: updated,
             content,
             maker: { '@id': senderId },
-          } as ChatMessageShape,
+          } as unknown as ChatMessageShape,
           target: { '@id': chatId } as ChatShape,
           updated,
         },

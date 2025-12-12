@@ -2,7 +2,7 @@ import { hospex } from '@/utils/rdf-namespaces'
 import type { LdhopQuery } from '@ldhop/core'
 import { rdf, sioc, solid, space } from 'rdf-namespaces'
 import {
-  LdhopQueryVars,
+  LdhopQueryVar,
   personInbox,
   publicWebIdProfileQuery,
   webIdProfileQuery,
@@ -53,13 +53,13 @@ const partialHospexDocumentQuery: LdhopQuery<
 ]
 
 export const hospexDocumentQuery: LdhopQuery<
-  | LdhopQueryVars<typeof publicWebIdProfileQuery>
-  | LdhopQueryVars<typeof partialHospexDocumentQuery>
+  | LdhopQueryVar<typeof publicWebIdProfileQuery>
+  | LdhopQueryVar<typeof partialHospexDocumentQuery>
 > = [...publicWebIdProfileQuery, ...partialHospexDocumentQuery]
 
 export const privateProfileAndHospexDocumentQuery: LdhopQuery<
-  | LdhopQueryVars<typeof webIdProfileQuery>
-  | LdhopQueryVars<typeof partialHospexDocumentQuery>
+  | LdhopQueryVar<typeof webIdProfileQuery>
+  | LdhopQueryVar<typeof partialHospexDocumentQuery>
   | '?hospexSettings'
   | '?eachCommunity'
   | '?communityName'
@@ -93,7 +93,7 @@ export const privateProfileAndHospexDocumentQuery: LdhopQuery<
 ]
 
 export const emailVerificationQuery: LdhopQuery<
-  | LdhopQueryVars<typeof hospexDocumentQuery>
+  | LdhopQueryVar<typeof hospexDocumentQuery>
   | '?hospexPreferencesFile'
   | '?emailVerificationToken'
 > = [

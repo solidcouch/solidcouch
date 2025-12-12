@@ -1,0 +1,38 @@
+.message,
+.author {
+  display: grid;
+  grid-template-columns: 3.5rem auto;
+  gap: 0 0.75rem;
+}
+
+.author {
+  margin-top: 0.75rem;
+  align-items: center;
+  .name {
+    font-weight: bold;
+  }
+}
+
+.message {
+  &.unread {
+    background-color: var(--background-color-raised);
+  }
+
+  border-radius: 4px;
+
+  .time {
+    font-size: small;
+    visibility: hidden;
+  }
+
+  .content {
+    white-space: pre-wrap;
+  }
+}
+
+li:hover > .message {
+  background-color: var(--background-color-raised);
+  .time {
+    visibility: visible;
+  }
+}

@@ -9,5 +9,5 @@ export {
   hospexDocumentQuery,
   privateProfileAndHospexDocumentQuery,
 } from './hospex'
-export { inboxMessagesQuery, messages, threads } from './messages'
-export { profileDocuments, webIdProfileQuery } from './profile'
+export { inboxMessagesQuery, messages } from './messages'
+export { webIdProfileQuery } from './profile'

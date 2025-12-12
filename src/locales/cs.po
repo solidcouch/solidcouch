@@ -18,7 +18,7 @@ msgid "{label} added to interests"
 msgstr "{label} byl přidán do zájmů"
 
 #: src/components/Header/MainMenu.tsx:49
-#: src/pages/Home.tsx:28
+#: src/pages/Home.tsx:31
 msgid "{messageCount, plural, one {(# new)} other {(# new)}}"
 msgstr "{messageCount, plural, one {(# nová)} few {(# nové)} other {(# nových)}}"
 
@@ -109,6 +109,10 @@ msgstr "Ověřování..."
 msgid "Cancel"
 msgstr "Zrušit"
 
+#: src/pages/messages-new/NewChat.tsx:36
+msgid "Chat channel was created"
+msgstr ""
+
 #: src/pages/SetupOutlet.tsx:110
 msgid "Checking your setup..."
 msgstr "Kontroluji vaše nastavení..."
@@ -146,7 +150,7 @@ msgid "Contact request sent"
 msgstr "Pozvánka odeslána"
 
 #: src/components/Header/MainMenu.tsx:56
-#: src/pages/Profile/Profile.tsx:60
+#: src/pages/Profile/Profile.tsx:63
 msgid "contacts"
 msgstr "kontakty"
 
@@ -157,10 +161,11 @@ msgstr "Kontakty <0/>"
 #: src/components/SignIn/SignIn.tsx:129
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
+#: src/pages/messages/Messages.tsx:444
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/pages/Threads.tsx:29
+#: src/pages/Threads/Threads.tsx:44
 msgid "Conversations"
 msgstr "Konverzace"
 
@@ -184,7 +189,11 @@ msgstr "Vytvořit veřejný index typů:"
 msgid "Creating accommodation"
 msgstr "Vytváření ubytování"
 
-#: src/pages/Messages.tsx:162
+#: src/pages/messages-new/NewChat.tsx:40
+msgid "Creating channel failed"
+msgstr ""
+
+#: src/pages/messages-old/MessagesOld.tsx:162
 msgid "Creating message"
 msgstr "Vytváření zprávy"
 
@@ -217,9 +226,13 @@ msgstr "upravit profil"
 msgid "email address"
 msgstr "e-mailová adresa"
 
-#: src/pages/Messages.tsx:189
+#: src/pages/messages-old/MessagesOld.tsx:189
 msgid "Email notification was sent"
 msgstr "E-mailové upozornění bylo odesláno"
+
+#: src/pages/messages/useSendMessage.ts:121
+msgid "Email Notification was sent."
+msgstr ""
 
 #: src/pages/HospexSetup/Step2.tsx:254
 msgid "Email notifications are not available for this community."
@@ -274,11 +287,11 @@ msgstr "hospex kontejner nebyl nalezen (možná příliš brzy?)"
 msgid "Hospex document not found"
 msgstr "Hospex dokument nebyl nalezen"
 
-#: src/pages/Messages.tsx:142
+#: src/pages/messages-old/MessagesOld.tsx:142
 msgid "Hospex not set up (should not happen)"
 msgstr "Hospex není nastaven (nemělo by se to stát)"
 
-#: src/pages/Home.tsx:21
+#: src/pages/Home.tsx:22
 msgid "host"
 msgstr "hostit"
 
@@ -294,6 +307,7 @@ msgstr "Chci mít větší kontrolu"
 msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 msgstr "Pokud vlastníte <0>doménu</0>, můžete mít své <1>WebID</1> na své doméně. To vám dává větší kontrolu nad vaší Solid identitou."
 
+#: src/pages/messages/Messages.tsx:447
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignorovat"
@@ -310,7 +324,7 @@ msgstr "Schránka je nastavena."
 msgid "inbox not found (too soon?)"
 msgstr "schránka nebyla nalezena (možná příliš brzy?)"
 
-#: src/pages/Messages.tsx:135
+#: src/pages/messages-old/MessagesOld.tsx:135
 msgid "Inbox of the other person not found (probably too soon)"
 msgstr "Schránka druhé osoby nebyla nalezena (pravděpodobně příliš brzy)"
 
@@ -338,21 +352,29 @@ msgstr "Připojit se ke komunitě"
 msgid "Join community {communityLabel}"
 msgstr "Připojit se ke komunitě {communityLabel}"
 
+#: src/pages/messages/useSendMessage.ts:105
+msgid "Linked Data Notification was sent."
+msgstr ""
+
+#: src/pages/messages-new/NewChat.tsx:71
+#: src/pages/messages/Messages.tsx:439
+msgid "Loading"
+msgstr ""
+
 #: src/pages/EditProfile/EditInterests.tsx:68
-#: src/pages/Profile/Profile.tsx:71
+#: src/pages/Profile/Profile.tsx:74
 msgid "loading interests..."
 msgstr "načítání zájmů..."
 
-#: src/pages/Messages.tsx:240
+#: src/pages/messages-old/MessagesOld.tsx:240
 msgid "Loading previous messages"
 msgstr "Načítání předchozích zpráv"
 
 #: src/App.tsx:47
-#: src/pages/Messages.tsx:205
+#: src/pages/messages-old/MessagesOld.tsx:205
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26
 #: src/pages/SearchHosts/AccommodationInfo.tsx:51
-#: src/pages/Threads.tsx:22
 msgid "Loading..."
 msgstr "Načítání..."
 
@@ -360,22 +382,31 @@ msgstr "Načítání..."
 msgid "logo of {name}"
 msgstr "logo {name}"
 
-#: src/pages/Messages.tsx:163
+#: src/pages/messages-new/NewChat.tsx:117
+#~ msgid "Message"
+#~ msgstr ""
+
+#: src/pages/messages-old/MessagesOld.tsx:163
+#: src/pages/messages/useSendMessage.ts:75
 msgid "Message was created"
 msgstr "Zpráva byla vytvořena"
 
 #: src/components/Header/MainMenu.tsx:45
-#: src/pages/Home.tsx:24
+#: src/pages/Home.tsx:25
 msgid "messages"
 msgstr "zprávy"
 
-#: src/pages/Threads.tsx:55
+#: src/pages/Threads/Threads.tsx:97
 msgid "Messages with {personLabel}"
 msgstr "Zprávy s {personLabel}"
 
-#: src/pages/Messages.tsx:207
+#: src/pages/messages-old/MessagesOld.tsx:207
 msgid "Messages with <0/>"
 msgstr "Zprávy s <0/>"
+
+#: src/pages/messages-with/MessagesWith.tsx:20
+msgid "Messages With <0/>"
+msgstr ""
 
 #: src/pages/MyOffers.tsx:101
 #: src/pages/MyOffers.tsx:145
@@ -403,7 +434,11 @@ msgstr "Moje poloha"
 msgid "Name"
 msgstr "Jméno"
 
-#: src/pages/Messages.tsx:131
+#: src/pages/messages-new/NewChat.tsx:115
+msgid "New conversation with <0/>"
+msgstr ""
+
+#: src/pages/messages-old/MessagesOld.tsx:131
 msgid "No authenticated user available"
 msgstr "Není dostupný žádný autentizovaný uživatel"
 
@@ -436,6 +471,10 @@ msgstr "čeká"
 msgid "Photo"
 msgstr "Fotka"
 
+#: src/pages/messages/Messages.tsx:313
+msgid "Please <0>start a new one</0>."
+msgstr ""
+
 #: src/pages/Profile/ManageContact.tsx:177
 msgid "Please invite only people you know personally."
 msgstr "Pozvěte prosím pouze lidi, které osobně znáte."
@@ -464,7 +503,7 @@ msgstr "Připravte Pod"
 msgid "Private type index is set up."
 msgstr "Soukromý index typu je nastaven."
 
-#: src/pages/Messages.tsx:144
+#: src/pages/messages-old/MessagesOld.tsx:144
 msgid "Private type index not set up (should not happen)"
 msgstr "Soukromý index typu není nastaven (nemělo by se to stát)."
 
@@ -524,9 +563,14 @@ msgstr "Vyberte mou polohu"
 msgid "Select your Solid identity provider"
 msgstr "Vyberte svého poskytovatele Solid identity"
 
-#: src/pages/Messages.tsx:255
+#: src/pages/messages-old/MessagesOld.tsx:255
+#: src/pages/messages/SendMessageForm.tsx:85
 msgid "Send"
 msgstr "Odeslat"
+
+#: src/pages/messages/SendMessageForm.tsx:81
+msgid "Send a message…"
+msgstr ""
 
 #: src/pages/HospexSetup/Step2.tsx:154
 #: src/pages/HospexSetup/Step2.tsx:235
@@ -537,11 +581,27 @@ msgstr "Odeslat potvrzovací e-mail"
 msgid "Send contact invitation"
 msgstr "Odeslat pozvánku ke kontaktu"
 
-#: src/pages/Messages.tsx:188
+#: src/pages/messages-old/MessagesOld.tsx:188
 msgid "Sending email notification"
 msgstr "Probíhá odesílání e-mailového upozornění"
 
-#: src/pages/Messages.tsx:177
+#: src/pages/messages/useSendMessage.ts:125
+msgid "Sending Email Notification failed."
+msgstr ""
+
+#: src/pages/messages/useSendMessage.ts:109
+msgid "Sending Linked Data Notification failed."
+msgstr ""
+
+#: src/pages/messages/useSendMessage.ts:99
+#~ msgid "Sending message failed"
+#~ msgstr ""
+
+#: src/pages/messages/useSendMessage.ts:98
+msgid "Sending message failed: "
+msgstr ""
+
+#: src/pages/messages-old/MessagesOld.tsx:177
 msgid "Sending Solid notification"
 msgstr "Probíhá odesílání Solid upozornění"
 
@@ -581,7 +641,7 @@ msgstr "Přihlásit se"
 msgid "sign out"
 msgstr "odhlásit se"
 
-#: src/pages/Messages.tsx:178
+#: src/pages/messages-old/MessagesOld.tsx:178
 msgid "Solid notification was sent"
 msgstr "Solid upozornění bylo odesláno"
 
@@ -602,6 +662,14 @@ msgstr ""
 "Něco se pokazilo.\n"
 "Chyba: {e}"
 
+#: src/pages/messages-with/MessagesWith.tsx:28
+msgid "Start a conversation"
+msgstr ""
+
+#: src/pages/messages-with/MessagesWith.tsx:26
+msgid "Start a new conversation"
+msgstr ""
+
 #: src/components/ThemeSwitch/ThemeSwitch.tsx:21
 msgid "Switch to dark theme"
 msgstr "Přepnout na tmavé téma"
@@ -614,13 +682,33 @@ msgstr "Přepnout na světlé téma"
 msgid "Tell others about your place and hosting"
 msgstr "Povězte ostatním o svém místě a hostování"
 
+#: src/pages/messages/Messages.tsx:217
+msgid "There doesn't seem to be a chat here."
+msgstr ""
+
+#: src/pages/messages/Messages.tsx:175
+#~ msgid "There doesn't seem to be a chat."
+#~ msgstr ""
+
+#: src/pages/messages/Messages.tsx:309
+msgid "This chat has outdated format."
+msgstr ""
+
 #: src/components/AccommodationForm/AccommodationForm.tsx:145
 msgid "This field is required"
 msgstr "Toto pole je povinné"
 
-#: src/pages/Messages.tsx:247
+#: src/pages/messages-old/MessagesOld.tsx:247
 msgid "This is a start of your conversation"
 msgstr "Toto je začátek vaší konverzace"
+
+#: src/pages/messages/Messages.tsx:175
+#~ msgid "This is not a chat."
+#~ msgstr ""
+
+#: src/pages/messages/SendMessageForm.tsx:72
+msgid "Title"
+msgstr ""
 
 #: src/components/Join/Join.tsx:161
 msgid "To complete the process, you must prove that the WebID on your domain belongs to you. Afterwards, the WebID must point to your Profile Document. (This may need more explanation.)"
@@ -630,7 +718,7 @@ msgstr "K dokončení procesu musíte prokázat, že WebID na vaší doméně v�
 msgid "To join {communityName}, you need a <0>Solid Pod</0>."
 msgstr "Pro připojení k {communityName} potřebujete <0>Solid Pod</0>."
 
-#: src/pages/Home.tsx:18
+#: src/pages/Home.tsx:19
 msgid "travel"
 msgstr "cestovat"
 
@@ -670,7 +758,7 @@ msgstr "Ověřujeme, že je vše správně nastaveno."
 msgid "WIP"
 msgstr "Pracujeme na tom"
 
-#: src/pages/Profile/Profile.tsx:53
+#: src/pages/Profile/Profile.tsx:56
 #: src/pages/SearchHosts/AccommodationInfo.tsx:59
 msgid "Write a message"
 msgstr "Napsat zprávu"
@@ -686,6 +774,10 @@ msgstr "Již jste členem {communityLabel}"
 #: src/components/Join/Join.tsx:98
 msgid "You can <0>host your Pod</0>. This will give you full control over your data. However, it's more complicated to set up, and requires maintenance. We recommend <1>Community Solid Server</1>."
 msgstr "Můžete <0>hostovat svůj Pod</0>, čímž získáte plnou kontrolu nad svými daty. Nastavení je však složitější a vyžaduje údržbu. Doporučujeme <1>Community Solid Server</1>."
+
+#: src/pages/messages/Messages.tsx:308
+msgid "You can only read this chat."
+msgstr ""
 
 #: src/pages/HospexSetup/Step2.tsx:230
 msgid "Your email"

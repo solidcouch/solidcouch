@@ -3,6 +3,7 @@ export default {
   '*': [
     () => 'yarn i18n:extract',
     () => 'yarn i18n:compile',
+    () => 'git add src/locales',
     'prettier --write --ignore-unknown',
     () => 'knip',
   ],

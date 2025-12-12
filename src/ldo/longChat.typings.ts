@@ -1,4 +1,4 @@
-import { LdoJsonldContext, LdSet } from '@ldo/ldo'
+import { LdoJsonldContext, LdSet } from "@ldo/ldo";
 
 /**
  * =============================================================================
@@ -10,98 +10,94 @@ import { LdoJsonldContext, LdSet } from '@ldo/ldo'
  * ChatShape Type
  */
 export interface ChatShape {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   /**
    * Defines the type of the chat as a LongChat
    */
   type: {
-    '@id': 'LongChat'
-  }
+    "@id": "LongChat";
+  };
   /**
    * The WebId of the entity that created this chat
    */
   author: {
-    '@id': string
-  }
+    "@id": string;
+  };
   /**
    * The date and time the chat was created
    */
-  created: string
+  created: string;
   /**
    * The title of the chat
    */
-  title: string
+  title: string;
   /**
    * A list of people participating in this chat
    */
-  participation?: LdSet<ChatParticipationShape>
+  participation?: LdSet<ChatParticipationShape>;
   /**
    * Chat preferences
    */
   sharedPreferences?: {
-    '@id': string
-  }
+    "@id": string;
+  };
+  /**
+   * deprecated
+   */
+  message?: LdSet<ChatMessageShape>;
+  /**
+   * A list of messages in the chat
+   */
+  message2?: LdSet<ChatMessageShape>;
 }
 
 /**
  * ChatParticipationShape Type
  */
 export interface ChatParticipationShape {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   /**
    * The date and time this individual began participating in the chat.
    */
-  dtstart: string
+  dtstart: string;
   /**
    * The WebId of the participant
    */
   participant: {
-    '@id': string
-  }
+    "@id": string;
+  };
   /**
    * The background color of the participant's chat bubbles
    */
-  backgroundColor?: string
+  backgroundColor?: string;
   /**
    * Part of this chat belonging to this participant
    */
   references?: {
-    '@id': string
-  }
-}
-
-/**
- * ChatMessageListShape Type
- */
-export interface ChatMessageListShape {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
-  /**
-   * A list of messages in the chat
-   */
-  message?: LdSet<ChatMessageShape>
+    "@id": string;
+  };
 }
 
 /**
  * ChatMessageShape Type
  */
 export interface ChatMessageShape {
-  '@id'?: string
-  '@context'?: LdoJsonldContext
+  "@id"?: string;
+  "@context"?: LdoJsonldContext;
   /**
    * The date and time this message was posted.
    */
-  created2: string
+  created2: string;
   /**
    * The text content of the message
    */
-  content: string
+  content: string;
   /**
    * The WebId of the person who sent the message.
    */
   maker: {
-    '@id': string
-  }
+    "@id": string;
+  };
 }
