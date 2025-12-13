@@ -7,17 +7,17 @@ import { LdoJsonldContext, LdSet } from "@ldo/ldo";
  */
 
 /**
- * ChatShape Type
+ * Chat Type
  */
-export interface ChatShape {
+export interface Chat {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
   /**
    * Defines the type of the chat as a LongChat
    */
-  type: {
+  type: LdSet<{
     "@id": "LongChat";
-  };
+  }>;
   /**
    * The WebId of the entity that created this chat
    */
@@ -35,7 +35,7 @@ export interface ChatShape {
   /**
    * A list of people participating in this chat
    */
-  participation?: LdSet<ChatParticipationShape>;
+  participation?: LdSet<ChatParticipation>;
   /**
    * Chat preferences
    */
@@ -45,17 +45,17 @@ export interface ChatShape {
   /**
    * deprecated
    */
-  message?: LdSet<ChatMessageShape>;
+  message?: LdSet<ChatMessage>;
   /**
    * A list of messages in the chat
    */
-  message2?: LdSet<ChatMessageShape>;
+  message2?: LdSet<ChatMessage>;
 }
 
 /**
- * ChatParticipationShape Type
+ * ChatParticipation Type
  */
-export interface ChatParticipationShape {
+export interface ChatParticipation {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
   /**
@@ -81,9 +81,9 @@ export interface ChatParticipationShape {
 }
 
 /**
- * ChatMessageShape Type
+ * ChatMessage Type
  */
-export interface ChatMessageShape {
+export interface ChatMessage {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
   /**

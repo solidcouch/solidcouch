@@ -15,9 +15,9 @@ export interface FoafProfile {
   /**
    * Defines the node as a Person (from foaf)
    */
-  type: {
+  type: LdSet<{
     "@id": "Person";
-  };
+  }>;
   /**
    * Define a person's name.
    */

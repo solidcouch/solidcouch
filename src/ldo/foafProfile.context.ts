@@ -8,12 +8,14 @@ import { LdoJsonldContext } from "@ldo/ldo";
 export const foafProfileContext: LdoJsonldContext = {
   type: {
     "@id": "@type",
+    "@isCollection": true,
   },
   Person: {
     "@id": "http://xmlns.com/foaf/0.1/Person",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       name: {
         "@id": "http://xmlns.com/foaf/0.1/name",

@@ -39,9 +39,9 @@ export interface Accommodation {
 export interface Point {
   "@id"?: string;
   "@context"?: LdoJsonldContext;
-  type: {
+  type: LdSet<{
     "@id": "Point";
-  };
+  }>;
   /**
    * Latitude of the location in WGS84
    */

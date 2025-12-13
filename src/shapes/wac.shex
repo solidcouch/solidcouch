@@ -10,7 +10,7 @@ ex:Authorization EXTRA a {
   acl:agent IRI* ;
   acl:agentClass IRI* ;
   acl:agentGroup IRI* ;
-  acl:mode IRI+ ;
+  # acl:mode IRI+ ; # breaks ldo-cli
   acl:mode [acl:Read] ? ;
   acl:mode [acl:Write] ? ;
   acl:mode [acl:Control] ? ;

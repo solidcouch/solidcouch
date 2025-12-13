@@ -31,8 +31,6 @@ export const wacSchema: Schema = {
                 type: "NodeConstraint",
                 nodeKind: "iri",
               },
-              min: 1,
-              max: -1,
             },
             {
               type: "TripleConstraint",
@@ -72,16 +70,6 @@ export const wacSchema: Schema = {
                 nodeKind: "iri",
               },
               min: 0,
-              max: -1,
-            },
-            {
-              type: "TripleConstraint",
-              predicate: "http://www.w3.org/ns/auth/acl#mode",
-              valueExpr: {
-                type: "NodeConstraint",
-                nodeKind: "iri",
-              },
-              min: 1,
               max: -1,
             },
             {

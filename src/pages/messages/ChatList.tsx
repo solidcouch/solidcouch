@@ -3,7 +3,7 @@ import { threadsQuery } from '@/data/queries/chat'
 import { useReadAccesses } from '@/hooks/data/access'
 import { AccessMode } from '@/hooks/data/types'
 import { useAuth } from '@/hooks/useAuth'
-import { ChatShapeShapeType } from '@/ldo/app.shapeTypes'
+import { ChatShapeType } from '@/ldo/app.shapeTypes'
 import { getContainer } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
@@ -41,7 +41,7 @@ export const ChatList = () => {
     () =>
       channelUris
         .map(uri => {
-          const chat = dataset.usingType(ChatShapeShapeType).fromSubject(uri)
+          const chat = dataset.usingType(ChatShapeType).fromSubject(uri)
           // Pre-calculate the latest timestamp once
           const timestamps = [
             chat.message2

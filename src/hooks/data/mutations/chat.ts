@@ -1,8 +1,8 @@
+import { ChatShapeType, MessageActivityShapeType } from '@/ldo/app.shapeTypes'
 import {
-  ChatShapeShapeType,
-  MessageActivityShapeType,
-} from '@/ldo/app.shapeTypes'
-import { ChatMessageShape, ChatShape } from '@/ldo/app.typings'
+  ChatMessage as ChatMessageShape,
+  Chat as ChatShape,
+} from '@/ldo/app.typings'
 import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
 import { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
@@ -39,10 +39,10 @@ export const createChatChannel = async ({
   const channelUri = new URL(`index.ttl#this`, channelRoot).toString()
 
   const channelLdo = createLdoDataset()
-    .usingType(ChatShapeShapeType)
+    .usingType(ChatShapeType)
     .fromSubject(channelUri)
 
-  channelLdo.type = { '@id': 'LongChat' }
+  channelLdo.type = set({ '@id': 'LongChat' })
   channelLdo.title = title
   channelLdo.participation = set({
     participant: { '@id': owner },
@@ -62,20 +62,20 @@ export const createChatChannel = async ({
   const ownLdo = aclLdo
     .usingType(AuthorizationShapeType)
     .fromSubject('#ReadWriteControl')
-  ownLdo.type = { '@id': 'Authorization' }
+  ownLdo.type = set({ '@id': 'Authorization' })
   ownLdo.agent = set({ '@id': owner })
-  ownLdo.accessTo = set({ '@id': channelRoot })
+  ownLdo.accessTo = { '@id': channelRoot }
   ownLdo.default = { '@id': channelRoot }
   ownLdo.mode = set({ '@id': 'Read' }, { '@id': 'Write' }, { '@id': 'Control' })
 
   const appendLdo = aclLdo
     .usingType(AuthorizationShapeType)
     .fromSubject('#Append')
-  appendLdo.type = { '@id': 'Authorization' }
+  appendLdo.type = set({ '@id': 'Authorization' })
   appendLdo.agent = set(
     ...participants.filter(p => p !== owner).map(webId => ({ '@id': webId })),
   )
-  appendLdo.accessTo = set({ '@id': channelRoot })
+  appendLdo.accessTo = { '@id': channelRoot }
   appendLdo.default = { '@id': channelRoot }
   appendLdo.mode = set({ '@id': 'Read' }, { '@id': 'Append' })
 
@@ -105,11 +105,12 @@ export const createMessage = async ({
   const messageUri = new URL(`#${uuid}`, resourceUrl).toString()
 
   const ldoDataset = createLdoDataset()
-  const ldo = ldoDataset.usingType(ChatShapeShapeType).fromSubject(channel)
+  const ldo = ldoDataset.usingType(ChatShapeType).fromSubject(channel)
 
   const created = new Date().toISOString()
 
-  ldo.message2?.add({
+  ldo.message2 ??= set()
+  ldo.message2.add({
     '@id': messageUri,
     created,
     content: message,
@@ -153,10 +154,10 @@ export const createMessageNotification = async ({
 
   const ldoDataset = createLdoDataset()
   const ldo = ldoDataset.usingType(MessageActivityShapeType).fromSubject('')
-  ldo.type = { '@id': 'Create' }
+  ldo.type = set({ '@id': 'Create' })
   ldo.actor = { '@id': senderId }
   ldo.object = {
-    type: { '@id': 'Message' },
+    type: set({ '@id': 'Message' }),
     '@id': messageId,
     content,
     created: updated,
@@ -181,7 +182,7 @@ export const addParticipant = async ({
   channel: URI
   participant: URI
 }) =>
-  await updateLdoDocument(ChatShapeShapeType)({
+  await updateLdoDocument(ChatShapeType)({
     uri: channel,
     subject: channel,
     transform: ldo => {

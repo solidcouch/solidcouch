@@ -11,9 +11,9 @@ import {
   PrivateTypeIndex,
   Preferences,
   TypeRegistration,
-  ChatShape,
-  ChatParticipationShape,
-  ChatMessageShape,
+  Chat,
+  ChatParticipation,
+  ChatMessage,
   Container,
   Resource,
   Inbox,
@@ -111,28 +111,27 @@ export const TypeRegistrationShapeType: ShapeType<TypeRegistration> = {
 };
 
 /**
- * ChatShape ShapeType
+ * Chat ShapeType
  */
-export const ChatShapeShapeType: ShapeType<ChatShape> = {
+export const ChatShapeType: ShapeType<Chat> = {
   schema: appSchema,
   shape: "https://example.com/ChatShape",
   context: appContext,
 };
 
 /**
- * ChatParticipationShape ShapeType
+ * ChatParticipation ShapeType
  */
-export const ChatParticipationShapeShapeType: ShapeType<ChatParticipationShape> =
-  {
-    schema: appSchema,
-    shape: "https://example.com/ChatParticipationShape",
-    context: appContext,
-  };
+export const ChatParticipationShapeType: ShapeType<ChatParticipation> = {
+  schema: appSchema,
+  shape: "https://example.com/ChatParticipationShape",
+  context: appContext,
+};
 
 /**
- * ChatMessageShape ShapeType
+ * ChatMessage ShapeType
  */
-export const ChatMessageShapeShapeType: ShapeType<ChatMessageShape> = {
+export const ChatMessageShapeType: ShapeType<ChatMessage> = {
   schema: appSchema,
   shape: "https://example.com/ChatMessageShape",
   context: appContext,

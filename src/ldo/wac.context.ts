@@ -8,17 +8,18 @@ import { LdoJsonldContext } from "@ldo/ldo";
 export const wacContext: LdoJsonldContext = {
   type: {
     "@id": "@type",
+    "@isCollection": true,
   },
   Authorization: {
     "@id": "http://www.w3.org/ns/auth/acl#Authorization",
     "@context": {
       type: {
         "@id": "@type",
+        "@isCollection": true,
       },
       accessTo: {
         "@id": "http://www.w3.org/ns/auth/acl#accessTo",
         "@type": "@id",
-        "@isCollection": true,
       },
       default: {
         "@id": "http://www.w3.org/ns/auth/acl#default",
@@ -41,7 +42,6 @@ export const wacContext: LdoJsonldContext = {
       },
       mode: {
         "@id": "http://www.w3.org/ns/auth/acl#mode",
-        "@type": "@id",
         "@isCollection": true,
       },
       origin: {
@@ -54,7 +54,6 @@ export const wacContext: LdoJsonldContext = {
   accessTo: {
     "@id": "http://www.w3.org/ns/auth/acl#accessTo",
     "@type": "@id",
-    "@isCollection": true,
   },
   default: {
     "@id": "http://www.w3.org/ns/auth/acl#default",
@@ -77,7 +76,6 @@ export const wacContext: LdoJsonldContext = {
   },
   mode: {
     "@id": "http://www.w3.org/ns/auth/acl#mode",
-    "@type": "@id",
     "@isCollection": true,
   },
   Read: "http://www.w3.org/ns/auth/acl#Read",
