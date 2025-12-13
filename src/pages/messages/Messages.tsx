@@ -32,7 +32,14 @@ import { useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, graphOf } from '@ldo/ldo'
 import { Trans } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import {
+  Fragment,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { Link, useParams } from 'react-router'
 import strict_uri_encode from 'strict-uri-encode'
 import { Message } from './Message'
@@ -264,18 +271,13 @@ export const Messages = () => {
             const msgDate = new Date(msg.created).toLocaleDateString(locale)
 
             return (
-              <>
+              <Fragment key={msg['@id']}>
                 {!isSameDateAsPrevious && (
-                  <li
-                    key={`date-${msgDate}`}
-                    role="separator"
-                    className={styles.daySeparator}
-                  >
+                  <li role="separator" className={styles.daySeparator}>
                     {msgDate}
                   </li>
                 )}
                 <li
-                  key={msg['@id']}
                   data-testid={`message-${i}-${msg.maker['@id'] === auth.webId ? 'from' : 'to'}-me`}
                   id={msg['@id']}
                 >
@@ -287,7 +289,7 @@ export const Messages = () => {
                     created={new Date(msg.created)}
                   />
                 </li>
-              </>
+              </Fragment>
             )
           })}
       </ul>

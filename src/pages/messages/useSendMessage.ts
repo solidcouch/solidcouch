@@ -15,6 +15,7 @@ import { FoafProfile, HospexProfile } from '@/ldo/app.typings'
 import { URI } from '@/types'
 import {
   getContainer,
+  getParentContainer,
   removeHashFromURI,
   useStableValue,
 } from '@/utils/helpers'
@@ -76,9 +77,9 @@ export const useSendMessage = ({
 
       const todayChatResource = removeHashFromURI(messageUri)
       const dayContainer = getContainer(todayChatResource)
-      const monthContainer = getContainer(dayContainer)
-      const yearContainer = getContainer(monthContainer)
-      const chatRootContainer = getContainer(yearContainer)
+      const monthContainer = getParentContainer(dayContainer)
+      const yearContainer = getParentContainer(monthContainer)
+      const chatRootContainer = getParentContainer(yearContainer)
 
       await Promise.all(
         [
