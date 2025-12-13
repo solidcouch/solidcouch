@@ -161,7 +161,7 @@ msgstr "Kontakty <0/>"
 #: src/components/SignIn/SignIn.tsx:130
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:444
+#: src/pages/messages/Messages.tsx:446
 msgid "Continue"
 msgstr "Pokračovat"
 
@@ -230,7 +230,7 @@ msgstr "e-mailová adresa"
 msgid "Email notification was sent"
 msgstr "E-mailové upozornění bylo odesláno"
 
-#: src/pages/messages/useSendMessage.ts:121
+#: src/pages/messages/useSendMessage.ts:122
 msgid "Email Notification was sent."
 msgstr ""
 
@@ -307,7 +307,7 @@ msgstr "Chci mít větší kontrolu"
 msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 msgstr "Pokud vlastníte <0>doménu</0>, můžete mít své <1>WebID</1> na své doméně. To vám dává větší kontrolu nad vaší Solid identitou."
 
-#: src/pages/messages/Messages.tsx:447
+#: src/pages/messages/Messages.tsx:449
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignorovat"
@@ -352,12 +352,12 @@ msgstr "Připojit se ke komunitě"
 msgid "Join community {communityLabel}"
 msgstr "Připojit se ke komunitě {communityLabel}"
 
-#: src/pages/messages/useSendMessage.ts:105
+#: src/pages/messages/useSendMessage.ts:106
 msgid "Linked Data Notification was sent."
 msgstr ""
 
 #: src/pages/messages-new/NewChat.tsx:71
-#: src/pages/messages/Messages.tsx:439
+#: src/pages/messages/Messages.tsx:441
 msgid "Loading"
 msgstr ""
 
@@ -387,7 +387,7 @@ msgstr "logo {name}"
 #~ msgstr ""
 
 #: src/pages/messages-old/MessagesOld.tsx:163
-#: src/pages/messages/useSendMessage.ts:75
+#: src/pages/messages/useSendMessage.ts:76
 msgid "Message was created"
 msgstr "Zpráva byla vytvořena"
 
@@ -471,7 +471,7 @@ msgstr "čeká"
 msgid "Photo"
 msgstr "Fotka"
 
-#: src/pages/messages/Messages.tsx:313
+#: src/pages/messages/Messages.tsx:315
 msgid "Please <0>start a new one</0>."
 msgstr ""
 
@@ -585,11 +585,11 @@ msgstr "Odeslat pozvánku ke kontaktu"
 msgid "Sending email notification"
 msgstr "Probíhá odesílání e-mailového upozornění"
 
-#: src/pages/messages/useSendMessage.ts:125
+#: src/pages/messages/useSendMessage.ts:126
 msgid "Sending Email Notification failed."
 msgstr ""
 
-#: src/pages/messages/useSendMessage.ts:109
+#: src/pages/messages/useSendMessage.ts:110
 msgid "Sending Linked Data Notification failed."
 msgstr ""
 
@@ -597,7 +597,7 @@ msgstr ""
 #~ msgid "Sending message failed"
 #~ msgstr ""
 
-#: src/pages/messages/useSendMessage.ts:98
+#: src/pages/messages/useSendMessage.ts:99
 msgid "Sending message failed: "
 msgstr ""
 
@@ -682,7 +682,7 @@ msgstr "Přepnout na světlé téma"
 msgid "Tell others about your place and hosting"
 msgstr "Povězte ostatním o svém místě a hostování"
 
-#: src/pages/messages/Messages.tsx:217
+#: src/pages/messages/Messages.tsx:224
 msgid "There doesn't seem to be a chat here."
 msgstr ""
 
@@ -690,7 +690,7 @@ msgstr ""
 #~ msgid "There doesn't seem to be a chat."
 #~ msgstr ""
 
-#: src/pages/messages/Messages.tsx:309
+#: src/pages/messages/Messages.tsx:311
 msgid "This chat has outdated format."
 msgstr ""
 
@@ -775,7 +775,7 @@ msgstr "Již jste členem {communityLabel}"
 msgid "You can <0>host your Pod</0>. This will give you full control over your data. However, it's more complicated to set up, and requires maintenance. We recommend <1>Community Solid Server</1>."
 msgstr "Můžete <0>hostovat svůj Pod</0>, čímž získáte plnou kontrolu nad svými daty. Nastavení je však složitější a vyžaduje údržbu. Doporučujeme <1>Community Solid Server</1>."
 
-#: src/pages/messages/Messages.tsx:308
+#: src/pages/messages/Messages.tsx:310
 msgid "You can only read this chat."
 msgstr ""
 
