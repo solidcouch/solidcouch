@@ -16,10 +16,7 @@ import { useDeleteRdfDocument } from '@/hooks/data/useRdfDocument'
 import { saveTypeRegistration } from '@/hooks/data/useSetupHospex'
 import { useAuth } from '@/hooks/useAuth'
 import { useLocale } from '@/hooks/useLocale'
-import {
-  ChatShapeShapeType,
-  MessageActivityShapeType,
-} from '@/ldo/app.shapeTypes'
+import { ChatShapeType, MessageActivityShapeType } from '@/ldo/app.shapeTypes'
 import { URI } from '@/types'
 import {
   EffectiveAccessMode,
@@ -83,7 +80,7 @@ export const Messages = () => {
   const channel = useMemo(
     () =>
       createLdoDataset(results.quads)
-        .usingType(ChatShapeShapeType)
+        .usingType(ChatShapeType)
         .fromSubject(channelUri),
     [channelUri, results.quads],
   )
@@ -148,7 +145,7 @@ export const Messages = () => {
   const isSavedInTypeIndex =
     typeIndexChatResults.variables.instance?.includes(channelUri)
   // is the url a chat channel?
-  const isChat = channel.type?.['@id'] === 'LongChat'
+  const isChat = channel.type?.some(t => t['@id'] === 'LongChat')
   // am i a participant?
   const isParticipant =
     isChat &&

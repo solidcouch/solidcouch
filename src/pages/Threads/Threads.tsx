@@ -1,8 +1,8 @@
 import { PersonMini } from '@/components/PersonMini/PersonMini.tsx'
 import { threadsQuery } from '@/data/queries/chat'
 import { useAuth } from '@/hooks/useAuth'
-import { ChatShapeShapeType } from '@/ldo/app.shapeTypes'
-import { ChatShape } from '@/ldo/app.typings'
+import { ChatShapeType } from '@/ldo/app.shapeTypes'
+import { Chat as ChatShape } from '@/ldo/app.typings'
 import { type Thread } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
@@ -35,7 +35,7 @@ export const Threads = () => {
   const dataset = createLdoDataset(threadsResults.quads)
 
   const threads = channelUris.map(uri =>
-    dataset.usingType(ChatShapeShapeType).fromSubject(uri),
+    dataset.usingType(ChatShapeType).fromSubject(uri),
   )
 
   return (

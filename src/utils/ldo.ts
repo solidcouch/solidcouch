@@ -1,6 +1,12 @@
 import { LanguageString } from '@/types'
-import { LanguageSetMap, LdSet } from '@ldo/jsonld-dataset-proxy'
-import { languagesOf, LdoBase, transactionChanges } from '@ldo/ldo'
+import { LanguageSetMap } from '@ldo/jsonld-dataset-proxy'
+import {
+  languagesOf,
+  LdoBase,
+  set,
+  transactionChanges,
+  type LdSet,
+} from '@ldo/ldo'
 import { datasetToString } from '@ldo/rdf-utils'
 import type { Dataset } from '@rdfjs/types'
 import { solid } from 'rdf-namespaces'
@@ -82,6 +88,11 @@ export const addLanguagesToLdo = <K extends string>(
   if (textDict)
     Object.entries(textDict).forEach(([lang, text]) => {
       langs[lang]?.clear()
-      if (text.trim()) langs[lang]?.add(text.trim())
+
+      const trimmed = text.trim()
+      if (trimmed) {
+        langs[lang] ??= set()
+        langs[lang].add(text.trim())
+      }
     })
 }

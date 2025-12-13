@@ -1,4 +1,4 @@
-import { ChatShapeShapeType } from '@/ldo/app.shapeTypes'
+import { ChatShapeType } from '@/ldo/app.shapeTypes'
 import { Message, URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLDhopQuery } from '@ldhop/react'
@@ -21,7 +21,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
   )
 
   const messages: Message[] = useMemo(() => {
-    const dataset = createLdoDataset(quads).usingType(ChatShapeShapeType)
+    const dataset = createLdoDataset(quads).usingType(ChatShapeType)
     const messages = (
       (variables.chatWithOtherPerson ?? [])
         .concat(variables.otherChat ?? [])
@@ -50,7 +50,7 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
   }, [quads, variables.chatWithOtherPerson, variables.otherChat])
 
   const myChats = useMemo(() => {
-    const dataset = createLdoDataset(quads).usingType(ChatShapeShapeType)
+    const dataset = createLdoDataset(quads).usingType(ChatShapeType)
 
     const chats = (variables.chatWithOtherPerson ?? [])
       .map(c => dataset.fromSubject(c))

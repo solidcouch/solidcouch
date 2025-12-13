@@ -3,7 +3,7 @@ import { HospexProfile } from '@/ldo/app.typings'
 import { Accommodation, URI } from '@/types'
 import { addLanguagesToLdo } from '@/utils/ldo'
 import { hospex } from '@/utils/rdf-namespaces'
-import { BasicLdSet } from '@ldo/jsonld-dataset-proxy'
+import { set } from '@ldo/ldo'
 import { solid } from 'rdf-namespaces'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -34,13 +34,10 @@ export const useCreateAccommodation = () => {
         uri,
         data: {
           '@id': id,
-          type: new BasicLdSet([
-            { '@id': 'Accommodation' },
-            { '@id': 'Accommodation2' },
-          ]),
+          type: set({ '@id': 'Accommodation' }, { '@id': 'Accommodation2' }),
           location: {
             '@id': `${uri}#location`,
-            type: { '@id': 'Point' },
+            type: set({ '@id': 'Point' }),
             lat: data.location.lat,
             long: data.location.long,
           },

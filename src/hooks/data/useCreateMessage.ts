@@ -1,15 +1,18 @@
 import {
-  ChatShapeShapeType,
+  ChatShapeType,
   MessageActivityDeprecatedShapeType,
 } from '@/ldo/app.shapeTypes'
-import { ChatMessageShape, ChatShape } from '@/ldo/app.typings'
+import {
+  ChatMessage as ChatMessageShape,
+  Chat as ChatShape,
+} from '@/ldo/app.typings'
 import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
 import { URI } from '@/types'
 import { getAcl, getContainer } from '@/utils/helpers'
 import { meeting } from '@/utils/rdf-namespaces'
-import { BasicLdSet } from '@ldo/jsonld-dataset-proxy'
+import { set } from '@ldo/ldo'
 import dayjs from 'dayjs'
-import { acl, as } from 'rdf-namespaces'
+import { as } from 'rdf-namespaces'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import {
@@ -20,7 +23,7 @@ import {
 import { useSaveTypeRegistration } from './useSetupHospex'
 
 export const useCreateMessage = () => {
-  const queryMutation = useUpdateLdoDocument(ChatShapeShapeType)
+  const queryMutation = useUpdateLdoDocument(ChatShapeType)
   return useCallback(
     async ({
       senderId,
@@ -40,7 +43,8 @@ export const useCreateMessage = () => {
         uri: getContainer(chat) + dayjs().format('YYYY/MM/DD') + '/chat.ttl',
         subject: chat,
         transform: ldo => {
-          ldo.message?.add({
+          ldo.message ??= set()
+          ldo.message.add({
             '@id': id,
             created: createdAt,
             content: message,
@@ -79,12 +83,12 @@ export const useCreateMessageNotification = () => {
         method: 'POST',
         data: {
           '@id': '',
-          type: { '@id': 'Add' },
+          type: set({ '@id': 'Add' }),
           actor: { '@id': senderId },
           context: { '@id': 'https://www.pod-chat.com/LongChatMessage' },
           object: {
             '@id': messageId,
-            type: { '@id': as.Note },
+            type: set({ '@id': as.Note }),
             created: updated,
             content,
             maker: { '@id': senderId },
@@ -99,7 +103,7 @@ export const useCreateMessageNotification = () => {
 }
 
 export const useCreateChat = () => {
-  const createChatMutation = useCreateRdfDocument(ChatShapeShapeType)
+  const createChatMutation = useCreateRdfDocument(ChatShapeType)
   const createAclMutation = useCreateRdfDocument(AuthorizationShapeType)
   const updatePrivateIndex = useSaveTypeRegistration()
 
@@ -128,14 +132,15 @@ export const useCreateChat = () => {
         uri: chatFile,
         data: {
           '@id': chatId,
-          type: { '@id': 'LongChat' },
+          type: set({ '@id': 'LongChat' }),
           author: { '@id': me },
           created: date,
           title: 'Hospex chat channel',
         },
         transform: ldo => {
+          ldo.participation ??= set()
           ldo.participation
-            ?.add({
+            .add({
               '@id': `${chatFile}#${uuidv4()}`,
               dtstart: date,
               participant: { '@id': me },
@@ -148,9 +153,10 @@ export const useCreateChat = () => {
           if (otherChat)
             ldo.participation
               ?.filter(p => p.participant['@id'] === otherPerson)
-              .forEach(p =>
-                p.references?.add({ '@id': otherChat } as ChatShape),
-              )
+              .forEach(p => {
+                p.references ??= set()
+                p.references.add({ '@id': otherChat } as ChatShape)
+              })
         },
       })
       // set permissions
@@ -161,23 +167,23 @@ export const useCreateChat = () => {
         data: [
           {
             '@id': aclUri + '#ReadWriteControl',
-            type: { '@id': 'Authorization' },
-            agent: new BasicLdSet([{ '@id': me }]),
-            accessTo: new BasicLdSet([{ '@id': chatContainer }]),
+            type: set({ '@id': 'Authorization' }),
+            agent: set({ '@id': me }),
+            accessTo: { '@id': chatContainer },
             default: { '@id': chatContainer },
-            mode: new BasicLdSet([
-              { '@id': acl.Read },
-              { '@id': acl.Write },
-              { '@id': acl.Control },
-            ]),
+            mode: set(
+              { '@id': 'Read' },
+              { '@id': 'Write' },
+              { '@id': 'Control' },
+            ),
           },
           {
             '@id': aclUri + '#Read',
-            type: { '@id': 'Authorization' },
-            agent: new BasicLdSet([{ '@id': otherPerson }]),
-            accessTo: new BasicLdSet([{ '@id': chatContainer }]),
+            type: set({ '@id': 'Authorization' }),
+            agent: set({ '@id': otherPerson }),
+            accessTo: { '@id': chatContainer },
             default: { '@id': chatContainer },
-            mode: new BasicLdSet([{ '@id': acl.Read }]),
+            mode: set({ '@id': 'Read' }),
           },
         ],
       })
@@ -202,7 +208,7 @@ export const useCreateChat = () => {
  * @param otherPerson - person sending notification
  */
 export const useProcessNotification = () => {
-  const updateChat = useUpdateLdoDocument(ChatShapeShapeType)
+  const updateChat = useUpdateLdoDocument(ChatShapeType)
   const deleteNotification = useDeleteRdfDocument()
   return useCallback(
     async ({
@@ -237,18 +243,20 @@ export const useProcessNotification = () => {
             if (!participation)
               throw new Error("other person's participation not found")
 
+            participation.references ??= set()
+
             if (
-              participation.references?.size === 1 &&
+              participation.references.size === 1 &&
               participation.references.toArray()[0]!['@id'] === otherChat
             )
               throw new Error('already updated')
 
-            if (participation.references && participation.references.size > 0)
+            if (participation.references.size > 0)
               throw new Error(
                 'participation already references some other chat',
               )
 
-            participation.references?.add({ '@id': otherChat } as ChatShape)
+            participation.references.add({ '@id': otherChat } as ChatShape)
           },
         })
       } catch (error) {

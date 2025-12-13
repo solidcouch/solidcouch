@@ -2,7 +2,7 @@ import { ContactInvitationActivityShapeType } from '@/ldo/app.shapeTypes'
 import { Contact, URI } from '@/types'
 import { removeHashFromURI } from '@/utils/helpers'
 import { useLDhopQuery } from '@ldhop/react'
-import { createLdoDataset } from '@ldo/ldo'
+import { createLdoDataset, set } from '@ldo/ldo'
 import { Store } from 'n3'
 import { foaf, rdfs } from 'rdf-namespaces'
 import { useCallback, useMemo } from 'react'
@@ -170,11 +170,11 @@ const useCreateContactNotification = () => {
         method: 'POST',
         data: {
           '@id': '',
-          type: { '@id': 'Invite' },
+          type: set({ '@id': 'Invite' }),
           content: message,
           actor: { '@id': me },
           object: {
-            type: { '@id': 'Relationship' },
+            type: set({ '@id': 'Relationship' }),
             subject: { '@id': me },
             relationship: { '@id': 'knows' },
             object: { '@id': other },

@@ -9,9 +9,9 @@ import { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { fullFetch, getAcl, getContainer } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { BasicLdSet } from '@ldo/jsonld-dataset-proxy'
+import { set } from '@ldo/ldo'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { acl, foaf, ldp, solid, space } from 'rdf-namespaces'
+import { foaf, ldp, solid, space } from 'rdf-namespaces'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useUpdateAcl } from './access'
@@ -168,10 +168,7 @@ export const useCreatePrivateTypeIndex = () => {
         uri: privateTypeIndex,
         data: {
           '@id': privateTypeIndex,
-          type: new BasicLdSet([
-            { '@id': 'TypeIndex' },
-            { '@id': 'UnlistedDocument' },
-          ]),
+          type: set({ '@id': 'TypeIndex' }, { '@id': 'UnlistedDocument' }),
         },
       })
 
@@ -198,7 +195,8 @@ export const useAddToHospexProfile = () => {
         uri,
         subject: webId,
         transform: ldo => {
-          ldo.memberOf?.add({ '@id': communityId })
+          ldo.memberOf ??= set()
+          ldo.memberOf.add({ '@id': communityId })
           ldo.storage2 ??= { '@id': getContainer(uri) }
           ldo['@id'] ??= webId
         },
@@ -240,25 +238,25 @@ const useCreateHospexProfileAcl = () => {
         data: [
           {
             '@id': aclUri + '#owner',
-            type: { '@id': 'Authorization' },
-            accessTo: new BasicLdSet([{ '@id': hospexStorage }]),
+            type: set({ '@id': 'Authorization' }),
+            accessTo: { '@id': hospexStorage },
             default: { '@id': hospexStorage },
-            agent: new BasicLdSet([{ '@id': webId }]),
-            mode: new BasicLdSet([
-              { '@id': acl.Read },
-              { '@id': acl.Write },
-              { '@id': acl.Control },
-            ]),
+            agent: set({ '@id': webId }),
+            mode: set(
+              { '@id': 'Read' },
+              { '@id': 'Write' },
+              { '@id': 'Control' },
+            ),
           },
           {
             '@id': aclUri + '#reader',
-            type: { '@id': 'Authorization' },
-            accessTo: new BasicLdSet([{ '@id': hospexStorage }]),
+            type: set({ '@id': 'Authorization' }),
+            accessTo: { '@id': hospexStorage },
             default: { '@id': hospexStorage },
-            agentGroup: new BasicLdSet(
-              community.groups.map(group => ({ '@id': group })),
+            agentGroup: set(
+              ...community.groups.map(group => ({ '@id': group })),
             ),
-            mode: new BasicLdSet([{ '@id': acl.Read }]),
+            mode: set({ '@id': 'Read' }),
           },
         ],
         ...options,
@@ -287,7 +285,7 @@ export const useCreateHospexProfile = () => {
         uri,
         data: {
           '@id': webId,
-          memberOf: new BasicLdSet([{ '@id': communityId }]),
+          memberOf: set({ '@id': communityId }),
           storage2: { '@id': hospexStorage },
         },
       })
@@ -315,10 +313,7 @@ export const useCreatePublicTypeIndex = () => {
         method: 'PUT',
         data: {
           '@id': publicTypeIndex,
-          type: new BasicLdSet([
-            { '@id': 'TypeIndex' },
-            { '@id': 'ListedDocument' },
-          ]),
+          type: set({ '@id': 'TypeIndex' }, { '@id': 'ListedDocument' }),
         },
       })
 
@@ -330,21 +325,21 @@ export const useCreatePublicTypeIndex = () => {
         data: [
           {
             '@id': aclUri + '#owner',
-            type: { '@id': 'Authorization' },
-            agent: new BasicLdSet([{ '@id': webId }]),
-            accessTo: new BasicLdSet([{ '@id': publicTypeIndex }]),
-            mode: new BasicLdSet([
-              { '@id': acl.Read },
-              { '@id': acl.Write },
-              { '@id': acl.Control },
-            ]),
+            type: set({ '@id': 'Authorization' }),
+            agent: set({ '@id': webId }),
+            accessTo: { '@id': publicTypeIndex },
+            mode: set(
+              { '@id': 'Read' },
+              { '@id': 'Write' },
+              { '@id': 'Control' },
+            ),
           },
           {
             '@id': aclUri + '#public',
-            type: { '@id': 'Authorization' },
-            agentClass: new BasicLdSet([{ '@id': foaf.Agent }]),
-            accessTo: new BasicLdSet([{ '@id': publicTypeIndex }]),
-            mode: new BasicLdSet([{ '@id': acl.Read }]),
+            type: set({ '@id': 'Authorization' }),
+            agentClass: set({ '@id': foaf.Agent }),
+            accessTo: { '@id': publicTypeIndex },
+            mode: set({ '@id': 'Read' }),
           },
         ],
       })
@@ -374,23 +369,23 @@ export const useCreateInbox = () => {
         data: [
           {
             '@id': aclUri + '#ControlReadWrite',
-            type: { '@id': 'Authorization' },
-            agent: new BasicLdSet([{ '@id': webId }]),
-            accessTo: new BasicLdSet([{ '@id': inbox }]),
+            type: set({ '@id': 'Authorization' }),
+            agent: set({ '@id': webId }),
+            accessTo: { '@id': inbox },
             default: { '@id': inbox },
-            mode: new BasicLdSet([
-              { '@id': acl.Read },
-              { '@id': acl.Write },
-              { '@id': acl.Control },
-            ]),
+            mode: set(
+              { '@id': 'Read' },
+              { '@id': 'Write' },
+              { '@id': 'Control' },
+            ),
           },
           {
             '@id': aclUri + '#Append',
-            type: { '@id': 'Authorization' },
-            agentClass: new BasicLdSet([{ '@id': acl.AuthenticatedAgent }]),
-            accessTo: new BasicLdSet([{ '@id': inbox }]),
+            type: set({ '@id': 'Authorization' }),
+            agentClass: set({ '@id': 'AuthenticatedAgent' }),
+            accessTo: { '@id': inbox },
             default: { '@id': inbox },
-            mode: new BasicLdSet([{ '@id': acl.Append }]),
+            mode: set({ '@id': 'Append' }),
           },
         ],
       })
@@ -462,12 +457,13 @@ export const useInitEmailNotifications = () => {
         subject: inboxAcl + '#read',
         transform: ldo => {
           ldo['@id'] = inboxAcl + '#read'
-          ldo.type = { '@id': 'Authorization' }
-
-          ldo.agent?.add({ '@id': emailNotificationsIdentity })
-          ldo.accessTo.add({ '@id': inbox })
+          ldo.type = set({ '@id': 'Authorization' })
+          ldo.agent ??= set()
+          ldo.agent.add({ '@id': emailNotificationsIdentity })
+          ldo.accessTo = { '@id': inbox }
           ldo.default = { '@id': inbox }
-          ldo.mode?.add({ '@id': acl.Read })
+          ldo.mode ??= set()
+          ldo.mode.add({ '@id': 'Read' })
         },
       })
       // initialize integration
@@ -556,13 +552,15 @@ export const usePreparePodForDirectEmailNotifications = () => {
         subject: emailSettingsAcl + '#owner',
         transform: ldo => {
           ldo['@id'] = emailSettingsAcl + '#owner'
-          ldo.type = { '@id': 'Authorization' }
-          ldo.agent?.add({ '@id': webId })
-          ldo.accessTo.add({ '@id': emailSettings })
+          ldo.type = set({ '@id': 'Authorization' })
+          ldo.agent ??= set()
+          ldo.agent.add({ '@id': webId })
+          ldo.accessTo = { '@id': emailSettings }
+          ldo.mode ??= set()
           ldo.mode
-            ?.add({ '@id': acl.Read })
-            .add({ '@id': acl.Write })
-            .add({ '@id': acl.Control })
+            .add({ '@id': 'Read' })
+            .add({ '@id': 'Write' })
+            .add({ '@id': 'Control' })
         },
       })
       await updateAclMutation.mutateAsync({
@@ -570,10 +568,12 @@ export const usePreparePodForDirectEmailNotifications = () => {
         subject: emailSettingsAcl + '#readWriteMailer',
         transform: ldo => {
           ldo['@id'] = emailSettingsAcl + '#readWriteMailer'
-          ldo.type = { '@id': 'Authorization' }
-          ldo.agent?.add({ '@id': emailNotificationsIdentity })
-          ldo.accessTo.add({ '@id': emailSettings })
-          ldo.mode?.add({ '@id': acl.Read }).add({ '@id': acl.Write })
+          ldo.type = set({ '@id': 'Authorization' })
+          ldo.agent ??= set()
+          ldo.agent.add({ '@id': emailNotificationsIdentity })
+          ldo.accessTo = { '@id': emailSettings }
+          ldo.mode ??= set()
+          ldo.mode.add({ '@id': 'Read' }).add({ '@id': 'Write' })
         },
       })
 
