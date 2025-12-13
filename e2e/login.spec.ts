@@ -1,0 +1,136 @@
+import { expect, test } from '@playwright/test'
+import { createRandomAccount, signIn, signOut } from './helpers/account'
+import { stubMailer } from './helpers/mailer'
+
+test.describe('Sign in to the app', () => {
+  let user: Awaited<ReturnType<typeof createRandomAccount>>
+
+  test.beforeEach(async () => {
+    user = await createRandomAccount()
+  })
+
+  // stub mailer
+  test.beforeEach(async ({ page }) => {
+    await stubMailer(page)
+  })
+
+  test('sign in with identity provider', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Sign in' }).click()
+
+    const issuerInput = page.getByRole('textbox', { name: 'webId or provider' })
+    await issuerInput.fill(user.oidcIssuer)
+    await issuerInput.press('Enter')
+
+    await page.getByRole('textbox', { name: 'email' }).fill(user.email)
+    await page.getByRole('textbox', { name: 'password' }).fill(user.password)
+    await page.getByRole('textbox', { name: 'password' }).press('Enter')
+
+    await expect(page.getByText(user.webId)).toBeVisible()
+    await page.getByRole('button', { name: 'Authorize' }).click()
+
+    await expect(page).toHaveURL('/')
+    await expect(page.getByText('Prepare Pod')).toBeVisible()
+  })
+
+  test('sign in with webId', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Sign in' }).click()
+
+    const issuerInput = page.getByRole('textbox', { name: 'webId or provider' })
+    await issuerInput.fill(user.webId)
+    await issuerInput.press('Enter')
+
+    await page.getByRole('textbox', { name: 'email' }).fill(user.email)
+    await page.getByRole('textbox', { name: 'password' }).fill(user.password)
+    await page.getByRole('textbox', { name: 'password' }).press('Enter')
+
+    await expect(page.getByText(user.webId)).toBeVisible()
+    await page.getByRole('button', { name: 'Authorize' }).click()
+
+    await expect(page).toHaveURL('/')
+    await expect(page.getByText('Prepare Pod')).toBeVisible()
+  })
+
+  test('use provided clientId for sign-in', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Sign in' }).click()
+
+    const issuerInput = page.getByRole('textbox', { name: 'webId or provider' })
+    await issuerInput.fill(user.oidcIssuer)
+    await issuerInput.press('Enter')
+
+    await page.getByRole('textbox', { name: 'email' }).fill(user.email)
+    await page.getByRole('textbox', { name: 'password' }).fill(user.password)
+    await page.getByRole('textbox', { name: 'password' }).press('Enter')
+
+    // check that clientid.jsonld is used as ID
+    await expect(page.locator('#client')).toContainText('clientid.jsonld')
+    await page.getByRole('button', { name: 'Authorize' }).click()
+
+    await expect(page).toHaveURL('/')
+    await expect(page.getByText('Prepare Pod')).toBeVisible()
+  })
+
+  test('remember last identity provider selected during login', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await expect(
+      page.getByRole('textbox', { name: 'webId or provider' }),
+    ).toHaveValue('')
+
+    await signIn(page, user)
+    await expect(page.getByText('Prepare Pod')).toBeVisible()
+    await signOut(page)
+
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await expect(
+      page.getByRole('textbox', { name: 'webId or provider' }),
+    ).toHaveValue(user.oidcIssuer)
+    await expect(
+      page.getByTestId('preselected-pod-provider-button').first(),
+    ).toContainText(user.oidcIssuer.slice(7, -1))
+  })
+
+  test('remember last provider selected at signup', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Join' }).click()
+    await page.getByText('Show me some providers!').click()
+    const register = page.getByRole('link', { name: 'solidcommunity.net' })
+    register.evaluateAll(elements => {
+      for (const el of elements) {
+        el.removeAttribute('target')
+        el.removeAttribute('rel')
+        el.removeAttribute('href')
+      }
+    })
+    await register.click()
+    await expect(page).toHaveURL('/')
+    await page.getByText('Show me some providers!').press('Escape')
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await expect(
+      page.getByTestId('preselected-pod-provider-button').first(),
+    ).toContainText('solidcommunity.net')
+  })
+
+  test('return to previous URL after login', async ({ page }) => {
+    page.goto('/profile/edit?a=b&c=d#ef')
+    await page.getByRole('button', { name: 'Sign in' }).click()
+
+    const issuerInput = page.getByRole('textbox', { name: 'webId or provider' })
+    await issuerInput.fill(user.oidcIssuer)
+    await issuerInput.press('Enter')
+
+    await page.getByRole('textbox', { name: 'email' }).fill(user.email)
+    await page.getByRole('textbox', { name: 'password' }).fill(user.password)
+    await page.getByRole('textbox', { name: 'password' }).press('Enter')
+
+    await expect(page.getByText(user.webId)).toBeVisible()
+    await page.getByRole('button', { name: 'Authorize' }).click()
+
+    await expect(page).toHaveURL('/profile/edit?a=b&c=d#ef')
+  })
+})

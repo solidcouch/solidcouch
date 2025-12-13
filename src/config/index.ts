@@ -34,9 +34,10 @@ export const oidcIssuers: IssuerConfig[] = [
   {
     recommended: true,
     featured: true,
-    issuer: 'https://solidcommunity.net',
-    registration: 'https://solidcommunity.net/register',
-    server: 'NSS',
+    issuer: 'https://solidcommunity.net/',
+    registration:
+      'https://solidcommunity.net/.account/login/password/register/',
+    server: 'CSS',
   },
   {
     featured: true,
@@ -62,11 +63,6 @@ export const oidcIssuers: IssuerConfig[] = [
   {
     issuer: 'https://datapod.igrant.io',
     registration: 'https://datapod.igrant.io/register',
-    server: 'NSS',
-  },
-  {
-    issuer: 'https://inrupt.net',
-    registration: 'https://inrupt.net/register',
     server: 'NSS',
   },
   {

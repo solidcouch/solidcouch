@@ -87,6 +87,7 @@ export const SignIn = () => {
               primary
               onClick={() => handleSelectIssuer(lastIssuer)}
               data-cy="pod-provider-button"
+              data-testid="preselected-pod-provider-button"
             >
               {
                 // show issuer without protocol and trailing slash
