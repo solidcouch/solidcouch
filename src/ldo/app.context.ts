@@ -226,11 +226,6 @@ export const appContext: LdoJsonldContext = {
         "@type": "@id",
         "@isCollection": true,
       },
-      message2: {
-        "@id": "http://www.w3.org/ns/pim/meeting#message",
-        "@type": "@id",
-        "@isCollection": true,
-      },
     },
   },
   author: {
@@ -273,11 +268,6 @@ export const appContext: LdoJsonldContext = {
   },
   message: {
     "@id": "http://www.w3.org/2005/01/wf/flow#message",
-    "@type": "@id",
-    "@isCollection": true,
-  },
-  message2: {
-    "@id": "http://www.w3.org/ns/pim/meeting#message",
     "@type": "@id",
     "@isCollection": true,
   },

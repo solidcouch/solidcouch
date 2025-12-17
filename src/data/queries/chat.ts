@@ -54,15 +54,7 @@ export const getChatMessagesQuery = <T extends Variable>(variables: {
   {
     type: 'match',
     subject: variables.channel,
-    predicate: meeting.message,
-    pick: 'object',
-    target: variables.message,
-  },
-  // deprecated - for backwards compatibility
-  {
-    type: 'match',
-    subject: variables.channel,
-    predicate: wf.message, // deprecated predicate
+    predicate: wf.message,
     pick: 'object',
     target: variables.message,
   },

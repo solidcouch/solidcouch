@@ -43,11 +43,6 @@ export const longChatContext: LdoJsonldContext = {
         "@type": "@id",
         "@isCollection": true,
       },
-      message2: {
-        "@id": "http://www.w3.org/ns/pim/meeting#message",
-        "@type": "@id",
-        "@isCollection": true,
-      },
     },
   },
   author: {
@@ -103,10 +98,5 @@ export const longChatContext: LdoJsonldContext = {
   maker: {
     "@id": "http://xmlns.com/foaf/0.1/maker",
     "@type": "@id",
-  },
-  message2: {
-    "@id": "http://www.w3.org/ns/pim/meeting#message",
-    "@type": "@id",
-    "@isCollection": true,
   },
 };

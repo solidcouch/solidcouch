@@ -120,8 +120,6 @@ ex:ChatShape EXTRA a {
   ui:sharedPreferences IRI ?
     // rdfs:comment  "Chat preferences" ;
   flow:message @ex:ChatMessageShape *
-    // rdfs:comment "deprecated" ;
-  meeting:message @ex:ChatMessageShape *
     // rdfs:comment  "A list of messages in the chat" ;
 }
 

@@ -78,11 +78,9 @@ const Thread = ({
 
   const [profiles] = useProfiles(others.map(o => o.participant['@id']))
 
-  const msg = thread.message2?.toArray() ?? []
-  const msgLegacy = thread.message?.toArray() ?? []
+  const msg = thread.message?.toArray() ?? []
 
   const lastMessage = msg
-    .concat(msgLegacy)
     .sort(
       (a, b) => new Date(a.created).getTime() - new Date(b.created).getTime(),
     )

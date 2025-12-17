@@ -132,23 +132,6 @@ export const longChatSchema: Schema = {
                   type: "Annotation",
                   predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
                   object: {
-                    value: "deprecated",
-                  },
-                },
-              ],
-            },
-            {
-              type: "TripleConstraint",
-              predicate: "http://www.w3.org/ns/pim/meeting#message",
-              valueExpr:
-                "https://shaperepo.com/schemas/longChat#ChatMessageShape",
-              min: 0,
-              max: -1,
-              annotations: [
-                {
-                  type: "Annotation",
-                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
-                  object: {
                     value: "A list of messages in the chat",
                   },
                 },

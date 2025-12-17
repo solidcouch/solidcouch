@@ -162,7 +162,7 @@ msgstr "Kontakty <0/>"
 #: src/components/SignIn/SignIn.tsx:130
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:443
+#: src/pages/messages/Messages.tsx:438
 msgid "Continue"
 msgstr "Pokračovat"
 
@@ -308,7 +308,7 @@ msgstr "Chci mít větší kontrolu"
 msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
 msgstr "Pokud vlastníte <0>doménu</0>, můžete mít své <1>WebID</1> na své doméně. To vám dává větší kontrolu nad vaší Solid identitou."
 
-#: src/pages/messages/Messages.tsx:446
+#: src/pages/messages/Messages.tsx:441
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignorovat"
@@ -358,7 +358,7 @@ msgid "Linked Data Notification was sent."
 msgstr ""
 
 #: src/pages/messages-new/NewChat.tsx:71
-#: src/pages/messages/Messages.tsx:438
+#: src/pages/messages/Messages.tsx:433
 msgid "Loading"
 msgstr ""
 
@@ -397,7 +397,7 @@ msgstr "Zpráva byla vytvořena"
 msgid "messages"
 msgstr "zprávy"
 
-#: src/pages/Threads/Threads.tsx:97
+#: src/pages/Threads/Threads.tsx:95
 msgid "Messages with {personLabel}"
 msgstr "Zprávy s {personLabel}"
 
@@ -484,7 +484,7 @@ msgstr "čeká"
 msgid "Photo"
 msgstr "Fotka"
 
-#: src/pages/messages/Messages.tsx:312
+#: src/pages/messages/Messages.tsx:307
 msgid "Please <0>start a new one</0>."
 msgstr ""
 
@@ -695,7 +695,7 @@ msgstr "Přepnout na světlé téma"
 msgid "Tell others about your place and hosting"
 msgstr "Povězte ostatním o svém místě a hostování"
 
-#: src/pages/messages/Messages.tsx:221
+#: src/pages/messages/Messages.tsx:220
 msgid "There doesn't seem to be a chat here."
 msgstr ""
 
@@ -703,7 +703,7 @@ msgstr ""
 #~ msgid "There doesn't seem to be a chat."
 #~ msgstr ""
 
-#: src/pages/messages/Messages.tsx:308
+#: src/pages/messages/Messages.tsx:303
 msgid "This chat has outdated format."
 msgstr ""
 
@@ -788,7 +788,7 @@ msgstr "Již jste členem {communityLabel}"
 msgid "You can <0>host your Pod</0>. This will give you full control over your data. However, it's more complicated to set up, and requires maintenance. We recommend <1>Community Solid Server</1>."
 msgstr "Můžete <0>hostovat svůj Pod</0>, čímž získáte plnou kontrolu nad svými daty. Nastavení je však složitější a vyžaduje údržbu. Doporučujeme <1>Community Solid Server</1>."
 
-#: src/pages/messages/Messages.tsx:307
+#: src/pages/messages/Messages.tsx:302
 msgid "You can only read this chat."
 msgstr ""
 
