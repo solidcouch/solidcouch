@@ -1,4 +1,4 @@
-import { PersonMini } from '@/components/PersonMini/PersonMini.tsx'
+import { Person } from '@/components/person/Person'
 import { threadsQuery } from '@/data/queries/chat'
 import { useAuth } from '@/hooks/useAuth'
 import { ChatShapeType } from '@/ldo/app.shapeTypes'
@@ -104,10 +104,12 @@ const Thread = ({
         data-cy={(unread || disconnected) && 'thread-unread'}
       >
         {profiles.map(profile => (
-          <PersonMini
+          <Person
             key={profile['@id']}
             webId={profile['@id']}
-            className={styles.avatar}
+            size={1.25}
+            showName={false}
+            avatarClassName={styles.avatar}
           />
         ))}
         <div>

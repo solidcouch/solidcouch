@@ -1,4 +1,4 @@
-import { PersonMini } from '@/components/PersonMini/PersonMini'
+import { Person } from '@/components/person/Person'
 import { threadsQuery } from '@/data/queries/chat'
 import { useReadAccesses } from '@/hooks/data/access'
 import { AccessMode } from '@/hooks/data/types'
@@ -98,7 +98,7 @@ export const ChatList = () => {
             >
               <Link to={`/messages/${strict_uri_encode(chat['@id'])}`}>
                 {otherParticipants.map(participant => (
-                  <PersonMini webId={participant} key={participant} />
+                  <Person webId={participant} key={participant} size={1.25} />
                 ))}
                 {unread && <FaCircle />}
                 {disconnected && <FaExclamation />}

@@ -1,5 +1,5 @@
 import { Loading } from '@/components'
-import { PersonBadge } from '@/components/PersonBadge/PersonBadge.tsx'
+import { Person } from '@/components/person/Person'
 import { ContactStatus, useReadContacts } from '@/hooks/data/useContacts'
 import { useAuth } from '@/hooks/useAuth'
 import * as types from '@/types'
@@ -31,7 +31,7 @@ export const Contacts = () => {
     <div>
       <h1>
         <Trans>
-          Contacts of <PersonBadge webId={personId} link />
+          Contacts of <Person webId={personId} link showName />
         </Trans>
       </h1>
       <ul className={styles.contactList} data-cy="contact-list">
@@ -58,7 +58,7 @@ export const Contacts = () => {
 const Contact = ({ contact }: { contact: types.Contact }) => {
   return (
     <div className={styles.contact} data-cy="contact">
-      <PersonBadge webId={contact.webId} link />
+      <Person webId={contact.webId} link showName />
       <span className={styles.spacer}></span>
       {contact.status === ContactStatus.requestSent && (
         <span className={styles.status}>

@@ -126,6 +126,7 @@ msgid "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one 
 msgstr "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one of these providers:"
 
 #: src/components/Interests/Interest.tsx:72
+#: src/components/person/Person.tsx:82
 msgid "Close"
 msgstr "Close"
 
@@ -450,6 +451,10 @@ msgstr "no hospex document for community"
 msgid "Notifying indexing service"
 msgstr "Notifying indexing service"
 
+#: src/components/person/Person.tsx:92
+msgid "Open profile"
+msgstr "Open profile"
+
 #: src/pages/HospexSetup/Step1.tsx:167
 msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
 msgstr "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
@@ -466,6 +471,14 @@ msgstr "or write your own Solid identity provider, or your webId"
 #: src/pages/Contacts.tsx:74
 msgid "pending"
 msgstr "pending"
+
+#: src/components/person/Person.tsx:87
+msgid "Person"
+msgstr "Person"
+
+#: src/components/person/Person.tsx:89
+msgid "Person preview coming soon."
+msgstr "Person preview coming soon."
 
 #: src/pages/EditProfile/EditProfile.tsx:153
 msgid "Photo"

@@ -1,4 +1,4 @@
-import { PersonBadge } from '@/components/PersonBadge/PersonBadge'
+import { Person } from '@/components/person/Person'
 import { createChatChannel } from '@/hooks/data/mutations/chat'
 import { QueryKey } from '@/hooks/data/types'
 import { useSolidProfile } from '@/hooks/data/useProfile'
@@ -113,7 +113,7 @@ export const NewChat = () => {
     <div>
       <h1>
         <Trans>
-          New conversation with <PersonBadge webId={personWebId} />
+          New conversation with <Person webId={personWebId} showName />
         </Trans>
       </h1>
 
