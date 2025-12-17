@@ -1,3 +1,6 @@
+import { useConfig } from '@/config/hooks'
+import { useProfile } from '@/hooks/data/useProfile'
+import { useAuth } from '@/hooks/useAuth'
 import { useAppSelector } from '@/redux/hooks'
 import { selectLocale } from '@/redux/uiSlice'
 import { URI } from '@/types'
@@ -28,4 +31,12 @@ export const Interests = ({
       ))}
     </ul>
   )
+}
+
+export const SharedInterests = ({ ids }: { ids: URI[] }) => {
+  const { communityId } = useConfig()
+  const auth = useAuth()
+  const [myProfile] = useProfile(auth.webId!, communityId)
+
+  return <Interests ids={ids} highlighted={myProfile.interests} />
 }

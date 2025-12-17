@@ -126,7 +126,7 @@ msgid "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one 
 msgstr "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one of these providers:"
 
 #: src/components/Interests/Interest.tsx:72
-#: src/components/person/Person.tsx:82
+#: src/components/person/Person.tsx:85
 msgid "Close"
 msgstr "Close"
 
@@ -151,7 +151,7 @@ msgid "Contact request sent"
 msgstr "Contact request sent"
 
 #: src/components/Header/MainMenu.tsx:56
-#: src/pages/Profile/Profile.tsx:63
+#: src/pages/Profile/Profile.tsx:79
 msgid "contacts"
 msgstr "contacts"
 
@@ -219,7 +219,7 @@ msgid "Edit"
 msgstr "Edit"
 
 #: src/components/Header/MainMenu.tsx:40
-#: src/pages/Profile/Profile.tsx:48
+#: src/pages/Profile/Profile.tsx:63
 msgid "edit profile"
 msgstr "edit profile"
 
@@ -363,7 +363,7 @@ msgid "Loading"
 msgstr "Loading"
 
 #: src/pages/EditProfile/EditInterests.tsx:68
-#: src/pages/Profile/Profile.tsx:74
+#: src/pages/Profile/Profile.tsx:92
 msgid "loading interests..."
 msgstr "loading interests..."
 
@@ -451,7 +451,7 @@ msgstr "no hospex document for community"
 msgid "Notifying indexing service"
 msgstr "Notifying indexing service"
 
-#: src/components/person/Person.tsx:92
+#: src/components/person/Person.tsx:95
 msgid "Open profile"
 msgstr "Open profile"
 
@@ -473,12 +473,12 @@ msgid "pending"
 msgstr "pending"
 
 #: src/components/person/Person.tsx:87
-msgid "Person"
-msgstr "Person"
+#~ msgid "Person"
+#~ msgstr "Person"
 
 #: src/components/person/Person.tsx:89
-msgid "Person preview coming soon."
-msgstr "Person preview coming soon."
+#~ msgid "Person preview coming soon."
+#~ msgstr "Person preview coming soon."
 
 #: src/pages/EditProfile/EditProfile.tsx:153
 msgid "Photo"
@@ -528,7 +528,7 @@ msgstr "process"
 msgid "profile"
 msgstr "profile"
 
-#: src/pages/Profile/Profile.tsx:34
+#: src/pages/Profile/Profile.tsx:48
 msgid "Profile photo of {name}"
 msgstr "Profile photo of {name}"
 
@@ -771,7 +771,7 @@ msgstr "We're verifying that everything is configured correctly."
 msgid "WIP"
 msgstr "WIP"
 
-#: src/pages/Profile/Profile.tsx:56
+#: src/pages/Profile/Profile.tsx:71
 #: src/pages/SearchHosts/AccommodationInfo.tsx:59
 msgid "Write a message"
 msgstr "Write a message"

@@ -126,7 +126,7 @@ msgid "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one 
 msgstr "Vyberte možnost <0>\"Použít moje existující WebID pro přístup k mému Podu\"</0> u jednoho z těchto poskytovatelů:"
 
 #: src/components/Interests/Interest.tsx:72
-#: src/components/person/Person.tsx:82
+#: src/components/person/Person.tsx:85
 msgid "Close"
 msgstr "Zavřít"
 
@@ -151,7 +151,7 @@ msgid "Contact request sent"
 msgstr "Pozvánka odeslána"
 
 #: src/components/Header/MainMenu.tsx:56
-#: src/pages/Profile/Profile.tsx:63
+#: src/pages/Profile/Profile.tsx:79
 msgid "contacts"
 msgstr "kontakty"
 
@@ -219,7 +219,7 @@ msgid "Edit"
 msgstr "Upravit"
 
 #: src/components/Header/MainMenu.tsx:40
-#: src/pages/Profile/Profile.tsx:48
+#: src/pages/Profile/Profile.tsx:63
 msgid "edit profile"
 msgstr "upravit profil"
 
@@ -363,7 +363,7 @@ msgid "Loading"
 msgstr ""
 
 #: src/pages/EditProfile/EditInterests.tsx:68
-#: src/pages/Profile/Profile.tsx:74
+#: src/pages/Profile/Profile.tsx:92
 msgid "loading interests..."
 msgstr "načítání zájmů..."
 
@@ -451,7 +451,7 @@ msgstr "pro komunitu nebyl nalezen hospex dokument"
 msgid "Notifying indexing service"
 msgstr "Probíhá oznámení indexační službě"
 
-#: src/components/person/Person.tsx:92
+#: src/components/person/Person.tsx:95
 msgid "Open profile"
 msgstr ""
 
@@ -473,12 +473,12 @@ msgid "pending"
 msgstr "čeká"
 
 #: src/components/person/Person.tsx:87
-msgid "Person"
-msgstr ""
+#~ msgid "Person"
+#~ msgstr ""
 
 #: src/components/person/Person.tsx:89
-msgid "Person preview coming soon."
-msgstr ""
+#~ msgid "Person preview coming soon."
+#~ msgstr ""
 
 #: src/pages/EditProfile/EditProfile.tsx:153
 msgid "Photo"
@@ -528,7 +528,7 @@ msgstr "zpracování"
 msgid "profile"
 msgstr "profil"
 
-#: src/pages/Profile/Profile.tsx:34
+#: src/pages/Profile/Profile.tsx:48
 msgid "Profile photo of {name}"
 msgstr "Profilová fotka {name}"
 
@@ -771,7 +771,7 @@ msgstr "Ověřujeme, že je vše správně nastaveno."
 msgid "WIP"
 msgstr "Pracujeme na tom"
 
-#: src/pages/Profile/Profile.tsx:56
+#: src/pages/Profile/Profile.tsx:71
 #: src/pages/SearchHosts/AccommodationInfo.tsx:59
 msgid "Write a message"
 msgstr "Napsat zprávu"

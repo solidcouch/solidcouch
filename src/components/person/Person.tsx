@@ -1,5 +1,7 @@
-import { Avatar } from '@/components'
-import { useCommunityProfile } from '@/hooks/data/useCommunityProfile'
+import { Avatar, ButtonLink } from '@/components'
+import { useConfig } from '@/config/hooks'
+import { useProfile } from '@/hooks/data/useProfile'
+import { Profile } from '@/pages/Profile/Profile'
 import { URI } from '@/types'
 import { Trans, useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
@@ -35,7 +37,8 @@ export const Person = ({
   nameClassName,
   linkClassName,
 }: PersonProps) => {
-  const [person] = useCommunityProfile(webId)
+  const { communityId } = useConfig()
+  const [person] = useProfile(webId, communityId)
 
   const { t } = useLingui()
 
@@ -83,15 +86,14 @@ export const Person = ({
             >
               <FaTimes />
             </Popover.Close>
-            <div>
-              <strong>{person?.name || t`Person`}</strong>
-              <p>
-                <Trans>Person preview coming soon.</Trans>
-              </p>
-              <Link to={linkHref}>
-                <Trans>Open profile</Trans>
-              </Link>
-            </div>
+            <Profile
+              webId={webId}
+              readonly
+              imageClassName={styles.profileImage}
+            />
+            <ButtonLink to={linkHref} secondary style={{ marginTop: '1rem' }}>
+              <Trans>Open profile</Trans>
+            </ButtonLink>
             <Popover.Arrow className={interestStyles.arrow} />
           </Popover.Content>
         </Popover.Portal>
