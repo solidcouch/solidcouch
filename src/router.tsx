@@ -14,7 +14,7 @@ import { ChatLayout } from './pages/messages/ChatLayout.tsx'
 import { Messages } from './pages/messages/Messages.tsx'
 import { MyOffers } from './pages/MyOffers.tsx'
 import { NotFound } from './pages/NotFound.tsx'
-import { Profile } from './pages/Profile'
+import { ProfilePage } from './pages/Profile'
 import { ProfileRedirect } from './pages/ProfileRedirect.tsx'
 import { SearchHosts } from './pages/SearchHosts'
 import { Threads } from './pages/Threads/Threads.tsx'
@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <ProfileRedirect /> },
               { path: 'edit', element: <EditProfile /> },
-              { path: ':id', element: <Profile /> },
+              { path: ':id', element: <ProfilePage /> },
               { path: ':id/contacts', element: <Contacts /> },
             ],
           },

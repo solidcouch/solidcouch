@@ -13,16 +13,20 @@
     }
   }
 
+  .webid {
+    font-style: italic;
+  }
+
   .about {
     white-space: pre-wrap;
     width: 100%;
     max-width: 400px;
   }
+}
 
-  .photo {
-    width: 250px;
-    height: 250px;
-    max-width: 100%;
-    object-fit: cover;
-  }
+.photo {
+  width: 250px;
+  height: 250px;
+  max-width: 100%;
+  object-fit: cover;
 }

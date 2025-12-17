@@ -33,6 +33,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  overflow: auto;
+  max-height: var(--radix-popper-available-height);
 
   .arrow {
     fill: var(--text-color);

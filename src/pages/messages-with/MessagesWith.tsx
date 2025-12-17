@@ -4,7 +4,7 @@
  */
 
 import { ButtonLink } from '@/components'
-import { PersonBadge } from '@/components/PersonBadge/PersonBadge'
+import { Person } from '@/components/Person/Person'
 import { t } from '@lingui/core/macro'
 import { Trans } from '@lingui/react/macro'
 import { useParams } from 'react-router'
@@ -18,7 +18,7 @@ export const MessagesWith = () => {
   return (
     <>
       <Trans>
-        Messages With <PersonBadge webId={webId} />
+        Messages With <Person webId={webId} showName />
       </Trans>
       <ButtonLink
         primary

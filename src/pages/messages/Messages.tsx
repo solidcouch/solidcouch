@@ -1,5 +1,5 @@
 import { Button } from '@/components'
-import { PersonMini } from '@/components/PersonMini/PersonMini'
+import { Person } from '@/components/Person/Person'
 import {
   getChatLegacyLinkQuery,
   getChatMessagesQuery,
@@ -230,7 +230,7 @@ export const Messages = () => {
           <ul className={styles.participants}>
             {participants?.map(p => (
               <li key={p}>
-                <PersonMini webId={p} size={1} />
+                <Person webId={p} size={1} popover />
               </li>
             ))}
           </ul>

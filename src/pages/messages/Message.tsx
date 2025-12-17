@@ -1,4 +1,4 @@
-import { Avatar } from '@/components'
+import { Person } from '@/components/Person/Person'
 import { useConfig } from '@/config/hooks'
 import { useProfile } from '@/hooks/data/useProfile'
 import { useLocale } from '@/hooks/useLocale'
@@ -31,7 +31,9 @@ export const Message = ({
     <>
       {showBadge && (
         <div className={styles.author}>
-          <Avatar photo={person.photo} name={person.name} />
+          <div>
+            <Person webId={webid} popover />
+          </div>
           <div className={styles.name}>{person.name}</div>
         </div>
       )}
