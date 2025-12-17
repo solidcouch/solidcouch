@@ -253,13 +253,9 @@ export interface Chat {
     "@id": string;
   };
   /**
-   * deprecated
-   */
-  message?: LdSet<ChatMessage>;
-  /**
    * A list of messages in the chat
    */
-  message2?: LdSet<ChatMessage>;
+  message?: LdSet<ChatMessage>;
 }
 
 /**

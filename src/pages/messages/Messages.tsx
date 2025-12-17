@@ -85,9 +85,8 @@ export const Messages = () => {
     [channelUri, results.quads],
   )
 
-  const isLegacy =
-    channel.participation?.some(p => p.references?.size ?? 0 > 0) ||
-    (channel.message?.size ?? 0) > 0
+  const isLegacy = channel.participation?.some(p => p.references?.size ?? 0 > 0)
+  // || (channel.message?.size ?? 0) > 0
 
   const notificationResults = useLDhopQuery(
     useMemo(
@@ -124,11 +123,11 @@ export const Messages = () => {
   useLayoutEffect(() => {
     if (!listRef.current) return
     if (!firstLoad.current) return
-    if (!results.isMissing && !results.isLoading && channel.message2?.size) {
+    if (!results.isMissing && !results.isLoading && channel.message?.size) {
       listRef.current.scrollTop = listRef.current.scrollHeight
       firstLoad.current = false
     }
-  }, [channel.message2?.size, results.isLoading, results.isMissing])
+  }, [channel.message?.size, results.isLoading, results.isMissing])
 
   const typeIndexChatResults = useLDhopQuery(
     useMemo(
@@ -238,11 +237,7 @@ export const Messages = () => {
       </h2>
 
       <ul className={styles.messagesContainer} ref={listRef}>
-        {[
-          ...(channel.message2 ?? []),
-          ...(channel.message ?? []),
-          ...legacyReferencedMessages,
-        ]
+        {[...(channel.message ?? []), ...legacyReferencedMessages]
           ?.map(msg => ({ ...msg }))
           .sort(
             (a, b) =>

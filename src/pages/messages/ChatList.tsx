@@ -44,10 +44,6 @@ export const ChatList = () => {
           const chat = dataset.usingType(ChatShapeType).fromSubject(uri)
           // Pre-calculate the latest timestamp once
           const timestamps = [
-            chat.message2
-              ? [...chat.message2].map(m => new Date(m.created).getTime())
-              : [],
-            // @deprecated This message is included for backwards compatibility only
             chat.message
               ? [...chat.message].map(m => new Date(m.created).getTime())
               : [],

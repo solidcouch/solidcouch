@@ -24,8 +24,6 @@ srs:ChatShape EXTRA a {
   ui:sharedPreferences IRI ?
     // rdfs:comment  "Chat preferences" ;
   flow:message @srs:ChatMessageShape *
-    // rdfs:comment "deprecated" ;
-  mee:message @srs:ChatMessageShape *
     // rdfs:comment  "A list of messages in the chat" ;
 }
 

@@ -109,8 +109,8 @@ export const createMessage = async ({
 
   const created = new Date().toISOString()
 
-  ldo.message2 ??= set()
-  ldo.message2.add({
+  ldo.message ??= set()
+  ldo.message.add({
     '@id': messageUri,
     created,
     content: message,
