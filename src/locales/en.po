@@ -126,7 +126,7 @@ msgid "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one 
 msgstr "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one of these providers:"
 
 #: src/components/Interests/Interest.tsx:72
-#: src/components/person/Person.tsx:85
+#: src/components/Person/Person.tsx:85
 msgid "Close"
 msgstr "Close"
 
@@ -451,7 +451,7 @@ msgstr "no hospex document for community"
 msgid "Notifying indexing service"
 msgstr "Notifying indexing service"
 
-#: src/components/person/Person.tsx:95
+#: src/components/Person/Person.tsx:95
 msgid "Open profile"
 msgstr "Open profile"
 

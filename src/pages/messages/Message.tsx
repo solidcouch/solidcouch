@@ -1,4 +1,4 @@
-import { Person } from '@/components/person/Person'
+import { Person } from '@/components/Person/Person'
 import { useConfig } from '@/config/hooks'
 import { useProfile } from '@/hooks/data/useProfile'
 import { useLocale } from '@/hooks/useLocale'

@@ -4,7 +4,7 @@
  */
 
 import { ButtonLink } from '@/components'
-import { Person } from '@/components/person/Person'
+import { Person } from '@/components/Person/Person'
 import { t } from '@lingui/core/macro'
 import { Trans } from '@lingui/react/macro'
 import { useParams } from 'react-router'

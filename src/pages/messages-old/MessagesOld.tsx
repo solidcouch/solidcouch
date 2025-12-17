@@ -1,5 +1,5 @@
 import { Button, Loading } from '@/components'
-import { Person } from '@/components/person/Person'
+import { Person } from '@/components/Person/Person'
 import { withToast } from '@/components/withToast.tsx'
 import { useConfig } from '@/config/hooks'
 import { useCheckSetup } from '@/hooks/data/useCheckSetup'

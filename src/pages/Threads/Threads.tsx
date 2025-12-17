@@ -1,4 +1,4 @@
-import { Person } from '@/components/person/Person'
+import { Person } from '@/components/Person/Person'
 import { threadsQuery } from '@/data/queries/chat'
 import { useAuth } from '@/hooks/useAuth'
 import { ChatShapeType } from '@/ldo/app.shapeTypes'

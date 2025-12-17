@@ -1,5 +1,5 @@
 import { Loading } from '@/components'
-import { Person } from '@/components/person/Person'
+import { Person } from '@/components/Person/Person'
 import { ContactStatus, useReadContacts } from '@/hooks/data/useContacts'
 import { useAuth } from '@/hooks/useAuth'
 import * as types from '@/types'

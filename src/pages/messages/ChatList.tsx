@@ -1,4 +1,4 @@
-import { Person } from '@/components/person/Person'
+import { Person } from '@/components/Person/Person'
 import { threadsQuery } from '@/data/queries/chat'
 import { useReadAccesses } from '@/hooks/data/access'
 import { AccessMode } from '@/hooks/data/types'

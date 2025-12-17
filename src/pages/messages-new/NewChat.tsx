@@ -1,4 +1,4 @@
-import { Person } from '@/components/person/Person'
+import { Person } from '@/components/Person/Person'
 import { createChatChannel } from '@/hooks/data/mutations/chat'
 import { QueryKey } from '@/hooks/data/types'
 import { useSolidProfile } from '@/hooks/data/useProfile'
