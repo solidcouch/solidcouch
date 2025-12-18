@@ -371,7 +371,7 @@ msgstr "načítání zájmů..."
 msgid "Loading previous messages"
 msgstr "Načítání předchozích zpráv"
 
-#: src/App.tsx:47
+#: src/App.tsx:52
 #: src/pages/messages-old/MessagesOld.tsx:205
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26

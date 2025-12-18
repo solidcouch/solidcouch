@@ -117,7 +117,7 @@ test.describe('Sign in to the app', () => {
   })
 
   test('return to previous URL after login', async ({ page }) => {
-    page.goto('/profile/edit?a=b&c=d#ef')
+    await page.goto('/profile/edit?a=b&c=d#ef')
     await page.getByRole('button', { name: 'Sign in' }).click()
 
     const issuerInput = page.getByRole('textbox', { name: 'webId or provider' })
@@ -131,6 +131,16 @@ test.describe('Sign in to the app', () => {
     await expect(page.getByText(user.webId)).toBeVisible()
     await page.getByRole('button', { name: 'Authorize' }).click()
 
+    await expect(page).toHaveURL('/profile/edit?a=b&c=d#ef')
+  })
+
+  test('return to previous URL after page reload', async ({ page }) => {
+    await signIn(page, user)
+    await page.goto('/profile/edit?a=b&c=d#ef')
+    await expect(page.getByText('Prepare Pod')).toBeVisible()
+    await expect(page).toHaveURL('/profile/edit?a=b&c=d#ef')
+    await page.reload()
+    await expect(page).toHaveURL(url => url.searchParams.has('code'))
     await expect(page).toHaveURL('/profile/edit?a=b&c=d#ef')
   })
 })
