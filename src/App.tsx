@@ -28,6 +28,11 @@ export const App = () => {
 
   useEffect(() => {
     ;(async () => {
+      const currentUrl = globalThis.location.href
+      // eslint-disable-next-line lingui/no-unlocalized-strings
+      if (!currentUrl.includes('?code='))
+        // eslint-disable-next-line lingui/no-unlocalized-strings
+        globalThis.localStorage.setItem('previousUrl', currentUrl)
       const session = await handleIncomingRedirect({
         restorePreviousSession: true,
       })
