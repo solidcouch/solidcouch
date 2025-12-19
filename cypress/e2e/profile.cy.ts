@@ -93,7 +93,7 @@ describe('view profile', () => {
         cy.contains('a', 'Write a message').should(
           'have.attr',
           'href',
-          `/messages-with/${encodeURIComponent(otherPerson.webId)}`,
+          `/messages?with=${encodeURIComponent(otherPerson.webId)}`,
         )
       })
     })

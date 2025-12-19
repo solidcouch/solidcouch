@@ -1,4 +1,4 @@
-import { Button } from '@/components'
+import { Button, ButtonLink } from '@/components'
 import { Person } from '@/components/Person/Person'
 import {
   getChatLegacyLinkQuery,
@@ -37,8 +37,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { Link, useParams } from 'react-router'
-import strict_uri_encode from 'strict-uri-encode'
+import { useParams } from 'react-router'
 import { Message } from './Message'
 import styles from './Messages.module.scss'
 import { SendMessageForm } from './SendMessageForm'
@@ -54,8 +53,24 @@ const chatQuery = [
  * There is also a legacy format for the chat. This old format references other parts of the chat elsewhere. TODO we could render that differently, read-only.
  */
 
-export const Messages = () => {
-  const channelUri = useParams().channel!
+export const MessagesPage = () => {
+  const channel = useParams().channel
+
+  const channelUri = useMemo(() => {
+    try {
+      new URL(channel!)
+      return channel
+    } catch {
+      return undefined
+    }
+  }, [channel])
+
+  if (!channelUri) return <Trans>"{channel}" is not a valid chat channel</Trans>
+
+  return <Messages channelUri={channelUri} />
+}
+
+const Messages = ({ channelUri }: { channelUri: URI }) => {
   const auth = useAuth()
   const locale = useLocale()
   const firstLoad = useRef(true)
@@ -204,8 +219,19 @@ export const Messages = () => {
     }
   }, [channelNotifications, deleteNotification, isSavedInTypeIndex])
 
-  const participants = channel.participation?.map(p => p.participant['@id'])
-  const otherParticipants = participants?.filter(p => p !== auth.webId)
+  const participants = useMemo(
+    () => channel.participation?.map(p => p.participant['@id']),
+    [channel.participation],
+  )
+  const otherParticipants = useMemo(
+    () => participants?.filter(p => p !== auth.webId),
+    [auth.webId, participants],
+  )
+  const otherParticipantsParams = useMemo(
+    // eslint-disable-next-line lingui/no-unlocalized-strings
+    () => new URLSearchParams(otherParticipants?.map(p => ['with', p])),
+    [otherParticipants],
+  )
 
   const legacyReferencedMessages =
     channel.participation
@@ -229,7 +255,7 @@ export const Messages = () => {
           <ul className={styles.participants}>
             {participants?.map(p => (
               <li key={p}>
-                <Person webId={p} size={1} popover />
+                <Person webId={p} size="2rem" popover />
               </li>
             ))}
           </ul>
@@ -306,11 +332,15 @@ export const Messages = () => {
           (otherParticipants?.length ?? 0) === 1 && (
             <Trans>
               Please{' '}
-              <Link
-                to={`/messages-with/${strict_uri_encode(otherParticipants[0]!)}/new`}
+              <ButtonLink
+                secondary
+                to={{
+                  pathname: '/messages/new',
+                  search: otherParticipantsParams.toString(),
+                }}
               >
                 start a new one
-              </Link>
+              </ButtonLink>
               .
             </Trans>
           )}

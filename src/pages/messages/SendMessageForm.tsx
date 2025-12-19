@@ -81,6 +81,8 @@ export const SendMessageForm = ({
           placeholder={t`Send a message…`}
         />
         <Button
+          type="submit"
+          className={styles.submit}
           disabled={disabled || !isValid || submitting}
           aria-label={t`Send`}
           primary

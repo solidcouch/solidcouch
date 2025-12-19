@@ -66,7 +66,10 @@ export const Profile = ({
       {!readonly && isMe === false && (
         <ButtonLink
           secondary
-          to={`/messages-with/${encodeURIComponent(webId)}`}
+          to={{
+            pathname: '/messages',
+            search: `?with=${encodeURIComponent(webId)}`,
+          }}
         >
           <Trans>Write a message</Trans>
         </ButtonLink>

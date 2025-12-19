@@ -32,7 +32,7 @@ export const Message = ({
       {showBadge && (
         <div className={styles.author}>
           <div>
-            <Person webId={webid} popover />
+            <Person webId={webid} size="2rem" popover />
           </div>
           <div className={styles.name}>{person.name}</div>
         </div>

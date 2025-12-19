@@ -8,13 +8,14 @@ import styles from './Avatar.module.scss'
 export const Avatar = ({
   photo: photoUri,
   name,
-  size = 1,
+  size = '1em',
   square,
   className,
 }: {
   name?: string
   photo?: URI
-  size?: number
+  size?: string
+
   square?: boolean
   className?: string
 }) => {
@@ -29,11 +30,11 @@ export const Avatar = ({
   return (
     <A.Root
       className={clsx(styles.avatarRoot, square && styles.square, className)}
-      style={{ width: `${size * 2}rem`, height: `${size * 2}rem` }}
+      style={{ width: size, height: size }}
     >
       <A.Image src={photo} alt={name} className={styles.avatarImage} />
       <A.Fallback className={styles.avatarFallback}>
-        {initials || <FaUser size={size * 32} />}
+        {initials || <FaUser size={size} />}
       </A.Fallback>
     </A.Root>
   )

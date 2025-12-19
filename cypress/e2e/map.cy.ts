@@ -90,7 +90,7 @@ describe('Map of accommodation offers', () => {
       cy.contains('a', 'Write a message').should(
         'have.attr',
         'href',
-        `/messages-with/${encodeURIComponent(user.webId)}`,
+        `/messages?with=${encodeURIComponent(user.webId)}`,
       )
     })
   }

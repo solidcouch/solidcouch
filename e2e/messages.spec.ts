@@ -51,11 +51,11 @@ test.describe('Messages', () => {
 
     await page.getByRole('link', { name: 'Write a message' }).click()
     await expect(page).toHaveURL(
-      `/messages-with/${encodeURIComponent(person1.account.webId)}`,
+      `/messages?with=${encodeURIComponent(person1.account.webId)}`,
     )
     await page.getByRole('link', { name: 'Start a new conversation' }).click()
     await expect(page).toHaveURL(
-      `/messages-with/${encodeURIComponent(person1.account.webId)}/new`,
+      `/messages/new?with=${encodeURIComponent(person1.account.webId)}`,
     )
     await page.getByRole('textbox', { name: 'Title' }).fill('Test title')
     await page.getByRole('textbox', { name: 'Message' }).fill('Test message!')
@@ -135,11 +135,11 @@ test.describe('Messages', () => {
 
     await page.getByRole('link', { name: 'Write a message' }).click()
     await expect(page).toHaveURL(
-      `/messages-with/${encodeURIComponent(person1.account.webId)}`,
+      `/messages?with=${encodeURIComponent(person1.account.webId)}`,
     )
     await page.getByRole('link', { name: 'Start a new conversation' }).click()
     await expect(page).toHaveURL(
-      `/messages-with/${encodeURIComponent(person1.account.webId)}/new`,
+      `/messages/new?with=${encodeURIComponent(person1.account.webId)}`,
     )
     await page.getByRole('textbox', { name: 'Title' }).fill('Test title')
     await page.getByRole('textbox', { name: 'Message' }).fill('Test message!')

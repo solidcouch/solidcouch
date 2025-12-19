@@ -32,7 +32,7 @@ export const AccommodationInfo = ({
               to={`/profile/${encodeURIComponent(accommodation.offeredBy)}`}
               style={{ display: 'contents' }}
             >
-              <Avatar {...person} size={1.5} square />
+              <Avatar {...person} size="3rem" square />
               <span className={styles.name} data-cy="accommodation-info-name">
                 {person?.name}
               </span>
@@ -54,7 +54,12 @@ export const AccommodationInfo = ({
       {isOther ? (
         <ButtonLink
           primary
-          to={`/messages-with/${encodeURIComponent(accommodation.offeredBy)}`}
+          to={{
+            pathname: '/messages',
+            search: new URLSearchParams([
+              ['with', accommodation.offeredBy],
+            ]).toString(),
+          }}
         >
           <Trans>Write a message</Trans>
         </ButtonLink>

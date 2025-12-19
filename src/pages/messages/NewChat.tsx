@@ -11,15 +11,20 @@ import { t } from '@lingui/core/macro'
 import { Trans } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useSearchParams } from 'react-router'
 import { toast } from 'react-toastify'
-import { SendMessageForm } from '../messages/SendMessageForm'
-import { useSendMessage } from '../messages/useSendMessage'
+import { SendMessageForm } from './SendMessageForm'
+import { useSendMessage } from './useSendMessage'
 
 export const NewChat = () => {
   const auth = useAuth()
   const myWebId = auth.webId as SolidLeafUri
-  const personWebId = useParams().webId! as SolidLeafUri
+
+  const [searchParams] = useSearchParams()
+  const withPeople = useMemo(
+    () => searchParams.getAll('with') as SolidLeafUri[],
+    [searchParams],
+  )
 
   const [mySolidProfile, { isFetched: isMySolidProfileFetched }] =
     useSolidProfile(auth.webId!)
@@ -61,9 +66,9 @@ export const NewChat = () => {
     useMemo(
       () => ({
         sender: myWebId,
-        receivers: [personWebId],
+        receivers: withPeople,
       }),
-      [myWebId, personWebId],
+      [myWebId, withPeople],
     ),
   )
 
@@ -75,7 +80,7 @@ export const NewChat = () => {
     const { channel } = await channelMutation.mutateAsync({
       title: data.title,
       owner: myWebId,
-      participants: [myWebId, personWebId],
+      participants: [myWebId, ...withPeople],
       rootStorage: rootStorage,
     })
     await saveToPrivateTypeIndex.mutateAsync({
@@ -109,13 +114,21 @@ export const NewChat = () => {
     navigate(`/messages/${encodeURIComponent(channel)}`)
   }
 
+  const people = (
+    <>
+      {withPeople.map(webId => (
+        <Person webId={webId} showName key={webId} popover />
+      ))}
+    </>
+  )
+
   return (
     <div>
-      <h1>
-        <Trans>
-          New conversation with <Person webId={personWebId} showName />
-        </Trans>
-      </h1>
+      <header>
+        <h1>
+          <Trans>New conversation with {people}</Trans>
+        </h1>
+      </header>
 
       <SendMessageForm
         isNewChat
