@@ -58,7 +58,7 @@ export const Contacts = () => {
 const Contact = ({ contact }: { contact: types.Contact }) => {
   return (
     <div className={styles.contact} data-cy="contact">
-      <Person webId={contact.webId} link showName />
+      <Person webId={contact.webId} link showName size="2rem" />
       <span className={styles.spacer}></span>
       {contact.status === ContactStatus.requestSent && (
         <span className={styles.status}>

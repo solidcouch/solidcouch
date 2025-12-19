@@ -14,7 +14,7 @@ import styles from './Person.module.scss'
 
 type PersonProps = {
   webId: URI
-  size?: number
+  size?: string
   square?: boolean
   showName?: boolean
   link?: boolean
@@ -27,7 +27,7 @@ type PersonProps = {
 
 export const Person = ({
   webId,
-  size = 1,
+  size,
   square,
   showName = false,
   link = false,

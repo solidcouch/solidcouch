@@ -1,3 +1,4 @@
+import { ButtonLink } from '@/components'
 import { Person } from '@/components/Person/Person'
 import { threadsQuery } from '@/data/queries/chat'
 import { useAuth } from '@/hooks/useAuth'
@@ -10,7 +11,7 @@ import { createLdoDataset } from '@ldo/ldo'
 import { Trans, useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
 import { useMemo } from 'react'
-import { Link } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
 import { useProfiles } from '../messages/useSendMessage'
 import styles from './Threads.module.scss'
 
@@ -28,6 +29,10 @@ export const Threads = () => {
     ),
   )
 
+  const [searchParams] = useSearchParams()
+
+  const withPeople = useMemo(() => searchParams.getAll('with'), [searchParams])
+
   const channelUris = threadsResults.variables.channel ?? []
   const inboxChannelUris = threadsResults.variables.chat ?? []
   const connectedChannelUris = threadsResults.variables.instance ?? []
@@ -38,13 +43,54 @@ export const Threads = () => {
     dataset.usingType(ChatShapeType).fromSubject(uri),
   )
 
+  const filteredThreads = threads.filter(
+    t =>
+      withPeople.length === 0 ||
+      withPeople.every(webId =>
+        t.participation?.some(p => p.participant['@id'] === webId),
+      ),
+  )
+
+  const people = (
+    <>
+      {withPeople.map(webId => (
+        <Person webId={webId} key={webId} showName popover />
+      ))}
+    </>
+  )
+
+  const newSearchParams = useMemo(() => {
+    const withParams = searchParams.getAll('with')
+    // eslint-disable-next-line lingui/no-unlocalized-strings
+    const newParams = new URLSearchParams(withParams.map(w => ['with', w]))
+    return newParams
+  }, [searchParams])
+
   return (
     <div>
-      <h1>
-        <Trans>Conversations</Trans>
-      </h1>
+      <header className={styles.header}>
+        <h1>
+          {withPeople.length === 0 ? (
+            <Trans>Conversations</Trans>
+          ) : (
+            <>
+              <Trans>Conversations with {people}</Trans>
+            </>
+          )}
+        </h1>
+
+        <ButtonLink
+          to={{
+            pathname: '/messages/new',
+            search: newSearchParams.toString(),
+          }}
+          primary
+        >
+          <Trans>Start a new conversation</Trans>
+        </ButtonLink>
+      </header>
       <ul className={styles.threadList}>
-        {threads.map(thread => {
+        {filteredThreads.map(thread => {
           const unread = inboxChannelUris?.includes(thread['@id']!)
           const disconnected = !connectedChannelUris?.includes(thread['@id']!)
           return (
@@ -105,8 +151,7 @@ const Thread = ({
           <Person
             key={profile['@id']}
             webId={profile['@id']}
-            size={1.25}
-            showName={false}
+            size="2.5rem"
             avatarClassName={styles.avatar}
           />
         ))}

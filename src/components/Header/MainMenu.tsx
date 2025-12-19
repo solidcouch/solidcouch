@@ -1,4 +1,3 @@
-import { Avatar } from '@/components'
 import { SignOut } from '@/components/SignOut.tsx'
 import { useConfig } from '@/config/hooks'
 import { useProfile } from '@/hooks/data/useProfile'
@@ -10,13 +9,14 @@ import { Plural, Trans } from '@lingui/react/macro'
 import { Menu, MenuButton, MenuDivider, MenuItem } from '@szhsin/react-menu'
 import { Link } from 'react-router'
 import encodeURIComponent from 'strict-uri-encode'
+import { Person } from '../Person/Person'
 
 export const MainMenu = () => {
   const { communityId } = useConfig()
   const auth = useAppSelector(selectAuth)
-  const [profile] = useProfile(auth.webId ?? '', communityId)
+  const [profile] = useProfile(auth.webId!, communityId)
 
-  const { data: newMessages } = useReadMessagesFromInbox(auth.webId ?? '')
+  const { data: newMessages } = useReadMessagesFromInbox(auth.webId!)
 
   const theme = useAppSelector(selectTheme)
 
@@ -26,7 +26,7 @@ export const MainMenu = () => {
     <Menu
       menuButton={
         <MenuButton data-cy="menu-button">
-          <Avatar photo={profile.photo} name={profile.name} />
+          <Person webId={auth.webId!} size="2rem" />
         </MenuButton>
       }
       // eslint-disable-next-line lingui/no-unlocalized-strings
