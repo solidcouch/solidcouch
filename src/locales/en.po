@@ -379,7 +379,7 @@ msgstr "loading interests..."
 msgid "Loading previous messages"
 msgstr "Loading previous messages"
 
-#: src/App.tsx:52
+#: src/App.tsx:47
 #: src/pages/messages-old/MessagesOld.tsx:205
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26
