@@ -5,6 +5,7 @@ import { useConfig } from '@/config/hooks'
 import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { actions, selectLastSelectedIssuer } from '@/redux/loginSlice'
+import { URI } from '@/types'
 import { login } from '@inrupt/solid-client-authn-browser'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { useState } from 'react'
@@ -12,16 +13,44 @@ import { useForm } from 'react-hook-form'
 import styles from './SignIn.module.scss'
 
 export const SignIn = () => {
-  const { oidcIssuers, communityId, defaultCommunityName } = useConfig()
   const [modalOpen, setModalOpen] = useState(false)
-  const [longList, setLongList] = useState(false)
+
+  return (
+    <>
+      <Button secondary onClick={() => setModalOpen(true)}>
+        <Trans>Sign in</Trans>
+      </Button>
+      <Modal
+        isOpen={modalOpen}
+        shouldCloseOnEsc
+        shouldCloseOnOverlayClick
+        onRequestClose={() => setModalOpen(false)}
+      >
+        <SignInForm />
+      </Modal>
+    </>
+  )
+}
+
+export const SignInForm = ({
+  short,
+  onSuccess,
+  onError,
+}: {
+  short?: boolean
+  onSuccess?: () => Promise<void> | void
+  onError?: () => Promise<void> | void
+}) => {
+  const { oidcIssuers, communityId, defaultCommunityName } = useConfig()
 
   const { t } = useLingui()
 
   const lastIssuer = useAppSelector(selectLastSelectedIssuer)
   const isListedIssuer = oidcIssuers.some(iss => iss.issuer === lastIssuer)
 
-  const { register, handleSubmit } = useForm<{ webIdOrIssuer: string }>({
+  const { register, handleSubmit, setValue, watch } = useForm<{
+    webIdOrIssuer: string
+  }>({
     defaultValues: { webIdOrIssuer: !isListedIssuer ? lastIssuer : '' },
   })
 
@@ -35,6 +64,11 @@ export const SignIn = () => {
     // remember oidcIssuer for next logins
     dispatch(actions.setLastSelectedIssuer(oidcIssuer))
 
+    // save url to get back to it after login
+    const currentUrl = globalThis.location.href
+    // eslint-disable-next-line lingui/no-unlocalized-strings
+    globalThis.sessionStorage.setItem('previousUrl', currentUrl)
+
     try {
       await login({
         oidcIssuer,
@@ -45,6 +79,8 @@ export const SignIn = () => {
             ? undefined
             : new URL('/clientid.jsonld', window.location.href).toJSON(),
       })
+
+      await onSuccess?.()
     } catch (e) {
       // if login redirect was unsuccessful, revert to previous issuer
       dispatch(actions.setLastSelectedIssuer(prevIssuer))
@@ -57,6 +93,8 @@ export const SignIn = () => {
           }\n\nError: ${errorString}`,
         )
       } else alert(t`Something went wrong.\nError: ${e}`)
+
+      await onError?.()
     }
   }
 
@@ -70,68 +108,65 @@ export const SignIn = () => {
   })
 
   return (
-    <>
-      <Button secondary onClick={() => setModalOpen(true)}>
-        <Trans>Sign in</Trans>
-      </Button>
-      <Modal
-        isOpen={modalOpen}
-        shouldCloseOnEsc
-        shouldCloseOnOverlayClick
-        onRequestClose={() => setModalOpen(false)}
-      >
-        <div className={styles.providers}>
+    <div className={styles.providers}>
+      {short ? null : (
+        <>
           <Trans>Select your Solid identity provider</Trans>
-          {lastIssuer && (
-            <Button
-              primary
-              onClick={() => handleSelectIssuer(lastIssuer)}
-              data-cy="pod-provider-button"
-              data-testid="preselected-pod-provider-button"
-            >
-              {
-                // show issuer without protocol and trailing slash
-                lastIssuer
-                  .split('/')
-                  .slice(2)
-                  .filter(a => a)
-                  .join('/')
-              }
-            </Button>
-          )}
-          {oidcIssuers
-            .filter(iss => iss.issuer !== lastIssuer)
-            // show featured issuers in short list, or all in long list
-            .filter(iss => iss.featured || longList)
-            .map(({ issuer: url }) => (
-              <Button
-                secondary
-                key={url}
-                onClick={() => handleSelectIssuer(url)}
-              >
-                {new URL(url).hostname}
-              </Button>
-            ))}
-          {!longList && (
-            <Button tertiary onClick={() => setLongList(true)}>
-              <Trans>more</Trans>
-            </Button>
-          )}
+          <IdentityProviders
+            selected={watch('webIdOrIssuer')}
+            onSelect={(url: URI) => {
+              setValue('webIdOrIssuer', url)
+            }}
+          />
           <Trans>
             or write your own Solid identity provider, or your webId
           </Trans>
-          <form className={styles.webIdForm} onSubmit={handleFormSubmit}>
-            <input
-              type="text"
-              placeholder={t`Your webId or provider`}
-              {...register('webIdOrIssuer', { required: 'required' })}
-            />
-            <Button primary type="submit">
-              <Trans>Continue</Trans>
-            </Button>
-          </form>
-        </div>
-      </Modal>
+        </>
+      )}
+      <form className={styles.webIdForm} onSubmit={handleFormSubmit}>
+        <input
+          type="text"
+          placeholder={t`Your webId or provider`}
+          {...register('webIdOrIssuer', { required: 'required' })}
+        />
+        <Button primary type="submit" disabled={!watch('webIdOrIssuer')}>
+          <Trans>Continue</Trans>
+        </Button>
+      </form>
+    </div>
+  )
+}
+
+const IdentityProviders = ({
+  selected,
+  onSelect,
+}: {
+  selected?: URI
+  onSelect?: (url: URI) => Promise<void> | void
+}) => {
+  const { oidcIssuers } = useConfig()
+  const [longList, setLongList] = useState(false)
+
+  return (
+    <>
+      {oidcIssuers
+        // show featured issuers in short list, or all in long list
+        .filter(iss => iss.featured || longList)
+        .map(({ issuer: url }) => (
+          <Button
+            secondary={selected !== url}
+            key={url}
+            onClick={() => onSelect?.(url)}
+            primary={selected === url}
+          >
+            {new URL(url).hostname}
+          </Button>
+        ))}
+      {!longList && (
+        <Button tertiary onClick={() => setLongList(true)}>
+          <Trans>more</Trans>
+        </Button>
+      )}
     </>
   )
 }

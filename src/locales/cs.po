@@ -103,7 +103,7 @@ msgstr "Přidávání {label} do zájmů"
 msgid "authenticating"
 msgstr "ověřování"
 
-#: src/pages/AuthenticatedOutlet.tsx:17
+#: src/pages/AuthenticatedOutlet.tsx:18
 msgid "Authenticating..."
 msgstr "Ověřování..."
 
@@ -163,7 +163,7 @@ msgstr "kontakty"
 msgid "Contacts of <0/>"
 msgstr "Kontakty <0/>"
 
-#: src/components/SignIn/SignIn.tsx:130
+#: src/components/SignIn/SignIn.tsx:133
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
 #: src/pages/messages/Messages.tsx:468
@@ -361,6 +361,10 @@ msgstr "Připojit se ke komunitě"
 msgid "Join community {communityLabel}"
 msgstr "Připojit se ke komunitě {communityLabel}"
 
+#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:66
+msgid "Later"
+msgstr ""
+
 #: src/pages/messages/useSendMessage.ts:106
 msgid "Linked Data Notification was sent."
 msgstr ""
@@ -405,7 +409,7 @@ msgstr "Zpráva byla vytvořena"
 msgid "messages"
 msgstr "zprávy"
 
-#: src/pages/Threads/Threads.tsx:141
+#: src/pages/Threads/Threads.tsx:143
 msgid "Messages with {personLabel}"
 msgstr "Zprávy s {personLabel}"
 
@@ -422,7 +426,7 @@ msgstr "Zprávy s <0/>"
 msgid "missing variables"
 msgstr "chybějící proměnné"
 
-#: src/components/SignIn/SignIn.tsx:117
+#: src/components/SignIn/SignIn.tsx:167
 msgid "more"
 msgstr "více"
 
@@ -475,7 +479,7 @@ msgstr "Nebo použít data (profil, nabídky ubytování, atd.) z jedné z vaši
 msgid "Or use your domain to host your own Solid Pod."
 msgstr "Nebo využijte svou doménu k hostování vlastního Solid Podu."
 
-#: src/components/SignIn/SignIn.tsx:120
+#: src/components/SignIn/SignIn.tsx:121
 msgid "or write your own Solid identity provider, or your webId"
 msgstr "nebo zadejte vlastního poskytovatele Solid identity, nebo své WebID"
 
@@ -584,7 +588,7 @@ msgstr "Zobrazit pozvánku ke kontaktu"
 msgid "Select my location"
 msgstr "Vyberte mou polohu"
 
-#: src/components/SignIn/SignIn.tsx:84
+#: src/components/SignIn/SignIn.tsx:114
 msgid "Select your Solid identity provider"
 msgstr "Vyberte svého poskytovatele Solid identity"
 
@@ -630,6 +634,10 @@ msgstr ""
 msgid "Sending Solid notification"
 msgstr "Probíhá odesílání Solid upozornění"
 
+#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:51
+msgid "Session Expired!"
+msgstr ""
+
 #: src/pages/HospexSetup/Step1.tsx:158
 msgid "Set up new data for this community:"
 msgstr "Nastavit nová data pro tuto komunitu:"
@@ -658,7 +666,7 @@ msgstr "Nastavit hospex dokument a úložiště:"
 msgid "Show me some providers!"
 msgstr "Ukázat poskytovatele!"
 
-#: src/components/SignIn/SignIn.tsx:75
+#: src/components/SignIn/SignIn.tsx:21
 msgid "Sign in"
 msgstr "Přihlásit se"
 
@@ -678,8 +686,8 @@ msgstr "Něco není vyřešeno (neočekávaná chyba)"
 msgid "Something went wrong."
 msgstr "Něco se nepovedlo."
 
-#: src/components/SignIn/SignIn.tsx:59
-#: src/components/SignIn/SignIn.tsx:68
+#: src/components/SignIn/SignIn.tsx:95
+#: src/components/SignIn/SignIn.tsx:106
 msgid ""
 "Something went wrong.\n"
 "Error: {e}"
@@ -691,7 +699,7 @@ msgstr ""
 #~ msgid "Start a conversation"
 #~ msgstr ""
 
-#: src/pages/Threads/Threads.tsx:89
+#: src/pages/Threads/Threads.tsx:90
 msgid "Start a new conversation"
 msgstr ""
 
@@ -759,7 +767,7 @@ msgstr "Aktualizuji ubytování"
 msgid "Updating profile"
 msgstr "Aktualizuji profil"
 
-#: src/components/SignIn/SignIn.tsx:55
+#: src/components/SignIn/SignIn.tsx:91
 msgid ""
 "We didn't succeed with redirecting to the issuer at {oidcIssuer}.\n"
 "Have you provided correct webId or OIDCIssuer? Or is it down?\n"
@@ -813,6 +821,10 @@ msgstr "Váš e-mail"
 msgid "Your email notifications are set up."
 msgstr "Vaše e-mailová upozornění jsou nastavena."
 
-#: src/components/SignIn/SignIn.tsx:126
+#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:58
+msgid "Your session has expired. Please sign in again."
+msgstr ""
+
+#: src/components/SignIn/SignIn.tsx:129
 msgid "Your webId or provider"
 msgstr "Vaše WebID nebo poskytovatel"
