@@ -1,5 +1,15 @@
+@use '../../styles/media';
+
 .chatList {
   .chatItem {
     margin: 0.5rem;
+  }
+}
+
+.name {
+  display: none;
+
+  @include media.for-desktop-up {
+    display: revert;
   }
 }
