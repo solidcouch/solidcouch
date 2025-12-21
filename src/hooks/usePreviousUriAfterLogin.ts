@@ -12,19 +12,19 @@ export const usePreviousUriAfterLogin = () => {
     // save url to get back to it after login
     if (auth.isLoggedIn === false) {
       const currentUrl = globalThis.location.href
-      globalThis.localStorage.setItem('previousUrl', currentUrl)
+      globalThis.sessionStorage.setItem('previousUrl', currentUrl)
     }
 
     // redirect to previous url
     if (auth.isLoggedIn === true) {
-      const previousUrl = globalThis.localStorage.getItem('previousUrl')
+      const previousUrl = globalThis.sessionStorage.getItem('previousUrl')
       if (previousUrl) {
         const url = new URL(previousUrl)
         // make sure domain matches, then navigate to previous url
         if (url.hostname === new URL(globalThis.location.href).hostname)
           navigate(url.pathname + url.search + url.hash, { replace: true })
       }
-      globalThis.localStorage.removeItem('previousUrl')
+      globalThis.sessionStorage.removeItem('previousUrl')
     }
   }, [auth.isLoggedIn, navigate])
 }

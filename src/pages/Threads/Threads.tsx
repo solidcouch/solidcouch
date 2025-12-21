@@ -79,15 +79,17 @@ export const Threads = () => {
           )}
         </h1>
 
-        <ButtonLink
-          to={{
-            pathname: '/messages/new',
-            search: newSearchParams.toString(),
-          }}
-          primary
-        >
-          <Trans>Start a new conversation</Trans>
-        </ButtonLink>
+        {withPeople.length > 0 && (
+          <ButtonLink
+            to={{
+              pathname: '/messages/new',
+              search: newSearchParams.toString(),
+            }}
+            primary
+          >
+            <Trans>Start a new conversation</Trans>
+          </ButtonLink>
+        )}
       </header>
       <ul className={styles.threadList}>
         {filteredThreads.map(thread => {

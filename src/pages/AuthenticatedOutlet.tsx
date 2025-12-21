@@ -1,3 +1,4 @@
+import { ExpiredSessionManager } from '@/components/ExpiredSessionManager/ExpiredSessionManager.tsx'
 import { Loading } from '@/components/Loading/Loading.tsx'
 import { usePreviousUriAfterLogin } from '@/hooks/usePreviousUriAfterLogin'
 import { selectAuth } from '@/redux/authSlice.ts'
@@ -20,5 +21,10 @@ export const AuthenticatedOutlet = () => {
 
   if (auth.isLoggedIn === false) return <UnauthenticatedHome />
 
-  return <SetupOutlet />
+  return (
+    <>
+      <SetupOutlet />
+      <ExpiredSessionManager />
+    </>
+  )
 }
