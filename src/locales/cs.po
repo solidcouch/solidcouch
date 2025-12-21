@@ -163,7 +163,7 @@ msgstr "kontakty"
 msgid "Contacts of <0/>"
 msgstr "Kontakty <0/>"
 
-#: src/components/SignIn/SignIn.tsx:133
+#: src/components/SignIn/SignIn.tsx:132
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
 #: src/pages/messages/Messages.tsx:468
@@ -479,7 +479,7 @@ msgstr "Nebo použít data (profil, nabídky ubytování, atd.) z jedné z vaši
 msgid "Or use your domain to host your own Solid Pod."
 msgstr "Nebo využijte svou doménu k hostování vlastního Solid Podu."
 
-#: src/components/SignIn/SignIn.tsx:121
+#: src/components/SignIn/SignIn.tsx:120
 msgid "or write your own Solid identity provider, or your webId"
 msgstr "nebo zadejte vlastního poskytovatele Solid identity, nebo své WebID"
 
@@ -588,7 +588,7 @@ msgstr "Zobrazit pozvánku ke kontaktu"
 msgid "Select my location"
 msgstr "Vyberte mou polohu"
 
-#: src/components/SignIn/SignIn.tsx:114
+#: src/components/SignIn/SignIn.tsx:113
 msgid "Select your Solid identity provider"
 msgstr "Vyberte svého poskytovatele Solid identity"
 
@@ -686,8 +686,8 @@ msgstr "Něco není vyřešeno (neočekávaná chyba)"
 msgid "Something went wrong."
 msgstr "Něco se nepovedlo."
 
-#: src/components/SignIn/SignIn.tsx:95
-#: src/components/SignIn/SignIn.tsx:106
+#: src/components/SignIn/SignIn.tsx:94
+#: src/components/SignIn/SignIn.tsx:105
 msgid ""
 "Something went wrong.\n"
 "Error: {e}"
@@ -767,7 +767,7 @@ msgstr "Aktualizuji ubytování"
 msgid "Updating profile"
 msgstr "Aktualizuji profil"
 
-#: src/components/SignIn/SignIn.tsx:91
+#: src/components/SignIn/SignIn.tsx:90
 msgid ""
 "We didn't succeed with redirecting to the issuer at {oidcIssuer}.\n"
 "Have you provided correct webId or OIDCIssuer? Or is it down?\n"
@@ -825,6 +825,6 @@ msgstr "Vaše e-mailová upozornění jsou nastavena."
 msgid "Your session has expired. Please sign in again."
 msgstr ""
 
-#: src/components/SignIn/SignIn.tsx:129
+#: src/components/SignIn/SignIn.tsx:128
 msgid "Your webId or provider"
 msgstr "Vaše WebID nebo poskytovatel"

@@ -46,12 +46,11 @@ export const SignInForm = ({
   const { t } = useLingui()
 
   const lastIssuer = useAppSelector(selectLastSelectedIssuer)
-  const isListedIssuer = oidcIssuers.some(iss => iss.issuer === lastIssuer)
 
   const { register, handleSubmit, setValue, watch } = useForm<{
     webIdOrIssuer: string
   }>({
-    defaultValues: { webIdOrIssuer: !isListedIssuer ? lastIssuer : '' },
+    defaultValues: { webIdOrIssuer: lastIssuer },
   })
 
   const dispatch = useAppDispatch()
@@ -158,6 +157,7 @@ const IdentityProviders = ({
             key={url}
             onClick={() => onSelect?.(url)}
             primary={selected === url}
+            data-testid={selected === url ? 'selected-pod-provider' : undefined}
           >
             {new URL(url).hostname}
           </Button>
