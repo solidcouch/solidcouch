@@ -36,18 +36,18 @@
       "contributions": ["content"]
     },
     {
-      "login": "petr-hajek",
-      "name": "petr-hajek",
-      "avatar_url": "https://avatars.githubusercontent.com/u/38785076?v=4",
-      "profile": "https://github.com/petr-hajek",
-      "contributions": ["code", "bug"]
-    },
-    {
       "login": "chagai95",
       "name": "chagai95",
       "avatar_url": "https://avatars.githubusercontent.com/u/31655082?v=4",
       "profile": "https://github.com/chagai95",
       "contributions": ["ideas", "promotion", "question"]
+    },
+    {
+      "login": "petr-hajek",
+      "name": "petr-hajek",
+      "avatar_url": "https://avatars.githubusercontent.com/u/38785076?v=4",
+      "profile": "https://github.com/petr-hajek",
+      "contributions": ["code", "bug"]
     },
     {
       "login": "TilmanJimenez",

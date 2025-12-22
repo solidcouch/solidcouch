@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show version and commit hash on homepage.
 - Setup e2e tests with Playwright.
 - Add and deploy Vitepress documentation
+- Add support for [Contributors list](./README.md#contributors-) using [all-contributors](https://github.com/all-contributors/all-contributors) specification
 
 ### Changed
 
