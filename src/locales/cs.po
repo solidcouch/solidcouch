@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/pages/messages/Messages.tsx:68
 msgid "\"{channel}\" is not a valid chat channel"
-msgstr ""
+msgstr "„{channel}“ není platný chatovací kanál"
 
 #: src/pages/EditProfile/EditInterests.tsx:59
 msgid "{label} added to interests"
@@ -115,7 +115,7 @@ msgstr "Zrušit"
 
 #: src/pages/messages/NewChat.tsx:41
 msgid "Chat channel was created"
-msgstr ""
+msgstr "Chatovací kanál byl vytvořen"
 
 #: src/pages/SetupOutlet.tsx:110
 msgid "Checking your setup..."
@@ -172,11 +172,11 @@ msgstr "Pokračovat"
 
 #: src/pages/Threads/Threads.tsx:74
 msgid "Conversations"
-msgstr "Konverzace"
+msgstr "Rozhovory"
 
 #: src/pages/Threads/Threads.tsx:77
 msgid "Conversations with {people}"
-msgstr ""
+msgstr "Rozhovory s {people}"
 
 #: src/pages/HospexSetup/Step0.tsx:164
 msgid "Create inbox:"
@@ -200,7 +200,7 @@ msgstr "Vytváření ubytování"
 
 #: src/pages/messages/NewChat.tsx:45
 msgid "Creating channel failed"
-msgstr ""
+msgstr "Nepodařilo se vytvořit kanál"
 
 #: src/pages/messages-old/MessagesOld.tsx:162
 msgid "Creating message"
@@ -241,7 +241,7 @@ msgstr "E-mailové upozornění bylo odesláno"
 
 #: src/pages/messages/useSendMessage.ts:122
 msgid "Email Notification was sent."
-msgstr ""
+msgstr "E-mailové upozornění bylo odesláno."
 
 #: src/pages/HospexSetup/Step2.tsx:254
 msgid "Email notifications are not available for this community."
@@ -257,7 +257,7 @@ msgstr "načítání kontaktů"
 
 #: src/pages/EditProfile/EditProfile.tsx:69
 msgid "Fetching profile"
-msgstr "načítání profilu"
+msgstr "Načítání profilu"
 
 #: src/pages/HospexSetup/Step2.tsx:132
 #: src/pages/HospexSetup/Step2.tsx:175
@@ -323,7 +323,7 @@ msgstr "Ignorovat"
 
 #: src/pages/HospexSetup/Step2.tsx:203
 msgid "Inbox is not set up"
-msgstr "Schránka není nastavena."
+msgstr "Schránka není nastavena"
 
 #: src/pages/HospexSetup/Step0.tsx:161
 msgid "Inbox is set up."
@@ -363,16 +363,16 @@ msgstr "Připojit se ke komunitě {communityLabel}"
 
 #: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:66
 msgid "Later"
-msgstr ""
+msgstr "Později"
 
 #: src/pages/messages/useSendMessage.ts:106
 msgid "Linked Data Notification was sent."
-msgstr ""
+msgstr "Linked Data upozornění bylo odesláno."
 
 #: src/pages/messages/Messages.tsx:463
 #: src/pages/messages/NewChat.tsx:76
 msgid "Loading"
-msgstr ""
+msgstr "Načítání"
 
 #: src/pages/EditProfile/EditInterests.tsx:68
 #: src/pages/Profile/Profile.tsx:95
@@ -395,10 +395,6 @@ msgstr "Načítání..."
 msgid "logo of {name}"
 msgstr "logo {name}"
 
-#: src/pages/messages-new/NewChat.tsx:117
-#~ msgid "Message"
-#~ msgstr ""
-
 #: src/pages/messages-old/MessagesOld.tsx:163
 #: src/pages/messages/useSendMessage.ts:76
 msgid "Message was created"
@@ -416,10 +412,6 @@ msgstr "Zprávy s {personLabel}"
 #: src/pages/messages-old/MessagesOld.tsx:207
 msgid "Messages with <0/>"
 msgstr "Zprávy s <0/>"
-
-#: src/pages/messages-with/MessagesWith.tsx:20
-#~ msgid "Messages With <0/>"
-#~ msgstr ""
 
 #: src/pages/MyOffers.tsx:101
 #: src/pages/MyOffers.tsx:145
@@ -449,11 +441,7 @@ msgstr "Jméno"
 
 #: src/pages/messages/NewChat.tsx:129
 msgid "New conversation with {people}"
-msgstr ""
-
-#: src/pages/messages-new/NewChat.tsx:115
-#~ msgid "New conversation with <0/>"
-#~ msgstr ""
+msgstr "Nový rozhovor s {people}"
 
 #: src/pages/messages-old/MessagesOld.tsx:131
 msgid "No authenticated user available"
@@ -469,7 +457,7 @@ msgstr "Probíhá oznámení indexační službě"
 
 #: src/components/Person/Person.tsx:95
 msgid "Open profile"
-msgstr ""
+msgstr "Otevřít profil"
 
 #: src/pages/HospexSetup/Step1.tsx:167
 msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
@@ -488,21 +476,13 @@ msgstr "nebo zadejte vlastního poskytovatele Solid identity, nebo své WebID"
 msgid "pending"
 msgstr "čeká"
 
-#: src/components/person/Person.tsx:87
-#~ msgid "Person"
-#~ msgstr ""
-
-#: src/components/person/Person.tsx:89
-#~ msgid "Person preview coming soon."
-#~ msgstr ""
-
 #: src/pages/EditProfile/EditProfile.tsx:153
 msgid "Photo"
 msgstr "Fotka"
 
 #: src/pages/messages/Messages.tsx:333
 msgid "Please <0>start a new one</0>."
-msgstr ""
+msgstr "Prosím, <0>založte nový</0>."
 
 #: src/pages/Profile/ManageContact.tsx:177
 msgid "Please invite only people you know personally."
@@ -510,7 +490,7 @@ msgstr "Pozvěte prosím pouze lidi, které osobně znáte."
 
 #: src/components/AccommodationForm/AccommodationForm.tsx:120
 msgid "Please move map to your hosting location"
-msgstr "Prosím, přesuňte mapu na místo vašeho hostování."
+msgstr "Prosím, přesuňte mapu na místo vašeho hostování"
 
 #: src/pages/HospexSetup/Step2.tsx:241
 msgid "Please verify your email"
@@ -599,7 +579,7 @@ msgstr "Odeslat"
 
 #: src/pages/messages/SendMessageForm.tsx:81
 msgid "Send a message…"
-msgstr ""
+msgstr "Poslat zprávu…"
 
 #: src/pages/HospexSetup/Step2.tsx:154
 #: src/pages/HospexSetup/Step2.tsx:235
@@ -616,19 +596,15 @@ msgstr "Probíhá odesílání e-mailového upozornění"
 
 #: src/pages/messages/useSendMessage.ts:126
 msgid "Sending Email Notification failed."
-msgstr ""
+msgstr "Nepodařilo se odeslat e-mailové upozornění"
 
 #: src/pages/messages/useSendMessage.ts:110
 msgid "Sending Linked Data Notification failed."
-msgstr ""
-
-#: src/pages/messages/useSendMessage.ts:99
-#~ msgid "Sending message failed"
-#~ msgstr ""
+msgstr "Nepodařilo se odeslat Linked Data upozornění."
 
 #: src/pages/messages/useSendMessage.ts:99
 msgid "Sending message failed: "
-msgstr ""
+msgstr "Nepodařilo se odeslat zprávu:"
 
 #: src/pages/messages-old/MessagesOld.tsx:177
 msgid "Sending Solid notification"
@@ -636,7 +612,7 @@ msgstr "Probíhá odesílání Solid upozornění"
 
 #: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:51
 msgid "Session Expired!"
-msgstr ""
+msgstr "Platnost přihlášení vypršela!"
 
 #: src/pages/HospexSetup/Step1.tsx:158
 msgid "Set up new data for this community:"
@@ -695,13 +671,9 @@ msgstr ""
 "Něco se pokazilo.\n"
 "Chyba: {e}"
 
-#: src/pages/messages-with/MessagesWith.tsx:28
-#~ msgid "Start a conversation"
-#~ msgstr ""
-
 #: src/pages/Threads/Threads.tsx:90
 msgid "Start a new conversation"
-msgstr ""
+msgstr "Začít nový rozhovor"
 
 #: src/components/ThemeSwitch/ThemeSwitch.tsx:21
 msgid "Switch to dark theme"
@@ -717,15 +689,11 @@ msgstr "Povězte ostatním o svém místě a hostování"
 
 #: src/pages/messages/Messages.tsx:246
 msgid "There doesn't seem to be a chat here."
-msgstr ""
-
-#: src/pages/messages/Messages.tsx:175
-#~ msgid "There doesn't seem to be a chat."
-#~ msgstr ""
+msgstr "Vypadá to, že tady není žádný rozhovor."
 
 #: src/pages/messages/Messages.tsx:329
 msgid "This chat has outdated format."
-msgstr ""
+msgstr "Tento rozhovor má zastaralý formát."
 
 #: src/components/AccommodationForm/AccommodationForm.tsx:145
 msgid "This field is required"
@@ -735,13 +703,9 @@ msgstr "Toto pole je povinné"
 msgid "This is a start of your conversation"
 msgstr "Toto je začátek vaší konverzace"
 
-#: src/pages/messages/Messages.tsx:175
-#~ msgid "This is not a chat."
-#~ msgstr ""
-
 #: src/pages/messages/SendMessageForm.tsx:72
 msgid "Title"
-msgstr ""
+msgstr "Název"
 
 #: src/components/Join/Join.tsx:161
 msgid "To complete the process, you must prove that the WebID on your domain belongs to you. Afterwards, the WebID must point to your Profile Document. (This may need more explanation.)"
@@ -810,7 +774,7 @@ msgstr "Můžete <0>hostovat svůj Pod</0>, čímž získáte plnou kontrolu nad
 
 #: src/pages/messages/Messages.tsx:328
 msgid "You can only read this chat."
-msgstr ""
+msgstr "Tento rozhovor můžete jen číst."
 
 #: src/pages/HospexSetup/Step2.tsx:230
 msgid "Your email"
@@ -823,7 +787,7 @@ msgstr "Vaše e-mailová upozornění jsou nastavena."
 
 #: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:58
 msgid "Your session has expired. Please sign in again."
-msgstr ""
+msgstr "Vaše přihlášení vypršelo. Přihlašte se, prosím, znovu."
 
 #: src/components/SignIn/SignIn.tsx:128
 msgid "Your webId or provider"

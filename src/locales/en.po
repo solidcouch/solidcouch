@@ -395,10 +395,6 @@ msgstr "Loading..."
 msgid "logo of {name}"
 msgstr "logo of {name}"
 
-#: src/pages/messages-new/NewChat.tsx:117
-#~ msgid "Message"
-#~ msgstr "Message"
-
 #: src/pages/messages-old/MessagesOld.tsx:163
 #: src/pages/messages/useSendMessage.ts:76
 msgid "Message was created"
@@ -416,10 +412,6 @@ msgstr "Messages with {personLabel}"
 #: src/pages/messages-old/MessagesOld.tsx:207
 msgid "Messages with <0/>"
 msgstr "Messages with <0/>"
-
-#: src/pages/messages-with/MessagesWith.tsx:20
-#~ msgid "Messages With <0/>"
-#~ msgstr "Messages With <0/>"
 
 #: src/pages/MyOffers.tsx:101
 #: src/pages/MyOffers.tsx:145
@@ -450,10 +442,6 @@ msgstr "Name"
 #: src/pages/messages/NewChat.tsx:129
 msgid "New conversation with {people}"
 msgstr "New conversation with {people}"
-
-#: src/pages/messages-new/NewChat.tsx:115
-#~ msgid "New conversation with <0/>"
-#~ msgstr "New conversation with <0/>"
 
 #: src/pages/messages-old/MessagesOld.tsx:131
 msgid "No authenticated user available"
@@ -487,14 +475,6 @@ msgstr "or write your own Solid identity provider, or your webId"
 #: src/pages/Contacts.tsx:74
 msgid "pending"
 msgstr "pending"
-
-#: src/components/person/Person.tsx:87
-#~ msgid "Person"
-#~ msgstr "Person"
-
-#: src/components/person/Person.tsx:89
-#~ msgid "Person preview coming soon."
-#~ msgstr "Person preview coming soon."
 
 #: src/pages/EditProfile/EditProfile.tsx:153
 msgid "Photo"
@@ -623,10 +603,6 @@ msgid "Sending Linked Data Notification failed."
 msgstr "Sending Linked Data Notification failed."
 
 #: src/pages/messages/useSendMessage.ts:99
-#~ msgid "Sending message failed"
-#~ msgstr "Sending message failed"
-
-#: src/pages/messages/useSendMessage.ts:99
 msgid "Sending message failed: "
 msgstr "Sending message failed: "
 
@@ -695,10 +671,6 @@ msgstr ""
 "Something went wrong.\n"
 "Error: {e}"
 
-#: src/pages/messages-with/MessagesWith.tsx:28
-#~ msgid "Start a conversation"
-#~ msgstr "Start a conversation"
-
 #: src/pages/Threads/Threads.tsx:90
 msgid "Start a new conversation"
 msgstr "Start a new conversation"
@@ -719,10 +691,6 @@ msgstr "Tell others about your place and hosting"
 msgid "There doesn't seem to be a chat here."
 msgstr "There doesn't seem to be a chat here."
 
-#: src/pages/messages/Messages.tsx:175
-#~ msgid "There doesn't seem to be a chat."
-#~ msgstr "There doesn't seem to be a chat."
-
 #: src/pages/messages/Messages.tsx:329
 msgid "This chat has outdated format."
 msgstr "This chat has outdated format."
@@ -734,10 +702,6 @@ msgstr "This field is required"
 #: src/pages/messages-old/MessagesOld.tsx:247
 msgid "This is a start of your conversation"
 msgstr "This is a start of your conversation"
-
-#: src/pages/messages/Messages.tsx:175
-#~ msgid "This is not a chat."
-#~ msgstr "This is not a chat."
 
 #: src/pages/messages/SendMessageForm.tsx:72
 msgid "Title"
