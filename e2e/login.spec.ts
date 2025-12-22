@@ -18,7 +18,7 @@ test.describe('Sign in to the app', () => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Sign in' }).click()
 
-    const issuerInput = page.getByRole('textbox', { name: 'webId or provider' })
+    const issuerInput = page.getByTestId('webid-idp-input')
     await issuerInput.fill(user.oidcIssuer)
     await issuerInput.press('Enter')
 
@@ -37,7 +37,7 @@ test.describe('Sign in to the app', () => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Sign in' }).click()
 
-    const issuerInput = page.getByRole('textbox', { name: 'webId or provider' })
+    const issuerInput = page.getByTestId('webid-idp-input')
     await issuerInput.fill(user.webId)
     await issuerInput.press('Enter')
 
@@ -56,7 +56,7 @@ test.describe('Sign in to the app', () => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Sign in' }).click()
 
-    const issuerInput = page.getByRole('textbox', { name: 'webId or provider' })
+    const issuerInput = page.getByTestId('webid-idp-input')
     await issuerInput.fill(user.oidcIssuer)
     await issuerInput.press('Enter')
 
@@ -77,9 +77,7 @@ test.describe('Sign in to the app', () => {
   }) => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Sign in' }).click()
-    await expect(
-      page.getByRole('textbox', { name: 'webId or provider' }),
-    ).toHaveValue('')
+    await expect(page.getByTestId('webid-idp-input')).toHaveValue('')
 
     await signIn(page, user)
     await expect(page.getByText('Prepare Pod')).toBeVisible()
@@ -87,18 +85,20 @@ test.describe('Sign in to the app', () => {
 
     await page.goto('/')
     await page.getByRole('button', { name: 'Sign in' }).click()
-    await expect(
-      page.getByRole('textbox', { name: 'webId or provider' }),
-    ).toHaveValue(user.oidcIssuer)
+    await expect(page.getByTestId('webid-idp-input')).toHaveValue(
+      user.oidcIssuer,
+    )
     // await expect(
     //   page.getByTestId('selected-pod-provider').first(),
     // ).toContainText(user.oidcIssuer.slice(7, -1))
   })
 
-  test('remember last provider selected at signup', async ({ page }) => {
+  test('remember last identity provider selected during signup', async ({
+    page,
+  }) => {
     await page.goto('/')
-    await page.getByRole('button', { name: 'Join' }).click()
-    await page.getByText('Show me some providers!').click()
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.getByText("Don't have a Solid Pod yet?").click()
     const register = page.getByRole('link', { name: 'solidcommunity.net' })
     register.evaluateAll(elements => {
       for (const el of elements) {
@@ -109,8 +109,14 @@ test.describe('Sign in to the app', () => {
     })
     await register.click()
     await expect(page).toHaveURL('/')
-    await page.getByText('Show me some providers!').press('Escape')
-    await page.getByRole('button', { name: 'Sign in' }).click()
+
+    await page
+      .getByRole('dialog')
+      .filter({ hasText: 'Choose a Pod provider' })
+      .press('Escape')
+    await expect(page.getByTestId('webid-idp-input')).toHaveValue(
+      'https://solidcommunity.net/',
+    )
     await expect(
       page.getByTestId('selected-pod-provider').first(),
     ).toContainText('solidcommunity.net')
@@ -120,7 +126,7 @@ test.describe('Sign in to the app', () => {
     await page.goto('/profile/edit?a=b&c=d#ef')
     await page.getByRole('button', { name: 'Sign in' }).click()
 
-    const issuerInput = page.getByRole('textbox', { name: 'webId or provider' })
+    const issuerInput = page.getByTestId('webid-idp-input')
     await issuerInput.fill(user.oidcIssuer)
     await issuerInput.press('Enter')
 

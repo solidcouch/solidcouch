@@ -40,10 +40,8 @@ export const signIn = async (
 ) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'Sign in' }).click()
-  await page.getByRole('textbox', { name: 'Your webId or provider' }).click()
-  await page
-    .getByRole('textbox', { name: 'Your webId or provider' })
-    .fill(account.oidcIssuer)
+  await page.getByTestId('webid-idp-input').click()
+  await page.getByTestId('webid-idp-input').fill(account.oidcIssuer)
   await page.getByRole('button', { name: 'Continue' }).click()
   try {
     await page

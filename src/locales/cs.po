@@ -26,9 +26,9 @@ msgstr "{label} byl přidán do zájmů"
 msgid "{messageCount, plural, one {(# new)} other {(# new)}}"
 msgstr "{messageCount, plural, one {(# nová)} few {(# nové)} other {(# nových)}}"
 
-#: src/components/Join/Join.tsx:240
-msgid "<0>Ask for help in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>"
-msgstr "<0>Požádejte o pomoc v našich projektových prostorech</0> nebo nám napište e-mail na <1>\"support at solidcouch dot org\"</1>"
+#: src/components/Join/Join.tsx:115
+msgid "<0>Reach us in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>."
+msgstr "<0>Ozvěte se nám v našich projektových prostorech</0> nebo napište na <1>„support zavináč solidcouch tečka org\"</1>."
 
 #: src/pages/HospexSetup/Step2.tsx:160
 msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
@@ -121,13 +121,13 @@ msgstr "Chatovací kanál byl vytvořen"
 msgid "Checking your setup..."
 msgstr "Kontroluji vaše nastavení..."
 
-#: src/components/Join/Join.tsx:69
-msgid "Choose for me!"
-msgstr "Vyberte za mě!"
+#: src/components/Join/Join.tsx:88
+msgid "Choose a Pod provider:"
+msgstr "Vyberte poskytovatele Podu:"
 
-#: src/components/Join/Join.tsx:143
-msgid "Choose option <0>\"Use my existing WebID to access my Pod\"</0> with one of these providers:"
-msgstr "Vyberte možnost <0>\"Použít moje existující WebID pro přístup k mému Podu\"</0> u jednoho z těchto poskytovatelů:"
+#: src/components/SignIn/SignIn.tsx:132
+msgid "Choose your Solid provider or WebID"
+msgstr "Zadejte svého Solid poskytovatele nebo WebID"
 
 #: src/components/Interests/Interest.tsx:72
 #: src/components/Person/Person.tsx:85
@@ -163,7 +163,7 @@ msgstr "kontakty"
 msgid "Contacts of <0/>"
 msgstr "Kontakty <0/>"
 
-#: src/components/SignIn/SignIn.tsx:132
+#: src/components/SignIn/SignIn.tsx:150
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
 #: src/pages/messages/Messages.tsx:468
@@ -214,13 +214,17 @@ msgstr "Smazat"
 msgid "Deleting accommodation"
 msgstr "Mazání ubytování"
 
-#: src/components/Join/Join.tsx:239
-msgid "Do you have troubles joining?"
-msgstr "Máte potíže s připojením?"
-
 #: src/pages/MyOffers.tsx:148
 msgid "Do you really want to delete the accommodation?"
 msgstr "Opravdu chcete smazat ubytování?"
+
+#: src/components/SignIn/SignIn.tsx:155
+msgid "Don't have a Solid Pod yet?"
+msgstr "Ještě nemáte Solid Pod?"
+
+#: src/components/SignIn/SignIn.tsx:146
+msgid "e.g. solidcommunity.net"
+msgstr "např. solidcommunity.net"
 
 #: src/pages/MyOffers.tsx:202
 msgid "Edit"
@@ -275,14 +279,6 @@ msgstr "zdůrazněné logo {name}"
 msgid "For safety, share only approximate location"
 msgstr "Kvůli bezpečí sdílejte pouze přibližnou polohu"
 
-#: src/components/Join/Join.tsx:74
-msgid "Get a Pod at solidcommunity.net 😉"
-msgstr "Získejte Pod na solidcommunity.net 😉"
-
-#: src/components/Join/Join.tsx:52
-msgid "Here are some Pod providers that work with {communityName}:"
-msgstr "Tady jsou poskytovatelé Podů, které fungují s {communityName}:"
-
 #: src/pages/Profile/ManageContact.tsx:164
 msgid "Hi! I'd like to add you as a contact!"
 msgstr "Ahoj! Rád(a) bych tě přidal(a) do kontaktů!"
@@ -307,14 +303,6 @@ msgstr "hostit"
 #: src/components/AccommodationForm/AccommodationForm.tsx:97
 msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Lokalita hostování (klikněte na <0/> nebo přetáhněte a přibližte mapu)"
-
-#: src/components/Join/Join.tsx:94
-msgid "I want more control"
-msgstr "Chci mít větší kontrolu"
-
-#: src/components/Join/Join.tsx:129
-msgid "If you own a <0>domain name</0>, you can have your <1>WebID</1> on your domain. This gives you more control over your Solid identity."
-msgstr "Pokud vlastníte <0>doménu</0>, můžete mít své <1>WebID</1> na své doméně. To vám dává větší kontrolu nad vaší Solid identitou."
 
 #: src/pages/messages/Messages.tsx:471
 #: src/pages/Profile/ManageContact.tsx:97
@@ -345,13 +333,9 @@ msgstr "Zájem odstraněn"
 msgid "Interests"
 msgstr "Zájmy"
 
-#: src/components/Join/Join.tsx:77
-msgid "It is managed by the Solid community folks, and has been migrated to a <0>modern and open-source Solid server</0>."
-msgstr "Spravuje to komunita Solid a bylo to přesunuto na <0>moderní a open-source Solid server</0>."
-
-#: src/components/Join/Join.tsx:197
-msgid "Join"
-msgstr "Připojit se"
+#: src/components/Join/Join.tsx:70
+msgid "Join {communityName}"
+msgstr "Připojte se k {communityName}"
 
 #: src/pages/HospexSetup/HospexSetup.tsx:84
 msgid "Join Community"
@@ -418,7 +402,7 @@ msgstr "Zprávy s <0/>"
 msgid "missing variables"
 msgstr "chybějící proměnné"
 
-#: src/components/SignIn/SignIn.tsx:167
+#: src/components/SignIn/SignIn.tsx:199
 msgid "more"
 msgstr "více"
 
@@ -438,6 +422,10 @@ msgstr "Moje poloha"
 #: src/pages/EditProfile/EditProfile.tsx:150
 msgid "Name"
 msgstr "Jméno"
+
+#: src/components/Join/Join.tsx:114
+msgid "Need help?"
+msgstr "Potřebujete pomoc?"
 
 #: src/pages/messages/NewChat.tsx:129
 msgid "New conversation with {people}"
@@ -462,14 +450,6 @@ msgstr "Otevřít profil"
 #: src/pages/HospexSetup/Step1.tsx:167
 msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
 msgstr "Nebo použít data (profil, nabídky ubytování, atd.) z jedné z vašich existujících komunit? <0>(Doporučeno pro podobné komunity)</0>"
-
-#: src/components/Join/Join.tsx:168
-msgid "Or use your domain to host your own Solid Pod."
-msgstr "Nebo využijte svou doménu k hostování vlastního Solid Podu."
-
-#: src/components/SignIn/SignIn.tsx:120
-msgid "or write your own Solid identity provider, or your webId"
-msgstr "nebo zadejte vlastního poskytovatele Solid identity, nebo své WebID"
 
 #: src/pages/Contacts.tsx:65
 #: src/pages/Contacts.tsx:74
@@ -496,7 +476,7 @@ msgstr "Prosím, přesuňte mapu na místo vašeho hostování"
 msgid "Please verify your email"
 msgstr "Ověřte prosím svůj e-mail"
 
-#: src/pages/UnauthenticatedHome.tsx:72
+#: src/pages/UnauthenticatedHome.tsx:66
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgstr "Postaveno na <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 
@@ -540,10 +520,6 @@ msgstr "Veřejný index typů není nastaven"
 msgid "Public type index is set up."
 msgstr "Veřejný index typů je nastaven."
 
-#: src/components/Join/Join.tsx:114
-msgid "Read more about <0>running your own Solid server</0>."
-msgstr "Přečtěte si více o <0>provozu vlastního Solid serveru</0>."
-
 #: src/pages/EditProfile/EditInterests.tsx:36
 msgid "Removing interest"
 msgstr "Odstraňování zájmu"
@@ -567,10 +543,6 @@ msgstr "Zobrazit pozvánku ke kontaktu"
 #: src/components/SelectLocation.tsx:114
 msgid "Select my location"
 msgstr "Vyberte mou polohu"
-
-#: src/components/SignIn/SignIn.tsx:113
-msgid "Select your Solid identity provider"
-msgstr "Vyberte svého poskytovatele Solid identity"
 
 #: src/pages/messages-old/MessagesOld.tsx:255
 #: src/pages/messages/SendMessageForm.tsx:87
@@ -596,7 +568,7 @@ msgstr "Probíhá odesílání e-mailového upozornění"
 
 #: src/pages/messages/useSendMessage.ts:126
 msgid "Sending Email Notification failed."
-msgstr "Nepodařilo se odeslat e-mailové upozornění"
+msgstr "Nepodařilo se odeslat e-mailové upozornění."
 
 #: src/pages/messages/useSendMessage.ts:110
 msgid "Sending Linked Data Notification failed."
@@ -604,7 +576,7 @@ msgstr "Nepodařilo se odeslat Linked Data upozornění."
 
 #: src/pages/messages/useSendMessage.ts:99
 msgid "Sending message failed: "
-msgstr "Nepodařilo se odeslat zprávu:"
+msgstr "Nepodařilo se odeslat zprávu: "
 
 #: src/pages/messages-old/MessagesOld.tsx:177
 msgid "Sending Solid notification"
@@ -638,13 +610,13 @@ msgstr "Nastavit hospex dokument a úložiště"
 msgid "Setup hospex document and storage:"
 msgstr "Nastavit hospex dokument a úložiště:"
 
-#: src/components/Join/Join.tsx:49
-msgid "Show me some providers!"
-msgstr "Ukázat poskytovatele!"
-
-#: src/components/SignIn/SignIn.tsx:21
+#: src/components/SignIn/SignIn.tsx:29
 msgid "Sign in"
 msgstr "Přihlásit se"
+
+#: src/components/SignIn/SignIn.tsx:129
+msgid "Sign in to {communityName}"
+msgstr "Přihlásit se do {communityName}"
 
 #: src/components/SignOut.tsx:18
 msgid "sign out"
@@ -662,8 +634,8 @@ msgstr "Něco není vyřešeno (neočekávaná chyba)"
 msgid "Something went wrong."
 msgstr "Něco se nepovedlo."
 
-#: src/components/SignIn/SignIn.tsx:94
-#: src/components/SignIn/SignIn.tsx:105
+#: src/components/SignIn/SignIn.tsx:109
+#: src/components/SignIn/SignIn.tsx:120
 msgid ""
 "Something went wrong.\n"
 "Error: {e}"
@@ -707,13 +679,9 @@ msgstr "Toto je začátek vaší konverzace"
 msgid "Title"
 msgstr "Název"
 
-#: src/components/Join/Join.tsx:161
-msgid "To complete the process, you must prove that the WebID on your domain belongs to you. Afterwards, the WebID must point to your Profile Document. (This may need more explanation.)"
-msgstr "K dokončení procesu musíte prokázat, že WebID na vaší doméně vám patří. Poté musí WebID směřovat na váš profilový dokument. (Toto může vyžadovat další vysvětlení.)"
-
-#: src/components/Join/Join.tsx:207
-msgid "To join {communityName}, you need a <0>Solid Pod</0>."
-msgstr "Pro připojení k {communityName} potřebujete <0>Solid Pod</0>."
+#: src/components/Join/Join.tsx:76
+msgid "To join {communityName}, you need a <0>Solid Pod</0> — a place to store your data."
+msgstr "Abyste se mohli připojit k {communityName}, potřebujete <0>Solid Pod</0> — místo pro vaše data."
 
 #: src/pages/Home.tsx:19
 msgid "travel"
@@ -731,7 +699,7 @@ msgstr "Aktualizuji ubytování"
 msgid "Updating profile"
 msgstr "Aktualizuji profil"
 
-#: src/components/SignIn/SignIn.tsx:90
+#: src/components/SignIn/SignIn.tsx:105
 msgid ""
 "We didn't succeed with redirecting to the issuer at {oidcIssuer}.\n"
 "Have you provided correct webId or OIDCIssuer? Or is it down?\n"
@@ -751,7 +719,7 @@ msgstr ""
 msgid "We're verifying that everything is configured correctly."
 msgstr "Ověřujeme, že je vše správně nastaveno."
 
-#: src/pages/UnauthenticatedHome.tsx:69
+#: src/pages/UnauthenticatedHome.tsx:63
 msgid "WIP"
 msgstr "Pracujeme na tom"
 
@@ -768,9 +736,9 @@ msgstr "Zdá se, že již jste členem některých komunit pro výměnu pohostin
 msgid "You are already a member of {communityLabel}"
 msgstr "Již jste členem {communityLabel}"
 
-#: src/components/Join/Join.tsx:98
-msgid "You can <0>host your Pod</0>. This will give you full control over your data. However, it's more complicated to set up, and requires maintenance. We recommend <1>Community Solid Server</1>."
-msgstr "Můžete <0>hostovat svůj Pod</0>, čímž získáte plnou kontrolu nad svými daty. Nastavení je však složitější a vyžaduje údržbu. Doporučujeme <1>Community Solid Server</1>."
+#: src/components/Join/Join.tsx:99
+msgid "You can also <0>host your own Pod</0>."
+msgstr "Můžete si také <0>provozovat vlastní Pod</0>."
 
 #: src/pages/messages/Messages.tsx:328
 msgid "You can only read this chat."
@@ -787,8 +755,4 @@ msgstr "Vaše e-mailová upozornění jsou nastavena."
 
 #: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:58
 msgid "Your session has expired. Please sign in again."
-msgstr "Vaše přihlášení vypršelo. Přihlašte se, prosím, znovu."
-
-#: src/components/SignIn/SignIn.tsx:128
-msgid "Your webId or provider"
-msgstr "Vaše WebID nebo poskytovatel"
+msgstr "Vaše přihlášení vypršelo. Přihlaste se, prosím, znovu."

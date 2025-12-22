@@ -35,7 +35,11 @@ const healIssuerURL = (
   oidcIssuers: IssuerConfig[],
 ): URI | undefined => {
   const issuerURL = new URL(issuer)
-  return oidcIssuers.find(iss => iss.issuer.includes(issuerURL.host))?.issuer
+  return oidcIssuers.find(
+    iss =>
+      issuerURL.host.length >= 5 &&
+      new URL(iss.issuer).host.includes(issuerURL.host),
+  )?.issuer
 }
 
 // Ensures the URL has a protocol; tries to fix if it doesn't.
