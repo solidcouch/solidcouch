@@ -23,7 +23,6 @@ if (emailNotificationsService && !emailNotificationsIdentity)
 // export const wikidataLDF = 'https://query.wikidata.org/bigdata/ldf'
 
 export type IssuerConfig = {
-  recommended?: boolean // the recommended provider for sign up
   featured?: boolean // featured providers for sign in
   issuer: string
   registration?: string
@@ -32,7 +31,6 @@ export type IssuerConfig = {
 
 export const oidcIssuers: IssuerConfig[] = [
   {
-    recommended: true,
     featured: true,
     issuer: 'https://solidcommunity.net/',
     registration:

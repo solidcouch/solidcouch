@@ -9,3 +9,5 @@ You can join one of these communities:
 - [SolidCouch Test instance](https://app.solidcouch.org) - Testing community running the latest SolidCouch software. It may change or disappear without notice.
 
 - Start your own!
+
+To join, you need a [Solid Pod](./solid-pod.md). This is where your data will be stored.

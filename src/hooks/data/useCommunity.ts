@@ -85,7 +85,7 @@ const useLanguage = <SubjectObject extends ObjectLike>(
 
       if (typeof result === 'string') return result
       if (result?.toString() === '[object LanguageSet]') {
-        const value = [...result][0]
+        const value = Array.from(result)[0]
         if (typeof value === 'string') return value
       }
     }

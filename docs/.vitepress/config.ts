@@ -22,6 +22,7 @@ export default defineConfig({
         text: 'Instances',
         link: '/instances',
       },
+      { text: 'Get a Solid Pod', link: '/solid-pod' },
       {
         text: 'Contribute',
         link: '/contribute',

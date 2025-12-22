@@ -1,4 +1,3 @@
-import { Join } from '@/components/Join/Join.tsx'
 import { Logo } from '@/components/Logo/Logo.tsx'
 import { SignIn } from '@/components/SignIn/SignIn.tsx'
 import { defaultLocale } from '@/config'
@@ -43,26 +42,21 @@ export const UnauthenticatedHome = () => {
     [community.about],
   )
 
-  const overview = pun ? (
-    <>
-      {pun}
-      {logo}
-      {mainDescription}
-    </>
-  ) : (
-    <>
-      {mainDescription}
-      {logo}
-    </>
-  )
-
   return (
     <div className={styles.wrapper}>
-      {overview}
-      <section className={styles.actions}>
-        <Join />
-        <SignIn />
-      </section>
+      {pun ? (
+        <>
+          {pun}
+          {logo}
+          {mainDescription}
+        </>
+      ) : (
+        <>
+          {mainDescription}
+          {logo}
+        </>
+      )}
+      <SignIn buttonClassName={styles.action} />
       <div className={styles.spacer} />
       <footer className={styles.footer}>
         <div className={styles.footerInfo}>

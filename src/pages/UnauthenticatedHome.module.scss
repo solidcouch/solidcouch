@@ -23,16 +23,10 @@
     font-style: italic;
   }
 
-  .actions {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap-reverse;
-
-    button {
-      padding: 1rem;
-      font-size: 1.2rem;
-    }
+  .action {
+    width: 100%;
+    max-width: 400px;
+    height: 4rem;
   }
 
   .logo {

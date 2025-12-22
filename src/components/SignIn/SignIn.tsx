@@ -1,23 +1,31 @@
 import { Button } from '@/components'
 import { Modal } from '@/components/Modal/Modal'
 import { guessIssuer } from '@/components/SignIn/oidcIssuer'
+import { defaultLocale } from '@/config'
 import { useConfig } from '@/config/hooks'
 import { useReadCommunity } from '@/hooks/data/useCommunity'
+import { useLocale } from '@/hooks/useLocale'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { actions, selectLastSelectedIssuer } from '@/redux/loginSlice'
 import { URI } from '@/types'
 import { login } from '@inrupt/solid-client-authn-browser'
 import { Trans, useLingui } from '@lingui/react/macro'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { Join } from '../Join/Join'
+import joinStyles from '../Join/Join.module.scss'
 import styles from './SignIn.module.scss'
 
-export const SignIn = () => {
+export const SignIn = ({ buttonClassName }: { buttonClassName?: string }) => {
   const [modalOpen, setModalOpen] = useState(false)
 
   return (
     <>
-      <Button secondary onClick={() => setModalOpen(true)}>
+      <Button
+        className={buttonClassName}
+        primary
+        onClick={() => setModalOpen(true)}
+      >
         <Trans>Sign in</Trans>
       </Button>
       <Modal
@@ -49,17 +57,22 @@ export const SignInForm = ({
 
   const { register, handleSubmit, setValue, watch } = useForm<{
     webIdOrIssuer: string
-  }>({
-    defaultValues: { webIdOrIssuer: lastIssuer },
-  })
+  }>({ defaultValues: { webIdOrIssuer: lastIssuer } })
+
+  useEffect(() => {
+    if (lastIssuer) setValue('webIdOrIssuer', lastIssuer)
+  }, [lastIssuer, setValue])
 
   const dispatch = useAppDispatch()
-
-  const community = useReadCommunity(communityId)
+  const locale = useLocale()
+  const community = useReadCommunity(communityId, locale, defaultLocale)
+  const communityName = community.name || defaultCommunityName
 
   // sign in on selecting a provider
-  const handleSelectIssuer = async (oidcIssuer: string) => {
-    const prevIssuer = lastIssuer ?? ''
+  const handleSelectIssuer = async (
+    oidcIssuer: string,
+    originalValue?: string,
+  ) => {
     // remember oidcIssuer for next logins
     dispatch(actions.setLastSelectedIssuer(oidcIssuer))
 
@@ -81,8 +94,10 @@ export const SignInForm = ({
 
       await onSuccess?.()
     } catch (e) {
-      // if login redirect was unsuccessful, revert to previous issuer
-      dispatch(actions.setLastSelectedIssuer(prevIssuer))
+      // if login redirect was unsuccessful, clear the issuer and revert to original input
+      dispatch(actions.setLastSelectedIssuer(''))
+      if (originalValue) setValue('webIdOrIssuer', originalValue)
+
       if (e instanceof TypeError) {
         const message = e.message
         const errorString = e.toString()
@@ -100,38 +115,46 @@ export const SignInForm = ({
   const handleFormSubmit = handleSubmit(async ({ webIdOrIssuer }) => {
     try {
       const issuer = await guessIssuer(webIdOrIssuer, oidcIssuers)
-      await handleSelectIssuer(issuer)
+      await handleSelectIssuer(issuer, webIdOrIssuer)
     } catch (e) {
       alert(t`Something went wrong.\nError: ${e}`)
     }
   })
 
   return (
-    <div className={styles.providers}>
-      {short ? null : (
+    <div className={styles.container}>
+      {!short && (
         <>
-          <Trans>Select your Solid identity provider</Trans>
+          <h1>
+            <Trans>Sign in to {communityName}</Trans>
+          </h1>
+          <div>
+            <Trans>Choose your Solid provider or WebID</Trans>
+          </div>
           <IdentityProviders
             selected={watch('webIdOrIssuer')}
             onSelect={(url: URI) => {
               setValue('webIdOrIssuer', url)
             }}
           />
-          <Trans>
-            or write your own Solid identity provider, or your webId
-          </Trans>
         </>
       )}
       <form className={styles.webIdForm} onSubmit={handleFormSubmit}>
         <input
           type="text"
-          placeholder={t`Your webId or provider`}
+          data-testid="webid-idp-input"
+          placeholder={t`e.g. solidcommunity.net`}
           {...register('webIdOrIssuer', { required: 'required' })}
         />
         <Button primary type="submit" disabled={!watch('webIdOrIssuer')}>
           <Trans>Continue</Trans>
         </Button>
       </form>
+      {!short && (
+        <Join>
+          <Trans>Don't have a Solid Pod yet?</Trans>
+        </Join>
+      )}
     </div>
   )
 }
@@ -147,26 +170,36 @@ const IdentityProviders = ({
   const [longList, setLongList] = useState(false)
 
   return (
-    <>
+    <ul className={joinStyles.providerList}>
       {oidcIssuers
         // show featured issuers in short list, or all in long list
         .filter(iss => iss.featured || longList)
         .map(({ issuer: url }) => (
-          <Button
-            secondary={selected !== url}
-            key={url}
-            onClick={() => onSelect?.(url)}
-            primary={selected === url}
-            data-testid={selected === url ? 'selected-pod-provider' : undefined}
-          >
-            {new URL(url).hostname}
-          </Button>
+          <li key={url}>
+            <Button
+              className={joinStyles.provider}
+              secondary={selected !== url}
+              onClick={() => onSelect?.(url)}
+              primary={selected === url}
+              data-testid={
+                selected === url ? 'selected-pod-provider' : undefined
+              }
+            >
+              {new URL(url).hostname}
+            </Button>
+          </li>
         ))}
       {!longList && (
-        <Button tertiary onClick={() => setLongList(true)}>
-          <Trans>more</Trans>
-        </Button>
+        <li>
+          <Button
+            tertiary
+            onClick={() => setLongList(true)}
+            className={joinStyles.provider}
+          >
+            <Trans>more</Trans>
+          </Button>
+        </li>
       )}
-    </>
+    </ul>
   )
 }
