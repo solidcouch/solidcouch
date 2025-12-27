@@ -7,7 +7,7 @@ import { FoafProfile, HospexProfile } from '@/ldo/app.typings'
 import { Person, URI } from '@/types'
 import { addLanguagesToLdo, getLanguages, ldo2json } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import merge from 'lodash/merge'
 import { NamedNode, Store } from 'n3'
@@ -17,11 +17,14 @@ import { hospexDocumentQuery, webIdProfileQuery } from './queries'
 import { useUpdateLdoDocument, useUpdateRdfDocument } from './useRdfDocument'
 
 export const useProfile = (webId: URI, communityId: URI) => {
-  const hospexDocumentQueryOutput = useLDhopQuery(
+  const hospexDocumentQueryOutput = useLdhopQuery(
     useMemo(
       () => ({
         query: hospexDocumentQuery,
-        variables: { person: webId ? [webId] : [], community: [communityId] },
+        variables: {
+          '?person': new Set([webId]),
+          '?community': new Set([communityId]),
+        },
         fetch,
       }),
       [communityId, webId],
@@ -30,11 +33,11 @@ export const useProfile = (webId: URI, communityId: URI) => {
 
   const { variables, isLoading } = hospexDocumentQueryOutput
 
-  const foafProfileQueryOutput = useLDhopQuery(
+  const foafProfileQueryOutput = useLdhopQuery(
     useMemo(
       () => ({
         query: webIdProfileQuery,
-        variables: { person: webId ? [webId] : [] },
+        variables: { '?person': new Set([webId]) },
         fetch,
       }),
       [webId],
@@ -47,13 +50,15 @@ export const useProfile = (webId: URI, communityId: URI) => {
   // https://github.com/o-development/ldo/issues/22#issuecomment-1590228592
 
   const hospexProfiles = useMemo(() => {
-    const hospexDocuments = variables.hospexDocumentForCommunity ?? []
-    const hospexGraphs = hospexDocuments.map(hospexDocument =>
+    const hospexDocuments =
+      variables['?hospexDocumentForCommunity'] ?? new Set()
+
+    const hospexGraphs = Array.from(hospexDocuments).map(hospexDocument =>
       new Store(hospexDocumentQueryOutput.quads).getQuads(
         null,
         null,
         null,
-        new NamedNode(hospexDocument),
+        hospexDocument,
       ),
     )
 
@@ -64,11 +69,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
     )
 
     return hospexLdos
-  }, [
-    hospexDocumentQueryOutput.quads,
-    variables.hospexDocumentForCommunity,
-    webId,
-  ])
+  }, [hospexDocumentQueryOutput.quads, variables, webId])
 
   // const hospexLdos = useMemo(
   //   () =>
@@ -157,7 +158,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
       [
         profile,
         isLoading,
-        variables.hospexDocumentForCommunity?.[0],
+        Array.from(variables['?hospexDocumentForCommunity'] ?? [])[0]?.value,
         interestsWithDocuments,
         hospexProfileFormatted,
       ] as const,
@@ -166,21 +167,18 @@ export const useProfile = (webId: URI, communityId: URI) => {
       interestsWithDocuments,
       isLoading,
       profile,
-      variables.hospexDocumentForCommunity,
+      variables,
     ],
   )
 }
 
 export const useSolidProfile = (person: URI) => {
-  const { quads, isFetched } = useLDhopQuery(
+  const { quads, isFetching, isLoading } = useLdhopQuery(
     useMemo(
       () => ({
         query: webIdProfileQuery,
-        variables: { person: [person] },
+        variables: { '?person': new Set([person]) },
         fetch,
-        getAdditionalData: results => ({
-          isFetched: results.every(result => result.isFetched),
-        }),
       }),
       [person],
     ),
@@ -189,8 +187,8 @@ export const useSolidProfile = (person: URI) => {
   const output = useMemo(() => {
     const dataset = createLdoDataset(quads)
     const profile = dataset.usingType(SolidProfileShapeType).fromSubject(person)
-    return [profile, { isFetched }] as const
-  }, [isFetched, person, quads])
+    return [profile, { isLoading, isFetching }] as const
+  }, [isFetching, isLoading, person, quads])
   return output
 }
 

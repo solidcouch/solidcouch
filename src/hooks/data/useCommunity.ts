@@ -2,7 +2,7 @@ import { defaultLocale } from '@/config'
 import { HospexCommunityShapeType } from '@/ldo/hospexCommunity.shapeTypes'
 import { URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery, useLDhopQuery } from '@ldhop/react'
 import type { ObjectLike } from '@ldo/jsonld-dataset-proxy'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import { useMemo } from 'react'
@@ -27,9 +27,12 @@ export const useIsMember = (userId: URI, communityId: URI) => {
 
 export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
   if (locales.length === 0) locales = [...locales, defaultLocale]
-  const { store, variables, isLoading } = useLDhopQuery({
+  const { store, variables, isLoading } = useLdhopQuery({
     query: readCommunityQuery,
-    variables: useMemo(() => ({ community: [communityId] }), [communityId]),
+    variables: useMemo(
+      () => ({ '?community': new Set([communityId]) }),
+      [communityId],
+    ),
     fetch,
   })
 
@@ -53,20 +56,11 @@ export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
       name,
       about,
       pun,
-      groups: variables.group ?? [],
+      groups: Array.from(variables['?group'] ?? []).map(v => v.value),
       isLoading,
-      inbox: variables.inbox?.[0],
+      inbox: Array.from(variables['?inbox'] ?? [])[0]?.value,
     }),
-    [
-      about,
-      community.logo,
-      communityId,
-      isLoading,
-      name,
-      pun,
-      variables.group,
-      variables.inbox,
-    ],
+    [about, community.logo, communityId, isLoading, name, pun, variables],
   )
 }
 

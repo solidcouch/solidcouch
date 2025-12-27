@@ -10,7 +10,7 @@ export const useStorage = (me: URI) => {
   const [profile, queryStatus] = useSolidProfile(me)
   const [rootStorage] = useRootStorage(me)
   const storages = profile?.storage?.map(s => s['@id']) ?? []
-  if (queryStatus.isFetched) return storages[0] ?? rootStorage
+  if (!queryStatus.isLoading) return storages[0] ?? rootStorage
 }
 
 const useRootStorage = (me: URI) => {

@@ -50,7 +50,7 @@ export const EditProfile = () => {
 
     // update profile
     await updateHospexProfile({
-      hospexDocument,
+      hospexDocument: hospexDocument,
       personId: auth.webId!,
       data: { ...data, photo: photoUri },
     })

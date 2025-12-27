@@ -354,10 +354,10 @@ const NewChatConfirmation = ({ channelUri }: { channelUri: URI }) => {
 
   let loading = false
 
-  const [solidProfile, { isFetched }] = useSolidProfile(auth.webId!)
+  const [solidProfile, { isLoading }] = useSolidProfile(auth.webId!)
   const privateTypeIndex = solidProfile.privateTypeIndex?.toArray()[0]?.['@id']
 
-  loading ||= !isFetched || !privateTypeIndex
+  loading ||= isLoading || !privateTypeIndex
 
   const typeIndexChatResults = useLDhopQuery(
     useMemo(
