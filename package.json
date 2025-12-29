@@ -42,8 +42,8 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@inrupt/solid-client-authn-browser": "^3.1.1",
-    "@ldhop/core": "^1.0.0-alpha.3",
-    "@ldhop/react": "^1.0.0-alpha.3",
+    "@ldhop/core": "^1.0.0-alpha.4",
+    "@ldhop/react": "^1.0.0-alpha.4",
     "@ldo/connected": "^1.0.0-alpha.32",
     "@ldo/connected-solid": "^1.0.0-alpha.32",
     "@ldo/jsonld-dataset-proxy": "^1.0.0-alpha.32",

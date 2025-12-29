@@ -27,14 +27,16 @@ export const useIsMember = (userId: URI, communityId: URI) => {
 
 export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
   if (locales.length === 0) locales = [...locales, defaultLocale]
-  const { store, variables, isLoading } = useLdhopQuery({
-    query: readCommunityQuery,
-    variables: useMemo(
-      () => ({ '?community': new Set([communityId]) }),
+  const { store, variables, isLoading } = useLdhopQuery(
+    useMemo(
+      () => ({
+        query: readCommunityQuery,
+        variables: { community: new Set([communityId]) },
+        fetch,
+      }),
       [communityId],
     ),
-    fetch,
-  })
+  )
 
   const community = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -56,11 +58,20 @@ export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
       name,
       about,
       pun,
-      groups: Array.from(variables['?group'] ?? []).map(v => v.value),
+      groups: Array.from(variables.group ?? []).map(v => v.value),
       isLoading,
-      inbox: Array.from(variables['?inbox'] ?? [])[0]?.value,
+      inbox: Array.from(variables.inbox ?? [])[0]?.value,
     }),
-    [about, community.logo, communityId, isLoading, name, pun, variables],
+    [
+      about,
+      community.logo,
+      communityId,
+      isLoading,
+      name,
+      pun,
+      variables.group,
+      variables.inbox,
+    ],
   )
 }
 

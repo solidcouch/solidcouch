@@ -6,7 +6,7 @@ import { ChatShapeType } from '@/ldo/app.shapeTypes'
 import { Chat as ChatShape } from '@/ldo/app.typings'
 import { type Thread } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { Trans, useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
@@ -18,11 +18,11 @@ import styles from './Threads.module.scss'
 export const Threads = () => {
   const auth = useAuth()
 
-  const threadsResults = useLDhopQuery(
+  const threadsResults = useLdhopQuery(
     useMemo(
       () => ({
         query: threadsQuery,
-        variables: { person: [auth.webId!] },
+        variables: { person: new Set([auth.webId!]) },
         fetch,
       }),
       [auth.webId],
@@ -33,9 +33,15 @@ export const Threads = () => {
 
   const withPeople = useMemo(() => searchParams.getAll('with'), [searchParams])
 
-  const channelUris = threadsResults.variables.channel ?? []
-  const inboxChannelUris = threadsResults.variables.chat ?? []
-  const connectedChannelUris = threadsResults.variables.instance ?? []
+  const channelUris = Array.from(threadsResults.variables.channel)
+    .filter(term => term.termType === 'NamedNode')
+    .map(term => term.value)
+  const inboxChannelUris = Array.from(threadsResults.variables.chat)
+    .filter(term => term.termType === 'NamedNode')
+    .map(term => term.value)
+  const connectedChannelUris = Array.from(threadsResults.variables.instance)
+    .filter(term => term.termType === 'NamedNode')
+    .map(term => term.value)
 
   const dataset = createLdoDataset(threadsResults.quads)
 

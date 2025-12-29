@@ -22,8 +22,8 @@ export const useProfile = (webId: URI, communityId: URI) => {
       () => ({
         query: hospexDocumentQuery,
         variables: {
-          '?person': new Set([webId]),
-          '?community': new Set([communityId]),
+          person: new Set([webId]),
+          community: new Set([communityId]),
         },
         fetch,
       }),
@@ -37,7 +37,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
     useMemo(
       () => ({
         query: webIdProfileQuery,
-        variables: { '?person': new Set([webId]) },
+        variables: { person: new Set([webId]) },
         fetch,
       }),
       [webId],
@@ -50,8 +50,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
   // https://github.com/o-development/ldo/issues/22#issuecomment-1590228592
 
   const hospexProfiles = useMemo(() => {
-    const hospexDocuments =
-      variables['?hospexDocumentForCommunity'] ?? new Set()
+    const hospexDocuments = variables.hospexDocumentForCommunity ?? new Set()
 
     const hospexGraphs = Array.from(hospexDocuments).map(hospexDocument =>
       new Store(hospexDocumentQueryOutput.quads).getQuads(
@@ -69,7 +68,11 @@ export const useProfile = (webId: URI, communityId: URI) => {
     )
 
     return hospexLdos
-  }, [hospexDocumentQueryOutput.quads, variables, webId])
+  }, [
+    hospexDocumentQueryOutput.quads,
+    variables.hospexDocumentForCommunity,
+    webId,
+  ])
 
   // const hospexLdos = useMemo(
   //   () =>
@@ -158,7 +161,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
       [
         profile,
         isLoading,
-        Array.from(variables['?hospexDocumentForCommunity'] ?? [])[0]?.value,
+        Array.from(variables.hospexDocumentForCommunity ?? [])[0]?.value,
         interestsWithDocuments,
         hospexProfileFormatted,
       ] as const,
@@ -167,7 +170,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
       interestsWithDocuments,
       isLoading,
       profile,
-      variables,
+      variables.hospexDocumentForCommunity,
     ],
   )
 }
@@ -177,7 +180,7 @@ export const useSolidProfile = (person: URI) => {
     useMemo(
       () => ({
         query: webIdProfileQuery,
-        variables: { '?person': new Set([person]) },
+        variables: { person: new Set([person]) },
         fetch,
       }),
       [person],

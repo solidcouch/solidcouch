@@ -166,15 +166,15 @@ msgstr "Kontakty <0/>"
 #: src/components/SignIn/SignIn.tsx:150
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:468
+#: src/pages/messages/Messages.tsx:470
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/pages/Threads/Threads.tsx:74
+#: src/pages/Threads/Threads.tsx:80
 msgid "Conversations"
 msgstr "Rozhovory"
 
-#: src/pages/Threads/Threads.tsx:77
+#: src/pages/Threads/Threads.tsx:83
 msgid "Conversations with {people}"
 msgstr "Rozhovory s {people}"
 
@@ -304,7 +304,7 @@ msgstr "hostit"
 msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Lokalita hostování (klikněte na <0/> nebo přetáhněte a přibližte mapu)"
 
-#: src/pages/messages/Messages.tsx:471
+#: src/pages/messages/Messages.tsx:473
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignorovat"
@@ -353,7 +353,7 @@ msgstr "Později"
 msgid "Linked Data Notification was sent."
 msgstr "Linked Data upozornění bylo odesláno."
 
-#: src/pages/messages/Messages.tsx:463
+#: src/pages/messages/Messages.tsx:465
 #: src/pages/messages/NewChat.tsx:76
 msgid "Loading"
 msgstr "Načítání"
@@ -389,7 +389,7 @@ msgstr "Zpráva byla vytvořena"
 msgid "messages"
 msgstr "zprávy"
 
-#: src/pages/Threads/Threads.tsx:143
+#: src/pages/Threads/Threads.tsx:149
 msgid "Messages with {personLabel}"
 msgstr "Zprávy s {personLabel}"
 
@@ -643,7 +643,7 @@ msgstr ""
 "Něco se pokazilo.\n"
 "Chyba: {e}"
 
-#: src/pages/Threads/Threads.tsx:90
+#: src/pages/Threads/Threads.tsx:96
 msgid "Start a new conversation"
 msgstr "Začít nový rozhovor"
 

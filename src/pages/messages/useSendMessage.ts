@@ -21,7 +21,7 @@ import {
 } from '@/utils/helpers'
 import { ldo2json } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { SolidLeafUri } from '@ldo/connected-solid'
 import { createLdoDataset } from '@ldo/ldo'
 import { t } from '@lingui/core/macro'
@@ -41,11 +41,11 @@ export const useSendMessage = ({
 }) => {
   const config = useConfig()
 
-  const solidProfileResults = useLDhopQuery(
+  const solidProfileResults = useLdhopQuery(
     useMemo(
       () => ({
         query: webIdProfileQuery,
-        variables: { person: [sender, ...receivers] },
+        variables: { person: new Set([sender, ...receivers]) },
         fetch,
       }),
       [receivers, sender],
@@ -190,23 +190,23 @@ export const useProfiles = (webIdsUnstable: URI[]) => {
 
   const webIds = useStableValue(webIdsUnstable)
 
-  const foafProfileResults = useLDhopQuery(
+  const foafProfileResults = useLdhopQuery(
     useMemo(
       () => ({
         query: webIdProfileQuery,
-        variables: { person: webIds },
+        variables: { person: new Set(webIds) },
         fetch,
       }),
       [webIds],
     ),
   )
-  const hospexProfileResults = useLDhopQuery(
+  const hospexProfileResults = useLdhopQuery(
     useMemo(
       () => ({
         query: hospexDocumentQuery,
         variables: {
-          person: webIds,
-          community: [config.communityId],
+          person: new Set(webIds),
+          community: new Set([config.communityId]),
         },
         fetch,
       }),
@@ -216,9 +216,7 @@ export const useProfiles = (webIdsUnstable: URI[]) => {
 
   const isReady = useMemo(() => {
     const isFoafProfilesReady =
-      !foafProfileResults.isLoading &&
-      !foafProfileResults.isMissing &&
-      foafProfileResults.quads.length > 0
+      !foafProfileResults.isLoading && foafProfileResults.quads.length > 0
     const isHospexProfilesReady =
       !hospexProfileResults.isLoading &&
       !hospexProfileResults.isMissing &&
@@ -230,8 +228,11 @@ export const useProfiles = (webIdsUnstable: URI[]) => {
   const hospexProfiles = useMemo(
     () =>
       webIds.map(webId => {
-        const hospexDocuments =
-          hospexProfileResults.variables.hospexDocumentForCommunity ?? []
+        const hospexDocuments = Array.from(
+          hospexProfileResults.variables.hospexDocumentForCommunity,
+        )
+          .filter(term => term.termType === 'NamedNode')
+          .map(term => term.value)
         const hospexGraphs = hospexDocuments.map(hospexDocument =>
           new Store(hospexProfileResults.quads).getQuads(
             null,

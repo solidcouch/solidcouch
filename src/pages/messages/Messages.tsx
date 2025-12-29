@@ -25,7 +25,7 @@ import {
 } from '@/utils/helpers'
 import { meeting } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery, useLDhopQuery } from '@ldhop/react'
 import { createLdoDataset, graphOf } from '@ldo/ldo'
 import { Trans } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -359,11 +359,11 @@ const NewChatConfirmation = ({ channelUri }: { channelUri: URI }) => {
 
   loading ||= isLoading || !privateTypeIndex
 
-  const typeIndexChatResults = useLDhopQuery(
+  const typeIndexChatResults = useLdhopQuery(
     useMemo(
       () => ({
         query: getTypeIndexChatQuery(),
-        variables: { person: [auth.webId!] },
+        variables: { person: new Set([auth.webId!]) },
         fetch,
       }),
       [auth.webId],
@@ -375,11 +375,11 @@ const NewChatConfirmation = ({ channelUri }: { channelUri: URI }) => {
     typeIndexChatResults.isMissing ||
     typeIndexChatResults.quads.length === 0
 
-  const notificationResults = useLDhopQuery(
+  const notificationResults = useLdhopQuery(
     useMemo(
       () => ({
         query: inboxMessagesQuery,
-        variables: { person: [auth.webId!] },
+        variables: { person: new Set([auth.webId!]) },
         fetch,
       }),
       [auth.webId],
@@ -393,18 +393,18 @@ const NewChatConfirmation = ({ channelUri }: { channelUri: URI }) => {
 
   const channelNotifications = useMemo(
     () =>
-      notificationResults.variables.messageNotification
+      Array.from(notificationResults.variables.messageNotification)
         ?.map(msgn =>
           createLdoDataset(notificationResults.quads)
             .usingType(MessageActivityShapeType)
-            .fromSubject(msgn),
+            .fromSubject(msgn.value),
         )
         .filter(n => n?.target?.['@id'] === channelUri)
         .flatMap(n => graphOf(n, 'object')) ?? [],
     [
+      channelUri,
       notificationResults.quads,
       notificationResults.variables.messageNotification,
-      channelUri,
     ],
   )
 
@@ -433,7 +433,9 @@ const NewChatConfirmation = ({ channelUri }: { channelUri: URI }) => {
   const isNew =
     !typeIndexChatResults.isMissing &&
     !typeIndexChatResults.isLoading &&
-    !typeIndexChatResults.variables.instance?.includes(channelUri)
+    !Array.from(typeIndexChatResults.variables.instance)
+      .map(a => a.value)
+      ?.includes(channelUri)
 
   const handleContinue = async () => {
     // add self as participant to chat
