@@ -1,10 +1,9 @@
 import { ContactInvitationActivityShapeType } from '@/ldo/app.shapeTypes'
 import { Contact, URI } from '@/types'
-import { removeHashFromURI } from '@/utils/helpers'
 import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset, set } from '@ldo/ldo'
 import { Store } from 'n3'
-import { foaf, rdfs } from 'rdf-namespaces'
+import { foaf, rdfs, solid } from 'rdf-namespaces'
 import { useCallback, useMemo } from 'react'
 import { useUpdateAcl } from './access'
 import { contactRequestsQuery, contactsQuery } from './queries'
@@ -38,22 +37,23 @@ export const useReadContacts = (personId: URI) => {
 
     return Array.from(variables.otherPerson).map(otherPerson => {
       // find personal and profile documents of otherPerson
-      const personalDocument = removeHashFromURI(otherPerson.value)
-      const extendedDocuments = store.getObjects(
-        otherPerson,
-        rdfs.seeAlso,
-        personalDocument,
-      )
+      // TODO this should be replaced with uri=>resource map when it's available from the engine
+      // i.e. we should use the response.url of the otherPerson URI.
+      const personalDocument = store
+        .getGraphs(otherPerson, solid.oidcIssuer, null)
+        .values()
+        .next().value?.value
+
+      const extendedDocuments = personalDocument
+        ? store.getObjects(otherPerson.value, rdfs.seeAlso, personalDocument)
+        : []
       // see if the other person advertises contact to the person
-      const knowsPersonal = store.getQuads(
-        otherPerson,
-        foaf.knows,
-        personId,
-        personalDocument,
-      )
+      const knowsPersonal = personalDocument
+        ? store.getQuads(otherPerson, foaf.knows, personId, personalDocument)
+        : []
 
       const knowsExtended = extendedDocuments.flatMap(ed =>
-        store.getQuads(otherPerson, foaf.knows, personId, ed),
+        store.getQuads(otherPerson.value, foaf.knows, personId, ed),
       )
 
       return {

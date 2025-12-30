@@ -125,7 +125,7 @@ export const useSearchAccommodations = (
         fallback
           ? {
               query: searchAccommodationsQuery,
-              variables: { community: new Set([communityId]) },
+              variables: { community: [communityId] },
               fetch,
               store: new Store(),
             }
