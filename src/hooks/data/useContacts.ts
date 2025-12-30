@@ -1,7 +1,7 @@
 import { ContactInvitationActivityShapeType } from '@/ldo/app.shapeTypes'
 import { Contact, URI } from '@/types'
 import { removeHashFromURI } from '@/utils/helpers'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset, set } from '@ldo/ldo'
 import { Store } from 'n3'
 import { foaf, rdfs } from 'rdf-namespaces'
@@ -22,7 +22,7 @@ export enum ContactStatus {
 }
 
 export const useReadContacts = (personId: URI) => {
-  const { quads, variables, isLoading } = useLDhopQuery(
+  const { quads, variables, isLoading } = useLdhopQuery(
     useMemo(
       () => ({
         query: contactsQuery,
@@ -36,9 +36,9 @@ export const useReadContacts = (personId: URI) => {
   const contacts: Contact[] = useMemo(() => {
     const store = new Store(quads)
 
-    return (variables.otherPerson ?? []).map(otherPerson => {
+    return Array.from(variables.otherPerson).map(otherPerson => {
       // find personal and profile documents of otherPerson
-      const personalDocument = removeHashFromURI(otherPerson)
+      const personalDocument = removeHashFromURI(otherPerson.value)
       const extendedDocuments = store.getObjects(
         otherPerson,
         rdfs.seeAlso,
@@ -57,7 +57,7 @@ export const useReadContacts = (personId: URI) => {
       )
 
       return {
-        webId: otherPerson,
+        webId: otherPerson.value,
         status:
           knowsPersonal.length + knowsExtended.length > 0
             ? ContactStatus.confirmed
@@ -81,7 +81,7 @@ export const useReadContacts = (personId: URI) => {
 }
 
 const useReadContactNotifications = (me: URI) => {
-  const { quads, variables, isLoading } = useLDhopQuery(
+  const { quads, variables, isLoading } = useLdhopQuery(
     useMemo(
       () => ({
         query: contactRequestsQuery,
@@ -93,12 +93,12 @@ const useReadContactNotifications = (me: URI) => {
   )
 
   const contacts: Contact[] = useMemo(() => {
-    const notifications = variables.inviteNotification ?? []
+    const notifications = variables.inviteNotification
     const dataset = createLdoDataset(quads).usingType(
       ContactInvitationActivityShapeType,
     )
-    return notifications
-      .map(notification => dataset.fromSubject(notification))
+    return Array.from(notifications)
+      .map(notification => dataset.fromSubject(notification.value))
       .filter(
         ldo =>
           ldo.object?.subject?.['@id'] === ldo.actor?.['@id'] &&

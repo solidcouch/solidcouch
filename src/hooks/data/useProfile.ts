@@ -21,10 +21,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
     useMemo(
       () => ({
         query: hospexDocumentQuery,
-        variables: {
-          person: new Set([webId]),
-          community: new Set([communityId]),
-        },
+        variables: { person: [webId], community: [communityId] },
         fetch,
       }),
       [communityId, webId],
@@ -37,7 +34,7 @@ export const useProfile = (webId: URI, communityId: URI) => {
     useMemo(
       () => ({
         query: webIdProfileQuery,
-        variables: { person: new Set([webId]) },
+        variables: { person: [webId] },
         fetch,
       }),
       [webId],
@@ -180,7 +177,7 @@ export const useSolidProfile = (person: URI) => {
     useMemo(
       () => ({
         query: webIdProfileQuery,
-        variables: { person: new Set([person]) },
+        variables: { person: [person] },
         fetch,
       }),
       [person],

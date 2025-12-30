@@ -2,14 +2,14 @@ import { defaultLocale } from '@/config'
 import { HospexCommunityShapeType } from '@/ldo/hospexCommunity.shapeTypes'
 import { URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLdhopQuery, useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import type { ObjectLike } from '@ldo/jsonld-dataset-proxy'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import { useMemo } from 'react'
 import { readCommunityMembersQuery, readCommunityQuery } from './queries'
 
 export const useIsMember = (userId: URI, communityId: URI) => {
-  const { variables, isLoading } = useLDhopQuery(
+  const { variables, isLoading } = useLdhopQuery(
     useMemo(
       () => ({
         query: readCommunityMembersQuery,
@@ -22,7 +22,7 @@ export const useIsMember = (userId: URI, communityId: URI) => {
 
   if (isLoading) return undefined
 
-  return (variables.person ?? []).includes(userId)
+  return Array.from(variables.person).some(term => term.value === userId)
 }
 
 export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
@@ -31,7 +31,7 @@ export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
     useMemo(
       () => ({
         query: readCommunityQuery,
-        variables: { community: new Set([communityId]) },
+        variables: { community: [communityId] },
         fetch,
       }),
       [communityId],

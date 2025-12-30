@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/messages/Messages.tsx:68
+#: src/pages/messages/Messages.tsx:69
 msgid "\"{channel}\" is not a valid chat channel"
 msgstr "\"{channel}\" is not a valid chat channel"
 
@@ -166,7 +166,7 @@ msgstr "Contacts of <0/>"
 #: src/components/SignIn/SignIn.tsx:150
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:470
+#: src/pages/messages/Messages.tsx:472
 msgid "Continue"
 msgstr "Continue"
 
@@ -304,7 +304,7 @@ msgstr "host"
 msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Hosting location (click <0/> or drag & zoom map)"
 
-#: src/pages/messages/Messages.tsx:473
+#: src/pages/messages/Messages.tsx:475
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignore"
@@ -353,7 +353,7 @@ msgstr "Later"
 msgid "Linked Data Notification was sent."
 msgstr "Linked Data Notification was sent."
 
-#: src/pages/messages/Messages.tsx:465
+#: src/pages/messages/Messages.tsx:467
 #: src/pages/messages/NewChat.tsx:76
 msgid "Loading"
 msgstr "Loading"
@@ -460,7 +460,7 @@ msgstr "pending"
 msgid "Photo"
 msgstr "Photo"
 
-#: src/pages/messages/Messages.tsx:333
+#: src/pages/messages/Messages.tsx:335
 msgid "Please <0>start a new one</0>."
 msgstr "Please <0>start a new one</0>."
 
@@ -659,11 +659,11 @@ msgstr "Switch to light theme"
 msgid "Tell others about your place and hosting"
 msgstr "Tell others about your place and hosting"
 
-#: src/pages/messages/Messages.tsx:246
+#: src/pages/messages/Messages.tsx:248
 msgid "There doesn't seem to be a chat here."
 msgstr "There doesn't seem to be a chat here."
 
-#: src/pages/messages/Messages.tsx:329
+#: src/pages/messages/Messages.tsx:331
 msgid "This chat has outdated format."
 msgstr "This chat has outdated format."
 
@@ -740,7 +740,7 @@ msgstr "You are already a member of {communityLabel}"
 msgid "You can also <0>host your own Pod</0>."
 msgstr "You can also <0>host your own Pod</0>."
 
-#: src/pages/messages/Messages.tsx:328
+#: src/pages/messages/Messages.tsx:330
 msgid "You can only read this chat."
 msgstr "You can only read this chat."
 

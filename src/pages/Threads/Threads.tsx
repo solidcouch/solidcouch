@@ -22,7 +22,7 @@ export const Threads = () => {
     useMemo(
       () => ({
         query: threadsQuery,
-        variables: { person: new Set([auth.webId!]) },
+        variables: { person: [auth.webId!] },
         fetch,
       }),
       [auth.webId],

@@ -14,8 +14,8 @@ export const useReadEmailVerificationSetup = () => {
     query: emailVerificationQuery,
     variables: useMemo(
       () => ({
-        person: auth.webId ? new Set([auth.webId]) : undefined,
-        community: new Set([communityId]),
+        person: auth.webId ? [auth.webId] : undefined,
+        community: [communityId],
       }),
       [auth.webId, communityId],
     ),

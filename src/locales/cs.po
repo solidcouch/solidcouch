@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/messages/Messages.tsx:68
+#: src/pages/messages/Messages.tsx:69
 msgid "\"{channel}\" is not a valid chat channel"
 msgstr "„{channel}“ není platný chatovací kanál"
 
@@ -166,7 +166,7 @@ msgstr "Kontakty <0/>"
 #: src/components/SignIn/SignIn.tsx:150
 #: src/pages/HospexSetup/Step0.tsx:177
 #: src/pages/HospexSetup/Step1.tsx:198
-#: src/pages/messages/Messages.tsx:470
+#: src/pages/messages/Messages.tsx:472
 msgid "Continue"
 msgstr "Pokračovat"
 
@@ -304,7 +304,7 @@ msgstr "hostit"
 msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Lokalita hostování (klikněte na <0/> nebo přetáhněte a přibližte mapu)"
 
-#: src/pages/messages/Messages.tsx:473
+#: src/pages/messages/Messages.tsx:475
 #: src/pages/Profile/ManageContact.tsx:97
 msgid "Ignore"
 msgstr "Ignorovat"
@@ -353,7 +353,7 @@ msgstr "Později"
 msgid "Linked Data Notification was sent."
 msgstr "Linked Data upozornění bylo odesláno."
 
-#: src/pages/messages/Messages.tsx:465
+#: src/pages/messages/Messages.tsx:467
 #: src/pages/messages/NewChat.tsx:76
 msgid "Loading"
 msgstr "Načítání"
@@ -460,7 +460,7 @@ msgstr "čeká"
 msgid "Photo"
 msgstr "Fotka"
 
-#: src/pages/messages/Messages.tsx:333
+#: src/pages/messages/Messages.tsx:335
 msgid "Please <0>start a new one</0>."
 msgstr "Prosím, <0>založte nový</0>."
 
@@ -659,11 +659,11 @@ msgstr "Přepnout na světlé téma"
 msgid "Tell others about your place and hosting"
 msgstr "Povězte ostatním o svém místě a hostování"
 
-#: src/pages/messages/Messages.tsx:246
+#: src/pages/messages/Messages.tsx:248
 msgid "There doesn't seem to be a chat here."
 msgstr "Vypadá to, že tady není žádný rozhovor."
 
-#: src/pages/messages/Messages.tsx:329
+#: src/pages/messages/Messages.tsx:331
 msgid "This chat has outdated format."
 msgstr "Tento rozhovor má zastaralý formát."
 
@@ -740,7 +740,7 @@ msgstr "Již jste členem {communityLabel}"
 msgid "You can also <0>host your own Pod</0>."
 msgstr "Můžete si také <0>provozovat vlastní Pod</0>."
 
-#: src/pages/messages/Messages.tsx:328
+#: src/pages/messages/Messages.tsx:330
 msgid "You can only read this chat."
 msgstr "Tento rozhovor můžete jen číst."
 

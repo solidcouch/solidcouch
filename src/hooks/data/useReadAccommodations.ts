@@ -2,7 +2,7 @@ import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
 import { Accommodation, URI } from '@/types'
 import { getLanguages } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
 import { readPersonAccommodationsQuery } from './queries'
@@ -11,22 +11,26 @@ import { readPersonAccommodationsQuery } from './queries'
  * Read accommodations of a person
  */
 export const useReadAccommodations = (personId: URI, communityId: URI) => {
-  const { variables, quads, isLoading } = useLDhopQuery({
-    query: readPersonAccommodationsQuery,
-    variables: useMemo(
-      () => ({ person: [personId], community: [communityId] }),
+  const { variables, quads, isLoading } = useLdhopQuery(
+    useMemo(
+      () => ({
+        query: readPersonAccommodationsQuery,
+        variables: {
+          person: [personId],
+          community: [communityId],
+        },
+        fetch,
+      }),
       [communityId, personId],
     ),
-    fetch,
-  })
+  )
 
   return useMemo(() => {
     const dataset = createLdoDataset(quads)
-    const offerIds = variables.offer ?? []
 
-    const accommodations: Accommodation[] = offerIds
+    const accommodations: Accommodation[] = Array.from(variables.offer)
       .map(offerId =>
-        dataset.usingType(AccommodationShapeType).fromSubject(offerId),
+        dataset.usingType(AccommodationShapeType).fromSubject(offerId.value),
       )
       .filter(
         a => a?.location?.lat !== undefined && a?.location?.long !== undefined,

@@ -205,8 +205,8 @@ export const useProfiles = (webIdsUnstable: URI[]) => {
       () => ({
         query: hospexDocumentQuery,
         variables: {
-          person: new Set(webIds),
-          community: new Set([config.communityId]),
+          person: webIds,
+          community: [config.communityId],
         },
         fetch,
       }),

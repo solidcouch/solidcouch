@@ -1,14 +1,14 @@
 import { ChatShapeType } from '@/ldo/app.shapeTypes'
 import { Message, URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
 import { messages as messagesQuery } from './queries'
 import { useReadMessagesFromInbox } from './useReadThreads'
 
 export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
-  const { quads, variables, isLoading } = useLDhopQuery(
+  const { quads, variables, isLoading } = useLdhopQuery(
     useMemo(
       () => ({
         query: messagesQuery,
@@ -23,9 +23,8 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
   const messages: Message[] = useMemo(() => {
     const dataset = createLdoDataset(quads).usingType(ChatShapeType)
     const messages = (
-      (variables.chatWithOtherPerson ?? [])
-        .concat(variables.otherChat ?? [])
-        .map(c => dataset.fromSubject(c))
+      [...variables.chatWithOtherPerson, ...variables.otherChat]
+        .map(term => dataset.fromSubject(term.value))
         .filter(
           chat => chat.participation?.size && chat.participation.size <= 2,
         )
@@ -52,8 +51,8 @@ export const useReadMessages = ({ me, userId }: { me: URI; userId: URI }) => {
   const myChats = useMemo(() => {
     const dataset = createLdoDataset(quads).usingType(ChatShapeType)
 
-    const chats = (variables.chatWithOtherPerson ?? [])
-      .map(c => dataset.fromSubject(c))
+    const chats = Array.from(variables.chatWithOtherPerson)
+      .map(term => dataset.fromSubject(term.value))
       .filter(chat => chat.participation?.size && chat.participation.size <= 2)
       .flatMap(ch =>
         ch['@id']

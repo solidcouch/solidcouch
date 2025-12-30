@@ -25,7 +25,8 @@ import {
 } from '@/utils/helpers'
 import { meeting } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLdhopQuery, useLDhopQuery } from '@ldhop/react'
+import { LdhopQuery } from '@ldhop/core'
+import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset, graphOf } from '@ldo/ldo'
 import { Trans } from '@lingui/react/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -43,7 +44,7 @@ import styles from './Messages.module.scss'
 import { SendMessageForm } from './SendMessageForm'
 import { useSendMessage } from './useSendMessage'
 
-const chatQuery = [
+const chatQuery: LdhopQuery<Variables | '?participation' | '?participant'> = [
   ...getChatMessagesQuery(Variables),
   ...getChatParticipantsQuery(Variables),
   ...getChatLegacyLinkQuery(Variables),
@@ -76,7 +77,7 @@ const Messages = ({ channelUri }: { channelUri: URI }) => {
   const firstLoad = useRef(true)
   const listRef = useRef<HTMLUListElement>(null)
 
-  const results = useLDhopQuery(
+  const results = useLdhopQuery(
     useMemo(
       () => ({
         query: chatQuery,
@@ -103,7 +104,7 @@ const Messages = ({ channelUri }: { channelUri: URI }) => {
   const isLegacy = channel.participation?.some(p => p.references?.size ?? 0 > 0)
   // || (channel.message?.size ?? 0) > 0
 
-  const notificationResults = useLDhopQuery(
+  const notificationResults = useLdhopQuery(
     useMemo(
       () => ({
         query: inboxMessagesQuery,
@@ -116,11 +117,11 @@ const Messages = ({ channelUri }: { channelUri: URI }) => {
 
   const channelNotifications = useMemo(
     () =>
-      notificationResults.variables.messageNotification
-        ?.map(msgn =>
+      Array.from(notificationResults.variables.messageNotification)
+        .map(msgn =>
           createLdoDataset(notificationResults.quads)
             .usingType(MessageActivityShapeType)
-            .fromSubject(msgn),
+            .fromSubject(msgn.value),
         )
         .filter(n => n?.target?.['@id'] === channelUri)
         .flatMap(n => ({
@@ -144,7 +145,7 @@ const Messages = ({ channelUri }: { channelUri: URI }) => {
     }
   }, [channel.message?.size, results.isLoading, results.isMissing])
 
-  const typeIndexChatResults = useLDhopQuery(
+  const typeIndexChatResults = useLdhopQuery(
     useMemo(
       () => ({
         query: getTypeIndexChatQuery(),
@@ -156,8 +157,9 @@ const Messages = ({ channelUri }: { channelUri: URI }) => {
   )
 
   // do i have the channel in my type indexes?
-  const isSavedInTypeIndex =
-    typeIndexChatResults.variables.instance?.includes(channelUri)
+  const isSavedInTypeIndex = Array.from(
+    typeIndexChatResults.variables.instance,
+  ).some(term => term.value === channelUri)
   // is the url a chat channel?
   const isChat = channel.type?.some(t => t['@id'] === 'LongChat')
   // am i a participant?
@@ -363,7 +365,7 @@ const NewChatConfirmation = ({ channelUri }: { channelUri: URI }) => {
     useMemo(
       () => ({
         query: getTypeIndexChatQuery(),
-        variables: { person: new Set([auth.webId!]) },
+        variables: { person: [auth.webId!] },
         fetch,
       }),
       [auth.webId],
@@ -379,7 +381,7 @@ const NewChatConfirmation = ({ channelUri }: { channelUri: URI }) => {
     useMemo(
       () => ({
         query: inboxMessagesQuery,
-        variables: { person: new Set([auth.webId!]) },
+        variables: { person: [auth.webId!] },
         fetch,
       }),
       [auth.webId],

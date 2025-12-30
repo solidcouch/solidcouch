@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { ChatShapeType } from '@/ldo/app.shapeTypes'
 import { getContainer } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
 import { FaCircle, FaExclamation } from 'react-icons/fa'
@@ -17,7 +17,7 @@ import styles from './ChatList.module.scss'
 export const ChatList = () => {
   const auth = useAuth()
 
-  const threadsResults = useLDhopQuery(
+  const threadsResults = useLdhopQuery(
     useMemo(
       () => ({
         query: threadsQuery,
@@ -28,20 +28,13 @@ export const ChatList = () => {
     ),
   )
 
-  const channelUris = useMemo(
-    () => threadsResults.variables.channel ?? [],
-    [threadsResults.variables.channel],
-  )
-  const inboxChannelUris = threadsResults.variables.chat ?? []
-  const connectedChannelUris = threadsResults.variables.instance ?? []
-
   const dataset = createLdoDataset(threadsResults.quads)
 
   const chats = useMemo(
     () =>
-      channelUris
-        .map(uri => {
-          const chat = dataset.usingType(ChatShapeType).fromSubject(uri)
+      Array.from(threadsResults.variables.channel)
+        .map(term => {
+          const chat = dataset.usingType(ChatShapeType).fromSubject(term.value)
           // Pre-calculate the latest timestamp once
           const timestamps = [
             chat.message
@@ -54,7 +47,7 @@ export const ChatList = () => {
         })
         .sort((a, b) => b.latestActivity - a.latestActivity) // Descending
         .map(item => item.chat),
-    [channelUris, dataset],
+    [dataset, threadsResults.variables.channel],
   ) // Extract original object
 
   const chatAccesses = useReadAccesses(
@@ -72,8 +65,12 @@ export const ChatList = () => {
     <nav>
       <ul className={styles.chatList}>
         {chats.map((chat, i) => {
-          const unread = inboxChannelUris?.includes(chat['@id']!)
-          const disconnected = !connectedChannelUris?.includes(chat['@id']!)
+          const unread = Array.from(threadsResults.variables.chat).some(
+            term => term.value === chat['@id'],
+          )
+          const disconnected = Array.from(
+            threadsResults.variables.instance,
+          ).some(term => term.value === chat['@id']!)
           const explicitParticipants =
             chat.participation?.map(p => p.participant['@id']) ?? []
           const aclParticipants = accessParticipantsFromAcl[i] ?? []

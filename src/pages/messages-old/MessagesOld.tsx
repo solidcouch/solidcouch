@@ -40,7 +40,7 @@ export const MessagesOld = () => {
 
   const [messages, fetchingStatus, notificationsFetchingStatus, chats] =
     useReadMessages({
-      me: auth.webId ?? '',
+      me: auth.webId!,
       userId: personId,
     })
 
@@ -48,7 +48,7 @@ export const MessagesOld = () => {
     privateTypeIndexes,
     personalHospexDocuments,
     // inboxes: [myInbox],
-  } = useCheckSetup(auth.webId ?? '', communityId)
+  } = useCheckSetup(auth.webId!, communityId)
 
   const [otherPersonSetup] = useSolidProfile(personId)
   const otherInbox = otherPersonSetup?.inbox?.['@id']
