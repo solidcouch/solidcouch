@@ -1,6 +1,6 @@
 import { useConfig } from '@/config/hooks'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import zipWith from 'lodash/zipWith'
 import { useMemo } from 'react'
 import { useAuth } from '../useAuth'
@@ -10,7 +10,7 @@ import { emailVerificationQuery } from './queries/hospex'
 export const useReadEmailVerificationSetup = () => {
   const auth = useAuth()
   const { communityId } = useConfig()
-  const { variables, isLoading } = useLDhopQuery({
+  const { variables, isLoading } = useLdhopQuery({
     query: emailVerificationQuery,
     variables: useMemo(
       () => ({
@@ -22,17 +22,16 @@ export const useReadEmailVerificationSetup = () => {
     fetch,
   })
 
-  const preferencesFiles = variables.hospexPreferencesFile
+  const preferencesFiles = Array.from(variables.hospexPreferencesFile)
+    .filter(pft => pft.termType === 'NamedNode')
+    .map(pft => pft.value)
 
-  const { results: permissions } = useReadAccesses(preferencesFiles ?? [])
+  const { results: permissions } = useReadAccesses(preferencesFiles)
 
   const results = zipWith(
-    preferencesFiles ?? [],
+    preferencesFiles,
     permissions,
-    (url, permissionData) => ({
-      url,
-      permissions: permissionData,
-    }),
+    (url, permissionData) => ({ url, permissions: permissionData }),
   )
 
   return { results, isLoading }

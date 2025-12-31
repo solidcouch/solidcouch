@@ -76,6 +76,8 @@ test.describe('Messages', () => {
 
     await page.getByRole('link', { name: 'messages (1 new)' }).click()
 
+    await expect(page.getByTestId('chat-disconnected')).toBeVisible()
+
     const thread = page.getByRole('link', {
       name: `Messages with ${person0.profile.name}`,
     })
@@ -115,6 +117,7 @@ test.describe('Messages', () => {
     // first person reads the messages again
     await signIn(page, person0.account)
     await page.getByRole('link', { name: 'messages (2 new)' }).click()
+    await expect(page.getByTestId('chat-unread')).toBeVisible()
     await page
       .getByRole('link', { name: `Messages with ${person1.profile.name}` })
       .click()

@@ -1,17 +1,17 @@
 import { MessageActivityShapeType } from '@/ldo/app.shapeTypes'
 import { Message, URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
 import { inboxMessagesQuery } from './queries'
 
 export const useReadMessagesFromInbox = (webId: URI) => {
-  const { quads, variables, isLoading } = useLDhopQuery(
+  const { quads, variables, isLoading } = useLdhopQuery(
     useMemo(
       () => ({
         query: inboxMessagesQuery,
-        variables: { person: webId ? [webId] : [] },
+        variables: { person: [webId] },
         fetch,
         staleTime: 30000,
       }),
@@ -21,10 +21,10 @@ export const useReadMessagesFromInbox = (webId: URI) => {
 
   const messages: Message[] = useMemo(
     () =>
-      (variables['messageNotification'] ?? []).map(notification => {
+      Array.from(variables.messageNotification).map(notification => {
         const ldo = createLdoDataset(quads)
           .usingType(MessageActivityShapeType)
-          .fromSubject(notification)
+          .fromSubject(notification.value)
 
         return {
           id: ldo.object['@id'] ?? '',

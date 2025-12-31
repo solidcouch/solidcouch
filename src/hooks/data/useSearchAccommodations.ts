@@ -6,7 +6,7 @@ import { mergeArrays } from '@/utils/helpers'
 import { getLanguages } from '@/utils/ldo'
 import { hospex } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useQueries } from '@tanstack/react-query'
 import { Parser, Store } from 'n3'
@@ -119,20 +119,20 @@ export const useSearchAccommodations = (
     if (geoindexResults.isSuccess) setLastGeoindexSuccess(Date.now())
   }, [geoindexResults.isSuccess])
 
-  const ldhopQueryParams = useMemo(
-    () =>
-      fallback
-        ? {
-            query: searchAccommodationsQuery,
-            variables: { community: [communityId] },
-            fetch,
-            store: new Store(),
-          }
-        : { query: [], variables: {}, fetch },
-    [communityId, fallback],
+  const { quads, isMissing } = useLdhopQuery(
+    useMemo(
+      () =>
+        fallback
+          ? {
+              query: searchAccommodationsQuery,
+              variables: { community: [communityId] },
+              fetch,
+              store: new Store(),
+            }
+          : { query: [], variables: {}, fetch },
+      [communityId, fallback],
+    ),
   )
-
-  const { quads, isMissing } = useLDhopQuery(ldhopQueryParams)
 
   const slowAccommodations = useMemo(() => {
     const dataset = createLdoDataset(quads)

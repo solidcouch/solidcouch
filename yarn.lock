@@ -4957,24 +4957,25 @@
     koa-compose "^4.1.0"
     path-to-regexp "^8.2.0"
 
-"@ldhop/core@^1.0.0-alpha.2":
-  version "1.0.0-alpha.2"
-  resolved "https://registry.npmjs.org/@ldhop/core/-/core-1.0.0-alpha.2.tgz#bdd25e8c04c15e225f51906f203c988f246cc784"
-  integrity sha512-1lP7Soxw23jAfqztCEx0l8rNo9u3DefQI5+2dnKw2cxFVSW4f3+1rKIN0zpbcOnb/ouC/GPTVR+JgiMCCZSjzA==
+"@ldhop/core@^1.0.0-alpha.5":
+  version "1.0.0-alpha.5"
+  resolved "https://registry.npmjs.org/@ldhop/core/-/core-1.0.0-alpha.5.tgz#3e2e16288202252d19bceca857a6219358db1914"
+  integrity sha512-GO7XXhrkc3IP2aJZAh+2yEQKF3RoLZmFgZ9sTUNLbQ2uOHNflYz8nL1H9+tpiU/awCHz82hEwRW0lVlsihLtrw==
   dependencies:
     "@emotion/hash" "^0.9.1"
     "@types/n3" "^1.16.4"
     n3 "^1.17.2"
     utility-types "^3.10.0"
 
-"@ldhop/react@^1.0.0-alpha.2":
-  version "1.0.0-alpha.2"
-  resolved "https://registry.npmjs.org/@ldhop/react/-/react-1.0.0-alpha.2.tgz#d3a71a1dfeee68dff0ca4bb8861fec19d2d7ed44"
-  integrity sha512-JcL+33eVZ9/Dt7uvNM+wx7UcrzUeNLYR76VRmOCt4sN1iXhMNEr+60cwdnxdR0+PxPtBfD0atnpPT9XNbd0JIQ==
+"@ldhop/react@^1.0.0-alpha.5":
+  version "1.0.0-alpha.5"
+  resolved "https://registry.npmjs.org/@ldhop/react/-/react-1.0.0-alpha.5.tgz#277bc5d26d3b9dd9d76559cac9b214fb9799eaf1"
+  integrity sha512-Pj0rZJjpcwN6gx/2C8dTBm4QGxhkeypz4Zmp5EaLS9N7WPZwaoocK6xg5uPf3+4/eB0eKysy7YX8bdJZGPN3Dw==
   dependencies:
-    "@ldhop/core" "^1.0.0-alpha.2"
+    "@ldhop/core" "^1.0.0-alpha.5"
     "@types/lodash" "^4.17.0"
     lodash "^4.17.21"
+    n3 "^1.26.0"
 
 "@ldo/cli@^1.0.0-alpha.32":
   version "1.0.0-alpha.32"

@@ -25,7 +25,7 @@ export const SetupOutlet = () => {
 
   const [step, setStep] = useState(0)
 
-  const setupCheck = useCheckSetup(auth.webId ?? '', communityId ?? '')
+  const setupCheck = useCheckSetup(auth.webId!, communityId)
   const tasks = omit(setupCheck, [
     'publicTypeIndexes',
     'privateTypeIndexes',

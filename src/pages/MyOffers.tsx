@@ -29,7 +29,7 @@ export const MyOffers = () => {
   const [editing, setEditing] = useState<URI | EditingOption.new>()
 
   const { personalHospexDocuments } = useHospexDocumentSetup(
-    auth.webId ?? '',
+    auth.webId!,
     communityId,
   )
 

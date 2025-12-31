@@ -2,14 +2,14 @@ import { defaultLocale } from '@/config'
 import { HospexCommunityShapeType } from '@/ldo/hospexCommunity.shapeTypes'
 import { URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import type { ObjectLike } from '@ldo/jsonld-dataset-proxy'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
 import { useMemo } from 'react'
 import { readCommunityMembersQuery, readCommunityQuery } from './queries'
 
 export const useIsMember = (userId: URI, communityId: URI) => {
-  const { variables, isLoading } = useLDhopQuery(
+  const { variables, isLoading } = useLdhopQuery(
     useMemo(
       () => ({
         query: readCommunityMembersQuery,
@@ -22,16 +22,21 @@ export const useIsMember = (userId: URI, communityId: URI) => {
 
   if (isLoading) return undefined
 
-  return (variables.person ?? []).includes(userId)
+  return Array.from(variables.person).some(term => term.value === userId)
 }
 
 export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
   if (locales.length === 0) locales = [...locales, defaultLocale]
-  const { store, variables, isLoading } = useLDhopQuery({
-    query: readCommunityQuery,
-    variables: useMemo(() => ({ community: [communityId] }), [communityId]),
-    fetch,
-  })
+  const { store, variables, isLoading } = useLdhopQuery(
+    useMemo(
+      () => ({
+        query: readCommunityQuery,
+        variables: { community: [communityId] },
+        fetch,
+      }),
+      [communityId],
+    ),
+  )
 
   const community = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -53,9 +58,9 @@ export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
       name,
       about,
       pun,
-      groups: variables.group ?? [],
+      groups: Array.from(variables.group ?? []).map(v => v.value),
       isLoading,
-      inbox: variables.inbox?.[0],
+      inbox: Array.from(variables.inbox ?? [])[0]?.value,
     }),
     [
       about,

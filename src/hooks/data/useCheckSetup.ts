@@ -1,7 +1,7 @@
 import { URI } from '@/types'
 import { hospex } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { useQuery } from '@tanstack/react-query'
 import { sioc } from 'rdf-namespaces'
 import { useCallback, useMemo } from 'react'
@@ -27,7 +27,7 @@ export const useCheckSetup = (userId: URI, communityId: URI) => {
 }
 
 export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
-  const { isLoading, variables, store } = useLDhopQuery({
+  const { isLoading, variables, store } = useLdhopQuery({
     query: privateProfileAndHospexDocumentQuery,
     variables: useMemo(
       () => ({
@@ -39,17 +39,31 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     fetch,
   })
 
-  const publicTypeIndexes = variables.publicTypeIndex ?? []
-  const privateTypeIndexes = variables.privateTypeIndex ?? []
-  const preferencesFiles = variables.preferencesFile ?? []
-  const inboxes = variables.inbox ?? []
+  const publicTypeIndexes = useMemo(
+    () => Array.from(variables.publicTypeIndex).map(t => t.value),
+    [variables.publicTypeIndex],
+  )
+  const privateTypeIndexes = useMemo(
+    () => Array.from(variables.privateTypeIndex).map(t => t.value),
+    [variables.privateTypeIndex],
+  )
+  const preferencesFiles = useMemo(
+    () => Array.from(variables.preferencesFile).map(t => t.value),
+    [variables.preferencesFile],
+  )
+  const inboxes = useMemo(
+    () => Array.from(variables.inbox).map(t => t.value),
+    [variables.inbox],
+  )
 
-  const personalHospexDocumentsForCommunity =
-    variables.hospexDocumentForCommunity ?? []
+  const personalHospexDocumentsForCommunity = useMemo(
+    () => Array.from(variables.hospexDocumentForCommunity).map(t => t.value),
+    [variables.hospexDocumentForCommunity],
+  )
 
   const hospexDocuments = useMemo(
     () =>
-      (variables.hospexDocument ?? [])
+      Array.from(variables.hospexDocument)
         // TODO we'll want more info here, like community name, maybe description, etc
         .map(hd => {
           const communities = store
@@ -62,7 +76,7 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
           const hospexContainers = store.getObjects(userId, hospex.storage, hd)
 
           return {
-            hospexDocument: hd,
+            hospexDocument: hd.value,
             communities,
             storage: hospexContainers[0]?.value,
           }

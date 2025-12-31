@@ -26,7 +26,7 @@ export const NewChat = () => {
     [searchParams],
   )
 
-  const [mySolidProfile, { isFetched: isMySolidProfileFetched }] =
+  const [mySolidProfile, { isLoading: isMySolidProfileLoading }] =
     useSolidProfile(auth.webId!)
   const myPrivateTypeIndex =
     mySolidProfile.privateTypeIndex?.toArray()[0]?.['@id']
@@ -132,7 +132,7 @@ export const NewChat = () => {
 
       <SendMessageForm
         isNewChat
-        disabled={!isSendMessageReady || !isMySolidProfileFetched}
+        disabled={!isSendMessageReady || isMySolidProfileLoading}
         onSendMessage={data =>
           handleSubmit({ ...data, title: data.title ?? '' })
         }

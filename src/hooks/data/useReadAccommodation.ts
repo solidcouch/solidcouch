@@ -3,7 +3,7 @@ import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
 import { Accommodation, Person, URI } from '@/types'
 import { getLanguages } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { useLDhopQuery } from '@ldhop/react'
+import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'
 import { useMemo } from 'react'
 import { accommodationQuery } from './queries'
@@ -15,7 +15,7 @@ export const useReadAccommodation = ({
   accommodationId: URI
 }) => {
   const { communityId } = useConfig()
-  const { quads, variables, isLoading } = useLDhopQuery(
+  const { quads, variables, isLoading } = useLdhopQuery(
     useMemo(
       () => ({
         query: accommodationQuery,
@@ -27,7 +27,7 @@ export const useReadAccommodation = ({
   )
 
   const [profile, , isProfileLoading, , hospexProfile] = useProfile(
-    variables.person?.[0] ?? '',
+    variables.person.values().next().value?.value ?? '',
     communityId,
   )
 
