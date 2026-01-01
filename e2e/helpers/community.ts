@@ -103,3 +103,5 @@ export const setupCommunity = async (
     pun,
   }
 }
+
+export type Community = Awaited<ReturnType<typeof setupCommunity>>

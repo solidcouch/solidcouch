@@ -61,7 +61,6 @@ import {
   setupPod,
   stubMailer,
 } from './setup'
-import { ContactNotification, saveContacts } from './setup/contacts'
 import { createConversation } from './setup/messages'
 
 declare global {
@@ -118,19 +117,6 @@ declare global {
         profile?: Profile,
         community?: CommunityConfig,
       ): Cypress.Chainable<Person>
-      /**
-       * Save foaf:knows to a person
-       * @param person - person to save to
-       * @param contacts - list of webIds of the other people
-       * @param doc - optional extended profile document to save contacts to
-       *   if doc is provided, we'll also link the extended profile document from main profile
-       */
-      saveContacts(config: {
-        person: Person
-        contacts: Person[]
-        notifications?: (ContactNotification | number)[]
-        doc?: string
-      }): void
       stubMailer(config: {
         person: Pick<Person, 'webId' | 'inbox'>
         mailer?: string
@@ -144,8 +130,6 @@ declare global {
     }
   }
 }
-
-Cypress.Commands.add('saveContacts', saveContacts)
 
 export type Person = UserConfig & SetupConfig & Profile
 

@@ -321,3 +321,5 @@ export const createPerson = async ({
 
   return { account, pod, profile }
 }
+
+export type Person = Awaited<ReturnType<typeof createPerson>>

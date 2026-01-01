@@ -3,13 +3,13 @@ import {
   default as encodeURIComponent,
   default as strict_uri_encode,
 } from 'strict-uri-encode'
-import { createPerson, signIn, signOut } from './helpers/account'
-import { setupCommunity } from './helpers/community'
+import { createPerson, type Person, signIn, signOut } from './helpers/account'
+import { type Community, setupCommunity } from './helpers/community'
 import { stubMailer } from './helpers/mailer'
 
 test.describe('Messages', () => {
-  let community: Awaited<ReturnType<typeof setupCommunity>>
-  let people: Awaited<ReturnType<typeof createPerson>>[] = []
+  let community: Community
+  let people: Person[]
 
   // reset the app
   test.beforeEach(async ({ page }) => {
