@@ -6,7 +6,7 @@
 
   height: 2rem;
   width: 2rem;
-  border-radius: 2rem;
+  border-radius: var(--radius-full);
 
   &:hover {
     background-color: color-mix(in srgb, var(--text-color) 20%, transparent);

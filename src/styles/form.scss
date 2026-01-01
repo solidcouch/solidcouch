@@ -11,7 +11,7 @@ input[type='datetime-local'],
 textarea,
 select {
   border: 2px solid var(--text-color);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 0.25rem 0.5rem;
 
   &::placeholder {

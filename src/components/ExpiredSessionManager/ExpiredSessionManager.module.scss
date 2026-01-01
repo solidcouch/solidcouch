@@ -26,7 +26,7 @@
 
 .content {
   background-color: var(--background-color);
-  border-radius: 6px;
+  border-radius: var(--radius-lg);
   border: 2px solid var(--text-color);
   box-shadow: var(--background-color-raised);
   position: fixed;

@@ -1,7 +1,7 @@
 .item {
   display: inline-flex;
   border: 1px solid var(--text-color);
-  border-radius: 100rem;
+  border-radius: var(--radius-full);
   align-items: center;
   gap: 0.25rem;
   // padding: 0rem 0.5rem;
@@ -12,13 +12,13 @@
 
   & > :first-child {
     padding-left: 0.5rem;
-    border-end-start-radius: 100rem;
-    border-start-start-radius: 100rem;
+    border-end-start-radius: var(--radius-full);
+    border-start-start-radius: var(--radius-full);
   }
   & > :last-child {
     padding-right: 0.5rem;
-    border-start-end-radius: 100rem;
-    border-end-end-radius: 100rem;
+    border-start-end-radius: var(--radius-full);
+    border-end-end-radius: var(--radius-full);
   }
 }
 
@@ -27,7 +27,7 @@
   width: 100vw;
 
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: var(--radius-lg);
   border: 2px solid var(--text-color);
   background-color: var(--background-color);
   display: flex;

@@ -18,7 +18,7 @@
     background-color: var(--background-color-raised);
   }
 
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 
   .time {
     font-size: small;
