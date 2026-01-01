@@ -11,7 +11,7 @@
   justify-content: center;
   gap: 0.25rem;
 
-  border-radius: 0.25rem;
+  border-radius: var(--radius-lg);
 
   &[disabled] {
     --__theme-color: gray;

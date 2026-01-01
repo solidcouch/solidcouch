@@ -5,11 +5,11 @@
   vertical-align: middle;
   overflow: hidden;
   user-select: none;
-  border-radius: 100%;
+  border-radius: var(--radius-full);
   background-color: var(--background-color-raised);
 
   &.square {
-    border-radius: 0;
+    border-radius: var(--radius-none);
   }
 
   .avatarImage {

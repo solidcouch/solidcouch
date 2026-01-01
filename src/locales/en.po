@@ -455,8 +455,8 @@ msgstr "Open profile"
 msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
 msgstr "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
 
-#: src/pages/Contacts.tsx:65
-#: src/pages/Contacts.tsx:74
+#: src/pages/Contacts.tsx:73
+#: src/pages/Contacts.tsx:82
 msgid "pending"
 msgstr "pending"
 
@@ -500,7 +500,7 @@ msgstr "Private type index is set up."
 msgid "Private type index not set up (should not happen)"
 msgstr "Private type index not set up (should not happen)"
 
-#: src/pages/Contacts.tsx:71
+#: src/pages/Contacts.tsx:79
 msgid "process"
 msgstr "process"
 

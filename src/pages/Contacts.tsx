@@ -31,7 +31,7 @@ export const Contacts = () => {
     <div>
       <h1>
         <Trans>
-          Contacts of <Person webId={personId} link showName />
+          Contacts of <Person webId={personId} popover showName />
         </Trans>
       </h1>
       <ul className={styles.contactList} data-testid="contact-list">
@@ -58,8 +58,16 @@ export const Contacts = () => {
 const Contact = ({ contact }: { contact: types.Contact }) => {
   return (
     <div className={styles.contact} data-testid="contact">
-      <Person webId={contact.webId} link showName size="2rem" />
-      <span className={styles.spacer}></span>
+      <Person
+        webId={contact.webId}
+        link
+        showName
+        size="8rem"
+        square
+        className={styles.person}
+        nameClassName={styles.personName}
+        linkClassName={styles.personLink}
+      />
       {contact.status === ContactStatus.requestSent && (
         <span className={styles.status}>
           <Trans>pending</Trans>

@@ -9,7 +9,7 @@
     button,
     span {
       padding: 0.375rem 1.5rem;
-      border-radius: 0;
+      border-radius: var(--radius-none);
       width: 100%;
       display: flex;
       align-items: center;
