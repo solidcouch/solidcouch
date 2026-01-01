@@ -34,7 +34,7 @@ export const Contacts = () => {
           Contacts of <Person webId={personId} link showName />
         </Trans>
       </h1>
-      <ul className={styles.contactList} data-cy="contact-list">
+      <ul className={styles.contactList} data-testid="contact-list">
         {contacts
           .filter(
             contact =>
@@ -57,7 +57,7 @@ export const Contacts = () => {
 
 const Contact = ({ contact }: { contact: types.Contact }) => {
   return (
-    <div className={styles.contact} data-cy="contact">
+    <div className={styles.contact} data-testid="contact">
       <Person webId={contact.webId} link showName size="2rem" />
       <span className={styles.spacer}></span>
       {contact.status === ContactStatus.requestSent && (

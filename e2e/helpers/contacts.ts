@@ -1,12 +1,13 @@
-import { Person, generateRandomString } from '../commands'
+import { type Person } from './account'
+import { generateRandomString } from './helpers'
 
-export type ContactNotification = {
-  person: number
+type ContactNotification = {
+  person: Person
   message?: string
   date?: Date
 }
 
-export const saveContacts = ({
+export const saveContacts = async ({
   person,
   contacts,
   notifications = [],
@@ -14,13 +15,12 @@ export const saveContacts = ({
 }: {
   person: Person
   contacts: Person[]
-  notifications?: (ContactNotification | number)[]
+  notifications?: (ContactNotification | Person)[]
   doc?: string
 }) => {
   if (contacts.length === 0) return
 
-  cy.authenticatedRequest(person, {
-    url: doc ?? person.webId,
+  await person.account.authFetch(doc ?? person.account.webId, {
     method: 'PATCH',
     headers: { 'content-type': 'text/n3' },
     body: `
@@ -28,39 +28,37 @@ export const saveContacts = ({
     @prefix solid: <http://www.w3.org/ns/solid/terms#>.
     _:mutation a solid:InsertDeletePatch;
       solid:inserts {
-        <${person.webId}> foaf:knows
-          ${contacts.map(({ webId }) => `<${webId}>`).join(',\n          ')}.
+        <${person.account.webId}> foaf:knows
+          ${contacts.map(c => `<${c.account.webId}>`).join(',\n          ')}.
       }.
     `,
   })
 
-  if (doc && doc !== person.webId) {
-    cy.authenticatedRequest(person, {
-      url: person.webId,
+  if (doc && doc !== person.account.webId) {
+    await person.account.authFetch(person.account.webId, {
       method: 'PATCH',
       headers: { 'content-type': 'text/n3' },
       body: `
       @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
       @prefix solid: <http://www.w3.org/ns/solid/terms#>.
       _:mutation a solid:InsertDeletePatch;
-        solid:inserts { <${person.webId}> rdfs:seeAlso <${doc}>. }.
+        solid:inserts { <${person.account.webId}> rdfs:seeAlso <${doc}>. }.
       `,
     })
   }
 
   for (const notification of notifications) {
-    const contactIndex =
-      typeof notification === 'number' ? notification : notification.person
-    const rest = typeof notification === 'number' ? {} : notification
-    sendContactNotification({
+    const rest: ContactNotification =
+      'person' in notification ? notification : { person: notification }
+    await sendContactNotification({
       ...rest,
       from: person,
-      to: contacts[contactIndex]!,
+      to: 'person' in notification ? notification.person : notification,
     })
   }
 }
 
-const sendContactNotification = (config: {
+const sendContactNotification = async (config: {
   from: Person
   to: Person
   message?: string
@@ -68,8 +66,7 @@ const sendContactNotification = (config: {
 }) => {
   const message = config.message ?? generateRandomString(140)
   const date = config.date ?? new Date()
-  cy.authenticatedRequest(config.from, {
-    url: config.to.inbox,
+  await config.from.account.authFetch(config.to.pod.inbox, {
     method: 'POST',
     headers: { 'content-type': 'text/turtle' },
     body: `
@@ -78,15 +75,15 @@ const sendContactNotification = (config: {
     @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
     <> a as:Invite ;
-      as:actor <${config.from.webId}> ;
+      as:actor <${config.from.account.webId}> ;
       as:content "${message}" ;
       as:object _:n3-0 ;
-      as:target <${config.to.webId}> ;
+      as:target <${config.to.account.webId}> ;
       as:updated "${date.toISOString()}"^^xsd:dateTime .
     _:n3-0 a as:Relationship ;
-        as:subject <${config.from.webId}> ;
+        as:subject <${config.from.account.webId}> ;
         as:relationship foaf:knows ;
-        as:object <${config.to.webId}> .\n`,
+        as:object <${config.to.account.webId}> .\n`,
   })
   return { ...config, message, date }
 }
