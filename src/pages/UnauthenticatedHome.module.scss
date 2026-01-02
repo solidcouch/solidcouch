@@ -10,7 +10,7 @@
   text-align: justify;
 
   .mainDescription {
-    font-size: 1.2rem;
+    font-size: var(--font-size-heading);
 
     // TODO make a more generic link styling
     a {
@@ -19,7 +19,7 @@
   }
 
   .pun {
-    font-size: 1.2rem;
+    font-size: var(--font-size-heading);
     font-style: italic;
   }
 
@@ -27,6 +27,7 @@
     width: 100%;
     max-width: 200px;
     height: 3rem;
+    font-size: var(--font-size-heading);
   }
 
   .logo {
@@ -40,6 +41,7 @@
   }
 
   .footer {
+    font-size: var(--font-size-secondary);
     a {
       text-decoration: underline;
     }
@@ -53,7 +55,6 @@
 
     .attribution {
       color: gray;
-      font-size: small;
       a {
         color: inherit;
       }

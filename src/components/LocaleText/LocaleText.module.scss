@@ -4,7 +4,7 @@
 
   .trigger {
     text-transform: uppercase;
-    font-size: var(--space-3x);
+    font-size: var(--font-size-secondary);
 
     &[data-state='active'] {
       font-weight: bold;

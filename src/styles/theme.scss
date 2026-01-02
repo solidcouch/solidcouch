@@ -26,11 +26,13 @@
 
 /* Sizes */
 :root {
+  /* border radius */
   --radius-none: 0;
   --radius-sm: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-full: 100rem;
 
+  /* gaps, margins, paddings */
   --space-none: 0;
   --space-1x: 0.25rem;
   --space-2x: calc(2 * var(--space-1x));
@@ -39,10 +41,21 @@
   --space-6x: calc(6 * var(--space-1x));
   --space-8x: calc(8 * var(--space-1x));
   --space-16x: calc(16 * var(--space-1x));
-
+  /* page margin */
   --page-margin: var(--space-8x);
   @include media.for-tablet-portrait-up {
     --page-margin: var(--space-16x);
+  }
+
+  /* font sizes */
+  --font-size-title: 2rem;
+  --font-size-heading: 1.25rem;
+  --font-size-default: 1rem;
+  --font-size-secondary: 0.875rem;
+
+  @include media.for-tablet-portrait-up {
+    --font-size-title: 2.5rem;
+    --font-size-heading: 1.375rem;
   }
 }
 

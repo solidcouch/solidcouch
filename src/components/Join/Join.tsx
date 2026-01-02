@@ -66,9 +66,9 @@ const JoinInfo = () => {
   return (
     <div className={styles.container}>
       <header>
-        <h1>
+        <h2>
           <Trans>Join {communityName}</Trans>
-        </h1>
+        </h2>
       </header>
 
       <article className={styles.content}>

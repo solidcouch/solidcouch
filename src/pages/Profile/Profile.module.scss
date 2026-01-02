@@ -5,12 +5,7 @@
   gap: var(--space-4x);
 
   .name {
-    font-size: 1.75rem;
-
-    svg {
-      font-size: 1rem;
-      vertical-align: super;
-    }
+    font-size: var(--font-size-heading);
   }
 
   .webid {

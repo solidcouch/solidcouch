@@ -10,18 +10,6 @@
     gap: var(--space-6x);
   }
 
-  .logoContainer {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2x);
-    font-size: 1.25rem;
-
-    // logo
-    .logo {
-      height: 1.5rem;
-    }
-  }
-
   .spacer {
     flex: auto;
   }

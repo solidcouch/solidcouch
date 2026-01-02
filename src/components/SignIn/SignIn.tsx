@@ -125,9 +125,9 @@ export const SignInForm = ({
     <div className={styles.container}>
       {!short && (
         <>
-          <h1>
+          <h2>
             <Trans>Sign in to {communityName}</Trans>
-          </h1>
+          </h2>
           <div>
             <Trans>Choose your Solid provider or WebID</Trans>
           </div>

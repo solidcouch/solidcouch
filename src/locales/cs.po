@@ -349,7 +349,7 @@ msgstr "Připojit se ke komunitě"
 msgid "Join community {communityLabel}"
 msgstr "Připojit se ke komunitě {communityLabel}"
 
-#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:66
+#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:68
 msgid "Later"
 msgstr "Později"
 
@@ -761,6 +761,6 @@ msgstr "Váš e-mail"
 msgid "Your email notifications are set up."
 msgstr "Vaše e-mailová upozornění jsou nastavena."
 
-#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:58
+#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:59
 msgid "Your session has expired. Please sign in again."
 msgstr "Vaše přihlášení vypršelo. Přihlaste se, prosím, znovu."

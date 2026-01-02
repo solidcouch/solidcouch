@@ -349,7 +349,7 @@ msgstr "Join Community"
 msgid "Join community {communityLabel}"
 msgstr "Join community {communityLabel}"
 
-#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:66
+#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:68
 msgid "Later"
 msgstr "Later"
 
@@ -761,6 +761,6 @@ msgstr "Your email"
 msgid "Your email notifications are set up."
 msgstr "Your email notifications are set up."
 
-#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:58
+#: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:59
 msgid "Your session has expired. Please sign in again."
 msgstr "Your session has expired. Please sign in again."

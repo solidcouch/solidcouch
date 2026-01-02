@@ -1,3 +1,13 @@
+:root {
+  font-size: var(--font-size-default);
+}
+
 h1 {
-  font-size: 1.7rem;
+  font-size: var(--font-size-title);
+  font-weight: 600;
+}
+
+h2 {
+  font-size: var(--font-size-heading);
+  font-weight: 600;
 }
