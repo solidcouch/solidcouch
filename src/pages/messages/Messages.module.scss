@@ -26,7 +26,7 @@
       align-items: center;
       text-align: center;
       gap: var(--space-3x);
-      font-size: small;
+      font-size: var(--font-size-secondary);
 
       &::before,
       &::after {

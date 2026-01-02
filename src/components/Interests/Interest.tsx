@@ -85,13 +85,13 @@ const InterestDetail = ({ topic }: { topic: InterestData }) => (
     {/* TODO populate the alt */}
     {topic.image && <img src={topic.image} alt="" className={styles.image} />}
     <header className={styles.headerContainer}>
-      <h3 className={styles.header}>
+      <h2 className={styles.header}>
         {topic.label}
         <ExternalIconLink
           href={topic.uri}
           icon={topic.id ? SiWikidata : undefined}
         />
-      </h3>
+      </h2>
       {topic.aliases.length > 0 && (
         <div className={styles.aliases}>{topic.aliases.join(', ')}</div>
       )}

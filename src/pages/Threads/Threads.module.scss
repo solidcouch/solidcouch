@@ -28,8 +28,8 @@
     }
 
     .content {
-      margin-top: 0var (--space-4x);
-      font-size: 0.9rem;
+      margin-top: var(--space-1x);
+      font-size: var(--font-size-secondary);
     }
   }
 }

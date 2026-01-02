@@ -10,7 +10,7 @@
   gap: var(--space-4x);
 
   label {
-    font-size: small;
+    font-size: var(--font-size-secondary);
     // remove gap after label
     margin-bottom: calc(-1 * var(--space-4x));
   }
@@ -45,7 +45,7 @@
     max-width: 100%;
 
     background-color: #222;
-    font-size: xx-large;
+    font-size: var(--font-size-title);
     color: white;
 
     display: flex;

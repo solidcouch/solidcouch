@@ -16,6 +16,6 @@ select {
 
   &::placeholder {
     color: rgb(166, 166, 166);
-    font-size: 0.875rem;
+    font-size: var(--font-size-secondary);
   }
 }

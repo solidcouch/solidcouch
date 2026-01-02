@@ -12,9 +12,6 @@
 
   .header {
     align-self: start;
-    * {
-      vertical-align: text-bottom;
-    }
   }
 }
 
@@ -28,18 +25,19 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4x);
+  background-color: var(--background-color-raised);
 
   &.accommodationForm {
     border-color: purple;
   }
 
   label {
-    font-size: small;
+    font-size: var(--font-size-secondary);
     margin-bottom: calc(-1 * var(--space-4x));
   }
 
   .errorMessage {
-    font-size: small;
+    font-size: var(--font-size-secondary);
     color: red;
     margin-top: calc(-1 * var(--space-4x));
   }
@@ -63,6 +61,6 @@
 }
 
 .addAccommodationButton {
-  width: calc(304px + var(--space-8x));
+  width: calc(300px + var(--space-8x) + 2 * 2px);
   max-width: 100%;
 }

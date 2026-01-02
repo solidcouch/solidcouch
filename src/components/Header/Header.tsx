@@ -20,12 +20,11 @@ export const Header = () => {
 
   return (
     <nav className={styles.header}>
-      <Link className={styles.logoContainer} to="/" data-cy="header-logo-link">
+      <Link to="/" data-cy="header-logo-link">
         <Logo
           logo={community.logo[0]}
           focusedLogo={community.logo[1]}
           name={community.name || (community.isLoading ? '...' : 'Home')}
-          className={styles.logo}
         />
       </Link>
       <div className={styles.spacer} />

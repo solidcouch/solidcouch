@@ -54,8 +54,10 @@ export const ExpiredSessionManager = () => {
       <AlertDialog.Portal>
         <AlertDialog.Overlay className={styles.overlay} />
         <AlertDialog.Content className={styles.content}>
-          <AlertDialog.Title className={styles.title}>
-            <Trans>Your session has expired. Please sign in again.</Trans>
+          <AlertDialog.Title asChild>
+            <h2>
+              <Trans>Your session has expired. Please sign in again.</Trans>
+            </h2>
           </AlertDialog.Title>
           <AlertDialog.Description
             className={styles.description}
