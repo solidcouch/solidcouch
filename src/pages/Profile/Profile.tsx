@@ -1,4 +1,5 @@
-import { ButtonLink, ExternalIconLink, Interests, Loading } from '@/components'
+import { ButtonLink, Interests, Loading } from '@/components'
+import { ExternalLink } from '@/components/Button/Button.tsx'
 import { SharedInterests } from '@/components/Interests/Interests.tsx'
 import { LocaleText } from '@/components/LocaleText/LocaleText.tsx'
 import { ProtectedImg } from '@/components/ProtectedImg.tsx'
@@ -49,9 +50,11 @@ export const Profile = ({
         data-cy="profile-photo"
       />
       <header className={styles.name} data-cy="profile-name">
-        {profile.name} {!readonly && <ExternalIconLink href={webId} />}
+        {profile.name}
       </header>
-      <div className={styles.webid}>{webId}</div>
+      <ExternalLink className={styles.webid} href={webId}>
+        {webId}
+      </ExternalLink>
       <LocaleText
         text={profile.about}
         locale={locale}

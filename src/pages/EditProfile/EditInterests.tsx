@@ -18,7 +18,13 @@ import debounce from 'lodash/debounce'
 import { useCallback, useMemo, useState } from 'react'
 import Select from 'react-select'
 
-export const EditInterests = ({ webId }: { webId: URI }) => {
+export const EditInterests = ({
+  webId,
+  className,
+}: {
+  webId: URI
+  className?: string
+}) => {
   const { t } = useLingui()
   const locale = useAppSelector(selectLocale)
   const { communityId } = useConfig()
@@ -70,7 +76,7 @@ export const EditInterests = ({ webId }: { webId: URI }) => {
     )
 
   return (
-    <div>
+    <div className={className}>
       <ul className={styles.list} data-cy="interests-list-edit">
         {interests.map(({ id, document }) => (
           <li key={id + document}>

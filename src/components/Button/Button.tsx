@@ -61,16 +61,22 @@ export const ButtonLink = ({
   )
 }
 
+type ExternalLinkProps = AnchorHTMLAttributes<HTMLAnchorElement>
+
+export const ExternalLink = (props: ExternalLinkProps) => (
+  <a target="_blank" rel="noopener noreferrer" {...props} />
+)
+
 /**
  * External link as icon, with target blank
  */
 export const ExternalIconLink = ({
   icon: Icon = FaExternalLinkAlt,
   ...props
-}: AnchorHTMLAttributes<HTMLAnchorElement> & { icon?: IconType }) => (
-  <a target="_blank" rel="noopener noreferrer" {...props}>
+}: ExternalLinkProps & { icon?: IconType }) => (
+  <ExternalLink {...props}>
     <Icon />
-  </a>
+  </ExternalLink>
 )
 
 export const ExternalButtonLink = ({
@@ -79,11 +85,10 @@ export const ExternalButtonLink = ({
   tertiary,
   danger,
   className,
-  children,
   ...props
-}: AnchorHTMLAttributes<HTMLAnchorElement> & ButtonProps) => {
+}: ExternalLinkProps & ButtonProps) => {
   return (
-    <a
+    <ExternalLink
       className={clsx(
         className,
         styles.button,
@@ -93,8 +98,6 @@ export const ExternalButtonLink = ({
         tertiary && styles.tertiary,
       )}
       {...props}
-    >
-      {children}
-    </a>
+    />
   )
 }

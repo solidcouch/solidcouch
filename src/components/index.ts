@@ -1,5 +1,5 @@
 export { Avatar } from './Avatar/Avatar.tsx'
-export { Button, ButtonLink, ExternalIconLink } from './Button/Button.tsx'
+export { Button, ButtonLink } from './Button/Button.tsx'
 export { Header } from './Header/Header.tsx'
 export { Interests } from './Interests/Interests.tsx'
 export { Loading } from './Loading/Loading.tsx'

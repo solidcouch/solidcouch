@@ -1,14 +1,14 @@
 .messages {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2x);
   align-items: flex-start;
 
   .message {
     border-radius: 2rem;
     background-color: lightgray;
     color: black;
-    padding: 0.5rem 1rem;
+    padding: var(--space-2x) var(--space-4x);
 
     &.fromMe {
       background-color: var(--text-color);
@@ -30,7 +30,7 @@
 // but there is no sense in fixing it if we don't have a design
 .messageForm {
   background-color: var(--background-color);
-  padding: 0.5rem 0;
+  padding: var(--space-2x) 0;
   display: flex;
   justify-content: stretch;
 

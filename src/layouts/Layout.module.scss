@@ -11,11 +11,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin: 0 35px;
-
-  @include media.for-tablet-portrait-up {
-    margin: 0 70px;
-  }
+  margin: 0 var(--page-margin);
 
   & > .row {
     // border: 1px dotted grey; // for debugging

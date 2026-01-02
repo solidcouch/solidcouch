@@ -1,11 +1,11 @@
 .wrapper {
   height: 100%;
-  padding-bottom: 3rem;
+  padding-bottom: var(--space-8x);
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4rem;
+  gap: var(--space-16x);
 
   text-align: justify;
 
@@ -43,12 +43,14 @@
     a {
       text-decoration: underline;
     }
+
     .footerInfo {
       display: flex;
-      gap: 2rem;
+      gap: var(--space-8x);
       align-items: center;
       justify-content: space-evenly;
     }
+
     .attribution {
       color: gray;
       font-size: small;

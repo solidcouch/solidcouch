@@ -1,36 +1,3 @@
 .container {
-  height: 100%; //calc(100% - 4rem);
-  // margin-bottom: 4rem;
+  height: 100%;
 }
-
-//// disabled the bottom navigation in NavLayout
-//// until we have use for the other tabs, or decide to remove this
-/*
-.navigation {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: stretch;
-  height: 4rem;
-  & > a {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid black;
-    text-align: center;
-    background-color: white;
-
-    &:hover {
-      background-color: darken($color: white, $amount: 20);
-    }
-
-    &.active {
-      color: white;
-      background-color: black;
-    }
-  }
-}
-*/
