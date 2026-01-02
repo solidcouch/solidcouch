@@ -1,10 +1,10 @@
 .container {
-  --__list-gap: 4rem;
+  --__list-gap: var(--space-16x);
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4x);
   .list {
     display: flex;
     justify-content: center;
@@ -39,9 +39,8 @@
         width: calc(var(--__list-gap) + 2px); /* Line length */
         height: 2px;
         background-color: var(--text-color);
-        right: calc(
-          -1 * var(--__list-gap) - 3px
-        ); /* Moves it to the right of each item */
+        /* Moves it to the right of each item */
+        right: calc(-1 * var(--__list-gap) - 3px);
         z-index: 5;
         top: 50%;
         transform: translateY(-50%);
@@ -56,24 +55,24 @@
 
     h2 {
       font-size: 1.25rem;
-      margin: 1rem;
+      margin: var(--space-4x);
     }
   }
 }
 
 .taskList {
   li {
-    margin: 1rem;
+    margin: var(--space-4x);
     list-style-type: disc;
     border-left: 4px solid black;
-    padding-left: 0.5rem;
+    padding-left: var(--space-2x);
   }
 
   .storageOptions {
-    margin-left: 1rem;
+    margin-left: var(--space-4x);
     .option {
-      margin: 0.5rem;
-      margin-left: 1rem;
+      margin: var(--space-2x);
+      margin-left: var(--space-4x);
     }
   }
 }

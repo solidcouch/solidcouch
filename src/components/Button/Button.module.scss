@@ -4,12 +4,12 @@
   --__theme-color: var(--text-color);
   --__text-color: var(--background-color);
 
-  padding: 0.25rem 0.5rem;
+  padding: var(--space-1x) var(--space-2x);
   text-align: center;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
+  gap: var(--space-1x);
 
   border-radius: var(--radius-lg);
 

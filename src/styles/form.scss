@@ -12,7 +12,7 @@ textarea,
 select {
   border: 2px solid var(--text-color);
   border-radius: var(--radius-sm);
-  padding: 0.25rem 0.5rem;
+  padding: var(--space-1x) var(--space-2x);
 
   &::placeholder {
     color: rgb(166, 166, 166);

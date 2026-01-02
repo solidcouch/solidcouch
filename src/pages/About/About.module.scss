@@ -4,13 +4,13 @@
   h1 {
     font-size: 1.5rem;
     font-weight: bold;
-    margin: 1rem 0;
+    margin: var(--space-4x) 0;
   }
 
   h2 {
     font-size: 1.2rem;
     font-weight: bold;
-    margin: 1rem 0 0.75rem;
+    margin: var(--space-4x) 0 var(--space-3x);
   }
 
   // TODO make a more generic link styling
@@ -19,6 +19,6 @@
   }
 
   p {
-    margin: 0.75rem 0;
+    margin: var(--space-3x) 0;
   }
 }

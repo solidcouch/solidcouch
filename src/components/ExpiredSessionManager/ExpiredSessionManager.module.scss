@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
+  gap: var(--space-1x);
 
   &.active {
     background-color: var(--background-color-raised);
@@ -36,7 +36,7 @@
   width: 90vw;
   max-width: 500px;
   max-height: 85vh;
-  padding: 25px;
+  padding: var(--space-6x);
   animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 100001;
 
@@ -53,14 +53,14 @@
 }
 
 .description {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-6x);
   color: var(--mauve-11);
   font-size: 15px;
   line-height: 1.5;
 }
 
 .later {
-  margin-top: 0.5rem;
+  margin-top: var(--space-2x);
   width: 100%;
 }
 

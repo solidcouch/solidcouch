@@ -447,7 +447,7 @@ msgstr "no hospex document for community"
 msgid "Notifying indexing service"
 msgstr "Notifying indexing service"
 
-#: src/components/Person/Person.tsx:95
+#: src/components/Person/Person.tsx:99
 msgid "Open profile"
 msgstr "Open profile"
 

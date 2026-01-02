@@ -31,8 +31,8 @@
 
   .closeButton {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: var(--space-4x);
+    right: var(--space-4x);
   }
 }
 

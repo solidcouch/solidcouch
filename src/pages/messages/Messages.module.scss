@@ -10,7 +10,7 @@
 
     .participants {
       display: flex;
-      gap: 0.25rem;
+      gap: var(--space-1x);
     }
   }
 
@@ -25,7 +25,7 @@
       display: flex;
       align-items: center;
       text-align: center;
-      gap: 10px;
+      gap: var(--space-3x);
       font-size: small;
 
       &::before,
@@ -38,7 +38,7 @@
   }
 
   .info {
-    padding: 0.75rem;
+    padding: var(--space-3x);
     &:empty {
       display: none;
     }

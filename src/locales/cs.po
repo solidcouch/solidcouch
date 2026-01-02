@@ -447,7 +447,7 @@ msgstr "pro komunitu nebyl nalezen hospex dokument"
 msgid "Notifying indexing service"
 msgstr "Probíhá oznámení indexační službě"
 
-#: src/components/Person/Person.tsx:95
+#: src/components/Person/Person.tsx:99
 msgid "Open profile"
 msgstr "Otevřít profil"
 

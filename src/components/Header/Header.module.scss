@@ -4,16 +4,16 @@
   height: 4rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2x);
 
   @include media.for-tablet-portrait-up {
-    gap: 1.5rem;
+    gap: var(--space-6x);
   }
 
   .logoContainer {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-2x);
     font-size: 1.25rem;
 
     // logo

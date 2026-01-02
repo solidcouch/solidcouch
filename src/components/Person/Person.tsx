@@ -91,7 +91,11 @@ export const Person = ({
               readonly
               imageClassName={styles.profileImage}
             />
-            <ButtonLink to={linkHref} secondary style={{ marginTop: '1rem' }}>
+            <ButtonLink
+              to={linkHref}
+              secondary
+              style={{ marginTop: 'var(--space-4x)' }}
+            >
               <Trans>Open profile</Trans>
             </ButtonLink>
             <Popover.Arrow className={interestStyles.arrow} />

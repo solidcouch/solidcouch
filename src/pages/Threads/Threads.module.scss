@@ -1,20 +1,20 @@
 .header {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-3x);
 }
 
 .threadList {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2x);
 
   .thread {
     border: 2px solid var(--text-color);
     height: 4rem;
     overflow: hidden;
-    padding: 0.5rem;
+    padding: var(--space-2x);
     display: flex;
-    gap: 0.5rem;
+    gap: var(--space-2x);
 
     &.unread {
       .content {
@@ -28,7 +28,7 @@
     }
 
     .content {
-      margin-top: 0.1rem;
+      margin-top: 0var (--space-4x);
       font-size: 0.9rem;
     }
   }

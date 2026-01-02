@@ -7,8 +7,8 @@
   align-items: center;
   border: 2px solid var(--text-color);
   border-radius: var(--radius-lg);
-  padding: 0.75rem;
-  gap: 0.5rem;
+  padding: var(--space-3x);
+  gap: var(--space-2x);
   justify-content: space-between;
   height: 100%;
   position: relative;
@@ -21,7 +21,7 @@
   .person {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-2x);
     position: relative;
 
     .personName {
@@ -37,7 +37,7 @@
 
 .contactList {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-3x);
   flex-direction: column;
   @include media.for-tablet-portrait-up {
     align-items: stretch;

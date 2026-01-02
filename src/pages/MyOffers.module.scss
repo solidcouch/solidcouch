@@ -6,9 +6,9 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-8x);
 
-  padding-bottom: 2rem;
+  padding-bottom: var(--space-8x);
 
   .header {
     align-self: start;
@@ -21,13 +21,13 @@
 .accommodation {
   border: 2px solid var(--text-color);
   border-radius: var(--radius-lg);
-  padding: 1rem;
+  padding: var(--space-4x);
   position: relative;
   max-width: 100%;
-  width: calc(300px + 2rem);
+  width: calc(300px + var(--space-8x));
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-4x);
 
   &.accommodationForm {
     border-color: purple;
@@ -35,13 +35,13 @@
 
   label {
     font-size: small;
-    margin-bottom: -1rem;
+    margin-bottom: calc(-1 * var(--space-4x));
   }
 
   .errorMessage {
     font-size: small;
     color: red;
-    margin-top: -1rem;
+    margin-top: calc(-1 * var(--space-4x));
   }
 
   .inputError {
@@ -55,7 +55,7 @@
   .actions {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    gap: var(--space-4x);
     button {
       flex: auto;
     }
@@ -63,6 +63,6 @@
 }
 
 .addAccommodationButton {
-  width: calc(304px + 2rem);
+  width: calc(304px + var(--space-8x));
   max-width: 100%;
 }

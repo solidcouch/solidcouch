@@ -1,10 +1,10 @@
 .list {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-2x);
 
   .trigger {
     text-transform: uppercase;
-    font-size: 0.75rem;
+    font-size: var(--space-3x);
 
     &[data-state='active'] {
       font-weight: bold;
