@@ -17,7 +17,7 @@ msgstr ""
 msgid "\"{channel}\" is not a valid chat channel"
 msgstr "\"{channel}\" is not a valid chat channel"
 
-#: src/pages/EditProfile/EditInterests.tsx:59
+#: src/pages/EditProfile/EditInterests.tsx:65
 msgid "{label} added to interests"
 msgstr "{label} added to interests"
 
@@ -34,7 +34,7 @@ msgstr "<0>Reach us in our project spaces</0> or write us email to <1>\"support 
 msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 msgstr "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 
-#: src/pages/EditProfile/EditProfile.tsx:167
+#: src/pages/EditProfile/EditProfile.tsx:172
 msgid "About me"
 msgstr "About me"
 
@@ -94,7 +94,7 @@ msgstr "Add person as a contact"
 msgid "Add to my contacts"
 msgstr "Add to my contacts"
 
-#: src/pages/EditProfile/EditInterests.tsx:58
+#: src/pages/EditProfile/EditInterests.tsx:64
 msgid "Adding {label} to interests"
 msgstr "Adding {label} to interests"
 
@@ -155,7 +155,7 @@ msgid "Contact request sent"
 msgstr "Contact request sent"
 
 #: src/components/Header/MainMenu.tsx:56
-#: src/pages/Profile/Profile.tsx:82
+#: src/pages/Profile/Profile.tsx:85
 msgid "contacts"
 msgstr "contacts"
 
@@ -231,7 +231,7 @@ msgid "Edit"
 msgstr "Edit"
 
 #: src/components/Header/MainMenu.tsx:40
-#: src/pages/Profile/Profile.tsx:63
+#: src/pages/Profile/Profile.tsx:66
 msgid "edit profile"
 msgstr "edit profile"
 
@@ -325,11 +325,11 @@ msgstr "inbox not found (too soon?)"
 msgid "Inbox of the other person not found (probably too soon)"
 msgstr "Inbox of the other person not found (probably too soon)"
 
-#: src/pages/EditProfile/EditInterests.tsx:37
+#: src/pages/EditProfile/EditInterests.tsx:43
 msgid "Interest removed"
 msgstr "Interest removed"
 
-#: src/pages/EditProfile/EditProfile.tsx:85
+#: src/pages/EditProfile/EditProfile.tsx:87
 msgid "Interests"
 msgstr "Interests"
 
@@ -362,8 +362,8 @@ msgstr "Linked Data Notification was sent."
 msgid "Loading"
 msgstr "Loading"
 
-#: src/pages/EditProfile/EditInterests.tsx:68
-#: src/pages/Profile/Profile.tsx:95
+#: src/pages/EditProfile/EditInterests.tsx:74
+#: src/pages/Profile/Profile.tsx:98
 msgid "loading interests..."
 msgstr "loading interests..."
 
@@ -422,8 +422,8 @@ msgstr "my hosting"
 msgid "My location"
 msgstr "My location"
 
-#: src/pages/EditProfile/EditProfile.tsx:144
-#: src/pages/EditProfile/EditProfile.tsx:150
+#: src/pages/EditProfile/EditProfile.tsx:163
+#: src/pages/EditProfile/EditProfile.tsx:169
 msgid "Name"
 msgstr "Name"
 
@@ -460,7 +460,7 @@ msgstr "Or use data (profile, hosting offers, etc.) from one of your existing co
 msgid "pending"
 msgstr "pending"
 
-#: src/pages/EditProfile/EditProfile.tsx:153
+#: src/pages/EditProfile/EditProfile.tsx:149
 msgid "Photo"
 msgstr "Photo"
 
@@ -508,11 +508,11 @@ msgstr "process"
 msgid "profile"
 msgstr "profile"
 
-#: src/pages/Profile/Profile.tsx:48
+#: src/pages/Profile/Profile.tsx:49
 msgid "Profile photo of {name}"
 msgstr "Profile photo of {name}"
 
-#: src/pages/EditProfile/EditProfile.tsx:80
+#: src/pages/EditProfile/EditProfile.tsx:81
 msgid "Profile updated"
 msgstr "Profile updated"
 
@@ -524,7 +524,7 @@ msgstr "Public type index is not set up"
 msgid "Public type index is set up."
 msgstr "Public type index is set up."
 
-#: src/pages/EditProfile/EditInterests.tsx:36
+#: src/pages/EditProfile/EditInterests.tsx:42
 msgid "Removing interest"
 msgstr "Removing interest"
 
@@ -536,7 +536,7 @@ msgstr "Resend Confirmation Email in {countdown}s"
 msgid "Save"
 msgstr "Save"
 
-#: src/pages/EditProfile/EditProfile.tsx:184
+#: src/pages/EditProfile/EditProfile.tsx:189
 msgid "Save changes"
 msgstr "Save changes"
 
@@ -703,7 +703,7 @@ msgstr "Unread"
 msgid "Updating accommodation"
 msgstr "Updating accommodation"
 
-#: src/pages/EditProfile/EditProfile.tsx:79
+#: src/pages/EditProfile/EditProfile.tsx:80
 msgid "Updating profile"
 msgstr "Updating profile"
 
@@ -731,7 +731,7 @@ msgstr "We're verifying that everything is configured correctly."
 msgid "WIP"
 msgstr "WIP"
 
-#: src/pages/Profile/Profile.tsx:74
+#: src/pages/Profile/Profile.tsx:77
 #: src/pages/SearchHosts/AccommodationInfo.tsx:64
 msgid "Write a message"
 msgstr "Write a message"

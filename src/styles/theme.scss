@@ -1,3 +1,5 @@
+@use '@/styles/media';
+
 /* Colors */
 
 :root {
@@ -28,6 +30,20 @@
   --radius-sm: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-full: 100rem;
+
+  --space-none: 0;
+  --space-1x: 0.25rem;
+  --space-2x: calc(2 * var(--space-1x));
+  --space-3x: calc(3 * var(--space-1x));
+  --space-4x: calc(4 * var(--space-1x));
+  --space-6x: calc(6 * var(--space-1x));
+  --space-8x: calc(8 * var(--space-1x));
+  --space-16x: calc(16 * var(--space-1x));
+
+  --page-margin: var(--space-8x);
+  @include media.for-tablet-portrait-up {
+    --page-margin: var(--space-16x);
+  }
 }
 
 body {

@@ -1,21 +1,41 @@
-.container {
+@use '@/styles/media';
+
+.container,
+.form,
+.interests,
+.editInterests {
   display: flex;
   flex-direction: column;
-  align-items: left;
-  gap: 1rem;
-
-  form {
-    display: contents;
-  }
-
-  input {
-    width: 100%;
-  }
+  align-items: stretch;
+  gap: var(--space-4x);
 
   label {
     font-size: small;
     // remove gap after label
-    margin-bottom: -1rem;
+    margin-bottom: calc(-1 * var(--space-4x));
+  }
+}
+
+.container {
+  gap: var(--space-8x);
+
+  /* two columns on large screens */
+  @include media.for-tablet-portrait-up {
+    flex-direction: row;
+    gap: var(--space-16x);
+
+    .form {
+      max-width: 30rem;
+    }
+
+    .form,
+    .interests {
+      flex: 1;
+    }
+  }
+
+  input {
+    width: 100%;
   }
 
   // styles for uploading image
@@ -31,7 +51,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    align-self: center;
     margin-bottom: 0;
     cursor: pointer;
 

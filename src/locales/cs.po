@@ -17,7 +17,7 @@ msgstr ""
 msgid "\"{channel}\" is not a valid chat channel"
 msgstr "„{channel}“ není platný chatovací kanál"
 
-#: src/pages/EditProfile/EditInterests.tsx:59
+#: src/pages/EditProfile/EditInterests.tsx:65
 msgid "{label} added to interests"
 msgstr "{label} byl přidán do zájmů"
 
@@ -34,7 +34,7 @@ msgstr "<0>Ozvěte se nám v našich projektových prostorech</0> nebo napište 
 msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 msgstr "Potvrzovací e-mail byl odeslán na adresu {sentToEmail}.<0/>Zkontrolujte prosím svou schránku (i složku nevyžádané pošty) a postupujte podle pokynů."
 
-#: src/pages/EditProfile/EditProfile.tsx:167
+#: src/pages/EditProfile/EditProfile.tsx:172
 msgid "About me"
 msgstr "O mně"
 
@@ -94,7 +94,7 @@ msgstr "Přidat osobu do kontaktů"
 msgid "Add to my contacts"
 msgstr "Přidat do mých kontaktů"
 
-#: src/pages/EditProfile/EditInterests.tsx:58
+#: src/pages/EditProfile/EditInterests.tsx:64
 msgid "Adding {label} to interests"
 msgstr "Přidávání {label} do zájmů"
 
@@ -155,7 +155,7 @@ msgid "Contact request sent"
 msgstr "Pozvánka odeslána"
 
 #: src/components/Header/MainMenu.tsx:56
-#: src/pages/Profile/Profile.tsx:82
+#: src/pages/Profile/Profile.tsx:85
 msgid "contacts"
 msgstr "kontakty"
 
@@ -231,7 +231,7 @@ msgid "Edit"
 msgstr "Upravit"
 
 #: src/components/Header/MainMenu.tsx:40
-#: src/pages/Profile/Profile.tsx:63
+#: src/pages/Profile/Profile.tsx:66
 msgid "edit profile"
 msgstr "upravit profil"
 
@@ -325,11 +325,11 @@ msgstr "schránka nebyla nalezena (možná příliš brzy?)"
 msgid "Inbox of the other person not found (probably too soon)"
 msgstr "Schránka druhé osoby nebyla nalezena (pravděpodobně příliš brzy)"
 
-#: src/pages/EditProfile/EditInterests.tsx:37
+#: src/pages/EditProfile/EditInterests.tsx:43
 msgid "Interest removed"
 msgstr "Zájem odstraněn"
 
-#: src/pages/EditProfile/EditProfile.tsx:85
+#: src/pages/EditProfile/EditProfile.tsx:87
 msgid "Interests"
 msgstr "Zájmy"
 
@@ -362,8 +362,8 @@ msgstr "Linked Data upozornění bylo odesláno."
 msgid "Loading"
 msgstr "Načítání"
 
-#: src/pages/EditProfile/EditInterests.tsx:68
-#: src/pages/Profile/Profile.tsx:95
+#: src/pages/EditProfile/EditInterests.tsx:74
+#: src/pages/Profile/Profile.tsx:98
 msgid "loading interests..."
 msgstr "načítání zájmů..."
 
@@ -422,8 +422,8 @@ msgstr "mé ubytování"
 msgid "My location"
 msgstr "Moje poloha"
 
-#: src/pages/EditProfile/EditProfile.tsx:144
-#: src/pages/EditProfile/EditProfile.tsx:150
+#: src/pages/EditProfile/EditProfile.tsx:163
+#: src/pages/EditProfile/EditProfile.tsx:169
 msgid "Name"
 msgstr "Jméno"
 
@@ -460,7 +460,7 @@ msgstr "Nebo použít data (profil, nabídky ubytování, atd.) z jedné z vaši
 msgid "pending"
 msgstr "čeká"
 
-#: src/pages/EditProfile/EditProfile.tsx:153
+#: src/pages/EditProfile/EditProfile.tsx:149
 msgid "Photo"
 msgstr "Fotka"
 
@@ -508,11 +508,11 @@ msgstr "zpracování"
 msgid "profile"
 msgstr "profil"
 
-#: src/pages/Profile/Profile.tsx:48
+#: src/pages/Profile/Profile.tsx:49
 msgid "Profile photo of {name}"
 msgstr "Profilová fotka {name}"
 
-#: src/pages/EditProfile/EditProfile.tsx:80
+#: src/pages/EditProfile/EditProfile.tsx:81
 msgid "Profile updated"
 msgstr "Profil aktualizován"
 
@@ -524,7 +524,7 @@ msgstr "Veřejný index typů není nastaven"
 msgid "Public type index is set up."
 msgstr "Veřejný index typů je nastaven."
 
-#: src/pages/EditProfile/EditInterests.tsx:36
+#: src/pages/EditProfile/EditInterests.tsx:42
 msgid "Removing interest"
 msgstr "Odstraňování zájmu"
 
@@ -536,7 +536,7 @@ msgstr "Za {countdown}s znovu odeslat potvrzovací e-mail"
 msgid "Save"
 msgstr "Uložit"
 
-#: src/pages/EditProfile/EditProfile.tsx:184
+#: src/pages/EditProfile/EditProfile.tsx:189
 msgid "Save changes"
 msgstr "Uložit změny"
 
@@ -703,7 +703,7 @@ msgstr ""
 msgid "Updating accommodation"
 msgstr "Aktualizuji ubytování"
 
-#: src/pages/EditProfile/EditProfile.tsx:79
+#: src/pages/EditProfile/EditProfile.tsx:80
 msgid "Updating profile"
 msgstr "Aktualizuji profil"
 
@@ -731,7 +731,7 @@ msgstr "Ověřujeme, že je vše správně nastaveno."
 msgid "WIP"
 msgstr "Pracujeme na tom"
 
-#: src/pages/Profile/Profile.tsx:74
+#: src/pages/Profile/Profile.tsx:77
 #: src/pages/SearchHosts/AccommodationInfo.tsx:64
 msgid "Write a message"
 msgstr "Napsat zprávu"

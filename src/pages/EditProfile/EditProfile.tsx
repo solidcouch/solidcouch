@@ -73,6 +73,7 @@ export const EditProfile = () => {
   return (
     <div className={styles.container}>
       <EditProfileForm
+        className={styles.form}
         initialData={hospexProfile}
         onSubmit={data =>
           withToast(handleSaveProfile(data), {
@@ -81,10 +82,12 @@ export const EditProfile = () => {
           })
         }
       />
-      <label>
-        <Trans>Interests</Trans>
-      </label>
-      <EditInterests webId={auth.webId!} />
+      <div className={styles.interests}>
+        <label>
+          <Trans>Interests</Trans>
+        </label>
+        <EditInterests webId={auth.webId!} className={styles.editInterests} />
+      </div>
     </div>
   )
 }
@@ -96,9 +99,11 @@ type PersonPayload = Pick<Person, 'name' | 'about'> & {
 const EditProfileForm = ({
   initialData,
   onSubmit,
+  className,
 }: {
   initialData: Partial<Pick<Person, 'name' | 'photo' | 'about'>>
   onSubmit: (data: PersonPayload) => unknown
+  className?: string
 }) => {
   const { t } = useLingui()
   const { register, handleSubmit, watch, setValue, getValues, control } =
@@ -139,16 +144,7 @@ const EditProfileForm = ({
   const currentPhoto = selectedPhoto || photo
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <label htmlFor="name">
-        <Trans>Name</Trans>
-      </label>
-      <input
-        id="name"
-        type="text"
-        {...register('name')}
-        placeholder={t`Name`}
-      />
+    <form onSubmit={handleFormSubmit} className={className}>
       <label htmlFor="photo">
         <Trans>Photo</Trans>
       </label>
@@ -163,6 +159,15 @@ const EditProfileForm = ({
         <FaCamera />
         <input id="photo" type="file" {...register('photo')} accept="image/*" />
       </label>
+      <label htmlFor="name">
+        <Trans>Name</Trans>
+      </label>
+      <input
+        id="name"
+        type="text"
+        {...register('name')}
+        placeholder={t`Name`}
+      />
       <label htmlFor="about">
         <Trans>About me</Trans>
       </label>
