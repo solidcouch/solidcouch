@@ -155,6 +155,7 @@ test.describe("person's contacts", () => {
     await expect(page.getByText('Contact exists')).toBeVisible()
   })
 
+  // TODO this test is flaky. It regularly fails in GitHub actions with Firefox
   test('allow confirming other person as contact from my list of contacts', async ({
     page,
   }) => {

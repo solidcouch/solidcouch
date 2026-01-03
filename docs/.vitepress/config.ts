@@ -41,7 +41,13 @@ export default defineConfig({
       },
       {
         text: 'Architecture',
-        items: [{ text: 'Messages', link: '/architecture/messages' }],
+        items: [
+          { text: 'Setup', link: '/architecture/setup' },
+          { text: 'Membership', link: '/architecture/membership' },
+          { text: 'Hospex Data', link: '/architecture/hospex-data' },
+          { text: 'Notifications', link: '/architecture/notifications' },
+          { text: 'Messages', link: '/architecture/messages' },
+        ],
       },
     ],
 
