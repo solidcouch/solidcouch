@@ -4,6 +4,17 @@ title: Setup
 
 # Setup
 
+For a correct functioning of the app, user needs:
+
+- Solid Pod with WAC support
+- Solid inbox (or ActivityPub in the future) - to receive linked data notifications
+- preferences file - contains link to private type index
+- public type index - for discovery of hospex data
+- private type index - for discovery of chats
+- join a community
+- a dedicated data storage for the hospex community
+- email verified with email notification service - to receive email notifications
+
 ## Pod Setup
 
 At the first sign-in to the app, the user's pod is checked, and

@@ -6,10 +6,140 @@ import { useQuery } from '@tanstack/react-query'
 import { sioc } from 'rdf-namespaces'
 import { useCallback, useMemo } from 'react'
 import encodeURIComponent from 'strict-uri-encode'
+import { useReadAccesses } from './access'
 import { privateProfileAndHospexDocumentQuery } from './queries'
+import { publicWebIdProfileQuery, webIdProfileQuery } from './queries/profile'
 import { QueryKey } from './types'
 import { useIsMember } from './useCommunity'
 
+/**
+ * Full setup check
+ *
+ * - we can find storage
+ * - solid pod has WAC support
+ * - solid inbox
+ *    - exists
+ *    - linked from webId document
+ *    - appendable by public or by authenticated agent, or by community members
+ *    - current user control, read, write
+ *    - someday/maybe: link it from hospex profile, and allow only community members to append
+ * - preferences file
+ *    - exists
+ *    - is linked from webId profile
+ *    - current user can read, write, control
+ * - public type index
+ *    - is linked from webId document
+ *    - exists
+ *    - is publicly readable
+ *    - current user can read, write, control
+ * - private type index
+ *    - is linked from preferences file
+ *    - exists
+ *    - current user can read, write, control
+ * - join a community
+ *    - should be in one of the community's vcard:Group lists
+ * - hospex storage
+ *    - linked from public type index
+ *    - exists
+ *    - read access allowed to community's vcard:Group lists
+ *    - also get other community storages
+ * - email notifications
+ *    - VC proving ownership of email address, issued by a trusted authority
+ *    - a default or preferred email notification service has read access to the VC
+ */
+
+export const usePublicTypeIndex = (webId: string) => {
+  const { isLoading, variables } = useLdhopQuery(
+    useMemo(
+      () => ({
+        query: publicWebIdProfileQuery,
+        variables: { person: [webId] },
+        fetch,
+      }),
+      [webId],
+    ),
+  )
+
+  const typeIndexArray = useMemo(
+    () => Array.from(variables.publicTypeIndex).map(t => t.value),
+    [variables.publicTypeIndex],
+  )
+
+  const accesses = useReadAccesses(typeIndexArray)
+
+  const accessMap = useMemo(
+    () => new Map(typeIndexArray.map((uri, i) => [uri, accesses.results[i]!])),
+    [accesses.results, typeIndexArray],
+  )
+
+  return {
+    isLoading,
+    publicTypeIndex: variables.publicTypeIndex,
+    access: accessMap,
+  }
+}
+
+export const usePrivateTypeIndex = (webId: string) => {
+  const { isLoading, variables } = useLdhopQuery(
+    useMemo(
+      () => ({
+        query: webIdProfileQuery,
+        variables: { person: [webId] },
+        fetch,
+      }),
+      [webId],
+    ),
+  )
+
+  const typeIndexArray = useMemo(
+    () => Array.from(variables.privateTypeIndex).map(t => t.value),
+    [variables.privateTypeIndex],
+  )
+
+  const accesses = useReadAccesses(typeIndexArray)
+
+  const accessMap = useMemo(
+    () => new Map(typeIndexArray.map((uri, i) => [uri, accesses.results[i]!])),
+    [accesses.results, typeIndexArray],
+  )
+
+  return {
+    isLoading,
+    privateTypeIndex: variables.privateTypeIndex,
+    access: accessMap,
+  }
+}
+
+export const useInbox = (webId: string) => {
+  const { isLoading, variables } = useLdhopQuery(
+    useMemo(
+      () => ({
+        query: webIdProfileQuery,
+        variables: { person: [webId] },
+        fetch,
+      }),
+      [webId],
+    ),
+  )
+
+  const inboxArray = useMemo(
+    () => Array.from(variables.inbox).map(t => t.value),
+    [variables.inbox],
+  )
+
+  const accesses = useReadAccesses(inboxArray)
+
+  const accessMap = useMemo(
+    () => new Map(inboxArray.map((uri, i) => [uri, accesses.results[i]!])),
+    [accesses.results, inboxArray],
+  )
+
+  return {
+    isLoading,
+    inbox: variables.inbox,
+    access: accessMap,
+  }
+}
 /**
  * Check that
  * public type index exists

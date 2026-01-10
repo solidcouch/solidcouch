@@ -117,7 +117,7 @@ msgstr "Zrušit"
 msgid "Chat channel was created"
 msgstr "Chatovací kanál byl vytvořen"
 
-#: src/pages/SetupOutlet.tsx:110
+#: src/pages/SetupOutlet.tsx:118
 msgid "Checking your setup..."
 msgstr "Kontroluji vaše nastavení..."
 
@@ -723,7 +723,7 @@ msgstr ""
 "\n"
 "Chyba: {errorString}"
 
-#: src/pages/SetupOutlet.tsx:113
+#: src/pages/SetupOutlet.tsx:121
 msgid "We're verifying that everything is configured correctly."
 msgstr "Ověřujeme, že je vše správně nastaveno."
 

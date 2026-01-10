@@ -1,6 +1,6 @@
 import { getContainer } from '@/utils/helpers'
 import { meeting, wf } from '@/utils/rdf-namespaces'
-import type { Constant, LdhopQuery } from '@ldhop/core'
+import { ldhop, type Constant } from '@ldhop/core'
 import { NamedNode, Term } from 'n3'
 import {
   as,
@@ -12,161 +12,56 @@ import {
   solid,
   space,
 } from 'rdf-namespaces'
-import { LdhopQueryVar, personInbox, profileDocuments } from './profile'
+import { profileDocuments } from './profile'
 
-export const inboxMessagesQuery: LdhopQuery<
-  | LdhopQueryVar<typeof profileDocuments>
-  | '?inbox'
-  | '?notification'
-  | '?message'
-  | '?chat'
-  | '?createNotification'
-  | '?messageNotification'
-  | '?object'
-  | '?messageObject'
-> = [
-  ...profileDocuments,
-  personInbox,
-  {
-    type: 'match',
-    subject: `?inbox`,
-    predicate: ldp.contains,
-    pick: 'object',
-    target: `?notification`,
-  },
-  {
-    // deprecated
-    type: 'match',
-    subject: `?notification`,
-    predicate: rdf.type,
-    object: as.Add,
-    pick: 'subject',
-    target: `?createNotification`,
-  },
-  {
-    // deprecated
-    type: 'match',
-    subject: `?notification`,
-    predicate: rdf.type,
-    object: as.Create,
-    pick: 'subject',
-    target: `?createNotification`,
-  },
-  {
-    // deprecated
-    type: 'match',
-    subject: `?createNotification`,
-    predicate: as.context,
-    object: 'https://www.pod-chat.com/LongChatMessage',
-    pick: 'subject',
-    target: `?messageNotification`,
-  },
-  {
-    type: 'match',
-    subject: `?createNotification`,
-    predicate: as.object,
-    pick: 'object',
-    target: `?object`,
-  },
-  {
-    type: 'match',
-    subject: `?object`,
-    predicate: rdf.type,
-    object: schema.Message,
-    pick: 'subject',
-    target: `?messageObject`,
-  },
-  {
-    type: 'match',
-    subject: `?object`,
-    predicate: rdf.type,
-    object: schema_https.Message,
-    pick: 'subject',
-    target: `?messageObject`,
-  },
-  {
-    type: 'match',
-    predicate: as.object,
-    object: `?messageObject`,
-    pick: 'subject',
-    target: `?messageNotification`,
-  },
-  {
-    type: 'match',
-    subject: `?messageNotification`,
-    predicate: as.object,
-    pick: 'object',
-    target: `?message`,
-  },
-  { type: 'add resources', variable: `?message` },
-  {
-    type: 'match',
-    subject: `?messageNotification`,
-    predicate: as.target,
-    pick: 'object',
-    target: `?chat`,
-  },
-  { type: 'add resources', variable: `?chat` },
-]
+export const inboxMessagesQuery = profileDocuments
+  .match('?person', ldp.inbox)
+  .o('?inbox')
+  .match('?inbox', ldp.contains)
+  .o('?notification')
+  // deprecated
+  .match('?notification', rdf.type, as.Add)
+  .s('?createNotification')
+  // deprecated
+  .match('?notification', rdf.type, as.Create)
+  .s('?createNotification')
+  // deprecated
+  .match(
+    '?createNotification',
+    as.context,
+    'https://www.pod-chat.com/LongChatMessage',
+  )
+  .s('?messageNotification')
+  .match('?createNotification', as.object)
+  .o('?object')
+  .match('?object', rdf.type, schema.Message)
+  .s('?messageObject')
+  .match('?object', rdf.type, schema_https.Message)
+  .s('?messageObject')
+  .match(null, as.object, '?messageObject')
+  .s('?messageNotification')
+  .match('?messageNotification', as.object)
+  .o('?message')
+  .add()
+  .match('?messageNotification', as.target)
+  .o('?chat')
+  .add()
 
-const chats: LdhopQuery<
-  | '?person'
-  | '?profileDocument'
-  | '?preferencesFile'
-  | '?typeRegistration'
-  | '?privateTypeIndex'
-  | '?typeRegistrationForChat'
-  | '?chat'
-  | '?participation'
-> = [
-  ...profileDocuments,
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: space.preferencesFile,
-    pick: 'object',
-    target: '?preferencesFile',
-  },
-  { type: 'add resources', variable: '?preferencesFile' },
+const chats = profileDocuments
+  .match('?person', space.preferencesFile)
+  .o('?preferencesFile')
+  .add()
   // find and fetch private type index
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: solid.privateTypeIndex,
-    pick: 'object',
-    target: '?privateTypeIndex',
-  },
-  {
-    type: 'match',
-    predicate: rdf.type,
-    object: solid.TypeRegistration,
-    graph: '?privateTypeIndex',
-    pick: 'subject',
-    target: '?typeRegistration',
-  },
-  {
-    type: 'match',
-    subject: '?typeRegistration',
-    predicate: solid.forClass,
-    object: meeting.LongChat,
-    pick: 'subject',
-    target: '?typeRegistrationForChat',
-  },
-  {
-    type: 'match',
-    subject: '?typeRegistrationForChat',
-    predicate: solid.instance,
-    pick: 'object',
-    target: `?chat`,
-  },
-  {
-    type: 'match',
-    subject: '?chat',
-    predicate: wf.participation as Constant,
-    pick: 'object',
-    target: '?participation',
-  },
-]
+  .match('?person', solid.privateTypeIndex)
+  .o('?privateTypeIndex')
+  .match(null, rdf.type, solid.TypeRegistration, '?privateTypeIndex')
+  .s('?typeRegistration')
+  .match('?typeRegistration', solid.forClass, meeting.LongChat)
+  .s('?typeRegistrationForChat')
+  .match('?typeRegistrationForChat', solid.instance)
+  .o('?chat')
+  .match('?chat', wf.participation as Constant)
+  .o('?participation')
 
 // const threadsQuery: LdhopQuery<LdhopQueryVars<typeof chats> | '?otherChat'> = [
 //   ...chats,
@@ -179,141 +74,44 @@ const chats: LdhopQuery<
 //   },
 // ]
 
-const chatsWithPerson: LdhopQuery<
-  | LdhopQueryVar<typeof chats>
-  | '?otherPerson'
-  | '?otherPersonParticipation'
-  | '?participant'
-  | '?chatWithOtherPerson'
-  | '?chatWithOtherPersonParticipation'
-  | '?otherChat'
-> = [
-  ...chats,
-  {
-    type: 'match',
-    subject: '?participation',
-    predicate: wf.participant,
-    pick: 'object',
-    target: '?participant',
-  },
-  {
-    type: 'match',
-    subject: '?participation',
-    predicate: wf.participant,
-    object: '?otherPerson',
-    pick: 'subject',
-    target: '?otherPersonParticipation',
-  },
-  {
-    type: 'match',
-    subject: '?participation',
-    predicate: wf.participant,
-    object: '?otherPerson',
-    pick: 'subject',
-    target: '?otherPersonParticipation',
-  },
-  {
-    type: 'match',
-    subject: '?chat',
-    predicate: wf.participation,
-    object: '?otherPersonParticipation',
-    pick: 'subject',
-    target: '?chatWithOtherPerson',
-  },
-  {
-    type: 'match',
-    subject: '?chatWithOtherPerson',
-    predicate: wf.participation,
-    pick: 'object',
-    target: '?chatWithOtherPersonParticipation',
-  },
-  {
-    type: 'match',
-    subject: '?chatWithOtherPersonParticipation',
-    predicate: dct.references,
-    pick: 'object',
-    target: '?otherChat',
-  },
-]
+const chatsWithPerson = ldhop('?person', '?otherPerson')
+  .concat(chats)
+  .match('?participation', wf.participant)
+  .o('?participant')
+  .match('?participation', wf.participant, '?otherPerson')
+  .s('?otherPersonParticipation')
+  .match('?chat', wf.participation, '?otherPersonParticipation')
+  .s('?chatWithOtherPerson')
+  .match('?chatWithOtherPerson', wf.participation)
+  .o('?chatWithOtherPersonParticipation')
+  // deprecated
+  .match('?chatWithOtherPersonParticipation', dct.references)
+  .o('?otherChat')
 
-const messageTree: LdhopQuery<
-  | '?chatContainer'
-  | '?year'
-  | '?month'
-  | '?day'
-  | '?messageDoc'
-  | '?chat'
-  | '?otherChat'
-  | '?message'
-> = [
-  {
-    type: 'match',
-    subject: '?chatContainer',
-    predicate: ldp.contains,
-    pick: 'object',
-    target: '?year',
-  },
-  {
-    type: 'match',
-    subject: '?year',
-    predicate: ldp.contains,
-    pick: 'object',
-    target: '?month',
-  },
-  {
-    type: 'match',
-    subject: '?month',
-    predicate: ldp.contains,
-    pick: 'object',
-    target: '?day',
-  },
-  {
-    type: 'match',
-    subject: '?day',
-    predicate: ldp.contains,
-    pick: 'object',
-    target: '?messageDoc',
-  },
-  { type: 'add resources', variable: '?messageDoc' },
-  {
-    type: 'match',
-    subject: '?chat',
-    predicate: wf.message,
-    pick: 'object',
-    target: '?message',
-  },
-  {
-    type: 'match',
-    subject: '?otherChat',
-    predicate: wf.message,
-    pick: 'object',
-    target: '?message',
-  },
-]
+const messageTree = ldhop('?chatContainer', '?chat', '?otherChat')
+  .match('?chatContainer', ldp.contains)
+  .o('?year')
+  .match('?year', ldp.contains)
+  .o('?month')
+  .match('?month', ldp.contains)
+  .o('?day')
+  .match('?day', ldp.contains)
+  .o('?messageDoc')
+  .add()
+  .match('?chat', wf.message)
+  .o('?message')
+  .match('?otherChat', wf.message)
+  .o('?message')
 
 const getContainerNode = (term: Term) =>
   term.termType === 'NamedNode'
     ? new NamedNode(getContainer(term.value))
     : undefined
 
-export const messages: LdhopQuery<
-  LdhopQueryVar<typeof chatsWithPerson> | LdhopQueryVar<typeof messageTree>
-> = [
-  ...chatsWithPerson,
-  {
-    type: 'transform variable',
-    source: '?chatWithOtherPerson',
-    target: '?chatContainer',
-    transform: getContainerNode,
-  },
-  {
-    type: 'transform variable',
-    source: '?otherChat',
-    target: '?chatContainer',
-    transform: getContainerNode,
-  },
-  ...messageTree,
-]
+export const messages = chatsWithPerson
+  .transform('?chatWithOtherPerson', '?chatContainer', getContainerNode)
+  .transform('?otherChat', '?chatContainer', getContainerNode)
+  .concat(messageTree)
 
 // export const threads: LdhopQuery<
 //   LdhopQueryVars<typeof threadsQuery> | LdhopQueryVars<typeof messageTree>

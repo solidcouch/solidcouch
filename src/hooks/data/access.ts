@@ -132,6 +132,7 @@ export const useReadAccesses = (resources: string[]) => {
       resourceQueries.some(q => q.isLoading) ||
       aclQueries.some(q => q.isLoading),
     results: resourceAccessData.map((accessData, i) => ({
+      isLoading: resourceQueries[i]!.isLoading || aclQueries[i]!.isLoading,
       effectivePermissions: accessData.effectivePermissions,
       acls: [{ uri: accessData.aclUri, accesses: accesses[i] }],
     })),

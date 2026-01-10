@@ -1,57 +1,20 @@
-import type { LdhopQuery } from '@ldhop/core'
+import { ldhop } from '@ldhop/core'
 import { as, foaf, ldp, rdf, rdfs } from 'rdf-namespaces'
-import {
-  LdhopQueryVar,
-  MatchVar,
-  personInbox,
-  profileDocuments,
-} from './profile'
+import { personInbox, profileDocuments } from './profile'
 
-export const contactsQuery: LdhopQuery<
-  | LdhopQueryVar<typeof profileDocuments>
-  | '?otherPerson'
-  | '?otherProfileDocument'
-> = [
-  ...profileDocuments,
-  {
-    type: 'match',
-    subject: '?person',
-    predicate: foaf.knows,
-    pick: 'object',
-    target: '?otherPerson',
-  },
-  {
-    type: 'match',
-    subject: '?otherPerson',
-    predicate: rdfs.seeAlso, // TODO also include foaf.isPrimaryTopicOf
-    pick: 'object',
-    target: '?otherProfileDocument',
-  },
+export const contactsQuery = ldhop()
+  .concat(profileDocuments)
+  .match('?person', foaf.knows)
+  .o('?otherPerson')
+  .match('?otherPerson', rdfs.seeAlso) // TODO also include foaf.isPrimaryTopicOf
+  .o('?otherProfileDocument')
   // fetch the profile documents
-  { type: 'add resources', variable: '?otherProfileDocument' },
-]
+  .add()
 
-export const contactRequestsQuery: LdhopQuery<
-  | LdhopQueryVar<typeof profileDocuments>
-  | MatchVar<typeof personInbox>
-  | '?notification'
-  | '?inviteNotification'
-> = [
-  ...profileDocuments,
-  personInbox,
-  {
-    type: 'match',
-    subject: '?inbox',
-    predicate: ldp.contains,
-    pick: 'object',
-    target: '?notification',
-  },
-  {
-    type: 'match',
-    subject: '?notification',
-    predicate: rdf.type,
-    object: as.Invite,
-    pick: 'subject',
-    target: '?inviteNotification',
-  },
-]
+export const contactRequestsQuery = ldhop()
+  .concat(profileDocuments)
+  .concat([personInbox])
+  .match('?inbox', ldp.contains)
+  .o('?notification')
+  .match('?notification', rdf.type, as.Invite)
+  .s('?inviteNotification')

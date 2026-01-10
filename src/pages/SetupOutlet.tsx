@@ -4,6 +4,9 @@ import {
   useCheckEmailNotifications,
   useCheckSetup,
   useCheckSimpleEmailNotifications,
+  useInbox,
+  usePrivateTypeIndex,
+  usePublicTypeIndex,
 } from '@/hooks/data/useCheckSetup'
 import { selectAuth } from '@/redux/authSlice'
 import { useAppSelector } from '@/redux/hooks'
@@ -35,6 +38,11 @@ export const SetupOutlet = () => {
     'inboxes',
     'allHospex',
   ])
+
+  // TODO use results
+  usePublicTypeIndex(auth.webId!)
+  usePrivateTypeIndex(auth.webId!)
+  useInbox(auth.webId!)
 
   // set up email
   const isSimpleEmailNotifications = useCheckSimpleEmailNotifications(
