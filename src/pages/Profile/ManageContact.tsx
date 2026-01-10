@@ -1,7 +1,7 @@
 import { Button, Loading } from '@/components'
 import { Modal } from '@/components/Modal/Modal'
 import { useConfig } from '@/config/hooks'
-import { useCheckSetup, useInbox } from '@/hooks/data/useCheckSetup'
+import { useHospexDocument, useInbox } from '@/hooks/data/useCheckSetup'
 import {
   ContactStatus,
   useConfirmContact,
@@ -57,11 +57,14 @@ export const ProcessContactInvitation = ({
   const confirmContact = useConfirmContact()
   const ignoreContact = useIgnoreContactRequest()
 
-  const setup = useCheckSetup(auth.webId!, communityId)
+  const { forCommunity: personalHospexDocuments } = useHospexDocument(
+    auth.webId!,
+    communityId,
+  )
 
   const handleConfirm = async () => {
     const hospexContainer = getContainer(
-      setup.personalHospexDocuments.values().next().value!.value,
+      personalHospexDocuments.values().next().value!.value,
     )
     if (!hospexContainer)
       throw new Error(t`hospex container not found (too soon?)`)
@@ -91,7 +94,7 @@ export const ProcessContactInvitation = ({
         <Button
           primary
           onClick={handleConfirm}
-          disabled={setup.personalHospexDocuments.size === 0}
+          disabled={personalHospexDocuments.size === 0}
         >
           <Trans>Accept</Trans>
         </Button>
@@ -110,12 +113,15 @@ const AddContact = ({ webId }: { webId: URI }) => {
   const auth = useAuth()
 
   const createContact2 = useCreateContact()
-  const mySetup = useCheckSetup(auth.webId!, communityId)
+  const { forCommunity: myHospexDocuments } = useHospexDocument(
+    auth.webId!,
+    communityId,
+  )
   const { inbox: otherPersonInbox } = useInbox(webId)
 
   const handleSubmit = async ({ invitation }: { invitation: string }) => {
     const hospexContainer = getContainer(
-      mySetup.personalHospexDocuments.values().next().value!.value,
+      myHospexDocuments.values().next().value!.value,
     )
     if (!hospexContainer)
       throw new Error(t`hospex container not found (too soon?)`)
@@ -142,10 +148,7 @@ const AddContact = ({ webId }: { webId: URI }) => {
         onClick={() => {
           setModalOpen(true)
         }}
-        disabled={
-          mySetup.personalHospexDocuments.size === 0 ||
-          otherPersonInbox.size === 0
-        }
+        disabled={myHospexDocuments.size === 0 || otherPersonInbox.size === 0}
       >
         <Trans>Add to my contacts</Trans>
       </Button>

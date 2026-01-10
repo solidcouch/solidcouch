@@ -2,7 +2,10 @@ import { Button, Loading } from '@/components'
 import { Person } from '@/components/Person/Person'
 import { withToast } from '@/components/withToast.tsx'
 import { useConfig } from '@/config/hooks'
-import { useCheckSetup, usePrivateTypeIndex } from '@/hooks/data/useCheckSetup'
+import {
+  useHospexDocument,
+  usePrivateTypeIndex,
+} from '@/hooks/data/useCheckSetup'
 import {
   useCreateChat,
   useCreateMessage,
@@ -44,10 +47,10 @@ export const MessagesOld = () => {
       userId: personId,
     })
 
-  const {
-    personalHospexDocuments,
-    // inboxes: [myInbox],
-  } = useCheckSetup(auth.webId!, communityId)
+  const { forCommunity: personalHospexDocuments } = useHospexDocument(
+    auth.webId!,
+    communityId,
+  )
 
   const { privateTypeIndex: privateTypeIndexes } = usePrivateTypeIndex(
     auth.webId!,

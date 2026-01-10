@@ -175,7 +175,7 @@ const usePreferencesFile = (webId: string) => {
   }
 }
 
-const useHospexDocument = (userId: URI, communityId: URI) => {
+export const useHospexDocument = (userId: URI, communityId: URI) => {
   const { isLoading, variables, store } = useLdhopQuery({
     query: privateProfileAndHospexDocumentQuery,
     variables: useMemo(
