@@ -76,13 +76,13 @@ export const HospexSetup = (
               storage={storage}
               webId={auth.webId}
               preferencesFile={
-                props.preferencesFiles.values().next().value!.value
+                props.preferencesFiles.values().next().value?.value
               }
               publicTypeIndex={
-                props.publicTypeIndexes.values().next().value!.value
+                props.publicTypeIndexes.values().next().value?.value
               }
               privateTypeIndex={
-                props.privateTypeIndexes.values().next().value!.value
+                props.privateTypeIndexes.values().next().value?.value
               }
             />
           ) : null,
@@ -96,7 +96,7 @@ export const HospexSetup = (
             isHospexProfile={props.isHospexProfile}
             allHospex={props.allHospex}
             publicTypeIndex={
-              props.publicTypeIndexes.values().next().value!.value
+              props.publicTypeIndexes.values().next().value?.value
             }
           />
         ),
@@ -112,7 +112,7 @@ export const HospexSetup = (
                 ah.communities.some(ahc => ahc.uri === config.communityId),
               )?.hospexDocument
             }
-            inbox={props.inboxes.values().next().value!.value}
+            inbox={props.inboxes.values().next().value?.value}
             onSuccess={() => {}}
           />
         ),
