@@ -35,7 +35,7 @@ export const useReadContacts = (personId: URI) => {
   const contacts: Contact[] = useMemo(() => {
     const store = new Store(quads)
 
-    return Array.from(variables.otherPerson).map(otherPerson => {
+    return Array.from(variables.otherPerson ?? []).map(otherPerson => {
       // find personal and profile documents of otherPerson
       // TODO this should be replaced with uri=>resource map when it's available from the engine
       // i.e. we should use the response.url of the otherPerson URI.
@@ -97,7 +97,7 @@ const useReadContactNotifications = (me: URI) => {
     const dataset = createLdoDataset(quads).usingType(
       ContactInvitationActivityShapeType,
     )
-    return Array.from(notifications)
+    return Array.from(notifications ?? [])
       .map(notification => dataset.fromSubject(notification.value))
       .filter(
         ldo =>

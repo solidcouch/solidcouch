@@ -1,9 +1,8 @@
 import { inboxMessagesQuery } from '@/hooks/data/queries'
-import { LdhopQueryVar } from '@/hooks/data/queries/profile'
 import { getTypeIndexQuery } from '@/hooks/data/queries/typeIndex'
 import { getContainer } from '@/utils/helpers'
 import { meeting, wf } from '@/utils/rdf-namespaces'
-import { LdhopQuery, Variable } from '@ldhop/core'
+import { ldhop, Variable } from '@ldhop/core'
 import { NamedNode } from 'n3'
 import { dct, ldp } from 'rdf-namespaces'
 
@@ -17,127 +16,69 @@ export enum Variables {
   message = '?message',
 }
 
-type Vars = keyof typeof Variables
+export const getChatMessagesQuery = <
+  Root extends Variable,
+  Channel extends Variable,
+  T extends Variable,
+>(variables: {
+  root: Root
+  channel: Channel
+  day: T
+  month: T
+  year: T
+  chatResource: T
+  message: T
+}) =>
+  ldhop<Root | Channel>(variables.root, variables.channel)
+    .match(variables.root, ldp.contains)
+    .o(variables.year)
+    .match(variables.year, ldp.contains)
+    .o(variables.month)
+    .match(variables.month, ldp.contains)
+    .o(variables.day)
+    .match(variables.day, ldp.contains)
+    .o(variables.chatResource)
+    .add(variables.chatResource)
+    .match(variables.channel, wf.message)
+    .o(variables.message)
 
-export const getChatMessagesQuery = <T extends Variable>(variables: {
-  [K in Vars]: T
-}): LdhopQuery<T> => [
-  {
-    type: 'match',
-    subject: variables.root,
-    predicate: ldp.contains,
-    pick: 'object',
-    target: variables.year,
-  },
-  {
-    type: 'match',
-    subject: variables.year,
-    predicate: ldp.contains,
-    pick: 'object',
-    target: variables.month,
-  },
-  {
-    type: 'match',
-    subject: variables.month,
-    predicate: ldp.contains,
-    pick: 'object',
-    target: variables.day,
-  },
-  {
-    type: 'match',
-    subject: variables.day,
-    predicate: ldp.contains,
-    pick: 'object',
-    target: variables.chatResource,
-  },
-  { type: 'add resources', variable: variables.chatResource },
-  {
-    type: 'match',
-    subject: variables.channel,
-    predicate: wf.message,
-    pick: 'object',
-    target: variables.message,
-  },
-]
-
-export const getTypeIndexChatQuery = <T extends never>(): LdhopQuery<
-  LdhopQueryVar<ReturnType<typeof getTypeIndexQuery>> | '?participation' | T
-> => [
-  ...getTypeIndexQuery({ forClass: meeting.LongChat }),
-  {
-    type: 'match',
-    subject: '?instance',
-    predicate: wf.participation,
-    pick: 'object',
-    target: '?participation',
-  },
-]
+export const getTypeIndexChatQuery = () =>
+  getTypeIndexQuery({ forClass: meeting.LongChat })
+    .match('?instance', wf.participation)
+    .o('?participation')
 
 export const getChatParticipantsQuery = <T extends Variable>(variables: {
   channel: T
-}): LdhopQuery<T | '?participation' | '?participant'> => [
-  {
-    type: 'match',
-    subject: variables.channel,
-    predicate: wf.participation,
-    pick: 'object',
-    target: '?participation',
-  },
-  {
-    type: 'match',
-    subject: '?participation',
-    predicate: wf.participant,
-    pick: 'object',
-    target: '?participant',
-  },
-]
+}) =>
+  ldhop(variables.channel)
+    .match(variables.channel, wf.participation)
+    .o('?participation')
+    .match('?participation', wf.participant)
+    .o('?participant')
 
 export const getChatLegacyLinkQuery = <T extends Variable>(variables: {
   channel: T
   root: T
-}): LdhopQuery<T | '?participation'> => [
-  {
-    type: 'match',
-    subject: '?participation',
-    predicate: dct.references,
-    pick: 'object',
-    target: variables.channel,
-  },
-  {
-    type: 'transform variable',
-    source: variables.channel,
-    target: variables.root,
-    transform: term => new NamedNode(getContainer(term.value)),
-  },
-]
+}) =>
+  ldhop('?participation')
+    .match('?participation', dct.references)
+    .o(variables.channel)
+    .transform(variables.channel, variables.root, term =>
+      term.termType === 'NamedNode'
+        ? new NamedNode(getContainer(term.value))
+        : undefined,
+    )
 
-export const threadsQuery: LdhopQuery<
-  | LdhopQueryVar<ReturnType<typeof getTypeIndexQuery>>
-  | Variables
-  | LdhopQueryVar<typeof inboxMessagesQuery>
-  | LdhopQueryVar<ReturnType<typeof getChatMessagesQuery<Variables>>>
-  | LdhopQueryVar<ReturnType<typeof getChatParticipantsQuery<Variables>>>
-> = [
-  ...getTypeIndexQuery({ forClass: meeting.LongChat }),
-  {
-    type: 'match',
-    object: '?instance',
-    pick: 'object',
-    target: Variables.channel,
-  },
-  ...inboxMessagesQuery,
-  {
-    type: 'match',
-    object: '?chat',
-    pick: 'object',
-    target: Variables.channel,
-  },
-  {
-    type: 'transform variable',
-    source: Variables.channel,
-    target: Variables.root,
-    transform: term => new NamedNode(getContainer(term.value)),
-  },
-  ...getChatMessagesQuery(Variables),
-  ...getChatParticipantsQuery(Variables),
-]
+export const threadsQuery = getTypeIndexQuery({ forClass: meeting.LongChat })
+  // rename
+  .transform('?instance', Variables.channel, t => t)
+  .concat(inboxMessagesQuery)
+  // rename
+  .transform('?chat', Variables.channel, t => t)
+  .transform(
+    Variables.channel,
+    Variables.root,
+    term => new NamedNode(getContainer(term.value)),
+  )
+  .concat(getChatMessagesQuery(Variables))
+  .concat(getChatParticipantsQuery(Variables))

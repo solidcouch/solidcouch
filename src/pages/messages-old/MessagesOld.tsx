@@ -2,7 +2,10 @@ import { Button, Loading } from '@/components'
 import { Person } from '@/components/Person/Person'
 import { withToast } from '@/components/withToast.tsx'
 import { useConfig } from '@/config/hooks'
-import { useCheckSetup } from '@/hooks/data/useCheckSetup'
+import {
+  useHospexDocument,
+  usePrivateTypeIndex,
+} from '@/hooks/data/useCheckSetup'
 import {
   useCreateChat,
   useCreateMessage,
@@ -44,11 +47,14 @@ export const MessagesOld = () => {
       userId: personId,
     })
 
-  const {
-    privateTypeIndexes,
-    personalHospexDocuments,
-    // inboxes: [myInbox],
-  } = useCheckSetup(auth.webId!, communityId)
+  const { forCommunity: personalHospexDocuments } = useHospexDocument(
+    auth.webId!,
+    communityId,
+  )
+
+  const { privateTypeIndex: privateTypeIndexes } = usePrivateTypeIndex(
+    auth.webId!,
+  )
 
   const [otherPersonSetup] = useSolidProfile(personId)
   const otherInbox = otherPersonSetup?.inbox?.['@id']
@@ -138,17 +144,19 @@ export const MessagesOld = () => {
     let chat: string | undefined = chats[0]?.myChat
 
     if (!chat) {
-      if (!personalHospexDocuments[0])
+      if (personalHospexDocuments.size === 0)
         throw new Error(t`Hospex not set up (should not happen)`)
-      if (!privateTypeIndexes[0])
+      if (privateTypeIndexes.size === 0)
         throw new Error(t`Private type index not set up (should not happen)`)
       ;({ chatId: chat } = await createChat({
         me: auth.webId,
         otherPerson: personId,
-        hospexContainer: getContainer(personalHospexDocuments[0]),
+        hospexContainer: getContainer(
+          personalHospexDocuments.values().next().value!.value,
+        ),
         otherChat:
           chats[0]?.otherChats?.[0] ?? otherChatFromNotifications ?? undefined,
-        privateTypeIndex: privateTypeIndexes[0],
+        privateTypeIndex: privateTypeIndexes.values().next().value!.value,
       }))
     }
 
