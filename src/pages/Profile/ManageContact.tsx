@@ -1,7 +1,7 @@
 import { Button, Loading } from '@/components'
 import { Modal } from '@/components/Modal/Modal'
 import { useConfig } from '@/config/hooks'
-import { useCheckSetup } from '@/hooks/data/useCheckSetup'
+import { useCheckSetup, useInbox } from '@/hooks/data/useCheckSetup'
 import {
   ContactStatus,
   useConfirmContact,
@@ -109,13 +109,13 @@ const AddContact = ({ webId }: { webId: URI }) => {
 
   const createContact2 = useCreateContact()
   const mySetup = useCheckSetup(auth.webId!, communityId)
-  const otherSetup = useCheckSetup(webId, communityId)
+  const { inbox: otherPersonInbox } = useInbox(webId)
 
   const handleSubmit = async ({ invitation }: { invitation: string }) => {
     const hospexContainer = getContainer(mySetup.personalHospexDocuments[0]!)
     if (!hospexContainer)
       throw new Error(t`hospex container not found (too soon?)`)
-    const inbox = getContainer(otherSetup.inboxes[0]!)
+    const inbox = getContainer(otherPersonInbox.values().next().value!.value)
     if (!inbox) throw new Error(t`inbox not found (too soon?)`)
 
     await createContact2({
@@ -140,7 +140,7 @@ const AddContact = ({ webId }: { webId: URI }) => {
         }}
         disabled={
           mySetup.personalHospexDocuments.length === 0 ||
-          otherSetup.inboxes.length === 0
+          otherPersonInbox.size === 0
         }
       >
         <Trans>Add to my contacts</Trans>

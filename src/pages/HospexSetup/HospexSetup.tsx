@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Trans } from '@lingui/react/macro'
 import clsx from 'clsx'
 import pick from 'lodash/pick'
+import { Term } from 'n3'
 import { Tabs } from 'radix-ui'
 import { useMemo } from 'react'
 import styles from './HospexSetup.module.scss'
@@ -25,10 +26,10 @@ interface SetupStatus {
 
 interface SetupConfig {
   personalHospexDocuments: string[]
-  publicTypeIndexes: string[]
-  privateTypeIndexes: string[]
-  preferencesFiles: string[]
-  inboxes: string[]
+  publicTypeIndexes: Set<Term>
+  privateTypeIndexes: Set<Term>
+  preferencesFiles: Set<Term>
+  inboxes: Set<Term>
   allHospex: {
     hospexDocument: string
     communities: { uri: string; name: string }[]
@@ -74,9 +75,15 @@ export const HospexSetup = (
               isInbox={props.isInbox}
               storage={storage}
               webId={auth.webId}
-              preferencesFile={props.preferencesFiles[0]}
-              publicTypeIndex={props.preferencesFiles[0]}
-              privateTypeIndex={props.privateTypeIndexes[0]}
+              preferencesFile={
+                props.preferencesFiles.values().next().value!.value
+              }
+              publicTypeIndex={
+                props.publicTypeIndexes.values().next().value!.value
+              }
+              privateTypeIndex={
+                props.privateTypeIndexes.values().next().value!.value
+              }
             />
           ) : null,
       },
@@ -88,7 +95,9 @@ export const HospexSetup = (
             isMember={props.isMember}
             isHospexProfile={props.isHospexProfile}
             allHospex={props.allHospex}
-            publicTypeIndex={props.publicTypeIndexes[0]}
+            publicTypeIndex={
+              props.publicTypeIndexes.values().next().value!.value
+            }
           />
         ),
       },
@@ -103,7 +112,7 @@ export const HospexSetup = (
                 ah.communities.some(ahc => ahc.uri === config.communityId),
               )?.hospexDocument
             }
-            inbox={props.inboxes[0]}
+            inbox={props.inboxes.values().next().value!.value}
             onSuccess={() => {}}
           />
         ),

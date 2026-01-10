@@ -140,6 +140,40 @@ export const useInbox = (webId: string) => {
     access: accessMap,
   }
 }
+
+const usePreferencesFile = (webId: string) => {
+  const { isLoading, variables } = useLdhopQuery(
+    useMemo(
+      () => ({
+        query: webIdProfileQuery,
+        variables: { person: [webId] },
+        fetch,
+      }),
+      [webId],
+    ),
+  )
+
+  const preferencesFileArray = useMemo(
+    () => Array.from(variables.preferencesFile).map(t => t.value),
+    [variables.preferencesFile],
+  )
+
+  const accesses = useReadAccesses(preferencesFileArray)
+
+  const accessMap = useMemo(
+    () =>
+      new Map(
+        preferencesFileArray.map((uri, i) => [uri, accesses.results[i]!]),
+      ),
+    [accesses.results, preferencesFileArray],
+  )
+
+  return {
+    isLoading,
+    preferencesFile: variables.preferencesFile,
+    access: accessMap,
+  }
+}
 /**
  * Check that
  * public type index exists
@@ -169,22 +203,10 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     fetch,
   })
 
-  const publicTypeIndexes = useMemo(
-    () => Array.from(variables.publicTypeIndex).map(t => t.value),
-    [variables.publicTypeIndex],
-  )
-  const privateTypeIndexes = useMemo(
-    () => Array.from(variables.privateTypeIndex).map(t => t.value),
-    [variables.privateTypeIndex],
-  )
-  const preferencesFiles = useMemo(
-    () => Array.from(variables.preferencesFile).map(t => t.value),
-    [variables.preferencesFile],
-  )
-  const inboxes = useMemo(
-    () => Array.from(variables.inbox).map(t => t.value),
-    [variables.inbox],
-  )
+  const publicTypeIndexResults = usePublicTypeIndex(userId)
+  const privateTypeIndexResults = usePrivateTypeIndex(userId)
+  const inboxResults = useInbox(userId)
+  const preferencesFileResults = usePreferencesFile(userId)
 
   const personalHospexDocumentsForCommunity = useMemo(
     () => Array.from(variables.hospexDocumentForCommunity).map(t => t.value),
@@ -221,12 +243,29 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
         ? undefined
         : false
   const isPublicTypeIndex =
-    publicTypeIndexes.length > 0 ? true : isLoading ? undefined : false
+    publicTypeIndexResults.publicTypeIndex.size > 0
+      ? true
+      : publicTypeIndexResults.isLoading
+        ? undefined
+        : false
   const isPrivateTypeIndex =
-    privateTypeIndexes.length > 0 ? true : isLoading ? undefined : false
+    privateTypeIndexResults.privateTypeIndex.size > 0
+      ? true
+      : privateTypeIndexResults.isLoading
+        ? undefined
+        : false
   const isPreferencesFile =
-    preferencesFiles.length > 0 ? true : isLoading ? undefined : false
-  const isInbox = inboxes.length > 0 ? true : isLoading ? undefined : false
+    preferencesFileResults.preferencesFile.size > 0
+      ? true
+      : preferencesFileResults.isLoading
+        ? undefined
+        : false
+  const isInbox =
+    inboxResults.inbox.size > 0
+      ? true
+      : inboxResults.isLoading
+        ? undefined
+        : false
   return {
     isHospexProfile,
     isPublicTypeIndex,
@@ -234,10 +273,10 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     isPreferencesFile,
     isInbox,
     personalHospexDocuments: personalHospexDocumentsForCommunity,
-    publicTypeIndexes,
-    privateTypeIndexes,
-    preferencesFiles,
-    inboxes,
+    publicTypeIndexes: publicTypeIndexResults.publicTypeIndex,
+    privateTypeIndexes: privateTypeIndexResults.privateTypeIndex,
+    preferencesFiles: preferencesFileResults.preferencesFile,
+    inboxes: inboxResults.inbox,
     allHospex: hospexDocuments,
   } as const
 }

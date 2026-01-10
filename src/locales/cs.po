@@ -202,7 +202,7 @@ msgstr "Vytváření ubytování"
 msgid "Creating channel failed"
 msgstr "Nepodařilo se vytvořit kanál"
 
-#: src/pages/messages-old/MessagesOld.tsx:162
+#: src/pages/messages-old/MessagesOld.tsx:165
 msgid "Creating message"
 msgstr "Vytváření zprávy"
 
@@ -239,7 +239,7 @@ msgstr "upravit profil"
 msgid "email address"
 msgstr "e-mailová adresa"
 
-#: src/pages/messages-old/MessagesOld.tsx:189
+#: src/pages/messages-old/MessagesOld.tsx:192
 msgid "Email notification was sent"
 msgstr "E-mailové upozornění bylo odesláno"
 
@@ -292,7 +292,7 @@ msgstr "hospex kontejner nebyl nalezen (možná příliš brzy?)"
 msgid "Hospex document not found"
 msgstr "Hospex dokument nebyl nalezen"
 
-#: src/pages/messages-old/MessagesOld.tsx:142
+#: src/pages/messages-old/MessagesOld.tsx:145
 msgid "Hospex not set up (should not happen)"
 msgstr "Hospex není nastaven (nemělo by se to stát)"
 
@@ -321,7 +321,7 @@ msgstr "Schránka je nastavena."
 msgid "inbox not found (too soon?)"
 msgstr "schránka nebyla nalezena (možná příliš brzy?)"
 
-#: src/pages/messages-old/MessagesOld.tsx:135
+#: src/pages/messages-old/MessagesOld.tsx:138
 msgid "Inbox of the other person not found (probably too soon)"
 msgstr "Schránka druhé osoby nebyla nalezena (pravděpodobně příliš brzy)"
 
@@ -341,7 +341,7 @@ msgstr ""
 msgid "Join {communityName}"
 msgstr "Připojte se k {communityName}"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:84
+#: src/pages/HospexSetup/HospexSetup.tsx:91
 msgid "Join Community"
 msgstr "Připojit se ke komunitě"
 
@@ -367,12 +367,12 @@ msgstr "Načítání"
 msgid "loading interests..."
 msgstr "načítání zájmů..."
 
-#: src/pages/messages-old/MessagesOld.tsx:240
+#: src/pages/messages-old/MessagesOld.tsx:243
 msgid "Loading previous messages"
 msgstr "Načítání předchozích zpráv"
 
 #: src/App.tsx:47
-#: src/pages/messages-old/MessagesOld.tsx:205
+#: src/pages/messages-old/MessagesOld.tsx:208
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26
 #: src/pages/SearchHosts/AccommodationInfo.tsx:51
@@ -383,7 +383,7 @@ msgstr "Načítání..."
 msgid "logo of {name}"
 msgstr "logo {name}"
 
-#: src/pages/messages-old/MessagesOld.tsx:163
+#: src/pages/messages-old/MessagesOld.tsx:166
 #: src/pages/messages/useSendMessage.ts:76
 msgid "Message was created"
 msgstr "Zpráva byla vytvořena"
@@ -397,7 +397,7 @@ msgstr "zprávy"
 msgid "Messages with {personLabel}"
 msgstr "Zprávy s {personLabel}"
 
-#: src/pages/messages-old/MessagesOld.tsx:207
+#: src/pages/messages-old/MessagesOld.tsx:210
 msgid "Messages with <0/>"
 msgstr "Zprávy s <0/>"
 
@@ -435,7 +435,7 @@ msgstr "Potřebujete pomoc?"
 msgid "New conversation with {people}"
 msgstr "Nový rozhovor s {people}"
 
-#: src/pages/messages-old/MessagesOld.tsx:131
+#: src/pages/messages-old/MessagesOld.tsx:134
 msgid "No authenticated user available"
 msgstr "Není dostupný žádný autentizovaný uživatel"
 
@@ -488,7 +488,7 @@ msgstr "Postaveno na <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgid "Preferences file is set up."
 msgstr "Soubor předvoleb je nastaven."
 
-#: src/pages/HospexSetup/HospexSetup.tsx:66
+#: src/pages/HospexSetup/HospexSetup.tsx:67
 msgid "Prepare Pod"
 msgstr "Připravte Pod"
 
@@ -496,7 +496,7 @@ msgstr "Připravte Pod"
 msgid "Private type index is set up."
 msgstr "Soukromý index typu je nastaven."
 
-#: src/pages/messages-old/MessagesOld.tsx:144
+#: src/pages/messages-old/MessagesOld.tsx:147
 msgid "Private type index not set up (should not happen)"
 msgstr "Soukromý index typu není nastaven (nemělo by se to stát)."
 
@@ -548,7 +548,7 @@ msgstr "Zobrazit pozvánku ke kontaktu"
 msgid "Select my location"
 msgstr "Vyberte mou polohu"
 
-#: src/pages/messages-old/MessagesOld.tsx:255
+#: src/pages/messages-old/MessagesOld.tsx:258
 #: src/pages/messages/SendMessageForm.tsx:87
 msgid "Send"
 msgstr "Odeslat"
@@ -566,7 +566,7 @@ msgstr "Odeslat potvrzovací e-mail"
 msgid "Send contact invitation"
 msgstr "Odeslat pozvánku ke kontaktu"
 
-#: src/pages/messages-old/MessagesOld.tsx:188
+#: src/pages/messages-old/MessagesOld.tsx:191
 msgid "Sending email notification"
 msgstr "Probíhá odesílání e-mailového upozornění"
 
@@ -582,7 +582,7 @@ msgstr "Nepodařilo se odeslat Linked Data upozornění."
 msgid "Sending message failed: "
 msgstr "Nepodařilo se odeslat zprávu: "
 
-#: src/pages/messages-old/MessagesOld.tsx:177
+#: src/pages/messages-old/MessagesOld.tsx:180
 msgid "Sending Solid notification"
 msgstr "Probíhá odesílání Solid upozornění"
 
@@ -594,11 +594,11 @@ msgstr "Platnost přihlášení vypršela!"
 msgid "Set up new data for this community:"
 msgstr "Nastavit nová data pro tuto komunitu:"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:96
+#: src/pages/HospexSetup/HospexSetup.tsx:105
 msgid "Set Up Notifications"
 msgstr "Nastavit oznámení"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:120
+#: src/pages/HospexSetup/HospexSetup.tsx:129
 msgid "Setup"
 msgstr "Nastavit"
 
@@ -626,7 +626,7 @@ msgstr "Přihlásit se do {communityName}"
 msgid "sign out"
 msgstr "odhlásit se"
 
-#: src/pages/messages-old/MessagesOld.tsx:178
+#: src/pages/messages-old/MessagesOld.tsx:181
 msgid "Solid notification was sent"
 msgstr "Solid upozornění bylo odesláno"
 
@@ -675,7 +675,7 @@ msgstr "Tento rozhovor má zastaralý formát."
 msgid "This field is required"
 msgstr "Toto pole je povinné"
 
-#: src/pages/messages-old/MessagesOld.tsx:247
+#: src/pages/messages-old/MessagesOld.tsx:250
 msgid "This is a start of your conversation"
 msgstr "Toto je začátek vaší konverzace"
 

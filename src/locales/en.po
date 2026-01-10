@@ -202,7 +202,7 @@ msgstr "Creating accommodation"
 msgid "Creating channel failed"
 msgstr "Creating channel failed"
 
-#: src/pages/messages-old/MessagesOld.tsx:162
+#: src/pages/messages-old/MessagesOld.tsx:165
 msgid "Creating message"
 msgstr "Creating message"
 
@@ -239,7 +239,7 @@ msgstr "edit profile"
 msgid "email address"
 msgstr "email address"
 
-#: src/pages/messages-old/MessagesOld.tsx:189
+#: src/pages/messages-old/MessagesOld.tsx:192
 msgid "Email notification was sent"
 msgstr "Email notification was sent"
 
@@ -292,7 +292,7 @@ msgstr "hospex container not found (too soon?)"
 msgid "Hospex document not found"
 msgstr "Hospex document not found"
 
-#: src/pages/messages-old/MessagesOld.tsx:142
+#: src/pages/messages-old/MessagesOld.tsx:145
 msgid "Hospex not set up (should not happen)"
 msgstr "Hospex not set up (should not happen)"
 
@@ -321,7 +321,7 @@ msgstr "Inbox is set up."
 msgid "inbox not found (too soon?)"
 msgstr "inbox not found (too soon?)"
 
-#: src/pages/messages-old/MessagesOld.tsx:135
+#: src/pages/messages-old/MessagesOld.tsx:138
 msgid "Inbox of the other person not found (probably too soon)"
 msgstr "Inbox of the other person not found (probably too soon)"
 
@@ -341,7 +341,7 @@ msgstr "Invitation"
 msgid "Join {communityName}"
 msgstr "Join {communityName}"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:84
+#: src/pages/HospexSetup/HospexSetup.tsx:91
 msgid "Join Community"
 msgstr "Join Community"
 
@@ -367,12 +367,12 @@ msgstr "Loading"
 msgid "loading interests..."
 msgstr "loading interests..."
 
-#: src/pages/messages-old/MessagesOld.tsx:240
+#: src/pages/messages-old/MessagesOld.tsx:243
 msgid "Loading previous messages"
 msgstr "Loading previous messages"
 
 #: src/App.tsx:47
-#: src/pages/messages-old/MessagesOld.tsx:205
+#: src/pages/messages-old/MessagesOld.tsx:208
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26
 #: src/pages/SearchHosts/AccommodationInfo.tsx:51
@@ -383,7 +383,7 @@ msgstr "Loading..."
 msgid "logo of {name}"
 msgstr "logo of {name}"
 
-#: src/pages/messages-old/MessagesOld.tsx:163
+#: src/pages/messages-old/MessagesOld.tsx:166
 #: src/pages/messages/useSendMessage.ts:76
 msgid "Message was created"
 msgstr "Message was created"
@@ -397,7 +397,7 @@ msgstr "messages"
 msgid "Messages with {personLabel}"
 msgstr "Messages with {personLabel}"
 
-#: src/pages/messages-old/MessagesOld.tsx:207
+#: src/pages/messages-old/MessagesOld.tsx:210
 msgid "Messages with <0/>"
 msgstr "Messages with <0/>"
 
@@ -435,7 +435,7 @@ msgstr "Need help?"
 msgid "New conversation with {people}"
 msgstr "New conversation with {people}"
 
-#: src/pages/messages-old/MessagesOld.tsx:131
+#: src/pages/messages-old/MessagesOld.tsx:134
 msgid "No authenticated user available"
 msgstr "No authenticated user available"
 
@@ -488,7 +488,7 @@ msgstr "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgid "Preferences file is set up."
 msgstr "Preferences file is set up."
 
-#: src/pages/HospexSetup/HospexSetup.tsx:66
+#: src/pages/HospexSetup/HospexSetup.tsx:67
 msgid "Prepare Pod"
 msgstr "Prepare Pod"
 
@@ -496,7 +496,7 @@ msgstr "Prepare Pod"
 msgid "Private type index is set up."
 msgstr "Private type index is set up."
 
-#: src/pages/messages-old/MessagesOld.tsx:144
+#: src/pages/messages-old/MessagesOld.tsx:147
 msgid "Private type index not set up (should not happen)"
 msgstr "Private type index not set up (should not happen)"
 
@@ -548,7 +548,7 @@ msgstr "See contact invitation"
 msgid "Select my location"
 msgstr "Select my location"
 
-#: src/pages/messages-old/MessagesOld.tsx:255
+#: src/pages/messages-old/MessagesOld.tsx:258
 #: src/pages/messages/SendMessageForm.tsx:87
 msgid "Send"
 msgstr "Send"
@@ -566,7 +566,7 @@ msgstr "Send Confirmation Email"
 msgid "Send contact invitation"
 msgstr "Send contact invitation"
 
-#: src/pages/messages-old/MessagesOld.tsx:188
+#: src/pages/messages-old/MessagesOld.tsx:191
 msgid "Sending email notification"
 msgstr "Sending email notification"
 
@@ -582,7 +582,7 @@ msgstr "Sending Linked Data Notification failed."
 msgid "Sending message failed: "
 msgstr "Sending message failed: "
 
-#: src/pages/messages-old/MessagesOld.tsx:177
+#: src/pages/messages-old/MessagesOld.tsx:180
 msgid "Sending Solid notification"
 msgstr "Sending Solid notification"
 
@@ -594,11 +594,11 @@ msgstr "Session Expired!"
 msgid "Set up new data for this community:"
 msgstr "Set up new data for this community:"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:96
+#: src/pages/HospexSetup/HospexSetup.tsx:105
 msgid "Set Up Notifications"
 msgstr "Set Up Notifications"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:120
+#: src/pages/HospexSetup/HospexSetup.tsx:129
 msgid "Setup"
 msgstr "Setup"
 
@@ -626,7 +626,7 @@ msgstr "Sign in to {communityName}"
 msgid "sign out"
 msgstr "sign out"
 
-#: src/pages/messages-old/MessagesOld.tsx:178
+#: src/pages/messages-old/MessagesOld.tsx:181
 msgid "Solid notification was sent"
 msgstr "Solid notification was sent"
 
@@ -675,7 +675,7 @@ msgstr "This chat has outdated format."
 msgid "This field is required"
 msgstr "This field is required"
 
-#: src/pages/messages-old/MessagesOld.tsx:247
+#: src/pages/messages-old/MessagesOld.tsx:250
 msgid "This is a start of your conversation"
 msgstr "This is a start of your conversation"
 

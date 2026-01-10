@@ -2,7 +2,7 @@ import { Button, Loading } from '@/components'
 import { Person } from '@/components/Person/Person'
 import { withToast } from '@/components/withToast.tsx'
 import { useConfig } from '@/config/hooks'
-import { useCheckSetup } from '@/hooks/data/useCheckSetup'
+import { useCheckSetup, usePrivateTypeIndex } from '@/hooks/data/useCheckSetup'
 import {
   useCreateChat,
   useCreateMessage,
@@ -45,10 +45,13 @@ export const MessagesOld = () => {
     })
 
   const {
-    privateTypeIndexes,
     personalHospexDocuments,
     // inboxes: [myInbox],
   } = useCheckSetup(auth.webId!, communityId)
+
+  const { privateTypeIndex: privateTypeIndexes } = usePrivateTypeIndex(
+    auth.webId!,
+  )
 
   const [otherPersonSetup] = useSolidProfile(personId)
   const otherInbox = otherPersonSetup?.inbox?.['@id']
@@ -140,7 +143,7 @@ export const MessagesOld = () => {
     if (!chat) {
       if (!personalHospexDocuments[0])
         throw new Error(t`Hospex not set up (should not happen)`)
-      if (!privateTypeIndexes[0])
+      if (privateTypeIndexes.size === 0)
         throw new Error(t`Private type index not set up (should not happen)`)
       ;({ chatId: chat } = await createChat({
         me: auth.webId,
@@ -148,7 +151,7 @@ export const MessagesOld = () => {
         hospexContainer: getContainer(personalHospexDocuments[0]),
         otherChat:
           chats[0]?.otherChats?.[0] ?? otherChatFromNotifications ?? undefined,
-        privateTypeIndex: privateTypeIndexes[0],
+        privateTypeIndex: privateTypeIndexes.values().next().value!.value,
       }))
     }
 
