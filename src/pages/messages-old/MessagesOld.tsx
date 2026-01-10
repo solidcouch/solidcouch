@@ -141,14 +141,16 @@ export const MessagesOld = () => {
     let chat: string | undefined = chats[0]?.myChat
 
     if (!chat) {
-      if (!personalHospexDocuments[0])
+      if (personalHospexDocuments.size === 0)
         throw new Error(t`Hospex not set up (should not happen)`)
       if (privateTypeIndexes.size === 0)
         throw new Error(t`Private type index not set up (should not happen)`)
       ;({ chatId: chat } = await createChat({
         me: auth.webId,
         otherPerson: personId,
-        hospexContainer: getContainer(personalHospexDocuments[0]),
+        hospexContainer: getContainer(
+          personalHospexDocuments.values().next().value!.value,
+        ),
         otherChat:
           chats[0]?.otherChats?.[0] ?? otherChatFromNotifications ?? undefined,
         privateTypeIndex: privateTypeIndexes.values().next().value!.value,

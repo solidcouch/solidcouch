@@ -60,7 +60,9 @@ export const ProcessContactInvitation = ({
   const setup = useCheckSetup(auth.webId!, communityId)
 
   const handleConfirm = async () => {
-    const hospexContainer = getContainer(setup.personalHospexDocuments[0]!)
+    const hospexContainer = getContainer(
+      setup.personalHospexDocuments.values().next().value!.value,
+    )
     if (!hospexContainer)
       throw new Error(t`hospex container not found (too soon?)`)
     await confirmContact({
@@ -89,7 +91,7 @@ export const ProcessContactInvitation = ({
         <Button
           primary
           onClick={handleConfirm}
-          disabled={setup.personalHospexDocuments.length === 0}
+          disabled={setup.personalHospexDocuments.size === 0}
         >
           <Trans>Accept</Trans>
         </Button>
@@ -112,7 +114,9 @@ const AddContact = ({ webId }: { webId: URI }) => {
   const { inbox: otherPersonInbox } = useInbox(webId)
 
   const handleSubmit = async ({ invitation }: { invitation: string }) => {
-    const hospexContainer = getContainer(mySetup.personalHospexDocuments[0]!)
+    const hospexContainer = getContainer(
+      mySetup.personalHospexDocuments.values().next().value!.value,
+    )
     if (!hospexContainer)
       throw new Error(t`hospex container not found (too soon?)`)
     const inbox = getContainer(otherPersonInbox.values().next().value!.value)
@@ -139,7 +143,7 @@ const AddContact = ({ webId }: { webId: URI }) => {
           setModalOpen(true)
         }}
         disabled={
-          mySetup.personalHospexDocuments.length === 0 ||
+          mySetup.personalHospexDocuments.size === 0 ||
           otherPersonInbox.size === 0
         }
       >

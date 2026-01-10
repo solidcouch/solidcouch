@@ -5,9 +5,6 @@ export {
 } from './accommodations'
 export { readCommunityMembersQuery, readCommunityQuery } from './community'
 export { contactRequestsQuery, contactsQuery } from './contacts'
-export {
-  hospexDocumentQuery,
-  privateProfileAndHospexDocumentQuery,
-} from './hospex'
+export { hospexDocumentQuery } from './hospex'
 export { inboxMessagesQuery, messages } from './messages'
 export { webIdProfileQuery } from './profile'

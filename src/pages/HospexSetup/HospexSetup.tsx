@@ -25,7 +25,7 @@ interface SetupStatus {
 }
 
 interface SetupConfig {
-  personalHospexDocuments: string[]
+  personalHospexDocuments: Set<Term>
   publicTypeIndexes: Set<Term>
   privateTypeIndexes: Set<Term>
   preferencesFiles: Set<Term>

@@ -23,11 +23,7 @@ export const hospexDocumentQuery = ldhop('?person', '?community')
   .concat(publicWebIdProfileQuery)
   .concat(partialHospexDocumentQuery)
 
-export const privateProfileAndHospexDocumentQuery = ldhop(
-  '?person',
-  '?community',
-)
-  .concat(webIdProfileQuery)
+export const privateProfileAndHospexDocumentQuery = webIdProfileQuery
   .concat(partialHospexDocumentQuery)
   .match('?person', space.preferencesFile, null, '?hospexDocumentForCommunity')
   .o('?hospexSettings')

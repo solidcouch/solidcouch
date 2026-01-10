@@ -42,7 +42,7 @@ msgstr "O mně"
 msgid "About your hosting"
 msgstr "O vašem ubytování"
 
-#: src/pages/Profile/ManageContact.tsx:94
+#: src/pages/Profile/ManageContact.tsx:96
 msgid "Accept"
 msgstr "Přijmout"
 
@@ -50,11 +50,11 @@ msgstr "Přijmout"
 msgid "Accommodation added to indexing service"
 msgstr "Ubytování přidáno do indexační služby"
 
-#: src/pages/MyOffers.tsx:112
+#: src/pages/MyOffers.tsx:114
 msgid "Accommodation created"
 msgstr "Ubytování vytvořeno"
 
-#: src/pages/MyOffers.tsx:160
+#: src/pages/MyOffers.tsx:162
 msgid "Accommodation deleted"
 msgstr "Ubytování odstraněno"
 
@@ -66,7 +66,7 @@ msgstr "Nabídka ubytování od {offeredByIdentifier}"
 msgid "Accommodation removed from indexing service"
 msgstr "Ubytování odebráno z indexační služby"
 
-#: src/pages/MyOffers.tsx:131
+#: src/pages/MyOffers.tsx:133
 msgid "Accommodation updated"
 msgstr "Ubytování aktualizováno"
 
@@ -82,15 +82,15 @@ msgstr "Přidat {locale}"
 msgid "Add a language"
 msgstr "Přidat jazyk"
 
-#: src/pages/MyOffers.tsx:223
+#: src/pages/MyOffers.tsx:225
 msgid "Add Accommodation"
 msgstr "Přidat ubytování"
 
-#: src/pages/Profile/ManageContact.tsx:174
+#: src/pages/Profile/ManageContact.tsx:178
 msgid "Add person as a contact"
 msgstr "Přidat osobu do kontaktů"
 
-#: src/pages/Profile/ManageContact.tsx:146
+#: src/pages/Profile/ManageContact.tsx:150
 msgid "Add to my contacts"
 msgstr "Přidat do mých kontaktů"
 
@@ -109,7 +109,7 @@ msgstr "Ověřování..."
 
 #: src/components/AccommodationForm/AccommodationForm.tsx:151
 #: src/components/LocaleTextInput/LocaleTextInput.tsx:188
-#: src/pages/Profile/ManageContact.tsx:185
+#: src/pages/Profile/ManageContact.tsx:189
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -194,7 +194,7 @@ msgstr "Vytvořit soukromý index typů:"
 msgid "Create public type index:"
 msgstr "Vytvořit veřejný index typů:"
 
-#: src/pages/MyOffers.tsx:111
+#: src/pages/MyOffers.tsx:113
 msgid "Creating accommodation"
 msgstr "Vytváření ubytování"
 
@@ -202,19 +202,19 @@ msgstr "Vytváření ubytování"
 msgid "Creating channel failed"
 msgstr "Nepodařilo se vytvořit kanál"
 
-#: src/pages/messages-old/MessagesOld.tsx:165
+#: src/pages/messages-old/MessagesOld.tsx:167
 msgid "Creating message"
 msgstr "Vytváření zprávy"
 
-#: src/pages/MyOffers.tsx:205
+#: src/pages/MyOffers.tsx:207
 msgid "Delete"
 msgstr "Smazat"
 
-#: src/pages/MyOffers.tsx:159
+#: src/pages/MyOffers.tsx:161
 msgid "Deleting accommodation"
 msgstr "Mazání ubytování"
 
-#: src/pages/MyOffers.tsx:148
+#: src/pages/MyOffers.tsx:150
 msgid "Do you really want to delete the accommodation?"
 msgstr "Opravdu chcete smazat ubytování?"
 
@@ -226,7 +226,7 @@ msgstr "Ještě nemáte Solid Pod?"
 msgid "e.g. solidcommunity.net"
 msgstr "např. solidcommunity.net"
 
-#: src/pages/MyOffers.tsx:202
+#: src/pages/MyOffers.tsx:204
 msgid "Edit"
 msgstr "Upravit"
 
@@ -239,7 +239,7 @@ msgstr "upravit profil"
 msgid "email address"
 msgstr "e-mailová adresa"
 
-#: src/pages/messages-old/MessagesOld.tsx:192
+#: src/pages/messages-old/MessagesOld.tsx:194
 msgid "Email notification was sent"
 msgstr "E-mailové upozornění bylo odesláno"
 
@@ -279,12 +279,12 @@ msgstr "zdůrazněné logo {name}"
 msgid "For safety, share only approximate location"
 msgstr "Kvůli bezpečí sdílejte pouze přibližnou polohu"
 
-#: src/pages/Profile/ManageContact.tsx:164
+#: src/pages/Profile/ManageContact.tsx:168
 msgid "Hi! I'd like to add you as a contact!"
 msgstr "Ahoj! Rád(a) bych tě přidal(a) do kontaktů!"
 
-#: src/pages/Profile/ManageContact.tsx:65
-#: src/pages/Profile/ManageContact.tsx:117
+#: src/pages/Profile/ManageContact.tsx:67
+#: src/pages/Profile/ManageContact.tsx:121
 msgid "hospex container not found (too soon?)"
 msgstr "hospex kontejner nebyl nalezen (možná příliš brzy?)"
 
@@ -305,7 +305,7 @@ msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Lokalita hostování (klikněte na <0/> nebo přetáhněte a přibližte mapu)"
 
 #: src/pages/messages/Messages.tsx:475
-#: src/pages/Profile/ManageContact.tsx:97
+#: src/pages/Profile/ManageContact.tsx:99
 msgid "Ignore"
 msgstr "Ignorovat"
 
@@ -317,7 +317,7 @@ msgstr "Schránka není nastavena"
 msgid "Inbox is set up."
 msgstr "Schránka je nastavena."
 
-#: src/pages/Profile/ManageContact.tsx:119
+#: src/pages/Profile/ManageContact.tsx:123
 msgid "inbox not found (too soon?)"
 msgstr "schránka nebyla nalezena (možná příliš brzy?)"
 
@@ -367,12 +367,12 @@ msgstr "Načítání"
 msgid "loading interests..."
 msgstr "načítání zájmů..."
 
-#: src/pages/messages-old/MessagesOld.tsx:243
+#: src/pages/messages-old/MessagesOld.tsx:245
 msgid "Loading previous messages"
 msgstr "Načítání předchozích zpráv"
 
 #: src/App.tsx:47
-#: src/pages/messages-old/MessagesOld.tsx:208
+#: src/pages/messages-old/MessagesOld.tsx:210
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26
 #: src/pages/SearchHosts/AccommodationInfo.tsx:51
@@ -383,7 +383,7 @@ msgstr "Načítání..."
 msgid "logo of {name}"
 msgstr "logo {name}"
 
-#: src/pages/messages-old/MessagesOld.tsx:166
+#: src/pages/messages-old/MessagesOld.tsx:168
 #: src/pages/messages/useSendMessage.ts:76
 msgid "Message was created"
 msgstr "Zpráva byla vytvořena"
@@ -397,12 +397,12 @@ msgstr "zprávy"
 msgid "Messages with {personLabel}"
 msgstr "Zprávy s {personLabel}"
 
-#: src/pages/messages-old/MessagesOld.tsx:210
+#: src/pages/messages-old/MessagesOld.tsx:212
 msgid "Messages with <0/>"
 msgstr "Zprávy s <0/>"
 
 #: src/pages/MyOffers.tsx:101
-#: src/pages/MyOffers.tsx:145
+#: src/pages/MyOffers.tsx:147
 msgid "missing variables"
 msgstr "chybějící proměnné"
 
@@ -410,7 +410,7 @@ msgstr "chybějící proměnné"
 msgid "more"
 msgstr "více"
 
-#: src/pages/MyOffers.tsx:175
+#: src/pages/MyOffers.tsx:177
 msgid "My Accommodation Offers"
 msgstr "Moje nabídky ubytování"
 
@@ -468,7 +468,7 @@ msgstr "Fotka"
 msgid "Please <0>start a new one</0>."
 msgstr "Prosím, <0>založte nový</0>."
 
-#: src/pages/Profile/ManageContact.tsx:177
+#: src/pages/Profile/ManageContact.tsx:181
 msgid "Please invite only people you know personally."
 msgstr "Pozvěte prosím pouze lidi, které osobně znáte."
 
@@ -540,7 +540,7 @@ msgstr "Uložit"
 msgid "Save changes"
 msgstr "Uložit změny"
 
-#: src/pages/Profile/ManageContact.tsx:85
+#: src/pages/Profile/ManageContact.tsx:87
 msgid "See contact invitation"
 msgstr "Zobrazit pozvánku ke kontaktu"
 
@@ -548,7 +548,7 @@ msgstr "Zobrazit pozvánku ke kontaktu"
 msgid "Select my location"
 msgstr "Vyberte mou polohu"
 
-#: src/pages/messages-old/MessagesOld.tsx:258
+#: src/pages/messages-old/MessagesOld.tsx:260
 #: src/pages/messages/SendMessageForm.tsx:87
 msgid "Send"
 msgstr "Odeslat"
@@ -562,11 +562,11 @@ msgstr "Poslat zprávu…"
 msgid "Send Confirmation Email"
 msgstr "Odeslat potvrzovací e-mail"
 
-#: src/pages/Profile/ManageContact.tsx:182
+#: src/pages/Profile/ManageContact.tsx:186
 msgid "Send contact invitation"
 msgstr "Odeslat pozvánku ke kontaktu"
 
-#: src/pages/messages-old/MessagesOld.tsx:191
+#: src/pages/messages-old/MessagesOld.tsx:193
 msgid "Sending email notification"
 msgstr "Probíhá odesílání e-mailového upozornění"
 
@@ -582,7 +582,7 @@ msgstr "Nepodařilo se odeslat Linked Data upozornění."
 msgid "Sending message failed: "
 msgstr "Nepodařilo se odeslat zprávu: "
 
-#: src/pages/messages-old/MessagesOld.tsx:180
+#: src/pages/messages-old/MessagesOld.tsx:182
 msgid "Sending Solid notification"
 msgstr "Probíhá odesílání Solid upozornění"
 
@@ -626,7 +626,7 @@ msgstr "Přihlásit se do {communityName}"
 msgid "sign out"
 msgstr "odhlásit se"
 
-#: src/pages/messages-old/MessagesOld.tsx:181
+#: src/pages/messages-old/MessagesOld.tsx:183
 msgid "Solid notification was sent"
 msgstr "Solid upozornění bylo odesláno"
 
@@ -675,7 +675,7 @@ msgstr "Tento rozhovor má zastaralý formát."
 msgid "This field is required"
 msgstr "Toto pole je povinné"
 
-#: src/pages/messages-old/MessagesOld.tsx:250
+#: src/pages/messages-old/MessagesOld.tsx:252
 msgid "This is a start of your conversation"
 msgstr "Toto je začátek vaší konverzace"
 
@@ -699,7 +699,7 @@ msgstr "Neočekávaný stavový kód od indexační služby"
 msgid "Unread"
 msgstr ""
 
-#: src/pages/MyOffers.tsx:130
+#: src/pages/MyOffers.tsx:132
 msgid "Updating accommodation"
 msgstr "Aktualizuji ubytování"
 

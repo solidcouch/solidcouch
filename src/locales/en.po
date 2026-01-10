@@ -42,7 +42,7 @@ msgstr "About me"
 msgid "About your hosting"
 msgstr "About your hosting"
 
-#: src/pages/Profile/ManageContact.tsx:94
+#: src/pages/Profile/ManageContact.tsx:96
 msgid "Accept"
 msgstr "Accept"
 
@@ -50,11 +50,11 @@ msgstr "Accept"
 msgid "Accommodation added to indexing service"
 msgstr "Accommodation added to indexing service"
 
-#: src/pages/MyOffers.tsx:112
+#: src/pages/MyOffers.tsx:114
 msgid "Accommodation created"
 msgstr "Accommodation created"
 
-#: src/pages/MyOffers.tsx:160
+#: src/pages/MyOffers.tsx:162
 msgid "Accommodation deleted"
 msgstr "Accommodation deleted"
 
@@ -66,7 +66,7 @@ msgstr "Accommodation offer from {offeredByIdentifier}"
 msgid "Accommodation removed from indexing service"
 msgstr "Accommodation removed from indexing service"
 
-#: src/pages/MyOffers.tsx:131
+#: src/pages/MyOffers.tsx:133
 msgid "Accommodation updated"
 msgstr "Accommodation updated"
 
@@ -82,15 +82,15 @@ msgstr "Add {locale}"
 msgid "Add a language"
 msgstr "Add a language"
 
-#: src/pages/MyOffers.tsx:223
+#: src/pages/MyOffers.tsx:225
 msgid "Add Accommodation"
 msgstr "Add Accommodation"
 
-#: src/pages/Profile/ManageContact.tsx:174
+#: src/pages/Profile/ManageContact.tsx:178
 msgid "Add person as a contact"
 msgstr "Add person as a contact"
 
-#: src/pages/Profile/ManageContact.tsx:146
+#: src/pages/Profile/ManageContact.tsx:150
 msgid "Add to my contacts"
 msgstr "Add to my contacts"
 
@@ -109,7 +109,7 @@ msgstr "Authenticating..."
 
 #: src/components/AccommodationForm/AccommodationForm.tsx:151
 #: src/components/LocaleTextInput/LocaleTextInput.tsx:188
-#: src/pages/Profile/ManageContact.tsx:185
+#: src/pages/Profile/ManageContact.tsx:189
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -194,7 +194,7 @@ msgstr "Create private type index:"
 msgid "Create public type index:"
 msgstr "Create public type index:"
 
-#: src/pages/MyOffers.tsx:111
+#: src/pages/MyOffers.tsx:113
 msgid "Creating accommodation"
 msgstr "Creating accommodation"
 
@@ -202,19 +202,19 @@ msgstr "Creating accommodation"
 msgid "Creating channel failed"
 msgstr "Creating channel failed"
 
-#: src/pages/messages-old/MessagesOld.tsx:165
+#: src/pages/messages-old/MessagesOld.tsx:167
 msgid "Creating message"
 msgstr "Creating message"
 
-#: src/pages/MyOffers.tsx:205
+#: src/pages/MyOffers.tsx:207
 msgid "Delete"
 msgstr "Delete"
 
-#: src/pages/MyOffers.tsx:159
+#: src/pages/MyOffers.tsx:161
 msgid "Deleting accommodation"
 msgstr "Deleting accommodation"
 
-#: src/pages/MyOffers.tsx:148
+#: src/pages/MyOffers.tsx:150
 msgid "Do you really want to delete the accommodation?"
 msgstr "Do you really want to delete the accommodation?"
 
@@ -226,7 +226,7 @@ msgstr "Don't have a Solid Pod yet?"
 msgid "e.g. solidcommunity.net"
 msgstr "e.g. solidcommunity.net"
 
-#: src/pages/MyOffers.tsx:202
+#: src/pages/MyOffers.tsx:204
 msgid "Edit"
 msgstr "Edit"
 
@@ -239,7 +239,7 @@ msgstr "edit profile"
 msgid "email address"
 msgstr "email address"
 
-#: src/pages/messages-old/MessagesOld.tsx:192
+#: src/pages/messages-old/MessagesOld.tsx:194
 msgid "Email notification was sent"
 msgstr "Email notification was sent"
 
@@ -279,12 +279,12 @@ msgstr "focused logo of {name}"
 msgid "For safety, share only approximate location"
 msgstr "For safety, share only approximate location"
 
-#: src/pages/Profile/ManageContact.tsx:164
+#: src/pages/Profile/ManageContact.tsx:168
 msgid "Hi! I'd like to add you as a contact!"
 msgstr "Hi! I'd like to add you as a contact!"
 
-#: src/pages/Profile/ManageContact.tsx:65
-#: src/pages/Profile/ManageContact.tsx:117
+#: src/pages/Profile/ManageContact.tsx:67
+#: src/pages/Profile/ManageContact.tsx:121
 msgid "hospex container not found (too soon?)"
 msgstr "hospex container not found (too soon?)"
 
@@ -305,7 +305,7 @@ msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Hosting location (click <0/> or drag & zoom map)"
 
 #: src/pages/messages/Messages.tsx:475
-#: src/pages/Profile/ManageContact.tsx:97
+#: src/pages/Profile/ManageContact.tsx:99
 msgid "Ignore"
 msgstr "Ignore"
 
@@ -317,7 +317,7 @@ msgstr "Inbox is not set up"
 msgid "Inbox is set up."
 msgstr "Inbox is set up."
 
-#: src/pages/Profile/ManageContact.tsx:119
+#: src/pages/Profile/ManageContact.tsx:123
 msgid "inbox not found (too soon?)"
 msgstr "inbox not found (too soon?)"
 
@@ -367,12 +367,12 @@ msgstr "Loading"
 msgid "loading interests..."
 msgstr "loading interests..."
 
-#: src/pages/messages-old/MessagesOld.tsx:243
+#: src/pages/messages-old/MessagesOld.tsx:245
 msgid "Loading previous messages"
 msgstr "Loading previous messages"
 
 #: src/App.tsx:47
-#: src/pages/messages-old/MessagesOld.tsx:208
+#: src/pages/messages-old/MessagesOld.tsx:210
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26
 #: src/pages/SearchHosts/AccommodationInfo.tsx:51
@@ -383,7 +383,7 @@ msgstr "Loading..."
 msgid "logo of {name}"
 msgstr "logo of {name}"
 
-#: src/pages/messages-old/MessagesOld.tsx:166
+#: src/pages/messages-old/MessagesOld.tsx:168
 #: src/pages/messages/useSendMessage.ts:76
 msgid "Message was created"
 msgstr "Message was created"
@@ -397,12 +397,12 @@ msgstr "messages"
 msgid "Messages with {personLabel}"
 msgstr "Messages with {personLabel}"
 
-#: src/pages/messages-old/MessagesOld.tsx:210
+#: src/pages/messages-old/MessagesOld.tsx:212
 msgid "Messages with <0/>"
 msgstr "Messages with <0/>"
 
 #: src/pages/MyOffers.tsx:101
-#: src/pages/MyOffers.tsx:145
+#: src/pages/MyOffers.tsx:147
 msgid "missing variables"
 msgstr "missing variables"
 
@@ -410,7 +410,7 @@ msgstr "missing variables"
 msgid "more"
 msgstr "more"
 
-#: src/pages/MyOffers.tsx:175
+#: src/pages/MyOffers.tsx:177
 msgid "My Accommodation Offers"
 msgstr "My Accommodation Offers"
 
@@ -468,7 +468,7 @@ msgstr "Photo"
 msgid "Please <0>start a new one</0>."
 msgstr "Please <0>start a new one</0>."
 
-#: src/pages/Profile/ManageContact.tsx:177
+#: src/pages/Profile/ManageContact.tsx:181
 msgid "Please invite only people you know personally."
 msgstr "Please invite only people you know personally."
 
@@ -540,7 +540,7 @@ msgstr "Save"
 msgid "Save changes"
 msgstr "Save changes"
 
-#: src/pages/Profile/ManageContact.tsx:85
+#: src/pages/Profile/ManageContact.tsx:87
 msgid "See contact invitation"
 msgstr "See contact invitation"
 
@@ -548,7 +548,7 @@ msgstr "See contact invitation"
 msgid "Select my location"
 msgstr "Select my location"
 
-#: src/pages/messages-old/MessagesOld.tsx:258
+#: src/pages/messages-old/MessagesOld.tsx:260
 #: src/pages/messages/SendMessageForm.tsx:87
 msgid "Send"
 msgstr "Send"
@@ -562,11 +562,11 @@ msgstr "Send a message…"
 msgid "Send Confirmation Email"
 msgstr "Send Confirmation Email"
 
-#: src/pages/Profile/ManageContact.tsx:182
+#: src/pages/Profile/ManageContact.tsx:186
 msgid "Send contact invitation"
 msgstr "Send contact invitation"
 
-#: src/pages/messages-old/MessagesOld.tsx:191
+#: src/pages/messages-old/MessagesOld.tsx:193
 msgid "Sending email notification"
 msgstr "Sending email notification"
 
@@ -582,7 +582,7 @@ msgstr "Sending Linked Data Notification failed."
 msgid "Sending message failed: "
 msgstr "Sending message failed: "
 
-#: src/pages/messages-old/MessagesOld.tsx:180
+#: src/pages/messages-old/MessagesOld.tsx:182
 msgid "Sending Solid notification"
 msgstr "Sending Solid notification"
 
@@ -626,7 +626,7 @@ msgstr "Sign in to {communityName}"
 msgid "sign out"
 msgstr "sign out"
 
-#: src/pages/messages-old/MessagesOld.tsx:181
+#: src/pages/messages-old/MessagesOld.tsx:183
 msgid "Solid notification was sent"
 msgstr "Solid notification was sent"
 
@@ -675,7 +675,7 @@ msgstr "This chat has outdated format."
 msgid "This field is required"
 msgstr "This field is required"
 
-#: src/pages/messages-old/MessagesOld.tsx:250
+#: src/pages/messages-old/MessagesOld.tsx:252
 msgid "This is a start of your conversation"
 msgstr "This is a start of your conversation"
 
@@ -699,7 +699,7 @@ msgstr "Unexpected status code from indexing service"
 msgid "Unread"
 msgstr "Unread"
 
-#: src/pages/MyOffers.tsx:130
+#: src/pages/MyOffers.tsx:132
 msgid "Updating accommodation"
 msgstr "Updating accommodation"
 

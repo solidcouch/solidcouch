@@ -7,7 +7,7 @@ import { sioc } from 'rdf-namespaces'
 import { useCallback, useMemo } from 'react'
 import encodeURIComponent from 'strict-uri-encode'
 import { useReadAccesses } from './access'
-import { privateProfileAndHospexDocumentQuery } from './queries'
+import { privateProfileAndHospexDocumentQuery } from './queries/hospex'
 import { publicWebIdProfileQuery, webIdProfileQuery } from './queries/profile'
 import { QueryKey } from './types'
 import { useIsMember } from './useCommunity'
@@ -174,23 +174,8 @@ const usePreferencesFile = (webId: string) => {
     access: accessMap,
   }
 }
-/**
- * Check that
- * public type index exists
- * private type index exists
- * personal hospex document exists
- * community is joined
- */
-export const useCheckSetup = (userId: URI, communityId: URI) => {
-  const isMember = useIsMember(userId, communityId)
-  const hospexDocumentSetup = useHospexDocumentSetup(userId, communityId)
-  return useMemo(
-    () => ({ isMember, ...hospexDocumentSetup }) as const,
-    [hospexDocumentSetup, isMember],
-  )
-}
 
-export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
+const useHospexDocument = (userId: URI, communityId: URI) => {
   const { isLoading, variables, store } = useLdhopQuery({
     query: privateProfileAndHospexDocumentQuery,
     variables: useMemo(
@@ -202,16 +187,6 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     ),
     fetch,
   })
-
-  const publicTypeIndexResults = usePublicTypeIndex(userId)
-  const privateTypeIndexResults = usePrivateTypeIndex(userId)
-  const inboxResults = useInbox(userId)
-  const preferencesFileResults = usePreferencesFile(userId)
-
-  const personalHospexDocumentsForCommunity = useMemo(
-    () => Array.from(variables.hospexDocumentForCommunity).map(t => t.value),
-    [variables.hospexDocumentForCommunity],
-  )
 
   const hospexDocuments = useMemo(
     () =>
@@ -236,10 +211,42 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     [store, userId, variables],
   )
 
+  return useMemo(
+    () => ({
+      isLoading,
+      forCommunity: variables.hospexDocumentForCommunity,
+      all: hospexDocuments,
+    }),
+    [hospexDocuments, isLoading, variables.hospexDocumentForCommunity],
+  )
+}
+/**
+ * Check that
+ * public type index exists
+ * private type index exists
+ * personal hospex document exists
+ * community is joined
+ */
+export const useCheckSetup = (userId: URI, communityId: URI) => {
+  const isMember = useIsMember(userId, communityId)
+  const hospexDocumentSetup = useHospexDocumentSetup(userId, communityId)
+  return useMemo(
+    () => ({ isMember, ...hospexDocumentSetup }) as const,
+    [hospexDocumentSetup, isMember],
+  )
+}
+
+export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
+  const publicTypeIndexResults = usePublicTypeIndex(userId)
+  const privateTypeIndexResults = usePrivateTypeIndex(userId)
+  const inboxResults = useInbox(userId)
+  const preferencesFileResults = usePreferencesFile(userId)
+  const hospexDocumentResults = useHospexDocument(userId, communityId)
+
   const isHospexProfile =
-    personalHospexDocumentsForCommunity.length > 0
+    hospexDocumentResults.forCommunity.size > 0
       ? true
-      : isLoading
+      : hospexDocumentResults.isLoading
         ? undefined
         : false
   const isPublicTypeIndex =
@@ -272,12 +279,12 @@ export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
     isPrivateTypeIndex,
     isPreferencesFile,
     isInbox,
-    personalHospexDocuments: personalHospexDocumentsForCommunity,
+    personalHospexDocuments: hospexDocumentResults.forCommunity,
     publicTypeIndexes: publicTypeIndexResults.publicTypeIndex,
     privateTypeIndexes: privateTypeIndexResults.privateTypeIndex,
     preferencesFiles: preferencesFileResults.preferencesFile,
     inboxes: inboxResults.inbox,
-    allHospex: hospexDocuments,
+    allHospex: hospexDocumentResults.all,
   } as const
 }
 

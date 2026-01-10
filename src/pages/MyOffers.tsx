@@ -97,15 +97,17 @@ export const MyOffers = () => {
     )
 
   const handleCreate = async (accommodation: Omit<Accommodation, 'id'>) => {
-    if (!(auth.webId && personalHospexDocuments?.[0]))
+    if (!(auth.webId && personalHospexDocuments.values().next().value))
       throw new Error(t`missing variables`)
+
+    const hospexDocument = personalHospexDocuments.values().next().value
 
     const { uri } = await withToast(
       createAccommodation({
         personId: auth.webId,
         data: accommodation,
-        hospexDocument: personalHospexDocuments[0],
-        hospexContainer: getContainer(personalHospexDocuments[0]),
+        hospexDocument: hospexDocument!.value,
+        hospexContainer: getContainer(hospexDocument!.value),
       }),
       {
         pending: t`Creating accommodation`,
@@ -141,7 +143,7 @@ export const MyOffers = () => {
   }
 
   const handleDelete = async ({ id, location }: Accommodation) => {
-    if (!(auth.webId && personalHospexDocuments?.[0]))
+    if (!(auth.webId && personalHospexDocuments.values().next().value?.value))
       throw new Error(t`missing variables`)
 
     const isConfirmed = globalThis.confirm(
@@ -153,7 +155,7 @@ export const MyOffers = () => {
         deleteAccommodation({
           id,
           personId: auth.webId,
-          hospexDocument: personalHospexDocuments[0],
+          hospexDocument: personalHospexDocuments.values().next().value!.value,
         }),
         {
           pending: t`Deleting accommodation`,
