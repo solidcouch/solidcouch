@@ -7,13 +7,14 @@ import { getAcl, getContainer } from '../../src/utils/helpers'
 import { setupCommunity } from './community'
 import { generateRandomString } from './helpers'
 
-type SkipOptions =
+export type SkipOptions =
   | 'preferences'
   | 'publicTypeIndex'
   | 'privateTypeIndex'
   | 'inbox'
   | 'personalHospexDocument'
   | 'joinCommunity'
+  | 'storage'
 
 export const createRandomAccount = async () => {
   const username = randomUUID()
@@ -93,6 +94,17 @@ const setupPod = async (
   const inboxUri = `${account.podUrl}inbox/`
 
   const authFetch = await v7.getAuthenticatedFetch(account)
+
+  // create storage link
+  if (!skip.includes('storage')) {
+    await authFetch(account.webId, {
+      method: 'PATCH',
+      headers: { 'content-type': 'text/n3' },
+      body: `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+        <${account.webId}> <${space.storage}> <${account.podUrl}>.
+      }.`,
+    })
+  }
 
   // create inbox
   if (!skip.includes('inbox')) {
@@ -306,11 +318,13 @@ const saveProfileData = async (
 
 export const createPerson = async ({
   community,
+  skip,
 }: {
   community: Awaited<ReturnType<typeof setupCommunity>>
+  skip?: SkipOptions[]
 }) => {
   const account = await createRandomAccount()
-  const pod = await setupPod(account, community)
+  const pod = await setupPod(account, community, { skip })
   const profile = await saveProfileData(account, pod, {
     name: generateRandomString(8),
     description: {

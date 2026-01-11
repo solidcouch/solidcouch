@@ -193,6 +193,7 @@ export const Step1 = ({
         type="submit"
         primary
         data-cy="setup-step-1-continue"
+        data-testid="setup-step-1-continue"
         disabled={!publicTypeIndex}
       >
         <Trans>Continue</Trans>
