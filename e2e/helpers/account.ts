@@ -4,7 +4,7 @@ import { v7 } from 'css-authn'
 import { acl, foaf, ldp, solid, space, vcard } from 'rdf-namespaces'
 import { generateAcl } from '../../cypress/support/helpers/acl'
 import { getAcl, getContainer } from '../../src/utils/helpers'
-import { setupCommunity } from './community'
+import { Community } from './community'
 import { generateRandomString } from './helpers'
 
 export type SkipOptions =
@@ -34,6 +34,8 @@ export const createRandomAccount = async () => {
 
   return { ...account, authFetch: authenticatedFetch }
 }
+
+export type Account = Awaited<ReturnType<typeof createRandomAccount>>
 
 export const signIn = async (
   page: Page,
@@ -79,8 +81,8 @@ export const signOut = async (page: Page) => {
 }
 
 const setupPod = async (
-  account: Awaited<ReturnType<typeof createRandomAccount>>,
-  community: Awaited<ReturnType<typeof setupCommunity>>,
+  account: Account,
+  community: Community,
   {
     skip = [],
     hospexContainerName = 'test-community',
@@ -294,8 +296,9 @@ const setupPod = async (
 }
 
 type Profile = { name: string; description: { [lang: string]: string } }
+
 const saveProfileData = async (
-  account: Awaited<ReturnType<typeof createRandomAccount>>,
+  account: Account,
   setup: Awaited<ReturnType<typeof setupPod>>,
   profile: Profile,
 ) => {
@@ -320,7 +323,7 @@ export const createPerson = async ({
   community,
   skip,
 }: {
-  community: Awaited<ReturnType<typeof setupCommunity>>
+  community: Community
   skip?: SkipOptions[]
 }) => {
   const account = await createRandomAccount()

@@ -1,23 +1,27 @@
-import { expect, test } from '@playwright/test'
-import { foaf, ldp, solid, vcard } from 'rdf-namespaces'
+import { expect, Page, test } from '@playwright/test'
+import { Parser, Store } from 'n3'
+import { foaf, ldp, solid, space, vcard } from 'rdf-namespaces'
 import { generateAcl } from '../cypress/support/helpers/acl'
 import {
   createPerson,
+  createRandomAccount,
   signIn,
+  signOut,
   SkipOptions,
+  type Account,
   type Person,
 } from './helpers/account'
-import { setupCommunity, type Community } from './helpers/community'
+import {
+  createCommunity,
+  setupCommunity,
+  type Community,
+} from './helpers/community'
 import { stubDirectMailer, stubWebhookMailer } from './helpers/mailer'
 
 test.describe('Setup Solid pod', () => {
   let community: Community
   test.beforeEach(async ({ page }) => {
     community = await setupCommunity(page, { name: 'communityName' })
-  })
-
-  test.beforeEach(async ({ page }) => {
-    await stubDirectMailer(page)
   })
   ;(
     [
@@ -64,6 +68,7 @@ test.describe('Setup Solid pod', () => {
 
       test.beforeEach(async ({ page }) => {
         person = await createPerson({ community, skip })
+        await stubDirectMailer(page, { person })
         await signIn(page, person.account)
       })
 
@@ -85,6 +90,7 @@ test.describe('Setup Solid pod', () => {
 
     test.beforeEach(async ({ page }) => {
       person = await createPerson({ community, skip: ['joinCommunity'] })
+      await stubDirectMailer(page, { person })
 
       await community.account.authFetch(community.communityUri, {
         method: 'PATCH',
@@ -237,10 +243,256 @@ test.describe('Setup Solid pod', () => {
     test.fixme('should make inbox readable for email notifications service identity', async () => {})
   })
 
-  test.describe('email notifications with simple-email-notifications are not integrated', () => {
-    test.fixme('should ask for email and integrate notifications', async () => {})
-    test.fixme('should prepare pod for storing email verification', async () => {})
-    test.fixme('should not overwrite other email service settings in the pod', async () => {})
+  test.describe('direct email notifications are not integrated', () => {
+    const mailer = 'http://localhost:3005'
+
+    const prepareDirectEmailSetup = async ({
+      page,
+      person,
+      mailbot,
+      email,
+    }: {
+      page: Page
+      person: Person
+      mailbot: Account
+      email: string
+    }) => {
+      await page.goto('/')
+      await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+      await page.evaluate(
+        `globalThis.updateAppConfig({ emailNotificationsType: 'simple', emailNotificationsIdentity: '${mailbot.webId}' })`,
+      )
+
+      await stubDirectMailer(page, { person, mailer, integrated: false })
+      await signIn(page, person.account)
+
+      await page.getByTestId('setup-step-0-continue').click()
+      await page.getByTestId('setup-step-1-continue').click()
+      await page.getByRole('textbox', { name: 'email address' }).fill(email)
+    }
+
+    test('should ask for email and integrate notifications', async ({
+      page,
+    }) => {
+      const person = await createPerson({ community })
+      const mailbot = await createRandomAccount()
+
+      await prepareDirectEmailSetup({
+        page,
+        person,
+        mailbot,
+        email: 'asdf@example.com',
+      })
+
+      const integrationRequest = page.waitForRequest(
+        request =>
+          request.method() === 'POST' &&
+          request.url() === new URL('init', mailer).toString(),
+      )
+
+      await page
+        .getByRole('button', { name: 'Send Confirmation Email' })
+        .click()
+
+      const request = await integrationRequest
+      expect(request.postDataJSON()).toEqual({ email: 'asdf@example.com' })
+      await expect(
+        page.getByText(/confirmation email has been sent/i),
+      ).toBeVisible()
+      await stubDirectMailer(page, { mailer, person })
+      await page.getByRole('button', { name: 'Finish Setup' }).click()
+      await expect(page.getByRole('link', { name: 'travel' })).toBeVisible()
+    })
+
+    test('should prepare pod for storing email verification', async ({
+      page,
+    }) => {
+      const person = await createPerson({ community })
+      const mailbot = await createRandomAccount()
+
+      await prepareDirectEmailSetup({
+        page,
+        person,
+        mailbot,
+        email: 'asdf@example.com',
+      })
+
+      await page.route('http://localhost:3005/init', async route => {
+        await route.fulfill({ status: 200 })
+      })
+      const integrationRequest = page.waitForRequest(
+        request =>
+          request.method() === 'POST' &&
+          request.url() === 'http://localhost:3005/init',
+      )
+
+      await page
+        .getByRole('button', { name: 'Send Confirmation Email' })
+        .click()
+
+      await integrationRequest
+      await expect(
+        page.getByText(/confirmation email has been sent/i),
+      ).toBeVisible()
+
+      const hospexUrl = person.pod.hospexProfile
+      const hospexResponse = await mailbot.authFetch(hospexUrl, {
+        method: 'GET',
+      })
+      expect(hospexResponse.status).toBe(200)
+      const hospexBody = await hospexResponse.text()
+
+      const store = new Store(
+        new Parser({ baseIRI: hospexUrl }).parse(hospexBody),
+      )
+      const settings = store
+        .getObjects(person.account.webId, space.preferencesFile, null)
+        .map(setting => setting.value)
+
+      expect(settings).toHaveLength(1)
+
+      const mailerConfig = settings[0]
+      const settingsResponse = await mailbot.authFetch(mailerConfig, {
+        method: 'GET',
+      })
+      expect(settingsResponse.status).toBe(200)
+
+      const patchResponse = await mailbot.authFetch(mailerConfig, {
+        method: 'PATCH',
+        headers: { 'content-type': 'text/n3' },
+        body: `_:mutate a <${solid.InsertDeletePatch}>;
+          <${solid.inserts}> { <#this> a <#test>. }.`,
+      })
+      expect(patchResponse.status).toBeGreaterThanOrEqual(200)
+      expect(patchResponse.status).toBeLessThan(300)
+    })
+
+    test('should not overwrite other email service settings in the pod', async ({
+      page,
+    }) => {
+      const person = await createPerson({ community })
+      const mailbot = await createRandomAccount()
+      const mailbot2 = await createRandomAccount()
+      const otherCommunity = await createCommunity({ name: 'Other Community' })
+
+      await page.goto('/')
+      await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+      await page.evaluate(
+        `globalThis.updateAppConfig({ emailNotificationsType: 'simple', emailNotificationsIdentity: '${mailbot2.webId}', communityContainer: 'other-community', communityId: '${otherCommunity.communityUri}' })`,
+      )
+
+      await stubDirectMailer(page, { person, integrated: false })
+      await signIn(page, person.account)
+      await expect(
+        page.getByRole('link', { name: 'Other Community' }),
+      ).toBeVisible()
+
+      await page.getByTestId('setup-step-0-continue').click()
+      await page.locator('input[type=radio]').last().check()
+      await page.getByTestId('setup-step-1-continue').click()
+
+      await page
+        .getByPlaceholder('email address')
+        .fill('other-email@example.com')
+      const integrationRequestOther = page.waitForRequest(
+        request =>
+          request.method() === 'POST' &&
+          request.url() === 'http://localhost:3005/init' &&
+          request.postDataJSON()?.email === 'other-email@example.com',
+      )
+      await page
+        .getByRole('button', { name: 'Send Confirmation Email' })
+        .click()
+      await integrationRequestOther
+      await expect(
+        page.getByText(/confirmation email has been sent/i),
+      ).toBeVisible()
+
+      await signOut(page)
+
+      await page.goto('/')
+      await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+      await page.evaluate(
+        `globalThis.updateAppConfig({ emailNotificationsType: 'simple', emailNotificationsIdentity: '${mailbot.webId}', communityId: '${community.communityUri}', communityContainer: 'dev-solidcouch' })`,
+      )
+
+      await signIn(page, person.account)
+      await expect(
+        page.getByRole('link', { name: 'communityName' }),
+      ).toBeVisible()
+      await page.getByTestId('setup-step-0-continue').click()
+      await page.getByTestId('setup-step-1-continue').click()
+      await page
+        .getByPlaceholder('email address')
+        .fill('third-email@example.com')
+      const integrationRequestCurrent = page.waitForRequest(
+        request =>
+          request.method() === 'POST' &&
+          request.url() === 'http://localhost:3005/init' &&
+          request.postDataJSON()?.email === 'third-email@example.com',
+      )
+      await page
+        .getByRole('button', { name: 'Send Confirmation Email' })
+        .click()
+      await integrationRequestCurrent
+      await expect(
+        page.getByText(/confirmation email has been sent/i),
+      ).toBeVisible()
+
+      const hospexUrl = person.pod.hospexProfile
+
+      const accessDocument = async (url: string, bot: Account) =>
+        bot.authFetch(url, { method: 'GET' })
+
+      const hospexResponse1 = await accessDocument(hospexUrl, mailbot)
+      const hospexResponse2 = await accessDocument(hospexUrl, mailbot2)
+
+      expect(hospexResponse1.status).toBe(200)
+      expect(hospexResponse2.status).toBe(200)
+      const hospexBody1 = await hospexResponse1.text()
+      const hospexBody2 = await hospexResponse2.text()
+      expect(hospexBody1).toEqual(hospexBody2)
+
+      const store = new Store(
+        new Parser({ baseIRI: hospexUrl }).parse(hospexBody1),
+      )
+      const settings = store
+        .getObjects(person.account.webId, space.preferencesFile, null)
+        .map(setting => setting.value)
+
+      expect(settings).toHaveLength(2)
+
+      const [settings1, settings2] = settings
+      const mailbotSettings1 = await accessDocument(settings1, mailbot)
+      const mailbotSettings2 = await accessDocument(settings2, mailbot)
+      const mailbot2Settings1 = await accessDocument(settings1, mailbot2)
+      const mailbot2Settings2 = await accessDocument(settings2, mailbot2)
+
+      expect([200, 403]).toContain(mailbotSettings1.status)
+      expect(mailbotSettings2.status).toBe(
+        mailbotSettings1.status === 200 ? 403 : 200,
+      )
+      expect(mailbot2Settings1.status).toBe(
+        mailbotSettings1.status === 200 ? 403 : 200,
+      )
+      expect(mailbot2Settings2.status).toBe(
+        mailbotSettings1.status === 200 ? 200 : 403,
+      )
+
+      const assertReadWriteAccess = (response: Response) => {
+        const allow = response.headers.get('wac-allow')
+        expect(allow).toBe('user="append read write"')
+      }
+
+      if (mailbotSettings1.status === 200)
+        assertReadWriteAccess(mailbotSettings1)
+      if (mailbotSettings2.status === 200)
+        assertReadWriteAccess(mailbotSettings2)
+      if (mailbot2Settings1.status === 200)
+        assertReadWriteAccess(mailbot2Settings1)
+      if (mailbot2Settings2.status === 200)
+        assertReadWriteAccess(mailbot2Settings2)
+    })
   })
 
   test.describe('everything is missing', () => {

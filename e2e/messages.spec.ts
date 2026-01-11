@@ -38,7 +38,7 @@ test.describe('Messages', () => {
 
   // stub mailer
   test.beforeEach(async ({ page }) => {
-    await stubDirectMailer(page)
+    for (const person of people) await stubDirectMailer(page, { person })
   })
 
   test('messages test', async ({ page }) => {

@@ -5,19 +5,16 @@ import { generateAcl } from '../../cypress/support/helpers/acl'
 import { getAcl } from '../../src/utils/helpers'
 import { createRandomAccount } from './account'
 
-export const setupCommunity = async (
-  page: Page,
-  {
-    name = 'Test Community',
-    about = 'Development community for SolidCouch',
-    pun,
-    // logo,
-  }: {
-    name?: string
-    about?: string
-    pun?: string
-  },
-) => {
+export const createCommunity = async ({
+  name = 'Test Community',
+  about = 'Development community for SolidCouch',
+  pun,
+  // logo,
+}: {
+  name?: string
+  about?: string
+  pun?: string
+}) => {
   const account = await createRandomAccount()
   const communityUri = new URL('community#us', account.podUrl)
   const communityDoc = new URL(communityUri)
@@ -27,8 +24,6 @@ export const setupCommunity = async (
   const groupAcl = await getAcl(groupUri)
   const groupDoc = new URL(groupUri)
   groupDoc.hash = ''
-
-  const currentUrl = page.url()
 
   const authFetch = await v7.getAuthenticatedFetch(account)
 
@@ -80,16 +75,6 @@ export const setupCommunity = async (
     ]),
   })
 
-  // set up the community as the app community
-  await page.goto('/')
-  await expect(page.getByRole('navigation')).toContainText('Home')
-  await page.evaluate(
-    `globalThis.updateAppConfig({ communityId: '${communityUri}' })`,
-  )
-  await expect(page.getByRole('navigation')).toContainText(name)
-  // get back to previous page
-  if (currentUrl) await page.goto(currentUrl)
-
   return {
     account,
     communityUri,
@@ -104,4 +89,36 @@ export const setupCommunity = async (
   }
 }
 
-export type Community = Awaited<ReturnType<typeof setupCommunity>>
+export type Community = Awaited<ReturnType<typeof createCommunity>>
+
+const setAppCommunity = async (page: Page, community: Community) => {
+  const currentUrl = page.url()
+
+  // set up the community as the app community
+  await page.goto('/')
+  await expect(page.getByRole('navigation')).toBeVisible()
+  await page.evaluate(
+    `globalThis.updateAppConfig({ communityId: '${community.communityUri}' })`,
+  )
+  await expect(page.getByRole('navigation')).toContainText(community.name)
+  // get back to previous page
+  if (currentUrl) await page.goto(currentUrl)
+}
+
+export const setupCommunity = async (
+  page: Page,
+  {
+    name = 'Test Community',
+    about = 'Development community for SolidCouch',
+    pun,
+    // logo,
+  }: {
+    name?: string
+    about?: string
+    pun?: string
+  },
+): Promise<Community> => {
+  const community = await createCommunity({ name, about, pun })
+  await setAppCommunity(page, community)
+  return community
+}
