@@ -8,7 +8,7 @@ import {
   type Person,
 } from './helpers/account'
 import { setupCommunity, type Community } from './helpers/community'
-import { stubMailer } from './helpers/mailer'
+import { stubDirectMailer, stubWebhookMailer } from './helpers/mailer'
 
 test.describe('Setup Solid pod', () => {
   let community: Community
@@ -17,7 +17,7 @@ test.describe('Setup Solid pod', () => {
   })
 
   test.beforeEach(async ({ page }) => {
-    await stubMailer(page)
+    await stubDirectMailer(page)
   })
   ;(
     [
@@ -144,8 +144,6 @@ test.describe('Setup Solid pod', () => {
         request => request.method() === 'POST' && request.url() === inboxUrl,
       )
       const groupUpdatePromise = page.waitForRequest(request => {
-        // eslint-disable-next-line no-console
-        console.log('****', request)
         return (
           request.method() === 'GET' &&
           request.url() === community.groupDoc.toString()
@@ -166,10 +164,77 @@ test.describe('Setup Solid pod', () => {
     })
   })
 
-  test.describe('email notifications with solid-email-notifications are not integrated', () => {
+  test.describe('webhook email notifications are not integrated', () => {
+    let person: Person
+    const mailer = 'http://email.notifications.service'
+
+    test.beforeEach(async ({ page }) => {
+      person = await createPerson({ community })
+
+      await page.goto('/')
+      await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+      await page.evaluate(
+        `globalThis.updateAppConfig({ emailNotificationsType: 'solid', emailNotificationsService: '${mailer}' })`,
+      )
+
+      await stubWebhookMailer(page, {
+        mailer,
+        person,
+        integrated: false,
+        verified: false,
+      })
+
+      await signIn(page, person.account)
+    })
+
+    test('should ask for email and integrate notifications', async ({
+      page,
+    }) => {
+      const integrationRequest = page.waitForRequest(
+        request =>
+          request.method() === 'POST' &&
+          request.url() === new URL('inbox', mailer).toString(),
+      )
+
+      await page.getByTestId('setup-step-0-continue').click()
+      await page.getByTestId('setup-step-1-continue').click()
+      await page
+        .getByRole('textbox', { name: 'Your email' })
+        .fill('asdf@example.com')
+      await stubWebhookMailer(page, {
+        mailer,
+        person,
+        integrated: true,
+        verified: false,
+      })
+      await page
+        .getByRole('button', { name: 'Send Confirmation Email' })
+        .click()
+
+      const request = await integrationRequest
+      expect(request.postDataJSON()).toEqual({
+        '@id': '',
+        '@context': 'https://www.w3.org/ns/activitystreams',
+        '@type': 'Add',
+        actor: person.account.webId,
+        object: person.pod.inbox,
+        target: 'asdf@example.com',
+      })
+      await expect(
+        page.getByRole('button', { name: 'Finish Setup' }),
+      ).toBeVisible()
+      await stubWebhookMailer(page, {
+        mailer,
+        person,
+        integrated: true,
+        verified: true,
+      })
+      await page.getByRole('button', { name: 'Finish Setup' }).click()
+      await expect(page.getByRole('link', { name: 'travel' })).toBeVisible()
+    })
+
     test.fixme('should allow custom email notifications service', async () => {})
     test.fixme('should make inbox readable for email notifications service identity', async () => {})
-    test.fixme('should ask for email and integrate notifications', async () => {})
   })
 
   test.describe('email notifications with simple-email-notifications are not integrated', () => {
