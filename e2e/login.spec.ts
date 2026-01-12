@@ -1,9 +1,15 @@
 import { expect, test } from '@playwright/test'
-import { createRandomAccount, signIn, signOut } from './helpers/account'
-import { stubMailer } from './helpers/mailer'
+import {
+  type Account,
+  createRandomAccount,
+  Person,
+  signIn,
+  signOut,
+} from './helpers/account'
+import { stubDirectMailer } from './helpers/mailer'
 
 test.describe('Sign in to the app', () => {
-  let user: Awaited<ReturnType<typeof createRandomAccount>>
+  let user: Account
 
   test.beforeEach(async () => {
     user = await createRandomAccount()
@@ -11,7 +17,7 @@ test.describe('Sign in to the app', () => {
 
   // stub mailer
   test.beforeEach(async ({ page }) => {
-    await stubMailer(page)
+    await stubDirectMailer(page, { person: { account: user } as Person })
   })
 
   test('sign in with identity provider', async ({ page }) => {

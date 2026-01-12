@@ -5,7 +5,7 @@ import {
 } from 'strict-uri-encode'
 import { createPerson, type Person, signIn, signOut } from './helpers/account'
 import { type Community, setupCommunity } from './helpers/community'
-import { stubMailer } from './helpers/mailer'
+import { stubDirectMailer } from './helpers/mailer'
 
 test.describe('Messages', () => {
   let community: Community
@@ -38,7 +38,7 @@ test.describe('Messages', () => {
 
   // stub mailer
   test.beforeEach(async ({ page }) => {
-    await stubMailer(page)
+    for (const person of people) await stubDirectMailer(page, { person })
   })
 
   test('messages test', async ({ page }) => {

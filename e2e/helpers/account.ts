@@ -4,16 +4,17 @@ import { v7 } from 'css-authn'
 import { acl, foaf, ldp, solid, space, vcard } from 'rdf-namespaces'
 import { generateAcl } from '../../cypress/support/helpers/acl'
 import { getAcl, getContainer } from '../../src/utils/helpers'
-import { setupCommunity } from './community'
+import { Community } from './community'
 import { generateRandomString } from './helpers'
 
-type SkipOptions =
+export type SkipOptions =
   | 'preferences'
   | 'publicTypeIndex'
   | 'privateTypeIndex'
   | 'inbox'
   | 'personalHospexDocument'
   | 'joinCommunity'
+  | 'storage'
 
 export const createRandomAccount = async () => {
   const username = randomUUID()
@@ -33,6 +34,8 @@ export const createRandomAccount = async () => {
 
   return { ...account, authFetch: authenticatedFetch }
 }
+
+export type Account = Awaited<ReturnType<typeof createRandomAccount>>
 
 export const signIn = async (
   page: Page,
@@ -78,8 +81,8 @@ export const signOut = async (page: Page) => {
 }
 
 const setupPod = async (
-  account: Awaited<ReturnType<typeof createRandomAccount>>,
-  community: Awaited<ReturnType<typeof setupCommunity>>,
+  account: Account,
+  community: Community,
   {
     skip = [],
     hospexContainerName = 'test-community',
@@ -93,6 +96,17 @@ const setupPod = async (
   const inboxUri = `${account.podUrl}inbox/`
 
   const authFetch = await v7.getAuthenticatedFetch(account)
+
+  // create storage link
+  if (!skip.includes('storage')) {
+    await authFetch(account.webId, {
+      method: 'PATCH',
+      headers: { 'content-type': 'text/n3' },
+      body: `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {
+        <${account.webId}> <${space.storage}> <${account.podUrl}>.
+      }.`,
+    })
+  }
 
   // create inbox
   if (!skip.includes('inbox')) {
@@ -282,8 +296,9 @@ const setupPod = async (
 }
 
 type Profile = { name: string; description: { [lang: string]: string } }
+
 const saveProfileData = async (
-  account: Awaited<ReturnType<typeof createRandomAccount>>,
+  account: Account,
   setup: Awaited<ReturnType<typeof setupPod>>,
   profile: Profile,
 ) => {
@@ -306,11 +321,17 @@ const saveProfileData = async (
 
 export const createPerson = async ({
   community,
+  skip,
+  hospexContainerName,
+  account,
 }: {
-  community: Awaited<ReturnType<typeof setupCommunity>>
+  community: Community
+  skip?: SkipOptions[]
+  hospexContainerName?: string
+  account?: Account
 }) => {
-  const account = await createRandomAccount()
-  const pod = await setupPod(account, community)
+  account ??= await createRandomAccount()
+  const pod = await setupPod(account, community, { skip, hospexContainerName })
   const profile = await saveProfileData(account, pod, {
     name: generateRandomString(8),
     description: {

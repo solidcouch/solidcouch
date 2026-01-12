@@ -3,7 +3,7 @@ import encodeURIComponent from 'strict-uri-encode'
 import { createPerson, signIn, signOut, type Person } from './helpers/account'
 import { setupCommunity, type Community } from './helpers/community'
 import { saveContacts } from './helpers/contacts'
-import { stubMailer } from './helpers/mailer'
+import { stubDirectMailer } from './helpers/mailer'
 
 test.describe("person's contacts", () => {
   let community: Community
@@ -48,7 +48,7 @@ test.describe("person's contacts", () => {
 
   // stub mailer
   test.beforeEach(async ({ page }) => {
-    await stubMailer(page)
+    for (const person of people) await stubDirectMailer(page, { person })
   })
 
   // sign in

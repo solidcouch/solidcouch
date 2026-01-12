@@ -3,7 +3,6 @@ import {
   generateDpopKeyPair,
   KeyPair,
 } from '@inrupt/solid-client-authn-core'
-import { v7 } from 'css-authn'
 import encodeURIComponent from 'strict-uri-encode'
 import { buildAuthenticatedFetch } from './buildAuthenticatedFetch'
 import { cyFetchWrapper, cyUnwrapFetch } from './css-authentication-helpers'
@@ -146,5 +145,3 @@ export const getAuthenticatedRequest = (user: UserConfig) =>
       const authRequest = cyUnwrapFetch(authFetchWrapper)
       return cy.wrap(authRequest, { log: false })
     })
-
-export const getAuthenticatedFetch = v7.getAuthenticatedFetch
