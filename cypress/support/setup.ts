@@ -572,7 +572,7 @@ export const stubMailer = ({
   }).as('simpleEmailNotification')
 }
 
-export const throwIfResponseNotOk = async (response: Response) => {
+const throwIfResponseNotOk = async (response: Response) => {
   if (!response.ok)
     throw new Error(
       `Query was not successful: ${response.status} ${await response.text()}`,
