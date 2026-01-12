@@ -390,7 +390,7 @@ test.describe('Setup Solid pod', () => {
 
       await page.getByTestId('setup-step-0-continue').click()
       await page
-        .getByRole('radio', { name: 'hospex/other-community/card' })
+        .getByRole('radio', { name: 'hospex/test-community/card' })
         .check()
       await page.getByTestId('setup-step-1-continue').click()
 
