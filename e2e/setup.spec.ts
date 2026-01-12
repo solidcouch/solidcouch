@@ -1,7 +1,8 @@
 import { expect, Page, test } from '@playwright/test'
 import { Parser, Store } from 'n3'
-import { foaf, ldp, solid, space, vcard } from 'rdf-namespaces'
+import { foaf, ldp, sioc, solid, space, vcard } from 'rdf-namespaces'
 import { generateAcl } from '../cypress/support/helpers/acl'
+import { processAcl } from '../src/utils/helpers'
 import {
   createPerson,
   createRandomAccount,
@@ -388,7 +389,9 @@ test.describe('Setup Solid pod', () => {
       ).toBeVisible()
 
       await page.getByTestId('setup-step-0-continue').click()
-      await page.locator('input[type=radio]').last().check()
+      await page
+        .getByRole('radio', { name: 'hospex/other-community/card' })
+        .check()
       await page.getByTestId('setup-step-1-continue').click()
 
       await page
@@ -496,12 +499,163 @@ test.describe('Setup Solid pod', () => {
   })
 
   test.describe('everything is missing', () => {
-    test.fixme('should set up everything', async () => {})
+    let person: Person
+    const mailer = 'http://localhost:3005'
+
+    test.beforeEach(async ({ page }) => {
+      person = await createPerson({
+        community,
+        skip: [
+          'personalHospexDocument',
+          'joinCommunity',
+          'publicTypeIndex',
+          'privateTypeIndex',
+          'inbox',
+        ],
+      })
+
+      const mailbot = await createRandomAccount()
+      await page.goto('/')
+      await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+      await page.evaluate(
+        `globalThis.updateAppConfig({ emailNotificationsType: 'simple', emailNotificationsIdentity: '${mailbot.webId}' })`,
+      )
+    })
+
+    test('should set up everything', async ({ page }) => {
+      await stubDirectMailer(page, { person, mailer, integrated: false })
+      await signIn(page, person.account)
+
+      const addUserToCommunityPromise = page.waitForRequest(
+        request =>
+          request.method() === 'PATCH' &&
+          request.url() === community.groupDoc.toString(),
+      )
+
+      await page.getByTestId('setup-step-0-continue').click()
+      await page.getByTestId('setup-step-1-continue').click()
+
+      await page
+        .getByRole('textbox', { name: 'email address' })
+        .fill('asdf@example.com')
+
+      const integrationPromise = page.waitForRequest(
+        request =>
+          request.method() === 'POST' &&
+          request.url() === new URL('init', mailer).toString(),
+      )
+
+      // Stub successful verification before clicking
+      await stubDirectMailer(page, { person, mailer })
+      await page
+        .getByRole('button', { name: 'Send Confirmation Email' })
+        .click()
+
+      await addUserToCommunityPromise
+      const integrationRequest = await integrationPromise
+      expect(integrationRequest.postDataJSON()).toEqual({
+        email: 'asdf@example.com',
+      })
+
+      await expect(page.getByRole('link', { name: 'travel' })).toBeVisible()
+    })
   })
 
   test.describe('person joined another community', () => {
-    test.fixme('should show option to create a new community folder, and join this community just fine', async () => {})
-    test.fixme('should show option to choose existing community folder, and not break it when adding the community', async () => {})
+    let person: Person
+    let otherCommunity: Community
+
+    test.beforeEach(async () => {
+      otherCommunity = await createCommunity({ name: 'Other Community' })
+
+      // Create person fully set up for other community
+      person = await createPerson({
+        community: otherCommunity,
+        hospexContainerName: 'other-community',
+      })
+
+      // Set up partial state for current community (missing these items)
+      await createPerson({
+        community,
+        account: person.account, // reuse same account
+        skip: [
+          'personalHospexDocument',
+          'joinCommunity',
+          'publicTypeIndex',
+          'privateTypeIndex',
+          'inbox',
+        ],
+      })
+    })
+
+    test('should show option to create a new community folder, and join this community just fine', async ({
+      page,
+    }) => {
+      await stubDirectMailer(page, { person })
+      await signIn(page, person.account)
+
+      await page.getByTestId('setup-step-0-continue').click()
+      await page.getByRole('radio', { name: 'new' }).check()
+      await page.getByTestId('setup-step-1-continue').click()
+
+      await expect(page.getByRole('link', { name: 'travel' })).toBeVisible()
+    })
+
+    test('should show option to choose existing community folder, and not break it when adding the community', async ({
+      page,
+    }) => {
+      await stubDirectMailer(page, { person })
+      await signIn(page, person.account)
+
+      await page.getByTestId('setup-step-0-continue').click()
+      await page
+        .getByRole('radio', {
+          name: `hospex/other-community/card`,
+        })
+        .check()
+      await page.getByTestId('setup-step-1-continue').click()
+
+      await expect(page.getByRole('link', { name: 'travel' })).toBeVisible()
+
+      // Check that both communities still have access
+      const aclUrl = `${person.account.podUrl}hospex/other-community/.acl`
+      const aclResponse = await person.account.authFetch(aclUrl, {
+        method: 'GET',
+      })
+      expect(aclResponse.status).toBe(200)
+
+      const aclBody = await aclResponse.text()
+
+      const acls = processAcl(aclUrl, aclBody)
+
+      const readAcl = acls.find(
+        acl => acl.modes.length === 1 && acl.modes[0] === 'Read',
+      )
+
+      expect(readAcl).toBeTruthy()
+      expect(readAcl!.agentGroups).toHaveLength(2)
+      expect(readAcl!.agentGroups).toContain(community.groupUri.toString())
+      expect(readAcl!.agentGroups).toContain(otherCommunity.groupUri.toString())
+
+      const hospexUrl = `${person.account.podUrl}hospex/other-community/card`
+      const hospexResponse = await person.account.authFetch(hospexUrl, {
+        method: 'GET',
+      })
+      expect(hospexResponse.status).toBe(200)
+
+      const hospexBody = await hospexResponse.text()
+      const parser = new Parser({ baseIRI: hospexUrl })
+      const store = new Store(parser.parse(hospexBody))
+
+      const communities = store
+        .getObjects(person.account.webId, sioc.member_of, null)
+        .map(obj => obj.value)
+
+      expect(communities).toHaveLength(2)
+      expect(communities).toContain(community.communityUri.toString())
+      expect(communities).toContain(otherCommunity.communityUri.toString())
+    })
+
     test.fixme('should explain implications of choosing other community folder', async () => {})
     test.fixme('should not break email notifications of the other community', async () => {})
   })
