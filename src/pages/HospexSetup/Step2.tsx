@@ -1,5 +1,6 @@
 import { Button } from '@/components'
 import { IconLoading } from '@/components/IconLoading'
+import { withToast } from '@/components/withToast'
 import { useConfig } from '@/config/hooks'
 import { useReadEmailVerificationSetup } from '@/hooks/data/emailNotifications'
 import { AccessMode, QueryKey } from '@/hooks/data/types'
@@ -7,7 +8,7 @@ import { useCheckNotificationsQuery } from '@/hooks/data/useCheckSetup'
 import {
   useInitEmailNotifications,
   usePreparePodForDirectEmailNotifications,
-  useVerifyEmail,
+  useSendVerificationEmail,
 } from '@/hooks/data/useSetupHospex'
 import { useAuth } from '@/hooks/useAuth'
 import { Trans, useLingui } from '@lingui/react/macro'
@@ -65,7 +66,7 @@ const DirectEmailNotifications = ({
   const [sentToEmail, setSentToEmail] = useState<string>()
   const [countdown, setCountdown] = useState(0)
   const preparePod = usePreparePodForDirectEmailNotifications()
-  const verifyEmailMutation = useVerifyEmail()
+  const sendVerificationEmailMutation = useSendVerificationEmail()
   const { webId } = useAuth()
   const { t } = useLingui()
   const { emailNotificationsIdentity, emailNotificationsService } = useConfig()
@@ -102,9 +103,18 @@ const DirectEmailNotifications = ({
       if (!hospexDocument) throw new Error(t`no hospex document for community`)
       if (!isEmailNotifications) {
         if (!isNotificationsInitialized)
-          await preparePod({ hospexDocument, webId: webId!, email })
+          await withToast(
+            preparePod({ hospexDocument, webId: webId!, email }),
+            {
+              pending: t`Preparing pod for email notification`,
+              success: t`Pod is prepared for email notifications`,
+            },
+          )
 
-        await verifyEmailMutation.mutateAsync({ email })
+        await withToast(sendVerificationEmailMutation.mutateAsync({ email }), {
+          pending: t`Sending verification email`,
+          success: t`Verification email sent`,
+        })
 
         setSent(true)
         setCountdown(60)
@@ -199,14 +209,20 @@ const WebhookEmailNotifications = ({
     queryClient.invalidateQueries({ queryKey: [QueryKey.mailerIntegration] })
   }
 
-  const handleFormSubmit = handleSubmit(({ email }) => {
+  const handleFormSubmit = handleSubmit(async ({ email }) => {
     if (!inbox) throw new Error(t`Inbox is not set up`)
 
-    initEmailNotifications({
-      email,
-      webId: webId!,
-      inbox,
-    })
+    await withToast(
+      initEmailNotifications({
+        email,
+        webId: webId!,
+        inbox,
+      }),
+      {
+        pending: t`Initializing email notifications`,
+        success: t`Email notifications initialized`,
+      },
+    )
   })
 
   if (isEmailNotifications === true)

@@ -2,8 +2,6 @@
 
 A decentralized hospitality exchange community app built with Solid Protocol.
 
-Please read the [SolidCouch Announcement](https://mrkvon.org/blog/announcing-solidcouch).
-
 ## Developer quick start
 
 This is a single page application written in React.

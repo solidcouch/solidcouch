@@ -82,7 +82,13 @@ export const useRdfDocuments = (uris: URI[]) => {
 export const useCreateRdfContainer = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: async ({ uri }: { uri: URI }) => {
+    mutationFn: async ({
+      uri,
+      ignoreHttpError,
+    }: {
+      uri: URI
+      ignoreHttpError?: boolean
+    }) => {
       if (uri.slice(-1) !== '/')
         throw new Error(`Container must end with "/", got ${uri}`)
       const response = await fullFetch(uri, {
@@ -93,6 +99,10 @@ export const useCreateRdfContainer = () => {
           'If-None-Match': '*',
         },
       })
+
+      if (!ignoreHttpError && !response.ok) {
+        throw new HttpError(response.statusText, response)
+      }
 
       const location = response.headers.get('location')
       return location as string
@@ -113,14 +123,14 @@ export const useCreateRdfDocument = <S extends LdoBase>(
       transform,
       language = 'en',
       method = 'PUT',
-      throwOnHttpError = false,
+      ignoreHttpError,
     }: {
       uri: URI
       data: S | S[]
       transform?: (ldo: S) => void // transform should modify the original input, not clone it
       language?: string
       method?: 'POST' | 'PUT'
-      throwOnHttpError?: boolean
+      ignoreHttpError?: boolean
     }) => {
       const ldoDataset = createLdoDataset()
       if (Array.isArray(data)) {
@@ -149,7 +159,7 @@ export const useCreateRdfDocument = <S extends LdoBase>(
 
       const response = await fullFetch(uri, { method, body, headers })
 
-      if (throwOnHttpError && !response.ok) {
+      if (!ignoreHttpError && !response.ok) {
         throw new HttpError(response.statusText, response)
       }
 
@@ -165,21 +175,25 @@ export const useCreateRdfDocument = <S extends LdoBase>(
 export const useUpdateRdfDocument = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: async ({ uri, patch }: { uri: URI; patch: string }) => {
+    mutationFn: async ({
+      uri,
+      patch,
+      ignoreHttpError,
+    }: {
+      uri: URI
+      patch: string
+      ignoreHttpError?: boolean
+    }) => {
       const response = await fullFetch(uri, {
         method: 'PATCH',
         body: patch,
         headers: { 'content-type': 'text/n3' },
       })
-      if (!response.ok) {
-        if (response.status === 401)
-          throw new Error(
-            "401: You're not authenticated. Please refresh the application and sign in again.",
-          )
-        if (response.status === 403)
-          throw new Error("403: You don't have permissions to do this action.")
-        throw new Error(response.status + (await response.text()))
+
+      if (!ignoreHttpError && !response.ok) {
+        throw new HttpError(response.statusText, response)
       }
+
       return response
     },
     onSuccess: onSuccessInvalidate(queryClient, data => data.status === 201),
@@ -195,6 +209,7 @@ export const updateLdoDocument =
     matchSubject,
     transform,
     language = 'en',
+    ignoreHttpError,
   }:
     | {
         uri: URI
@@ -202,6 +217,7 @@ export const updateLdoDocument =
         matchSubject?: undefined
         transform: (ldo: S) => void // transform should modify the original input, not clone it
         language?: string
+        ignoreHttpError?: boolean
       }
     | {
         uri: URI
@@ -209,6 +225,7 @@ export const updateLdoDocument =
         matchSubject: { predicate: string; object?: string; graph?: string }
         transform: (ldo: LdSet<S>) => void // transform should modify the original input, not clone it
         language?: string
+        ignoreHttpError?: boolean
       }) => {
     const originalResponse = await fullFetch(uri)
     let originalData = ''
@@ -245,7 +262,9 @@ export const updateLdoDocument =
       headers: { 'content-type': 'text/n3' },
     })
 
-    if (!response.ok) throw new HttpError(response.statusText, response)
+    if (!ignoreHttpError && !response.ok) {
+      throw new HttpError(response.statusText, response)
+    }
 
     return response
   }
@@ -303,8 +322,19 @@ export const useUpdateLdoDocument = <S extends LdoBase>(
 export const useDeleteRdfDocument = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: async ({ uri }: { uri: URI }) => {
-      await fullFetch(uri, { method: 'DELETE' })
+    mutationFn: async ({
+      uri,
+      ignoreHttpError,
+    }: {
+      uri: URI
+      ignoreHttpError?: boolean
+    }) => {
+      const response = await fullFetch(uri, { method: 'DELETE' })
+
+      if (!ignoreHttpError && !response.ok) {
+        throw new HttpError(response.statusText, response)
+      }
+      return response
     },
     onSuccess: onSuccessInvalidate(queryClient),
   })

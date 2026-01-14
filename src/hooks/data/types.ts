@@ -1,3 +1,5 @@
+import { DEFAULT_QUERY_KEY } from '@ldhop/react'
+
 export enum AccessMode {
   Read = 'Read',
   Write = 'Write',
@@ -8,7 +10,7 @@ export enum AccessMode {
 export enum QueryKey {
   simpleMailerIntegration = 'simpleMailerIntegration',
   mailerIntegration = 'mailerIntegration',
-  rdfDocument = 'rdfDocument',
+  rdfDocument = `${DEFAULT_QUERY_KEY}`,
   file = 'file',
   geoindex = 'geoindex',
   wikidataSearch = 'wikidataSearch',

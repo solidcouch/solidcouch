@@ -1,4 +1,5 @@
 import { Button } from '@/components'
+import { withToast } from '@/components/withToast'
 import { useConfig } from '@/config/hooks'
 import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { useJoinCommunity, useJoinGroupLegacy } from '@/hooks/data/useJoinGroup'
@@ -74,39 +75,63 @@ export const Step1 = ({
         const isNew = allHospex.length === 0 || hospexDocument === 'new'
 
         if (isNew) {
-          await createHospexProfile({
-            uri: newHospexDocument,
-            webId: auth.webId!,
-            communityId,
-          })
-
-          await saveTypeRegistration({
-            index: publicTypeIndex,
-            type: hospex.PersonalHospexDocument,
-            location: newHospexDocument,
-          })
+          await withToast(
+            createHospexProfile({
+              uri: newHospexDocument,
+              webId: auth.webId!,
+              communityId,
+            }).then(() =>
+              saveTypeRegistration({
+                index: publicTypeIndex,
+                type: hospex.PersonalHospexDocument,
+                location: newHospexDocument,
+              }),
+            ),
+            {
+              pending: t`Setting up hospex data`,
+              success: t`Hospex data setup successful`,
+            },
+          )
         } else
-          await addToHospexProfile({
-            uri: hospexDocument,
-            webId: auth.webId!,
-          })
+          await withToast(
+            addToHospexProfile({
+              uri: hospexDocument,
+              webId: auth.webId!,
+            }),
+            {
+              pending: t`Setting up hospex data`,
+              success: t`Hospex data setup successful`,
+            },
+          )
       }
 
       if (!isMember)
         if (community.inbox)
-          await joinCommunity({
-            actor: auth.webId!,
-            object: community.community,
-            type: 'Join',
-            inbox: community.inbox,
-          })
+          await withToast(
+            joinCommunity({
+              actor: auth.webId!,
+              object: community.community,
+              type: 'Join',
+              inbox: community.inbox,
+            }),
+            {
+              pending: t`Joining community`,
+              success: t`Join request sent`,
+            },
+          )
         else {
           if (!community.groups[0])
             throw new Error(t`Community does not have a group`)
-          await joinGroupLegacy({
-            person: auth.webId as URI,
-            group: community.groups[0],
-          })
+          await withToast(
+            joinGroupLegacy({
+              person: auth.webId as URI,
+              group: community.groups[0],
+            }),
+            {
+              pending: t`Joining community`,
+              success: t`Community joined`,
+            },
+          )
         }
       onSuccess()
     },

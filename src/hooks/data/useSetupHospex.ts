@@ -480,7 +480,7 @@ export const useInitEmailNotifications = () => {
 /**
  * Send verification email for direct email notifications
  */
-export const useVerifyEmail = () => {
+export const useSendVerificationEmail = () => {
   const { emailNotificationsService } = useConfig()
   // Define a mutation function that will handle the API request
   const addActivity = async (requestData: { email: string }) => {

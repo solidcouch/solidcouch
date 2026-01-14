@@ -1,4 +1,5 @@
 import { Button } from '@/components'
+import { withToast } from '@/components/withToast'
 import {
   useCreateInbox,
   useCreatePreferences,
@@ -84,27 +85,49 @@ export const Step0 = ({
       // save preferences file if missing
       // include private type index if present
       if (!isPreferencesFile) {
-        await createPreferences({
-          preferencesFile,
-          privateTypeIndex: existingPrivateTypeIndex, // link existing private type index
-          webId,
-        })
+        await withToast(
+          createPreferences({
+            preferencesFile,
+            privateTypeIndex: existingPrivateTypeIndex, // link existing private type index
+            webId,
+          }),
+          {
+            pending: t`Creating preferences file`,
+            success: t`Preferences file created`,
+          },
+        )
       }
 
       if (isPublicTypeIndex === false)
-        await createPublicTypeIndex({
-          publicTypeIndex,
-          webId,
-        })
+        await withToast(
+          createPublicTypeIndex({
+            publicTypeIndex,
+            webId,
+          }),
+          {
+            pending: t`Creating public type index`,
+            success: t`Public type index created`,
+          },
+        )
 
       if (isPrivateTypeIndex === false)
-        await createPrivateTypeIndex({
-          privateTypeIndex,
-          preferencesFile: existingPreferencesFile || preferencesFile, // link private type index from preferences file
-          webId,
-        })
+        await withToast(
+          createPrivateTypeIndex({
+            privateTypeIndex,
+            preferencesFile: existingPreferencesFile || preferencesFile, // link private type index from preferences file
+            webId,
+          }),
+          {
+            pending: t`Creating private type index`,
+            success: t`Private type index created`,
+          },
+        )
 
-      if (isInbox === false) await createInbox({ inbox, webId })
+      if (isInbox === false)
+        await withToast(createInbox({ inbox, webId }), {
+          pending: t`Creating inbox`,
+          success: t`Inbox created`,
+        })
 
       onSuccess()
     },
