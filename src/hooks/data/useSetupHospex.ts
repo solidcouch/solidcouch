@@ -410,12 +410,12 @@ export const useInitEmailNotifications = () => {
       body: JSON.stringify(requestData),
     })
 
-    if (!response.ok) throw new Error('not ok!')
+    if (!response.ok) throw new HttpError('not ok!', response)
   }
 
   const queryClient = useQueryClient()
 
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: addActivity,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.mailerIntegration] })
@@ -423,7 +423,15 @@ export const useInitEmailNotifications = () => {
   })
 
   const initializeIntegration = useCallback(
-    ({ webId, inbox, email }: { webId: URI; inbox: URI; email: string }) => {
+    async ({
+      webId,
+      inbox,
+      email,
+    }: {
+      webId: URI
+      inbox: URI
+      email: string
+    }) => {
       const requestData = {
         '@context': 'https://www.w3.org/ns/activitystreams',
         '@id': '',
@@ -433,9 +441,9 @@ export const useInitEmailNotifications = () => {
         target: email,
       }
 
-      mutate(requestData)
+      await mutateAsync(requestData)
     },
-    [mutate],
+    [mutateAsync],
   )
 
   const updateAclMutation = useUpdateLdoDocument(AuthorizationShapeType)
@@ -467,11 +475,7 @@ export const useInitEmailNotifications = () => {
         },
       })
       // initialize integration
-      initializeIntegration({
-        email,
-        inbox,
-        webId,
-      })
+      await initializeIntegration({ email, inbox, webId })
     },
     [emailNotificationsIdentity, initializeIntegration, updateAclMutation],
   )
