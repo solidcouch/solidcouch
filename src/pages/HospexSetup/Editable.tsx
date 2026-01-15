@@ -12,8 +12,8 @@ export const Editable = ({
       <>
         {value}{' '}
         <button
-          disabled
-          style={{ display: 'none' }}
+          // disabled
+          // style={{ display: 'none' }}
           type="button"
           onClick={() => setEditable(true)}
         >

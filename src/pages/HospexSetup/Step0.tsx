@@ -8,10 +8,12 @@ import {
 } from '@/hooks/data/useSetupHospex'
 import { getContainer, removeBaseUrl } from '@/utils/helpers'
 import { Trans, useLingui } from '@lingui/react/macro'
+import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
 import { SetupStatusKey } from './types'
+import { useToastError } from './useToastError'
 
 interface Step0Data {
   publicTypeIndex: string
@@ -85,56 +87,46 @@ export const Step0 = ({
       // save preferences file if missing
       // include private type index if present
       if (!isPreferencesFile) {
-        await withToast(
-          createPreferences({
-            preferencesFile,
-            privateTypeIndex: existingPrivateTypeIndex, // link existing private type index
-            webId,
-          }),
-          {
-            pending: t`Creating preferences file`,
-            success: t`Preferences file created`,
-          },
-        )
+        await createPreferences({
+          preferencesFile,
+          privateTypeIndex: existingPrivateTypeIndex, // link existing private type index
+          webId,
+        })
       }
 
       if (isPublicTypeIndex === false)
-        await withToast(
-          createPublicTypeIndex({
-            publicTypeIndex,
-            webId,
-          }),
-          {
-            pending: t`Creating public type index`,
-            success: t`Public type index created`,
-          },
-        )
+        await createPublicTypeIndex({
+          publicTypeIndex,
+          webId,
+        })
 
       if (isPrivateTypeIndex === false)
-        await withToast(
-          createPrivateTypeIndex({
-            privateTypeIndex,
-            preferencesFile: existingPreferencesFile || preferencesFile, // link private type index from preferences file
-            webId,
-          }),
-          {
-            pending: t`Creating private type index`,
-            success: t`Private type index created`,
-          },
-        )
-
-      if (isInbox === false)
-        await withToast(createInbox({ inbox, webId }), {
-          pending: t`Creating inbox`,
-          success: t`Inbox created`,
+        await createPrivateTypeIndex({
+          privateTypeIndex,
+          preferencesFile: existingPreferencesFile || preferencesFile, // link private type index from preferences file
+          webId,
         })
+
+      if (isInbox === false) await createInbox({ inbox, webId })
 
       onSuccess()
     },
   )
 
+  const toastError = useToastError()
+
+  const handleFormSubmitWithInfo: typeof handleFormSubmit = useCallback(
+    async (...props) =>
+      await withToast(handleFormSubmit(...props), {
+        pending: t`Preparing Solid Pod`,
+        success: t`Solid Pod is prepared`,
+        error: toastError,
+      }),
+    [handleFormSubmit, t, toastError],
+  )
+
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmitWithInfo}>
       <div>
         {isPreferencesFile ? (
           <Trans>Preferences file is set up.</Trans>

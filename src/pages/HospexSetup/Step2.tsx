@@ -13,11 +13,12 @@ import {
 import { useAuth } from '@/hooks/useAuth'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
 import { StepProps } from './HospexSetup'
 import { SetupStatusKey } from './types'
+import { useToastError } from './useToastError'
 
 export const Step2 = ({
   onSuccess,
@@ -100,21 +101,12 @@ const DirectEmailNotifications = ({
     setSending(true)
 
     try {
-      if (!hospexDocument) throw new Error(t`no hospex document for community`)
+      if (!hospexDocument) throw new Error(t`No hospex document for community`)
       if (!isEmailNotifications) {
         if (!isNotificationsInitialized)
-          await withToast(
-            preparePod({ hospexDocument, webId: webId!, email }),
-            {
-              pending: t`Preparing pod for email notification`,
-              success: t`Pod is prepared for email notifications`,
-            },
-          )
+          await preparePod({ hospexDocument, webId: webId!, email })
 
-        await withToast(sendVerificationEmailMutation.mutateAsync({ email }), {
-          pending: t`Sending verification email`,
-          success: t`Verification email sent`,
-        })
+        await sendVerificationEmailMutation.mutateAsync({ email })
 
         setSent(true)
         setCountdown(60)
@@ -133,6 +125,18 @@ const DirectEmailNotifications = ({
     })
   }
 
+  const toastError = useToastError()
+
+  const handleFormSubmitWithInfo: typeof handleFormSubmit = useCallback(
+    async (...props) =>
+      await withToast(handleFormSubmit(...props), {
+        pending: t`Preparing and sending verification email`,
+        success: t`Verification email sent`,
+        error: toastError,
+      }),
+    [handleFormSubmit, t, toastError],
+  )
+
   if (isEmailNotifications)
     return (
       <div>
@@ -145,7 +149,7 @@ const DirectEmailNotifications = ({
     )
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmitWithInfo}>
       {!isEmailNotifications && (
         <div>
           <div>
@@ -212,18 +216,24 @@ const WebhookEmailNotifications = ({
   const handleFormSubmit = handleSubmit(async ({ email }) => {
     if (!inbox) throw new Error(t`Inbox is not set up`)
 
-    await withToast(
-      initEmailNotifications({
-        email,
-        webId: webId!,
-        inbox,
-      }),
-      {
-        pending: t`Initializing email notifications`,
-        success: t`Email notifications initialized`,
-      },
-    )
+    await initEmailNotifications({
+      email,
+      webId: webId!,
+      inbox,
+    })
   })
+
+  const toastError = useToastError()
+
+  const handleFormSubmitWithInfo: typeof handleFormSubmit = useCallback(
+    async (...props) =>
+      await withToast(handleFormSubmit(...props), {
+        pending: t`Preparing and sending verification email`,
+        success: t`Verification email sent`,
+        error: toastError,
+      }),
+    [handleFormSubmit, t, toastError],
+  )
 
   if (isEmailNotifications === true)
     return (
@@ -237,7 +247,7 @@ const WebhookEmailNotifications = ({
     )
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmitWithInfo}>
       {!isEmailNotifications && (
         <div>
           <Trans>Setup email notifications</Trans>{' '}
