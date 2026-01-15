@@ -42,7 +42,7 @@ test.describe('Setup Solid pod', () => {
         steps: 2,
       },
       { item: 'preferences file', skip: ['preferences'], steps: 1 },
-      { item: 'public type index', skip: ['publicTypeIndex'], steps: 1 },
+      { item: 'public type index', skip: ['publicTypeIndex'], steps: 2 },
       { item: 'private type index', skip: ['privateTypeIndex'], steps: 1 },
       { item: 'inbox', skip: ['inbox'], steps: 1 },
       {
