@@ -326,8 +326,6 @@ test.describe('Setup Solid pod', () => {
     test('[error] should show error message', async ({ page }) => {
       await page.route(new URL('inbox', mailer).toString(), async route => {
         if (route.request().method() === 'POST') {
-          // eslint-disable-next-line no-console
-          console.log('hit the route')
           await route.fulfill({ status: 500 })
         } else {
           await route.fallback()

@@ -2,6 +2,12 @@ name: Playwright Tests
 on: push
 jobs:
   test:
+    strategy:
+      matrix:
+        project:
+          - chromium
+          - firefox
+          - Mobile Chrome
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -14,7 +20,7 @@ jobs:
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps
       - name: Run Playwright tests
-        run: yarn playwright test
+        run: yarn playwright test --project="${{ matrix.project }}"
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
