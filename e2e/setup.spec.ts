@@ -17,6 +17,7 @@ import {
   setupCommunity,
   type Community,
 } from './helpers/community'
+import { checkAlert, updateAppConfig } from './helpers/helpers'
 import { stubDirectMailer, stubWebhookMailer } from './helpers/mailer'
 
 test.describe('Setup Solid pod', () => {
@@ -41,7 +42,7 @@ test.describe('Setup Solid pod', () => {
         steps: 2,
       },
       { item: 'preferences file', skip: ['preferences'], steps: 1 },
-      { item: 'public type index', skip: ['publicTypeIndex'], steps: 1 },
+      { item: 'public type index', skip: ['publicTypeIndex'], steps: 2 },
       { item: 'private type index', skip: ['privateTypeIndex'], steps: 1 },
       { item: 'inbox', skip: ['inbox'], steps: 1 },
       {
@@ -82,6 +83,73 @@ test.describe('Setup Solid pod', () => {
 
       // TODO test correct access rights where relevant (conditionally)
       test.fixme('test correct access rights', async () => {})
+    })
+  })
+
+  test.describe('the first step fails', () => {
+    test('should show error', async ({ page }) => {
+      const person = await createPerson({
+        community,
+        skip: ['publicTypeIndex', 'privateTypeIndex'],
+      })
+      await stubDirectMailer(page, { person })
+      await signIn(page, person.account)
+      await page.route(person.pod.publicTypeIndex, async route => {
+        if (['PUT', 'PATCH'].includes(route.request().method())) {
+          await new Promise(resolve => setTimeout(resolve, 200))
+          await route.fulfill({ status: 418 })
+        } else await route.fallback()
+      })
+      await page.getByTestId(`setup-step-0-continue`).click()
+      await checkAlert(page, 'Preparing Solid Pod', false)
+      await checkAlert(page, "Request failed: 418 I'm a teapot")
+    })
+  })
+
+  test.describe('the second step fails', () => {
+    test('[hospex storage] should show error', async ({ page }) => {
+      const communityContainer = 'teststorage'
+
+      await updateAppConfig(page, { communityContainer })
+
+      const person = await createPerson({
+        community,
+        skip: ['personalHospexDocument'],
+        hospexContainerName: communityContainer,
+      })
+      await stubDirectMailer(page, { person })
+      await signIn(page, person.account)
+      await page.route(person.pod.hospexProfile, async route => {
+        if (['PUT', 'PATCH', 'POST'].includes(route.request().method())) {
+          await new Promise(resolve => setTimeout(resolve, 200))
+          await route.fulfill({ status: 418 })
+        } else await route.fallback()
+      })
+      await page.getByTestId(`setup-step-0-continue`).click()
+      await checkAlert(page, 'Solid Pod is prepared')
+      await page.getByTestId(`setup-step-1-continue`).click()
+      await checkAlert(page, 'Setting up hospex data', false)
+      await checkAlert(page, "Request failed: 418 I'm a teapot")
+    })
+
+    test('[joining] should show error', async ({ page }) => {
+      const person = await createPerson({
+        community,
+        skip: ['joinCommunity'],
+      })
+      await stubDirectMailer(page, { person })
+      await signIn(page, person.account)
+      await page.route(community.groupDoc.toString(), async route => {
+        if (['PUT', 'PATCH', 'POST'].includes(route.request().method())) {
+          await new Promise(resolve => setTimeout(resolve, 200))
+          await route.fulfill({ status: 418 })
+        } else await route.fallback()
+      })
+      await page.getByTestId(`setup-step-0-continue`).click()
+      await checkAlert(page, 'Solid Pod is prepared')
+      await page.getByTestId(`setup-step-1-continue`).click()
+      await checkAlert(page, 'Joining', false)
+      await checkAlert(page, "Request failed: 418 I'm a teapot")
     })
   })
 
@@ -169,6 +237,19 @@ test.describe('Setup Solid pod', () => {
       await groupUpdatePromise
       await expect(page.getByRole('link', { name: 'travel' })).toBeVisible()
     })
+
+    test('[error] should show error message', async ({ page }) => {
+      await page.route(inboxUrl, async route => {
+        if (route.request().method() === 'POST')
+          await route.fulfill({ status: 500 })
+      })
+
+      await page.getByTestId(`setup-step-0-continue`).click()
+      await checkAlert(page, 'Solid Pod is prepared')
+      await page.getByTestId(`setup-step-1-continue`).click()
+      await checkAlert(page, 'Joining', false)
+      await checkAlert(page, 'Request failed: 500')
+    })
   })
 
   test.describe('webhook email notifications are not integrated', () => {
@@ -178,11 +259,10 @@ test.describe('Setup Solid pod', () => {
     test.beforeEach(async ({ page }) => {
       person = await createPerson({ community })
 
-      await page.goto('/')
-      await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
-      await page.evaluate(
-        `globalThis.updateAppConfig({ emailNotificationsType: 'solid', emailNotificationsService: '${mailer}' })`,
-      )
+      await updateAppConfig(page, {
+        emailNotificationsType: 'solid',
+        emailNotificationsService: mailer,
+      })
 
       await stubWebhookMailer(page, {
         mailer,
@@ -242,6 +322,27 @@ test.describe('Setup Solid pod', () => {
 
     test.fixme('should allow custom email notifications service', async () => {})
     test.fixme('should make inbox readable for email notifications service identity', async () => {})
+
+    test('[error] should show error message', async ({ page }) => {
+      await page.route(new URL('inbox', mailer).toString(), async route => {
+        if (route.request().method() === 'POST') {
+          await route.fulfill({ status: 500 })
+        } else {
+          await route.fallback()
+        }
+      })
+
+      await page.getByTestId('setup-step-0-continue').click()
+      await page.getByTestId('setup-step-1-continue').click()
+      await page
+        .getByRole('textbox', { name: 'Your email' })
+        .fill('asdf@example.com')
+      await page
+        .getByRole('button', { name: 'Send Confirmation Email' })
+        .click()
+
+      await checkAlert(page, '500 Internal Server Error')
+    })
   })
 
   test.describe('direct email notifications are not integrated', () => {
@@ -258,11 +359,10 @@ test.describe('Setup Solid pod', () => {
       mailbot: Account
       email: string
     }) => {
-      await page.goto('/')
-      await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
-      await page.evaluate(
-        `globalThis.updateAppConfig({ emailNotificationsType: 'simple', emailNotificationsIdentity: '${mailbot.webId}' })`,
-      )
+      await updateAppConfig(page, {
+        emailNotificationsType: 'simple',
+        emailNotificationsIdentity: mailbot.webId,
+      })
 
       await stubDirectMailer(page, { person, mailer, integrated: false })
       await signIn(page, person.account)
@@ -376,11 +476,12 @@ test.describe('Setup Solid pod', () => {
       const mailbot2 = await createRandomAccount()
       const otherCommunity = await createCommunity({ name: 'Other Community' })
 
-      await page.goto('/')
-      await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
-      await page.evaluate(
-        `globalThis.updateAppConfig({ emailNotificationsType: 'simple', emailNotificationsIdentity: '${mailbot2.webId}', communityContainer: 'other-community', communityId: '${otherCommunity.communityUri}' })`,
-      )
+      await updateAppConfig(page, {
+        emailNotificationsType: 'simple',
+        emailNotificationsIdentity: mailbot2.webId,
+        communityContainer: 'other-community',
+        communityId: otherCommunity.communityUri,
+      })
 
       await stubDirectMailer(page, { person, integrated: false })
       await signIn(page, person.account)
@@ -413,11 +514,12 @@ test.describe('Setup Solid pod', () => {
 
       await signOut(page)
 
-      await page.goto('/')
-      await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
-      await page.evaluate(
-        `globalThis.updateAppConfig({ emailNotificationsType: 'simple', emailNotificationsIdentity: '${mailbot.webId}', communityId: '${community.communityUri}', communityContainer: 'dev-solidcouch' })`,
-      )
+      await updateAppConfig(page, {
+        emailNotificationsType: 'simple',
+        emailNotificationsIdentity: mailbot.webId,
+        communityId: community.communityUri,
+        communityContainer: 'dev-solidcouch',
+      })
 
       await signIn(page, person.account)
       await expect(
@@ -496,6 +598,35 @@ test.describe('Setup Solid pod', () => {
       if (mailbot2Settings2.status === 200)
         assertReadWriteAccess(mailbot2Settings2)
     })
+
+    test('[error] should show error message', async ({ page }) => {
+      const person = await createPerson({ community })
+      const mailbot = await createRandomAccount()
+
+      await updateAppConfig(page, {
+        emailNotificationsType: 'simple',
+        emailNotificationsIdentity: mailbot.webId,
+      })
+
+      await stubDirectMailer(page, { person, mailer, integrated: false })
+      await signIn(page, person.account)
+
+      await page.route(new URL('init', mailer).toString(), async route => {
+        await route.fulfill({ status: 418 })
+      })
+
+      await page.getByTestId('setup-step-0-continue').click()
+      await page.getByTestId('setup-step-1-continue').click()
+      await page
+        .getByRole('textbox', { name: 'email address' })
+        .fill('asdf@example.com')
+
+      await page
+        .getByRole('button', { name: 'Send Confirmation Email' })
+        .click()
+
+      await checkAlert(page, "418 I'm a teapot")
+    })
   })
 
   test.describe('everything is missing', () => {
@@ -515,11 +646,10 @@ test.describe('Setup Solid pod', () => {
       })
 
       const mailbot = await createRandomAccount()
-      await page.goto('/')
-      await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
-      await page.evaluate(
-        `globalThis.updateAppConfig({ emailNotificationsType: 'simple', emailNotificationsIdentity: '${mailbot.webId}' })`,
-      )
+      await updateAppConfig(page, {
+        emailNotificationsType: 'simple',
+        emailNotificationsIdentity: mailbot.webId,
+      })
     })
 
     test('should set up everything', async ({ page }) => {

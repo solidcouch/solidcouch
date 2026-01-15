@@ -263,7 +263,7 @@ const setupPod = async (
     })
     await authFetch(publicTypeIndexUri, {
       method: 'PATCH',
-      headers: { 'content-type': 'text/n3' },
+      headers: { 'content-type': 'text/n3', 'if-match': '*' },
       body: `
       @prefix hospex: <http://w3id.org/hospex/ns#>.
       _:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> {

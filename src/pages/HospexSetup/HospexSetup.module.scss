@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-4x);
+
   .list {
     display: flex;
     justify-content: center;
@@ -28,8 +29,8 @@
       }
 
       &:disabled {
-        background-color: gray;
-        color: black;
+        background-color: var(--background-color-disabled);
+        color: var(--text-color-disabled);
       }
 
       &.connect::after {

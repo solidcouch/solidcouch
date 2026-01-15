@@ -1,10 +1,11 @@
-import { expect, Page, test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import {
   default as encodeURIComponent,
   default as strict_uri_encode,
 } from 'strict-uri-encode'
 import { createPerson, type Person, signIn, signOut } from './helpers/account'
 import { type Community, setupCommunity } from './helpers/community'
+import { checkAlert } from './helpers/helpers'
 import { stubDirectMailer } from './helpers/mailer'
 
 test.describe('Messages', () => {
@@ -60,9 +61,9 @@ test.describe('Messages', () => {
     await page.getByRole('textbox', { name: 'Title' }).fill('Test title')
     await page.getByRole('textbox', { name: 'Message' }).fill('Test message!')
     await page.getByRole('button', { name: 'Send' }).click()
-    await checkAndCloseAlert(page, 'Message was created')
-    await checkAndCloseAlert(page, 'Linked Data Notification was sent')
-    await checkAndCloseAlert(page, 'Email notification was sent')
+    await checkAlert(page, 'Message was created')
+    await checkAlert(page, 'Linked Data Notification was sent')
+    await checkAlert(page, 'Email notification was sent')
     await expect(page.getByTestId('message-0-from-me')).toContainText(
       'Test message!',
     )
@@ -96,18 +97,18 @@ test.describe('Messages', () => {
 
     await page.getByRole('textbox').fill('Hello there!')
     await page.getByRole('button', { name: 'Send' }).click()
-    await checkAndCloseAlert(page, 'Message was created')
-    await checkAndCloseAlert(page, 'Linked Data Notification was sent')
-    await checkAndCloseAlert(page, 'Email notification was sent')
+    await checkAlert(page, 'Message was created')
+    await checkAlert(page, 'Linked Data Notification was sent')
+    await checkAlert(page, 'Email notification was sent')
     await expect(page.getByTestId('message-1-from-me')).toContainText(
       'Hello there!',
     )
 
     await page.getByRole('textbox').fill('another message')
     await page.getByRole('button', { name: 'Send' }).click()
-    await checkAndCloseAlert(page, 'Message was created')
-    await checkAndCloseAlert(page, 'Linked Data Notification was sent')
-    await checkAndCloseAlert(page, 'Email notification was sent')
+    await checkAlert(page, 'Message was created')
+    await checkAlert(page, 'Linked Data Notification was sent')
+    await checkAlert(page, 'Email notification was sent')
     await expect(page.getByTestId('message-2-from-me')).toContainText(
       'another message',
     )
@@ -147,7 +148,7 @@ test.describe('Messages', () => {
     await page.getByRole('textbox', { name: 'Title' }).fill('Test title')
     await page.getByRole('textbox', { name: 'Message' }).fill('Test message!')
     await page.getByRole('button', { name: 'Send' }).click()
-    await checkAndCloseAlert(page, 'Linked Data Notification was sent')
+    await checkAlert(page, 'Linked Data Notification was sent')
     await expect(page.getByTestId('message-0-from-me')).toContainText(
       'Test message!',
     )
@@ -181,14 +182,14 @@ test.describe('Messages', () => {
 
     await page.getByRole('textbox').fill('Hello there!')
     await page.getByRole('button', { name: 'Send' }).click()
-    await checkAndCloseAlert(page, 'Linked Data Notification was sent')
+    await checkAlert(page, 'Linked Data Notification was sent')
     await expect(page.getByTestId('message-1-from-me')).toContainText(
       'Hello there!',
     )
 
     await page.getByRole('textbox').fill('another message')
     await page.getByRole('button', { name: 'Send' }).click()
-    await checkAndCloseAlert(page, 'Linked Data Notification was sent')
+    await checkAlert(page, 'Linked Data Notification was sent')
     await expect(page.getByTestId('message-2-from-me')).toContainText(
       'another message',
     )
@@ -232,13 +233,3 @@ test.describe('Messages', () => {
     await expect(page.getByTestId('not-a-chat-message')).toBeVisible()
   })
 })
-
-const checkAndCloseAlert = async (page: Page, text: string) => {
-  const alertLocator = page.getByRole('alert').filter({ hasText: text })
-
-  await expect(alertLocator).toBeVisible()
-  await alertLocator
-    .locator('xpath=..')
-    .getByRole('button', { name: 'close' })
-    .click()
-}

@@ -1,4 +1,5 @@
 import { Button } from '@/components'
+import { withToast } from '@/components/withToast'
 import {
   useCreateInbox,
   useCreatePreferences,
@@ -7,10 +8,12 @@ import {
 } from '@/hooks/data/useSetupHospex'
 import { getContainer, removeBaseUrl } from '@/utils/helpers'
 import { Trans, useLingui } from '@lingui/react/macro'
+import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
 import { SetupStatusKey } from './types'
+import { useToastError } from './useToastError'
 
 interface Step0Data {
   publicTypeIndex: string
@@ -110,8 +113,20 @@ export const Step0 = ({
     },
   )
 
+  const toastError = useToastError()
+
+  const handleFormSubmitWithInfo: typeof handleFormSubmit = useCallback(
+    async (...props) =>
+      await withToast(handleFormSubmit(...props), {
+        pending: t`Preparing Solid Pod`,
+        success: t`Solid Pod is prepared`,
+        error: toastError,
+      }),
+    [handleFormSubmit, t, toastError],
+  )
+
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmitWithInfo}>
       <div>
         {isPreferencesFile ? (
           <Trans>Preferences file is set up.</Trans>

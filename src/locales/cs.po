@@ -30,7 +30,7 @@ msgstr "{messageCount, plural, one {(# nová)} few {(# nové)} other {(# nových
 msgid "<0>Reach us in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>."
 msgstr "<0>Ozvěte se nám v našich projektových prostorech</0> nebo napište na <1>„support zavináč solidcouch tečka org\"</1>."
 
-#: src/pages/HospexSetup/Step2.tsx:160
+#: src/pages/HospexSetup/Step2.tsx:174
 msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 msgstr "Potvrzovací e-mail byl odeslán na adresu {sentToEmail}.<0/>Zkontrolujte prosím svou schránku (i složku nevyžádané pošty) a postupujte podle pokynů."
 
@@ -142,9 +142,13 @@ msgstr "Zavřít náhled hostingu"
 msgid "code"
 msgstr "kód"
 
-#: src/pages/HospexSetup/Step1.tsx:105
+#: src/pages/HospexSetup/Step1.tsx:126
 msgid "Community does not have a group"
 msgstr "Komunita nemá žádnou skupinu"
+
+#: src/pages/HospexSetup/Step1.tsx:135
+msgid "Community joined"
+msgstr ""
 
 #: src/pages/Profile/ManageContact.tsx:35
 msgid "Contact exists"
@@ -164,8 +168,8 @@ msgid "Contacts of <0/>"
 msgstr "Kontakty <0/>"
 
 #: src/components/SignIn/SignIn.tsx:150
-#: src/pages/HospexSetup/Step0.tsx:182
-#: src/pages/HospexSetup/Step1.tsx:199
+#: src/pages/HospexSetup/Step0.tsx:197
+#: src/pages/HospexSetup/Step1.tsx:228
 #: src/pages/messages/Messages.tsx:472
 msgid "Continue"
 msgstr "Pokračovat"
@@ -178,19 +182,19 @@ msgstr "Rozhovory"
 msgid "Conversations with {people}"
 msgstr "Rozhovory s {people}"
 
-#: src/pages/HospexSetup/Step0.tsx:164
+#: src/pages/HospexSetup/Step0.tsx:179
 msgid "Create inbox:"
 msgstr "Vytvořit schránku:"
 
-#: src/pages/HospexSetup/Step0.tsx:120
+#: src/pages/HospexSetup/Step0.tsx:135
 msgid "Create preferences file:"
 msgstr "Vytvořit soubor předvoleb:"
 
-#: src/pages/HospexSetup/Step0.tsx:148
+#: src/pages/HospexSetup/Step0.tsx:163
 msgid "Create private type index:"
 msgstr "Vytvořit soukromý index typů:"
 
-#: src/pages/HospexSetup/Step0.tsx:134
+#: src/pages/HospexSetup/Step0.tsx:149
 msgid "Create public type index:"
 msgstr "Vytvořit veřejný index typů:"
 
@@ -202,9 +206,25 @@ msgstr "Vytváření ubytování"
 msgid "Creating channel failed"
 msgstr "Nepodařilo se vytvořit kanál"
 
+#: src/pages/HospexSetup/Step0.tsx:128
+#~ msgid "Creating inbox"
+#~ msgstr ""
+
 #: src/pages/messages-old/MessagesOld.tsx:170
 msgid "Creating message"
 msgstr "Vytváření zprávy"
+
+#: src/pages/HospexSetup/Step0.tsx:95
+#~ msgid "Creating preferences file"
+#~ msgstr ""
+
+#: src/pages/HospexSetup/Step0.tsx:121
+#~ msgid "Creating private type index"
+#~ msgstr ""
+
+#: src/pages/HospexSetup/Step0.tsx:108
+#~ msgid "Creating public type index"
+#~ msgstr ""
 
 #: src/pages/MyOffers.tsx:207
 msgid "Delete"
@@ -235,7 +255,7 @@ msgstr "Upravit"
 msgid "edit profile"
 msgstr "upravit profil"
 
-#: src/pages/HospexSetup/Step2.tsx:145
+#: src/pages/HospexSetup/Step2.tsx:159
 msgid "email address"
 msgstr "e-mailová adresa"
 
@@ -247,11 +267,15 @@ msgstr "E-mailové upozornění bylo odesláno"
 msgid "Email Notification was sent."
 msgstr "E-mailové upozornění bylo odesláno."
 
-#: src/pages/HospexSetup/Step2.tsx:254
+#: src/pages/HospexSetup/Step2.tsx:280
 msgid "Email notifications are not available for this community."
 msgstr "E-mailová upozornění nejsou pro tuto komunitu dostupná."
 
-#: src/pages/HospexSetup/Step2.tsx:142
+#: src/pages/HospexSetup/Step2.tsx:223
+#~ msgid "Email notifications initialized"
+#~ msgstr ""
+
+#: src/pages/HospexSetup/Step2.tsx:156
 msgid "Enter your email address:"
 msgstr "Zadejte svou e-mailovou adresu:"
 
@@ -263,11 +287,11 @@ msgstr "načítání kontaktů"
 msgid "Fetching profile"
 msgstr "Načítání profilu"
 
-#: src/pages/HospexSetup/Step2.tsx:132
-#: src/pages/HospexSetup/Step2.tsx:175
-#: src/pages/HospexSetup/Step2.tsx:218
-#: src/pages/HospexSetup/Step2.tsx:243
-#: src/pages/HospexSetup/Step2.tsx:257
+#: src/pages/HospexSetup/Step2.tsx:146
+#: src/pages/HospexSetup/Step2.tsx:189
+#: src/pages/HospexSetup/Step2.tsx:244
+#: src/pages/HospexSetup/Step2.tsx:269
+#: src/pages/HospexSetup/Step2.tsx:283
 msgid "Finish Setup"
 msgstr "Dokončit nastavení"
 
@@ -287,6 +311,10 @@ msgstr "Ahoj! Rád(a) bych tě přidal(a) do kontaktů!"
 #: src/pages/Profile/ManageContact.tsx:127
 msgid "hospex container not found (too soon?)"
 msgstr "hospex kontejner nebyl nalezen (možná příliš brzy?)"
+
+#: src/pages/HospexSetup/Step1.tsx:101
+msgid "Hospex data setup successful"
+msgstr ""
 
 #: src/pages/EditProfile/EditProfile.tsx:38
 msgid "Hospex document not found"
@@ -309,11 +337,15 @@ msgstr "Lokalita hostování (klikněte na <0/> nebo přetáhněte a přibližte
 msgid "Ignore"
 msgstr "Ignorovat"
 
-#: src/pages/HospexSetup/Step2.tsx:203
+#: src/pages/HospexSetup/Step0.tsx:129
+#~ msgid "Inbox created"
+#~ msgstr ""
+
+#: src/pages/HospexSetup/Step2.tsx:217
 msgid "Inbox is not set up"
 msgstr "Schránka není nastavena"
 
-#: src/pages/HospexSetup/Step0.tsx:161
+#: src/pages/HospexSetup/Step0.tsx:176
 msgid "Inbox is set up."
 msgstr "Schránka je nastavena."
 
@@ -324,6 +356,10 @@ msgstr "schránka nebyla nalezena (možná příliš brzy?)"
 #: src/pages/messages-old/MessagesOld.tsx:141
 msgid "Inbox of the other person not found (probably too soon)"
 msgstr "Schránka druhé osoby nebyla nalezena (pravděpodobně příliš brzy)"
+
+#: src/pages/HospexSetup/Step2.tsx:222
+#~ msgid "Initializing email notifications"
+#~ msgstr ""
 
 #: src/pages/EditProfile/EditInterests.tsx:43
 msgid "Interest removed"
@@ -345,9 +381,18 @@ msgstr "Připojte se k {communityName}"
 msgid "Join Community"
 msgstr "Připojit se ke komunitě"
 
-#: src/pages/HospexSetup/Step1.tsx:121
+#: src/pages/HospexSetup/Step1.tsx:150
 msgid "Join community {communityLabel}"
 msgstr "Připojit se ke komunitě {communityLabel}"
+
+#: src/pages/HospexSetup/Step1.tsx:118
+msgid "Join request sent"
+msgstr ""
+
+#: src/pages/HospexSetup/Step1.tsx:117
+#: src/pages/HospexSetup/Step1.tsx:134
+msgid "Joining community"
+msgstr ""
 
 #: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:68
 msgid "Later"
@@ -439,9 +484,13 @@ msgstr "Nový rozhovor s {people}"
 msgid "No authenticated user available"
 msgstr "Není dostupný žádný autentizovaný uživatel"
 
-#: src/pages/HospexSetup/Step2.tsx:102
-msgid "no hospex document for community"
-msgstr "pro komunitu nebyl nalezen hospex dokument"
+#: src/pages/HospexSetup/Step2.tsx:103
+#~ msgid "no hospex document for community"
+#~ msgstr "pro komunitu nebyl nalezen hospex dokument"
+
+#: src/pages/HospexSetup/Step2.tsx:104
+msgid "No hospex document for community"
+msgstr ""
 
 #: src/pages/MyOffers.tsx:69
 msgid "Notifying indexing service"
@@ -451,7 +500,7 @@ msgstr "Probíhá oznámení indexační službě"
 msgid "Open profile"
 msgstr "Otevřít profil"
 
-#: src/pages/HospexSetup/Step1.tsx:167
+#: src/pages/HospexSetup/Step1.tsx:196
 msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
 msgstr "Nebo použít data (profil, nabídky ubytování, atd.) z jedné z vašich existujících komunit? <0>(Doporučeno pro podobné komunity)</0>"
 
@@ -476,15 +525,23 @@ msgstr "Pozvěte prosím pouze lidi, které osobně znáte."
 msgid "Please move map to your hosting location"
 msgstr "Prosím, přesuňte mapu na místo vašeho hostování"
 
-#: src/pages/HospexSetup/Step2.tsx:241
+#: src/pages/HospexSetup/Step2.tsx:267
 msgid "Please verify your email"
 msgstr "Ověřte prosím svůj e-mail"
+
+#: src/pages/HospexSetup/Step2.tsx:110
+#~ msgid "Pod is prepared for email notifications"
+#~ msgstr ""
 
 #: src/pages/UnauthenticatedHome.tsx:66
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgstr "Postaveno na <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 
-#: src/pages/HospexSetup/Step0.tsx:117
+#: src/pages/HospexSetup/Step0.tsx:96
+#~ msgid "Preferences file created"
+#~ msgstr ""
+
+#: src/pages/HospexSetup/Step0.tsx:132
 msgid "Preferences file is set up."
 msgstr "Soubor předvoleb je nastaven."
 
@@ -492,7 +549,24 @@ msgstr "Soubor předvoleb je nastaven."
 msgid "Prepare Pod"
 msgstr "Připravte Pod"
 
-#: src/pages/HospexSetup/Step0.tsx:145
+#: src/pages/HospexSetup/Step2.tsx:133
+#: src/pages/HospexSetup/Step2.tsx:231
+msgid "Preparing and sending verification email"
+msgstr ""
+
+#: src/pages/HospexSetup/Step2.tsx:109
+#~ msgid "Preparing pod for email notification"
+#~ msgstr ""
+
+#: src/pages/HospexSetup/Step0.tsx:121
+msgid "Preparing Solid Pod"
+msgstr ""
+
+#: src/pages/HospexSetup/Step0.tsx:122
+#~ msgid "Private type index created"
+#~ msgstr ""
+
+#: src/pages/HospexSetup/Step0.tsx:160
 msgid "Private type index is set up."
 msgstr "Soukromý index typu je nastaven."
 
@@ -516,11 +590,15 @@ msgstr "Profilová fotka {name}"
 msgid "Profile updated"
 msgstr "Profil aktualizován"
 
-#: src/pages/HospexSetup/Step1.tsx:71
+#: src/pages/HospexSetup/Step0.tsx:109
+#~ msgid "Public type index created"
+#~ msgstr ""
+
+#: src/pages/HospexSetup/Step1.tsx:82
 msgid "Public type index is not set up"
 msgstr "Veřejný index typů není nastaven"
 
-#: src/pages/HospexSetup/Step0.tsx:131
+#: src/pages/HospexSetup/Step0.tsx:146
 msgid "Public type index is set up."
 msgstr "Veřejný index typů je nastaven."
 
@@ -528,7 +606,11 @@ msgstr "Veřejný index typů je nastaven."
 msgid "Removing interest"
 msgstr "Odstraňování zájmu"
 
-#: src/pages/HospexSetup/Step2.tsx:152
+#: src/pages/HospexSetup/useToastError.tsx:18
+msgid "Request failed: {status} {statusText} {url}"
+msgstr ""
+
+#: src/pages/HospexSetup/Step2.tsx:166
 msgid "Resend Confirmation Email in {countdown}s"
 msgstr "Za {countdown}s znovu odeslat potvrzovací e-mail"
 
@@ -557,8 +639,8 @@ msgstr "Odeslat"
 msgid "Send a message…"
 msgstr "Poslat zprávu…"
 
-#: src/pages/HospexSetup/Step2.tsx:154
-#: src/pages/HospexSetup/Step2.tsx:235
+#: src/pages/HospexSetup/Step2.tsx:168
+#: src/pages/HospexSetup/Step2.tsx:261
 msgid "Send Confirmation Email"
 msgstr "Odeslat potvrzovací e-mail"
 
@@ -586,11 +668,15 @@ msgstr "Nepodařilo se odeslat zprávu: "
 msgid "Sending Solid notification"
 msgstr "Probíhá odesílání Solid upozornění"
 
+#: src/pages/HospexSetup/Step2.tsx:115
+#~ msgid "Sending verification email"
+#~ msgstr ""
+
 #: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:51
 msgid "Session Expired!"
 msgstr "Platnost přihlášení vypršela!"
 
-#: src/pages/HospexSetup/Step1.tsx:158
+#: src/pages/HospexSetup/Step1.tsx:187
 msgid "Set up new data for this community:"
 msgstr "Nastavit nová data pro tuto komunitu:"
 
@@ -598,19 +684,23 @@ msgstr "Nastavit nová data pro tuto komunitu:"
 msgid "Set Up Notifications"
 msgstr "Nastavit oznámení"
 
+#: src/pages/HospexSetup/Step1.tsx:100
+msgid "Setting up hospex data"
+msgstr ""
+
 #: src/pages/HospexSetup/HospexSetup.tsx:129
 msgid "Setup"
 msgstr "Nastavit"
 
-#: src/pages/HospexSetup/Step2.tsx:227
+#: src/pages/HospexSetup/Step2.tsx:253
 msgid "Setup email notifications"
 msgstr "Nastavit e-mailová upozornění"
 
-#: src/pages/HospexSetup/Step1.tsx:140
+#: src/pages/HospexSetup/Step1.tsx:169
 msgid "Setup hospex document and storage"
 msgstr "Nastavit hospex dokument a úložiště"
 
-#: src/pages/HospexSetup/Step1.tsx:130
+#: src/pages/HospexSetup/Step1.tsx:159
 msgid "Setup hospex document and storage:"
 msgstr "Nastavit hospex dokument a úložiště:"
 
@@ -630,9 +720,21 @@ msgstr "odhlásit se"
 msgid "Solid notification was sent"
 msgstr "Solid upozornění bylo odesláno"
 
-#: src/pages/HospexSetup/Step0.tsx:82
+#: src/pages/HospexSetup/Step0.tsx:122
+msgid "Solid Pod is prepared"
+msgstr ""
+
+#: src/pages/HospexSetup/Step0.tsx:85
 msgid "Something is not resolved (unexpected error)"
 msgstr "Něco není vyřešeno (neočekávaná chyba)"
+
+#: src/pages/HospexSetup/useToastError.tsx:13
+msgid "Something went wrong"
+msgstr ""
+
+#: src/pages/HospexSetup/useToastError.tsx:21
+msgid "Something went wrong: {failure}"
+msgstr ""
 
 #: src/components/withToast.tsx:20
 msgid "Something went wrong."
@@ -707,6 +809,11 @@ msgstr "Aktualizuji ubytování"
 msgid "Updating profile"
 msgstr "Aktualizuji profil"
 
+#: src/pages/HospexSetup/Step2.tsx:134
+#: src/pages/HospexSetup/Step2.tsx:232
+msgid "Verification email sent"
+msgstr ""
+
 #: src/components/SignIn/SignIn.tsx:105
 msgid ""
 "We didn't succeed with redirecting to the issuer at {oidcIssuer}.\n"
@@ -736,11 +843,11 @@ msgstr "Pracujeme na tom"
 msgid "Write a message"
 msgstr "Napsat zprávu"
 
-#: src/pages/HospexSetup/Step1.tsx:144
+#: src/pages/HospexSetup/Step1.tsx:173
 msgid "You already seem to be a member of some hospitality exchange communities. Would you like to:"
 msgstr "Zdá se, že již jste členem některých komunit pro výměnu pohostinnosti. Chcete raději:"
 
-#: src/pages/HospexSetup/Step1.tsx:125
+#: src/pages/HospexSetup/Step1.tsx:154
 msgid "You are already a member of {communityLabel}"
 msgstr "Již jste členem {communityLabel}"
 
@@ -752,12 +859,12 @@ msgstr "Můžete si také <0>provozovat vlastní Pod</0>."
 msgid "You can only read this chat."
 msgstr "Tento rozhovor můžete jen číst."
 
-#: src/pages/HospexSetup/Step2.tsx:230
+#: src/pages/HospexSetup/Step2.tsx:256
 msgid "Your email"
 msgstr "Váš e-mail"
 
-#: src/pages/HospexSetup/Step2.tsx:130
-#: src/pages/HospexSetup/Step2.tsx:216
+#: src/pages/HospexSetup/Step2.tsx:144
+#: src/pages/HospexSetup/Step2.tsx:242
 msgid "Your email notifications are set up."
 msgstr "Vaše e-mailová upozornění jsou nastavena."
 

@@ -1,3 +1,6 @@
+import { Locator, Page, expect } from '@playwright/test'
+import { type ConfigType } from '../../src/config/hooks'
+
 export const generateRandomString = (length: number): string => {
   const characters =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ          '
@@ -9,4 +12,27 @@ export const generateRandomString = (length: number): string => {
     randomString += randomChar
   }
   return randomString.replace(/\s+/g, ' ').trim()
+}
+
+export const checkAlert = async (page: Page, text: string, close = true) => {
+  const alertLocator = page.getByRole('alert').filter({ hasText: text })
+
+  await expect(alertLocator).toBeVisible()
+
+  if (close)
+    await alertLocator
+      .locator('xpath=..')
+      .getByRole('button', { name: 'close' })
+      .click()
+}
+
+export const updateAppConfig = async (
+  page: Page,
+  config: Partial<ConfigType>,
+  { path = '/', locator }: { path?: string; locator?: Locator } = {},
+) => {
+  locator ??= page.getByRole('button', { name: 'Sign in' })
+  await page.goto(path)
+  await expect(locator).toBeVisible()
+  await page.evaluate(`globalThis.updateAppConfig(${JSON.stringify(config)})`)
 }

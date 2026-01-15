@@ -1,4 +1,5 @@
 import { Button } from '@/components'
+import { withToast } from '@/components/withToast'
 import { useConfig } from '@/config/hooks'
 import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { useJoinCommunity, useJoinGroupLegacy } from '@/hooks/data/useJoinGroup'
@@ -19,6 +20,7 @@ import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
 import styles from './HospexSetup.module.scss'
 import { SetupStatusKey } from './types'
+import { useToastError } from './useToastError'
 
 export const Step1 = ({
   onSuccess,
@@ -65,48 +67,75 @@ export const Step1 = ({
 
   const newHospexDocument = watch('newHospexDocument')
 
+  const toastError = useToastError()
+
   if (!storage || !newHospexDocument) return <>...</>
   const handleFormSubmit = handleSubmit(
     async ({ hospexDocument, newHospexDocument }) => {
-      if (!publicTypeIndex) throw new Error(t`Public type index is not set up`)
-
       if (!isHospexProfile) {
         const isNew = allHospex.length === 0 || hospexDocument === 'new'
 
-        if (isNew) {
-          await createHospexProfile({
-            uri: newHospexDocument,
-            webId: auth.webId!,
-            communityId,
-          })
-
-          await saveTypeRegistration({
-            index: publicTypeIndex,
-            type: hospex.PersonalHospexDocument,
-            location: newHospexDocument,
-          })
-        } else
-          await addToHospexProfile({
-            uri: hospexDocument,
-            webId: auth.webId!,
-          })
+        await withToast(
+          (async function () {
+            if (isNew) {
+              if (!publicTypeIndex)
+                throw new Error(t`Public type index is not set up`)
+              await createHospexProfile({
+                uri: newHospexDocument,
+                webId: auth.webId!,
+                communityId,
+              })
+              return await saveTypeRegistration({
+                index: publicTypeIndex,
+                type: hospex.PersonalHospexDocument,
+                location: newHospexDocument,
+              })
+            } else
+              return addToHospexProfile({
+                uri: hospexDocument,
+                webId: auth.webId!,
+              })
+          })(),
+          {
+            pending: t`Setting up hospex data`,
+            success: t`Hospex data setup successful`,
+            error: toastError,
+          },
+        )
       }
 
       if (!isMember)
         if (community.inbox)
-          await joinCommunity({
-            actor: auth.webId!,
-            object: community.community,
-            type: 'Join',
-            inbox: community.inbox,
-          })
+          await withToast(
+            joinCommunity({
+              actor: auth.webId!,
+              object: community.community,
+              type: 'Join',
+              inbox: community.inbox,
+            }),
+            {
+              pending: t`Joining community`,
+              success: t`Join request sent`,
+              error: toastError,
+            },
+          )
         else {
-          if (!community.groups[0])
-            throw new Error(t`Community does not have a group`)
-          await joinGroupLegacy({
-            person: auth.webId as URI,
-            group: community.groups[0],
-          })
+          await withToast(
+            (function () {
+              if (!community.groups[0])
+                throw new Error(t`Community does not have a group`)
+
+              return joinGroupLegacy({
+                person: auth.webId as URI,
+                group: community.groups[0],
+              })
+            })(),
+            {
+              pending: t`Joining community`,
+              success: t`Community joined`,
+              error: toastError,
+            },
+          )
         }
       onSuccess()
     },

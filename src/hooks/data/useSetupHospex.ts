@@ -1,9 +1,5 @@
 import { useConfig } from '@/config/hooks'
-import {
-  HospexProfileShapeType,
-  PrivateTypeIndexShapeType,
-  PublicTypeIndexShapeType,
-} from '@/ldo/app.shapeTypes'
+import { HospexProfileShapeType } from '@/ldo/app.shapeTypes'
 import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
 import { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
@@ -151,7 +147,7 @@ export const useCreatePreferences = () => {
 }
 
 export const useCreatePrivateTypeIndex = () => {
-  const createMutation = useCreateRdfDocument(PrivateTypeIndexShapeType)
+  const updateIndexMutation = useUpdateRdfDocument()
   const updateMutation = useUpdateRdfDocument()
 
   return useCallback(
@@ -164,20 +160,17 @@ export const useCreatePrivateTypeIndex = () => {
       privateTypeIndex: URI
       preferencesFile: string
     }) => {
-      await createMutation.mutateAsync({
+      await updateIndexMutation.mutateAsync({
         uri: privateTypeIndex,
-        data: {
-          '@id': privateTypeIndex,
-          type: set({ '@id': 'TypeIndex' }, { '@id': 'UnlistedDocument' }),
-        },
+        patch: `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> { <${privateTypeIndex}> a <${solid.TypeIndex}>, <${solid.UnlistedDocument}>. } .`,
       })
 
-      const patch = `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> { <${webId}> <${solid.privateTypeIndex}> <${privateTypeIndex}>. }.`
+      const patch = `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> { <${webId}> <${solid.privateTypeIndex}> <${privateTypeIndex}>. } .`
 
       // create private type index
       await updateMutation.mutateAsync({ uri: preferencesFile, patch })
     },
-    [createMutation, updateMutation],
+    [updateIndexMutation, updateMutation],
   )
 }
 
@@ -296,9 +289,9 @@ export const useCreateHospexProfile = () => {
 }
 
 export const useCreatePublicTypeIndex = () => {
-  const createIndexMutation = useCreateRdfDocument(PublicTypeIndexShapeType)
   const createAclMutation = useCreateRdfDocument(AuthorizationShapeType)
   const updateMutation = useUpdateRdfDocument()
+  const updateIndexMutation = useUpdateRdfDocument()
 
   return useCallback(
     async ({
@@ -308,13 +301,9 @@ export const useCreatePublicTypeIndex = () => {
       webId: URI
       publicTypeIndex: URI
     }) => {
-      await createIndexMutation.mutateAsync({
+      await updateIndexMutation.mutateAsync({
         uri: publicTypeIndex,
-        method: 'PUT',
-        data: {
-          '@id': publicTypeIndex,
-          type: set({ '@id': 'TypeIndex' }, { '@id': 'ListedDocument' }),
-        },
+        patch: `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> { <${publicTypeIndex}> a <${solid.TypeIndex}>, <${solid.ListedDocument}>. } .`,
       })
 
       const aclUri = await getAcl(publicTypeIndex)
@@ -344,12 +333,12 @@ export const useCreatePublicTypeIndex = () => {
         ],
       })
 
-      const patch = `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> { <${webId}> <${solid.publicTypeIndex}> <${publicTypeIndex}>. }.`
+      const patch = `_:mutate a <${solid.InsertDeletePatch}>; <${solid.inserts}> { <${webId}> <${solid.publicTypeIndex}> <${publicTypeIndex}>. } .`
 
       // create public type index
       await updateMutation.mutateAsync({ uri: webId, patch })
     },
-    [createAclMutation, createIndexMutation, updateMutation],
+    [createAclMutation, updateIndexMutation, updateMutation],
   )
 }
 
@@ -410,12 +399,12 @@ export const useInitEmailNotifications = () => {
       body: JSON.stringify(requestData),
     })
 
-    if (!response.ok) throw new Error('not ok!')
+    if (!response.ok) throw new HttpError('not ok!', response)
   }
 
   const queryClient = useQueryClient()
 
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: addActivity,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.mailerIntegration] })
@@ -423,7 +412,15 @@ export const useInitEmailNotifications = () => {
   })
 
   const initializeIntegration = useCallback(
-    ({ webId, inbox, email }: { webId: URI; inbox: URI; email: string }) => {
+    async ({
+      webId,
+      inbox,
+      email,
+    }: {
+      webId: URI
+      inbox: URI
+      email: string
+    }) => {
       const requestData = {
         '@context': 'https://www.w3.org/ns/activitystreams',
         '@id': '',
@@ -433,9 +430,9 @@ export const useInitEmailNotifications = () => {
         target: email,
       }
 
-      mutate(requestData)
+      await mutateAsync(requestData)
     },
-    [mutate],
+    [mutateAsync],
   )
 
   const updateAclMutation = useUpdateLdoDocument(AuthorizationShapeType)
@@ -467,11 +464,7 @@ export const useInitEmailNotifications = () => {
         },
       })
       // initialize integration
-      initializeIntegration({
-        email,
-        inbox,
-        webId,
-      })
+      await initializeIntegration({ email, inbox, webId })
     },
     [emailNotificationsIdentity, initializeIntegration, updateAclMutation],
   )
@@ -480,7 +473,7 @@ export const useInitEmailNotifications = () => {
 /**
  * Send verification email for direct email notifications
  */
-export const useVerifyEmail = () => {
+export const useSendVerificationEmail = () => {
   const { emailNotificationsService } = useConfig()
   // Define a mutation function that will handle the API request
   const addActivity = async (requestData: { email: string }) => {

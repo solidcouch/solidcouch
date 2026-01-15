@@ -1,5 +1,6 @@
 import { Button } from '@/components'
 import { IconLoading } from '@/components/IconLoading'
+import { withToast } from '@/components/withToast'
 import { useConfig } from '@/config/hooks'
 import { useReadEmailVerificationSetup } from '@/hooks/data/emailNotifications'
 import { AccessMode, QueryKey } from '@/hooks/data/types'
@@ -7,16 +8,17 @@ import { useCheckNotificationsQuery } from '@/hooks/data/useCheckSetup'
 import {
   useInitEmailNotifications,
   usePreparePodForDirectEmailNotifications,
-  useVerifyEmail,
+  useSendVerificationEmail,
 } from '@/hooks/data/useSetupHospex'
 import { useAuth } from '@/hooks/useAuth'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
 import { StepProps } from './HospexSetup'
 import { SetupStatusKey } from './types'
+import { useToastError } from './useToastError'
 
 export const Step2 = ({
   onSuccess,
@@ -65,7 +67,7 @@ const DirectEmailNotifications = ({
   const [sentToEmail, setSentToEmail] = useState<string>()
   const [countdown, setCountdown] = useState(0)
   const preparePod = usePreparePodForDirectEmailNotifications()
-  const verifyEmailMutation = useVerifyEmail()
+  const sendVerificationEmailMutation = useSendVerificationEmail()
   const { webId } = useAuth()
   const { t } = useLingui()
   const { emailNotificationsIdentity, emailNotificationsService } = useConfig()
@@ -99,12 +101,12 @@ const DirectEmailNotifications = ({
     setSending(true)
 
     try {
-      if (!hospexDocument) throw new Error(t`no hospex document for community`)
+      if (!hospexDocument) throw new Error(t`No hospex document for community`)
       if (!isEmailNotifications) {
         if (!isNotificationsInitialized)
           await preparePod({ hospexDocument, webId: webId!, email })
 
-        await verifyEmailMutation.mutateAsync({ email })
+        await sendVerificationEmailMutation.mutateAsync({ email })
 
         setSent(true)
         setCountdown(60)
@@ -123,6 +125,18 @@ const DirectEmailNotifications = ({
     })
   }
 
+  const toastError = useToastError()
+
+  const handleFormSubmitWithInfo: typeof handleFormSubmit = useCallback(
+    async (...props) =>
+      await withToast(handleFormSubmit(...props), {
+        pending: t`Preparing and sending verification email`,
+        success: t`Verification email sent`,
+        error: toastError,
+      }),
+    [handleFormSubmit, t, toastError],
+  )
+
   if (isEmailNotifications)
     return (
       <div>
@@ -135,7 +149,7 @@ const DirectEmailNotifications = ({
     )
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmitWithInfo}>
       {!isEmailNotifications && (
         <div>
           <div>
@@ -199,15 +213,27 @@ const WebhookEmailNotifications = ({
     queryClient.invalidateQueries({ queryKey: [QueryKey.mailerIntegration] })
   }
 
-  const handleFormSubmit = handleSubmit(({ email }) => {
+  const handleFormSubmit = handleSubmit(async ({ email }) => {
     if (!inbox) throw new Error(t`Inbox is not set up`)
 
-    initEmailNotifications({
+    await initEmailNotifications({
       email,
       webId: webId!,
       inbox,
     })
   })
+
+  const toastError = useToastError()
+
+  const handleFormSubmitWithInfo: typeof handleFormSubmit = useCallback(
+    async (...props) =>
+      await withToast(handleFormSubmit(...props), {
+        pending: t`Preparing and sending verification email`,
+        success: t`Verification email sent`,
+        error: toastError,
+      }),
+    [handleFormSubmit, t, toastError],
+  )
 
   if (isEmailNotifications === true)
     return (
@@ -221,7 +247,7 @@ const WebhookEmailNotifications = ({
     )
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmitWithInfo}>
       {!isEmailNotifications && (
         <div>
           <Trans>Setup email notifications</Trans>{' '}

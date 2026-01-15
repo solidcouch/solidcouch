@@ -30,7 +30,7 @@ msgstr "{messageCount, plural, one {(# new)} other {(# new)}}"
 msgid "<0>Reach us in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>."
 msgstr "<0>Reach us in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>."
 
-#: src/pages/HospexSetup/Step2.tsx:160
+#: src/pages/HospexSetup/Step2.tsx:174
 msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 msgstr "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 
@@ -142,9 +142,13 @@ msgstr "Close hosting preview"
 msgid "code"
 msgstr "code"
 
-#: src/pages/HospexSetup/Step1.tsx:105
+#: src/pages/HospexSetup/Step1.tsx:126
 msgid "Community does not have a group"
 msgstr "Community does not have a group"
+
+#: src/pages/HospexSetup/Step1.tsx:135
+msgid "Community joined"
+msgstr "Community joined"
 
 #: src/pages/Profile/ManageContact.tsx:35
 msgid "Contact exists"
@@ -164,8 +168,8 @@ msgid "Contacts of <0/>"
 msgstr "Contacts of <0/>"
 
 #: src/components/SignIn/SignIn.tsx:150
-#: src/pages/HospexSetup/Step0.tsx:182
-#: src/pages/HospexSetup/Step1.tsx:199
+#: src/pages/HospexSetup/Step0.tsx:197
+#: src/pages/HospexSetup/Step1.tsx:228
 #: src/pages/messages/Messages.tsx:472
 msgid "Continue"
 msgstr "Continue"
@@ -178,19 +182,19 @@ msgstr "Conversations"
 msgid "Conversations with {people}"
 msgstr "Conversations with {people}"
 
-#: src/pages/HospexSetup/Step0.tsx:164
+#: src/pages/HospexSetup/Step0.tsx:179
 msgid "Create inbox:"
 msgstr "Create inbox:"
 
-#: src/pages/HospexSetup/Step0.tsx:120
+#: src/pages/HospexSetup/Step0.tsx:135
 msgid "Create preferences file:"
 msgstr "Create preferences file:"
 
-#: src/pages/HospexSetup/Step0.tsx:148
+#: src/pages/HospexSetup/Step0.tsx:163
 msgid "Create private type index:"
 msgstr "Create private type index:"
 
-#: src/pages/HospexSetup/Step0.tsx:134
+#: src/pages/HospexSetup/Step0.tsx:149
 msgid "Create public type index:"
 msgstr "Create public type index:"
 
@@ -202,9 +206,25 @@ msgstr "Creating accommodation"
 msgid "Creating channel failed"
 msgstr "Creating channel failed"
 
+#: src/pages/HospexSetup/Step0.tsx:128
+#~ msgid "Creating inbox"
+#~ msgstr "Creating inbox"
+
 #: src/pages/messages-old/MessagesOld.tsx:170
 msgid "Creating message"
 msgstr "Creating message"
+
+#: src/pages/HospexSetup/Step0.tsx:95
+#~ msgid "Creating preferences file"
+#~ msgstr "Creating preferences file"
+
+#: src/pages/HospexSetup/Step0.tsx:121
+#~ msgid "Creating private type index"
+#~ msgstr "Creating private type index"
+
+#: src/pages/HospexSetup/Step0.tsx:108
+#~ msgid "Creating public type index"
+#~ msgstr "Creating public type index"
 
 #: src/pages/MyOffers.tsx:207
 msgid "Delete"
@@ -235,7 +255,7 @@ msgstr "Edit"
 msgid "edit profile"
 msgstr "edit profile"
 
-#: src/pages/HospexSetup/Step2.tsx:145
+#: src/pages/HospexSetup/Step2.tsx:159
 msgid "email address"
 msgstr "email address"
 
@@ -247,11 +267,15 @@ msgstr "Email notification was sent"
 msgid "Email Notification was sent."
 msgstr "Email Notification was sent."
 
-#: src/pages/HospexSetup/Step2.tsx:254
+#: src/pages/HospexSetup/Step2.tsx:280
 msgid "Email notifications are not available for this community."
 msgstr "Email notifications are not available for this community."
 
-#: src/pages/HospexSetup/Step2.tsx:142
+#: src/pages/HospexSetup/Step2.tsx:223
+#~ msgid "Email notifications initialized"
+#~ msgstr "Email notifications initialized"
+
+#: src/pages/HospexSetup/Step2.tsx:156
 msgid "Enter your email address:"
 msgstr "Enter your email address:"
 
@@ -263,11 +287,11 @@ msgstr "fetching contacts"
 msgid "Fetching profile"
 msgstr "Fetching profile"
 
-#: src/pages/HospexSetup/Step2.tsx:132
-#: src/pages/HospexSetup/Step2.tsx:175
-#: src/pages/HospexSetup/Step2.tsx:218
-#: src/pages/HospexSetup/Step2.tsx:243
-#: src/pages/HospexSetup/Step2.tsx:257
+#: src/pages/HospexSetup/Step2.tsx:146
+#: src/pages/HospexSetup/Step2.tsx:189
+#: src/pages/HospexSetup/Step2.tsx:244
+#: src/pages/HospexSetup/Step2.tsx:269
+#: src/pages/HospexSetup/Step2.tsx:283
 msgid "Finish Setup"
 msgstr "Finish Setup"
 
@@ -287,6 +311,10 @@ msgstr "Hi! I'd like to add you as a contact!"
 #: src/pages/Profile/ManageContact.tsx:127
 msgid "hospex container not found (too soon?)"
 msgstr "hospex container not found (too soon?)"
+
+#: src/pages/HospexSetup/Step1.tsx:101
+msgid "Hospex data setup successful"
+msgstr "Hospex data setup successful"
 
 #: src/pages/EditProfile/EditProfile.tsx:38
 msgid "Hospex document not found"
@@ -309,11 +337,15 @@ msgstr "Hosting location (click <0/> or drag & zoom map)"
 msgid "Ignore"
 msgstr "Ignore"
 
-#: src/pages/HospexSetup/Step2.tsx:203
+#: src/pages/HospexSetup/Step0.tsx:129
+#~ msgid "Inbox created"
+#~ msgstr "Inbox created"
+
+#: src/pages/HospexSetup/Step2.tsx:217
 msgid "Inbox is not set up"
 msgstr "Inbox is not set up"
 
-#: src/pages/HospexSetup/Step0.tsx:161
+#: src/pages/HospexSetup/Step0.tsx:176
 msgid "Inbox is set up."
 msgstr "Inbox is set up."
 
@@ -324,6 +356,10 @@ msgstr "inbox not found (too soon?)"
 #: src/pages/messages-old/MessagesOld.tsx:141
 msgid "Inbox of the other person not found (probably too soon)"
 msgstr "Inbox of the other person not found (probably too soon)"
+
+#: src/pages/HospexSetup/Step2.tsx:222
+#~ msgid "Initializing email notifications"
+#~ msgstr "Initializing email notifications"
 
 #: src/pages/EditProfile/EditInterests.tsx:43
 msgid "Interest removed"
@@ -345,9 +381,18 @@ msgstr "Join {communityName}"
 msgid "Join Community"
 msgstr "Join Community"
 
-#: src/pages/HospexSetup/Step1.tsx:121
+#: src/pages/HospexSetup/Step1.tsx:150
 msgid "Join community {communityLabel}"
 msgstr "Join community {communityLabel}"
+
+#: src/pages/HospexSetup/Step1.tsx:118
+msgid "Join request sent"
+msgstr "Join request sent"
+
+#: src/pages/HospexSetup/Step1.tsx:117
+#: src/pages/HospexSetup/Step1.tsx:134
+msgid "Joining community"
+msgstr "Joining community"
 
 #: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:68
 msgid "Later"
@@ -439,9 +484,13 @@ msgstr "New conversation with {people}"
 msgid "No authenticated user available"
 msgstr "No authenticated user available"
 
-#: src/pages/HospexSetup/Step2.tsx:102
-msgid "no hospex document for community"
-msgstr "no hospex document for community"
+#: src/pages/HospexSetup/Step2.tsx:103
+#~ msgid "no hospex document for community"
+#~ msgstr "no hospex document for community"
+
+#: src/pages/HospexSetup/Step2.tsx:104
+msgid "No hospex document for community"
+msgstr "No hospex document for community"
 
 #: src/pages/MyOffers.tsx:69
 msgid "Notifying indexing service"
@@ -451,7 +500,7 @@ msgstr "Notifying indexing service"
 msgid "Open profile"
 msgstr "Open profile"
 
-#: src/pages/HospexSetup/Step1.tsx:167
+#: src/pages/HospexSetup/Step1.tsx:196
 msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
 msgstr "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
 
@@ -476,15 +525,23 @@ msgstr "Please invite only people you know personally."
 msgid "Please move map to your hosting location"
 msgstr "Please move map to your hosting location"
 
-#: src/pages/HospexSetup/Step2.tsx:241
+#: src/pages/HospexSetup/Step2.tsx:267
 msgid "Please verify your email"
 msgstr "Please verify your email"
+
+#: src/pages/HospexSetup/Step2.tsx:110
+#~ msgid "Pod is prepared for email notifications"
+#~ msgstr "Pod is prepared for email notifications"
 
 #: src/pages/UnauthenticatedHome.tsx:66
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgstr "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 
-#: src/pages/HospexSetup/Step0.tsx:117
+#: src/pages/HospexSetup/Step0.tsx:96
+#~ msgid "Preferences file created"
+#~ msgstr "Preferences file created"
+
+#: src/pages/HospexSetup/Step0.tsx:132
 msgid "Preferences file is set up."
 msgstr "Preferences file is set up."
 
@@ -492,7 +549,24 @@ msgstr "Preferences file is set up."
 msgid "Prepare Pod"
 msgstr "Prepare Pod"
 
-#: src/pages/HospexSetup/Step0.tsx:145
+#: src/pages/HospexSetup/Step2.tsx:133
+#: src/pages/HospexSetup/Step2.tsx:231
+msgid "Preparing and sending verification email"
+msgstr "Preparing and sending verification email"
+
+#: src/pages/HospexSetup/Step2.tsx:109
+#~ msgid "Preparing pod for email notification"
+#~ msgstr "Preparing pod for email notification"
+
+#: src/pages/HospexSetup/Step0.tsx:121
+msgid "Preparing Solid Pod"
+msgstr "Preparing Solid Pod"
+
+#: src/pages/HospexSetup/Step0.tsx:122
+#~ msgid "Private type index created"
+#~ msgstr "Private type index created"
+
+#: src/pages/HospexSetup/Step0.tsx:160
 msgid "Private type index is set up."
 msgstr "Private type index is set up."
 
@@ -516,11 +590,15 @@ msgstr "Profile photo of {name}"
 msgid "Profile updated"
 msgstr "Profile updated"
 
-#: src/pages/HospexSetup/Step1.tsx:71
+#: src/pages/HospexSetup/Step0.tsx:109
+#~ msgid "Public type index created"
+#~ msgstr "Public type index created"
+
+#: src/pages/HospexSetup/Step1.tsx:82
 msgid "Public type index is not set up"
 msgstr "Public type index is not set up"
 
-#: src/pages/HospexSetup/Step0.tsx:131
+#: src/pages/HospexSetup/Step0.tsx:146
 msgid "Public type index is set up."
 msgstr "Public type index is set up."
 
@@ -528,7 +606,11 @@ msgstr "Public type index is set up."
 msgid "Removing interest"
 msgstr "Removing interest"
 
-#: src/pages/HospexSetup/Step2.tsx:152
+#: src/pages/HospexSetup/useToastError.tsx:18
+msgid "Request failed: {status} {statusText} {url}"
+msgstr "Request failed: {status} {statusText} {url}"
+
+#: src/pages/HospexSetup/Step2.tsx:166
 msgid "Resend Confirmation Email in {countdown}s"
 msgstr "Resend Confirmation Email in {countdown}s"
 
@@ -557,8 +639,8 @@ msgstr "Send"
 msgid "Send a message…"
 msgstr "Send a message…"
 
-#: src/pages/HospexSetup/Step2.tsx:154
-#: src/pages/HospexSetup/Step2.tsx:235
+#: src/pages/HospexSetup/Step2.tsx:168
+#: src/pages/HospexSetup/Step2.tsx:261
 msgid "Send Confirmation Email"
 msgstr "Send Confirmation Email"
 
@@ -586,11 +668,15 @@ msgstr "Sending message failed: "
 msgid "Sending Solid notification"
 msgstr "Sending Solid notification"
 
+#: src/pages/HospexSetup/Step2.tsx:115
+#~ msgid "Sending verification email"
+#~ msgstr "Sending verification email"
+
 #: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:51
 msgid "Session Expired!"
 msgstr "Session Expired!"
 
-#: src/pages/HospexSetup/Step1.tsx:158
+#: src/pages/HospexSetup/Step1.tsx:187
 msgid "Set up new data for this community:"
 msgstr "Set up new data for this community:"
 
@@ -598,19 +684,23 @@ msgstr "Set up new data for this community:"
 msgid "Set Up Notifications"
 msgstr "Set Up Notifications"
 
+#: src/pages/HospexSetup/Step1.tsx:100
+msgid "Setting up hospex data"
+msgstr "Setting up hospex data"
+
 #: src/pages/HospexSetup/HospexSetup.tsx:129
 msgid "Setup"
 msgstr "Setup"
 
-#: src/pages/HospexSetup/Step2.tsx:227
+#: src/pages/HospexSetup/Step2.tsx:253
 msgid "Setup email notifications"
 msgstr "Setup email notifications"
 
-#: src/pages/HospexSetup/Step1.tsx:140
+#: src/pages/HospexSetup/Step1.tsx:169
 msgid "Setup hospex document and storage"
 msgstr "Setup hospex document and storage"
 
-#: src/pages/HospexSetup/Step1.tsx:130
+#: src/pages/HospexSetup/Step1.tsx:159
 msgid "Setup hospex document and storage:"
 msgstr "Setup hospex document and storage:"
 
@@ -630,9 +720,21 @@ msgstr "sign out"
 msgid "Solid notification was sent"
 msgstr "Solid notification was sent"
 
-#: src/pages/HospexSetup/Step0.tsx:82
+#: src/pages/HospexSetup/Step0.tsx:122
+msgid "Solid Pod is prepared"
+msgstr "Solid Pod is prepared"
+
+#: src/pages/HospexSetup/Step0.tsx:85
 msgid "Something is not resolved (unexpected error)"
 msgstr "Something is not resolved (unexpected error)"
+
+#: src/pages/HospexSetup/useToastError.tsx:13
+msgid "Something went wrong"
+msgstr "Something went wrong"
+
+#: src/pages/HospexSetup/useToastError.tsx:21
+msgid "Something went wrong: {failure}"
+msgstr "Something went wrong: {failure}"
 
 #: src/components/withToast.tsx:20
 msgid "Something went wrong."
@@ -707,6 +809,11 @@ msgstr "Updating accommodation"
 msgid "Updating profile"
 msgstr "Updating profile"
 
+#: src/pages/HospexSetup/Step2.tsx:134
+#: src/pages/HospexSetup/Step2.tsx:232
+msgid "Verification email sent"
+msgstr "Verification email sent"
+
 #: src/components/SignIn/SignIn.tsx:105
 msgid ""
 "We didn't succeed with redirecting to the issuer at {oidcIssuer}.\n"
@@ -736,11 +843,11 @@ msgstr "WIP"
 msgid "Write a message"
 msgstr "Write a message"
 
-#: src/pages/HospexSetup/Step1.tsx:144
+#: src/pages/HospexSetup/Step1.tsx:173
 msgid "You already seem to be a member of some hospitality exchange communities. Would you like to:"
 msgstr "You already seem to be a member of some hospitality exchange communities. Would you like to:"
 
-#: src/pages/HospexSetup/Step1.tsx:125
+#: src/pages/HospexSetup/Step1.tsx:154
 msgid "You are already a member of {communityLabel}"
 msgstr "You are already a member of {communityLabel}"
 
@@ -752,12 +859,12 @@ msgstr "You can also <0>host your own Pod</0>."
 msgid "You can only read this chat."
 msgstr "You can only read this chat."
 
-#: src/pages/HospexSetup/Step2.tsx:230
+#: src/pages/HospexSetup/Step2.tsx:256
 msgid "Your email"
 msgstr "Your email"
 
-#: src/pages/HospexSetup/Step2.tsx:130
-#: src/pages/HospexSetup/Step2.tsx:216
+#: src/pages/HospexSetup/Step2.tsx:144
+#: src/pages/HospexSetup/Step2.tsx:242
 msgid "Your email notifications are set up."
 msgstr "Your email notifications are set up."
 
