@@ -4,6 +4,7 @@ import { acl, foaf } from 'rdf-namespaces'
 import { generateAcl } from '../../cypress/support/helpers/acl'
 import { getAcl } from '../../src/utils/helpers'
 import { createRandomAccount } from './account'
+import { updateAppConfig } from './helpers'
 
 export const createCommunity = async ({
   name = 'Test Community',
@@ -95,11 +96,12 @@ const setAppCommunity = async (page: Page, community: Community) => {
   const currentUrl = page.url()
 
   // set up the community as the app community
-  await page.goto('/')
-  await expect(page.getByRole('navigation')).toBeVisible()
-  await page.evaluate(
-    `globalThis.updateAppConfig({ communityId: '${community.communityUri}' })`,
+  await updateAppConfig(
+    page,
+    { communityId: community.communityUri },
+    { locator: page.getByRole('navigation') },
   )
+
   await expect(page.getByRole('navigation')).toContainText(community.name)
   // get back to previous page
   if (currentUrl) await page.goto(currentUrl)
