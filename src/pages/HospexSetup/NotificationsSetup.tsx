@@ -20,7 +20,7 @@ import { StepProps } from './HospexSetup'
 import { SetupStatusKey } from './types'
 import { useToastError } from './useToastError'
 
-export const Step2 = ({
+export const NotificationsSetup = ({
   onSuccess,
   isEmailNotifications,
   isSimpleEmailNotifications,

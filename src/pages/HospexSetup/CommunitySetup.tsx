@@ -22,7 +22,7 @@ import styles from './HospexSetup.module.scss'
 import { SetupStatusKey } from './types'
 import { useToastError } from './useToastError'
 
-export const Step1 = ({
+export const CommunitySetup = ({
   onSuccess,
   isMember,
   isHospexProfile,
@@ -177,6 +177,7 @@ export const Step1 = ({
             </legend>
             <div className={styles.option}>
               <input
+                required
                 type="radio"
                 id="new-hospex-document"
                 // eslint-disable-next-line lingui/no-unlocalized-strings
@@ -206,7 +207,7 @@ export const Step1 = ({
                     type="radio"
                     id={`hospexDocument-${i}`}
                     value={hospexDocument}
-                    {...register('hospexDocument')}
+                    {...register('hospexDocument', { required: true })}
                   />{' '}
                   <label htmlFor={`hospexDocument-${i}`}>
                     {communities.map(c => c.name ?? c.uri).join(', ')} (

@@ -7,11 +7,11 @@ import pick from 'lodash/pick'
 import { Term } from 'n3'
 import { Tabs } from 'radix-ui'
 import { useMemo } from 'react'
+import { CommunitySetup } from './CommunitySetup'
 import styles from './HospexSetup.module.scss'
-import { Step0 } from './Step0'
-import { Step1 } from './Step1'
-import { Step2 } from './Step2'
+import { NotificationsSetup } from './NotificationsSetup'
 import { SetupStatusKey } from './types'
+import { WebidProfileSetup } from './WebidProfileSetup'
 
 interface SetupStatus {
   [SetupStatusKey.isMember]: boolean
@@ -65,32 +65,31 @@ export const HospexSetup = (
     () => [
       {
         title: <Trans>Prepare Pod</Trans>,
-        content:
-          storage && auth.webId ? (
-            <Step0
-              onSuccess={() => props.onStepChange(1)}
-              isPublicTypeIndex={props.isPublicTypeIndex}
-              isPrivateTypeIndex={props.isPrivateTypeIndex}
-              isPreferencesFile={props.isPreferencesFile}
-              isInbox={props.isInbox}
-              storage={storage}
-              webId={auth.webId}
-              preferencesFile={
-                props.preferencesFiles.values().next().value?.value
-              }
-              publicTypeIndex={
-                props.publicTypeIndexes.values().next().value?.value
-              }
-              privateTypeIndex={
-                props.privateTypeIndexes.values().next().value?.value
-              }
-            />
-          ) : null,
+        content: storage ? (
+          <WebidProfileSetup
+            onSuccess={() => props.onStepChange(1)}
+            isPublicTypeIndex={props.isPublicTypeIndex}
+            isPrivateTypeIndex={props.isPrivateTypeIndex}
+            isPreferencesFile={props.isPreferencesFile}
+            isInbox={props.isInbox}
+            storage={storage}
+            webId={auth.webId!}
+            preferencesFile={
+              props.preferencesFiles.values().next().value?.value
+            }
+            publicTypeIndex={
+              props.publicTypeIndexes.values().next().value?.value
+            }
+            privateTypeIndex={
+              props.privateTypeIndexes.values().next().value?.value
+            }
+          />
+        ) : null,
       },
       {
         title: <Trans>Join Community</Trans>,
         content: (
-          <Step1
+          <CommunitySetup
             onSuccess={() => props.onStepChange(2)}
             isMember={props.isMember}
             isHospexProfile={props.isHospexProfile}
@@ -104,7 +103,7 @@ export const HospexSetup = (
       {
         title: <Trans>Set Up Notifications</Trans>,
         content: (
-          <Step2
+          <NotificationsSetup
             isEmailNotifications={props.isEmailNotifications}
             isSimpleEmailNotifications={props.isSimpleEmailNotifications}
             hospexDocument={

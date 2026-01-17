@@ -22,7 +22,7 @@ interface Step0Data {
   inbox: string
 }
 
-export const Step0 = ({
+export const WebidProfileSetup = ({
   onSuccess,
   isPublicTypeIndex,
   isPrivateTypeIndex,
