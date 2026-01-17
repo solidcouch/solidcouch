@@ -125,6 +125,11 @@ msgstr "Kontroluji vaše nastavení..."
 msgid "Choose a Pod provider:"
 msgstr "Vyberte poskytovatele Podu:"
 
+#: src/pages/HospexSetup/CommunitySetup.tsx:163
+#: src/pages/HospexSetup/CommunitySetup.tsx:173
+msgid "Choose your community data storage:"
+msgstr ""
+
 #: src/components/SignIn/SignIn.tsx:132
 msgid "Choose your Solid provider or WebID"
 msgstr "Zadejte svého Solid poskytovatele nebo WebID"
@@ -150,6 +155,11 @@ msgstr "Komunita nemá žádnou skupinu"
 msgid "Community joined"
 msgstr ""
 
+#: src/pages/HospexSetup/CommunitySetup.tsx:231
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:197
+msgid "Confirm and Continue"
+msgstr ""
+
 #: src/pages/Profile/ManageContact.tsx:35
 msgid "Contact exists"
 msgstr "Kontakt již existuje"
@@ -168,8 +178,6 @@ msgid "Contacts of <0/>"
 msgstr "Kontakty <0/>"
 
 #: src/components/SignIn/SignIn.tsx:150
-#: src/pages/HospexSetup/CommunitySetup.tsx:229
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:197
 #: src/pages/messages/Messages.tsx:472
 msgid "Continue"
 msgstr "Pokračovat"
@@ -185,6 +193,10 @@ msgstr "Rozhovory s {people}"
 #: src/pages/HospexSetup/WebidProfileSetup.tsx:179
 msgid "Create inbox:"
 msgstr "Vytvořit schránku:"
+
+#: src/pages/HospexSetup/CommunitySetup.tsx:200
+msgid "Create new profile for this community:"
+msgstr ""
 
 #: src/pages/HospexSetup/WebidProfileSetup.tsx:135
 msgid "Create preferences file:"
@@ -377,7 +389,7 @@ msgstr ""
 msgid "Join {communityName}"
 msgstr "Připojte se k {communityName}"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:90
+#: src/pages/HospexSetup/HospexSetup.tsx:91
 msgid "Join Community"
 msgstr "Připojit se ke komunitě"
 
@@ -397,6 +409,10 @@ msgstr ""
 #: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:68
 msgid "Later"
 msgstr "Později"
+
+#: src/pages/HospexSetup/CommunitySetup.tsx:178
+msgid "Link existing community profile:"
+msgstr ""
 
 #: src/pages/messages/useSendMessage.ts:106
 msgid "Linked Data Notification was sent."
@@ -501,8 +517,8 @@ msgid "Open profile"
 msgstr "Otevřít profil"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:197
-msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
-msgstr "Nebo použít data (profil, nabídky ubytování, atd.) z jedné z vašich existujících komunit? <0>(Doporučeno pro podobné komunity)</0>"
+#~ msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
+#~ msgstr "Nebo použít data (profil, nabídky ubytování, atd.) z jedné z vašich existujících komunit? <0>(Doporučeno pro podobné komunity)</0>"
 
 #: src/pages/Contacts.tsx:73
 #: src/pages/Contacts.tsx:82
@@ -545,7 +561,7 @@ msgstr "Postaveno na <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgid "Preferences file is set up."
 msgstr "Soubor předvoleb je nastaven."
 
-#: src/pages/HospexSetup/HospexSetup.tsx:67
+#: src/pages/HospexSetup/HospexSetup.tsx:68
 msgid "Prepare Pod"
 msgstr "Připravte Pod"
 
@@ -677,10 +693,10 @@ msgid "Session Expired!"
 msgstr "Platnost přihlášení vypršela!"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:188
-msgid "Set up new data for this community:"
-msgstr "Nastavit nová data pro tuto komunitu:"
+#~ msgid "Set up new data for this community:"
+#~ msgstr "Nastavit nová data pro tuto komunitu:"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:104
+#: src/pages/HospexSetup/HospexSetup.tsx:105
 msgid "Set Up Notifications"
 msgstr "Nastavit oznámení"
 
@@ -688,7 +704,7 @@ msgstr "Nastavit oznámení"
 msgid "Setting up hospex data"
 msgstr ""
 
-#: src/pages/HospexSetup/HospexSetup.tsx:128
+#: src/pages/HospexSetup/HospexSetup.tsx:129
 msgid "Setup"
 msgstr "Nastavit"
 
@@ -697,12 +713,12 @@ msgid "Setup email notifications"
 msgstr "Nastavit e-mailová upozornění"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:169
-msgid "Setup hospex document and storage"
-msgstr "Nastavit hospex dokument a úložiště"
+#~ msgid "Setup hospex document and storage"
+#~ msgstr "Nastavit hospex dokument a úložiště"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:159
-msgid "Setup hospex document and storage:"
-msgstr "Nastavit hospex dokument a úložiště:"
+#~ msgid "Setup hospex document and storage:"
+#~ msgstr "Nastavit hospex dokument a úložiště:"
 
 #: src/components/SignIn/SignIn.tsx:29
 msgid "Sign in"
@@ -844,8 +860,8 @@ msgid "Write a message"
 msgstr "Napsat zprávu"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:173
-msgid "You already seem to be a member of some hospitality exchange communities. Would you like to:"
-msgstr "Zdá se, že již jste členem některých komunit pro výměnu pohostinnosti. Chcete raději:"
+#~ msgid "You already seem to be a member of some hospitality exchange communities. Would you like to:"
+#~ msgstr "Zdá se, že již jste členem některých komunit pro výměnu pohostinnosti. Chcete raději:"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:154
 msgid "You are already a member of {communityLabel}"
@@ -858,6 +874,10 @@ msgstr "Můžete si také <0>provozovat vlastní Pod</0>."
 #: src/pages/messages/Messages.tsx:330
 msgid "You can only read this chat."
 msgstr "Tento rozhovor můžete jen číst."
+
+#: src/pages/HospexSetup/CommunitySetup.tsx:159
+msgid "Your {communityLabel} data storage is set up."
+msgstr ""
 
 #: src/pages/HospexSetup/NotificationsSetup.tsx:256
 msgid "Your email"

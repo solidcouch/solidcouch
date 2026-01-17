@@ -7,6 +7,7 @@ import pick from 'lodash/pick'
 import { Term } from 'n3'
 import { Tabs } from 'radix-ui'
 import { useMemo } from 'react'
+import { FaCheck } from 'react-icons/fa'
 import { CommunitySetup } from './CommunitySetup'
 import styles from './HospexSetup.module.scss'
 import { NotificationsSetup } from './NotificationsSetup'
@@ -137,13 +138,14 @@ export const HospexSetup = (
               <Tabs.Trigger
                 className={clsx(
                   styles.trigger,
+                  stepStatus[i] && styles.success,
                   i < steps.length - 1 && styles.connect,
                 )}
                 key={i} // not recommended, but likely safe with the unchanging array
                 value={String(i)}
                 disabled={!stepStatus.slice(0, i).every(a => !!a)}
               >
-                {i + 1}
+                {stepStatus[i] ? <FaCheck /> : i + 1}
               </Tabs.Trigger>
             )
           })}

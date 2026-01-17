@@ -125,6 +125,11 @@ msgstr "Checking your setup..."
 msgid "Choose a Pod provider:"
 msgstr "Choose a Pod provider:"
 
+#: src/pages/HospexSetup/CommunitySetup.tsx:163
+#: src/pages/HospexSetup/CommunitySetup.tsx:173
+msgid "Choose your community data storage:"
+msgstr "Choose your community data storage:"
+
 #: src/components/SignIn/SignIn.tsx:132
 msgid "Choose your Solid provider or WebID"
 msgstr "Choose your Solid provider or WebID"
@@ -150,6 +155,11 @@ msgstr "Community does not have a group"
 msgid "Community joined"
 msgstr "Community joined"
 
+#: src/pages/HospexSetup/CommunitySetup.tsx:231
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:197
+msgid "Confirm and Continue"
+msgstr "Confirm and Continue"
+
 #: src/pages/Profile/ManageContact.tsx:35
 msgid "Contact exists"
 msgstr "Contact exists"
@@ -168,8 +178,6 @@ msgid "Contacts of <0/>"
 msgstr "Contacts of <0/>"
 
 #: src/components/SignIn/SignIn.tsx:150
-#: src/pages/HospexSetup/CommunitySetup.tsx:229
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:197
 #: src/pages/messages/Messages.tsx:472
 msgid "Continue"
 msgstr "Continue"
@@ -185,6 +193,10 @@ msgstr "Conversations with {people}"
 #: src/pages/HospexSetup/WebidProfileSetup.tsx:179
 msgid "Create inbox:"
 msgstr "Create inbox:"
+
+#: src/pages/HospexSetup/CommunitySetup.tsx:200
+msgid "Create new profile for this community:"
+msgstr "Create new profile for this community:"
 
 #: src/pages/HospexSetup/WebidProfileSetup.tsx:135
 msgid "Create preferences file:"
@@ -377,7 +389,7 @@ msgstr "Invitation"
 msgid "Join {communityName}"
 msgstr "Join {communityName}"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:90
+#: src/pages/HospexSetup/HospexSetup.tsx:91
 msgid "Join Community"
 msgstr "Join Community"
 
@@ -397,6 +409,10 @@ msgstr "Joining community"
 #: src/components/ExpiredSessionManager/ExpiredSessionManager.tsx:68
 msgid "Later"
 msgstr "Later"
+
+#: src/pages/HospexSetup/CommunitySetup.tsx:178
+msgid "Link existing community profile:"
+msgstr "Link existing community profile:"
 
 #: src/pages/messages/useSendMessage.ts:106
 msgid "Linked Data Notification was sent."
@@ -501,8 +517,8 @@ msgid "Open profile"
 msgstr "Open profile"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:197
-msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
-msgstr "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
+#~ msgid "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
+#~ msgstr "Or use data (profile, hosting offers, etc.) from one of your existing communities? <0>(Recommended for similar communities)</0>"
 
 #: src/pages/Contacts.tsx:73
 #: src/pages/Contacts.tsx:82
@@ -545,7 +561,7 @@ msgstr "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgid "Preferences file is set up."
 msgstr "Preferences file is set up."
 
-#: src/pages/HospexSetup/HospexSetup.tsx:67
+#: src/pages/HospexSetup/HospexSetup.tsx:68
 msgid "Prepare Pod"
 msgstr "Prepare Pod"
 
@@ -677,10 +693,10 @@ msgid "Session Expired!"
 msgstr "Session Expired!"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:188
-msgid "Set up new data for this community:"
-msgstr "Set up new data for this community:"
+#~ msgid "Set up new data for this community:"
+#~ msgstr "Set up new data for this community:"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:104
+#: src/pages/HospexSetup/HospexSetup.tsx:105
 msgid "Set Up Notifications"
 msgstr "Set Up Notifications"
 
@@ -688,7 +704,7 @@ msgstr "Set Up Notifications"
 msgid "Setting up hospex data"
 msgstr "Setting up hospex data"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:128
+#: src/pages/HospexSetup/HospexSetup.tsx:129
 msgid "Setup"
 msgstr "Setup"
 
@@ -697,12 +713,12 @@ msgid "Setup email notifications"
 msgstr "Setup email notifications"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:169
-msgid "Setup hospex document and storage"
-msgstr "Setup hospex document and storage"
+#~ msgid "Setup hospex document and storage"
+#~ msgstr "Setup hospex document and storage"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:159
-msgid "Setup hospex document and storage:"
-msgstr "Setup hospex document and storage:"
+#~ msgid "Setup hospex document and storage:"
+#~ msgstr "Setup hospex document and storage:"
 
 #: src/components/SignIn/SignIn.tsx:29
 msgid "Sign in"
@@ -844,8 +860,8 @@ msgid "Write a message"
 msgstr "Write a message"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:173
-msgid "You already seem to be a member of some hospitality exchange communities. Would you like to:"
-msgstr "You already seem to be a member of some hospitality exchange communities. Would you like to:"
+#~ msgid "You already seem to be a member of some hospitality exchange communities. Would you like to:"
+#~ msgstr "You already seem to be a member of some hospitality exchange communities. Would you like to:"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:154
 msgid "You are already a member of {communityLabel}"
@@ -858,6 +874,10 @@ msgstr "You can also <0>host your own Pod</0>."
 #: src/pages/messages/Messages.tsx:330
 msgid "You can only read this chat."
 msgstr "You can only read this chat."
+
+#: src/pages/HospexSetup/CommunitySetup.tsx:159
+msgid "Your {communityLabel} data storage is set up."
+msgstr "Your {communityLabel} data storage is set up."
 
 #: src/pages/HospexSetup/NotificationsSetup.tsx:256
 msgid "Your email"

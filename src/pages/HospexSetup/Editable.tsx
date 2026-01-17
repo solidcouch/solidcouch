@@ -3,8 +3,9 @@ import { FaCheck, FaPencilAlt } from 'react-icons/fa'
 
 export const Editable = ({
   value,
+  editable: isEditable,
   ...props
-}: ComponentPropsWithRef<'input'>) => {
+}: { editable?: boolean } & ComponentPropsWithRef<'input'>) => {
   const [editable, setEditable] = useState(false)
 
   if (!editable)
@@ -12,8 +13,8 @@ export const Editable = ({
       <>
         {value}{' '}
         <button
-          disabled
-          style={{ display: 'none' }}
+          disabled={!isEditable}
+          style={isEditable ? {} : { display: 'none' }}
           type="button"
           onClick={() => setEditable(true)}
         >

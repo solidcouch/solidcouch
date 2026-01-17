@@ -15,7 +15,7 @@ import { StepProps } from './HospexSetup'
 import { SetupStatusKey } from './types'
 import { useToastError } from './useToastError'
 
-interface Step0Data {
+interface WebidProfileData {
   publicTypeIndex: string
   privateTypeIndex: string
   preferencesFile: string
@@ -59,7 +59,7 @@ export const WebidProfileSetup = ({
       existingPublicTypeIndex,
     ) ?? new URL('settings/', storage).toString()
 
-  const { watch, register, handleSubmit } = useForm<Step0Data>({
+  const { watch, register, handleSubmit } = useForm<WebidProfileData>({
     defaultValues: {
       preferencesFile: new URL('preferences.ttl', settingsContainer).toString(),
       publicTypeIndex: new URL(
@@ -194,7 +194,7 @@ export const WebidProfileSetup = ({
         data-cy="setup-step-0-continue"
         data-testid="setup-step-0-continue"
       >
-        <Trans>Continue</Trans>
+        <Trans>Confirm and Continue</Trans>
       </Button>
     </form>
   )

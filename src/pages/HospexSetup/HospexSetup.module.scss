@@ -23,6 +23,10 @@
         color: var(--background-color);
       }
 
+      &.success {
+        border-color: var(--color-success);
+      }
+
       &:hover {
         background-color: var(--text-color);
         color: var(--background-color);
@@ -63,12 +67,13 @@
     border-left: 4px solid black;
     padding-left: var(--space-2x);
   }
+}
 
-  .storageOptions {
+.storageOptions {
+  margin-left: var(--space-4x);
+
+  .option {
+    margin: var(--space-2x);
     margin-left: var(--space-4x);
-    .option {
-      margin: var(--space-2x);
-      margin-left: var(--space-4x);
-    }
   }
 }
