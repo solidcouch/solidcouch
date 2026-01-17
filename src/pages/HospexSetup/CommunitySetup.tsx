@@ -22,7 +22,7 @@ import styles from './HospexSetup.module.scss'
 import { SetupStatusKey } from './types'
 import { useToastError } from './useToastError'
 
-export const Step1 = ({
+export const CommunitySetup = ({
   onSuccess,
   isMember,
   isHospexProfile,
@@ -154,50 +154,28 @@ export const Step1 = ({
           <Trans>You are already a member of {communityLabel}</Trans>
         </li>
       )}
-      {!isHospexProfile && allHospex.length === 0 && (
+      {isHospexProfile ? (
         <li>
-          <Trans>Setup hospex document and storage:</Trans>{' '}
+          <Trans>Your {communityLabel} data storage is set up.</Trans>
+        </li>
+      ) : allHospex.length === 0 ? (
+        <li>
+          <Trans>Choose your community data storage:</Trans>{' '}
           <Editable
+            editable
             value={removeBaseUrl(newHospexDocument, storage)}
             {...register('newHospexDocument', { required: true })}
           />
         </li>
-      )}
-      {!isHospexProfile && allHospex.length > 0 && (
+      ) : (
         <li>
           <legend>
-            <Trans>Setup hospex document and storage</Trans>
+            <Trans>Choose your community data storage:</Trans>
           </legend>
           <fieldset className={styles.storageOptions}>
-            <legend>
-              <Trans>
-                You already seem to be a member of some hospitality exchange
-                communities. Would you like to:
-              </Trans>
-            </legend>
-            <div className={styles.option}>
-              <input
-                type="radio"
-                id="new-hospex-document"
-                // eslint-disable-next-line lingui/no-unlocalized-strings
-                value="new"
-                {...register('hospexDocument', { required: true })}
-              />{' '}
-              <label htmlFor="new-hospex-document">
-                <Trans>Set up new data for this community:</Trans>
-                <Editable
-                  {...register('newHospexDocument', { required: true })}
-                  value={removeBaseUrl(watch('newHospexDocument'), storage)}
-                />
-              </label>
-            </div>
             <div>
               <legend>
-                <Trans>
-                  Or use data (profile, hosting offers, etc.) from one of your
-                  existing communities?{' '}
-                  <i>(Recommended for similar communities)</i>
-                </Trans>
+                <Trans>Link existing community profile:</Trans>
               </legend>
               {allHospex.map(({ hospexDocument, communities }, i) => (
                 <div key={hospexDocument} className={styles.option}>
@@ -206,18 +184,43 @@ export const Step1 = ({
                     type="radio"
                     id={`hospexDocument-${i}`}
                     value={hospexDocument}
-                    {...register('hospexDocument')}
+                    {...register('hospexDocument', { required: true })}
                   />{' '}
                   <label htmlFor={`hospexDocument-${i}`}>
-                    {communities.map(c => c.name ?? c.uri).join(', ')} (
-                    {removeBaseUrl(hospexDocument, storage)})
+                    {communities
+                      .map(c => c.name || new URL(c.uri).hostname) // this is a compromise between precision and readability
+                      .join(', ')}{' '}
+                    ({removeBaseUrl(hospexDocument, storage)})
                   </label>
                 </div>
               ))}
             </div>
+            <div>
+              <legend>
+                <Trans>Create new profile for this community:</Trans>
+              </legend>
+              <div className={styles.option}>
+                <input
+                  required
+                  type="radio"
+                  id="new-hospex-document"
+                  // eslint-disable-next-line lingui/no-unlocalized-strings
+                  value="new"
+                  {...register('hospexDocument', { required: true })}
+                />{' '}
+                <label htmlFor="new-hospex-document">
+                  <Editable
+                    editable
+                    {...register('newHospexDocument', { required: true })}
+                    value={removeBaseUrl(watch('newHospexDocument'), storage)}
+                  />
+                </label>
+              </div>
+            </div>
           </fieldset>
         </li>
       )}
+
       <Button
         type="submit"
         primary
@@ -225,7 +228,7 @@ export const Step1 = ({
         data-testid="setup-step-1-continue"
         disabled={!publicTypeIndex}
       >
-        <Trans>Continue</Trans>
+        <Trans>Confirm and Continue</Trans>
       </Button>
     </form>
   )

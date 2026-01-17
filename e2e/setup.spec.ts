@@ -17,7 +17,7 @@ import {
   setupCommunity,
   type Community,
 } from './helpers/community'
-import { checkAlert, updateAppConfig } from './helpers/helpers'
+import { checkAlert, getAppConfig, updateAppConfig } from './helpers/helpers'
 import { stubDirectMailer, stubWebhookMailer } from './helpers/mailer'
 
 test.describe('Setup Solid pod', () => {
@@ -721,11 +721,13 @@ test.describe('Setup Solid pod', () => {
     test('should show option to create a new community folder, and join this community just fine', async ({
       page,
     }) => {
+      const config = await getAppConfig(page)
+
       await stubDirectMailer(page, { person })
       await signIn(page, person.account)
 
       await page.getByTestId('setup-step-0-continue').click()
-      await page.getByRole('radio', { name: 'new' }).check()
+      await page.getByRole('radio', { name: config.communityContainer }).check()
       await page.getByTestId('setup-step-1-continue').click()
 
       await expect(page.getByRole('link', { name: 'travel' })).toBeVisible()
