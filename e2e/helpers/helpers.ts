@@ -36,3 +36,13 @@ export const updateAppConfig = async (
   await expect(locator).toBeVisible()
   await page.evaluate(`globalThis.updateAppConfig(${JSON.stringify(config)})`)
 }
+
+export const getAppConfig = async (
+  page: Page,
+  { path = '/', locator }: { path?: string; locator?: Locator } = {},
+): Promise<ConfigType> => {
+  locator ??= page.getByRole('button', { name: 'Sign in' })
+  await page.goto(path)
+  await expect(locator).toBeVisible()
+  return await page.evaluate(`globalThis.appConfig`)
+}
