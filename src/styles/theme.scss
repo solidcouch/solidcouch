@@ -9,7 +9,8 @@
 :root,
 [data-theme='light'] {
   --background-color: #fff;
-  --background-color-raised: #12121212;
+  --background-color-raised: #eeeeee;
+  --background-color-overlay: #12121212;
   --text-color: #000;
   --text-color-disabled: black;
   --background-color-disabled: gray;
@@ -23,7 +24,8 @@
 
 [data-theme='dark'] {
   --background-color: #121212;
-  --background-color-raised: #ffffff12;
+  --background-color-raised: #232323;
+  --background-color-overlay: #ffffff12;
   --text-color: #fff;
   color-scheme: dark;
 }
@@ -45,6 +47,7 @@
   --space-6x: calc(6 * var(--space-1x));
   --space-8x: calc(8 * var(--space-1x));
   --space-16x: calc(16 * var(--space-1x));
+  --space-32x: calc(32 * var(--space-1x));
   /* page margin */
   --page-margin: var(--space-8x);
   @include media.for-tablet-portrait-up {

@@ -4,4 +4,15 @@
   left: 0;
   right: 0;
   background-color: var(--background-color-raised);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: var(--space-4x);
+  gap: var(--space-4x);
+
+  :last-child {
+    align-self: flex-end;
+  }
 }

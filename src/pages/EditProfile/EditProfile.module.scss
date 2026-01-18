@@ -18,6 +18,7 @@
 
 .container {
   gap: var(--space-8x);
+  margin-bottom: calc(2 * var(--space-16x));
 
   /* two columns on large screens */
   @include media.for-tablet-portrait-up {

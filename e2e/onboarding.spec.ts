@@ -1,13 +1,19 @@
 import { expect, Locator, Page, test } from '@playwright/test'
 import { createPerson, signIn, signOut } from './helpers/account'
 import { setupCommunity } from './helpers/community'
+import { updateAppConfig } from './helpers/helpers'
 
 const checkStepAndContinue = async (page: Page, i: number) => {
   const steps: {
-    url: RegExp
+    url?: RegExp
     text: string
-    locator: Locator
+    locator?: Locator
+    action?: string
   }[] = [
+    {
+      text: 'Welcome to',
+      action: 'get started',
+    },
     {
       url: /profile\/edit$/,
       text: 'Introduce yourself',
@@ -22,21 +28,21 @@ const checkStepAndContinue = async (page: Page, i: number) => {
       url: /travel\/search$/,
       text: 'Find people',
       locator: page.getByRole('button', { name: 'Zoom in' }),
+      action: 'finish',
     },
   ]
 
   const step = steps[i]
-  const isLast = i === 2
 
   if (!step) throw new Error('invalid step')
 
   const onboardingLocator = page.getByTestId('onboarding-panel')
 
-  await expect(page).toHaveURL(step.url)
+  if (step.url) await expect(page).toHaveURL(step.url)
   await expect(onboardingLocator).toContainText(step.text)
-  await expect(step.locator).toBeVisible()
+  if (step.locator) await expect(step.locator).toBeVisible()
   await onboardingLocator
-    .getByRole('button', { name: isLast ? 'Finish' : 'Next' })
+    .getByRole('button', { name: step.action ?? 'Next' })
     .click()
 }
 
@@ -46,6 +52,10 @@ const checkNoOnboarding = async (page: Page) => {
 }
 
 test.describe('onboarding after setup', () => {
+  test.beforeEach(async ({ page }) => {
+    await updateAppConfig(page, { emailNotificationsService: '' })
+  })
+
   test('onboarding panel should show after setup', async ({ page }) => {
     const community = await setupCommunity(page)
     const person = await createPerson({
@@ -60,6 +70,7 @@ test.describe('onboarding after setup', () => {
     await checkStepAndContinue(page, 0)
     await checkStepAndContinue(page, 1)
     await checkStepAndContinue(page, 2)
+    await checkStepAndContinue(page, 3)
     await checkNoOnboarding(page)
   })
 
@@ -79,6 +90,8 @@ test.describe('onboarding after setup', () => {
     await checkStepAndContinue(page, 1)
     await page.reload()
     await checkStepAndContinue(page, 2)
+    await page.reload()
+    await checkStepAndContinue(page, 3)
     await checkNoOnboarding(page)
     await page.reload()
     await checkNoOnboarding(page)
@@ -97,6 +110,7 @@ test.describe('onboarding after setup', () => {
 
     await checkStepAndContinue(page, 0)
     await checkStepAndContinue(page, 1)
+    await checkStepAndContinue(page, 2)
     await signOut(page)
     await signIn(page, person.account)
     await expect(page.getByRole('link', { name: 'travel' })).toBeVisible()

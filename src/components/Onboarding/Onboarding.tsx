@@ -1,17 +1,28 @@
+import { useConfig } from '@/config/hooks'
+import { useReadCommunity } from '@/hooks/data/useCommunity'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import * as uiSlice from '@/redux/uiSlice'
 import { Trans, useLingui } from '@lingui/react/macro'
+import clsx from 'clsx'
 import { ReactNode, useEffect, useMemo } from 'react'
 import { FaTimes } from 'react-icons/fa'
-import { Link, useNavigate } from 'react-router'
+import { NavLink, useNavigate } from 'react-router'
 import { Button } from '../Button/Button'
 import styles from './Onboarding.module.scss'
 
 const useOnboardingConfig = (): OnboardingStep[] => {
   const { t } = useLingui()
+  const { communityId } = useConfig()
+  const data = useReadCommunity(communityId)
+
+  const communityLabel = data.name || new URL(data.community).host
 
   return useMemo(
     (): OnboardingStep[] => [
+      {
+        description: t`Welcome to ${communityLabel}!`,
+        action: <Trans>Get started</Trans>,
+      },
       {
         // eslint-disable-next-line lingui/no-unlocalized-strings
         url: '/profile/edit',
@@ -28,13 +39,14 @@ const useOnboardingConfig = (): OnboardingStep[] => {
         description: t`Find people to stay with`,
       },
     ],
-    [t],
+    [communityLabel, t],
   )
 }
 
 interface OnboardingStep {
-  url: string
+  url?: string
   description: ReactNode
+  action?: ReactNode
 }
 
 export const Onboarding = () => {
@@ -75,7 +87,16 @@ export const Onboarding = () => {
         <FaTimes aria-hidden="true" />
       </Button>
       <p>
-        <Link to={stepConfig.url}>{stepConfig.description}</Link>
+        {stepConfig.url ? (
+          <NavLink
+            to={stepConfig.url}
+            className={({ isActive }) => clsx(isActive && styles.active)}
+          >
+            {stepConfig.description}
+          </NavLink>
+        ) : (
+          <span className={styles.active}>{stepConfig.description}</span>
+        )}
       </p>
       {isLastStep ? (
         <Button onClick={handleFinish} primary>
@@ -83,7 +104,7 @@ export const Onboarding = () => {
         </Button>
       ) : (
         <Button onClick={handleNext} primary>
-          <Trans>Next</Trans>
+          {stepConfig.action ?? <Trans>Next</Trans>}
         </Button>
       )}
     </aside>

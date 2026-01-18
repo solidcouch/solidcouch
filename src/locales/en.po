@@ -287,11 +287,11 @@ msgstr "fetching contacts"
 msgid "Fetching profile"
 msgstr "Fetching profile"
 
-#: src/components/Onboarding/Onboarding.tsx:28
+#: src/components/Onboarding/Onboarding.tsx:39
 msgid "Find people to stay with"
 msgstr "Find people to stay with"
 
-#: src/components/Onboarding/Onboarding.tsx:82
+#: src/components/Onboarding/Onboarding.tsx:103
 msgid "Finish"
 msgstr "Finish"
 
@@ -311,7 +311,11 @@ msgstr "focused logo of {name}"
 msgid "For safety, share only approximate location"
 msgstr "For safety, share only approximate location"
 
-#: src/components/Onboarding/Onboarding.tsx:70
+#: src/components/Onboarding/Onboarding.tsx:24
+msgid "Get started"
+msgstr "Get started"
+
+#: src/components/Onboarding/Onboarding.tsx:82
 msgid "Getting started"
 msgstr "Getting started"
 
@@ -373,7 +377,7 @@ msgstr "Interest removed"
 msgid "Interests"
 msgstr "Interests"
 
-#: src/components/Onboarding/Onboarding.tsx:18
+#: src/components/Onboarding/Onboarding.tsx:29
 msgid "Introduce yourself — it builds trust"
 msgstr "Introduce yourself — it builds trust"
 
@@ -492,7 +496,7 @@ msgstr "Need help?"
 msgid "New conversation with {people}"
 msgstr "New conversation with {people}"
 
-#: src/components/Onboarding/Onboarding.tsx:86
+#: src/components/Onboarding/Onboarding.tsx:107
 msgid "Next"
 msgstr "Next"
 
@@ -692,7 +696,7 @@ msgstr "Sign in to {communityName}"
 msgid "sign out"
 msgstr "sign out"
 
-#: src/components/Onboarding/Onboarding.tsx:74
+#: src/components/Onboarding/Onboarding.tsx:86
 msgid "Skip getting started"
 msgstr "Skip getting started"
 
@@ -819,6 +823,10 @@ msgid "We're verifying that everything is configured correctly."
 msgstr "We're verifying that everything is configured correctly."
 
 #: src/components/Onboarding/Onboarding.tsx:23
+msgid "Welcome to {communityLabel}!"
+msgstr "Welcome to {communityLabel}!"
+
+#: src/components/Onboarding/Onboarding.tsx:34
 msgid "Welcome travellers to your home — if you can"
 msgstr "Welcome travellers to your home — if you can"
 

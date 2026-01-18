@@ -287,11 +287,11 @@ msgstr "načítání kontaktů"
 msgid "Fetching profile"
 msgstr "Načítání profilu"
 
-#: src/components/Onboarding/Onboarding.tsx:28
+#: src/components/Onboarding/Onboarding.tsx:39
 msgid "Find people to stay with"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.tsx:82
+#: src/components/Onboarding/Onboarding.tsx:103
 msgid "Finish"
 msgstr ""
 
@@ -311,7 +311,11 @@ msgstr "zdůrazněné logo {name}"
 msgid "For safety, share only approximate location"
 msgstr "Kvůli bezpečí sdílejte pouze přibližnou polohu"
 
-#: src/components/Onboarding/Onboarding.tsx:70
+#: src/components/Onboarding/Onboarding.tsx:24
+msgid "Get started"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.tsx:82
 msgid "Getting started"
 msgstr ""
 
@@ -373,7 +377,7 @@ msgstr "Zájem odstraněn"
 msgid "Interests"
 msgstr "Zájmy"
 
-#: src/components/Onboarding/Onboarding.tsx:18
+#: src/components/Onboarding/Onboarding.tsx:29
 msgid "Introduce yourself — it builds trust"
 msgstr ""
 
@@ -492,7 +496,7 @@ msgstr "Potřebujete pomoc?"
 msgid "New conversation with {people}"
 msgstr "Nový rozhovor s {people}"
 
-#: src/components/Onboarding/Onboarding.tsx:86
+#: src/components/Onboarding/Onboarding.tsx:107
 msgid "Next"
 msgstr ""
 
@@ -692,7 +696,7 @@ msgstr "Přihlásit se do {communityName}"
 msgid "sign out"
 msgstr "odhlásit se"
 
-#: src/components/Onboarding/Onboarding.tsx:74
+#: src/components/Onboarding/Onboarding.tsx:86
 msgid "Skip getting started"
 msgstr ""
 
@@ -819,6 +823,10 @@ msgid "We're verifying that everything is configured correctly."
 msgstr "Ověřujeme, že je vše správně nastaveno."
 
 #: src/components/Onboarding/Onboarding.tsx:23
+msgid "Welcome to {communityLabel}!"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.tsx:34
 msgid "Welcome travellers to your home — if you can"
 msgstr ""
 
