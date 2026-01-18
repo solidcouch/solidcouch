@@ -12,7 +12,11 @@
   padding: var(--space-4x);
   gap: var(--space-4x);
 
-  :last-child {
-    align-self: flex-end;
+  .active {
+    font-weight: bold;
+  }
+
+  a:not(.active) {
+    text-decoration: underline;
   }
 }
