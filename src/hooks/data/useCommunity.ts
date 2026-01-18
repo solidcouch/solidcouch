@@ -1,12 +1,16 @@
 import { defaultLocale } from '@/config'
 import { HospexCommunityShapeType } from '@/ldo/hospexCommunity.shapeTypes'
 import { URI } from '@/types'
+import { removeHashFromURI } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLdhopQuery } from '@ldhop/react'
 import type { ObjectLike } from '@ldo/jsonld-dataset-proxy'
 import { createLdoDataset, languagesOf } from '@ldo/ldo'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { readCommunityMembersQuery, readCommunityQuery } from './queries'
+import { QueryKey } from './types'
+import { fetchRdfDocument } from './useRdfDocument'
 
 export const useIsMember = (userId: URI, communityId: URI) => {
   const { variables, isLoading } = useLdhopQuery(
@@ -38,6 +42,14 @@ export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
     ),
   )
 
+  const { data, error } = useQuery({
+    queryKey: [QueryKey.rdfDocument, removeHashFromURI(communityId)],
+    queryFn: () => fetchRdfDocument(removeHashFromURI(communityId)),
+    enabled: false,
+  })
+
+  const isError = !!error || data?.ok === false
+
   const community = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     variables // this is to keep variables in dependencies - to run this hook when data are fetched, because store remains the same object even when it changes
@@ -53,6 +65,7 @@ export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
 
   return useMemo(
     () => ({
+      isError,
       community: communityId,
       logo: community.logo?.map(({ '@id': logo }) => logo) ?? [],
       name,
@@ -66,6 +79,7 @@ export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
       about,
       community.logo,
       communityId,
+      isError,
       isLoading,
       name,
       pun,

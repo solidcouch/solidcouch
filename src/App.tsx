@@ -7,7 +7,10 @@ import { useTheme } from '@/hooks/useTheme.ts'
 import { Content, Header, Layout } from '@/layouts/Layout.tsx'
 import { actions } from '@/redux/authSlice.ts'
 import { useAppDispatch } from '@/redux/hooks.ts'
-import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser'
+import {
+  handleIncomingRedirect,
+  logout,
+} from '@inrupt/solid-client-authn-browser'
 import { Trans } from '@lingui/react/macro'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router'
@@ -28,11 +31,15 @@ export const App = () => {
 
   useEffect(() => {
     ;(async () => {
-      const session = await handleIncomingRedirect({
-        restorePreviousSession: true,
-      })
+      try {
+        const session = await handleIncomingRedirect({
+          restorePreviousSession: true,
+        })
 
-      if (session) dispatch(actions.signin(session))
+        if (session) dispatch(actions.signin(session))
+      } catch {
+        await logout()
+      }
     })()
   }, [dispatch])
 
