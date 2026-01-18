@@ -67,11 +67,11 @@ export const Onboarding = () => {
 
   return (
     <aside
-      aria-label={t`Setup guide`}
+      aria-label={t`Getting started`}
       className={styles.onboarding}
       data-testid={`onboarding-panel`}
     >
-      <Button aria-label={t`Skip setup`} onClick={handleSkip}>
+      <Button aria-label={t`Skip getting started`} onClick={handleSkip}>
         <FaTimes aria-hidden="true" />
       </Button>
       <p>

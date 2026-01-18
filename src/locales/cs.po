@@ -311,6 +311,10 @@ msgstr "zdůrazněné logo {name}"
 msgid "For safety, share only approximate location"
 msgstr "Kvůli bezpečí sdílejte pouze přibližnou polohu"
 
+#: src/components/Onboarding/Onboarding.tsx:70
+msgid "Getting started"
+msgstr ""
+
 #: src/pages/Profile/ManageContact.tsx:171
 msgid "Hi! I'd like to add you as a contact!"
 msgstr "Ahoj! Rád(a) bych tě přidal(a) do kontaktů!"
@@ -673,8 +677,8 @@ msgid "Setup email notifications"
 msgstr "Nastavit e-mailová upozornění"
 
 #: src/components/Onboarding/Onboarding.tsx:70
-msgid "Setup guide"
-msgstr ""
+#~ msgid "Setup guide"
+#~ msgstr ""
 
 #: src/components/SignIn/SignIn.tsx:29
 msgid "Sign in"
@@ -689,8 +693,12 @@ msgid "sign out"
 msgstr "odhlásit se"
 
 #: src/components/Onboarding/Onboarding.tsx:74
-msgid "Skip setup"
+msgid "Skip getting started"
 msgstr ""
+
+#: src/components/Onboarding/Onboarding.tsx:74
+#~ msgid "Skip setup"
+#~ msgstr ""
 
 #: src/pages/messages-old/MessagesOld.tsx:186
 msgid "Solid notification was sent"

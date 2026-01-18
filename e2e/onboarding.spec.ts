@@ -103,6 +103,25 @@ test.describe('onboarding after setup', () => {
     await checkNoOnboarding(page)
   })
 
+  test('onboarding panel can be closed', async ({ page }) => {
+    const community = await setupCommunity(page)
+    const person = await createPerson({
+      community,
+      skip: ['personalHospexDocument'],
+    })
+
+    await signIn(page, person.account)
+    await page.getByTestId(`setup-step-0-continue`).click()
+    await page.getByTestId(`setup-step-1-continue`).click()
+
+    await checkStepAndContinue(page, 0)
+    await page
+      .getByTestId('onboarding-panel')
+      .getByRole('button', { name: 'Skip getting started' })
+      .click()
+    await checkNoOnboarding(page)
+  })
+
   test('onboarding panel should not show after normal startup', async ({
     page,
   }) => {
