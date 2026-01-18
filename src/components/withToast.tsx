@@ -1,11 +1,7 @@
 import { Trans } from '@lingui/react/macro'
 import { ToastOptions, ToastPromiseParams, toast } from 'react-toastify'
 
-const withToast = async <
-  TData,
-  TError extends Error = Error,
-  TPending = unknown,
->(
+const withToast = <TData, TError extends Error = Error, TPending = unknown>(
   promise: Promise<TData>,
   { success, error, pending }: ToastPromiseParams<TData, TError, TPending>,
   options?: ToastOptions<TData>,
@@ -29,7 +25,7 @@ const withToast = async <
     options,
   )
 
-  return await promise
+  return promise
 }
 
 export { withToast }

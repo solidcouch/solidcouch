@@ -2,7 +2,7 @@ import { expect, Page, test } from '@playwright/test'
 import { Parser, Store } from 'n3'
 import { foaf, ldp, sioc, solid, space, vcard } from 'rdf-namespaces'
 import { generateAcl } from '../cypress/support/helpers/acl'
-import { processAcl } from '../src/utils/helpers'
+import { processAcl, removeHashFromURI } from '../src/utils/helpers'
 import {
   createPerson,
   createRandomAccount,
@@ -150,6 +150,25 @@ test.describe('Setup Solid pod', () => {
       await page.getByTestId(`setup-step-1-continue`).click()
       await checkAlert(page, 'Joining', false)
       await checkAlert(page, "Request failed: 418 I'm a teapot")
+    })
+
+    test('[community is down] should show error', async ({ page }) => {
+      const person = await createPerson({
+        community,
+        skip: ['joinCommunity'],
+      })
+      const config = await getAppConfig(page)
+      await page.route(removeHashFromURI(config.communityId), async route => {
+        if (['GET'].includes(route.request().method())) {
+          await route.abort('addressunreachable')
+        } else await route.fallback()
+      })
+      await stubDirectMailer(page, { person })
+      await signIn(page, person.account)
+      await page.getByTestId(`setup-step-0-continue`).click()
+      await checkAlert(page, 'Solid Pod is prepared')
+      await page.getByTestId(`setup-step-1-continue`).click()
+      await checkAlert(page, 'Community Solid Pod is not available', false)
     })
   })
 

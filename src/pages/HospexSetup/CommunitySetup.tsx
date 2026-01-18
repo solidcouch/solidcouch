@@ -16,9 +16,9 @@ import { hospex } from '@/utils/rdf-namespaces'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import styles from './CommunitySetup.module.scss'
 import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
-import styles from './HospexSetup.module.scss'
 import { SetupStatusKey } from './types'
 import { useToastError } from './useToastError'
 
@@ -104,8 +104,8 @@ export const CommunitySetup = ({
         )
       }
 
-      if (!isMember)
-        if (community.inbox)
+      if (!isMember) {
+        if (community.inbox) {
           await withToast(
             joinCommunity({
               actor: auth.webId!,
@@ -119,13 +119,17 @@ export const CommunitySetup = ({
               error: toastError,
             },
           )
-        else {
+        } else {
           await withToast(
-            (function () {
+            (async function () {
+              if (community.isError)
+                throw new Error(
+                  t`Community Solid Pod is not available at the moment.`,
+                )
               if (!community.groups[0])
-                throw new Error(t`Community does not have a group`)
+                throw new Error(t`Community does not have a group.`)
 
-              return joinGroupLegacy({
+              return await joinGroupLegacy({
                 person: auth.webId as URI,
                 group: community.groups[0],
               })
@@ -137,11 +141,12 @@ export const CommunitySetup = ({
             },
           )
         }
+      }
       onSuccess()
     },
   )
 
-  const communityLabel = community.name || communityId
+  const communityLabel = community.name || new URL(communityId).host
 
   return (
     <form onSubmit={handleFormSubmit}>

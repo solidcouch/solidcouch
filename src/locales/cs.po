@@ -125,8 +125,8 @@ msgstr "Kontroluji vaše nastavení..."
 msgid "Choose a Pod provider:"
 msgstr "Vyberte poskytovatele Podu:"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:163
-#: src/pages/HospexSetup/CommunitySetup.tsx:173
+#: src/pages/HospexSetup/CommunitySetup.tsx:168
+#: src/pages/HospexSetup/CommunitySetup.tsx:178
 msgid "Choose your community data storage:"
 msgstr ""
 
@@ -147,15 +147,19 @@ msgstr "Zavřít náhled hostingu"
 msgid "code"
 msgstr "kód"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:126
-msgid "Community does not have a group"
-msgstr "Komunita nemá žádnou skupinu"
+#: src/pages/HospexSetup/CommunitySetup.tsx:130
+msgid "Community does not have a group."
+msgstr ""
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:135
+#: src/pages/HospexSetup/CommunitySetup.tsx:139
 msgid "Community joined"
 msgstr ""
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:231
+#: src/pages/HospexSetup/CommunitySetup.tsx:127
+msgid "Community Solid Pod is not available at the moment."
+msgstr ""
+
+#: src/pages/HospexSetup/CommunitySetup.tsx:236
 #: src/pages/HospexSetup/WebidProfileSetup.tsx:197
 msgid "Confirm and Continue"
 msgstr ""
@@ -194,7 +198,7 @@ msgstr "Rozhovory s {people}"
 msgid "Create inbox:"
 msgstr "Vytvořit schránku:"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:200
+#: src/pages/HospexSetup/CommunitySetup.tsx:205
 msgid "Create new profile for this community:"
 msgstr ""
 
@@ -365,7 +369,7 @@ msgstr "Připojte se k {communityName}"
 msgid "Join Community"
 msgstr "Připojit se ke komunitě"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:150
+#: src/pages/HospexSetup/CommunitySetup.tsx:155
 msgid "Join community {communityLabel}"
 msgstr "Připojit se ke komunitě {communityLabel}"
 
@@ -374,7 +378,7 @@ msgid "Join request sent"
 msgstr ""
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:117
-#: src/pages/HospexSetup/CommunitySetup.tsx:134
+#: src/pages/HospexSetup/CommunitySetup.tsx:138
 msgid "Joining community"
 msgstr ""
 
@@ -382,7 +386,7 @@ msgstr ""
 msgid "Later"
 msgstr "Později"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:178
+#: src/pages/HospexSetup/CommunitySetup.tsx:183
 msgid "Link existing community profile:"
 msgstr ""
 
@@ -404,7 +408,7 @@ msgstr "načítání zájmů..."
 msgid "Loading previous messages"
 msgstr "Načítání předchozích zpráv"
 
-#: src/App.tsx:47
+#: src/App.tsx:54
 #: src/pages/messages-old/MessagesOld.tsx:213
 #: src/pages/MyOffers.tsx:95
 #: src/pages/Profile/ManageContact.tsx:26
@@ -680,7 +684,7 @@ msgstr ""
 msgid "Something went wrong: {failure}"
 msgstr ""
 
-#: src/components/withToast.tsx:20
+#: src/components/withToast.tsx:16
 msgid "Something went wrong."
 msgstr "Něco se nepovedlo."
 
@@ -787,7 +791,7 @@ msgstr "Pracujeme na tom"
 msgid "Write a message"
 msgstr "Napsat zprávu"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:154
+#: src/pages/HospexSetup/CommunitySetup.tsx:159
 msgid "You are already a member of {communityLabel}"
 msgstr "Již jste členem {communityLabel}"
 
@@ -799,7 +803,7 @@ msgstr "Můžete si také <0>provozovat vlastní Pod</0>."
 msgid "You can only read this chat."
 msgstr "Tento rozhovor můžete jen číst."
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:159
+#: src/pages/HospexSetup/CommunitySetup.tsx:164
 msgid "Your {communityLabel} data storage is set up."
 msgstr ""
 
