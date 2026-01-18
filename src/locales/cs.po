@@ -34,7 +34,7 @@ msgstr "<0>Ozvěte se nám v našich projektových prostorech</0> nebo napište 
 msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 msgstr "Potvrzovací e-mail byl odeslán na adresu {sentToEmail}.<0/>Zkontrolujte prosím svou schránku (i složku nevyžádané pošty) a postupujte podle pokynů."
 
-#: src/pages/EditProfile/EditProfile.tsx:172
+#: src/pages/EditProfile/EditProfile.tsx:177
 msgid "About me"
 msgstr "O mně"
 
@@ -117,7 +117,7 @@ msgstr "Zrušit"
 msgid "Chat channel was created"
 msgstr "Chatovací kanál byl vytvořen"
 
-#: src/pages/SetupOutlet.tsx:118
+#: src/pages/SetupOutlet.tsx:125
 msgid "Checking your setup..."
 msgstr "Kontroluji vaše nastavení..."
 
@@ -255,6 +255,10 @@ msgstr "Upravit"
 msgid "edit profile"
 msgstr "upravit profil"
 
+#: src/pages/EditProfile/EditProfile.tsx:76
+msgid "Edit profile"
+msgstr ""
+
 #: src/pages/HospexSetup/NotificationsSetup.tsx:159
 msgid "email address"
 msgstr "e-mailová adresa"
@@ -282,6 +286,14 @@ msgstr "načítání kontaktů"
 #: src/pages/EditProfile/EditProfile.tsx:69
 msgid "Fetching profile"
 msgstr "Načítání profilu"
+
+#: src/components/Onboarding/Onboarding.tsx:28
+msgid "Find people to stay with"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.tsx:82
+msgid "Finish"
+msgstr ""
 
 #: src/pages/HospexSetup/NotificationsSetup.tsx:146
 #: src/pages/HospexSetup/NotificationsSetup.tsx:189
@@ -353,9 +365,13 @@ msgstr "Schránka druhé osoby nebyla nalezena (pravděpodobně příliš brzy)"
 msgid "Interest removed"
 msgstr "Zájem odstraněn"
 
-#: src/pages/EditProfile/EditProfile.tsx:87
+#: src/pages/EditProfile/EditProfile.tsx:91
 msgid "Interests"
 msgstr "Zájmy"
+
+#: src/components/Onboarding/Onboarding.tsx:18
+msgid "Introduce yourself — it builds trust"
+msgstr ""
 
 #: src/pages/messages/ChatList.tsx:102
 msgid "Invitation"
@@ -365,7 +381,7 @@ msgstr ""
 msgid "Join {communityName}"
 msgstr "Připojte se k {communityName}"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:91
+#: src/pages/HospexSetup/HospexSetup.tsx:105
 msgid "Join Community"
 msgstr "Připojit se ke komunitě"
 
@@ -459,8 +475,8 @@ msgstr "mé ubytování"
 msgid "My location"
 msgstr "Moje poloha"
 
-#: src/pages/EditProfile/EditProfile.tsx:163
-#: src/pages/EditProfile/EditProfile.tsx:169
+#: src/pages/EditProfile/EditProfile.tsx:168
+#: src/pages/EditProfile/EditProfile.tsx:174
 msgid "Name"
 msgstr "Jméno"
 
@@ -471,6 +487,10 @@ msgstr "Potřebujete pomoc?"
 #: src/pages/messages/NewChat.tsx:129
 msgid "New conversation with {people}"
 msgstr "Nový rozhovor s {people}"
+
+#: src/components/Onboarding/Onboarding.tsx:86
+msgid "Next"
+msgstr ""
 
 #: src/pages/messages-old/MessagesOld.tsx:137
 msgid "No authenticated user available"
@@ -493,7 +513,7 @@ msgstr "Otevřít profil"
 msgid "pending"
 msgstr "čeká"
 
-#: src/pages/EditProfile/EditProfile.tsx:149
+#: src/pages/EditProfile/EditProfile.tsx:154
 msgid "Photo"
 msgstr "Fotka"
 
@@ -521,7 +541,7 @@ msgstr "Postaveno na <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgid "Preferences file is set up."
 msgstr "Soubor předvoleb je nastaven."
 
-#: src/pages/HospexSetup/HospexSetup.tsx:68
+#: src/pages/HospexSetup/HospexSetup.tsx:82
 msgid "Prepare Pod"
 msgstr "Připravte Pod"
 
@@ -554,7 +574,7 @@ msgstr "profil"
 msgid "Profile photo of {name}"
 msgstr "Profilová fotka {name}"
 
-#: src/pages/EditProfile/EditProfile.tsx:81
+#: src/pages/EditProfile/EditProfile.tsx:85
 msgid "Profile updated"
 msgstr "Profil aktualizován"
 
@@ -582,7 +602,7 @@ msgstr "Za {countdown}s znovu odeslat potvrzovací e-mail"
 msgid "Save"
 msgstr "Uložit"
 
-#: src/pages/EditProfile/EditProfile.tsx:189
+#: src/pages/EditProfile/EditProfile.tsx:194
 msgid "Save changes"
 msgstr "Uložit změny"
 
@@ -636,7 +656,7 @@ msgstr "Probíhá odesílání Solid upozornění"
 msgid "Session Expired!"
 msgstr "Platnost přihlášení vypršela!"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:105
+#: src/pages/HospexSetup/HospexSetup.tsx:119
 msgid "Set Up Notifications"
 msgstr "Nastavit oznámení"
 
@@ -644,13 +664,17 @@ msgstr "Nastavit oznámení"
 msgid "Setting up hospex data"
 msgstr ""
 
-#: src/pages/HospexSetup/HospexSetup.tsx:129
+#: src/pages/HospexSetup/HospexSetup.tsx:161
 msgid "Setup"
 msgstr "Nastavit"
 
 #: src/pages/HospexSetup/NotificationsSetup.tsx:253
 msgid "Setup email notifications"
 msgstr "Nastavit e-mailová upozornění"
+
+#: src/components/Onboarding/Onboarding.tsx:70
+msgid "Setup guide"
+msgstr ""
 
 #: src/components/SignIn/SignIn.tsx:29
 msgid "Sign in"
@@ -663,6 +687,10 @@ msgstr "Přihlásit se do {communityName}"
 #: src/components/SignOut.tsx:18
 msgid "sign out"
 msgstr "odhlásit se"
+
+#: src/components/Onboarding/Onboarding.tsx:74
+msgid "Skip setup"
+msgstr ""
 
 #: src/pages/messages-old/MessagesOld.tsx:186
 msgid "Solid notification was sent"
@@ -753,7 +781,7 @@ msgstr ""
 msgid "Updating accommodation"
 msgstr "Aktualizuji ubytování"
 
-#: src/pages/EditProfile/EditProfile.tsx:80
+#: src/pages/EditProfile/EditProfile.tsx:84
 msgid "Updating profile"
 msgstr "Aktualizuji profil"
 
@@ -778,9 +806,13 @@ msgstr ""
 "\n"
 "Chyba: {errorString}"
 
-#: src/pages/SetupOutlet.tsx:121
+#: src/pages/SetupOutlet.tsx:128
 msgid "We're verifying that everything is configured correctly."
 msgstr "Ověřujeme, že je vše správně nastaveno."
+
+#: src/components/Onboarding/Onboarding.tsx:23
+msgid "Welcome travellers to your home — if you can"
+msgstr ""
 
 #: src/pages/UnauthenticatedHome.tsx:63
 msgid "WIP"

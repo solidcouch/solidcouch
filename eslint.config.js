@@ -81,6 +81,7 @@ export default defineConfig(
             'as',
             'data-testid',
             'size',
+            'aria-hidden',
           ],
           ignoreFunctions: [
             'register',

@@ -1,4 +1,5 @@
 import { IconLoading } from '@/components/IconLoading'
+import { Onboarding } from '@/components/Onboarding/Onboarding'
 import { useConfig } from '@/config/hooks'
 import {
   useCheckEmailNotifications,
@@ -60,7 +61,13 @@ export const SetupOutlet = () => {
     (isSimpleEmailNotifications === true ||
       isSimpleEmailNotifications === 'unset')
 
-  if (isEverythingSetUp) return <Outlet />
+  if (isEverythingSetUp)
+    return (
+      <>
+        <Outlet />
+        <Onboarding />
+      </>
+    )
 
   const checks = Object.entries(tasks)
     .filter(([, value]) => value === undefined)

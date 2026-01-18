@@ -118,7 +118,7 @@ export const setupCommunity = async (
     name?: string
     about?: string
     pun?: string
-  },
+  } = {},
 ): Promise<Community> => {
   const community = await createCommunity({ name, about, pun })
   await setAppCommunity(page, community)
