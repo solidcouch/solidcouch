@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import * as uiSlice from '@/redux/uiSlice'
 import { Trans, useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
-import { ReactNode, useEffect, useMemo } from 'react'
+import { ReactNode, useEffect, useMemo, useRef } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { NavLink, useNavigate } from 'react-router'
 import { Button } from '../Button/Button'
@@ -73,12 +73,22 @@ export const Onboarding = () => {
     if (url) navigate(url)
   }, [navigate, url])
 
+  const actionRef = useRef<HTMLButtonElement>(null)
+
+  // focus on action button when this is the first step
+  useEffect(() => {
+    if (step === 0) {
+      actionRef.current?.focus()
+    }
+  }, [step])
+
   if (!stepConfig) return null
 
   const isLastStep = step === steps.length - 1
 
   return (
     <aside
+      aria-live="polite"
       aria-label={t`Getting started`}
       className={styles.onboarding}
       data-testid={`onboarding-panel`}
@@ -103,7 +113,7 @@ export const Onboarding = () => {
           <Trans>Finish</Trans>
         </Button>
       ) : (
-        <Button onClick={handleNext} primary>
+        <Button onClick={handleNext} primary ref={actionRef}>
           {stepConfig.action ?? <Trans>Next</Trans>}
         </Button>
       )}

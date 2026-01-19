@@ -291,7 +291,7 @@ msgstr "Načítání profilu"
 msgid "Find people to stay with"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.tsx:103
+#: src/components/Onboarding/Onboarding.tsx:113
 msgid "Finish"
 msgstr ""
 
@@ -315,7 +315,7 @@ msgstr "Kvůli bezpečí sdílejte pouze přibližnou polohu"
 msgid "Get started"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.tsx:82
+#: src/components/Onboarding/Onboarding.tsx:92
 msgid "Getting started"
 msgstr ""
 
@@ -496,7 +496,7 @@ msgstr "Potřebujete pomoc?"
 msgid "New conversation with {people}"
 msgstr "Nový rozhovor s {people}"
 
-#: src/components/Onboarding/Onboarding.tsx:107
+#: src/components/Onboarding/Onboarding.tsx:117
 msgid "Next"
 msgstr ""
 
@@ -696,7 +696,7 @@ msgstr "Přihlásit se do {communityName}"
 msgid "sign out"
 msgstr "odhlásit se"
 
-#: src/components/Onboarding/Onboarding.tsx:86
+#: src/components/Onboarding/Onboarding.tsx:96
 msgid "Skip getting started"
 msgstr ""
 

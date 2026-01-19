@@ -291,7 +291,7 @@ msgstr "Fetching profile"
 msgid "Find people to stay with"
 msgstr "Find people to stay with"
 
-#: src/components/Onboarding/Onboarding.tsx:103
+#: src/components/Onboarding/Onboarding.tsx:113
 msgid "Finish"
 msgstr "Finish"
 
@@ -315,7 +315,7 @@ msgstr "For safety, share only approximate location"
 msgid "Get started"
 msgstr "Get started"
 
-#: src/components/Onboarding/Onboarding.tsx:82
+#: src/components/Onboarding/Onboarding.tsx:92
 msgid "Getting started"
 msgstr "Getting started"
 
@@ -496,7 +496,7 @@ msgstr "Need help?"
 msgid "New conversation with {people}"
 msgstr "New conversation with {people}"
 
-#: src/components/Onboarding/Onboarding.tsx:107
+#: src/components/Onboarding/Onboarding.tsx:117
 msgid "Next"
 msgstr "Next"
 
@@ -696,7 +696,7 @@ msgstr "Sign in to {communityName}"
 msgid "sign out"
 msgstr "sign out"
 
-#: src/components/Onboarding/Onboarding.tsx:86
+#: src/components/Onboarding/Onboarding.tsx:96
 msgid "Skip getting started"
 msgstr "Skip getting started"
 

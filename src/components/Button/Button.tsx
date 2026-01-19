@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react'
+import { AnchorHTMLAttributes, ComponentPropsWithRef } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { IconType } from 'react-icons/lib'
 import { Link, LinkProps } from 'react-router'
@@ -19,7 +19,7 @@ export const Button = ({
   danger,
   className,
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps) => {
+}: ComponentPropsWithRef<'button'> & ButtonProps) => {
   return (
     <button
       className={clsx(
