@@ -34,7 +34,7 @@ msgstr "<0>Reach us in our project spaces</0> or write us email to <1>\"support 
 msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 msgstr "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 
-#: src/pages/EditProfile/EditProfile.tsx:172
+#: src/pages/EditProfile/EditProfile.tsx:177
 msgid "About me"
 msgstr "About me"
 
@@ -117,7 +117,7 @@ msgstr "Cancel"
 msgid "Chat channel was created"
 msgstr "Chat channel was created"
 
-#: src/pages/SetupOutlet.tsx:118
+#: src/pages/SetupOutlet.tsx:125
 msgid "Checking your setup..."
 msgstr "Checking your setup..."
 
@@ -255,6 +255,10 @@ msgstr "Edit"
 msgid "edit profile"
 msgstr "edit profile"
 
+#: src/pages/EditProfile/EditProfile.tsx:76
+msgid "Edit profile"
+msgstr "Edit profile"
+
 #: src/pages/HospexSetup/NotificationsSetup.tsx:159
 msgid "email address"
 msgstr "email address"
@@ -283,6 +287,14 @@ msgstr "fetching contacts"
 msgid "Fetching profile"
 msgstr "Fetching profile"
 
+#: src/components/Onboarding/Onboarding.tsx:39
+msgid "Find people to stay with"
+msgstr "Find people to stay with"
+
+#: src/components/Onboarding/Onboarding.tsx:113
+msgid "Finish"
+msgstr "Finish"
+
 #: src/pages/HospexSetup/NotificationsSetup.tsx:146
 #: src/pages/HospexSetup/NotificationsSetup.tsx:189
 #: src/pages/HospexSetup/NotificationsSetup.tsx:244
@@ -298,6 +310,14 @@ msgstr "focused logo of {name}"
 #: src/components/AccommodationForm/AccommodationForm.tsx:102
 msgid "For safety, share only approximate location"
 msgstr "For safety, share only approximate location"
+
+#: src/components/Onboarding/Onboarding.tsx:24
+msgid "Get started"
+msgstr "Get started"
+
+#: src/components/Onboarding/Onboarding.tsx:92
+msgid "Getting started"
+msgstr "Getting started"
 
 #: src/pages/Profile/ManageContact.tsx:171
 msgid "Hi! I'd like to add you as a contact!"
@@ -353,9 +373,13 @@ msgstr "Inbox of the other person not found (probably too soon)"
 msgid "Interest removed"
 msgstr "Interest removed"
 
-#: src/pages/EditProfile/EditProfile.tsx:87
+#: src/pages/EditProfile/EditProfile.tsx:91
 msgid "Interests"
 msgstr "Interests"
+
+#: src/components/Onboarding/Onboarding.tsx:29
+msgid "Introduce yourself — it builds trust"
+msgstr "Introduce yourself — it builds trust"
 
 #: src/pages/messages/ChatList.tsx:102
 msgid "Invitation"
@@ -365,7 +389,7 @@ msgstr "Invitation"
 msgid "Join {communityName}"
 msgstr "Join {communityName}"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:91
+#: src/pages/HospexSetup/HospexSetup.tsx:105
 msgid "Join Community"
 msgstr "Join Community"
 
@@ -459,8 +483,8 @@ msgstr "my hosting"
 msgid "My location"
 msgstr "My location"
 
-#: src/pages/EditProfile/EditProfile.tsx:163
-#: src/pages/EditProfile/EditProfile.tsx:169
+#: src/pages/EditProfile/EditProfile.tsx:168
+#: src/pages/EditProfile/EditProfile.tsx:174
 msgid "Name"
 msgstr "Name"
 
@@ -471,6 +495,10 @@ msgstr "Need help?"
 #: src/pages/messages/NewChat.tsx:129
 msgid "New conversation with {people}"
 msgstr "New conversation with {people}"
+
+#: src/components/Onboarding/Onboarding.tsx:117
+msgid "Next"
+msgstr "Next"
 
 #: src/pages/messages-old/MessagesOld.tsx:137
 msgid "No authenticated user available"
@@ -493,7 +521,7 @@ msgstr "Open profile"
 msgid "pending"
 msgstr "pending"
 
-#: src/pages/EditProfile/EditProfile.tsx:149
+#: src/pages/EditProfile/EditProfile.tsx:154
 msgid "Photo"
 msgstr "Photo"
 
@@ -521,7 +549,7 @@ msgstr "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgid "Preferences file is set up."
 msgstr "Preferences file is set up."
 
-#: src/pages/HospexSetup/HospexSetup.tsx:68
+#: src/pages/HospexSetup/HospexSetup.tsx:82
 msgid "Prepare Pod"
 msgstr "Prepare Pod"
 
@@ -554,7 +582,7 @@ msgstr "profile"
 msgid "Profile photo of {name}"
 msgstr "Profile photo of {name}"
 
-#: src/pages/EditProfile/EditProfile.tsx:81
+#: src/pages/EditProfile/EditProfile.tsx:85
 msgid "Profile updated"
 msgstr "Profile updated"
 
@@ -582,7 +610,7 @@ msgstr "Resend Confirmation Email in {countdown}s"
 msgid "Save"
 msgstr "Save"
 
-#: src/pages/EditProfile/EditProfile.tsx:189
+#: src/pages/EditProfile/EditProfile.tsx:194
 msgid "Save changes"
 msgstr "Save changes"
 
@@ -636,7 +664,7 @@ msgstr "Sending Solid notification"
 msgid "Session Expired!"
 msgstr "Session Expired!"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:105
+#: src/pages/HospexSetup/HospexSetup.tsx:119
 msgid "Set Up Notifications"
 msgstr "Set Up Notifications"
 
@@ -644,7 +672,7 @@ msgstr "Set Up Notifications"
 msgid "Setting up hospex data"
 msgstr "Setting up hospex data"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:129
+#: src/pages/HospexSetup/HospexSetup.tsx:161
 msgid "Setup"
 msgstr "Setup"
 
@@ -663,6 +691,10 @@ msgstr "Sign in to {communityName}"
 #: src/components/SignOut.tsx:18
 msgid "sign out"
 msgstr "sign out"
+
+#: src/components/Onboarding/Onboarding.tsx:96
+msgid "Skip getting started"
+msgstr "Skip getting started"
 
 #: src/pages/messages-old/MessagesOld.tsx:186
 msgid "Solid notification was sent"
@@ -753,7 +785,7 @@ msgstr "Unread"
 msgid "Updating accommodation"
 msgstr "Updating accommodation"
 
-#: src/pages/EditProfile/EditProfile.tsx:80
+#: src/pages/EditProfile/EditProfile.tsx:84
 msgid "Updating profile"
 msgstr "Updating profile"
 
@@ -778,9 +810,17 @@ msgstr ""
 "\n"
 "Error: {errorString}"
 
-#: src/pages/SetupOutlet.tsx:121
+#: src/pages/SetupOutlet.tsx:128
 msgid "We're verifying that everything is configured correctly."
 msgstr "We're verifying that everything is configured correctly."
+
+#: src/components/Onboarding/Onboarding.tsx:23
+msgid "Welcome to {communityLabel}!"
+msgstr "Welcome to {communityLabel}!"
+
+#: src/components/Onboarding/Onboarding.tsx:34
+msgid "Welcome travellers to your home — if you can"
+msgstr "Welcome travellers to your home — if you can"
 
 #: src/pages/UnauthenticatedHome.tsx:63
 msgid "WIP"

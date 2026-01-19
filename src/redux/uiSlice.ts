@@ -6,6 +6,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface UiState {
   theme: 'light' | 'dark'
   locale: string
+  onboarding: number
 }
 
 const getInitialLanguage = () => {
@@ -25,6 +26,7 @@ const initialState: UiState = {
     ? 'dark'
     : 'light',
   locale: getInitialLanguage(),
+  onboarding: Infinity,
 }
 
 const slice = createSlice({
@@ -36,6 +38,12 @@ const slice = createSlice({
     },
     changeLocale: (state, action: PayloadAction<string | undefined>) => {
       state.locale = action.payload ?? getInitialLanguage()
+    },
+    setOnboarding: (state, action: PayloadAction<number>) => {
+      state.onboarding = action.payload
+    },
+    setOnboardingNext: state => {
+      state.onboarding++
     },
   },
 })

@@ -71,24 +71,29 @@ export const EditProfile = () => {
     )
 
   return (
-    <div className={styles.container}>
-      <EditProfileForm
-        className={styles.form}
-        initialData={hospexProfile}
-        onSubmit={data =>
-          withToast(handleSaveProfile(data), {
-            pending: t`Updating profile`,
-            success: t`Profile updated`,
-          })
-        }
-      />
-      <div className={styles.interests}>
-        <label>
-          <Trans>Interests</Trans>
-        </label>
-        <EditInterests webId={auth.webId!} className={styles.editInterests} />
+    <>
+      <h1>
+        <Trans>Edit profile</Trans>
+      </h1>
+      <div className={styles.container}>
+        <EditProfileForm
+          className={styles.form}
+          initialData={hospexProfile}
+          onSubmit={data =>
+            withToast(handleSaveProfile(data), {
+              pending: t`Updating profile`,
+              success: t`Profile updated`,
+            })
+          }
+        />
+        <div className={styles.interests}>
+          <label>
+            <Trans>Interests</Trans>
+          </label>
+          <EditInterests webId={auth.webId!} className={styles.editInterests} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

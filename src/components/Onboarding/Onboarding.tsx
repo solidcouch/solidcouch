@@ -1,0 +1,122 @@
+import { useConfig } from '@/config/hooks'
+import { useReadCommunity } from '@/hooks/data/useCommunity'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import * as uiSlice from '@/redux/uiSlice'
+import { Trans, useLingui } from '@lingui/react/macro'
+import clsx from 'clsx'
+import { ReactNode, useEffect, useMemo, useRef } from 'react'
+import { FaTimes } from 'react-icons/fa'
+import { NavLink, useNavigate } from 'react-router'
+import { Button } from '../Button/Button'
+import styles from './Onboarding.module.scss'
+
+const useOnboardingConfig = (): OnboardingStep[] => {
+  const { t } = useLingui()
+  const { communityId } = useConfig()
+  const data = useReadCommunity(communityId)
+
+  const communityLabel = data.name || new URL(data.community).host
+
+  return useMemo(
+    (): OnboardingStep[] => [
+      {
+        description: t`Welcome to ${communityLabel}!`,
+        action: <Trans>Get started</Trans>,
+      },
+      {
+        // eslint-disable-next-line lingui/no-unlocalized-strings
+        url: '/profile/edit',
+        description: t`Introduce yourself — it builds trust`,
+      },
+      {
+        // eslint-disable-next-line lingui/no-unlocalized-strings
+        url: '/host/offers',
+        description: t`Welcome travellers to your home — if you can`,
+      },
+      {
+        // eslint-disable-next-line lingui/no-unlocalized-strings
+        url: '/travel/search',
+        description: t`Find people to stay with`,
+      },
+    ],
+    [communityLabel, t],
+  )
+}
+
+interface OnboardingStep {
+  url?: string
+  description: ReactNode
+  action?: ReactNode
+}
+
+export const Onboarding = () => {
+  const { t } = useLingui()
+  const steps = useOnboardingConfig()
+  const dispatch = useAppDispatch()
+  const step = useAppSelector(state => state.ui.onboarding)
+  const navigate = useNavigate()
+
+  const handleSkip = () => {
+    dispatch(uiSlice.actions.setOnboarding(Infinity))
+  }
+  const handleFinish = handleSkip
+
+  const handleNext = () => {
+    dispatch(uiSlice.actions.setOnboardingNext())
+  }
+
+  const stepConfig = useMemo(() => steps[step], [step, steps])
+
+  const url = stepConfig?.url
+
+  useEffect(() => {
+    if (url) navigate(url)
+  }, [navigate, url])
+
+  const actionRef = useRef<HTMLButtonElement>(null)
+
+  // focus on action button when this is the first step
+  useEffect(() => {
+    if (step === 0) {
+      actionRef.current?.focus()
+    }
+  }, [step])
+
+  if (!stepConfig) return null
+
+  const isLastStep = step === steps.length - 1
+
+  return (
+    <aside
+      aria-live="polite"
+      aria-label={t`Getting started`}
+      className={styles.onboarding}
+      data-testid={`onboarding-panel`}
+    >
+      <Button aria-label={t`Skip getting started`} onClick={handleSkip}>
+        <FaTimes aria-hidden="true" />
+      </Button>
+      <p>
+        {stepConfig.url ? (
+          <NavLink
+            to={stepConfig.url}
+            className={({ isActive }) => clsx(isActive && styles.active)}
+          >
+            {stepConfig.description}
+          </NavLink>
+        ) : (
+          <span className={styles.active}>{stepConfig.description}</span>
+        )}
+      </p>
+      {isLastStep ? (
+        <Button onClick={handleFinish} primary>
+          <Trans>Finish</Trans>
+        </Button>
+      ) : (
+        <Button onClick={handleNext} primary ref={actionRef}>
+          {stepConfig.action ?? <Trans>Next</Trans>}
+        </Button>
+      )}
+    </aside>
+  )
+}

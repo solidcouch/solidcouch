@@ -5,7 +5,7 @@
   background-color: gray;
   position: fixed;
   width: 100vw;
-  z-index: 10000;
+  z-index: 5;
   overflow: hidden;
 
   @include helpers.remove-page-margins;

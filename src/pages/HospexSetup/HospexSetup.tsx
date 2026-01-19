@@ -1,12 +1,14 @@
 import { useConfig } from '@/config/hooks'
 import { useStorage } from '@/hooks/data/useStorage'
 import { useAuth } from '@/hooks/useAuth'
+import { useAppDispatch } from '@/redux/hooks'
+import * as uiSlice from '@/redux/uiSlice'
 import { Trans } from '@lingui/react/macro'
 import clsx from 'clsx'
 import pick from 'lodash/pick'
 import { Term } from 'n3'
 import { Tabs } from 'radix-ui'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { CommunitySetup } from './CommunitySetup'
 import styles from './HospexSetup.module.scss'
@@ -50,13 +52,25 @@ const stepStatusKeys: (keyof SetupStatus)[][] = [
   ],
 ]
 
-export const HospexSetup = (
-  props: SetupStatus &
-    SetupConfig & { step: number; onStepChange: (step: number) => void },
-) => {
+export const HospexSetup = ({
+  onStepChange,
+  ...props
+}: SetupStatus &
+  SetupConfig & { step: number; onStepChange: (step: number) => void }) => {
   const stepStatus: boolean[] = stepStatusKeys
     .map(stepKeys => pick(props, stepKeys))
     .map(stepSetupValues => Object.values(stepSetupValues).every(a => a))
+
+  const dispatch = useAppDispatch()
+
+  const handleStepSuccess = useCallback(
+    (step: number) => {
+      // turn on onboarding
+      dispatch(uiSlice.actions.setOnboarding(0))
+      onStepChange(step + 1)
+    },
+    [dispatch, onStepChange],
+  )
 
   const auth = useAuth()
   const storage = useStorage(auth.webId!)
@@ -68,7 +82,7 @@ export const HospexSetup = (
         title: <Trans>Prepare Pod</Trans>,
         content: storage ? (
           <WebidProfileSetup
-            onSuccess={() => props.onStepChange(1)}
+            onSuccess={() => handleStepSuccess(0)}
             isPublicTypeIndex={props.isPublicTypeIndex}
             isPrivateTypeIndex={props.isPrivateTypeIndex}
             isPreferencesFile={props.isPreferencesFile}
@@ -91,7 +105,7 @@ export const HospexSetup = (
         title: <Trans>Join Community</Trans>,
         content: (
           <CommunitySetup
-            onSuccess={() => props.onStepChange(2)}
+            onSuccess={() => handleStepSuccess(1)}
             isMember={props.isMember}
             isHospexProfile={props.isHospexProfile}
             allHospex={props.allHospex}
@@ -113,12 +127,30 @@ export const HospexSetup = (
               )?.hospexDocument
             }
             inbox={props.inboxes.values().next().value?.value}
-            onSuccess={() => {}}
+            onSuccess={() => handleStepSuccess(2)}
           />
         ),
       },
     ],
-    [auth.webId, config.communityId, props, storage],
+    [
+      auth.webId,
+      config.communityId,
+      handleStepSuccess,
+      props.allHospex,
+      props.inboxes,
+      props.isEmailNotifications,
+      props.isHospexProfile,
+      props.isInbox,
+      props.isMember,
+      props.isPreferencesFile,
+      props.isPrivateTypeIndex,
+      props.isPublicTypeIndex,
+      props.isSimpleEmailNotifications,
+      props.preferencesFiles,
+      props.privateTypeIndexes,
+      props.publicTypeIndexes,
+      storage,
+    ],
   )
 
   if (!storage) return <>...</>
@@ -130,7 +162,7 @@ export const HospexSetup = (
       </h1>
       <Tabs.Root
         value={String(props.step)}
-        onValueChange={value => props.onStepChange(+value)}
+        onValueChange={value => onStepChange(+value)}
       >
         <Tabs.List className={styles.list} loop={false}>
           {steps.map((_, i) => {

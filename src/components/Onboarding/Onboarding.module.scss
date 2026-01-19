@@ -1,0 +1,23 @@
+.onboarding {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--background-color-raised);
+  z-index: 50;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: var(--space-4x);
+  gap: var(--space-4x);
+
+  .active {
+    font-weight: bold;
+  }
+
+  a:not(.active) {
+    text-decoration: underline;
+  }
+}
