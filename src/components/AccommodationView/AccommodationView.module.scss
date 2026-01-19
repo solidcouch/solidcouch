@@ -1,7 +1,13 @@
+@use '@/styles/media';
+
 .mapContainer {
-  width: 300px;
-  height: 300px;
-  max-width: 100%;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 100vh;
+
+  @include media.for-tablet-portrait-up {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 [data-theme='dark'] .mapContainer {

@@ -15,14 +15,19 @@
   }
 }
 
+.accommodation,
+.addAccommodationButton {
+  width: 48rem;
+  max-width: 100%;
+}
+
 .accommodation {
   border: 2px solid var(--text-color);
   border-radius: var(--radius-lg);
   padding: var(--space-4x);
   position: relative;
-  max-width: 100%;
-  width: calc(300px + var(--space-8x));
   display: flex;
+  align-items: stretch;
   flex-direction: column;
   gap: var(--space-4x);
   background-color: var(--background-color-raised);
@@ -52,15 +57,11 @@
 
   .actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: var(--space-4x);
     button {
+      max-width: 16rem;
       flex: auto;
     }
   }
-}
-
-.addAccommodationButton {
-  width: calc(300px + var(--space-8x) + 2 * 2px);
-  max-width: 100%;
 }
