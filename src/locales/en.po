@@ -680,10 +680,6 @@ msgstr "Setup"
 msgid "Setup email notifications"
 msgstr "Setup email notifications"
 
-#: src/components/Onboarding/Onboarding.tsx:70
-#~ msgid "Setup guide"
-#~ msgstr "Setup guide"
-
 #: src/components/SignIn/SignIn.tsx:29
 msgid "Sign in"
 msgstr "Sign in"
@@ -699,10 +695,6 @@ msgstr "sign out"
 #: src/components/Onboarding/Onboarding.tsx:96
 msgid "Skip getting started"
 msgstr "Skip getting started"
-
-#: src/components/Onboarding/Onboarding.tsx:74
-#~ msgid "Skip setup"
-#~ msgstr "Skip setup"
 
 #: src/pages/messages-old/MessagesOld.tsx:186
 msgid "Solid notification was sent"
