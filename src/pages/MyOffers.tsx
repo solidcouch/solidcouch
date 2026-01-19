@@ -1,4 +1,8 @@
 import { Button, Loading } from '@/components'
+import {
+  AccommodationItem,
+  NewAccommodation,
+} from '@/components/Accommodation/Accommodation'
 import { AccommodationForm } from '@/components/AccommodationForm/AccommodationForm.tsx'
 import { AccommodationView } from '@/components/AccommodationView/AccommodationView.tsx'
 import { withToast } from '@/components/withToast.tsx'
@@ -10,7 +14,7 @@ import { useNotifyGeoindex } from '@/hooks/data/useNotifyGeoindex'
 import { useReadAccommodations } from '@/hooks/data/useReadAccommodations'
 import { useUpdateAccommodation } from '@/hooks/data/useUpdateAccommodation'
 import { useAuth } from '@/hooks/useAuth'
-import { Accommodation, Location, URI } from '@/types'
+import { Accommodation, GeoCoordinates, URI } from '@/types'
 import { getContainer } from '@/utils/helpers'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { useCallback, useState } from 'react'
@@ -53,8 +57,8 @@ export const MyOffers = () => {
     }: {
       uri: string
       type: 'Create' | 'Update' | 'Delete'
-      previousLocation?: Location
-      currentLocation?: Location
+      previousLocation?: GeoCoordinates
+      currentLocation?: GeoCoordinates
     }) => {
       if (isGeoindexSetUp && auth.webId)
         await withToast(
@@ -177,45 +181,42 @@ export const MyOffers = () => {
         <FaDoorOpen size={32} /> <Trans>My Accommodation Offers</Trans>
       </h1>
       <ul style={{ display: 'contents' }}>
+        {accommodations.map(accommodation => (
+          <AccommodationItem editable uri={accommodation.id} />
+        ))}
         {accommodations.map(accommodation =>
           editing === accommodation.id ? (
-            <AccommodationForm
-              key={accommodation.id}
-              onSubmit={a => handleUpdate(a, accommodation)}
-              onCancel={() => {
-                setEditing(undefined)
-              }}
-              initialData={accommodation}
-            />
+            <li>
+              <AccommodationForm
+                key={accommodation.id}
+                onSubmit={a => handleUpdate(a, accommodation)}
+                onCancel={() => setEditing(undefined)}
+                initialData={accommodation}
+              />
+            </li>
           ) : (
-            <li
-              key={accommodation.id}
-              className={styles.accommodation}
-              data-testid="offer-accommodation-item"
-            >
-              <AccommodationView {...accommodation} />
-              <div className={styles.actions}>
-                <Button
-                  secondary
-                  onClick={() => {
-                    setEditing(accommodation.id)
-                  }}
-                >
-                  <Trans>Edit</Trans>
-                </Button>
-                <Button danger onClick={() => handleDelete(accommodation)}>
-                  <Trans>Delete</Trans>
-                </Button>
-              </div>
+            <li key={accommodation.id} data-testid="offer-accommodation-item">
+              <AccommodationView
+                accommodation={accommodation}
+                editable
+                onEdit={() => setEditing(accommodation.id)}
+                onDelete={() => handleDelete(accommodation)}
+              />
             </li>
           ),
         )}
       </ul>
       {editing === EditingOption.new ? (
-        <AccommodationForm
-          onSubmit={handleCreate}
-          onCancel={() => setEditing(undefined)}
-        />
+        <>
+          <NewAccommodation
+            onSuccess={() => setEditing(undefined)}
+            onCancel={() => setEditing(undefined)}
+          />
+          <AccommodationForm
+            onSubmit={handleCreate}
+            onCancel={() => setEditing(undefined)}
+          />
+        </>
       ) : (
         <Button
           primary

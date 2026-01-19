@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import { LocateControl } from './LocateControl'
 
 import { useConfig } from '@/config/hooks'
-import { Bounds, Location } from '@/types'
+import { Bounds, GeoCoordinates } from '@/types'
 import { useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
 import React, { useCallback, useEffect, useMemo } from 'react'
@@ -36,8 +36,8 @@ export const Move = ({
   onChange,
   onUpdate,
 }: {
-  onChange?: (location: Location, bounds: Bounds) => void
-  onUpdate?: (location: Location, bounds: Bounds) => void
+  onChange?: (location: GeoCoordinates, bounds: Bounds) => void
+  onUpdate?: (location: GeoCoordinates, bounds: Bounds) => void
 }) => {
   const map = useMap()
 
@@ -86,8 +86,8 @@ export const Move = ({
 }
 
 export const SelectLocation: React.FC<{
-  value: Location
-  onChange: (location: Location) => void
+  value: GeoCoordinates
+  onChange: (location: GeoCoordinates) => void
   isInitial?: boolean
   className?: string
 }> = ({ value, onChange, isInitial }) => {

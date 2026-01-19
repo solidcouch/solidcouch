@@ -2,7 +2,7 @@ import { ContactStatus } from '@/hooks/data/useContacts'
 
 export type URI = string
 
-export type Location = {
+export type GeoCoordinates = {
   lat: number
   long: number
 }
@@ -12,7 +12,7 @@ export type Bounds = { n: number; s: number; e: number; w: number }
 export interface Accommodation {
   id: URI
   description: LanguageString
-  location: Location
+  location: GeoCoordinates
   offeredBy: URI
 }
 
