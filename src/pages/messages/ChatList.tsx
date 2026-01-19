@@ -94,7 +94,13 @@ export const ChatList = () => {
             >
               <Link to={`/messages/${strict_uri_encode(chat['@id'])}`}>
                 {otherParticipants.map(participant => (
-                  <Person webId={participant} key={participant} size="2.5rem" />
+                  <Person
+                    webId={participant}
+                    key={participant}
+                    size="2.5rem"
+                    showName
+                    nameClassName={styles.name}
+                  />
                 ))}
                 {disconnected ? (
                   <FaExclamation
