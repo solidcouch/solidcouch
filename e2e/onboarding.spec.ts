@@ -86,13 +86,18 @@ test.describe('onboarding after setup', () => {
     await page.getByTestId(`setup-step-1-continue`).click()
 
     await checkStepAndContinue(page, 0)
+    // add timeouts because browser needs a short time to persist the step
+    await page.waitForTimeout(100)
     await page.reload()
     await checkStepAndContinue(page, 1)
+    await page.waitForTimeout(100)
     await page.reload()
     await checkStepAndContinue(page, 2)
+    await page.waitForTimeout(100)
     await page.reload()
     await checkStepAndContinue(page, 3)
     await checkNoOnboarding(page)
+    await page.waitForTimeout(100)
     await page.reload()
     await checkNoOnboarding(page)
   })
