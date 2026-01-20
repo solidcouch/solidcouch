@@ -191,7 +191,7 @@ export const MyOffers = () => {
             <li
               key={accommodation.id}
               className={styles.accommodation}
-              data-cy="offer-accommodation-item"
+              data-testid="offer-accommodation-item"
             >
               <AccommodationView {...accommodation} />
               <div className={styles.actions}>

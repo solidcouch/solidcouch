@@ -25,7 +25,7 @@ export const MainMenu = () => {
   return (
     <Menu
       menuButton={
-        <MenuButton data-cy="menu-button">
+        <MenuButton data-cy="menu-button" data-testid="user-menu-trigger">
           <Person webId={auth.webId!} size="2rem" />
         </MenuButton>
       }
