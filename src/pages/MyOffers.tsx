@@ -33,7 +33,11 @@ export const MyOffers = () => {
       </h1>
       <ul style={{ display: 'contents' }}>
         {accommodations.map(accommodation => (
-          <li key={accommodation.id} data-testid="offer-accommodation-item">
+          <li
+            key={accommodation.id}
+            data-testid="offer-accommodation-item"
+            className={styles.item}
+          >
             <AccommodationCard editable uri={accommodation.id} />
           </li>
         ))}
@@ -42,12 +46,13 @@ export const MyOffers = () => {
         <NewAccommodation
           onSuccess={() => setCreating(false)}
           onCancel={() => setCreating(false)}
+          className={styles.item}
         />
       ) : (
         <Button
           primary
           onClick={() => setCreating(true)}
-          className={styles.addAccommodationButton}
+          className={styles.item}
         >
           <Trans>Add Accommodation</Trans>
         </Button>

@@ -10,17 +10,19 @@ import { GeoCoordinates, URI, type Accommodation } from '@/types'
 import { getContainer } from '@/utils/helpers'
 import { useLingui } from '@lingui/react/macro'
 import { useCallback, useState } from 'react'
-import { AccommodationForm } from '../AccommodationForm/AccommodationForm'
-import { AccommodationView } from '../AccommodationView/AccommodationView'
 import { IconLoading } from '../IconLoading'
 import { withToast } from '../withToast'
+import { AccommodationForm } from './AccommodationForm'
+import { AccommodationView } from './AccommodationView'
 
 export const AccommodationCard = ({
   editable,
   uri,
+  className,
 }: {
   editable?: boolean
   uri: URI
+  className?: string
 }) => {
   const [editing, setEditing] = useState(false)
 
@@ -106,6 +108,7 @@ export const AccommodationCard = ({
         setEditing(false)
       }}
       initialData={accommodation}
+      className={className}
     />
   ) : (
     <AccommodationView
@@ -113,6 +116,7 @@ export const AccommodationCard = ({
       accommodation={accommodation}
       onEdit={() => setEditing(true)}
       onDelete={async () => await handleDelete()}
+      className={className}
     />
   )
 }
@@ -120,9 +124,11 @@ export const AccommodationCard = ({
 export const NewAccommodation = ({
   onSuccess,
   onCancel,
+  className,
 }: {
   onSuccess: () => void
   onCancel: () => void
+  className?: string
 }) => {
   const { t } = useLingui()
   const { communityId } = useConfig()
@@ -168,7 +174,13 @@ export const NewAccommodation = ({
     })
   }
 
-  return <AccommodationForm onCancel={onCancel} onSubmit={handleCreate} />
+  return (
+    <AccommodationForm
+      onCancel={onCancel}
+      onSubmit={handleCreate}
+      className={className}
+    />
+  )
 }
 
 const useNotifyGeoindexHandler = () => {

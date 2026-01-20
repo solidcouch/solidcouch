@@ -16,7 +16,6 @@ import {
   useMap,
   useMapEvent,
 } from 'react-leaflet'
-import styles from './AccommodationView/AccommodationView.module.scss'
 
 const normalizeLng = (lng: number) => (((lng % 360) - 180 * 3) % 360) + 180
 
@@ -90,7 +89,7 @@ export const SelectLocation: React.FC<{
   onChange: (location: GeoCoordinates) => void
   isInitial?: boolean
   className?: string
-}> = ({ value, onChange, isInitial }) => {
+}> = ({ value, onChange, isInitial, className }) => {
   const location = useMemo(
     () => [value.lat, value.long] as LatLngTuple,
     [value.lat, value.long],
@@ -107,7 +106,7 @@ export const SelectLocation: React.FC<{
       doubleClickZoom="center"
       touchZoom="center"
       // the string class is for targeting in CI tests
-      className={clsx(styles.mapContainer, 'accommodation-map-container-edit')}
+      className={clsx(className, 'accommodation-map-container-edit')}
     >
       <TileLayer url={tileServer} />
       <LocateControl

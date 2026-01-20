@@ -38,7 +38,7 @@ msgstr "Potvrzovací e-mail byl odeslán na adresu {sentToEmail}.<0/>Zkontrolujt
 msgid "About me"
 msgstr "O mně"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:125
+#: src/components/Accommodation/AccommodationForm.tsx:133
 msgid "About your hosting"
 msgstr "O vašem ubytování"
 
@@ -46,19 +46,19 @@ msgstr "O vašem ubytování"
 msgid "Accept"
 msgstr "Přijmout"
 
-#: src/components/Accommodation/Accommodation.tsx:210
+#: src/components/Accommodation/Accommodation.tsx:222
 msgid "Accommodation added to indexing service"
 msgstr "Ubytování přidáno do indexační služby"
 
-#: src/components/Accommodation/Accommodation.tsx:158
+#: src/components/Accommodation/Accommodation.tsx:164
 msgid "Accommodation created"
 msgstr "Ubytování vytvořeno"
 
-#: src/components/Accommodation/Accommodation.tsx:88
+#: src/components/Accommodation/Accommodation.tsx:90
 msgid "Accommodation deleted"
 msgstr "Ubytování odstraněno"
 
-#: src/components/Accommodation/Accommodation.tsx:71
+#: src/components/Accommodation/Accommodation.tsx:73
 msgid "Accommodation not found."
 msgstr ""
 
@@ -66,15 +66,15 @@ msgstr ""
 msgid "Accommodation offer from {offeredByIdentifier}"
 msgstr "Nabídka ubytování od {offeredByIdentifier}"
 
-#: src/components/Accommodation/Accommodation.tsx:214
+#: src/components/Accommodation/Accommodation.tsx:226
 msgid "Accommodation removed from indexing service"
 msgstr "Ubytování odebráno z indexační služby"
 
-#: src/components/Accommodation/Accommodation.tsx:51
+#: src/components/Accommodation/Accommodation.tsx:53
 msgid "Accommodation updated"
 msgstr "Ubytování aktualizováno"
 
-#: src/components/Accommodation/Accommodation.tsx:212
+#: src/components/Accommodation/Accommodation.tsx:224
 msgid "Accommodation updated in indexing service"
 msgstr "Ubytování aktualizováno v indexační službě"
 
@@ -86,7 +86,7 @@ msgstr "Přidat {locale}"
 msgid "Add a language"
 msgstr "Přidat jazyk"
 
-#: src/pages/MyOffers.tsx:52
+#: src/pages/MyOffers.tsx:57
 msgid "Add Accommodation"
 msgstr "Přidat ubytování"
 
@@ -111,7 +111,7 @@ msgstr "ověřování"
 msgid "Authenticating..."
 msgstr "Ověřování..."
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:151
+#: src/components/Accommodation/AccommodationForm.tsx:159
 #: src/components/LocaleTextInput/LocaleTextInput.tsx:188
 #: src/pages/Profile/ManageContact.tsx:192
 msgid "Cancel"
@@ -218,7 +218,7 @@ msgstr "Vytvořit soukromý index typů:"
 msgid "Create public type index:"
 msgstr "Vytvořit veřejný index typů:"
 
-#: src/components/Accommodation/Accommodation.tsx:157
+#: src/components/Accommodation/Accommodation.tsx:163
 msgid "Creating accommodation"
 msgstr "Vytváření ubytování"
 
@@ -230,15 +230,15 @@ msgstr "Nepodařilo se vytvořit kanál"
 msgid "Creating message"
 msgstr "Vytváření zprávy"
 
-#: src/components/AccommodationView/AccommodationView.tsx:79
+#: src/components/Accommodation/AccommodationView.tsx:81
 msgid "Delete"
 msgstr "Smazat"
 
-#: src/components/Accommodation/Accommodation.tsx:87
+#: src/components/Accommodation/Accommodation.tsx:89
 msgid "Deleting accommodation"
 msgstr "Mazání ubytování"
 
-#: src/components/Accommodation/Accommodation.tsx:66
+#: src/components/Accommodation/Accommodation.tsx:68
 msgid "Do you really want to delete the accommodation?"
 msgstr "Opravdu chcete smazat ubytování?"
 
@@ -250,7 +250,7 @@ msgstr "Ještě nemáte Solid Pod?"
 msgid "e.g. solidcommunity.net"
 msgstr "např. solidcommunity.net"
 
-#: src/components/AccommodationView/AccommodationView.tsx:76
+#: src/components/Accommodation/AccommodationView.tsx:78
 msgid "Edit"
 msgstr "Upravit"
 
@@ -311,7 +311,7 @@ msgstr "Dokončit nastavení"
 msgid "focused logo of {name}"
 msgstr "zdůrazněné logo {name}"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:102
+#: src/components/Accommodation/AccommodationForm.tsx:109
 msgid "For safety, share only approximate location"
 msgstr "Kvůli bezpečí sdílejte pouze přibližnou polohu"
 
@@ -348,7 +348,7 @@ msgstr "Hospex není nastaven (nemělo by se to stát)"
 msgid "host"
 msgstr "hostit"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:97
+#: src/components/Accommodation/AccommodationForm.tsx:104
 msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Lokalita hostování (klikněte na <0/> nebo přetáhněte a přibližte mapu)"
 
@@ -466,7 +466,7 @@ msgstr "Zprávy s {personLabel}"
 msgid "Messages with <0/>"
 msgstr "Zprávy s <0/>"
 
-#: src/components/Accommodation/Accommodation.tsx:145
+#: src/components/Accommodation/Accommodation.tsx:151
 msgid "missing variables"
 msgstr "chybějící proměnné"
 
@@ -511,7 +511,7 @@ msgstr "Není dostupný žádný autentizovaný uživatel"
 msgid "No hospex document for community"
 msgstr ""
 
-#: src/components/Accommodation/Accommodation.tsx:205
+#: src/components/Accommodation/Accommodation.tsx:217
 msgid "Notifying indexing service"
 msgstr "Probíhá oznámení indexační službě"
 
@@ -536,7 +536,7 @@ msgstr "Prosím, <0>založte nový</0>."
 msgid "Please invite only people you know personally."
 msgstr "Pozvěte prosím pouze lidi, které osobně znáte."
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:120
+#: src/components/Accommodation/AccommodationForm.tsx:128
 msgid "Please move map to your hosting location"
 msgstr "Prosím, přesuňte mapu na místo vašeho hostování"
 
@@ -544,7 +544,7 @@ msgstr "Prosím, přesuňte mapu na místo vašeho hostování"
 msgid "Please verify your email"
 msgstr "Ověřte prosím svůj e-mail"
 
-#: src/components/Accommodation/Accommodation.tsx:74
+#: src/components/Accommodation/Accommodation.tsx:76
 msgid "Please wait for everything to load."
 msgstr ""
 
@@ -613,7 +613,7 @@ msgstr ""
 msgid "Resend Confirmation Email in {countdown}s"
 msgstr "Za {countdown}s znovu odeslat potvrzovací e-mail"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:154
+#: src/components/Accommodation/AccommodationForm.tsx:162
 msgid "Save"
 msgstr "Uložit"
 
@@ -625,7 +625,7 @@ msgstr "Uložit změny"
 msgid "See contact invitation"
 msgstr "Zobrazit pozvánku ke kontaktu"
 
-#: src/components/SelectLocation.tsx:114
+#: src/components/SelectLocation.tsx:113
 msgid "Select my location"
 msgstr "Vyberte mou polohu"
 
@@ -748,7 +748,7 @@ msgstr "Přepnout na tmavé téma"
 msgid "Switch to light theme"
 msgstr "Přepnout na světlé téma"
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:134
+#: src/components/Accommodation/AccommodationForm.tsx:142
 msgid "Tell others about your place and hosting"
 msgstr "Povězte ostatním o svém místě a hostování"
 
@@ -760,7 +760,7 @@ msgstr "Vypadá to, že tady není žádný rozhovor."
 msgid "This chat has outdated format."
 msgstr "Tento rozhovor má zastaralý formát."
 
-#: src/components/AccommodationForm/AccommodationForm.tsx:145
+#: src/components/Accommodation/AccommodationForm.tsx:153
 msgid "This field is required"
 msgstr "Toto pole je povinné"
 
@@ -780,7 +780,7 @@ msgstr "Abyste se mohli připojit k {communityName}, potřebujete <0>Solid Pod</
 msgid "travel"
 msgstr "cestovat"
 
-#: src/components/Accommodation/Accommodation.tsx:216
+#: src/components/Accommodation/Accommodation.tsx:228
 msgid "Unexpected status code from indexing service"
 msgstr "Neočekávaný stavový kód od indexační služby"
 
@@ -788,7 +788,7 @@ msgstr "Neočekávaný stavový kód od indexační služby"
 msgid "Unread"
 msgstr ""
 
-#: src/components/Accommodation/Accommodation.tsx:50
+#: src/components/Accommodation/Accommodation.tsx:52
 msgid "Updating accommodation"
 msgstr "Aktualizuji ubytování"
 

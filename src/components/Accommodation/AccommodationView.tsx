@@ -1,10 +1,10 @@
 import { Button } from '@/components'
 import { useConfig } from '@/config/hooks'
-import sharedStyles from '@/pages/MyOffers.module.scss'
 import { useAppSelector } from '@/redux/hooks'
 import { selectLocale } from '@/redux/uiSlice'
 import type { Accommodation } from '@/types'
 import { Trans } from '@lingui/react/macro'
+import clsx from 'clsx'
 import { LatLngTuple } from 'leaflet'
 import { useEffect, useMemo } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
@@ -27,11 +27,13 @@ export const AccommodationView = ({
   onDelete,
   accommodation,
   editable,
+  className,
 }: {
   accommodation: Accommodation
   onEdit?: () => void
   onDelete?: () => void
   editable?: boolean
+  className?: string
 }) => {
   const { tileServer } = useConfig()
   const locale = useAppSelector(selectLocale)
@@ -42,7 +44,7 @@ export const AccommodationView = ({
   )
 
   return (
-    <div className={sharedStyles.accommodation}>
+    <div className={clsx(styles.accommodation, className)}>
       <MapContainer
         className={styles.mapContainer}
         attributionControl={false}
@@ -71,7 +73,7 @@ export const AccommodationView = ({
       </a>
 
       {editable ? (
-        <div className={sharedStyles.actions}>
+        <div className={styles.actions}>
           <Button secondary onClick={onEdit}>
             <Trans>Edit</Trans>
           </Button>
