@@ -13,55 +13,9 @@
   .header {
     align-self: start;
   }
-}
 
-.accommodation,
-.addAccommodationButton {
-  width: 48rem;
-  max-width: 100%;
-}
-
-.accommodation {
-  border: 2px solid var(--text-color);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4x);
-  position: relative;
-  display: flex;
-  align-items: stretch;
-  flex-direction: column;
-  gap: var(--space-4x);
-  background-color: var(--background-color-raised);
-
-  &.accommodationForm {
-    border-color: purple;
-  }
-
-  label {
-    font-size: var(--font-size-secondary);
-    margin-bottom: calc(-1 * var(--space-4x));
-  }
-
-  .errorMessage {
-    font-size: var(--font-size-secondary);
-    color: red;
-    margin-top: calc(-1 * var(--space-4x));
-  }
-
-  .inputError {
-    border: 2px solid red;
-  }
-
-  textarea {
-    width: 100%;
-  }
-
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--space-4x);
-    button {
-      max-width: 16rem;
-      flex: auto;
-    }
+  .item {
+    width: 48rem;
+    max-width: 100%;
   }
 }

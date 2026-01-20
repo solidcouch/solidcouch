@@ -14,7 +14,11 @@ export const generateRandomString = (length: number): string => {
   return randomString.replace(/\s+/g, ' ').trim()
 }
 
-export const checkAlert = async (page: Page, text: string, close = true) => {
+export const checkAlert = async (
+  page: Page,
+  text: string | RegExp,
+  close = true,
+) => {
   const alertLocator = page.getByRole('alert').filter({ hasText: text })
 
   await expect(alertLocator).toBeVisible()

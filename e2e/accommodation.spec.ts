@@ -259,10 +259,14 @@ test.describe('accommodations offered by person', () => {
         .fill('This is a new description in English')
       await page.getByRole('button', { name: 'Save' }).click()
 
-      await checkAlert(page, 'Creating accommodation', false)
-      await checkAlert(page, 'Notifying indexing service', false)
-      await checkAlert(page, 'Accommodation created')
-      await checkAlert(page, 'Accommodation added to indexing service')
+      await Promise.all([
+        checkAlert(page, 'Creating accommodation', false).then(() =>
+          checkAlert(page, 'Accommodation created'),
+        ),
+        checkAlert(page, 'Notifying indexing service', false).then(() =>
+          checkAlert(page, 'Accommodation added to indexing service'),
+        ),
+      ])
 
       const geoindexRequest = await geoindexRequestPromise
       expect(geoindexRequest.postDataJSON()).toMatchObject({
@@ -305,10 +309,14 @@ test.describe('accommodations offered by person', () => {
 
       await page.getByRole('button', { name: 'Save' }).click()
 
-      await checkAlert(page, 'Updating accommodation', false)
-      await checkAlert(page, 'Notifying indexing service', false)
-      await checkAlert(page, 'Accommodation updated')
-      await checkAlert(page, 'Accommodation updated in indexing service')
+      await Promise.all([
+        checkAlert(page, 'Updating accommodation', false).then(() =>
+          checkAlert(page, /Accommodation updated$/),
+        ),
+        checkAlert(page, 'Notifying indexing service', false).then(() =>
+          checkAlert(page, 'Accommodation updated in indexing service'),
+        ),
+      ])
 
       const geoindexRequest = await geoindexRequestPromise
       expect(geoindexRequest.postDataJSON()).toMatchObject({
@@ -343,10 +351,14 @@ test.describe('accommodations offered by person', () => {
         .getByRole('button', { name: 'Delete' })
         .click()
 
-      await checkAlert(page, 'Deleting accommodation', false)
-      await checkAlert(page, 'Notifying indexing service', false)
-      await checkAlert(page, 'Accommodation deleted')
-      await checkAlert(page, 'Accommodation removed from indexing service')
+      await Promise.all([
+        checkAlert(page, 'Deleting accommodation', false).then(() =>
+          checkAlert(page, 'Accommodation deleted'),
+        ),
+        checkAlert(page, 'Notifying indexing service', false).then(() =>
+          checkAlert(page, 'Accommodation removed from indexing service'),
+        ),
+      ])
 
       const geoindexRequest = await geoindexRequestPromise
       expect(geoindexRequest.postDataJSON()).toMatchObject({

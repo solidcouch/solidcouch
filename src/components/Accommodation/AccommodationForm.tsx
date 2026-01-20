@@ -1,6 +1,5 @@
 import { Button } from '@/components'
 import { SelectLocation } from '@/components/SelectLocation.tsx'
-import styles from '@/pages/MyOffers.module.scss'
 import { useAppSelector } from '@/redux/hooks'
 import { selectLocale } from '@/redux/uiSlice'
 import { Accommodation } from '@/types'
@@ -12,6 +11,8 @@ import merge from 'lodash/merge'
 import { Controller, useForm } from 'react-hook-form'
 import { FaExclamationTriangle, FaLocationArrow } from 'react-icons/fa'
 import { LocaleTextInput } from '../LocaleTextInput/LocaleTextInput'
+import styles from './AccommodationForm.module.scss'
+import sharedStyles from './AccommodationView.module.scss'
 
 const validationSchema: JSONSchemaType<
   Pick<Accommodation, 'location' | 'description'>
@@ -59,10 +60,12 @@ export const AccommodationForm = ({
   initialData,
   onSubmit,
   onCancel,
+  className,
 }: {
   initialData?: Partial<Accommodation>
   onSubmit: (data: Accommodation) => void
   onCancel: () => void
+  className?: string
 }) => {
   const { t } = useLingui()
   const locale = useAppSelector(selectLocale)
@@ -90,7 +93,11 @@ export const AccommodationForm = ({
     <form
       onSubmit={handleFormSubmit}
       onReset={onCancel}
-      className={clsx(styles.accommodationForm, styles.accommodation)}
+      className={clsx(
+        styles.accommodationForm,
+        sharedStyles.accommodation,
+        className,
+      )}
       data-testid="accommodation-form"
     >
       <label>
@@ -108,6 +115,7 @@ export const AccommodationForm = ({
         render={({ field }) => (
           <div className={clsx(errors.location && styles.inputError)}>
             <SelectLocation
+              className={sharedStyles.mapContainer}
               value={field.value!}
               onChange={field.onChange}
               isInitial={!initialData}
@@ -146,7 +154,7 @@ export const AccommodationForm = ({
         </div>
       )}
 
-      <div className={styles.actions}>
+      <div className={sharedStyles.actions}>
         <Button type="reset" secondary>
           <Trans>Cancel</Trans>
         </Button>

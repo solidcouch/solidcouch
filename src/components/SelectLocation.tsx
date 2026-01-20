@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import { LocateControl } from './LocateControl'
 
 import { useConfig } from '@/config/hooks'
-import { Bounds, Location } from '@/types'
+import { Bounds, GeoCoordinates } from '@/types'
 import { useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
 import React, { useCallback, useEffect, useMemo } from 'react'
@@ -16,7 +16,6 @@ import {
   useMap,
   useMapEvent,
 } from 'react-leaflet'
-import styles from './AccommodationView/AccommodationView.module.scss'
 
 const normalizeLng = (lng: number) => (((lng % 360) - 180 * 3) % 360) + 180
 
@@ -36,8 +35,8 @@ export const Move = ({
   onChange,
   onUpdate,
 }: {
-  onChange?: (location: Location, bounds: Bounds) => void
-  onUpdate?: (location: Location, bounds: Bounds) => void
+  onChange?: (location: GeoCoordinates, bounds: Bounds) => void
+  onUpdate?: (location: GeoCoordinates, bounds: Bounds) => void
 }) => {
   const map = useMap()
 
@@ -86,11 +85,11 @@ export const Move = ({
 }
 
 export const SelectLocation: React.FC<{
-  value: Location
-  onChange: (location: Location) => void
+  value: GeoCoordinates
+  onChange: (location: GeoCoordinates) => void
   isInitial?: boolean
   className?: string
-}> = ({ value, onChange, isInitial }) => {
+}> = ({ value, onChange, isInitial, className }) => {
   const location = useMemo(
     () => [value.lat, value.long] as LatLngTuple,
     [value.lat, value.long],
@@ -107,7 +106,7 @@ export const SelectLocation: React.FC<{
       doubleClickZoom="center"
       touchZoom="center"
       // the string class is for targeting in CI tests
-      className={clsx(styles.mapContainer, 'accommodation-map-container-edit')}
+      className={clsx(className, 'accommodation-map-container-edit')}
     >
       <TileLayer url={tileServer} />
       <LocateControl

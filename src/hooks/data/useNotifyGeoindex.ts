@@ -1,5 +1,5 @@
 import { useConfig } from '@/config/hooks'
-import { Location } from '@/types'
+import { GeoCoordinates } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -24,8 +24,8 @@ const notifyGeoindex =
   (service: string) =>
   async (
     data: NotificationData & {
-      previousLocation?: Location
-      currentLocation?: Location
+      previousLocation?: GeoCoordinates
+      currentLocation?: GeoCoordinates
     },
   ) => {
     const response = await fetch(new URL('/inbox', service), {
@@ -90,8 +90,8 @@ export const useNotifyGeoindex = () => {
   const run = useCallback(
     async (
       data: NotificationData & {
-        previousLocation?: Location
-        currentLocation?: Location
+        previousLocation?: GeoCoordinates
+        currentLocation?: GeoCoordinates
       },
     ) => await mutateAsync(data),
     [mutateAsync],

@@ -1,0 +1,43 @@
+@use '@/styles/media';
+
+.mapContainer {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 100vh;
+
+  @include media.for-tablet-portrait-up {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+[data-theme='dark'] .mapContainer {
+  filter: invert(90%) hue-rotate(180deg) brightness(0.8);
+}
+
+.description {
+  width: 100%;
+  white-space: pre-line;
+}
+
+.accommodation {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  gap: var(--space-4x);
+
+  border: 2px solid var(--text-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4x);
+  position: relative;
+  background-color: var(--background-color-raised);
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-4x);
+    button {
+      max-width: 16rem;
+      flex: auto;
+    }
+  }
+}
