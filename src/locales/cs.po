@@ -46,35 +46,35 @@ msgstr "O vašem ubytování"
 msgid "Accept"
 msgstr "Přijmout"
 
-#: src/components/Accommodation/Accommodation.tsx:95
-#: src/pages/MyOffers.tsx:78
+#: src/components/Accommodation/Accommodation.tsx:210
 msgid "Accommodation added to indexing service"
 msgstr "Ubytování přidáno do indexační služby"
 
-#: src/components/Accommodation/Accommodation.tsx:126
-#: src/pages/MyOffers.tsx:118
+#: src/components/Accommodation/Accommodation.tsx:158
 msgid "Accommodation created"
 msgstr "Ubytování vytvořeno"
 
-#: src/pages/MyOffers.tsx:166
+#: src/components/Accommodation/Accommodation.tsx:88
 msgid "Accommodation deleted"
 msgstr "Ubytování odstraněno"
+
+#: src/components/Accommodation/Accommodation.tsx:71
+msgid "Accommodation not found."
+msgstr ""
 
 #: src/pages/SearchHosts/SearchHosts.tsx:102
 msgid "Accommodation offer from {offeredByIdentifier}"
 msgstr "Nabídka ubytování od {offeredByIdentifier}"
 
-#: src/components/Accommodation/Accommodation.tsx:99
-#: src/pages/MyOffers.tsx:82
+#: src/components/Accommodation/Accommodation.tsx:214
 msgid "Accommodation removed from indexing service"
 msgstr "Ubytování odebráno z indexační služby"
 
-#: src/pages/MyOffers.tsx:137
+#: src/components/Accommodation/Accommodation.tsx:51
 msgid "Accommodation updated"
 msgstr "Ubytování aktualizováno"
 
-#: src/components/Accommodation/Accommodation.tsx:97
-#: src/pages/MyOffers.tsx:80
+#: src/components/Accommodation/Accommodation.tsx:212
 msgid "Accommodation updated in indexing service"
 msgstr "Ubytování aktualizováno v indexační službě"
 
@@ -86,7 +86,7 @@ msgstr "Přidat {locale}"
 msgid "Add a language"
 msgstr "Přidat jazyk"
 
-#: src/pages/MyOffers.tsx:226
+#: src/pages/MyOffers.tsx:52
 msgid "Add Accommodation"
 msgstr "Přidat ubytování"
 
@@ -218,8 +218,7 @@ msgstr "Vytvořit soukromý index typů:"
 msgid "Create public type index:"
 msgstr "Vytvořit veřejný index typů:"
 
-#: src/components/Accommodation/Accommodation.tsx:125
-#: src/pages/MyOffers.tsx:117
+#: src/components/Accommodation/Accommodation.tsx:157
 msgid "Creating accommodation"
 msgstr "Vytváření ubytování"
 
@@ -235,11 +234,11 @@ msgstr "Vytváření zprávy"
 msgid "Delete"
 msgstr "Smazat"
 
-#: src/pages/MyOffers.tsx:165
+#: src/components/Accommodation/Accommodation.tsx:87
 msgid "Deleting accommodation"
 msgstr "Mazání ubytování"
 
-#: src/pages/MyOffers.tsx:154
+#: src/components/Accommodation/Accommodation.tsx:66
 msgid "Do you really want to delete the accommodation?"
 msgstr "Opravdu chcete smazat ubytování?"
 
@@ -439,7 +438,7 @@ msgstr "Načítání předchozích zpráv"
 
 #: src/App.tsx:54
 #: src/pages/messages-old/MessagesOld.tsx:213
-#: src/pages/MyOffers.tsx:99
+#: src/pages/MyOffers.tsx:25
 #: src/pages/Profile/ManageContact.tsx:26
 #: src/pages/SearchHosts/AccommodationInfo.tsx:51
 msgid "Loading..."
@@ -467,9 +466,7 @@ msgstr "Zprávy s {personLabel}"
 msgid "Messages with <0/>"
 msgstr "Zprávy s <0/>"
 
-#: src/components/Accommodation/Accommodation.tsx:113
-#: src/pages/MyOffers.tsx:105
-#: src/pages/MyOffers.tsx:151
+#: src/components/Accommodation/Accommodation.tsx:145
 msgid "missing variables"
 msgstr "chybějící proměnné"
 
@@ -477,7 +474,7 @@ msgstr "chybějící proměnné"
 msgid "more"
 msgstr "více"
 
-#: src/pages/MyOffers.tsx:181
+#: src/pages/MyOffers.tsx:32
 msgid "My Accommodation Offers"
 msgstr "Moje nabídky ubytování"
 
@@ -514,8 +511,7 @@ msgstr "Není dostupný žádný autentizovaný uživatel"
 msgid "No hospex document for community"
 msgstr ""
 
-#: src/components/Accommodation/Accommodation.tsx:90
-#: src/pages/MyOffers.tsx:73
+#: src/components/Accommodation/Accommodation.tsx:205
 msgid "Notifying indexing service"
 msgstr "Probíhá oznámení indexační službě"
 
@@ -547,6 +543,10 @@ msgstr "Prosím, přesuňte mapu na místo vašeho hostování"
 #: src/pages/HospexSetup/NotificationsSetup.tsx:267
 msgid "Please verify your email"
 msgstr "Ověřte prosím svůj e-mail"
+
+#: src/components/Accommodation/Accommodation.tsx:74
+msgid "Please wait for everything to load."
+msgstr ""
 
 #: src/pages/UnauthenticatedHome.tsx:66
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
@@ -780,8 +780,7 @@ msgstr "Abyste se mohli připojit k {communityName}, potřebujete <0>Solid Pod</
 msgid "travel"
 msgstr "cestovat"
 
-#: src/components/Accommodation/Accommodation.tsx:101
-#: src/pages/MyOffers.tsx:84
+#: src/components/Accommodation/Accommodation.tsx:216
 msgid "Unexpected status code from indexing service"
 msgstr "Neočekávaný stavový kód od indexační služby"
 
@@ -789,7 +788,7 @@ msgstr "Neočekávaný stavový kód od indexační služby"
 msgid "Unread"
 msgstr ""
 
-#: src/pages/MyOffers.tsx:136
+#: src/components/Accommodation/Accommodation.tsx:50
 msgid "Updating accommodation"
 msgstr "Aktualizuji ubytování"
 

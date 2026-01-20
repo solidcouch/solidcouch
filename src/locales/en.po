@@ -46,35 +46,35 @@ msgstr "About your hosting"
 msgid "Accept"
 msgstr "Accept"
 
-#: src/components/Accommodation/Accommodation.tsx:95
-#: src/pages/MyOffers.tsx:78
+#: src/components/Accommodation/Accommodation.tsx:210
 msgid "Accommodation added to indexing service"
 msgstr "Accommodation added to indexing service"
 
-#: src/components/Accommodation/Accommodation.tsx:126
-#: src/pages/MyOffers.tsx:118
+#: src/components/Accommodation/Accommodation.tsx:158
 msgid "Accommodation created"
 msgstr "Accommodation created"
 
-#: src/pages/MyOffers.tsx:166
+#: src/components/Accommodation/Accommodation.tsx:88
 msgid "Accommodation deleted"
 msgstr "Accommodation deleted"
+
+#: src/components/Accommodation/Accommodation.tsx:71
+msgid "Accommodation not found."
+msgstr "Accommodation not found."
 
 #: src/pages/SearchHosts/SearchHosts.tsx:102
 msgid "Accommodation offer from {offeredByIdentifier}"
 msgstr "Accommodation offer from {offeredByIdentifier}"
 
-#: src/components/Accommodation/Accommodation.tsx:99
-#: src/pages/MyOffers.tsx:82
+#: src/components/Accommodation/Accommodation.tsx:214
 msgid "Accommodation removed from indexing service"
 msgstr "Accommodation removed from indexing service"
 
-#: src/pages/MyOffers.tsx:137
+#: src/components/Accommodation/Accommodation.tsx:51
 msgid "Accommodation updated"
 msgstr "Accommodation updated"
 
-#: src/components/Accommodation/Accommodation.tsx:97
-#: src/pages/MyOffers.tsx:80
+#: src/components/Accommodation/Accommodation.tsx:212
 msgid "Accommodation updated in indexing service"
 msgstr "Accommodation updated in indexing service"
 
@@ -86,7 +86,7 @@ msgstr "Add {locale}"
 msgid "Add a language"
 msgstr "Add a language"
 
-#: src/pages/MyOffers.tsx:226
+#: src/pages/MyOffers.tsx:52
 msgid "Add Accommodation"
 msgstr "Add Accommodation"
 
@@ -218,8 +218,7 @@ msgstr "Create private type index:"
 msgid "Create public type index:"
 msgstr "Create public type index:"
 
-#: src/components/Accommodation/Accommodation.tsx:125
-#: src/pages/MyOffers.tsx:117
+#: src/components/Accommodation/Accommodation.tsx:157
 msgid "Creating accommodation"
 msgstr "Creating accommodation"
 
@@ -235,11 +234,11 @@ msgstr "Creating message"
 msgid "Delete"
 msgstr "Delete"
 
-#: src/pages/MyOffers.tsx:165
+#: src/components/Accommodation/Accommodation.tsx:87
 msgid "Deleting accommodation"
 msgstr "Deleting accommodation"
 
-#: src/pages/MyOffers.tsx:154
+#: src/components/Accommodation/Accommodation.tsx:66
 msgid "Do you really want to delete the accommodation?"
 msgstr "Do you really want to delete the accommodation?"
 
@@ -439,7 +438,7 @@ msgstr "Loading previous messages"
 
 #: src/App.tsx:54
 #: src/pages/messages-old/MessagesOld.tsx:213
-#: src/pages/MyOffers.tsx:99
+#: src/pages/MyOffers.tsx:25
 #: src/pages/Profile/ManageContact.tsx:26
 #: src/pages/SearchHosts/AccommodationInfo.tsx:51
 msgid "Loading..."
@@ -467,9 +466,7 @@ msgstr "Messages with {personLabel}"
 msgid "Messages with <0/>"
 msgstr "Messages with <0/>"
 
-#: src/components/Accommodation/Accommodation.tsx:113
-#: src/pages/MyOffers.tsx:105
-#: src/pages/MyOffers.tsx:151
+#: src/components/Accommodation/Accommodation.tsx:145
 msgid "missing variables"
 msgstr "missing variables"
 
@@ -477,7 +474,7 @@ msgstr "missing variables"
 msgid "more"
 msgstr "more"
 
-#: src/pages/MyOffers.tsx:181
+#: src/pages/MyOffers.tsx:32
 msgid "My Accommodation Offers"
 msgstr "My Accommodation Offers"
 
@@ -514,8 +511,7 @@ msgstr "No authenticated user available"
 msgid "No hospex document for community"
 msgstr "No hospex document for community"
 
-#: src/components/Accommodation/Accommodation.tsx:90
-#: src/pages/MyOffers.tsx:73
+#: src/components/Accommodation/Accommodation.tsx:205
 msgid "Notifying indexing service"
 msgstr "Notifying indexing service"
 
@@ -547,6 +543,10 @@ msgstr "Please move map to your hosting location"
 #: src/pages/HospexSetup/NotificationsSetup.tsx:267
 msgid "Please verify your email"
 msgstr "Please verify your email"
+
+#: src/components/Accommodation/Accommodation.tsx:74
+msgid "Please wait for everything to load."
+msgstr "Please wait for everything to load."
 
 #: src/pages/UnauthenticatedHome.tsx:66
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
@@ -780,8 +780,7 @@ msgstr "To join {communityName}, you need a <0>Solid Pod</0> — a place to stor
 msgid "travel"
 msgstr "travel"
 
-#: src/components/Accommodation/Accommodation.tsx:101
-#: src/pages/MyOffers.tsx:84
+#: src/components/Accommodation/Accommodation.tsx:216
 msgid "Unexpected status code from indexing service"
 msgstr "Unexpected status code from indexing service"
 
@@ -789,7 +788,7 @@ msgstr "Unexpected status code from indexing service"
 msgid "Unread"
 msgstr "Unread"
 
-#: src/pages/MyOffers.tsx:136
+#: src/components/Accommodation/Accommodation.tsx:50
 msgid "Updating accommodation"
 msgstr "Updating accommodation"
 

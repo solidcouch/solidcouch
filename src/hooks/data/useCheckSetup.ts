@@ -236,7 +236,7 @@ export const useCheckSetup = (userId: URI, communityId: URI) => {
   )
 }
 
-export const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
+const useHospexDocumentSetup = (userId: URI, communityId: URI) => {
   const publicTypeIndexResults = usePublicTypeIndex(userId)
   const privateTypeIndexResults = usePrivateTypeIndex(userId)
   const inboxResults = useInbox(userId)

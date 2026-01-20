@@ -17,20 +17,24 @@ export const useDeleteAccommodation = () => {
     async ({
       id,
       personId,
-      hospexDocument,
+      hospexDocuments,
     }: {
       id: URI
       personId: URI
-      hospexDocument: URI
+      hospexDocuments: Iterable<URI>
     }) => {
-      await updateMutation.mutateAsync({
-        uri: hospexDocument,
-        patch: `
-          _:mutate a <${solid.InsertDeletePatch}>;
-            <${solid.deletes}> { <${personId}> <${hospex.offers}> <${id}>. }.
-        `,
-      })
       await deleteMutation.mutateAsync({ uri: id })
+      await Promise.all(
+        [...hospexDocuments].map(hospexDocument =>
+          updateMutation.mutateAsync({
+            uri: hospexDocument,
+            patch: `
+  _:mutate a <${solid.InsertDeletePatch}>;
+    <${solid.deletes}> { <${personId}> <${hospex.offers}> <${id}>. }.
+`,
+          }),
+        ),
+      )
     },
     [deleteMutation, updateMutation],
   )
