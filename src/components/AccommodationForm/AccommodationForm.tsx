@@ -91,7 +91,7 @@ export const AccommodationForm = ({
       onSubmit={handleFormSubmit}
       onReset={onCancel}
       className={clsx(styles.accommodationForm, styles.accommodation)}
-      data-cy="accommodation-form"
+      data-testid="accommodation-form"
     >
       <label>
         <Trans>
