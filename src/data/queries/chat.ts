@@ -1,10 +1,12 @@
 import { inboxMessagesQuery } from '@/hooks/data/queries'
 import { getTypeIndexQuery } from '@/hooks/data/queries/typeIndex'
 import { getContainer } from '@/utils/helpers'
-import { meeting, wf } from '@/utils/rdf-namespaces'
+import { meeting_extra, wf_extra } from '@/utils/rdf-namespaces'
 import { ldhop, Variable } from '@ldhop/core'
 import { NamedNode } from 'n3'
-import { dct, ldp } from 'rdf-namespaces'
+import * as dct from 'rdf-namespaces/dct'
+import * as ldp from 'rdf-namespaces/ldp'
+import * as wf from 'rdf-namespaces/wf'
 
 export enum Variables {
   root = '?root',
@@ -43,17 +45,17 @@ export const getChatMessagesQuery = <
     .o(variables.message)
 
 export const getTypeIndexChatQuery = () =>
-  getTypeIndexQuery({ forClass: meeting.LongChat })
-    .match('?instance', wf.participation)
+  getTypeIndexQuery({ forClass: meeting_extra.LongChat })
+    .match('?instance', wf_extra.participation)
     .o('?participation')
 
 export const getChatParticipantsQuery = <T extends Variable>(variables: {
   channel: T
 }) =>
   ldhop(variables.channel)
-    .match(variables.channel, wf.participation)
+    .match(variables.channel, wf_extra.participation)
     .o('?participation')
-    .match('?participation', wf.participant)
+    .match('?participation', wf_extra.participant)
     .o('?participant')
 
 export const getChatLegacyLinkQuery = <T extends Variable>(variables: {
@@ -69,7 +71,9 @@ export const getChatLegacyLinkQuery = <T extends Variable>(variables: {
         : undefined,
     )
 
-export const threadsQuery = getTypeIndexQuery({ forClass: meeting.LongChat })
+export const threadsQuery = getTypeIndexQuery({
+  forClass: meeting_extra.LongChat,
+})
   // rename
   .transform('?instance', Variables.channel, t => t)
   .concat(inboxMessagesQuery)

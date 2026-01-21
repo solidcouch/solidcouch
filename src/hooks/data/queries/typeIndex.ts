@@ -1,5 +1,6 @@
 import { Constant } from '@ldhop/core'
-import { rdf, solid } from 'rdf-namespaces'
+import * as rdf from 'rdf-namespaces/rdf'
+import * as solid from 'rdf-namespaces/solid'
 import { webIdProfileQuery } from './profile'
 
 export const getTypeIndexQuery = <C extends Constant>({

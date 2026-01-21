@@ -1,5 +1,9 @@
 import { ldhop } from '@ldhop/core'
-import { as, foaf, ldp, rdf, rdfs } from 'rdf-namespaces'
+import * as as from 'rdf-namespaces/as'
+import * as foaf from 'rdf-namespaces/foaf'
+import * as ldp from 'rdf-namespaces/ldp'
+import * as rdf from 'rdf-namespaces/rdf'
+import * as rdfs from 'rdf-namespaces/rdfs'
 import { personInbox, profileDocuments } from './profile'
 
 export const contactsQuery = ldhop()
