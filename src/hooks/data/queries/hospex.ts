@@ -1,6 +1,9 @@
 import { hospex } from '@/utils/rdf-namespaces'
 import { ldhop } from '@ldhop/core'
-import { rdf, sioc, solid, space } from 'rdf-namespaces'
+import * as rdf from 'rdf-namespaces/rdf'
+import * as sioc from 'rdf-namespaces/sioc'
+import * as solid from 'rdf-namespaces/solid'
+import * as space from 'rdf-namespaces/space'
 import { publicWebIdProfileQuery, webIdProfileQuery } from './profile'
 
 // in public type index, find all personal hospex documents of the person for a particular community, and fetch them

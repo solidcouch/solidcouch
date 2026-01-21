@@ -1,17 +1,16 @@
 import { getContainer } from '@/utils/helpers'
-import { meeting, wf } from '@/utils/rdf-namespaces'
+import { meeting_extra, wf_extra } from '@/utils/rdf-namespaces'
 import { ldhop, type Constant } from '@ldhop/core'
 import { NamedNode, Term } from 'n3'
-import {
-  as,
-  dct,
-  ldp,
-  rdf,
-  schema,
-  schema_https,
-  solid,
-  space,
-} from 'rdf-namespaces'
+import * as as from 'rdf-namespaces/as'
+import * as dct from 'rdf-namespaces/dct'
+import * as ldp from 'rdf-namespaces/ldp'
+import * as rdf from 'rdf-namespaces/rdf'
+import * as schema from 'rdf-namespaces/schema'
+import { Message as Message_https } from 'rdf-namespaces/schema_https'
+import * as solid from 'rdf-namespaces/solid'
+import * as space from 'rdf-namespaces/space'
+import * as wf from 'rdf-namespaces/wf'
 import { profileDocuments } from './profile'
 
 export const inboxMessagesQuery = profileDocuments
@@ -36,7 +35,7 @@ export const inboxMessagesQuery = profileDocuments
   .o('?object')
   .match('?object', rdf.type, schema.Message)
   .s('?messageObject')
-  .match('?object', rdf.type, schema_https.Message)
+  .match('?object', rdf.type, Message_https)
   .s('?messageObject')
   .match(null, as.object, '?messageObject')
   .s('?messageNotification')
@@ -56,11 +55,11 @@ const chats = profileDocuments
   .o('?privateTypeIndex')
   .match(null, rdf.type, solid.TypeRegistration, '?privateTypeIndex')
   .s('?typeRegistration')
-  .match('?typeRegistration', solid.forClass, meeting.LongChat)
+  .match('?typeRegistration', solid.forClass, meeting_extra.LongChat)
   .s('?typeRegistrationForChat')
   .match('?typeRegistrationForChat', solid.instance)
   .o('?chat')
-  .match('?chat', wf.participation as Constant)
+  .match('?chat', wf_extra.participation as Constant)
   .o('?participation')
 
 // const threadsQuery: LdhopQuery<LdhopQueryVars<typeof chats> | '?otherChat'> = [
@@ -76,13 +75,13 @@ const chats = profileDocuments
 
 const chatsWithPerson = ldhop('?person', '?otherPerson')
   .concat(chats)
-  .match('?participation', wf.participant)
+  .match('?participation', wf_extra.participant)
   .o('?participant')
-  .match('?participation', wf.participant, '?otherPerson')
+  .match('?participation', wf_extra.participant, '?otherPerson')
   .s('?otherPersonParticipation')
-  .match('?chat', wf.participation, '?otherPersonParticipation')
+  .match('?chat', wf_extra.participation, '?otherPersonParticipation')
   .s('?chatWithOtherPerson')
-  .match('?chatWithOtherPerson', wf.participation)
+  .match('?chatWithOtherPerson', wf_extra.participation)
   .o('?chatWithOtherPersonParticipation')
   // deprecated
   .match('?chatWithOtherPersonParticipation', dct.references)

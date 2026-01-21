@@ -1,6 +1,5 @@
 // not sure how to resolve errors resulting from this eslint rule
 // it's because we overwrite exports from rdf-namespaces here
-import * as ns from 'rdf-namespaces'
 
 const base = {
   // geo: 'http://www.w3.org/2003/01/geo/wgs84_pos#',
@@ -25,16 +24,13 @@ export const hospex = {
   storage: `${base.hospex}storage` as const,
 }
 
-export const wf = {
+export const wf_extra = {
   participation: `${base.wf}participation` as const,
   participant: `${base.wf}participant` as const,
-  ...ns.wf,
 }
 
-export const meeting = {
+export const meeting_extra = {
   LongChat: `${base.meeting}LongChat` as const,
-  // message: `${base.meeting}message` as const,
-  ...ns.meeting,
 }
 
 // export const ui = {
