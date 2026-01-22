@@ -1,4 +1,5 @@
-@use '../../styles/helpers';
+@use '@/styles/helpers';
+@use '@/styles/media';
 
 .container {
   // position: fixed;
@@ -18,14 +19,22 @@
   z-index: 1;
   position: absolute;
   top: 0;
+  right: 0;
   // flex: 0;
-  padding: var(--space-8x) var(--page-margin);
+  padding: var(--space-8x) var(--page-margin) var(--page-margin)
+    var(--page-margin);
   max-height: 100%;
-  width: 100%;
+
+  @include media.for_tablet_portrait_up {
+    height: 100%;
+  }
+
+  width: 32rem;
+  max-width: 100%;
   overflow-y: auto;
   background-color: color-mix(
     in srgb,
-    var(--background-color) 93.75%,
+    var(--background-color) 90%,
     transparent
   );
 

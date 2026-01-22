@@ -62,7 +62,7 @@ msgstr "Accommodation deleted"
 msgid "Accommodation not found."
 msgstr "Accommodation not found."
 
-#: src/pages/SearchHosts/SearchHosts.tsx:102
+#: src/pages/SearchHosts/SearchHosts.tsx:77
 msgid "Accommodation offer from {offeredByIdentifier}"
 msgstr "Accommodation offer from {offeredByIdentifier}"
 
@@ -143,7 +143,7 @@ msgstr "Choose your Solid provider or WebID"
 msgid "Close"
 msgstr "Close"
 
-#: src/pages/SearchHosts/SearchHosts.tsx:51
+#: src/pages/SearchHosts/SearchHosts.tsx:94
 msgid "Close hosting preview"
 msgstr "Close hosting preview"
 
@@ -482,7 +482,7 @@ msgstr "My Accommodation Offers"
 msgid "my hosting"
 msgstr "my hosting"
 
-#: src/pages/SearchHosts/SearchHosts.tsx:66
+#: src/pages/SearchHosts/SearchHosts.tsx:109
 msgid "My location"
 msgstr "My location"
 

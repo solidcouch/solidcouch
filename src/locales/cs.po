@@ -62,7 +62,7 @@ msgstr "Ubytování odstraněno"
 msgid "Accommodation not found."
 msgstr ""
 
-#: src/pages/SearchHosts/SearchHosts.tsx:102
+#: src/pages/SearchHosts/SearchHosts.tsx:77
 msgid "Accommodation offer from {offeredByIdentifier}"
 msgstr "Nabídka ubytování od {offeredByIdentifier}"
 
@@ -143,7 +143,7 @@ msgstr "Zadejte svého Solid poskytovatele nebo WebID"
 msgid "Close"
 msgstr "Zavřít"
 
-#: src/pages/SearchHosts/SearchHosts.tsx:51
+#: src/pages/SearchHosts/SearchHosts.tsx:94
 msgid "Close hosting preview"
 msgstr "Zavřít náhled hostingu"
 
@@ -482,7 +482,7 @@ msgstr "Moje nabídky ubytování"
 msgid "my hosting"
 msgstr "mé ubytování"
 
-#: src/pages/SearchHosts/SearchHosts.tsx:66
+#: src/pages/SearchHosts/SearchHosts.tsx:109
 msgid "My location"
 msgstr "Moje poloha"
 
