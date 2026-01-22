@@ -440,7 +440,7 @@ msgstr "Loading previous messages"
 #: src/pages/messages-old/MessagesOld.tsx:213
 #: src/pages/MyOffers.tsx:25
 #: src/pages/Profile/ManageContact.tsx:26
-#: src/pages/SearchHosts/AccommodationInfo.tsx:51
+#: src/pages/SearchHosts/AccommodationInfo.tsx:54
 msgid "Loading..."
 msgstr "Loading..."
 
@@ -834,7 +834,7 @@ msgid "WIP"
 msgstr "WIP"
 
 #: src/pages/Profile/Profile.tsx:77
-#: src/pages/SearchHosts/AccommodationInfo.tsx:64
+#: src/pages/SearchHosts/AccommodationInfo.tsx:67
 msgid "Write a message"
 msgstr "Write a message"
 

@@ -324,17 +324,19 @@ export const createPerson = async ({
   skip,
   hospexContainerName,
   account,
+  profile: profileData,
 }: {
   community: Community
   skip?: SkipOptions[]
   hospexContainerName?: string
   account?: Account
+  profile?: Profile
 }) => {
   account ??= await createRandomAccount()
   const pod = await setupPod(account, community, { skip, hospexContainerName })
   const profile = await saveProfileData(account, pod, {
-    name: generateRandomString(8),
-    description: {
+    name: profileData?.name ?? generateRandomString(8),
+    description: profileData?.description ?? {
       en: generateRandomString(20 + Math.random() * 40),
       cs: generateRandomString(20 + Math.random() * 40),
     },
