@@ -13566,15 +13566,12 @@ react-is@^18.0.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
-react-leaflet-markercluster@^5.0.0-rc.0:
-  version "5.0.0-rc.0"
-  resolved "https://registry.npmjs.org/react-leaflet-markercluster/-/react-leaflet-markercluster-5.0.0-rc.0.tgz#42b1b9786de565fe69ec95abc6ff3232713f5300"
-  integrity sha512-jWa4bPD5LfLV3Lid1RWgl+yKUuQtnqeYtJzzLb/fiRjvX+rtwzY8pMoUFuygqyxNrWxMTQlWKBHxkpI7Sxvu4Q==
+react-leaflet-cluster@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/react-leaflet-cluster/-/react-leaflet-cluster-4.0.0.tgz#8a1025fbf4c7f3d39458c4b14f85b992aa4f9a59"
+  integrity sha512-Lu75+KOu2ruGyAx8LoCQvlHuw+3CLLJQGEoSk01ymsDN/YnCiRV6ChkpsvaruVyYBPzUHwiskFw4Jo7WHj5qNw==
   dependencies:
-    "@react-leaflet/core" "^3.0.0"
-    leaflet "^1.9.4"
     leaflet.markercluster "^1.5.3"
-    react-leaflet "^5.0.0"
 
 react-leaflet@^5.0.0:
   version "5.0.0"
