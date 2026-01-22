@@ -6,7 +6,7 @@ type AccommodationData = {
   location: [number, number]
 }
 
-type AccommodationConfig = {
+export type AccommodationConfig = {
   id: string
   doc: string
 } & AccommodationData

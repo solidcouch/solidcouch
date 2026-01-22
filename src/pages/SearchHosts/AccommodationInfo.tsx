@@ -33,7 +33,10 @@ export const AccommodationInfo = ({
               style={{ display: 'contents' }}
             >
               <Avatar {...person} size="3rem" square />
-              <span className={styles.name} data-cy="accommodation-info-name">
+              <span
+                className={styles.name}
+                data-testid="accommodation-info-name"
+              >
                 {person?.name}
               </span>
             </Link>
@@ -43,7 +46,7 @@ export const AccommodationInfo = ({
             locale={locale}
             as="div"
             className={styles.accommodation}
-            data-cy="accommodation-info-description"
+            data-testid="accommodation-info-description"
           />
         </>
       ) : (
