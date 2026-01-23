@@ -13,4 +13,16 @@
   .spacer {
     flex: auto;
   }
+
+  .messages {
+    position: relative;
+
+    .unread {
+      position: absolute;
+      top: 0;
+      right: -0.2rem;
+      font-size: small;
+      color: var(--color-success);
+    }
+  }
 }

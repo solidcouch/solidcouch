@@ -21,7 +21,7 @@ msgstr "\"{channel}\" is not a valid chat channel"
 msgid "{label} added to interests"
 msgstr "{label} added to interests"
 
-#: src/components/Header/MainMenu.tsx:49
+#: src/components/Header/MainMenu.tsx:59
 #: src/pages/Home.tsx:31
 msgid "{messageCount, plural, one {(# new)} other {(# new)}}"
 msgstr "{messageCount, plural, one {(# new)} other {(# new)}}"
@@ -176,7 +176,7 @@ msgstr "Contact exists"
 msgid "Contact request sent"
 msgstr "Contact request sent"
 
-#: src/components/Header/MainMenu.tsx:56
+#: src/components/Header/MainMenu.tsx:71
 #: src/pages/Profile/Profile.tsx:85
 msgid "contacts"
 msgstr "contacts"
@@ -254,7 +254,7 @@ msgstr "e.g. solidcommunity.net"
 msgid "Edit"
 msgstr "Edit"
 
-#: src/components/Header/MainMenu.tsx:40
+#: src/components/Header/MainMenu.tsx:50
 #: src/pages/Profile/Profile.tsx:66
 msgid "edit profile"
 msgstr "edit profile"
@@ -307,7 +307,7 @@ msgstr "Finish"
 msgid "Finish Setup"
 msgstr "Finish Setup"
 
-#: src/components/Logo/Logo.tsx:43
+#: src/components/Logo/Logo.tsx:45
 msgid "focused logo of {name}"
 msgstr "focused logo of {name}"
 
@@ -344,7 +344,6 @@ msgstr "Hospex document not found"
 msgid "Hospex not set up (should not happen)"
 msgstr "Hospex not set up (should not happen)"
 
-#: src/components/Header/Header.tsx:41
 #: src/pages/Home.tsx:22
 msgid "host"
 msgstr "host"
@@ -445,7 +444,7 @@ msgstr "Loading previous messages"
 msgid "Loading..."
 msgstr "Loading..."
 
-#: src/components/Logo/Logo.tsx:31
+#: src/components/Logo/Logo.tsx:33
 msgid "logo of {name}"
 msgstr "logo of {name}"
 
@@ -454,11 +453,15 @@ msgstr "logo of {name}"
 msgid "Message was created"
 msgstr "Message was created"
 
-#: src/components/Header/Header.tsx:44
-#: src/components/Header/MainMenu.tsx:45
+#: src/components/Header/Header.tsx:35
+#: src/components/Header/MainMenu.tsx:55
 #: src/pages/Home.tsx:25
 msgid "messages"
 msgstr "messages"
+
+#: src/components/Header/Header.tsx:31
+msgid "messages ({messageCount, plural, one {# unread} other {# unread}})"
+msgstr "messages ({messageCount, plural, one {# unread} other {# unread}})"
 
 #: src/pages/Threads/Threads.tsx:149
 msgid "Messages with {personLabel}"
@@ -480,7 +483,7 @@ msgstr "more"
 msgid "My Accommodation Offers"
 msgstr "My Accommodation Offers"
 
-#: src/components/Header/MainMenu.tsx:61
+#: src/components/Header/MainMenu.tsx:66
 msgid "my hosting"
 msgstr "my hosting"
 
@@ -583,7 +586,8 @@ msgstr "Private type index not set up (should not happen)"
 msgid "process"
 msgstr "process"
 
-#: src/components/Header/MainMenu.tsx:36
+#: src/components/Header/MainMenu.tsx:38
+#: src/components/Header/MainMenu.tsx:45
 msgid "profile"
 msgstr "profile"
 
@@ -778,7 +782,7 @@ msgstr "Title"
 msgid "To join {communityName}, you need a <0>Solid Pod</0> — a place to store your data."
 msgstr "To join {communityName}, you need a <0>Solid Pod</0> — a place to store your data."
 
-#: src/components/Header/Header.tsx:38
+#: src/components/Header/Header.tsx:50
 #: src/pages/Home.tsx:19
 msgid "travel"
 msgstr "travel"

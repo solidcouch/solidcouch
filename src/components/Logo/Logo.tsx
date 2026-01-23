@@ -7,12 +7,14 @@ export const Logo = ({
   logo,
   focusedLogo,
   name,
+  minimizeOnMobile,
   className,
 }: {
   logo?: string
   focusedLogo?: string
   name?: string
   className?: string
+  minimizeOnMobile?: boolean
 }) => {
   const { darkModeLogoStyle } = useConfig()
   const { t } = useLingui()
@@ -43,7 +45,11 @@ export const Logo = ({
           alt={name ? t`focused logo of ${name}` : ''}
         />
       )}
-      {name ? <span>{name}</span> : null}
+      {name ? (
+        <span className={clsx(minimizeOnMobile && styles.hideOnMobile)}>
+          {name}
+        </span>
+      ) : null}
     </div>
   )
 }

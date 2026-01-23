@@ -32,8 +32,18 @@ export const MainMenu = () => {
       // eslint-disable-next-line lingui/no-unlocalized-strings
       theming={theme === 'dark' ? 'dark' : undefined}
     >
+      {profile?.name ? (
+        <>
+          <MenuItem>
+            <Link to="profile">{profile.name || <Trans>profile</Trans>}</Link>
+          </MenuItem>
+          <MenuDivider />
+        </>
+      ) : null}
       <MenuItem>
-        <Link to="profile">{profile?.name || <Trans>profile</Trans>}</Link>
+        <Link to="profile">
+          <Trans>profile</Trans>
+        </Link>
       </MenuItem>
       <MenuItem>
         <Link to="profile/edit" data-cy="menu-item-edit-profile">
@@ -52,13 +62,13 @@ export const MainMenu = () => {
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to={`profile/${encodeURIComponent(auth.webId!)}/contacts`}>
-          <Trans>contacts</Trans>
+        <Link to="host/offers">
+          <Trans>my hosting</Trans>
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to="host/offers">
-          <Trans>my hosting</Trans>
+        <Link to={`profile/${encodeURIComponent(auth.webId!)}/contacts`}>
+          <Trans>contacts</Trans>
         </Link>
       </MenuItem>
       <MenuDivider />
