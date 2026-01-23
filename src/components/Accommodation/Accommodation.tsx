@@ -79,23 +79,25 @@ export const AccommodationCard = ({
 
       const { id, location } = accommodation
 
-      await withToast(
-        deleteAccommodation({
-          id,
-          personId: auth.webId!,
-          hospexDocuments: allHospex.map(h => h.hospexDocument),
-        }),
-        {
-          pending: t`Deleting accommodation`,
-          success: t`Accommodation deleted`,
-        },
-      )
-
-      await runNotifyGeoindex({
-        type: 'Delete',
-        uri: id,
-        previousLocation: location,
-      })
+      try {
+        await withToast(
+          deleteAccommodation({
+            id,
+            personId: auth.webId!,
+            hospexDocuments: allHospex.map(h => h.hospexDocument),
+          }),
+          {
+            pending: t`Deleting accommodation`,
+            success: t`Accommodation deleted`,
+          },
+        )
+      } finally {
+        await runNotifyGeoindex({
+          type: 'Delete',
+          uri: id,
+          previousLocation: location,
+        })
+      }
     }
   }
 

@@ -1,4 +1,5 @@
 import { URI } from '@/types'
+import { HttpError } from '@/utils/errors'
 import { hospex } from '@/utils/rdf-namespaces'
 import { solid } from 'rdf-namespaces'
 import { useCallback } from 'react'
@@ -26,13 +27,19 @@ export const useDeleteAccommodation = () => {
       await deleteMutation.mutateAsync({ uri: id })
       await Promise.all(
         [...hospexDocuments].map(hospexDocument =>
-          updateMutation.mutateAsync({
-            uri: hospexDocument,
-            patch: `
+          updateMutation
+            .mutateAsync({
+              uri: hospexDocument,
+              patch: `
   _:mutate a <${solid.InsertDeletePatch}>;
     <${solid.deletes}> { <${personId}> <${hospex.offers}> <${id}>. }.
 `,
-          }),
+            })
+            .catch(async e => {
+              // catch the error on Conflict (the predicate is not there)
+              if (e instanceof HttpError && e.status === 409) return
+              throw e
+            }),
         ),
       )
     },
