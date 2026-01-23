@@ -86,16 +86,55 @@ export const useSearchAccommodations = (
 
   const geoindexQueries = useMemo(
     () =>
-      geohashes.map(h => ({
-        queryKey: [QueryKey.geoindex, h],
-        queryFn: () =>
-          fetchAccommodationsByGeohash({
-            geohash: h,
-            geoindex: geoindexService!,
-          }),
-        staleTime: Infinity,
-        enabled: Boolean(geoindexService),
-      })),
+      [...geohashes]
+        // put low priority geohashes last
+        .sort((b, a) => {
+          const lowPriority = [
+            '0',
+            '1',
+            'h',
+            '5',
+            'j',
+            'n',
+            '3',
+            'p',
+            '2',
+            '8',
+            '4',
+            'z',
+            'b',
+          ]
+
+          const aIndex = lowPriority.indexOf(a)
+          const bIndex = lowPriority.indexOf(b)
+
+          if (aIndex === -1 && bIndex === -1) return 0
+          if (aIndex === -1) return 1
+          if (bIndex === -1) return -1
+          return aIndex - bIndex
+        })
+        // put high priority geohashes first
+        .sort((a, b) => {
+          const priority = ['u', 's', 'd', '9', 't', 'e']
+
+          const aIndex = priority.indexOf(a)
+          const bIndex = priority.indexOf(b)
+
+          if (aIndex === -1 && bIndex === -1) return 0
+          if (aIndex === -1) return 1
+          if (bIndex === -1) return -1
+          return aIndex - bIndex
+        })
+        .map(h => ({
+          queryKey: [QueryKey.geoindex, h],
+          queryFn: () =>
+            fetchAccommodationsByGeohash({
+              geohash: h,
+              geoindex: geoindexService!,
+            }),
+          staleTime: Infinity,
+          enabled: Boolean(geoindexService),
+        })),
     [geohashes, geoindexService],
   )
 
