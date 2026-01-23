@@ -3,7 +3,7 @@ import { IconLoading } from '@/components/IconLoading'
 import { useReadMessagesFromInbox } from '@/hooks/data/useReadThreads'
 import { useAuth } from '@/hooks/useAuth'
 import { Plural, Trans } from '@lingui/react/macro'
-import { FaDoorOpen, FaMap, FaRegComment } from 'react-icons/fa'
+import { FaDoorOpen, FaRegComment, FaRegMap } from 'react-icons/fa'
 import styles from './Home.module.scss'
 
 export const Home = () => {
@@ -16,7 +16,7 @@ export const Home = () => {
   return (
     <div className={styles.container}>
       <ButtonLink to="travel" secondary>
-        <FaMap size={24} /> <Trans>travel</Trans>
+        <FaRegMap size={24} /> <Trans>travel</Trans>
       </ButtonLink>
       <ButtonLink to="host" secondary>
         <FaDoorOpen size={24} /> <Trans>host</Trans>

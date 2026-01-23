@@ -8,12 +8,12 @@
 
   .errorMessage {
     font-size: var(--font-size-secondary);
-    color: red;
+    color: var(--color-error);
     margin-top: calc(-1 * var(--space-4x));
   }
 
   .inputError {
-    border: 2px solid red;
+    border: 2px solid var(--color-error);
   }
 
   textarea {
