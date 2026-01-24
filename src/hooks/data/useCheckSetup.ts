@@ -1,13 +1,18 @@
+import { useConfig } from '@/config/hooks'
 import { URI } from '@/types'
 import { hospex } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLdhopQuery } from '@ldhop/react'
 import { useQuery } from '@tanstack/react-query'
+import { decodeJwt } from 'jose'
 import { sioc } from 'rdf-namespaces'
 import { useCallback, useMemo } from 'react'
 import encodeURIComponent from 'strict-uri-encode'
 import { useReadAccesses } from './access'
-import { privateProfileAndHospexDocumentQuery } from './queries/hospex'
+import {
+  emailVerificationQuery,
+  privateProfileAndHospexDocumentQuery,
+} from './queries/hospex'
 import { publicWebIdProfileQuery, webIdProfileQuery } from './queries/profile'
 import { QueryKey } from './types'
 import { useIsMember } from './useCommunity'
@@ -345,4 +350,49 @@ export const useCheckSimpleEmailNotifications = (
   if (isLoading || !data) return undefined
 
   return data.emailVerified
+}
+
+/**
+ * This is email notifications check that should be faster than checking status via the service
+ * It does only a partial check, for quick ruling of thumb.
+ * It does not check whether the token is valid,
+ * and does not check whether mailer can access it
+ */
+export const useCheckSimpleEmailNotificationsOptimistic = (webId: URI) => {
+  const config = useConfig()
+
+  const { variables, isLoading } = useLdhopQuery(
+    useMemo(
+      () => ({
+        query: emailVerificationQuery,
+        variables: { person: [webId], community: [config.communityId] },
+        fetch,
+      }),
+      [config.communityId, webId],
+    ),
+  )
+
+  return useMemo(() => {
+    if (!config.emailNotificationsIdentity) return 'unset'
+    const maybeRelevantTokens = [...variables.emailVerificationToken].filter(
+      token => {
+        if (token.termType !== 'Literal') return false
+        const payload = decodeJwt(token.value)
+        return (
+          payload.iss === config.emailNotificationsIdentity &&
+          payload.emailVerified === true &&
+          payload.webId === webId
+        )
+      },
+    )
+
+    if (maybeRelevantTokens.length > 0) return true
+    if (isLoading) return undefined
+    return false
+  }, [
+    config.emailNotificationsIdentity,
+    isLoading,
+    variables.emailVerificationToken,
+    webId,
+  ])
 }

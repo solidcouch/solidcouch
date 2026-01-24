@@ -121,7 +121,7 @@ msgstr "Cancel"
 msgid "Chat channel was created"
 msgstr "Chat channel was created"
 
-#: src/pages/SetupOutlet.tsx:125
+#: src/pages/SetupOutlet.tsx:137
 msgid "Checking your setup..."
 msgstr "Checking your setup..."
 
@@ -307,6 +307,10 @@ msgstr "Finish"
 msgid "Finish Setup"
 msgstr "Finish Setup"
 
+#: src/pages/SetupOutlet.tsx:76
+msgid "Finishing setup check."
+msgstr "Finishing setup check."
+
 #: src/components/Logo/Logo.tsx:43
 msgid "focused logo of {name}"
 msgstr "focused logo of {name}"
@@ -344,7 +348,6 @@ msgstr "Hospex document not found"
 msgid "Hospex not set up (should not happen)"
 msgstr "Hospex not set up (should not happen)"
 
-#: src/components/Header/Header.tsx:41
 #: src/pages/Home.tsx:22
 msgid "host"
 msgstr "host"
@@ -454,7 +457,6 @@ msgstr "logo of {name}"
 msgid "Message was created"
 msgstr "Message was created"
 
-#: src/components/Header/Header.tsx:44
 #: src/components/Header/MainMenu.tsx:45
 #: src/pages/Home.tsx:25
 msgid "messages"
@@ -778,7 +780,6 @@ msgstr "Title"
 msgid "To join {communityName}, you need a <0>Solid Pod</0> — a place to store your data."
 msgstr "To join {communityName}, you need a <0>Solid Pod</0> — a place to store your data."
 
-#: src/components/Header/Header.tsx:38
 #: src/pages/Home.tsx:19
 msgid "travel"
 msgstr "travel"
@@ -820,7 +821,7 @@ msgstr ""
 "\n"
 "Error: {errorString}"
 
-#: src/pages/SetupOutlet.tsx:128
+#: src/pages/SetupOutlet.tsx:140
 msgid "We're verifying that everything is configured correctly."
 msgstr "We're verifying that everything is configured correctly."
 

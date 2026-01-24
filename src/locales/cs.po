@@ -121,7 +121,7 @@ msgstr "Zrušit"
 msgid "Chat channel was created"
 msgstr "Chatovací kanál byl vytvořen"
 
-#: src/pages/SetupOutlet.tsx:125
+#: src/pages/SetupOutlet.tsx:137
 msgid "Checking your setup..."
 msgstr "Kontroluji vaše nastavení..."
 
@@ -307,6 +307,10 @@ msgstr ""
 msgid "Finish Setup"
 msgstr "Dokončit nastavení"
 
+#: src/pages/SetupOutlet.tsx:76
+msgid "Finishing setup check."
+msgstr ""
+
 #: src/components/Logo/Logo.tsx:43
 msgid "focused logo of {name}"
 msgstr "zdůrazněné logo {name}"
@@ -344,7 +348,6 @@ msgstr "Hospex dokument nebyl nalezen"
 msgid "Hospex not set up (should not happen)"
 msgstr "Hospex není nastaven (nemělo by se to stát)"
 
-#: src/components/Header/Header.tsx:41
 #: src/pages/Home.tsx:22
 msgid "host"
 msgstr "hostit"
@@ -454,7 +457,6 @@ msgstr "logo {name}"
 msgid "Message was created"
 msgstr "Zpráva byla vytvořena"
 
-#: src/components/Header/Header.tsx:44
 #: src/components/Header/MainMenu.tsx:45
 #: src/pages/Home.tsx:25
 msgid "messages"
@@ -778,7 +780,6 @@ msgstr "Název"
 msgid "To join {communityName}, you need a <0>Solid Pod</0> — a place to store your data."
 msgstr "Abyste se mohli připojit k {communityName}, potřebujete <0>Solid Pod</0> — místo pro vaše data."
 
-#: src/components/Header/Header.tsx:38
 #: src/pages/Home.tsx:19
 msgid "travel"
 msgstr "cestovat"
@@ -820,7 +821,7 @@ msgstr ""
 "\n"
 "Chyba: {errorString}"
 
-#: src/pages/SetupOutlet.tsx:128
+#: src/pages/SetupOutlet.tsx:140
 msgid "We're verifying that everything is configured correctly."
 msgstr "Ověřujeme, že je vše správně nastaveno."
 

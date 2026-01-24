@@ -5,6 +5,7 @@ import {
   useCheckEmailNotifications,
   useCheckSetup,
   useCheckSimpleEmailNotifications,
+  useCheckSimpleEmailNotificationsOptimistic,
   useInbox,
   usePrivateTypeIndex,
   usePublicTypeIndex,
@@ -47,9 +48,13 @@ export const SetupOutlet = () => {
 
   // set up email
   const isSimpleEmailNotifications = useCheckSimpleEmailNotifications(
-    auth.webId as string,
+    auth.webId!,
     emailNotificationsType === 'simple' ? emailNotificationsService : '',
   )
+
+  const isSimpleEmailNotificationsOptimistic =
+    useCheckSimpleEmailNotificationsOptimistic(auth.webId!)
+
   const isEmailNotifications = useCheckEmailNotifications(
     setupCheck.inboxes.values().next().value?.value ?? '',
     emailNotificationsType === 'solid' ? emailNotificationsService : '',
@@ -59,11 +64,18 @@ export const SetupOutlet = () => {
     Object.values(setupCheck).every(v => v) &&
     (isEmailNotifications === true || isEmailNotifications === 'unset') &&
     (isSimpleEmailNotifications === true ||
-      isSimpleEmailNotifications === 'unset')
+      isSimpleEmailNotifications === 'unset' ||
+      (isSimpleEmailNotifications === undefined &&
+        isSimpleEmailNotificationsOptimistic === true)) // this is a quicker check
 
   if (isEverythingSetUp)
     return (
       <>
+        {isSimpleEmailNotifications === undefined && (
+          <div className={styles.backgroundCheck}>
+            <IconLoading /> <Trans>Finishing setup check.</Trans>
+          </div>
+        )}
         <Outlet />
         <Onboarding />
       </>
