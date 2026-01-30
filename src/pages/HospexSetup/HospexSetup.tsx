@@ -9,7 +9,7 @@ import pick from 'lodash/pick'
 import { Term } from 'n3'
 import { Tabs } from 'radix-ui'
 import { useCallback, useState } from 'react'
-import { FaCheck, FaTimes } from 'react-icons/fa'
+import { FaCheck } from 'react-icons/fa'
 import { CommunitySetup } from './CommunitySetup'
 import styles from './HospexSetup.module.scss'
 import { NotificationsSetup } from './NotificationsSetup'
@@ -120,7 +120,7 @@ export const HospexSetup = ({ ...props }: SetupStatus & SetupConfig) => {
                 ) : stepStatus[i] === undefined ? (
                   <IconLoading />
                 ) : (
-                  <FaTimes />
+                  i + 1
                 )}
               </Tabs.Trigger>
             )

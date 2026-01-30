@@ -164,7 +164,7 @@ msgid "Community Solid Pod is not available at the moment."
 msgstr ""
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:237
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:201
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:216
 msgid "Confirm and Continue"
 msgstr ""
 
@@ -198,7 +198,7 @@ msgstr "Rozhovory"
 msgid "Conversations with {people}"
 msgstr "Rozhovory s {people}"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:183
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:198
 msgid "Create inbox:"
 msgstr "Vytvořit schránku:"
 
@@ -206,15 +206,15 @@ msgstr "Vytvořit schránku:"
 msgid "Create new profile for this community:"
 msgstr ""
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:139
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:154
 msgid "Create preferences file:"
 msgstr "Vytvořit soubor předvoleb:"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:167
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:182
 msgid "Create private type index:"
 msgstr "Vytvořit soukromý index typů:"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:153
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:168
 msgid "Create public type index:"
 msgstr "Vytvořit veřejný index typů:"
 
@@ -365,7 +365,7 @@ msgstr "Ignorovat"
 msgid "Inbox is not set up"
 msgstr "Schránka není nastavena"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:180
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:195
 msgid "Inbox is set up."
 msgstr "Schránka je nastavena."
 
@@ -516,7 +516,7 @@ msgid "No hospex document for community"
 msgstr ""
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:71
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:130
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:40
 msgid "No storage found"
 msgstr ""
 
@@ -561,7 +561,7 @@ msgstr ""
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgstr "Postaveno na <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:136
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:151
 msgid "Preferences file is set up."
 msgstr "Soubor předvoleb je nastaven."
 
@@ -574,11 +574,11 @@ msgstr "Připravte Pod"
 msgid "Preparing and sending verification email"
 msgstr ""
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:123
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:140
 msgid "Preparing Solid Pod"
 msgstr ""
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:164
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:179
 msgid "Private type index is set up."
 msgstr "Soukromý index typu je nastaven."
 
@@ -606,7 +606,7 @@ msgstr "Profil aktualizován"
 msgid "Public type index is not set up"
 msgstr "Veřejný index typů není nastaven"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:150
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:165
 msgid "Public type index is set up."
 msgstr "Veřejný index typů je nastaven."
 
@@ -716,11 +716,11 @@ msgstr ""
 msgid "Solid notification was sent"
 msgstr "Solid upozornění bylo odesláno"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:124
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:141
 msgid "Solid Pod is prepared"
 msgstr ""
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:87
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:104
 msgid "Something is not resolved (unexpected error)"
 msgstr "Něco není vyřešeno (neočekávaná chyba)"
 

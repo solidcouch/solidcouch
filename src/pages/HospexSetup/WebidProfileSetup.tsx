@@ -23,7 +23,25 @@ interface WebidProfileData {
   inbox: string
 }
 
-export const WebidProfileSetup = ({
+export const WebidProfileSetup = (
+  props: StepProps & {
+    isPublicTypeIndex: boolean
+    isPrivateTypeIndex: boolean
+    isInbox: boolean
+    isPreferencesFile: boolean
+    webId: string
+    preferencesFile?: string
+    privateTypeIndex?: string
+    publicTypeIndex?: string
+  },
+) => {
+  const auth = useAuth()
+  const storage = useStorage(auth.webId!)
+  if (!storage) return <Trans>No storage found</Trans>
+  return <WebidProfileSetupForm {...props} storage={storage} />
+}
+
+const WebidProfileSetupForm = ({
   onSuccess,
   isPublicTypeIndex,
   isPrivateTypeIndex,
@@ -33,6 +51,7 @@ export const WebidProfileSetup = ({
   privateTypeIndex: existingPrivateTypeIndex,
   publicTypeIndex: existingPublicTypeIndex,
   webId,
+  storage,
 }: StepProps & {
   isPublicTypeIndex: boolean
   isPrivateTypeIndex: boolean
@@ -42,15 +61,13 @@ export const WebidProfileSetup = ({
   preferencesFile?: string
   privateTypeIndex?: string
   publicTypeIndex?: string
+  storage: string
 }) => {
   const { t } = useLingui()
   const createPublicTypeIndex = useCreatePublicTypeIndex()
   const createPrivateTypeIndex = useCreatePrivateTypeIndex()
   const createInbox = useCreateInbox()
   const createPreferences = useCreatePreferences()
-
-  const auth = useAuth()
-  const storage = useStorage(auth.webId!)
 
   // if there is already a container with preferences or a type index, use it for settings
   const settingsContainer =
@@ -126,8 +143,6 @@ export const WebidProfileSetup = ({
       }),
     [handleFormSubmit, t, toastError],
   )
-
-  if (!storage) return <Trans>No storage found</Trans>
 
   return (
     <form onSubmit={handleFormSubmitWithInfo}>

@@ -164,7 +164,7 @@ msgid "Community Solid Pod is not available at the moment."
 msgstr "Community Solid Pod is not available at the moment."
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:237
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:201
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:216
 msgid "Confirm and Continue"
 msgstr "Confirm and Continue"
 
@@ -198,7 +198,7 @@ msgstr "Conversations"
 msgid "Conversations with {people}"
 msgstr "Conversations with {people}"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:183
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:198
 msgid "Create inbox:"
 msgstr "Create inbox:"
 
@@ -206,15 +206,15 @@ msgstr "Create inbox:"
 msgid "Create new profile for this community:"
 msgstr "Create new profile for this community:"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:139
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:154
 msgid "Create preferences file:"
 msgstr "Create preferences file:"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:167
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:182
 msgid "Create private type index:"
 msgstr "Create private type index:"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:153
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:168
 msgid "Create public type index:"
 msgstr "Create public type index:"
 
@@ -365,7 +365,7 @@ msgstr "Ignore"
 msgid "Inbox is not set up"
 msgstr "Inbox is not set up"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:180
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:195
 msgid "Inbox is set up."
 msgstr "Inbox is set up."
 
@@ -516,7 +516,7 @@ msgid "No hospex document for community"
 msgstr "No hospex document for community"
 
 #: src/pages/HospexSetup/CommunitySetup.tsx:71
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:130
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:40
 msgid "No storage found"
 msgstr "No storage found"
 
@@ -561,7 +561,7 @@ msgstr "Please wait for everything to load."
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgstr "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:136
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:151
 msgid "Preferences file is set up."
 msgstr "Preferences file is set up."
 
@@ -574,11 +574,11 @@ msgstr "Prepare Pod"
 msgid "Preparing and sending verification email"
 msgstr "Preparing and sending verification email"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:123
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:140
 msgid "Preparing Solid Pod"
 msgstr "Preparing Solid Pod"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:164
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:179
 msgid "Private type index is set up."
 msgstr "Private type index is set up."
 
@@ -606,7 +606,7 @@ msgstr "Profile updated"
 msgid "Public type index is not set up"
 msgstr "Public type index is not set up"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:150
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:165
 msgid "Public type index is set up."
 msgstr "Public type index is set up."
 
@@ -716,11 +716,11 @@ msgstr "Skip getting started"
 msgid "Solid notification was sent"
 msgstr "Solid notification was sent"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:124
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:141
 msgid "Solid Pod is prepared"
 msgstr "Solid Pod is prepared"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:87
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:104
 msgid "Something is not resolved (unexpected error)"
 msgstr "Something is not resolved (unexpected error)"
 
