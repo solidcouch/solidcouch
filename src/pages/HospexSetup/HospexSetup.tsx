@@ -40,7 +40,7 @@ interface SetupConfig {
 
 const stepStatusKeys: (keyof SetupStatus)[][] = [
   // eslint-disable-next-line lingui/no-unlocalized-strings
-  ['isPublicTypeIndex', 'isPrivateTypeIndex', 'isInbox'],
+  ['isPublicTypeIndex', 'isPrivateTypeIndex', 'isInbox', 'isPreferencesFile'],
   // eslint-disable-next-line lingui/no-unlocalized-strings
   ['isMember', 'isHospexProfile'],
   // eslint-disable-next-line lingui/no-unlocalized-strings
@@ -94,10 +94,21 @@ export const HospexSetup = ({ ...props }: SetupStatus & SetupConfig) => {
     isEmailNotifications === undefined ||
     isSimpleEmailNotifications === undefined
 
-  const isSetupLoading =
-    isWebidProfileSetupLoading ||
-    isCommunitySetupLoading ||
-    isNotificationsSetupLoading
+  const isWebidProfileSetupError =
+    isPublicTypeIndex === false ||
+    isPrivateTypeIndex === false ||
+    isPreferencesFile === false ||
+    isInbox === false
+  const isCommunitySetupError = isHospexProfile === false || isMember === false
+  const isNotificationsSetupError =
+    isEmailNotifications === false ||
+    isEmailNotifications === 'unverified' ||
+    isSimpleEmailNotifications === false
+
+  const isSetupError =
+    isWebidProfileSetupError ||
+    isCommunitySetupError ||
+    isNotificationsSetupError
 
   return (
     <div className={styles.container}>
@@ -126,59 +137,73 @@ export const HospexSetup = ({ ...props }: SetupStatus & SetupConfig) => {
             )
           })}
         </Tabs.List>
-        {!isSetupLoading && (
+        {isSetupError && (
           <>
             <Tabs.Content value="0" className={styles.content}>
               <h2>
                 <Trans>Prepare Pod</Trans>
               </h2>
-              <WebidProfileSetup
-                onSuccess={() => handleStepSuccess(0)}
-                isPublicTypeIndex={isPublicTypeIndex}
-                isPrivateTypeIndex={isPrivateTypeIndex}
-                isPreferencesFile={isPreferencesFile}
-                isInbox={isInbox}
-                webId={auth.webId!}
-                preferencesFile={
-                  props.preferencesFiles.values().next().value?.value
-                }
-                publicTypeIndex={
-                  props.publicTypeIndexes.values().next().value?.value
-                }
-                privateTypeIndex={
-                  props.privateTypeIndexes.values().next().value?.value
-                }
-              />
+              {isWebidProfileSetupLoading ? (
+                <IconLoading />
+              ) : (
+                <WebidProfileSetup
+                  onSuccess={() => handleStepSuccess(0)}
+                  isPublicTypeIndex={isPublicTypeIndex}
+                  isPrivateTypeIndex={isPrivateTypeIndex}
+                  isPreferencesFile={isPreferencesFile}
+                  isInbox={isInbox}
+                  webId={auth.webId!}
+                  preferencesFile={
+                    props.preferencesFiles.values().next().value?.value
+                  }
+                  publicTypeIndex={
+                    props.publicTypeIndexes.values().next().value?.value
+                  }
+                  privateTypeIndex={
+                    props.privateTypeIndexes.values().next().value?.value
+                  }
+                />
+              )}
             </Tabs.Content>
             <Tabs.Content value="1" className={styles.content}>
               <h2>
                 <Trans>Join Community</Trans>
               </h2>
-              <CommunitySetup
-                onSuccess={() => handleStepSuccess(1)}
-                isMember={isMember}
-                isHospexProfile={isHospexProfile}
-                allHospex={props.allHospex}
-                publicTypeIndex={
-                  props.publicTypeIndexes.values().next().value?.value
-                }
-              />
+              {isCommunitySetupLoading ? (
+                <IconLoading />
+              ) : (
+                <CommunitySetup
+                  onSuccess={() => handleStepSuccess(1)}
+                  isMember={isMember}
+                  isHospexProfile={isHospexProfile}
+                  allHospex={props.allHospex}
+                  publicTypeIndex={
+                    props.publicTypeIndexes.values().next().value?.value
+                  }
+                />
+              )}
             </Tabs.Content>
             <Tabs.Content value="2" className={styles.content}>
               <h2>
                 <Trans>Set Up Notifications</Trans>
               </h2>
-              <NotificationsSetup
-                isEmailNotifications={isEmailNotifications}
-                isSimpleEmailNotifications={isSimpleEmailNotifications}
-                hospexDocument={
-                  props.allHospex.find(ah =>
-                    ah.communities.some(ahc => ahc.uri === config.communityId),
-                  )?.hospexDocument
-                }
-                inbox={props.inboxes.values().next().value?.value}
-                onSuccess={() => handleStepSuccess(2)}
-              />
+              {isNotificationsSetupLoading ? (
+                <IconLoading />
+              ) : (
+                <NotificationsSetup
+                  isEmailNotifications={isEmailNotifications}
+                  isSimpleEmailNotifications={isSimpleEmailNotifications}
+                  hospexDocument={
+                    props.allHospex.find(ah =>
+                      ah.communities.some(
+                        ahc => ahc.uri === config.communityId,
+                      ),
+                    )?.hospexDocument
+                  }
+                  inbox={props.inboxes.values().next().value?.value}
+                  onSuccess={() => handleStepSuccess(2)}
+                />
+              )}
             </Tabs.Content>
           </>
         )}

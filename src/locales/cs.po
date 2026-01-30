@@ -389,7 +389,7 @@ msgstr ""
 msgid "Join {communityName}"
 msgstr "Připojte se k {communityName}"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:155
+#: src/pages/HospexSetup/HospexSetup.tsx:170
 msgid "Join Community"
 msgstr "Připojit se ke komunitě"
 
@@ -557,7 +557,7 @@ msgstr "Postaveno na <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgid "Preferences file is set up."
 msgstr "Soubor předvoleb je nastaven."
 
-#: src/pages/HospexSetup/HospexSetup.tsx:133
+#: src/pages/HospexSetup/HospexSetup.tsx:144
 msgid "Prepare Pod"
 msgstr "Připravte Pod"
 
@@ -672,7 +672,7 @@ msgstr "Probíhá odesílání Solid upozornění"
 msgid "Session Expired!"
 msgstr "Platnost přihlášení vypršela!"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:169
+#: src/pages/HospexSetup/HospexSetup.tsx:188
 msgid "Set Up Notifications"
 msgstr "Nastavit oznámení"
 

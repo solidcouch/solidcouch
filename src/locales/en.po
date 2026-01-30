@@ -389,7 +389,7 @@ msgstr "Invitation"
 msgid "Join {communityName}"
 msgstr "Join {communityName}"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:155
+#: src/pages/HospexSetup/HospexSetup.tsx:170
 msgid "Join Community"
 msgstr "Join Community"
 
@@ -557,7 +557,7 @@ msgstr "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgid "Preferences file is set up."
 msgstr "Preferences file is set up."
 
-#: src/pages/HospexSetup/HospexSetup.tsx:133
+#: src/pages/HospexSetup/HospexSetup.tsx:144
 msgid "Prepare Pod"
 msgstr "Prepare Pod"
 
@@ -672,7 +672,7 @@ msgstr "Sending Solid notification"
 msgid "Session Expired!"
 msgstr "Session Expired!"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:169
+#: src/pages/HospexSetup/HospexSetup.tsx:188
 msgid "Set Up Notifications"
 msgstr "Set Up Notifications"
 
