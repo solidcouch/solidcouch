@@ -4,7 +4,6 @@ import {
   useCheckEmailNotifications,
   useCheckSetup,
   useCheckSimpleEmailNotifications,
-  useCheckSimpleEmailNotificationsOptimistic,
   useInbox,
   usePrivateTypeIndex,
   usePublicTypeIndex,
@@ -32,9 +31,6 @@ export const SetupOutlet = () => {
     emailNotificationsType === 'simple' ? emailNotificationsService : '',
   )
 
-  const isSimpleEmailNotificationsOptimistic =
-    useCheckSimpleEmailNotificationsOptimistic(auth.webId!)
-
   const isEmailNotifications = useCheckEmailNotifications(
     setupCheck.inboxes.values().next().value?.value ?? '',
     emailNotificationsType === 'solid' ? emailNotificationsService : '',
@@ -44,9 +40,7 @@ export const SetupOutlet = () => {
     Object.values(setupCheck).every(v => v) &&
     (isEmailNotifications === true || isEmailNotifications === 'unset') &&
     (isSimpleEmailNotifications === true ||
-      isSimpleEmailNotifications === 'unset' ||
-      (isSimpleEmailNotifications === undefined &&
-        isSimpleEmailNotificationsOptimistic === true)) // this is a quicker check
+      isSimpleEmailNotifications === 'unset')
 
   const isError = [
     ...Object.values(setupCheck),

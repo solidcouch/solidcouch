@@ -121,10 +121,6 @@ msgstr "Cancel"
 msgid "Chat channel was created"
 msgstr "Chat channel was created"
 
-#: src/pages/SetupOutlet.tsx:137
-#~ msgid "Checking your setup..."
-#~ msgstr "Checking your setup..."
-
 #: src/components/Join/Join.tsx:88
 msgid "Choose a Pod provider:"
 msgstr "Choose a Pod provider:"
@@ -306,10 +302,6 @@ msgstr "Finish"
 #: src/pages/HospexSetup/NotificationsSetup.tsx:282
 msgid "Finish Setup"
 msgstr "Finish Setup"
-
-#: src/pages/SetupOutlet.tsx:76
-#~ msgid "Finishing setup check."
-#~ msgstr "Finishing setup check."
 
 #: src/components/Logo/Logo.tsx:43
 msgid "focused logo of {name}"
@@ -688,10 +680,6 @@ msgstr "Set Up Notifications"
 msgid "Setting up hospex data"
 msgstr "Setting up hospex data"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:161
-#~ msgid "Setup"
-#~ msgstr "Setup"
-
 #: src/pages/HospexSetup/NotificationsSetup.tsx:252
 msgid "Setup email notifications"
 msgstr "Setup email notifications"
@@ -825,10 +813,6 @@ msgstr ""
 "Reason: {message}\n"
 "\n"
 "Error: {errorString}"
-
-#: src/pages/SetupOutlet.tsx:140
-#~ msgid "We're verifying that everything is configured correctly."
-#~ msgstr "We're verifying that everything is configured correctly."
 
 #: src/components/Onboarding/Onboarding.tsx:23
 msgid "Welcome to {communityLabel}!"
