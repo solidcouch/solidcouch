@@ -7,3 +7,9 @@
   flex-direction: column;
   gap: var(--space-2x);
 }
+
+.backgroundCheck {
+  margin: 0 calc(-1 * var(--page-margin));
+  padding: var(--space-2x) var(--page-margin);
+  background-color: var(--background-color-raised);
+}

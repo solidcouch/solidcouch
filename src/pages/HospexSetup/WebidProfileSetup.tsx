@@ -6,13 +6,14 @@ import {
   useCreatePrivateTypeIndex,
   useCreatePublicTypeIndex,
 } from '@/hooks/data/useSetupHospex'
+import { useStorage } from '@/hooks/data/useStorage'
+import { useAuth } from '@/hooks/useAuth'
 import { getContainer, removeBaseUrl } from '@/utils/helpers'
 import { Trans, useLingui } from '@lingui/react/macro'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
-import { SetupStatusKey } from './types'
 import { useToastError } from './useToastError'
 
 interface WebidProfileData {
@@ -22,7 +23,25 @@ interface WebidProfileData {
   inbox: string
 }
 
-export const WebidProfileSetup = ({
+export const WebidProfileSetup = (
+  props: StepProps & {
+    isPublicTypeIndex: boolean
+    isPrivateTypeIndex: boolean
+    isInbox: boolean
+    isPreferencesFile: boolean
+    webId: string
+    preferencesFile?: string
+    privateTypeIndex?: string
+    publicTypeIndex?: string
+  },
+) => {
+  const auth = useAuth()
+  const storage = useStorage(auth.webId!)
+  if (!storage) return <Trans>No storage found</Trans>
+  return <WebidProfileSetupForm {...props} storage={storage} />
+}
+
+const WebidProfileSetupForm = ({
   onSuccess,
   isPublicTypeIndex,
   isPrivateTypeIndex,
@@ -34,15 +53,15 @@ export const WebidProfileSetup = ({
   webId,
   storage,
 }: StepProps & {
-  [SetupStatusKey.isPublicTypeIndex]: boolean
-  [SetupStatusKey.isPrivateTypeIndex]: boolean
-  [SetupStatusKey.isInbox]: boolean
-  [SetupStatusKey.isPreferencesFile]: boolean
+  isPublicTypeIndex: boolean
+  isPrivateTypeIndex: boolean
+  isInbox: boolean
+  isPreferencesFile: boolean
   webId: string
-  storage: string
   preferencesFile?: string
   privateTypeIndex?: string
   publicTypeIndex?: string
+  storage: string
 }) => {
   const { t } = useLingui()
   const createPublicTypeIndex = useCreatePublicTypeIndex()

@@ -19,7 +19,6 @@ import { useForm } from 'react-hook-form'
 import styles from './CommunitySetup.module.scss'
 import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
-import { SetupStatusKey } from './types'
 import { useToastError } from './useToastError'
 
 export const CommunitySetup = ({
@@ -29,8 +28,8 @@ export const CommunitySetup = ({
   allHospex,
   publicTypeIndex,
 }: StepProps & {
-  [SetupStatusKey.isMember]: boolean
-  [SetupStatusKey.isHospexProfile]: boolean
+  isMember: boolean
+  isHospexProfile: boolean
   allHospex: {
     hospexDocument: URI
     communities: { uri: string; name: string }[]
@@ -40,7 +39,7 @@ export const CommunitySetup = ({
   const { communityContainer, communityId } = useConfig()
   const auth = useAuth()
   const { t } = useLingui()
-  const storage = useStorage(auth.webId ?? '')!
+  const storage = useStorage(auth.webId!)
   const community = useReadCommunity(communityId)
   const joinGroupLegacy = useJoinGroupLegacy()
   const joinCommunity = useJoinCommunity()
@@ -69,7 +68,9 @@ export const CommunitySetup = ({
 
   const toastError = useToastError()
 
-  if (!storage || !newHospexDocument) return <>...</>
+  if (!storage) return <Trans>No storage found</Trans>
+  if (!newHospexDocument) return <>...</>
+
   const handleFormSubmit = handleSubmit(
     async ({ hospexDocument, newHospexDocument }) => {
       if (!isHospexProfile) {

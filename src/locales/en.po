@@ -30,7 +30,7 @@ msgstr "{messageCount, plural, one {(# new)} other {(# new)}}"
 msgid "<0>Reach us in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>."
 msgstr "<0>Reach us in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>."
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:174
+#: src/pages/HospexSetup/NotificationsSetup.tsx:173
 msgid "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 msgstr "A confirmation email has been sent to {sentToEmail}.<0/>Please check your inbox (and spam folder) and follow the instructions."
 
@@ -121,16 +121,12 @@ msgstr "Cancel"
 msgid "Chat channel was created"
 msgstr "Chat channel was created"
 
-#: src/pages/SetupOutlet.tsx:125
-msgid "Checking your setup..."
-msgstr "Checking your setup..."
-
 #: src/components/Join/Join.tsx:88
 msgid "Choose a Pod provider:"
 msgstr "Choose a Pod provider:"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:168
-#: src/pages/HospexSetup/CommunitySetup.tsx:178
+#: src/pages/HospexSetup/CommunitySetup.tsx:169
+#: src/pages/HospexSetup/CommunitySetup.tsx:179
 msgid "Choose your community data storage:"
 msgstr "Choose your community data storage:"
 
@@ -151,20 +147,20 @@ msgstr "Close hosting preview"
 msgid "code"
 msgstr "code"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:130
+#: src/pages/HospexSetup/CommunitySetup.tsx:131
 msgid "Community does not have a group."
 msgstr "Community does not have a group."
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:139
+#: src/pages/HospexSetup/CommunitySetup.tsx:140
 msgid "Community joined"
 msgstr "Community joined"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:127
+#: src/pages/HospexSetup/CommunitySetup.tsx:128
 msgid "Community Solid Pod is not available at the moment."
 msgstr "Community Solid Pod is not available at the moment."
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:236
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:197
+#: src/pages/HospexSetup/CommunitySetup.tsx:237
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:216
 msgid "Confirm and Continue"
 msgstr "Confirm and Continue"
 
@@ -198,23 +194,23 @@ msgstr "Conversations"
 msgid "Conversations with {people}"
 msgstr "Conversations with {people}"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:179
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:198
 msgid "Create inbox:"
 msgstr "Create inbox:"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:205
+#: src/pages/HospexSetup/CommunitySetup.tsx:206
 msgid "Create new profile for this community:"
 msgstr "Create new profile for this community:"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:135
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:154
 msgid "Create preferences file:"
 msgstr "Create preferences file:"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:163
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:182
 msgid "Create private type index:"
 msgstr "Create private type index:"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:149
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:168
 msgid "Create public type index:"
 msgstr "Create public type index:"
 
@@ -263,7 +259,7 @@ msgstr "edit profile"
 msgid "Edit profile"
 msgstr "Edit profile"
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:159
+#: src/pages/HospexSetup/NotificationsSetup.tsx:158
 msgid "email address"
 msgstr "email address"
 
@@ -275,11 +271,11 @@ msgstr "Email notification was sent"
 msgid "Email Notification was sent."
 msgstr "Email Notification was sent."
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:280
+#: src/pages/HospexSetup/NotificationsSetup.tsx:279
 msgid "Email notifications are not available for this community."
 msgstr "Email notifications are not available for this community."
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:156
+#: src/pages/HospexSetup/NotificationsSetup.tsx:155
 msgid "Enter your email address:"
 msgstr "Enter your email address:"
 
@@ -299,11 +295,11 @@ msgstr "Find people to stay with"
 msgid "Finish"
 msgstr "Finish"
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:146
-#: src/pages/HospexSetup/NotificationsSetup.tsx:189
-#: src/pages/HospexSetup/NotificationsSetup.tsx:244
-#: src/pages/HospexSetup/NotificationsSetup.tsx:269
-#: src/pages/HospexSetup/NotificationsSetup.tsx:283
+#: src/pages/HospexSetup/NotificationsSetup.tsx:145
+#: src/pages/HospexSetup/NotificationsSetup.tsx:188
+#: src/pages/HospexSetup/NotificationsSetup.tsx:243
+#: src/pages/HospexSetup/NotificationsSetup.tsx:268
+#: src/pages/HospexSetup/NotificationsSetup.tsx:282
 msgid "Finish Setup"
 msgstr "Finish Setup"
 
@@ -332,7 +328,7 @@ msgstr "Hi! I'd like to add you as a contact!"
 msgid "hospex container not found (too soon?)"
 msgstr "hospex container not found (too soon?)"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:101
+#: src/pages/HospexSetup/CommunitySetup.tsx:102
 msgid "Hospex data setup successful"
 msgstr "Hospex data setup successful"
 
@@ -344,7 +340,6 @@ msgstr "Hospex document not found"
 msgid "Hospex not set up (should not happen)"
 msgstr "Hospex not set up (should not happen)"
 
-#: src/components/Header/Header.tsx:41
 #: src/pages/Home.tsx:22
 msgid "host"
 msgstr "host"
@@ -358,11 +353,11 @@ msgstr "Hosting location (click <0/> or drag & zoom map)"
 msgid "Ignore"
 msgstr "Ignore"
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:217
+#: src/pages/HospexSetup/NotificationsSetup.tsx:216
 msgid "Inbox is not set up"
 msgstr "Inbox is not set up"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:176
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:195
 msgid "Inbox is set up."
 msgstr "Inbox is set up."
 
@@ -394,20 +389,20 @@ msgstr "Invitation"
 msgid "Join {communityName}"
 msgstr "Join {communityName}"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:105
+#: src/pages/HospexSetup/HospexSetup.tsx:170
 msgid "Join Community"
 msgstr "Join Community"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:155
+#: src/pages/HospexSetup/CommunitySetup.tsx:156
 msgid "Join community {communityLabel}"
 msgstr "Join community {communityLabel}"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:118
+#: src/pages/HospexSetup/CommunitySetup.tsx:119
 msgid "Join request sent"
 msgstr "Join request sent"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:117
-#: src/pages/HospexSetup/CommunitySetup.tsx:138
+#: src/pages/HospexSetup/CommunitySetup.tsx:118
+#: src/pages/HospexSetup/CommunitySetup.tsx:139
 msgid "Joining community"
 msgstr "Joining community"
 
@@ -415,7 +410,7 @@ msgstr "Joining community"
 msgid "Later"
 msgstr "Later"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:183
+#: src/pages/HospexSetup/CommunitySetup.tsx:184
 msgid "Link existing community profile:"
 msgstr "Link existing community profile:"
 
@@ -454,7 +449,6 @@ msgstr "logo of {name}"
 msgid "Message was created"
 msgstr "Message was created"
 
-#: src/components/Header/Header.tsx:44
 #: src/components/Header/MainMenu.tsx:45
 #: src/pages/Home.tsx:25
 msgid "messages"
@@ -509,9 +503,14 @@ msgstr "Next"
 msgid "No authenticated user available"
 msgstr "No authenticated user available"
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:104
+#: src/pages/HospexSetup/NotificationsSetup.tsx:103
 msgid "No hospex document for community"
 msgstr "No hospex document for community"
+
+#: src/pages/HospexSetup/CommunitySetup.tsx:71
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:40
+msgid "No storage found"
+msgstr "No storage found"
 
 #: src/components/Accommodation/Accommodation.tsx:219
 msgid "Notifying indexing service"
@@ -542,7 +541,7 @@ msgstr "Please invite only people you know personally."
 msgid "Please move map to your hosting location"
 msgstr "Please move map to your hosting location"
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:267
+#: src/pages/HospexSetup/NotificationsSetup.tsx:266
 msgid "Please verify your email"
 msgstr "Please verify your email"
 
@@ -554,24 +553,24 @@ msgstr "Please wait for everything to load."
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgstr "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:132
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:151
 msgid "Preferences file is set up."
 msgstr "Preferences file is set up."
 
-#: src/pages/HospexSetup/HospexSetup.tsx:82
+#: src/pages/HospexSetup/HospexSetup.tsx:144
 msgid "Prepare Pod"
 msgstr "Prepare Pod"
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:133
-#: src/pages/HospexSetup/NotificationsSetup.tsx:231
+#: src/pages/HospexSetup/NotificationsSetup.tsx:132
+#: src/pages/HospexSetup/NotificationsSetup.tsx:230
 msgid "Preparing and sending verification email"
 msgstr "Preparing and sending verification email"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:121
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:140
 msgid "Preparing Solid Pod"
 msgstr "Preparing Solid Pod"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:160
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:179
 msgid "Private type index is set up."
 msgstr "Private type index is set up."
 
@@ -595,11 +594,11 @@ msgstr "Profile photo of {name}"
 msgid "Profile updated"
 msgstr "Profile updated"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:82
+#: src/pages/HospexSetup/CommunitySetup.tsx:83
 msgid "Public type index is not set up"
 msgstr "Public type index is not set up"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:146
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:165
 msgid "Public type index is set up."
 msgstr "Public type index is set up."
 
@@ -611,7 +610,7 @@ msgstr "Removing interest"
 msgid "Request failed: {status} {statusText} {url}"
 msgstr "Request failed: {status} {statusText} {url}"
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:166
+#: src/pages/HospexSetup/NotificationsSetup.tsx:165
 msgid "Resend Confirmation Email in {countdown}s"
 msgstr "Resend Confirmation Email in {countdown}s"
 
@@ -640,8 +639,8 @@ msgstr "Send"
 msgid "Send a message…"
 msgstr "Send a message…"
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:168
-#: src/pages/HospexSetup/NotificationsSetup.tsx:261
+#: src/pages/HospexSetup/NotificationsSetup.tsx:167
+#: src/pages/HospexSetup/NotificationsSetup.tsx:260
 msgid "Send Confirmation Email"
 msgstr "Send Confirmation Email"
 
@@ -673,19 +672,15 @@ msgstr "Sending Solid notification"
 msgid "Session Expired!"
 msgstr "Session Expired!"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:119
+#: src/pages/HospexSetup/HospexSetup.tsx:188
 msgid "Set Up Notifications"
 msgstr "Set Up Notifications"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:100
+#: src/pages/HospexSetup/CommunitySetup.tsx:101
 msgid "Setting up hospex data"
 msgstr "Setting up hospex data"
 
-#: src/pages/HospexSetup/HospexSetup.tsx:161
-msgid "Setup"
-msgstr "Setup"
-
-#: src/pages/HospexSetup/NotificationsSetup.tsx:253
+#: src/pages/HospexSetup/NotificationsSetup.tsx:252
 msgid "Setup email notifications"
 msgstr "Setup email notifications"
 
@@ -709,11 +704,11 @@ msgstr "Skip getting started"
 msgid "Solid notification was sent"
 msgstr "Solid notification was sent"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:122
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:141
 msgid "Solid Pod is prepared"
 msgstr "Solid Pod is prepared"
 
-#: src/pages/HospexSetup/WebidProfileSetup.tsx:85
+#: src/pages/HospexSetup/WebidProfileSetup.tsx:104
 msgid "Something is not resolved (unexpected error)"
 msgstr "Something is not resolved (unexpected error)"
 
@@ -778,7 +773,6 @@ msgstr "Title"
 msgid "To join {communityName}, you need a <0>Solid Pod</0> — a place to store your data."
 msgstr "To join {communityName}, you need a <0>Solid Pod</0> — a place to store your data."
 
-#: src/components/Header/Header.tsx:38
 #: src/pages/Home.tsx:19
 msgid "travel"
 msgstr "travel"
@@ -799,8 +793,8 @@ msgstr "Updating accommodation"
 msgid "Updating profile"
 msgstr "Updating profile"
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:134
-#: src/pages/HospexSetup/NotificationsSetup.tsx:232
+#: src/pages/HospexSetup/NotificationsSetup.tsx:133
+#: src/pages/HospexSetup/NotificationsSetup.tsx:231
 msgid "Verification email sent"
 msgstr "Verification email sent"
 
@@ -820,10 +814,6 @@ msgstr ""
 "\n"
 "Error: {errorString}"
 
-#: src/pages/SetupOutlet.tsx:128
-msgid "We're verifying that everything is configured correctly."
-msgstr "We're verifying that everything is configured correctly."
-
 #: src/components/Onboarding/Onboarding.tsx:23
 msgid "Welcome to {communityLabel}!"
 msgstr "Welcome to {communityLabel}!"
@@ -841,7 +831,7 @@ msgstr "WIP"
 msgid "Write a message"
 msgstr "Write a message"
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:159
+#: src/pages/HospexSetup/CommunitySetup.tsx:160
 msgid "You are already a member of {communityLabel}"
 msgstr "You are already a member of {communityLabel}"
 
@@ -853,16 +843,16 @@ msgstr "You can also <0>host your own Pod</0>."
 msgid "You can only read this chat."
 msgstr "You can only read this chat."
 
-#: src/pages/HospexSetup/CommunitySetup.tsx:164
+#: src/pages/HospexSetup/CommunitySetup.tsx:165
 msgid "Your {communityLabel} data storage is set up."
 msgstr "Your {communityLabel} data storage is set up."
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:256
+#: src/pages/HospexSetup/NotificationsSetup.tsx:255
 msgid "Your email"
 msgstr "Your email"
 
-#: src/pages/HospexSetup/NotificationsSetup.tsx:144
-#: src/pages/HospexSetup/NotificationsSetup.tsx:242
+#: src/pages/HospexSetup/NotificationsSetup.tsx:143
+#: src/pages/HospexSetup/NotificationsSetup.tsx:241
 msgid "Your email notifications are set up."
 msgstr "Your email notifications are set up."
 

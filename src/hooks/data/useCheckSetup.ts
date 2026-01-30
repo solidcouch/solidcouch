@@ -322,6 +322,7 @@ const checkMailerIntegration = async (webId: string, mailer: string) => {
   const response = await fetch(`${mailer}/status/${encodeURIComponent(webId)}`)
 
   if (response.status === 403) return { emailVerified: false }
+  if (response.status === 401) return { emailVerified: false }
   if (!response.ok) {
     throw new Error('Network response was not ok')
   }
@@ -338,11 +339,13 @@ export const useCheckSimpleEmailNotifications = (
   webId: URI,
   mailer: string,
 ) => {
-  const { isLoading, data } = useCheckNotificationsQuery(webId, mailer)
+  const { isLoading, data, error } = useCheckNotificationsQuery(webId, mailer)
 
   if (data === 'mailer not set up') return 'unset' as const
 
-  if (isLoading || !data) return undefined
+  if (isLoading) return undefined
 
-  return data.emailVerified
+  // TODO these two should return more careful values than just false
+  if (error) return false
+  return data?.emailVerified ?? false
 }
