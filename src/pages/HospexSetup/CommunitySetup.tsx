@@ -39,7 +39,7 @@ export const CommunitySetup = ({
   const { communityContainer, communityId } = useConfig()
   const auth = useAuth()
   const { t } = useLingui()
-  const storage = useStorage(auth.webId ?? '')!
+  const storage = useStorage(auth.webId!)
   const community = useReadCommunity(communityId)
   const joinGroupLegacy = useJoinGroupLegacy()
   const joinCommunity = useJoinCommunity()
@@ -68,7 +68,9 @@ export const CommunitySetup = ({
 
   const toastError = useToastError()
 
-  if (!storage || !newHospexDocument) return <>...</>
+  if (!storage) return <Trans>No storage found</Trans>
+  if (!newHospexDocument) return <>...</>
+
   const handleFormSubmit = handleSubmit(
     async ({ hospexDocument, newHospexDocument }) => {
       if (!isHospexProfile) {

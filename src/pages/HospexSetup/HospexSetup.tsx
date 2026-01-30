@@ -1,6 +1,5 @@
 import { IconLoading } from '@/components/IconLoading'
 import { useConfig } from '@/config/hooks'
-import { useStorage } from '@/hooks/data/useStorage'
 import { useAuth } from '@/hooks/useAuth'
 import { useAppDispatch } from '@/redux/hooks'
 import * as uiSlice from '@/redux/uiSlice'
@@ -71,10 +70,7 @@ export const HospexSetup = ({ ...props }: SetupStatus & SetupConfig) => {
   )
 
   const auth = useAuth()
-  const storage = useStorage(auth.webId!)
   const config = useConfig()
-
-  if (!storage) return <>...</>
 
   const {
     isPublicTypeIndex,
@@ -142,7 +138,6 @@ export const HospexSetup = ({ ...props }: SetupStatus & SetupConfig) => {
                 isPrivateTypeIndex={isPrivateTypeIndex}
                 isPreferencesFile={isPreferencesFile}
                 isInbox={isInbox}
-                storage={storage}
                 webId={auth.webId!}
                 preferencesFile={
                   props.preferencesFiles.values().next().value?.value
