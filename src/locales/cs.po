@@ -26,6 +26,10 @@ msgstr "{label} byl přidán do zájmů"
 msgid "{messageCount, plural, one {(# new)} other {(# new)}}"
 msgstr "{messageCount, plural, one {(# nová)} few {(# nové)} other {(# nových)}}"
 
+#: src/pages/Profile/ProcessContactRequest.tsx:90
+msgid "<0/> wrote you:"
+msgstr ""
+
 #: src/components/Join/Join.tsx:115
 msgid "<0>Reach us in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>."
 msgstr "<0>Ozvěte se nám v našich projektových prostorech</0> nebo napište na <1>„support zavináč solidcouch tečka org\"</1>."
@@ -42,7 +46,7 @@ msgstr "O mně"
 msgid "About your hosting"
 msgstr "O vašem ubytování"
 
-#: src/pages/Profile/ManageContact.tsx:99
+#: src/pages/Profile/ProcessContactRequest.tsx:106
 msgid "Accept"
 msgstr "Přijmout"
 
@@ -90,17 +94,21 @@ msgstr "Přidat jazyk"
 msgid "Add Accommodation"
 msgstr "Přidat ubytování"
 
-#: src/pages/Profile/ManageContact.tsx:181
+#: src/pages/Profile/AddContactForm.tsx:25
 msgid "Add person as a contact"
 msgstr "Přidat osobu do kontaktů"
 
-#: src/pages/Profile/ManageContact.tsx:153
+#: src/pages/Profile/AddContact.tsx:73
 msgid "Add to my contacts"
 msgstr "Přidat do mých kontaktů"
 
 #: src/pages/EditProfile/EditInterests.tsx:64
 msgid "Adding {label} to interests"
 msgstr "Přidávání {label} do zájmů"
+
+#: src/pages/Profile/AddContact.tsx:50
+msgid "Adding contact."
+msgstr ""
 
 #: src/pages/Contacts.tsx:20
 #: src/pages/ProfileRedirect.tsx:13
@@ -113,7 +121,7 @@ msgstr "Ověřování..."
 
 #: src/components/Accommodation/AccommodationForm.tsx:159
 #: src/components/LocaleTextInput/LocaleTextInput.tsx:188
-#: src/pages/Profile/ManageContact.tsx:192
+#: src/pages/Profile/AddContactForm.tsx:38
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -164,11 +172,31 @@ msgstr ""
 msgid "Confirm and Continue"
 msgstr ""
 
-#: src/pages/Profile/ManageContact.tsx:35
+#: src/pages/Profile/ProcessContactRequest.tsx:55
+msgid "Confirming contact"
+msgstr ""
+
+#: src/pages/Profile/AddContact.tsx:51
+msgid "Contact added."
+msgstr ""
+
+#: src/pages/Profile/ProcessContactRequest.tsx:56
+msgid "Contact confirmed"
+msgstr ""
+
+#: src/pages/Profile/ManageContact.tsx:25
 msgid "Contact exists"
 msgstr "Kontakt již existuje"
 
-#: src/pages/Profile/ManageContact.tsx:38
+#: src/pages/Profile/ProcessContactRequest.tsx:83
+msgid "Contact request from <0/>"
+msgstr ""
+
+#: src/pages/Profile/ProcessContactRequest.tsx:68
+msgid "Contact request ignored"
+msgstr ""
+
+#: src/pages/Profile/ManageContact.tsx:28
 msgid "Contact request sent"
 msgstr "Pozvánka odeslána"
 
@@ -319,12 +347,12 @@ msgstr ""
 msgid "Getting started"
 msgstr ""
 
-#: src/pages/Profile/ManageContact.tsx:171
+#: src/pages/Profile/AddContactForm.tsx:15
 msgid "Hi! I'd like to add you as a contact!"
 msgstr "Ahoj! Rád(a) bych tě přidal(a) do kontaktů!"
 
-#: src/pages/Profile/ManageContact.tsx:70
-#: src/pages/Profile/ManageContact.tsx:127
+#: src/pages/Profile/AddContact.tsx:35
+#: src/pages/Profile/ProcessContactRequest.tsx:46
 msgid "hospex container not found (too soon?)"
 msgstr "hospex kontejner nebyl nalezen (možná příliš brzy?)"
 
@@ -349,9 +377,13 @@ msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Lokalita hostování (klikněte na <0/> nebo přetáhněte a přibližte mapu)"
 
 #: src/pages/messages/Messages.tsx:475
-#: src/pages/Profile/ManageContact.tsx:102
+#: src/pages/Profile/ProcessContactRequest.tsx:99
 msgid "Ignore"
 msgstr "Ignorovat"
+
+#: src/pages/Profile/ProcessContactRequest.tsx:67
+msgid "Ignoring contact request"
+msgstr ""
 
 #: src/pages/HospexSetup/NotificationsSetup.tsx:216
 msgid "Inbox is not set up"
@@ -361,7 +393,7 @@ msgstr "Schránka není nastavena"
 msgid "Inbox is set up."
 msgstr "Schránka je nastavena."
 
-#: src/pages/Profile/ManageContact.tsx:129
+#: src/pages/Profile/AddContact.tsx:39
 msgid "inbox not found (too soon?)"
 msgstr "schránka nebyla nalezena (možná příliš brzy?)"
 
@@ -435,7 +467,7 @@ msgstr "Načítání předchozích zpráv"
 #: src/App.tsx:54
 #: src/pages/messages-old/MessagesOld.tsx:213
 #: src/pages/MyOffers.tsx:25
-#: src/pages/Profile/ManageContact.tsx:26
+#: src/pages/Profile/ManageContact.tsx:16
 #: src/pages/SearchHosts/AccommodationInfo.tsx:54
 msgid "Loading..."
 msgstr "Načítání..."
@@ -533,7 +565,7 @@ msgstr "Fotka"
 msgid "Please <0>start a new one</0>."
 msgstr "Prosím, <0>založte nový</0>."
 
-#: src/pages/Profile/ManageContact.tsx:184
+#: src/pages/Profile/AddContactForm.tsx:28
 msgid "Please invite only people you know personally."
 msgstr "Pozvěte prosím pouze lidi, které osobně znáte."
 
@@ -622,7 +654,7 @@ msgstr "Uložit"
 msgid "Save changes"
 msgstr "Uložit změny"
 
-#: src/pages/Profile/ManageContact.tsx:90
+#: src/pages/Profile/ProcessContactRequest.tsx:77
 msgid "See contact invitation"
 msgstr "Zobrazit pozvánku ke kontaktu"
 
@@ -644,7 +676,7 @@ msgstr "Poslat zprávu…"
 msgid "Send Confirmation Email"
 msgstr "Odeslat potvrzovací e-mail"
 
-#: src/pages/Profile/ManageContact.tsx:189
+#: src/pages/Profile/AddContactForm.tsx:41
 msgid "Send contact invitation"
 msgstr "Odeslat pozvánku ke kontaktu"
 

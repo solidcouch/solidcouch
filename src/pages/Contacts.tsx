@@ -6,7 +6,7 @@ import * as types from '@/types'
 import { Trans } from '@lingui/react/macro'
 import { useParams } from 'react-router'
 import styles from './Contacts.module.scss'
-import { ProcessContactInvitation } from './Profile/ManageContact.tsx'
+import { ProcessContactRequest } from './Profile/ProcessContactRequest'
 
 export const Contacts = () => {
   const personId = useParams().id as string
@@ -75,9 +75,9 @@ const Contact = ({ contact }: { contact: types.Contact }) => {
       )}
       {contact.status === ContactStatus.requestReceived && (
         <>
-          <ProcessContactInvitation contact={contact}>
+          <ProcessContactRequest contact={contact}>
             <Trans>process</Trans>
-          </ProcessContactInvitation>
+          </ProcessContactRequest>
           <span className={styles.status}>
             <Trans>pending</Trans>
           </span>

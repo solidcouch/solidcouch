@@ -1,0 +1,29 @@
+@use '@/styles/media';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4x);
+
+  .form {
+    display: contents;
+
+    .actions {
+      display: flex;
+      align-items: stretch;
+      gap: var(--space-4x);
+
+      button {
+        flex: 1;
+      }
+
+      @include media.for-tablet-portrait-up {
+        justify-content: flex-end;
+
+        button {
+          flex: initial;
+        }
+      }
+    }
+  }
+}
