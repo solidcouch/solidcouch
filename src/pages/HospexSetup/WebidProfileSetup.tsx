@@ -12,7 +12,6 @@ import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
-import { SetupStatusKey } from './types'
 import { useToastError } from './useToastError'
 
 interface WebidProfileData {
@@ -34,10 +33,10 @@ export const WebidProfileSetup = ({
   webId,
   storage,
 }: StepProps & {
-  [SetupStatusKey.isPublicTypeIndex]: boolean
-  [SetupStatusKey.isPrivateTypeIndex]: boolean
-  [SetupStatusKey.isInbox]: boolean
-  [SetupStatusKey.isPreferencesFile]: boolean
+  isPublicTypeIndex: boolean
+  isPrivateTypeIndex: boolean
+  isInbox: boolean
+  isPreferencesFile: boolean
   webId: string
   storage: string
   preferencesFile?: string

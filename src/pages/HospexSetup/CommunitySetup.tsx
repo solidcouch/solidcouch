@@ -19,7 +19,6 @@ import { useForm } from 'react-hook-form'
 import styles from './CommunitySetup.module.scss'
 import { Editable } from './Editable'
 import { StepProps } from './HospexSetup'
-import { SetupStatusKey } from './types'
 import { useToastError } from './useToastError'
 
 export const CommunitySetup = ({
@@ -29,8 +28,8 @@ export const CommunitySetup = ({
   allHospex,
   publicTypeIndex,
 }: StepProps & {
-  [SetupStatusKey.isMember]: boolean
-  [SetupStatusKey.isHospexProfile]: boolean
+  isMember: boolean
+  isHospexProfile: boolean
   allHospex: {
     hospexDocument: URI
     communities: { uri: string; name: string }[]

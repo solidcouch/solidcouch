@@ -17,7 +17,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
 import { StepProps } from './HospexSetup'
-import { SetupStatusKey } from './types'
 import { useToastError } from './useToastError'
 
 export const NotificationsSetup = ({
@@ -27,8 +26,8 @@ export const NotificationsSetup = ({
   hospexDocument,
   inbox,
 }: StepProps & {
-  [SetupStatusKey.isEmailNotifications]: boolean | 'unset' | 'unverified'
-  [SetupStatusKey.isSimpleEmailNotifications]: boolean | 'unset'
+  isEmailNotifications: boolean | 'unset' | 'unverified'
+  isSimpleEmailNotifications: boolean | 'unset'
   hospexDocument?: string
   inbox?: string
 }) => {
