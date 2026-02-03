@@ -5,7 +5,7 @@ import { useSolidProfile } from '@/hooks/data/useProfile'
 import { saveTypeRegistration } from '@/hooks/data/useSetupHospex'
 import { useStorage } from '@/hooks/data/useStorage'
 import { useAuth } from '@/hooks/useAuth'
-import { meeting } from '@/utils/rdf-namespaces'
+import { meeting_extra } from '@/utils/rdf-namespaces'
 import { SolidLeafUri } from '@ldo/connected-solid'
 import { t } from '@lingui/core/macro'
 import { Trans } from '@lingui/react/macro'
@@ -85,7 +85,7 @@ export const NewChat = () => {
     })
     await saveToPrivateTypeIndex.mutateAsync({
       index: myPrivateTypeIndex,
-      type: meeting.LongChat,
+      type: meeting_extra.LongChat,
       location: channel,
     })
     await handleSendMessage({ message: data.message, channel })

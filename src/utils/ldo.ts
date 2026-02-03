@@ -9,7 +9,7 @@ import {
 } from '@ldo/ldo'
 import { datasetToString } from '@ldo/rdf-utils'
 import type { Dataset } from '@rdfjs/types'
-import { solid } from 'rdf-namespaces'
+import * as solid from 'rdf-namespaces/solid'
 
 /**
  * stringifying objects with circular reference, according to MDN:

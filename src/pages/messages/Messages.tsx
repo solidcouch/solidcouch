@@ -23,7 +23,7 @@ import {
   getContainer,
   removeHashFromURI,
 } from '@/utils/helpers'
-import { meeting } from '@/utils/rdf-namespaces'
+import { meeting_extra } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { LdhopQuery } from '@ldhop/core'
 import { useLdhopQuery } from '@ldhop/react'
@@ -449,7 +449,7 @@ const NewChatConfirmation = ({ channelUri }: { channelUri: URI }) => {
     // save chat to private type index
     await saveToPrivateTypeIndex.mutateAsync({
       index: privateTypeIndex!,
-      type: meeting.LongChat,
+      type: meeting_extra.LongChat,
       location: channelUri,
     })
     // delete related notifications from inbox

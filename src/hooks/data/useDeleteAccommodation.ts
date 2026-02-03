@@ -1,7 +1,7 @@
 import { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { hospex } from '@/utils/rdf-namespaces'
-import { solid } from 'rdf-namespaces'
+import * as solid from 'rdf-namespaces/solid'
 import { useCallback } from 'react'
 import { useDeleteRdfDocument, useUpdateRdfDocument } from './useRdfDocument'
 

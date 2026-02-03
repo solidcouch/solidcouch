@@ -9,10 +9,10 @@ import {
 import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
 import { URI } from '@/types'
 import { getAcl, getContainer } from '@/utils/helpers'
-import { meeting } from '@/utils/rdf-namespaces'
+import { meeting_extra } from '@/utils/rdf-namespaces'
 import { set } from '@ldo/ldo'
 import dayjs from 'dayjs'
-import { as } from 'rdf-namespaces'
+import * as as from 'rdf-namespaces/as'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import {
@@ -191,7 +191,7 @@ export const useCreateChat = () => {
       // save to privateTypeIndex
       await updatePrivateIndex({
         index: privateTypeIndex,
-        type: meeting.LongChat,
+        type: meeting_extra.LongChat,
         location: chatId,
       })
 

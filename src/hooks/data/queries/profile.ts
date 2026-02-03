@@ -1,5 +1,8 @@
 import { ldhop, type Match } from '@ldhop/core'
-import { ldp, rdfs, solid, space } from 'rdf-namespaces'
+import * as ldp from 'rdf-namespaces/ldp'
+import * as rdfs from 'rdf-namespaces/rdfs'
+import * as solid from 'rdf-namespaces/solid'
+import * as space from 'rdf-namespaces/space'
 
 export const personInbox: Match<'?person' | '?inbox'> = {
   type: 'match',
