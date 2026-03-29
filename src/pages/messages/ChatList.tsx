@@ -4,6 +4,8 @@ import { useReadAccesses } from '@/hooks/data/access'
 import { AccessMode } from '@/hooks/data/types'
 import { useAuth } from '@/hooks/useAuth'
 import { ChatShapeType } from '@/ldo/app.shapeTypes'
+import type { Chat } from '@/ldo/app.typings'
+import { URI } from '@/types'
 import { getContainer } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLdhopQuery } from '@ldhop/react'
@@ -15,7 +17,13 @@ import { Link } from 'react-router'
 import strict_uri_encode from 'strict-uri-encode'
 import styles from './ChatList.module.scss'
 
-export const ChatList = () => {
+export const ChatList = ({
+  detailed,
+  withPeople,
+}: {
+  detailed: boolean
+  withPeople?: URI[]
+}) => {
   const auth = useAuth()
 
   const { t } = useLingui()
@@ -57,59 +65,129 @@ export const ChatList = () => {
     useMemo(() => chats.map(ch => getContainer(ch['@id']!)), [chats]),
   )
 
-  const accessParticipantsFromAcl = useMemo(() => {
-    const agents = chatAccesses.results.map(a =>
-      getAgentsWithModes(a!, [AccessMode.Write, AccessMode.Append]),
-    )
-    return agents
-  }, [chatAccesses.results])
+  const chatsWithData = useMemo(() => {
+    return chats.map((chat, i) => {
+      const aclParticipants = getAgentsWithModes(chatAccesses.results[i]!, [
+        AccessMode.Write,
+        AccessMode.Append,
+      ])
+      const unread = Array.from(threadsResults.variables.chat).some(
+        term => term.value === chat['@id'],
+      )
+      const disconnected = !Array.from(threadsResults.variables.instance).some(
+        term => term.value === chat['@id']!,
+      )
+      const explicitParticipants =
+        chat.participation?.map(p => p.participant['@id']) ?? []
+
+      const participants = new Set([
+        ...explicitParticipants,
+        ...aclParticipants,
+      ])
+      const otherParticipants = [...participants].filter(p => p !== auth.webId)
+      return {
+        chat,
+        aclParticipants,
+        explicitParticipants,
+        otherParticipants,
+        participants,
+        unread,
+        disconnected,
+      }
+    })
+  }, [
+    auth.webId,
+    chatAccesses.results,
+    chats,
+    threadsResults.variables.chat,
+    threadsResults.variables.instance,
+  ])
+
+  const filteredChatsWithData = useMemo(
+    () =>
+      chatsWithData.filter(
+        t =>
+          !withPeople ||
+          withPeople.length === 0 ||
+          withPeople.every(webId => t.participants.has(webId)),
+      ),
+    [chatsWithData, withPeople],
+  )
 
   return (
     <nav>
       <ul className={styles.chatList}>
-        {chats.map((chat, i) => {
-          const unread = Array.from(threadsResults.variables.chat).some(
-            term => term.value === chat['@id'],
-          )
-          const disconnected = !Array.from(
-            threadsResults.variables.instance,
-          ).some(term => term.value === chat['@id']!)
-          const explicitParticipants =
-            chat.participation?.map(p => p.participant['@id']) ?? []
-          const aclParticipants = accessParticipantsFromAcl[i] ?? []
+        {filteredChatsWithData.map(
+          ({ chat, otherParticipants, disconnected, unread }) => {
+            if (!chat['@id']) return null
+            return (
+              <li
+                key={chat['@id']}
+                data-cy="thread-list-item"
+                className={styles.chatItem}
+              >
+                <Link
+                  to={`/messages/${strict_uri_encode(chat['@id'])}`}
+                  className={styles.chatLink}
+                >
+                  {otherParticipants.map(participant => (
+                    <Person
+                      webId={participant}
+                      key={participant}
+                      size="2.5rem"
+                    />
+                  ))}
+                  {disconnected ? (
+                    <FaExclamation
+                      data-testid="chat-disconnected"
+                      aria-label={t`Invitation`}
+                    />
+                  ) : unread ? (
+                    <FaCircle
+                      data-testid="chat-unread"
+                      aria-label={t`Unread`}
+                    />
+                  ) : null}
 
-          const participants = new Set([
-            ...explicitParticipants,
-            ...aclParticipants,
-          ])
-          const otherParticipants = [...participants].filter(
-            p => p !== auth.webId,
-          )
-          if (!chat['@id']) return null
-          return (
-            <li
-              key={chat['@id']}
-              data-cy="thread-list-item"
-              className={styles.chatItem}
-            >
-              <Link to={`/messages/${strict_uri_encode(chat['@id'])}`}>
-                {otherParticipants.map(participant => (
-                  <Person webId={participant} key={participant} size="2.5rem" />
-                ))}
-                {disconnected ? (
-                  <FaExclamation
-                    data-testid="chat-disconnected"
-                    aria-label={t`Invitation`}
-                  />
-                ) : unread ? (
-                  <FaCircle data-testid="chat-unread" aria-label={t`Unread`} />
-                ) : null}
-              </Link>
-            </li>
-          )
-        })}
+                  {detailed && (
+                    <ChatDetail
+                      chat={chat}
+                      otherParticipants={otherParticipants}
+                    />
+                  )}
+                </Link>
+              </li>
+            )
+          },
+        )}
       </ul>
     </nav>
+  )
+}
+
+const ChatDetail = ({
+  chat,
+  otherParticipants,
+}: {
+  chat: Chat
+  otherParticipants: string[]
+}) => {
+  const lastMessage = chat.message
+    ?.toArray()
+    .sort(
+      (a, b) => new Date(a.created).getTime() - new Date(b.created).getTime(),
+    )
+    .pop()?.content
+
+  return (
+    <div className={styles.chatDetail}>
+      <div>
+        {otherParticipants.map(p => (
+          <Person webId={p} showName avatarClassName={styles.avatar} />
+        ))}
+      </div>
+      <div className={styles.message}>{lastMessage}</div>
+    </div>
   )
 }
 

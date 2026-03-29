@@ -1,14 +1,39 @@
 .container {
   height: calc(100vh - 4rem);
   display: flex;
-  // position: relative;
+  gap: var(--space-4x);
 
   .chatList {
-    // height: 100%;
     overflow-y: auto;
+    flex-shrink: 0;
   }
 
-  .content {
+  .wide {
     flex: 1;
+  }
+
+  .content:not(.wide) {
+    display: none;
+  }
+
+  .top {
+    display: flex;
+    gap: var(--space-3x);
+
+    .expandButton {
+      flex-shrink: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 2.5rem;
+    }
+
+    .header {
+      h1 {
+        display: inline-block;
+        margin: 0;
+        font-size: 1.5rem;
+        margin-right: var(--space-3x);
+      }
+    }
   }
 }

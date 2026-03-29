@@ -50,7 +50,7 @@ export const router = createBrowserRouter([
             path: 'messages',
             element: <ChatLayout />,
             children: [
-              { index: true, element: <Threads /> },
+              { index: true, handle: { list: 'detailed' } },
               { path: ':channel', element: <MessagesPage /> },
               { path: 'new', element: <NewChat /> },
             ],
