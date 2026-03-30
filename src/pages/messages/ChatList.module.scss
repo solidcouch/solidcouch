@@ -1,5 +1,33 @@
 .chatList {
   .chatItem {
-    margin: var(--space-2x);
+    margin: var(--space-3x) var(--space-2x) var(--space-3x) 0;
+    .chatLink {
+      display: flex;
+      gap: var(--space-2x);
+
+      &:hover {
+        background-color: var(--background-color-raised);
+      }
+    }
+  }
+}
+
+.chatDetail {
+  height: 2.5rem;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+  justify-content: space-between;
+
+  .avatar {
+    display: none;
+  }
+
+  .message {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

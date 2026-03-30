@@ -110,6 +110,10 @@ msgstr "Přidávání {label} do zájmů"
 msgid "Adding contact."
 msgstr ""
 
+#: src/pages/messages/ChatLayout.tsx:86
+msgid "All conversations"
+msgstr ""
+
 #: src/pages/Contacts.tsx:20
 #: src/pages/ProfileRedirect.tsx:13
 msgid "authenticating"
@@ -214,10 +218,12 @@ msgstr "Kontakty <0/>"
 msgid "Continue"
 msgstr "Pokračovat"
 
+#: src/pages/messages/ChatLayout.tsx:66
 #: src/pages/Threads/Threads.tsx:80
 msgid "Conversations"
 msgstr "Rozhovory"
 
+#: src/pages/messages/ChatLayout.tsx:69
 #: src/pages/Threads/Threads.tsx:83
 msgid "Conversations with {people}"
 msgstr "Rozhovory s {people}"
@@ -413,7 +419,7 @@ msgstr "Zájmy"
 msgid "Introduce yourself — it builds trust"
 msgstr ""
 
-#: src/pages/messages/ChatList.tsx:102
+#: src/pages/messages/ChatList.tsx:175
 msgid "Invitation"
 msgstr ""
 
@@ -485,6 +491,10 @@ msgstr "Zpráva byla vytvořena"
 #: src/pages/Home.tsx:25
 msgid "messages"
 msgstr "zprávy"
+
+#: src/pages/messages/ChatList.tsx:163
+msgid "Messages with {participantsLabel}, latest message: {lastMessage}"
+msgstr ""
 
 #: src/pages/Threads/Threads.tsx:149
 msgid "Messages with {personLabel}"
@@ -765,6 +775,7 @@ msgstr ""
 "Něco se pokazilo.\n"
 "Chyba: {e}"
 
+#: src/pages/messages/ChatLayout.tsx:83
 #: src/pages/Threads/Threads.tsx:96
 msgid "Start a new conversation"
 msgstr "Začít nový rozhovor"
@@ -813,7 +824,7 @@ msgstr "cestovat"
 msgid "Unexpected status code from indexing service"
 msgstr "Neočekávaný stavový kód od indexační služby"
 
-#: src/pages/messages/ChatList.tsx:105
+#: src/pages/messages/ChatList.tsx:180
 msgid "Unread"
 msgstr ""
 
