@@ -1,5 +1,5 @@
 import encodeURIComponent from 'strict-uri-encode'
-import { Person } from '../support/commands'
+import type { Person } from '../support/commands'
 
 const profile = {
   name: 'Test Name',

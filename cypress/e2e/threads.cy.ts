@@ -1,5 +1,5 @@
 import encodeURIComponent from 'strict-uri-encode'
-import { Person } from '../support/commands'
+import type { Person } from '../support/commands'
 
 describe.skip('threads (list of conversations)', () => {
   beforeEach(() => {

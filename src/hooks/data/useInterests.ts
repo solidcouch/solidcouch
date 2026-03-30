@@ -1,4 +1,4 @@
-import { Interest, URI } from '@/types'
+import type { Interest, URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { useQuery } from '@tanstack/react-query'
 import merge from 'lodash/merge'

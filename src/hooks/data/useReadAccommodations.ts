@@ -1,5 +1,5 @@
 import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
-import { Accommodation, URI } from '@/types'
+import type { Accommodation, URI } from '@/types'
 import { getLanguages } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLdhopQuery } from '@ldhop/react'

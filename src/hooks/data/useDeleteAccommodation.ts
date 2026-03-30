@@ -1,4 +1,4 @@
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { hospex } from '@/utils/rdf-namespaces'
 import { solid } from 'rdf-namespaces'

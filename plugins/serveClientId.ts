@@ -1,5 +1,6 @@
 import fs from 'fs/promises'
-import { ConfigEnv, loadEnv, type PluginOption } from 'vite'
+import type { ConfigEnv } from 'vite'
+import { loadEnv, type PluginOption } from 'vite'
 
 export const serveClientId = (config: ConfigEnv): PluginOption => ({
   name: 'populate-clientid.jsonld',

@@ -1,4 +1,4 @@
-import { ContactStatus } from '@/hooks/data/useContacts'
+import type { ContactStatus } from '@/hooks/data/useContacts'
 
 export type URI = string
 

@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
 import { as, dct } from 'rdf-namespaces'
 import encodeURIComponent from 'strict-uri-encode'
-import { Person } from '../support/commands'
-import { UserConfig } from '../support/css-authentication'
+import type { Person } from '../support/commands'
+import type { UserConfig } from '../support/css-authentication'
 
 /**
  * @todo TODO possibly these tests largely overlap, get rid of the overlaps

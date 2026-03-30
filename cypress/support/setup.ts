@@ -9,8 +9,9 @@ import {
 } from 'rdf-namespaces'
 import encodeURIComponent from 'strict-uri-encode'
 import { getContainer } from '../../src/utils/helpers'
-import { Person } from './commands'
-import { logoutUser, UserConfig } from './css-authentication'
+import type { Person } from './commands'
+import type { UserConfig } from './css-authentication'
+import { logoutUser } from './css-authentication'
 
 export type CommunityConfig = {
   community: string

@@ -1,4 +1,5 @@
-import { ComponentPropsWithRef, useState } from 'react'
+import type { ComponentPropsWithRef } from 'react'
+import { useState } from 'react'
 import { FaCheck, FaPencilAlt } from 'react-icons/fa'
 
 export const Editable = ({

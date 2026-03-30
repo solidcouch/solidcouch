@@ -26,11 +26,11 @@ msgstr "{label} byl přidán do zájmů"
 msgid "{messageCount, plural, one {(# new)} other {(# new)}}"
 msgstr "{messageCount, plural, one {(# nová)} few {(# nové)} other {(# nových)}}"
 
-#: src/pages/Profile/ProcessContactRequest.tsx:90
+#: src/pages/Profile/ProcessContactRequest.tsx:91
 msgid "<0/> wrote you:"
 msgstr ""
 
-#: src/components/Join/Join.tsx:115
+#: src/components/Join/Join.tsx:116
 msgid "<0>Reach us in our project spaces</0> or write us email to <1>\"support at solidcouch dot org\"</1>."
 msgstr "<0>Ozvěte se nám v našich projektových prostorech</0> nebo napište na <1>„support zavináč solidcouch tečka org\"</1>."
 
@@ -46,23 +46,23 @@ msgstr "O mně"
 msgid "About your hosting"
 msgstr "O vašem ubytování"
 
-#: src/pages/Profile/ProcessContactRequest.tsx:106
+#: src/pages/Profile/ProcessContactRequest.tsx:107
 msgid "Accept"
 msgstr "Přijmout"
 
-#: src/components/Accommodation/Accommodation.tsx:224
+#: src/components/Accommodation/Accommodation.tsx:225
 msgid "Accommodation added to indexing service"
 msgstr "Ubytování přidáno do indexační služby"
 
-#: src/components/Accommodation/Accommodation.tsx:166
+#: src/components/Accommodation/Accommodation.tsx:167
 msgid "Accommodation created"
 msgstr "Ubytování vytvořeno"
 
-#: src/components/Accommodation/Accommodation.tsx:91
+#: src/components/Accommodation/Accommodation.tsx:92
 msgid "Accommodation deleted"
 msgstr "Ubytování odstraněno"
 
-#: src/components/Accommodation/Accommodation.tsx:73
+#: src/components/Accommodation/Accommodation.tsx:74
 msgid "Accommodation not found."
 msgstr ""
 
@@ -70,23 +70,23 @@ msgstr ""
 msgid "Accommodation offer from {offeredByIdentifier}"
 msgstr "Nabídka ubytování od {offeredByIdentifier}"
 
-#: src/components/Accommodation/Accommodation.tsx:228
+#: src/components/Accommodation/Accommodation.tsx:229
 msgid "Accommodation removed from indexing service"
 msgstr "Ubytování odebráno z indexační služby"
 
-#: src/components/Accommodation/Accommodation.tsx:53
+#: src/components/Accommodation/Accommodation.tsx:54
 msgid "Accommodation updated"
 msgstr "Ubytování aktualizováno"
 
-#: src/components/Accommodation/Accommodation.tsx:226
+#: src/components/Accommodation/Accommodation.tsx:227
 msgid "Accommodation updated in indexing service"
 msgstr "Ubytování aktualizováno v indexační službě"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:196
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:198
 msgid "Add {locale}"
 msgstr "Přidat {locale}"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:153
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:155
 msgid "Add a language"
 msgstr "Přidat jazyk"
 
@@ -110,7 +110,7 @@ msgstr "Přidávání {label} do zájmů"
 msgid "Adding contact."
 msgstr ""
 
-#: src/pages/messages/ChatLayout.tsx:86
+#: src/pages/messages/ChatLayout.tsx:87
 msgid "All conversations"
 msgstr ""
 
@@ -124,7 +124,7 @@ msgid "Authenticating..."
 msgstr "Ověřování..."
 
 #: src/components/Accommodation/AccommodationForm.tsx:159
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:188
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:190
 #: src/pages/Profile/AddContactForm.tsx:38
 msgid "Cancel"
 msgstr "Zrušit"
@@ -133,7 +133,7 @@ msgstr "Zrušit"
 msgid "Chat channel was created"
 msgstr "Chatovací kanál byl vytvořen"
 
-#: src/components/Join/Join.tsx:88
+#: src/components/Join/Join.tsx:89
 msgid "Choose a Pod provider:"
 msgstr "Vyberte poskytovatele Podu:"
 
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Choose your Solid provider or WebID"
 msgstr "Zadejte svého Solid poskytovatele nebo WebID"
 
-#: src/components/Interests/Interest.tsx:72
+#: src/components/Interests/Interest.tsx:73
 #: src/components/Person/Person.tsx:85
 msgid "Close"
 msgstr "Zavřít"
@@ -155,7 +155,7 @@ msgstr "Zavřít"
 msgid "Close hosting preview"
 msgstr "Zavřít náhled hostingu"
 
-#: src/components/LocaleTextInput/LocaleTextInput.tsx:179
+#: src/components/LocaleTextInput/LocaleTextInput.tsx:181
 msgid "code"
 msgstr "kód"
 
@@ -176,7 +176,7 @@ msgstr ""
 msgid "Confirm and Continue"
 msgstr ""
 
-#: src/pages/Profile/ProcessContactRequest.tsx:55
+#: src/pages/Profile/ProcessContactRequest.tsx:56
 msgid "Confirming contact"
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Contact added."
 msgstr ""
 
-#: src/pages/Profile/ProcessContactRequest.tsx:56
+#: src/pages/Profile/ProcessContactRequest.tsx:57
 msgid "Contact confirmed"
 msgstr ""
 
@@ -192,11 +192,11 @@ msgstr ""
 msgid "Contact exists"
 msgstr "Kontakt již existuje"
 
-#: src/pages/Profile/ProcessContactRequest.tsx:83
+#: src/pages/Profile/ProcessContactRequest.tsx:84
 msgid "Contact request from <0/>"
 msgstr ""
 
-#: src/pages/Profile/ProcessContactRequest.tsx:68
+#: src/pages/Profile/ProcessContactRequest.tsx:69
 msgid "Contact request ignored"
 msgstr ""
 
@@ -218,12 +218,12 @@ msgstr "Kontakty <0/>"
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/pages/messages/ChatLayout.tsx:66
+#: src/pages/messages/ChatLayout.tsx:67
 #: src/pages/Threads/Threads.tsx:80
 msgid "Conversations"
 msgstr "Rozhovory"
 
-#: src/pages/messages/ChatLayout.tsx:69
+#: src/pages/messages/ChatLayout.tsx:70
 #: src/pages/Threads/Threads.tsx:83
 msgid "Conversations with {people}"
 msgstr "Rozhovory s {people}"
@@ -248,7 +248,7 @@ msgstr "Vytvořit soukromý index typů:"
 msgid "Create public type index:"
 msgstr "Vytvořit veřejný index typů:"
 
-#: src/components/Accommodation/Accommodation.tsx:165
+#: src/components/Accommodation/Accommodation.tsx:166
 msgid "Creating accommodation"
 msgstr "Vytváření ubytování"
 
@@ -264,11 +264,11 @@ msgstr "Vytváření zprávy"
 msgid "Delete"
 msgstr "Smazat"
 
-#: src/components/Accommodation/Accommodation.tsx:90
+#: src/components/Accommodation/Accommodation.tsx:91
 msgid "Deleting accommodation"
 msgstr "Mazání ubytování"
 
-#: src/components/Accommodation/Accommodation.tsx:68
+#: src/components/Accommodation/Accommodation.tsx:69
 msgid "Do you really want to delete the accommodation?"
 msgstr "Opravdu chcete smazat ubytování?"
 
@@ -321,11 +321,11 @@ msgstr "načítání kontaktů"
 msgid "Fetching profile"
 msgstr "Načítání profilu"
 
-#: src/components/Onboarding/Onboarding.tsx:39
+#: src/components/Onboarding/Onboarding.tsx:40
 msgid "Find people to stay with"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.tsx:113
+#: src/components/Onboarding/Onboarding.tsx:114
 msgid "Finish"
 msgstr ""
 
@@ -345,11 +345,11 @@ msgstr "zdůrazněné logo {name}"
 msgid "For safety, share only approximate location"
 msgstr "Kvůli bezpečí sdílejte pouze přibližnou polohu"
 
-#: src/components/Onboarding/Onboarding.tsx:24
+#: src/components/Onboarding/Onboarding.tsx:25
 msgid "Get started"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.tsx:92
+#: src/components/Onboarding/Onboarding.tsx:93
 msgid "Getting started"
 msgstr ""
 
@@ -358,7 +358,7 @@ msgid "Hi! I'd like to add you as a contact!"
 msgstr "Ahoj! Rád(a) bych tě přidal(a) do kontaktů!"
 
 #: src/pages/Profile/AddContact.tsx:35
-#: src/pages/Profile/ProcessContactRequest.tsx:46
+#: src/pages/Profile/ProcessContactRequest.tsx:47
 msgid "hospex container not found (too soon?)"
 msgstr "hospex kontejner nebyl nalezen (možná příliš brzy?)"
 
@@ -383,11 +383,11 @@ msgid "Hosting location (click <0/> or drag & zoom map)"
 msgstr "Lokalita hostování (klikněte na <0/> nebo přetáhněte a přibližte mapu)"
 
 #: src/pages/messages/Messages.tsx:475
-#: src/pages/Profile/ProcessContactRequest.tsx:99
+#: src/pages/Profile/ProcessContactRequest.tsx:100
 msgid "Ignore"
 msgstr "Ignorovat"
 
-#: src/pages/Profile/ProcessContactRequest.tsx:67
+#: src/pages/Profile/ProcessContactRequest.tsx:68
 msgid "Ignoring contact request"
 msgstr ""
 
@@ -415,7 +415,7 @@ msgstr "Zájem odstraněn"
 msgid "Interests"
 msgstr "Zájmy"
 
-#: src/components/Onboarding/Onboarding.tsx:29
+#: src/components/Onboarding/Onboarding.tsx:30
 msgid "Introduce yourself — it builds trust"
 msgstr ""
 
@@ -423,7 +423,7 @@ msgstr ""
 msgid "Invitation"
 msgstr ""
 
-#: src/components/Join/Join.tsx:70
+#: src/components/Join/Join.tsx:71
 msgid "Join {communityName}"
 msgstr "Připojte se k {communityName}"
 
@@ -504,7 +504,7 @@ msgstr "Zprávy s {personLabel}"
 msgid "Messages with <0/>"
 msgstr "Zprávy s <0/>"
 
-#: src/components/Accommodation/Accommodation.tsx:153
+#: src/components/Accommodation/Accommodation.tsx:154
 msgid "missing variables"
 msgstr "chybějící proměnné"
 
@@ -529,7 +529,7 @@ msgstr "Moje poloha"
 msgid "Name"
 msgstr "Jméno"
 
-#: src/components/Join/Join.tsx:114
+#: src/components/Join/Join.tsx:115
 msgid "Need help?"
 msgstr "Potřebujete pomoc?"
 
@@ -537,7 +537,7 @@ msgstr "Potřebujete pomoc?"
 msgid "New conversation with {people}"
 msgstr "Nový rozhovor s {people}"
 
-#: src/components/Onboarding/Onboarding.tsx:117
+#: src/components/Onboarding/Onboarding.tsx:118
 msgid "Next"
 msgstr ""
 
@@ -554,7 +554,7 @@ msgstr ""
 msgid "No storage found"
 msgstr ""
 
-#: src/components/Accommodation/Accommodation.tsx:219
+#: src/components/Accommodation/Accommodation.tsx:220
 msgid "Notifying indexing service"
 msgstr "Probíhá oznámení indexační službě"
 
@@ -587,7 +587,7 @@ msgstr "Prosím, přesuňte mapu na místo vašeho hostování"
 msgid "Please verify your email"
 msgstr "Ověřte prosím svůj e-mail"
 
-#: src/components/Accommodation/Accommodation.tsx:76
+#: src/components/Accommodation/Accommodation.tsx:77
 msgid "Please wait for everything to load."
 msgstr ""
 
@@ -664,7 +664,7 @@ msgstr "Uložit"
 msgid "Save changes"
 msgstr "Uložit změny"
 
-#: src/pages/Profile/ProcessContactRequest.tsx:77
+#: src/pages/Profile/ProcessContactRequest.tsx:78
 msgid "See contact invitation"
 msgstr "Zobrazit pozvánku ke kontaktu"
 
@@ -738,7 +738,7 @@ msgstr "Přihlásit se do {communityName}"
 msgid "sign out"
 msgstr "odhlásit se"
 
-#: src/components/Onboarding/Onboarding.tsx:96
+#: src/components/Onboarding/Onboarding.tsx:97
 msgid "Skip getting started"
 msgstr ""
 
@@ -762,7 +762,7 @@ msgstr ""
 msgid "Something went wrong: {failure}"
 msgstr ""
 
-#: src/components/withToast.tsx:16
+#: src/components/withToast.tsx:17
 msgid "Something went wrong."
 msgstr "Něco se nepovedlo."
 
@@ -775,7 +775,7 @@ msgstr ""
 "Něco se pokazilo.\n"
 "Chyba: {e}"
 
-#: src/pages/messages/ChatLayout.tsx:83
+#: src/pages/messages/ChatLayout.tsx:84
 #: src/pages/Threads/Threads.tsx:96
 msgid "Start a new conversation"
 msgstr "Začít nový rozhovor"
@@ -812,7 +812,7 @@ msgstr "Toto je začátek vaší konverzace"
 msgid "Title"
 msgstr "Název"
 
-#: src/components/Join/Join.tsx:76
+#: src/components/Join/Join.tsx:77
 msgid "To join {communityName}, you need a <0>Solid Pod</0> — a place to store your data."
 msgstr "Abyste se mohli připojit k {communityName}, potřebujete <0>Solid Pod</0> — místo pro vaše data."
 
@@ -820,7 +820,7 @@ msgstr "Abyste se mohli připojit k {communityName}, potřebujete <0>Solid Pod</
 msgid "travel"
 msgstr "cestovat"
 
-#: src/components/Accommodation/Accommodation.tsx:230
+#: src/components/Accommodation/Accommodation.tsx:231
 msgid "Unexpected status code from indexing service"
 msgstr "Neočekávaný stavový kód od indexační služby"
 
@@ -828,7 +828,7 @@ msgstr "Neočekávaný stavový kód od indexační služby"
 msgid "Unread"
 msgstr ""
 
-#: src/components/Accommodation/Accommodation.tsx:52
+#: src/components/Accommodation/Accommodation.tsx:53
 msgid "Updating accommodation"
 msgstr "Aktualizuji ubytování"
 
@@ -857,11 +857,11 @@ msgstr ""
 "\n"
 "Chyba: {errorString}"
 
-#: src/components/Onboarding/Onboarding.tsx:23
+#: src/components/Onboarding/Onboarding.tsx:24
 msgid "Welcome to {communityLabel}!"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.tsx:34
+#: src/components/Onboarding/Onboarding.tsx:35
 msgid "Welcome travellers to your home — if you can"
 msgstr ""
 
@@ -878,7 +878,7 @@ msgstr "Napsat zprávu"
 msgid "You are already a member of {communityLabel}"
 msgstr "Již jste členem {communityLabel}"
 
-#: src/components/Join/Join.tsx:99
+#: src/components/Join/Join.tsx:100
 msgid "You can also <0>host your own Pod</0>."
 msgstr "Můžete si také <0>provozovat vlastní Pod</0>."
 

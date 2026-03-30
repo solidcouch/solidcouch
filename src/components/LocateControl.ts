@@ -1,8 +1,6 @@
 import { createControlComponent } from '@react-leaflet/core'
-import {
-  LocateControl as LocateControlOriginal,
-  LocateOptions,
-} from 'leaflet.locatecontrol'
+import type { LocateOptions } from 'leaflet.locatecontrol'
+import { LocateControl as LocateControlOriginal } from 'leaflet.locatecontrol'
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
 
 export const LocateControl = createControlComponent(

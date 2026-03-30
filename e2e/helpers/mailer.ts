@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
 import strict_uri_encode from 'strict-uri-encode'
-import { Person } from './account'
+import type { Person } from './account'
 
 export const stubDirectMailer = async (
   page: Page,

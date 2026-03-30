@@ -1,5 +1,5 @@
 import { ContactInvitationActivityShapeType } from '@/ldo/app.shapeTypes'
-import { Contact, URI } from '@/types'
+import type { Contact, URI } from '@/types'
 import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset, set } from '@ldo/ldo'
 import { Store } from 'n3'

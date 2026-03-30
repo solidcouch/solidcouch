@@ -16,7 +16,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaCheck } from 'react-icons/fa'
-import { StepProps } from './HospexSetup'
+import type { StepProps } from './HospexSetup'
 import { useToastError } from './useToastError'
 
 export const NotificationsSetup = ({

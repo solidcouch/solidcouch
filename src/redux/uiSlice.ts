@@ -1,7 +1,8 @@
 import { defaultLocale } from '@/config'
 import { locales } from '@/config/locales'
-import { RootState } from '@/redux/store'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '@/redux/store'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 interface UiState {
   theme: 'light' | 'dark'

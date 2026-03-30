@@ -1,4 +1,4 @@
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { getContainer, getParentContainer } from '@/utils/helpers'
 import minBy from 'lodash/minBy'
 import { space } from 'rdf-namespaces'

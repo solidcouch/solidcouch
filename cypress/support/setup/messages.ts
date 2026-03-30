@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
 import { solid } from 'rdf-namespaces'
 import { v4 as uuidv4 } from 'uuid'
-import { UserConfig } from '../css-authentication'
-import { SetupConfig } from '../setup'
+import type { UserConfig } from '../css-authentication'
+import type { SetupConfig } from '../setup'
 
 type Message = {
   message: string

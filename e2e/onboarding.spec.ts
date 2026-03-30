@@ -1,4 +1,5 @@
-import { expect, Locator, Page, test } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { createPerson, signIn, signOut } from './helpers/account'
 import { setupCommunity } from './helpers/community'
 import { updateAppConfig } from './helpers/helpers'

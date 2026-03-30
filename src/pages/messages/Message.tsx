@@ -2,7 +2,7 @@ import { Person } from '@/components/Person/Person'
 import { useConfig } from '@/config/hooks'
 import { useProfile } from '@/hooks/data/useProfile'
 import { useLocale } from '@/hooks/useLocale'
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import clsx from 'clsx'
 import styles from './Message.module.scss'
 

@@ -10,7 +10,7 @@ import {
 } from '@/hooks/data/useSetupHospex'
 import { useStorage } from '@/hooks/data/useStorage'
 import { useAuth } from '@/hooks/useAuth'
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { removeBaseUrl } from '@/utils/helpers'
 import { hospex } from '@/utils/rdf-namespaces'
 import { Trans, useLingui } from '@lingui/react/macro'
@@ -18,7 +18,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from './CommunitySetup.module.scss'
 import { Editable } from './Editable'
-import { StepProps } from './HospexSetup'
+import type { StepProps } from './HospexSetup'
 import { useToastError } from './useToastError'
 
 export const CommunitySetup = ({

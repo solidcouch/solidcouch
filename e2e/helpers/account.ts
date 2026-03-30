@@ -4,7 +4,7 @@ import { v7 } from 'css-authn'
 import { acl, foaf, ldp, solid, space, vcard } from 'rdf-namespaces'
 import { generateAcl } from '../../cypress/support/helpers/acl'
 import { getAcl, getContainer } from '../../src/utils/helpers'
-import { Community } from './community'
+import type { Community } from './community'
 import { generateRandomString } from './helpers'
 
 export type SkipOptions =

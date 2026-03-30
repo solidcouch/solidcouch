@@ -13,7 +13,7 @@ import { Trans, useLingui } from '@lingui/react/macro'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { Editable } from './Editable'
-import { StepProps } from './HospexSetup'
+import type { StepProps } from './HospexSetup'
 import { useToastError } from './useToastError'
 
 interface WebidProfileData {

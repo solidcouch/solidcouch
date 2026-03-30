@@ -21,14 +21,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // https://github.com/inrupt/solid-client-authn-js/blob/a7b06d69d4c77790818370a9546e5f7053c369ec/packages/core/src/authenticatedFetch/fetchFactory.ts
 
-import type { KeyPair } from '@inrupt/solid-client-authn-core'
+import type { KeyPair, RefreshOptions } from '@inrupt/solid-client-authn-core'
 import {
   createDpopHeader,
   EVENTS,
   InvalidResponseError,
   OidcProviderError,
   REFRESH_BEFORE_EXPIRATION_SECONDS,
-  RefreshOptions,
 } from '@inrupt/solid-client-authn-core'
 import type { EventEmitter } from 'events'
 

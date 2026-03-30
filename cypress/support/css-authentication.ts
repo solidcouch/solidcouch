@@ -1,7 +1,7 @@
+import type { KeyPair } from '@inrupt/solid-client-authn-core'
 import {
   createDpopHeader,
   generateDpopKeyPair,
-  KeyPair,
 } from '@inrupt/solid-client-authn-core'
 import encodeURIComponent from 'strict-uri-encode'
 import { buildAuthenticatedFetch } from './buildAuthenticatedFetch'

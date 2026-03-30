@@ -1,6 +1,6 @@
-import * as config from '@/config'
-import { ConfigType } from '@/config/hooks'
-import { RootState } from '@/redux/store'
+import type * as config from '@/config'
+import type { ConfigType } from '@/config/hooks'
+import type { RootState } from '@/redux/store'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 

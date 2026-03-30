@@ -1,7 +1,7 @@
 // inspired by https://stackoverflow.com/a/24979148
 
 import clsx from 'clsx'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import styles from './Layout.module.scss'
 
 interface ChildrenProps {

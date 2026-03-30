@@ -1,4 +1,4 @@
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { removeHashFromURI } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'

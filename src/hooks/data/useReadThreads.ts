@@ -1,5 +1,5 @@
 import { MessageActivityShapeType } from '@/ldo/app.shapeTypes'
-import { Message, URI } from '@/types'
+import type { Message, URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset } from '@ldo/ldo'

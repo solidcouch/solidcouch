@@ -1,4 +1,5 @@
-import { FaviconOptions, favicons } from 'favicons'
+import type { FaviconOptions } from 'favicons'
+import { favicons } from 'favicons'
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { HttpError } from '../src/utils/errors'

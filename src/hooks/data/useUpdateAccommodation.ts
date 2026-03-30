@@ -1,5 +1,5 @@
 import { AccommodationShapeType } from '@/ldo/accommodation.shapeTypes'
-import { Accommodation } from '@/types'
+import type { Accommodation } from '@/types'
 import { addLanguagesToLdo } from '@/utils/ldo'
 import { useCallback } from 'react'
 import type { Required } from 'utility-types'

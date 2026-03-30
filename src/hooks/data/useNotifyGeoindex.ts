@@ -1,5 +1,5 @@
 import { useConfig } from '@/config/hooks'
-import { GeoCoordinates } from '@/types'
+import type { GeoCoordinates } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'

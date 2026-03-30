@@ -2,7 +2,8 @@
  * Fetch community info into environment variables
  */
 
-import { ConfigEnv, loadEnv, PluginOption } from 'vite'
+import type { ConfigEnv, PluginOption } from 'vite'
+import { loadEnv } from 'vite'
 import {
   defaultAbout,
   defaultName,

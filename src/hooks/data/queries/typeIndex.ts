@@ -1,4 +1,4 @@
-import { Constant } from '@ldhop/core'
+import type { Constant } from '@ldhop/core'
 import { rdf, solid } from 'rdf-namespaces'
 import { webIdProfileQuery } from './profile'
 

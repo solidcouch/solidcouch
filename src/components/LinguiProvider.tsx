@@ -2,7 +2,8 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { actions, selectLocale } from '@/redux/uiSlice'
 import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
-import { ReactNode, useEffect } from 'react'
+import type { ReactNode } from 'react'
+import { useEffect } from 'react'
 
 export const LinguiProvider = ({ children }: { children: ReactNode }) => {
   const locale = useAppSelector(selectLocale)

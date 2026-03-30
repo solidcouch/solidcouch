@@ -27,7 +27,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 // TODO remove this when https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71501 is published
 
 import type { Control, ControlOptions } from 'leaflet'
-import * as L from 'leaflet'
+import type * as L from 'leaflet'
 
 interface StringsOptions {
   title?: string | undefined

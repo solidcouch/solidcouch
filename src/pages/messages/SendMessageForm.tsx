@@ -1,7 +1,7 @@
 import { Button } from '@/components'
 import { ajvResolver } from '@hookform/resolvers/ajv'
 import { useLingui } from '@lingui/react/macro'
-import { JSONSchemaType } from 'ajv'
+import type { JSONSchemaType } from 'ajv'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaPaperPlane } from 'react-icons/fa'

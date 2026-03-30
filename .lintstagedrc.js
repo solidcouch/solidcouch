@@ -7,5 +7,5 @@ export default {
     'prettier --write --ignore-unknown',
     () => 'knip',
   ],
-  '*.{js,jsx,ts,tsx}': 'eslint --max-warnings 0 --no-warn-ignored',
+  '*.{js,jsx,ts,tsx}': 'eslint --fix --max-warnings 0 --no-warn-ignored',
 }

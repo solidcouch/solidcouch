@@ -1,7 +1,8 @@
 import { getContainer } from '@/utils/helpers'
 import { meeting, wf } from '@/utils/rdf-namespaces'
 import { ldhop, type Constant } from '@ldhop/core'
-import { NamedNode, Term } from 'n3'
+import type { Term } from 'n3'
+import { NamedNode } from 'n3'
 import {
   as,
   dct,

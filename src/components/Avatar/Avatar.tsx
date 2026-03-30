@@ -1,5 +1,5 @@
 import { useFile } from '@/hooks/data/useFile'
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import clsx from 'clsx'
 import { Avatar as A } from 'radix-ui'
 import { FaUser } from 'react-icons/fa'

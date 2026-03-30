@@ -50,6 +50,7 @@ export default defineConfig(
         'warn',
         { args: 'after-used', ignoreRestSiblings: false },
       ],
+      '@typescript-eslint/consistent-type-imports': 'error',
       'import/no-default-export': 'error',
       'import/no-unused-modules': ['warn'],
     },
