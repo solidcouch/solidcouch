@@ -16,6 +16,7 @@ import { FaCircle, FaExclamation } from 'react-icons/fa'
 import { Link } from 'react-router'
 import strict_uri_encode from 'strict-uri-encode'
 import styles from './ChatList.module.scss'
+import { useProfiles } from './useSendMessage'
 
 export const ChatList = ({
   detailed,
@@ -114,12 +115,42 @@ export const ChatList = ({
     [chatsWithData, withPeople],
   )
 
+  const allParticipantWebIds = useMemo(() => {
+    const participantsSet = filteredChatsWithData.reduce((prev, current) => {
+      return new Set([...prev, ...current.participants])
+    }, new Set<URI>())
+    return Array.from(participantsSet)
+  }, [filteredChatsWithData])
+
+  const [profiles] = useProfiles(allParticipantWebIds)
+
+  const participantMap = useMemo(() => {
+    const map = new Map<URI, ReturnType<typeof useProfiles>[0][number]>()
+    allParticipantWebIds.forEach((webId, i) => {
+      if (profiles[i]) map.set(webId, profiles[i])
+    })
+    return map
+  }, [profiles, allParticipantWebIds])
+
   return (
     <nav>
       <ul className={styles.chatList}>
         {filteredChatsWithData.map(
           ({ chat, otherParticipants, disconnected, unread }) => {
             if (!chat['@id']) return null
+
+            const lastMessage = chat.message
+              ?.toArray()
+              .sort(
+                (a, b) =>
+                  new Date(a.created).getTime() - new Date(b.created).getTime(),
+              )
+              .pop()?.content
+
+            const participantsLabel = otherParticipants
+              .map(webid => participantMap.get(webid)?.name)
+              .join(',')
+
             return (
               <li
                 key={chat['@id']}
@@ -129,6 +160,7 @@ export const ChatList = ({
                 <Link
                   to={`/messages/${strict_uri_encode(chat['@id'])}`}
                   className={styles.chatLink}
+                  aria-label={t`Messages with ${participantsLabel}, latest message: ${lastMessage}`}
                 >
                   {otherParticipants.map(participant => (
                     <Person
