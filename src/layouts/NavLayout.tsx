@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { NavLink } from 'react-router'
 import styles from './NavLayout.module.scss'
 

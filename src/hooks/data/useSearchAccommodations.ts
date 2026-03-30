@@ -1,6 +1,6 @@
 import { useConfig } from '@/config/hooks'
 import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
-import { LanguageString } from '@/types'
+import type { LanguageString } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { mergeArrays } from '@/utils/helpers'
 import { getLanguages } from '@/utils/ldo'

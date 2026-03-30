@@ -1,4 +1,4 @@
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { EVENTS, getDefaultSession } from '@inrupt/solid-client-authn-browser'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'

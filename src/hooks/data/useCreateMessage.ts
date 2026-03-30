@@ -2,12 +2,12 @@ import {
   ChatShapeType,
   MessageActivityDeprecatedShapeType,
 } from '@/ldo/app.shapeTypes'
-import {
+import type {
   ChatMessage as ChatMessageShape,
   Chat as ChatShape,
 } from '@/ldo/app.typings'
 import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { getAcl, getContainer } from '@/utils/helpers'
 import { meeting } from '@/utils/rdf-namespaces'
 import { set } from '@ldo/ldo'

@@ -11,8 +11,8 @@ import {
   HospexProfileShapeType,
   SolidProfileShapeType,
 } from '@/ldo/app.shapeTypes'
-import { FoafProfile, HospexProfile } from '@/ldo/app.typings'
-import { URI } from '@/types'
+import type { FoafProfile, HospexProfile } from '@/ldo/app.typings'
+import type { URI } from '@/types'
 import {
   getContainer,
   getParentContainer,
@@ -22,7 +22,7 @@ import {
 import { ldo2json } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLdhopQuery } from '@ldhop/react'
-import { SolidLeafUri } from '@ldo/connected-solid'
+import type { SolidLeafUri } from '@ldo/connected-solid'
 import { createLdoDataset } from '@ldo/ldo'
 import { t } from '@lingui/core/macro'
 import { useMutation, useQueryClient } from '@tanstack/react-query'

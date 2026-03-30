@@ -1,13 +1,8 @@
-import { LanguageString } from '@/types'
+import type { LanguageString } from '@/types'
 import { preferentialSort } from '@/utils/helpers'
 import { Tabs } from 'radix-ui'
-import {
-  ComponentProps,
-  ElementType,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import type { ComponentProps, ElementType } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import styles from './LocaleText.module.scss'
 
 export const LocaleText = <C extends ElementType = 'section'>({

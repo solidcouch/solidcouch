@@ -4,7 +4,7 @@
 // we may want the inherited acl - default part
 // and return all the access control items for the resource
 
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import {
   EffectiveAccessMode,
@@ -22,7 +22,8 @@ import { NamedNode, Quad, Writer } from 'n3'
 import { acl, rdf } from 'rdf-namespaces'
 import { useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { AccessMode, QueryKey } from './types'
+import type { AccessMode } from './types'
+import { QueryKey } from './types'
 import { useUpdateRdfDocument } from './useRdfDocument'
 
 const fetchRdfDocumentOrFail = async (url: string) => {

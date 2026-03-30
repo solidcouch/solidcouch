@@ -1,14 +1,15 @@
-import { expect, Page, test } from '@playwright/test'
+import type { Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { Parser, Store } from 'n3'
 import { foaf, ldp, sioc, solid, space, vcard } from 'rdf-namespaces'
 import { generateAcl } from '../cypress/support/helpers/acl'
 import { processAcl, removeHashFromURI } from '../src/utils/helpers'
+import type { SkipOptions } from './helpers/account'
 import {
   createPerson,
   createRandomAccount,
   signIn,
   signOut,
-  SkipOptions,
   type Account,
   type Person,
 } from './helpers/account'

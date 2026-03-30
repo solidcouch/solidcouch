@@ -1,7 +1,7 @@
 import { Loading } from '@/components'
 import { ContactStatus, useReadContacts } from '@/hooks/data/useContacts'
 import { useAuth } from '@/hooks/useAuth'
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { Trans } from '@lingui/react/macro'
 import { AddContact } from './AddContact'
 import { ProcessContactRequest } from './ProcessContactRequest'

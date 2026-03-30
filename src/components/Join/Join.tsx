@@ -8,7 +8,8 @@ import { useLocale } from '@/hooks/useLocale'
 import { useAppDispatch } from '@/redux/hooks'
 import { actions } from '@/redux/loginSlice'
 import { Trans } from '@lingui/react/macro'
-import { ReactNode, useState } from 'react'
+import type { ReactNode } from 'react'
+import { useState } from 'react'
 import styles from './Join.module.scss'
 
 const RegistrationButton = ({

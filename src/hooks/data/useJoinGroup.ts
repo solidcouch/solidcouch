@@ -1,4 +1,4 @@
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { removeHashFromURI } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'

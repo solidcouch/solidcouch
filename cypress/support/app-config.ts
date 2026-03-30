@@ -1,4 +1,4 @@
-import { ConfigType } from '../../src/config/hooks'
+import type { ConfigType } from '../../src/config/hooks'
 
 /**
  * Update configuration of the tested app

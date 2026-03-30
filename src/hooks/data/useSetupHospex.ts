@@ -1,7 +1,7 @@
 import { useConfig } from '@/config/hooks'
 import { HospexProfileShapeType } from '@/ldo/app.shapeTypes'
 import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { fullFetch, getAcl, getContainer } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'

@@ -9,10 +9,11 @@ import {
   useIgnoreContactRequest,
 } from '@/hooks/data/useContacts'
 import { useAuth } from '@/hooks/useAuth'
-import { ContactInvitation } from '@/types'
+import type { ContactInvitation } from '@/types'
 import { getContainer } from '@/utils/helpers'
 import { Trans, useLingui } from '@lingui/react/macro'
-import { ReactNode, useState } from 'react'
+import type { ReactNode } from 'react'
+import { useState } from 'react'
 import styles from './ProcessContactRequest.module.scss'
 
 export const ProcessContactRequest = ({

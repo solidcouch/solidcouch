@@ -1,8 +1,9 @@
 import clsx from 'clsx'
-import { AnchorHTMLAttributes, ComponentPropsWithRef } from 'react'
+import type { AnchorHTMLAttributes, ComponentPropsWithRef } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
-import { IconType } from 'react-icons/lib'
-import { Link, LinkProps } from 'react-router'
+import type { IconType } from 'react-icons/lib'
+import type { LinkProps } from 'react-router'
+import { Link } from 'react-router'
 import styles from './Button.module.scss'
 
 type ButtonProps = {

@@ -1,4 +1,4 @@
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import LinkHeader from 'http-link-header'
 import * as n3 from 'n3'

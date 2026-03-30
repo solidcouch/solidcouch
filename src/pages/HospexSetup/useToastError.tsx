@@ -1,7 +1,7 @@
 import { HttpError } from '@/utils/errors'
 import { useLingui } from '@lingui/react/macro'
 import { useMemo } from 'react'
-import { UpdateOptions } from 'react-toastify'
+import type { UpdateOptions } from 'react-toastify'
 
 export const useToastError = () => {
   const { t } = useLingui()

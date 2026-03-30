@@ -1,4 +1,5 @@
-import { logoutUser, UserConfig } from './css-authentication'
+import type { UserConfig } from './css-authentication'
+import { logoutUser } from './css-authentication'
 
 const resolveUser = (
   user: UserConfig | `@${string}`,

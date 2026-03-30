@@ -3,7 +3,7 @@ import { useProfile } from '@/hooks/data/useProfile'
 import { useAuth } from '@/hooks/useAuth'
 import { useAppSelector } from '@/redux/hooks'
 import { selectLocale } from '@/redux/uiSlice'
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { Interest } from './Interest'
 import styles from './Interests.module.scss'
 

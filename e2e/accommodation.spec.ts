@@ -1,6 +1,7 @@
 // tests migrated from Cypress with a significant use of claude-opus-4-5-20251101-thinking-32k
 
-import { expect, Page, test } from '@playwright/test'
+import type { Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { addAccommodation } from './helpers/accommodation'
 import { createPerson, signIn, type Person } from './helpers/account'
 import { setupCommunity, type Community } from './helpers/community'

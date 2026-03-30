@@ -1,5 +1,6 @@
 import { Trans } from '@lingui/react/macro'
-import { ToastOptions, ToastPromiseParams, toast } from 'react-toastify'
+import type { ToastOptions, ToastPromiseParams } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 const withToast = <TData, TError extends Error = Error, TPending = unknown>(
   promise: Promise<TData>,

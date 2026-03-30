@@ -1,6 +1,6 @@
 import encodeURIComponent from 'strict-uri-encode'
-import { Person } from '../support/commands'
-import { UserConfig } from '../support/css-authentication'
+import type { Person } from '../support/commands'
+import type { UserConfig } from '../support/css-authentication'
 
 const profile = {
   name: 'Test Name',

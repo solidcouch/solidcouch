@@ -1,10 +1,10 @@
 import { ChatShapeType, MessageActivityShapeType } from '@/ldo/app.shapeTypes'
-import {
+import type {
   ChatMessage as ChatMessageShape,
   Chat as ChatShape,
 } from '@/ldo/app.typings'
 import { AuthorizationShapeType } from '@/ldo/wac.shapeTypes'
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import { getAcl } from '@/utils/helpers'
 import { fetch } from '@inrupt/solid-client-authn-browser'

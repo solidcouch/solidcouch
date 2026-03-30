@@ -1,4 +1,4 @@
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import { HttpError } from '@/utils/errors'
 import {
   fullFetch,
@@ -9,22 +9,16 @@ import {
 import { toN3Patch } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { fetchRdfDocument as fetchRdfDocumentLdhop } from '@ldhop/core'
+import type { LdSet, LdoBase, ShapeType } from '@ldo/ldo'
 import {
-  LdSet,
-  LdoBase,
-  ShapeType,
   createLdoDataset,
   parseRdf,
   setLanguagePreferences,
   startTransaction,
   toTurtle,
 } from '@ldo/ldo'
-import {
-  QueryClient,
-  useMutation,
-  useQueries,
-  useQueryClient,
-} from '@tanstack/react-query'
+import type { QueryClient } from '@tanstack/react-query'
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
 import maxBy from 'lodash/maxBy'
 import merge from 'lodash/merge'
 import { useMemo } from 'react'

@@ -1,4 +1,5 @@
-import { ConfigEnv, loadEnv, PluginOption } from 'vite'
+import type { ConfigEnv, PluginOption } from 'vite'
+import { loadEnv } from 'vite'
 import { addCname } from '../scripts/add-cname'
 import { buildClientId } from '../scripts/build-clientid'
 import { generateFavicons } from '../scripts/generate-favicons'

@@ -1,5 +1,5 @@
 import type { FoafProfile } from '@/ldo/foafProfile.typings'
-import { RootState } from '@/redux/store'
+import type { RootState } from '@/redux/store'
 import type { ISessionInfo } from '@inrupt/solid-client-authn-browser'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'

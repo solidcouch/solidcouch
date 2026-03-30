@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import { LocateControl } from './LocateControl'
 
 import { useConfig } from '@/config/hooks'
-import { Bounds, GeoCoordinates } from '@/types'
+import type { Bounds, GeoCoordinates } from '@/types'
 import { useLingui } from '@lingui/react/macro'
 import clsx from 'clsx'
 import React, { useCallback, useEffect, useMemo } from 'react'

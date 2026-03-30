@@ -1,6 +1,6 @@
 import { AccommodationShapeType } from '@/ldo/app.shapeTypes'
-import { HospexProfile } from '@/ldo/app.typings'
-import { Accommodation, URI } from '@/types'
+import type { HospexProfile } from '@/ldo/app.typings'
+import type { Accommodation, URI } from '@/types'
 import { addLanguagesToLdo } from '@/utils/ldo'
 import { hospex } from '@/utils/rdf-namespaces'
 import { set } from '@ldo/ldo'

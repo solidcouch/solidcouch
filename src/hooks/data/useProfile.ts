@@ -3,8 +3,8 @@ import {
   HospexProfileShapeType,
   SolidProfileShapeType,
 } from '@/ldo/app.shapeTypes'
-import { FoafProfile, HospexProfile } from '@/ldo/app.typings'
-import { Person, URI } from '@/types'
+import type { FoafProfile, HospexProfile } from '@/ldo/app.typings'
+import type { Person, URI } from '@/types'
 import { addLanguagesToLdo, getLanguages, ldo2json } from '@/utils/ldo'
 import { fetch } from '@inrupt/solid-client-authn-browser'
 import { useLdhopQuery } from '@ldhop/react'

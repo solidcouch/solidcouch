@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test'
+import type { Person } from './helpers/account'
 import {
   type Account,
   createRandomAccount,
-  Person,
   signIn,
   signOut,
 } from './helpers/account'

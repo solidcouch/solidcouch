@@ -1,12 +1,7 @@
-import { LanguageString } from '@/types'
-import { LanguageSetMap } from '@ldo/jsonld-dataset-proxy'
-import {
-  languagesOf,
-  LdoBase,
-  set,
-  transactionChanges,
-  type LdSet,
-} from '@ldo/ldo'
+import type { LanguageString } from '@/types'
+import type { LanguageSetMap } from '@ldo/jsonld-dataset-proxy'
+import type { LdoBase } from '@ldo/ldo'
+import { languagesOf, set, transactionChanges, type LdSet } from '@ldo/ldo'
 import { datasetToString } from '@ldo/rdf-utils'
 import type { Dataset } from '@rdfjs/types'
 import { solid } from 'rdf-namespaces'

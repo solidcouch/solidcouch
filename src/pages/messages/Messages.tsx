@@ -17,7 +17,7 @@ import { saveTypeRegistration } from '@/hooks/data/useSetupHospex'
 import { useAuth } from '@/hooks/useAuth'
 import { useLocale } from '@/hooks/useLocale'
 import { ChatShapeType, MessageActivityShapeType } from '@/ldo/app.shapeTypes'
-import { URI } from '@/types'
+import type { URI } from '@/types'
 import {
   EffectiveAccessMode,
   getContainer,
@@ -25,7 +25,7 @@ import {
 } from '@/utils/helpers'
 import { meeting } from '@/utils/rdf-namespaces'
 import { fetch } from '@inrupt/solid-client-authn-browser'
-import { LdhopQuery } from '@ldhop/core'
+import type { LdhopQuery } from '@ldhop/core'
 import { useLdhopQuery } from '@ldhop/react'
 import { createLdoDataset, graphOf } from '@ldo/ldo'
 import { Trans } from '@lingui/react/macro'

@@ -45,14 +45,17 @@
 import { v4 as uuidv4 } from 'uuid'
 import { resetAppConfig, updateAppConfig } from './app-config'
 import { uiLogin, uiLogout } from './authentication'
-import { UserConfig, getAuthenticatedRequest } from './css-authentication'
-import {
+import type { UserConfig } from './css-authentication'
+import { getAuthenticatedRequest } from './css-authentication'
+import type {
   AccommodationConfig,
   AccommodationData,
   CommunityConfig,
   Profile,
   SetupConfig,
   SkipOptions,
+} from './setup'
+import {
   addAccommodation,
   createAccount,
   setProfileData,
