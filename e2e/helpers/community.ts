@@ -1,5 +1,7 @@
 import { type Page, expect } from '@playwright/test'
 import { v7 } from 'css-authn'
+import { readFile } from 'fs/promises'
+import path from 'path'
 import { acl, foaf } from 'rdf-namespaces'
 import { generateAcl } from '../../cypress/support/helpers/acl'
 import { getAcl } from '../../src/utils/helpers'
@@ -10,11 +12,12 @@ export const createCommunity = async ({
   name = 'Test Community',
   about = 'Development community for SolidCouch',
   pun,
-  // logo,
+  logo,
 }: {
   name?: string
   about?: string
   pun?: string
+  logo?: string
 }) => {
   const account = await createRandomAccount()
   const communityUri = new URL('community#us', account.podUrl)
@@ -27,6 +30,52 @@ export const createCommunity = async ({
   groupDoc.hash = ''
 
   const authFetch = await v7.getAuthenticatedFetch(account)
+
+  let logoUrl: string | undefined = undefined
+
+  if (logo) {
+    const contentType = ((filePath: string) => {
+      const extension = path.extname(filePath)
+
+      switch (extension) {
+        case '.png':
+          return 'image/png'
+        default:
+          throw new Error(`please add mime type for extension "${extension}"`)
+      }
+    })(logo)
+
+    const logoBlob = await readFile(logo)
+
+    const response = await authFetch(account.podUrl, {
+      method: 'POST',
+      headers: { 'content-type': contentType },
+      body: logoBlob,
+    })
+
+    expect(response.ok).toEqual(true)
+
+    const location = response.headers.get('location')
+
+    expect(location).toBeTruthy()
+
+    if (!location) throw new Error('no location')
+
+    logoUrl = location
+
+    const logoAcl = await getAcl(logoUrl)
+
+    const aclResponse = await authFetch(logoAcl, {
+      method: 'PUT',
+      headers: { 'content-type': 'text/turtle' },
+      body: generateAcl(logoUrl, [
+        { permissions: ['Read', 'Write', 'Control'], agents: [account.webId] },
+        { permissions: ['Read'], agentClasses: [foaf.Agent] },
+      ]),
+    })
+
+    expect(aclResponse.ok).toEqual(true)
+  }
 
   await authFetch(groupUri, {
     method: 'PUT',
@@ -49,8 +98,8 @@ export const createCommunity = async ({
         sioc:name "${name}"@en;
         sioc:about """${about}"""@en;
         ${pun ? `sioc:note """${pun}"""@en;` : ''}
+        ${logoUrl ? `foaf:logo <${logoUrl}>;` : ''}
         sioc:has_usergroup <${groupUri}>.`,
-    // ${logoUrl ? `foaf:logo <${logoUrl}>;` : ''}
   })
 
   await authFetch(communityAcl, {
@@ -113,14 +162,15 @@ export const setupCommunity = async (
     name = 'Test Community',
     about = 'Development community for SolidCouch',
     pun,
-    // logo,
+    logo,
   }: {
     name?: string
     about?: string
     pun?: string
+    logo?: string
   } = {},
 ): Promise<Community> => {
-  const community = await createCommunity({ name, about, pun })
+  const community = await createCommunity({ name, about, pun, logo })
   await setAppCommunity(page, community)
   return community
 }
