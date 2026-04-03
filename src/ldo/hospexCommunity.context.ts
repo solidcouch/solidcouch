@@ -50,6 +50,11 @@ export const hospexCommunityContext: LdoJsonldContext = {
         "@type": "@id",
         "@isCollection": true,
       },
+      termsOfService: {
+        "@id": "https://schema.org/termsOfService",
+        "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+        "@isCollection": true,
+      },
     },
   },
   Community2: {
@@ -90,6 +95,11 @@ export const hospexCommunityContext: LdoJsonldContext = {
       hasUsergroup: {
         "@id": "http://rdfs.org/sioc/ns#has_usergroup",
         "@type": "@id",
+        "@isCollection": true,
+      },
+      termsOfService: {
+        "@id": "https://schema.org/termsOfService",
+        "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
         "@isCollection": true,
       },
     },
@@ -170,6 +180,11 @@ export const hospexCommunityContext: LdoJsonldContext = {
   hasMember: {
     "@id": "http://www.w3.org/2006/vcard/ns#hasMember",
     "@type": "@id",
+    "@isCollection": true,
+  },
+  termsOfService: {
+    "@id": "https://schema.org/termsOfService",
+    "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
     "@isCollection": true,
   },
 };

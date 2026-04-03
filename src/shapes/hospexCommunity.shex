@@ -4,6 +4,7 @@ PREFIX hospex: <http://w3id.org/hospex/ns#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
 PREFIX sioc: <http://rdfs.org/sioc/ns#>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 
@@ -20,6 +21,8 @@ ex:HospexCommunity EXTRA a {
   foaf:homepage IRI ?;
   ldp:inbox IRI ?;
   sioc:has_usergroup @ex:HospexGroup + ;
+  schema:termsOfService rdf:langString* 
+    // rdfs:comment "Translated community terms of service. We assume markdown format";
 }
 
 ex:HospexGroup EXTRA a {

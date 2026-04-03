@@ -13,11 +13,13 @@ export const createCommunity = async ({
   about = 'Development community for SolidCouch',
   pun,
   logo,
+  terms,
 }: {
   name?: string
   about?: string
   pun?: string
   logo?: string
+  terms?: string
 }) => {
   const account = await createRandomAccount()
   const communityUri = new URL('community#us', account.podUrl)
@@ -92,6 +94,7 @@ export const createCommunity = async ({
     body: `
       @prefix foaf: <http://xmlns.com/foaf/0.1/>.
       @prefix hospex: <http://w3id.org/hospex/ns#>.
+      @prefix schema: <https://schema.org/>.
       @prefix sioc: <http://rdfs.org/sioc/ns#>.
       <${communityUri}>
         a hospex:Community, sioc:Community;
@@ -99,6 +102,7 @@ export const createCommunity = async ({
         sioc:about """${about}"""@en;
         ${pun ? `sioc:note """${pun}"""@en;` : ''}
         ${logoUrl ? `foaf:logo <${logoUrl}>;` : ''}
+        ${terms ? `schema:termsOfService """${terms}"""@en;` : ''}
         sioc:has_usergroup <${groupUri}>.`,
   })
 
@@ -137,6 +141,7 @@ export const createCommunity = async ({
     about,
     pun,
     logo: logoUrl,
+    terms,
   }
 }
 
@@ -164,14 +169,16 @@ export const setupCommunity = async (
     about = 'Development community for SolidCouch',
     pun,
     logo,
+    terms,
   }: {
     name?: string
     about?: string
     pun?: string
     logo?: string
+    terms?: string
   } = {},
 ): Promise<Community> => {
-  const community = await createCommunity({ name, about, pun, logo })
+  const community = await createCommunity({ name, about, pun, logo, terms })
   await setAppCommunity(page, community)
   return community
 }

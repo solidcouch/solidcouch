@@ -42,6 +42,10 @@ export interface HospexCommunity {
     "@id": string;
   };
   hasUsergroup: LdSet<HospexGroup>;
+  /**
+   * Translated community terms of service. We assume markdown format
+   */
+  termsOfService?: LdSet<string>;
 }
 
 /**

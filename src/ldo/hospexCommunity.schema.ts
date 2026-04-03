@@ -130,6 +130,27 @@ export const hospexCommunitySchema: Schema = {
               min: 1,
               max: -1,
             },
+            {
+              type: "TripleConstraint",
+              predicate: "https://schema.org/termsOfService",
+              valueExpr: {
+                type: "NodeConstraint",
+                datatype:
+                  "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+              },
+              min: 0,
+              max: -1,
+              annotations: [
+                {
+                  type: "Annotation",
+                  predicate: "http://www.w3.org/2000/01/rdf-schema#comment",
+                  object: {
+                    value:
+                      "Translated community terms of service. We assume markdown format",
+                  },
+                },
+              ],
+            },
           ],
         },
         extra: ["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"],

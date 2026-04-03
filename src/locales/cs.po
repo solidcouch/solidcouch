@@ -171,6 +171,14 @@ msgstr ""
 msgid "Community Solid Pod is not available at the moment."
 msgstr ""
 
+#: src/pages/UnauthenticatedHome.tsx:65
+msgid "Community Terms"
+msgstr ""
+
+#: src/pages/CommunityTermsOfService.tsx:41
+msgid "Community Terms for {communityName}"
+msgstr ""
+
 #: src/pages/HospexSetup/CommunitySetup.tsx:237
 #: src/pages/HospexSetup/WebidProfileSetup.tsx:216
 msgid "Confirm and Continue"
@@ -456,6 +464,7 @@ msgstr ""
 msgid "Linked Data Notification was sent."
 msgstr "Linked Data upozornění bylo odesláno."
 
+#: src/pages/CommunityTermsOfService.tsx:23
 #: src/pages/messages/Messages.tsx:467
 #: src/pages/messages/NewChat.tsx:76
 msgid "Loading"
@@ -591,7 +600,7 @@ msgstr "Ověřte prosím svůj e-mail"
 msgid "Please wait for everything to load."
 msgstr ""
 
-#: src/pages/UnauthenticatedHome.tsx:71
+#: src/pages/UnauthenticatedHome.tsx:75
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgstr "Postaveno na <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 
@@ -612,7 +621,7 @@ msgstr ""
 msgid "Preparing Solid Pod"
 msgstr ""
 
-#: src/pages/UnauthenticatedHome.tsx:65
+#: src/pages/UnauthenticatedHome.tsx:69
 msgid "Privacy"
 msgstr ""
 
@@ -804,6 +813,10 @@ msgstr "Vypadá to, že tady není žádný rozhovor."
 msgid "This chat has outdated format."
 msgstr "Tento rozhovor má zastaralý formát."
 
+#: src/pages/CommunityTermsOfService.tsx:33
+msgid "This community doesn't have Terms of Service."
+msgstr ""
+
 #: src/components/Accommodation/AccommodationForm.tsx:153
 msgid "This field is required"
 msgstr "Toto pole je povinné"
@@ -869,7 +882,7 @@ msgstr ""
 msgid "Welcome travellers to your home — if you can"
 msgstr ""
 
-#: src/pages/UnauthenticatedHome.tsx:68
+#: src/pages/UnauthenticatedHome.tsx:72
 msgid "WIP"
 msgstr "Pracujeme na tom"
 
