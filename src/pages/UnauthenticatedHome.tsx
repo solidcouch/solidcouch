@@ -8,6 +8,7 @@ import { useAppSelector } from '@/redux/hooks'
 import { selectLocale } from '@/redux/uiSlice'
 import { Trans } from '@lingui/react/macro'
 import { useMemo } from 'react'
+import { Link } from 'react-router'
 import styles from './UnauthenticatedHome.module.scss'
 
 export const UnauthenticatedHome = () => {
@@ -60,6 +61,10 @@ export const UnauthenticatedHome = () => {
       <div className={styles.spacer} />
       <footer className={styles.footer}>
         <div className={styles.footerInfo}>
+          <Link to="/privacy">
+            <Trans>Privacy</Trans>
+          </Link>
+          <span>&middot;</span>
           <Trans>WIP</Trans>
         </div>
         <div className={styles.attribution}>

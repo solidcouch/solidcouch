@@ -591,7 +591,7 @@ msgstr "Ověřte prosím svůj e-mail"
 msgid "Please wait for everything to load."
 msgstr ""
 
-#: src/pages/UnauthenticatedHome.tsx:66
+#: src/pages/UnauthenticatedHome.tsx:71
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgstr "Postaveno na <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 
@@ -610,6 +610,10 @@ msgstr ""
 
 #: src/pages/HospexSetup/WebidProfileSetup.tsx:140
 msgid "Preparing Solid Pod"
+msgstr ""
+
+#: src/pages/UnauthenticatedHome.tsx:65
+msgid "Privacy"
 msgstr ""
 
 #: src/pages/HospexSetup/WebidProfileSetup.tsx:179
@@ -865,7 +869,7 @@ msgstr ""
 msgid "Welcome travellers to your home — if you can"
 msgstr ""
 
-#: src/pages/UnauthenticatedHome.tsx:63
+#: src/pages/UnauthenticatedHome.tsx:68
 msgid "WIP"
 msgstr "Pracujeme na tom"
 

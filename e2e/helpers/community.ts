@@ -136,6 +136,7 @@ export const createCommunity = async ({
     name,
     about,
     pun,
+    logo: logoUrl,
   }
 }
 

@@ -17,7 +17,7 @@ test.describe('Messages', () => {
     await page.goto('/')
     await expect(page.getByRole('contentinfo')).toContainText('WIP')
     await page.evaluate(`globalThis.resetAppConfig()`)
-    await expect(page.locator('span')).toContainText('Home')
+    await expect(page.getByRole('link', { name: 'Home' })).toBeVisible()
   })
 
   // set up community
