@@ -13,6 +13,7 @@ import { MessagesPage } from './pages/messages/Messages.tsx'
 import { NewChat } from './pages/messages/NewChat.tsx'
 import { MyOffers } from './pages/MyOffers.tsx'
 import { NotFound } from './pages/NotFound.tsx'
+import { Privacy } from './pages/Privacy.tsx'
 import { ProfilePage } from './pages/Profile'
 import { ProfileRedirect } from './pages/ProfileRedirect.tsx'
 import { SearchHosts } from './pages/SearchHosts'
@@ -78,6 +79,7 @@ export const router = createBrowserRouter([
         ],
       },
       { path: 'about', element: <About /> },
+      { path: 'privacy', element: <Privacy /> },
       { path: '*', element: <NotFound /> },
     ],
   },

@@ -12,7 +12,7 @@ test.describe("person's contacts", () => {
   // create community and people
   test.beforeEach(async ({ page }) => {
     community = await setupCommunity(page, {
-      name: 'Community' + Date.now(),
+      name: 'Community ' + Math.floor(Math.random() * 1000),
       about: 'About Community' + Date.now(),
       pun: 'Punn',
     })

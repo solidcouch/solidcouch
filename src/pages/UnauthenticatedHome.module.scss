@@ -41,14 +41,19 @@
   }
 
   .footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2x);
+    align-items: center;
     font-size: var(--font-size-secondary);
+
     a {
       text-decoration: underline;
     }
 
     .footerInfo {
       display: flex;
-      gap: var(--space-8x);
+      gap: var(--space-2x);
       align-items: center;
       justify-content: space-evenly;
     }

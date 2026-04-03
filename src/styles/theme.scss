@@ -56,13 +56,15 @@
 
   /* font sizes */
   --font-size-title: 2rem;
-  --font-size-heading: 1.25rem;
+  --font-size-heading: 1.5rem;
+  --font-size-subheading: 1.25rem;
   --font-size-default: 1rem;
   --font-size-secondary: 0.875rem;
 
   @include media.for-tablet-portrait-up {
     --font-size-title: 2.5rem;
-    --font-size-heading: 1.375rem;
+    --font-size-heading: 1.75rem;
+    --font-size-subheading: 1.375rem;
   }
 }
 
