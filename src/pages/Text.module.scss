@@ -20,4 +20,9 @@
   p {
     margin: var(--space-3x) 0;
   }
+
+  ul {
+    list-style-type: disc;
+    margin-left: var(--space-4x);
+  }
 }
