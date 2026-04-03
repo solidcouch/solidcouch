@@ -171,6 +171,14 @@ msgstr "Community joined"
 msgid "Community Solid Pod is not available at the moment."
 msgstr "Community Solid Pod is not available at the moment."
 
+#: src/pages/UnauthenticatedHome.tsx:65
+msgid "Community Terms"
+msgstr "Community Terms"
+
+#: src/pages/CommunityTermsOfService.tsx:41
+msgid "Community Terms for {communityName}"
+msgstr "Community Terms for {communityName}"
+
 #: src/pages/HospexSetup/CommunitySetup.tsx:237
 #: src/pages/HospexSetup/WebidProfileSetup.tsx:216
 msgid "Confirm and Continue"
@@ -456,6 +464,7 @@ msgstr "Link existing community profile:"
 msgid "Linked Data Notification was sent."
 msgstr "Linked Data Notification was sent."
 
+#: src/pages/CommunityTermsOfService.tsx:23
 #: src/pages/messages/Messages.tsx:467
 #: src/pages/messages/NewChat.tsx:76
 msgid "Loading"
@@ -591,7 +600,7 @@ msgstr "Please verify your email"
 msgid "Please wait for everything to load."
 msgstr "Please wait for everything to load."
 
-#: src/pages/UnauthenticatedHome.tsx:71
+#: src/pages/UnauthenticatedHome.tsx:75
 msgid "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 msgstr "Powered by <0>SolidCouch</0> v{version} (<1>{commitHashShort}</1>)"
 
@@ -612,7 +621,7 @@ msgstr "Preparing and sending verification email"
 msgid "Preparing Solid Pod"
 msgstr "Preparing Solid Pod"
 
-#: src/pages/UnauthenticatedHome.tsx:65
+#: src/pages/UnauthenticatedHome.tsx:69
 msgid "Privacy"
 msgstr "Privacy"
 
@@ -804,6 +813,10 @@ msgstr "There doesn't seem to be a chat here."
 msgid "This chat has outdated format."
 msgstr "This chat has outdated format."
 
+#: src/pages/CommunityTermsOfService.tsx:33
+msgid "This community doesn't have Terms of Service."
+msgstr "This community doesn't have Terms of Service."
+
 #: src/components/Accommodation/AccommodationForm.tsx:153
 msgid "This field is required"
 msgstr "This field is required"
@@ -869,7 +882,7 @@ msgstr "Welcome to {communityLabel}!"
 msgid "Welcome travellers to your home — if you can"
 msgstr "Welcome travellers to your home — if you can"
 
-#: src/pages/UnauthenticatedHome.tsx:68
+#: src/pages/UnauthenticatedHome.tsx:72
 msgid "WIP"
 msgstr "WIP"
 

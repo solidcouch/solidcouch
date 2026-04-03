@@ -62,6 +62,7 @@ export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
   const name = useLanguage(community, 'name', ...locales)
   const pun = useLanguage(community, 'note', ...locales)
   const about = useLanguage(community, 'about', ...locales)
+  const terms = useLanguage(community, 'termsOfService', ...locales)
 
   return useMemo(
     () => ({
@@ -74,6 +75,7 @@ export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
       groups: Array.from(variables.group ?? []).map(v => v.value),
       isLoading,
       inbox: Array.from(variables.inbox ?? [])[0]?.value,
+      terms,
     }),
     [
       about,
@@ -83,6 +85,7 @@ export const useReadCommunity = (communityId: URI, ...locales: string[]) => {
       isLoading,
       name,
       pun,
+      terms,
       variables.group,
       variables.inbox,
     ],

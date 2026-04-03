@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router'
 import { App } from './App.tsx'
 import { About } from './pages/About/About.tsx'
 import { AuthenticatedOutlet } from './pages/AuthenticatedOutlet.tsx'
+import { CommunityTermsOfService } from './pages/CommunityTermsOfService.tsx'
 import { Contacts } from './pages/Contacts.tsx'
 import { EditProfile } from './pages/EditProfile'
 import { Home } from './pages/Home.tsx'
@@ -80,6 +81,7 @@ export const router = createBrowserRouter([
       },
       { path: 'about', element: <About /> },
       { path: 'privacy', element: <Privacy /> },
+      { path: 'terms', element: <CommunityTermsOfService /> },
       { path: '*', element: <NotFound /> },
     ],
   },

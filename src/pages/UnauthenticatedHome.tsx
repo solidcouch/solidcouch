@@ -61,6 +61,10 @@ export const UnauthenticatedHome = () => {
       <div className={styles.spacer} />
       <footer className={styles.footer}>
         <div className={styles.footerInfo}>
+          <Link to="/terms">
+            <Trans>Community Terms</Trans>
+          </Link>
+          <span>&middot;</span>
           <Link to="/privacy">
             <Trans>Privacy</Trans>
           </Link>

@@ -2,11 +2,18 @@ import { expect, test } from '@playwright/test'
 import path from 'path'
 import { type Community, setupCommunity } from './helpers/community'
 
+const terms = `
+This community is provided as-is.
+
+There is no support.
+`
+
 const communityData = {
   name: 'name' + Math.floor(Math.random() * 1000),
   about: 'about this community - Lorem Ipsum Dolor sic amet',
   pun: 'This is a tagline',
   logo: path.join(import.meta.dirname, 'assets/testlogo.png'),
+  terms,
 }
 
 test.describe('Information about community', () => {
@@ -52,5 +59,22 @@ test.describe('Information about community', () => {
     ).toBeVisible()
   })
 
-  test.fixme('should show link to terms of service for particular community if defined', async () => {})
+  test('should show link to community terms of service on homepage (if defined)', async ({
+    page,
+  }) => {
+    await page.goto('/')
+
+    await expect(
+      page.getByRole('link', { name: 'Community Terms' }),
+    ).toHaveAttribute('href', /\/terms$/)
+
+    await page.getByRole('link', { name: 'Community Terms' }).click()
+
+    await expect(
+      page.getByRole('heading', { name: 'Community Terms' }),
+    ).toBeVisible()
+
+    expect(community.terms).toBeTruthy()
+    await expect(page.getByText(community.terms!)).toBeVisible()
+  })
 })
