@@ -6,4 +6,11 @@
   .webIdForm {
     display: contents;
   }
+
+  .consent {
+    a {
+      font-size: var(--font-size-secondary);
+      text-decoration: underline;
+    }
+  }
 }

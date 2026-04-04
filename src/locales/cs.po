@@ -123,6 +123,10 @@ msgstr "ověřování"
 msgid "Authenticating..."
 msgstr "Ověřování..."
 
+#: src/components/SignIn/SignIn.tsx:153
+msgid "By continuing, you agree to our <0>Community Terms of Service</0> and <1>Privacy Notice</1>."
+msgstr ""
+
 #: src/components/Accommodation/AccommodationForm.tsx:159
 #: src/components/LocaleTextInput/LocaleTextInput.tsx:190
 #: src/pages/Profile/AddContactForm.tsx:38
@@ -280,7 +284,7 @@ msgstr "Mazání ubytování"
 msgid "Do you really want to delete the accommodation?"
 msgstr "Opravdu chcete smazat ubytování?"
 
-#: src/components/SignIn/SignIn.tsx:155
+#: src/components/SignIn/SignIn.tsx:168
 msgid "Don't have a Solid Pod yet?"
 msgstr "Ještě nemáte Solid Pod?"
 
@@ -517,7 +521,7 @@ msgstr "Zprávy s <0/>"
 msgid "missing variables"
 msgstr "chybějící proměnné"
 
-#: src/components/SignIn/SignIn.tsx:199
+#: src/components/SignIn/SignIn.tsx:212
 msgid "more"
 msgstr "více"
 
