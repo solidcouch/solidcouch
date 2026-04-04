@@ -149,6 +149,19 @@ export const SignInForm = ({
         <Button primary type="submit" disabled={!watch('webIdOrIssuer')}>
           <Trans>Continue</Trans>
         </Button>
+        <div className={styles.consent}>
+          <Trans>
+            By continuing, you agree to our{' '}
+            <a href="/terms" target="_blank" rel="noopener noreferrer">
+              Community Terms of Service
+            </a>{' '}
+            and{' '}
+            <a href="/privacy" target="_blank" rel="noopener noreferrer">
+              Privacy Notice
+            </a>
+            .
+          </Trans>
+        </div>
       </form>
       {!short && (
         <Join>
