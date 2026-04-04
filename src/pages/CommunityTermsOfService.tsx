@@ -7,7 +7,7 @@ import { selectLocale } from '@/redux/uiSlice'
 import { Trans } from '@lingui/react/macro'
 import Markdown from 'react-markdown'
 import rehypeSlug from 'rehype-slug'
-import styles from './About/About.module.scss'
+import styles from './Text.module.scss'
 
 export const CommunityTermsOfService = () => {
   const { communityId } = useConfig()
